@@ -50,7 +50,7 @@ class Ethna_Controller
 		'locale'		=> 'locale',
 		'log'			=> 'log',
 		'template'		=> 'template',
-		'template_c'	=> '/tmp',
+		'template_c'	=> 'tmp',
 	);
 
 	/**

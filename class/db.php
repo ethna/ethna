@@ -149,7 +149,7 @@ class Ethna_DB
 	}
 
 	/**
-	 *	直近のINSERTによるIDを返す
+	 *	直近のINSERTによるIDを取得する
 	 *
 	 *	@access	public
 	 *	@return	int		直近のINSERTにより生成されたID
@@ -158,6 +158,17 @@ class Ethna_DB
 	function getInsertId()
 	{
 		return mysql_insert_id($this->db->connection);
+	}
+
+	/**
+	 *	直近のクエリによる更新行数を取得する
+	 *
+	 *	@access	public
+	 *	@return	int		更新行数
+	 */
+	function affectedRows()
+	{
+		return $this->db->affectedRows();
 	}
 
 	/**

@@ -652,6 +652,10 @@ class Ethna_AppObject
 			}
 		}
 
+		if ($this->db->affectedRows() <= 0) {
+			return Ethna::raiseNotice(E_APP_NOROWS, 'アップデートキー検索エラー');
+		}
+
 		$this->prop_backup = $this->prop;
 
 		return 0;
@@ -668,14 +672,32 @@ class Ethna_AppObject
 	 */
 	function replace()
 	{
-		$r = $this->add();
-		if (Ethna::isError($r) == false) {
-			return $r;
-		} else if ($r->getCode() != E_APP_DUPENT) {
-			return $r;
-		}
+		$sql = $this->_getSQL_Select($this->getIdDef(), $this->getId());
 
-		return $this->update();
+		for ($i = 0; $i < 3; $i++) {
+			$r = $this->db->query($sql);
+			if (Ethna::isError($r)) {
+				return $r;
+			}
+			$n = $r->numRows();
+
+			if ($n > 0) {
+				$r = $this->update();
+				if (Ethna::isError($r) == false) {
+					return $r;
+				} else if ($r->getCode() != E_APP_NOROWS) {
+					return $r;
+				}
+			} else {
+				$r = $this->add();
+				if (Ethna::isError($r) == false) {
+					return $r;
+				} else if ($r->getCode() != E_APP_DUPENT) {
+					return $r;
+				}
+			}
+		}
+		return $r;
 	}
 
 	/**
@@ -940,6 +962,9 @@ class Ethna_AppObject
 	 */
 	function _getSQL_Select($key_type, $key)
 	{
+		$key_type = to_array($key_type);
+		$key = to_array($key);
+
 		// SQLエスケープ
 		Ethna_AppSQL::escapeSQL($key);
 
@@ -952,10 +977,9 @@ class Ethna_AppObject
 			if (is_null($condition)) {
 				$condition = "WHERE ";
 			} else {
-				$condition = " AND ";
+				$condition .= " AND ";
 			}
-			$elt = $this->prop_def[$key_type[$i]];
-			$condition .= Ethna_AppSQL::getCondition($key_type[$i], $key);
+			$condition .= Ethna_AppSQL::getCondition($key_type[$i], $key[$i]);
 		}
 
 		$sql = "SELECT $columns FROM $tables $condition;";
