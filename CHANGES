@@ -4,6 +4,7 @@
 
 *** features
 
+- 組み込みSmarty関数is_error()を追加
 - Ethna_ActionForm::_handleErrorをpublicメソッドに変更(Ethna_ActionForm::handleErrorに名称変更)
 - Ethna_ActionForm::getDefメソッドに引数を追加(省略可)
 

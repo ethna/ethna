@@ -1438,6 +1438,7 @@ class Ethna_Controller
 		}
 
 		// default functions
+		$smarty->register_function('is_error', 'smarty_function_is_error');
 		$smarty->register_function('message', 'smarty_function_message');
 		$smarty->register_function('uniqid', 'smarty_function_uniqid');
 		$smarty->register_function('select', 'smarty_function_select');

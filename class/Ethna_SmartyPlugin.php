@@ -350,6 +350,29 @@ function smarty_modifier_form_value($string)
 }
 
 /**
+ *	smarty function:指定されたフォーム項目でエラーが発生しているかどうかを返す
+ *
+ *	sample:
+ *	<code>
+ *  {if is_error('name')}
+ *  エラー
+ *  {/if}
+ *	</code>
+ *
+ *	@param	string	$name	フォーム項目名
+ */
+function smarty_function_is_error($params, &$smarty)
+{
+	$c =& Ethna_Controller::getInstance();
+
+	extract($params);
+
+	$action_error =& $c->getActionError();
+
+	return $action_error->isError($name);
+}
+
+/**
  *	smarty function:指定されたフォーム項目に対応するエラーメッセージを出力する
  *
  *	sample:
