@@ -2,6 +2,10 @@
 
 ** [current] 0.1.2-dev
 
+** features
+
+- スクリプトを1ファイルにまとめるツール(bin/unify_script.php)を追加
+
 *** bug fixes
 
 - SOAP/Mobile(AU)でアクションスクリプトのパスが正しく取得できない問題を修正
