@@ -142,7 +142,7 @@ class Ethna_Error
 	/**
 	 *	messageとその引数を加工せずに返す
 	 *
-	 *	@acess	public
+	 *	@access	public
 	 *	@return	array	エラーメッセージ, エラーメッセージ引数
 	 */
 	function getMessage_Raw()
