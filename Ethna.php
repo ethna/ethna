@@ -130,7 +130,7 @@ define('FORM_TYPE_CHECKBOX', 6);
 /** フォーム型: button */
 define('FORM_TYPE_SUBMIT', 7);
 
-/** フォーム型: button */
+/** フォーム型: file */
 define('FORM_TYPE_FILE', 8);
 
 
