@@ -161,8 +161,19 @@ class Ethna_ActionForm
 		}
 		return null;
 	}
-	/**
 
+	/**
+	 *	フォーム値定義を取得する
+	 *
+	 *	@access	public
+	 *	@return	array	フォーム値定義
+	 */
+	function getDef()
+	{
+		return $this->form;
+	}
+
+	/**
 	 *	フォーム項目表示名を取得する
 	 *
 	 *	@access	public
@@ -174,7 +185,7 @@ class Ethna_ActionForm
 		if (isset($this->form[$name]) == false) {
 			return null;
 		}
-		if (isset($this->form[$name]['name'])) {
+		if (isset($this->form[$name]['name']) && $this->form[$name]['name'] != null) {
 			return $this->form[$name]['name'];
 		}
 
