@@ -25,7 +25,6 @@ define('ETHNA_VERSION', '0.1.0');
 /** Ethnaベースディレクトリ定義 */
 define('ETHNA_BASE', dirname(__FILE__));
 
-
 include_once(ETHNA_BASE . '/class/Ethna_ActionClass.php');
 include_once(ETHNA_BASE . '/class/Ethna_ActionError.php');
 include_once(ETHNA_BASE . '/class/Ethna_ActionForm.php');
@@ -37,6 +36,7 @@ include_once(ETHNA_BASE . '/class/Ethna_Backend.php');
 include_once(ETHNA_BASE . '/class/Ethna_Config.php');
 include_once(ETHNA_BASE . '/class/Ethna_Controller.php');
 include_once(ETHNA_BASE . '/class/Ethna_DB.php');
+include_once(ETHNA_BASE . '/class/Ethna_Filter.php');
 include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
 include_once(ETHNA_BASE . '/class/Ethna_InfoManager.php');
 include_once(ETHNA_BASE . '/class/Ethna_LogWriter.php');

@@ -85,6 +85,12 @@ class Ethna_Controller
 	);
 
 	/**
+	 *	@var	array		フィルタ設定
+	 */
+	var $filter = array(
+	);
+
+	/**
 	 *	@var	string		使用言語設定
 	 */
 	var $language;
@@ -193,6 +199,11 @@ class Ethna_Controller
 	 *	@var	object	Ethna_AppSQL		SQLオブジェクト
 	 */
 	var	$sql = null;
+
+	/**
+	 *	@var	array	フィルターチェイン(Ethna_Filterオブジェクトの配列)
+	 */
+	var	$filter_chain = array();
 
 	/**#@-*/
 
@@ -717,8 +728,12 @@ class Ethna_Controller
 	function trigger($type, $default_action_name = "", $fallback_action_name = "")
 	{
 		// フィルターの生成
+		$this->_createFilterChain();
 
 		// prefilter
+		for ($i = 0; $i < count($this->filter_chain); $i++) {
+			$this->filter_chain[$i]->prefilter();
+		}
 
 		// trigger
 		if ($type == 'www') {
@@ -730,6 +745,9 @@ class Ethna_Controller
 		}
 
 		// postfilter
+		for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
+			$this->filter_chain[$i]->postfilter();
+		}
 	}
 
 	/**
@@ -1057,7 +1075,7 @@ class Ethna_Controller
 	 */
 	function getDefaultActionPath($action_name, $fallback = true)
 	{
-		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($action_name)) . '.php';
+		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($action_name)) . '.' . $this->getExt('php');
 		$action_dir = $this->getActiondir();
 
 		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
@@ -1118,7 +1136,7 @@ class Ethna_Controller
 	 */
 	function getDefaultViewPath($forward_name, $fallback = true)
 	{
-		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($forward_name)) . '.php';
+		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($forward_name)) . '.' . $this->getExt('php');
 		$view_dir = $this->getViewdir();
 
 		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
@@ -1619,6 +1637,25 @@ class Ethna_Controller
 			}
 		}
 		return false;
+	}
+
+	/**
+	 *	フィルターチェインを生成する
+	 *
+	 *	@access	private
+	 */
+	function _createFilterChain()
+	{
+		$this->filter_chain = array();
+		foreach ($this->filter as $filter) {
+			$file = sprintf("%s/%s.%s", $this->getDirectory('filter'), $filter, $this->getExt('php'));
+			if (file_exists($file)) {
+				include_once($file);
+			}
+			if (class_exists($filter)) {
+				$this->filter_chain[] =& new $filter($this);
+			}
+		}
 	}
 }
 // }}}

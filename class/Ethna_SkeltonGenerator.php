@@ -32,6 +32,7 @@ class Ethna_SkeltonGenerator
 		$dir_list = array(
 			array("app", 0755),
 			array("app/action", 0755),
+			array("app/filter", 0755),
 			array("app/view", 0755),
 			array("bin", 0755),
 			array("etc", 0755),
@@ -93,6 +94,7 @@ class Ethna_SkeltonGenerator
 			$this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_Controller.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("app.error.php", sprintf("$basedir/app/%s_Error.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("app.action.default.php", "$basedir/app/action/Index.php", $macro) == false ||
+			$this->_generateFile("app.filter.default.php", sprintf("$basedir/app/filter/%s_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||
 			$this->_generateFile("bin.generate_action_script.php", "$basedir/bin/generate_action_script.php", $macro) == false ||
 			$this->_generateFile("bin.generate_view_script.php", "$basedir/bin/generate_view_script.php", $macro) == false ||

@@ -59,8 +59,11 @@ class {$project_id}_Controller extends Ethna_Controller
 	var $action = array(
 		/*
 		 *	TODO: ここにaction定義を記述してください
+		 *
+		 *	記述例：
+		 *
+		 *	'index'		=> array(),
 		 */
-		'index'				=> array(),
 	);
 
 	/**
@@ -77,6 +80,37 @@ class {$project_id}_Controller extends Ethna_Controller
 	);
 
 	/**
+	 *	@var	array		アプリケーションディレクトリ
+	 */
+	var $directory = array(
+		'action'		=> 'app/action',
+		'etc'			=> 'etc',
+		'filter'		=> 'app/filter',
+		'locale'		=> 'locale',
+		'log'			=> 'log',
+		'plugins'		=> array(),
+		'template'		=> 'template',
+		'template_c'	=> 'tmp',
+		'tmp'			=> 'tmp',
+		'view'			=> 'app/view',
+	);
+
+	/**
+	 *	@var	array		DBアクセス定義
+	 */
+	var	$db = array(
+		''				=> DB_TYPE_RW,
+	);
+
+	/**
+	 *	@var	array		拡張子設定
+	 */
+	var $ext = array(
+		'php'			=> 'php',
+		'tpl'			=> 'tpl',
+	);
+
+	/**
 	 *	@var	array	クラス定義
 	 */
 	var $class = array(
@@ -88,6 +122,20 @@ class {$project_id}_Controller extends Ethna_Controller
 		'db'			=> 'Ethna_DB',
 		'logger'        => 'Ethna_Logger',
 		'sql'           => 'Ethna_AppSQL',
+	);
+
+	/**
+	 *	@var	array		フィルタ設定
+	 */
+	var $filter = array(
+		/*
+		 *	TODO: フィルタを利用する場合はここにそのクラス名を
+		 *	記述してください
+		 *
+		 *	記述例：
+		 *
+		 *	'{$project_id}_Filter_ExecutionTime',
+		 */
 	);
 
 	/**
