@@ -286,6 +286,17 @@ class Ethna_Backend
 	}
 
 	/**
+	 *	現在処理中のクライアント種別を取得する
+	 *
+	 *	@access	public
+	 *	@return	int		クライアント種別
+	 */
+	function getClientType()
+	{
+		return $this->controller->getClientType();
+	}
+
+	/**
 	 *	ログを出力する
 	 *
 	 *	@access	public
@@ -358,12 +369,12 @@ class Ethna_Backend
 	 */
 	function &getDB($type = "")
 	{
-		$db =& $this->_getDB($type);
-		if (Ethna::isError($db)) {
-			return $db;
+		$varname =& $this->_getDB($type);
+		if (Ethna::isError($this->$varname)) {
+			return $this->$varname;
 		}
-		if ($db != null) {
-			return $db;
+		if ($this->$varname != null) {
+			return $this->$varname;
 		}
 
 		$dsn = $this->controller->getDSN($type);
@@ -372,16 +383,16 @@ class Ethna_Backend
 			return null;
 		}
 
-		$db =& new Ethna_DB($dsn, false, $this->controller);
-		$r = $db->connect();
+		$this->$varname =& new Ethna_DB($dsn, false, $this->controller);
+		$r = $this->$varname->connect();
 		if (Ethna::isError($r)) {
-			$db = null;
+			$this->$varname = null;
 			return $r;
 		}
 
 		register_shutdown_function(array($this, 'shutdownDB'));
 
-		return $db;
+		return $this->$varname;
 	}
 
 	/**
@@ -428,6 +439,7 @@ class Ethna_Backend
 	 *	DBトランザクションを開始する
 	 *
 	 *	@access	public
+	 *	@deprecated
 	 */
 	function begin()
 	{
@@ -441,6 +453,7 @@ class Ethna_Backend
 	 *	DBトランザクションを中断する
 	 *
 	 *	@access	public
+	 *	@deprecated
 	 */
 	function rollback()
 	{
@@ -454,6 +467,7 @@ class Ethna_Backend
 	 *	DBトランザクションをコミットする
 	 *
 	 *	@access	public
+	 *	@deprecated
 	 */
 	function commit()
 	{
@@ -468,12 +482,12 @@ class Ethna_Backend
 	 *
 	 *	@access	private
 	 *	@param	string	$type	DB種別
-	 *	@return	mixed	Ethna_DB:$typeに対応するDBオブジェクト null:未定義 Ethna_Error:不正なDB種別
+	 *	@return	mixed	string:メンバ変数名 Ethna_Error:不正なDB種別
 	 */
 	function &_getDB($type = "")
 	{
-		$type = $this->controller->getDB($type);
-		if (is_null($type)) {
+		$r = $this->controller->getDB($type);
+		if (is_null($r)) {
 			return Ethna::raiseError(E_DB_INVALIDTYPE, "未定義のDB種別[%s]", $type);
 		}
 
@@ -483,11 +497,7 @@ class Ethna_Backend
 			$varname = sprintf("db_%s", strtolower($type));
 		}
 
-		if (isset($this->$varname)) {
-			return $this->$varname;
-		}
-
-		return null;
+		return $varname;
 	}
 }
 // }}}

@@ -136,6 +136,21 @@ class Ethna_Controller
 	var $smarty_function_plugin = array();
 
 	/**
+	 *	@var	array	smarty prefilter定義
+	 */
+	var $smarty_prefilter_plugin = array();
+
+	/**
+	 *	@var	array	smarty postfilter定義
+	 */
+	var $smarty_postfilter_plugin = array();
+
+	/**
+	 *	@var	array	smarty outputfilter定義
+	 */
+	var $smarty_outputfilter_plugin = array();
+
+	/**
 	 *	@var	object	Ethna_Backend	backendオブジェクト
 	 */
 	var $backend;
@@ -521,6 +536,21 @@ class Ethna_Controller
 		foreach ($this->smarty_function_plugin as $function) {
 			$name = str_replace('smarty_function_', '', $function);
 			$smarty->register_function($name, $function);
+		}
+
+		// user defined prefilters
+		foreach ($this->smarty_prefilter_plugin as $prefilter) {
+			$smarty->register_prefilter($prefilter);
+		}
+
+		// user defined postfilters
+		foreach ($this->smarty_postfilter_plugin as $postfilter) {
+			$smarty->register_postfilter($postfilter);
+		}
+
+		// user defined outputfilters
+		foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
+			$smarty->register_outputfilter($outputfilter);
 		}
 
 		return $smarty;
