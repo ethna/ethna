@@ -74,7 +74,7 @@ class Ethna_Action_Info extends Ethna_ActionClass
 	 */
 	function preforward()
 	{
-		$em = new Ethna_InfoManager($this->backend);
+		$em =& new Ethna_InfoManager($this->backend);
 
 		$this->af->setApp('ethna_version', ETHNA_VERSION);
 	}

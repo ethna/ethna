@@ -169,6 +169,34 @@ class Ethna_AppManager
 		}
 		return $this->$varname[$id]['long_name'];
 	}
+
+	/**
+	 *	オブジェクトの一覧を返す
+	 *
+	 *	@access	public
+	 *	@param	string	$class	Ethna_AppObjectの継承クラス名
+	 *	@param	array	$filter		検索条件
+	 *	@param	array	$order		検索結果ソート条件
+	 *	@param	int		$offset		検索結果取得オフセット
+	 *	@param	int		$count		検索結果取得数
+	 *	@return	mixed	array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトID一覧) Ethna_Error:エラー
+	 */
+	function getObjectList($class, $filter = null, $order = null, $offset = null, $count = null)
+	{
+		$obj_list = array();
+		$class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
+
+		$tmp =& new $class_name($this->backend);
+		$id_def = $tmp->getIdDef();
+		list($length, $id_list) = $tmp->search($filter, $order, $offset, $count);
+
+		foreach ($id_list as $id) {
+			$obj =& new $class_name($this->backend, $id_def, $id);
+			$obj_list[] = $obj;
+		}
+
+		return array($length, $obj_list);
+	}
 }
 
 /**

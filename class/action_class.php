@@ -224,7 +224,7 @@ class Ethna_AMF_ActionClass
 		$c =& $this->backend->getController();
 
 		session_id($password);
-		$this->session = new Session($c->getAppId(), $this->backend->getTmpdir(), $this->ae);
+		$this->session =& new Session($c->getAppId(), $this->backend->getTmpdir(), $this->ae);
 	}
 }
 ?>

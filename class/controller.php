@@ -183,25 +183,25 @@ class Ethna_Controller
 				$this->directory[$key] = $this->base . (empty($this->base) ? '' : '/') . $value;
 			}
 		}
-		$this->i18n = new Ethna_I18N($this->getDirectory('locale'), $this->getAppId());
+		$this->i18n =& new Ethna_I18N($this->getDirectory('locale'), $this->getAppId());
 		$this->action_form = null;
 		list($this->language, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
 		$this->client_type = $this->_getDefaultClientType();
 
 		// 設定ファイル読み込み
 		$config_class = $this->class['config'];
-		$this->config = new $config_class($this);
+		$this->config =& new $config_class($this);
 		$this->dsn = $this->config->get('dsn');
 		$this->url = $this->config->get('url');
 
 		// ログ出力開始
 		$logger_class = $this->class['logger'];
-		$this->logger = new $logger_class($this);
+		$this->logger =& new $logger_class($this);
 		$this->logger->begin();
 
 		// SQLオブジェクト生成
 		$sql_class = $this->class['sql'];
-		$this->sql = new $sql_class($this);
+		$this->sql =& new $sql_class($this);
 
 		// Ethnaマネージャ設定
 		$this->_activateEthnaManager();
@@ -437,7 +437,7 @@ class Ethna_Controller
 	 */
 	function &getTemplateEngine()
 	{
-		$smarty = new Smarty();
+		$smarty =& new Smarty();
 		$smarty->template_dir = $this->getTemplatedir();
 		$smarty->compile_dir = $this->getDirectory('template_c');
 
@@ -484,7 +484,7 @@ class Ethna_Controller
 	 */
 	function main($class_name, $action_name = "")
 	{
-		$c = new $class_name;
+		$c =& new $class_name;
 		$c->setClientType(CLIENT_TYPE_WWW);
 		$c->trigger($action_name);
 	}
@@ -499,7 +499,7 @@ class Ethna_Controller
 	 */
 	function main_CLI($class_name, $action_name)
 	{
-		$c = new $class_name;
+		$c =& new $class_name;
 		$c->action[$action_name] = array();
 		$c->setClientType(CLIENT_TYPE_WWW);
 		$c->trigger($action_name);
@@ -514,7 +514,7 @@ class Ethna_Controller
 	 */
 	function main_SOAP($class_name)
 	{
-		$c = new $class_name;
+		$c =& new $class_name;
 		$c->setClientType(CLIENT_TYPE_SOAP);
 		$c->trigger_SOAP();
 	}
@@ -528,7 +528,7 @@ class Ethna_Controller
 	 */
 	function main_AMF($class_name)
 	{
-		$c = new $class_name;
+		$c =& new $class_name;
 		$c->setClientType(CLIENT_TYPE_AMF);
 		$c->trigger_AMF();
 	}
@@ -571,13 +571,13 @@ class Ethna_Controller
 		$this->_setLanguage($this->language, $this->system_encoding, $this->client_encoding);
 
 		// オブジェクト生成
-		$this->action_error = new Ethna_ActionError($this->i18n);
+		$this->action_error =& new Ethna_ActionError();
 		$form_name = $this->getActionFormName($action_name);
-		$this->action_form = new $form_name($this);
-		$this->session = new Ethna_Session($this->getAppId(), $this->getDirectory('tmp'), $this->logger);
+		$this->action_form =& new $form_name($this);
+		$this->session =& new Ethna_Session($this->getAppId(), $this->getDirectory('tmp'), $this->logger);
 
 		// バックエンド処理実行
-		$backend = new Ethna_Backend($this);
+		$backend =& new Ethna_Backend($this);
 		$this->backend =& $backend;
 		$forward_name = $backend->perform($action_name);
 
@@ -608,12 +608,12 @@ class Ethna_Controller
 		$this->_includeActionScript();
 
 		// SOAPエントリクラス
-		$gg = new Ethna_SoapGatewayGenerator();
+		$gg =& new Ethna_SoapGatewayGenerator();
 		$script = $gg->generate();
 		eval($script);
 
 		// SOAPリクエスト処理
-		$server = new SoapServer(null, array('uri' => $this->config->get('url')));
+		$server =& new SoapServer(null, array('uri' => $this->config->get('url')));
 		$server->setClass($gg->getClassName());
 		$server->handle();
 	}
@@ -627,7 +627,7 @@ class Ethna_Controller
 	{
 		include_once('ethna/contrib/amfphp/app/Gateway.php');
 
-		$this->action_error = new Ethna_ActionError($this->i18n);
+		$this->action_error =& new Ethna_ActionError();
 
 		// Credentialヘッダでセッションを処理するのでここではnullに設定
 		$this->session = null;
@@ -635,14 +635,14 @@ class Ethna_Controller
 		$this->_setLanguage($this->language, $this->system_encoding, $this->client_encoding);
 
 		// backendオブジェクト
-		$backend = new Ethna_Backend($this);
+		$backend =& new Ethna_Backend($this);
 		$this->backend =& $backend;
 
 		// action定義をinclude
 		$this->_includeActionScript();
 
 		// amfphpに処理を委譲
-		$gateway = new Gateway();
+		$gateway =& new Gateway();
 		$gateway->setBaseClassPath('');
 		$gateway->service();
 	}

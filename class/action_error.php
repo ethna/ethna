@@ -218,7 +218,7 @@ class Ethna_AppError extends Ethna_Error
 	 *	@param	string	$message	エラーメッセージ引数
 	 *	@param	bool	$logging	エラーログ出力フラグ
 	 */
-	function Ethna_AppError($level, $code, $name, $message, $message_arg_list, $logging)
+	function Ethna_AppError($level, $code, $name, $message, $message_arg_list, $logging = true)
 	{
 		$this->controller =& $GLOBALS['controller'];
 		$this->i18n =& $this->controller->getI18N();
@@ -258,7 +258,7 @@ class Ethna_AppError extends Ethna_Error
 	 */
 	function getMessage()
 	{
-		$message = parent::getMesssage();
+		$message = parent::getMessage();
 
 		// マクロ処理
 		$form_name = $this->action_form->getName($this->getName());
@@ -308,7 +308,7 @@ class Ethna_ActionError
 	function add($code, $name, $message)
 	{
 		$message_arg_list = array_slice(func_get_args(), 3);
-		$app_errro = new Ethna_AppError(E_USER_NOTICE, $code, $name, $message, $message_arg_list);
+		$app_error =& new Ethna_AppError(E_USER_NOTICE, $code, $name, $message, $message_arg_list);
 		$this->error_list[] =& $app_error;
 	}
 
@@ -322,7 +322,7 @@ class Ethna_ActionError
 	function addObject(&$error, $name = null)
 	{
 		list($message, $message_arg_list) = $error->getMessage_Raw();
-		$app_error = new Ethna_AppError($error->getLevel(), $error->getCode(), $message, $message_arg_list, false);
+		$app_error =& new Ethna_AppError($error->getLevel(), $error->getCode(), $message, $message_arg_list, false);
 		$this->error_list[] =& $app_error;
 	}
 

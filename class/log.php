@@ -170,7 +170,7 @@ class Ethna_Logger extends Ethna_AppManager
 		} else {
 			$writer_class = "Ethna_LogWriter_Syslog";
 		}
-		$this->writer = new $writer_class($controller->getAppId(), $facility, $file, $option);
+		$this->writer =& new $writer_class($controller->getAppId(), $facility, $file, $option);
 
 		set_error_handler("ethna_error_handler");
 	}

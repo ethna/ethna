@@ -112,7 +112,7 @@ class Ethna_Backend
 		$manager_list = $controller->getManagerList();
 		foreach ($manager_list as $key => $value) {
 			$class_name = $controller->getAppId() . "_" . ucfirst(strtolower($value)) . 'Manager';
-			$this->manager[$value] = new $class_name($this);
+			$this->manager[$value] =& new $class_name($this);
 		}
 
 		foreach ($manager_list as $key => $value) {
@@ -146,6 +146,17 @@ class Ethna_Backend
 	function &getConfig()
 	{
 		return $this->config;
+	}
+
+	/**
+	 *	アプリケーションIDを返す
+	 *
+	 *	@access	public
+	 *	@return	string	アプリケーションID
+	 */
+	function getAppId()
+	{
+		return $this->controller->getAppId();
 	}
 
 	/**
@@ -271,7 +282,7 @@ class Ethna_Backend
 		if ($action_class_name == null) {
 			return null;
 		}
-		$action_class = new $action_class_name($this);
+		$action_class =& new $action_class_name($this);
 
 		// アクションの実行
 		$forward_name = $action_class->prepare();
@@ -292,7 +303,7 @@ class Ethna_Backend
 	 */
 	function preforward($action_class_name)
 	{
-		$action_class = new $action_class_name($this);
+		$action_class =& new $action_class_name($this);
 		$action_class->preforward();
 	}
 
