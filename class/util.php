@@ -156,7 +156,7 @@ class Ethna_Util
 		$index = 0;
 		$csv_len = strlen($csv);
 		do {
-			/* 1. skip leading spaces */
+			// 1. skip leading spaces
 			if (preg_match("/^([$space_list]+)/sS", substr($csv, $index), $match)) {
 				$index += strlen($match[1]);
 			}
@@ -164,18 +164,18 @@ class Ethna_Util
 				break;
 			}
 
-			/* 2. read field */
+			// 2. read field
 			if ($csv{$index} == '"') {
-				/* 2A. handle quote delimited field */
+				// 2A. handle quote delimited field
 				$index++;
 				while ($index < $csv_len) {
 					if ($csv{$index} == '"') {
-						/* handle double quote */
+						// handle double quote
 						if ($csv{$index+1} == '"') {
 							$field .= $csv{$index};
 							$index += 2;
 						} else {
-							/* must be end of string */
+							// must be end of string
 							while ($csv{$index} != $delimiter && $index < $csv_len) {
 								$index++;
 							}
@@ -185,39 +185,29 @@ class Ethna_Util
 							break;
 						}
 					} else {
-						/* normal character */
-						// (tuned)>>>
-						// $field .= $csv{$index};
-						// $index++;
+						// normal character
 						if (preg_match("/^([^\"]*)/S", substr($csv, $index), $match)) {
 							$field .= $match[1];
 							$index += strlen($match[1]);
 						}
-						// <<<(tuned)
 
 						if ($index == $csv_len) {
 							$field = substr($field, 0, strlen($field)-1);
 							$field .= $line_end;
 
-							/* request one more line */
+							// request one more line
 							return Ethna::raiseNotice(E_UTIL_CSV_CONTINUE);
 						}
 					}
 				}
 			} else {
-				/* 2B. handle non-quoted field */
-				// (tuned)>>>
-				// while ($csv{$index} != $delimiter && $index < $csv_len) {
-				//   $field .= $csv{$index};
-				//   $index++;
-				// }
+				// 2B. handle non-quoted field
 				if (preg_match("/^([^$delimiter]*)/S", substr($csv, $index), $match)) {
 					$field .= $match[1];
 					$index += strlen($match[1]);
 				}
-				// <<<(tuned)
 
-				/* remove trailing spaces */
+				// remove trailing spaces
 				$field = preg_replace("/[$space_list]+\$/S", '', $field);
 				if ($csv{$index} == $delimiter) {
 					$index++;
@@ -461,10 +451,10 @@ class Ethna_Util
 			$elts = array();
 			for ($j = 0; $j < $m; $j++) {
 				if ($order == 0) {
-					/* ²£ÊÂ¤Ó */
+					// ²£ÊÂ¤Ó(²£¡§$mÎó ½Ä¡§ÌµÀ©¸Â)
 					$key = $i*$m+$j;
 				} else {
-					/* ½ÄÊÂ¤Ó */
+					// ½ÄÊÂ¤Ó(²£¡§ÌµÀ©¸Â ½Ä¡§$m¹Ô)
 					$key = $i+$n*$j;
 				}
 				if (array_key_exists($key, $array) == false) {
@@ -568,7 +558,7 @@ class Ethna_Util
 				continue;
 			}
 
-			/* °ú¿ô¤Î¥À¥ó¥× */
+			// °ú¿ô¤Î¥À¥ó¥×
 			foreach ($elt['args'] as $arg) {
 				$r .= Ethna_Util::_formatBacktrace($arg);
 			}
