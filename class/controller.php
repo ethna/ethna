@@ -831,7 +831,7 @@ class Ethna_Controller
 		$forward_obj =& $this->forward[$forward_name];
 		if (isset($forward_obj['forward_path']) == false) {
 			// 省略値補正
-			$forward_obj['forward_path'] = str_replace('_', '/', $tmp) . '.' . $this->ext['tpl'];
+			$forward_obj['forward_path'] = $this->_getDefaultForwardPath($forward_name);
 		}
 
 		return $forward_obj['forward_path'];
@@ -976,6 +976,21 @@ class Ethna_Controller
 			$this->getClientType() == CLIENT_TYPE_SOAP ? "S" : "",
 			preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name))
 		);
+	}
+
+	/**
+	 *	forwardに対応するテンプレートパス名が省略された場合のデフォルトパス名を返す
+	 *
+	 *	デフォルトでは"foo_bar"というforward名が"foo/bar" + テンプレート拡張子となる
+	 *	ので好み応じてオーバライドする
+	 *
+	 *	@access	protected
+	 *	@param	string	$forward_name	forward名
+	 *	@return	string	forwardパス名
+	 */
+	function _getDefaultForwardPath($forward_name)
+	{
+		return str_replace('_', '/', $forward_name) . '.' . $this->ext['tpl'];
 	}
 }
 ?>
