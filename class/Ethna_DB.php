@@ -286,7 +286,6 @@ class Ethna_DB
 	 *
 	 *	@access	private
 	 *	@param	string	$query	SQL文
-	 *	@param	bool	$test	テストモードフラグ(true:エラーオブジェクトが追加されない)
 	 *	@return	mixed	DB_Result:結果オブジェクト Ethna_Error:エラー
 	 */
 	function &_query($query)

@@ -33,7 +33,7 @@ class {$project_id}_Form_Index extends Ethna_ActionForm
 		 *		'max'           => null,			// 最大値
 		 *		'regexp'        => null,			// 文字種指定(正規表現)
 		 *		'custom'        => null,			// メソッドによるチェック
-		 *		'convert'       => null,			// 入力値自動変換オプション
+		 *		'filter'        => null,			// 入力値変換フィルタオプション
 		 *		'form_type'		=> FORM_TYPE_TEXT	// フォーム型
 		 *		'type'          => VAR_TYPE_INT,	// 入力値型
 		 *	),

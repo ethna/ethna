@@ -9,40 +9,32 @@
  *	@version	$Id$
  */
 
-/**
- *	フォーム入力値変換フラグ: 半角カナ→全角カナ
- */
+/** フォーム入力値変換フラグ: 半角カナ→全角カナ */
 define('CONVERT_1BYTE_KANA', 1 << 0);
 
-/**
- *	フォーム入力値変換フラグ: 全角数字→半角数字
- */
+/** フォーム入力値変換フラグ: 全角数字→半角数字 */
 define('CONVERT_2BYTE_NUMERIC', 1 << 1);
 
-/**
- *	フォーム入力値変換フラグ: 全角アルファベット→半角アルファベット
- */
+/** フォーム入力値変換フラグ: 全角アルファベット→半角アルファベット */
 define('CONVERT_2BYTE_ALPHABET', 1 << 2);
 
-/**
- *	フォーム入力値変換フラグ: 左空白削除
- */
+/** フォーム入力値変換フラグ: 左空白削除 */
 define('CONVERT_LTRIM',	1 << 3);
 
-/**
- *	フォーム入力値変換フラグ: 右空白削除
- */
+/** フォーム入力値変換フラグ: 右空白削除 */
 define('CONVERT_RTRIM',	1 << 4);
 
-/**
- *	フォーム入力値変換フラグ: 左右空白削除
- */
+/** フォーム入力値変換フラグ: 左右空白削除 */
 define('CONVERT_LRTRIM', (1 << 3) | (1 << 4));
 
-/**
- *	フォーム入力値変換フラグ: 全角英数→半角英数/左右空白削除
- */
+/** フォーム入力値変換フラグ: 全角英数→半角英数/左右空白削除 */
 define('CONVERT_2BYTE', (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4));
+
+/** 定型フィルタ: 半角入力 */
+define('FILTER_HW', 'numeric_zentohan,alphabet_zentohan,ltrim,rtrim,ntrim');
+
+/** 定型フィルタ: 全角入力 */
+define('FILTER_FW', 'kana_hantozen,ntrim');
 
 
 // {{{ Ethna_ActionForm
@@ -95,9 +87,14 @@ class Ethna_ActionForm
 	var $i18n;
 
 	/**
+	 *	@var	object	Ethna_Logger	ログオブジェクト
+	 */
+	var $logger;
+
+	/**
 	 *	@var	array	フォーム定義要素
 	 */
-	var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'convert', 'form_type', 'type');
+	var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'filter', 'convert', 'form_type', 'type');
 
 	/**#@-*/
 
@@ -109,9 +106,10 @@ class Ethna_ActionForm
 	 */
 	function Ethna_ActionForm(&$controller)
 	{
-		$this->i18n =& $controller->getI18N();
 		$this->action_error =& $controller->getActionError();
 		$this->ae =& $this->action_error;
+		$this->i18n =& $controller->getI18N();
+		$this->logger =& $controller->getLogger();
 
 		if (isset($_SERVER['REQUEST_METHOD']) == false) {
 			return;
@@ -400,6 +398,7 @@ class Ethna_ActionForm
 					// 配列の各要素に対する変換/検証
 					foreach (array_keys($this->form_vars[$name]) as $key) {
 						$this->form_vars[$name][$key] = $this->_convert($this->form_vars[$name][$key], $value['convert']);
+						$this->form_vars[$name][$key] = $this->_filter($this->form_vars[$name][$key], $value['filter']);
 						$this->_validate($name, $this->form_vars[$name][$key], $value);
 					}
 				} else {
@@ -411,6 +410,7 @@ class Ethna_ActionForm
 						continue;
 					}
 					$this->form_vars[$name] = $this->_convert($this->form_vars[$name], $value['convert']);
+					$this->form_vars[$name] = $this->_filter($this->form_vars[$name], $value['filter']);
 					$this->_validate($name, $this->form_vars[$name], $value);
 				}
 			}
@@ -839,13 +839,20 @@ class Ethna_ActionForm
 	/**
 	 *	フラグに従いフォーム値を変換する
 	 *
+	 *	Ethna 0.1.0より非推奨(filter推奨)
+	 *
 	 *	@access	private
 	 *	@param	mixed	$value	フォーム値
 	 *	@param	int		$flag	変換フラグ
 	 *	@return	mixed	変換結果
+	 *	@deprecated
 	 */
 	function _convert($value, $flag)
 	{
+		if (is_null($flag)) {
+			return $value;
+		}
+
 		$flag = intval($flag);
 
 		$key = "";
@@ -869,6 +876,104 @@ class Ethna_ActionForm
 		}
 
 		return mb_convert_kana($value, $key);
+	}
+
+	/**
+	 *	フォーム値に変換フィルタを適用する
+	 *
+	 *	@access	private
+	 *	@param	mixed	$value	フォーム値
+	 *	@param	int		$filter	フィルタ定義
+	 *	@return	mixed	変換結果
+	 */
+	function _filter($value, $filter)
+	{
+		if (is_null($filter)) {
+			return $value;
+		}
+
+		foreach (preg_split('/\s*,\s*/', $filter) as $f) {
+			$method = sprintf('_filter_%s', $f);
+			if (method_exists($this, $method) == false) {
+				$this->logger->log(LOG_WARNING, 'filter method is not defined [%s]', $method);
+				continue;
+			}
+			$value = $this->$method($value);
+		}
+
+		return $value;
+	}
+
+	/**
+	 *	フォーム値変換フィルタ: 全角数字->半角数字
+	 *
+	 *	@access	protected
+	 *	@param	mixed	$value	フォーム値
+	 *	@return	mixed	変換結果
+	 */
+	function _filter_numeric_zentohan($value)
+	{
+		return mb_convert_kana($value, "n");
+	}
+
+	/**
+	 *	フォーム値変換フィルタ: 全角英字->半角英字
+	 *
+	 *	@access	protected
+	 *	@param	mixed	$value	フォーム値
+	 *	@return	mixed	変換結果
+	 */
+	function _filter_alphabet_zentohan($value)
+	{
+		return mb_convert_kana($value, "r");
+	}
+
+	/**
+	 *	フォーム値変換フィルタ: 左空白削除
+	 *
+	 *	@access	protected
+	 *	@param	mixed	$value	フォーム値
+	 *	@return	mixed	変換結果
+	 */
+	function _filter_ltrim($value)
+	{
+		return ltrim($value);
+	}
+
+	/**
+	 *	フォーム値変換フィルタ: 右空白削除
+	 *
+	 *	@access	protected
+	 *	@param	mixed	$value	フォーム値
+	 *	@return	mixed	変換結果
+	 */
+	function _filter_rtrim($value)
+	{
+		return rtrim($value);
+	}
+
+	/**
+	 *	フォーム値変換フィルタ: NULL(0x00)削除
+	 *
+	 *	@access	protected
+	 *	@param	mixed	$value	フォーム値
+	 *	@return	mixed	変換結果
+	 */
+	function _filter_ntrim($value)
+	{
+		return str_replace("\x00", "", $value);
+	}
+
+	/**
+	 *	フォーム値変換フィルタ: 半角カナ->全角カナ
+	 *
+	 *	@access	protected
+	 *	@param	mixed	$value	フォーム値
+	 *	@return	mixed	変換結果
+	 */
+	function _filter_kana_hantozen($value)
+	{
+		return mb_convert_kana($value, "K");
 	}
 }
 // }}}

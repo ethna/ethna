@@ -97,8 +97,8 @@ class Ethna_SkeltonGenerator
 			$this->_generateFile("bin.generate_action_script.php", "$basedir/bin/generate_action_script.php", $macro) == false ||
 			$this->_generateFile("bin.generate_view_script.php", "$basedir/bin/generate_view_script.php", $macro) == false ||
 			$this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||
-			$this->_generateFile("skel.action.php", sprintf("$basedir/skel/action.php"), $macro) == false ||
-			$this->_generateFile("skel.view.php", sprintf("$basedir/skel/view.php"), $macro) == false ||
+			$this->_generateFile("skel.action.php", sprintf("$basedir/skel/skel.action.php"), $macro) == false ||
+			$this->_generateFile("skel.view.php", sprintf("$basedir/skel/skel.view.php"), $macro) == false ||
 			$this->_generateFile("template.index.tpl", sprintf("$basedir/template/ja/index.tpl"), $macro) == false) {
 			return false;
 		}
@@ -207,7 +207,17 @@ class Ethna_SkeltonGenerator
 	 */
 	function _generateFile($skel, $entity, $macro)
 	{
-		$base = dirname(dirname(__FILE__));
+		$c =& getController();
+		if (is_object($c)) {
+			$base = $c->getBasedir();
+			if (file_exists("$base/skel/$skel") == false) {
+				$base = null;
+			}
+		}
+		if (is_null($base)) {
+			$base = dirname(dirname(__FILE__));
+		}
+
 		$rfp = fopen("$base/skel/$skel", "r");
 		if ($rfp == null) {
 			return false;
