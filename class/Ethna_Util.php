@@ -281,6 +281,27 @@ class Ethna_Util
 	}
 
 	/**
+	 *	文字列をMIMEエンコードする
+	 *
+	 *	@access	public
+	 *	@param	string	$string		MIMEエンコードする文字列
+	 *	@return	エンコード済みの文字列
+	 */
+	function encode_MIME($string)
+	{
+		$pos = 0;
+		$split = 36;
+		$_string = "";
+		while ($pos < mb_strlen($string))
+		{
+			$tmp = mb_strimwidth($string, $pos, $split, "");
+			$pos += mb_strlen($tmp, 'EUC-JP');
+			$_string .= (($_string)? ' ' : '') . mb_encode_mimeheader($tmp, 'ISO-2022-JP');
+		}
+		return $_string;
+	}
+
+	/**
 	 *	Google風リンクリストを返す
 	 *
 	 *	@access	public

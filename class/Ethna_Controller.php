@@ -1348,7 +1348,6 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@return	object	Smarty	テンプレートエンジンオブジェクト
-	 *	@todo	ブロック関数プラグイン(etc)対応
 	 */
 	function &getTemplateEngine()
 	{

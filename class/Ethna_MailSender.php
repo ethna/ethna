@@ -31,6 +31,9 @@ class Ethna_MailSender
 	var	$def = array(
 	);
 
+	/**	@var	string	メールテンプレートディレクトリ */
+	var	$mail_dir = 'mail';
+
 	/**	@var	int		送信メールタイプ */
 	var	$type;
 
@@ -67,10 +70,8 @@ class Ethna_MailSender
 	function send($to, $type, $macro, $attach = null)
 	{
 		// コンテンツ作成
-		$c =& $this->backend->getController();
-
 		if ($type != MAILSENDER_TYPE_DIRECT) {
-			$smarty =& $c->getTemplateEngine();
+			$smarty =& $this->getTemplateEngine();
 
 			// 基本情報設定
 			$smarty->assign("env_datetime", strftime('%Y年%m月%d日 %H時%M分%S秒'));
@@ -89,7 +90,7 @@ class Ethna_MailSender
 
 			$template = $this->def[$type];
 			ob_start();
-			$smarty->display("mail/$template");
+			$smarty->display(sprintf('%s/%s', $this->mail_dir, $template));
 			$mail = ob_get_contents();
 			ob_end_clean();
 		} else {
@@ -187,12 +188,24 @@ class Ethna_MailSender
 			$i = strtolower($key);
 			$header[$i] = array();
 			$header[$i][] = $key;
-			$header[$i][] = preg_replace('/([^\x00-\x7f]+)/e', "mb_encode_mimeheader('$1')", $value);
+			$header[$i][] = preg_replace('/([^\x00-\x7f]+)/e', "Ethna_Util::encode_MIME('$1')", $value);
 		}
 
 		$body = mb_convert_encoding($body, "ISO-2022-JP", "EUC-JP");
 
 		return array($header, $body);
+	}
+
+	/**
+	 *	メール用テンプレートエンジン取得する
+	 *
+	 *	@access	public
+	 *	@return	object	Smarty	テンプレートエンジンオブジェクト
+	 */
+	function &getTemplateEngine()
+	{
+		$ctl =& $this->backend->getController();
+		return $ctl->getTemplateEngine();
 	}
 }
 // }}}
