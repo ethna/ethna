@@ -27,6 +27,11 @@ class Ethna_DB
 	var $db;
 
 	/**
+	 *	@var	object	Ethna_Logger	ログオブジェクト
+	 */
+	var $logger;
+
+	/**
 	 *	@var	object	Ethna_AppSQL	SQLオブジェクト
 	 */
 	var $sql;
@@ -57,6 +62,7 @@ class Ethna_DB
 		$this->dsn = $dsn;
 		$this->persistent = $persistent;
 		$this->db = null;
+		$this->logger =& $controller->getLogger();
 		$this->sql =& $controller->getSQL();
 	}
 
@@ -283,6 +289,7 @@ class Ethna_DB
 	 */
 	function &_query($query)
 	{
+		$this->logger->log(LOG_DEBUG, "$query");
 		$r =& $this->db->query($query);
 		if (DB::isError($r)) {
 			if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {

@@ -651,9 +651,9 @@ class Ethna_AppObject
 				return $error;
 			}
 		}
-
-		if ($this->db->affectedRows() <= 0) {
-			return Ethna::raiseNotice(E_APP_NOROWS, 'アップデートキー検索エラー');
+		$affected_rows = $this->db->affectedRows();
+		if ($affected_rows <= 0) {
+			$this->backend->log(LOG_NOTICE, "update query with 0 updated rows");
 		}
 
 		$this->prop_backup = $this->prop;
@@ -683,11 +683,7 @@ class Ethna_AppObject
 
 			if ($n > 0) {
 				$r = $this->update();
-				if (Ethna::isError($r) == false) {
-					return $r;
-				} else if ($r->getCode() != E_APP_NOROWS) {
-					return $r;
-				}
+				return $r;
 			} else {
 				$r = $this->add();
 				if (Ethna::isError($r) == false) {
@@ -982,7 +978,7 @@ class Ethna_AppObject
 			$condition .= Ethna_AppSQL::getCondition($key_type[$i], $key[$i]);
 		}
 
-		$sql = "SELECT $columns FROM $tables $condition;";
+		$sql = "SELECT $columns FROM $tables $condition";
 
 		return $sql;
 	}
@@ -1011,7 +1007,7 @@ class Ethna_AppObject
 			$set_list .= sprintf("%s=%s", $k, $prop_arg_list[$k]);
 		}
 
-		$sql = "INSERT INTO $tables SET $set_list;";
+		$sql = "INSERT INTO $tables SET $set_list";
 
 		return $sql;
 	}
@@ -1050,7 +1046,7 @@ class Ethna_AppObject
 			$condition .= Ethna_AppSQL::getCondition($k, $v);
 		}
 
-		$sql = "UPDATE $tables SET $set_list $condition;";
+		$sql = "UPDATE $tables SET $set_list $condition";
 
 		return $sql;
 	}
@@ -1082,7 +1078,7 @@ class Ethna_AppObject
 			return null;
 		}
 
-		$sql = "DELETE FROM $tables $condition;";
+		$sql = "DELETE FROM $tables $condition";
 
 		return $sql;
 	}
@@ -1125,7 +1121,7 @@ class Ethna_AppObject
 			$condition .= Ethna_AppSQL::getCondition($k, $v);
 		}
 
-		$sql = "SELECT $columns FROM $tables $condition;";
+		$sql = "SELECT $columns FROM $tables $condition";
 
 		return $sql;
 	}
@@ -1148,7 +1144,7 @@ class Ethna_AppObject
 		$column_id = $this->_getPrimaryTable() . "." . $id_def[0];	// any id columns will do
 
 		$condition = $this->_getSQL_SearchCondition($filter);
-		$sql = "SELECT DISTINCT COUNT($column_id) AS id_count FROM $tables $condition;";
+		$sql = "SELECT DISTINCT COUNT($column_id) AS id_count FROM $tables $condition";
 
 		return $sql;
 	}
@@ -1200,7 +1196,7 @@ class Ethna_AppObject
 			$limit .= sprintf("%d", $count);
 		}
 
-		$sql = "SELECT DISTINCT $column_id FROM $tables $condition $sort $limit;";
+		$sql = "SELECT DISTINCT $column_id FROM $tables $condition $sort $limit";
 
 		return $sql;
 	}
@@ -1258,7 +1254,7 @@ class Ethna_AppObject
 			$limit .= sprintf("%d", $count);
 		}
 
-		$sql = "SELECT $column FROM $tables $condition $sort $limit;";
+		$sql = "SELECT $column FROM $tables $condition $sort $limit";
 
 		return $sql;
 	}

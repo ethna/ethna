@@ -259,7 +259,7 @@ class Ethna
 	 */
 	function isError($obj, $code = null)
 	{
-		if (is_a($obj, 'Ethna_Errror')) {
+		if (is_a($obj, 'Ethna_Error')) {
 			if (is_null($code)) {
 				return true;
 			} else {
