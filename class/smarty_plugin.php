@@ -395,7 +395,7 @@ function smarty_function_uniqid($params, &$smarty)
 	if (isset($type) && $type == 'get') {
 		print "uniqid=$uniqid";
 	} else {
-		print "<input type=\"hidden\" name=\"uniqid\" value=\"$uniqid\">\n";
+		print "<input type=\"hidden\" name=\"uniqid\" value=\"$uniqid\" />\n";
 	}
 }
 
