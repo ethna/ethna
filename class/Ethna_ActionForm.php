@@ -9,27 +9,6 @@
  *	@version	$Id$
  */
 
-/** フォーム入力値変換フラグ: 半角カナ→全角カナ */
-define('CONVERT_1BYTE_KANA', 1 << 0);
-
-/** フォーム入力値変換フラグ: 全角数字→半角数字 */
-define('CONVERT_2BYTE_NUMERIC', 1 << 1);
-
-/** フォーム入力値変換フラグ: 全角アルファベット→半角アルファベット */
-define('CONVERT_2BYTE_ALPHABET', 1 << 2);
-
-/** フォーム入力値変換フラグ: 左空白削除 */
-define('CONVERT_LTRIM',	1 << 3);
-
-/** フォーム入力値変換フラグ: 右空白削除 */
-define('CONVERT_RTRIM',	1 << 4);
-
-/** フォーム入力値変換フラグ: 左右空白削除 */
-define('CONVERT_LRTRIM', (1 << 3) | (1 << 4));
-
-/** フォーム入力値変換フラグ: 全角英数→半角英数/左右空白削除 */
-define('CONVERT_2BYTE', (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4));
-
 /** 定型フィルタ: 半角入力 */
 define('FILTER_HW', 'numeric_zentohan,alphabet_zentohan,ltrim,rtrim,ntrim');
 
@@ -94,7 +73,7 @@ class Ethna_ActionForm
 	/**
 	 *	@var	array	フォーム定義要素
 	 */
-	var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'filter', 'convert', 'form_type', 'type');
+	var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'filter', 'form_type', 'type');
 
 	/**#@-*/
 
@@ -397,7 +376,6 @@ class Ethna_ActionForm
 
 					// 配列の各要素に対する変換/検証
 					foreach (array_keys($this->form_vars[$name]) as $key) {
-						$this->form_vars[$name][$key] = $this->_convert($this->form_vars[$name][$key], $value['convert']);
 						$this->form_vars[$name][$key] = $this->_filter($this->form_vars[$name][$key], $value['filter']);
 						$this->_validate($name, $this->form_vars[$name][$key], $value);
 					}
@@ -409,7 +387,6 @@ class Ethna_ActionForm
 						$this->_handleError($name, $value, E_FORM_WRONGTYPE_ARRAY);
 						continue;
 					}
-					$this->form_vars[$name] = $this->_convert($this->form_vars[$name], $value['convert']);
 					$this->form_vars[$name] = $this->_filter($this->form_vars[$name], $value['filter']);
 					$this->_validate($name, $this->form_vars[$name], $value);
 				}
@@ -834,48 +811,6 @@ class Ethna_ActionForm
 		}
 
 		return true;
-	}
-
-	/**
-	 *	フラグに従いフォーム値を変換する
-	 *
-	 *	Ethna 0.1.0より非推奨(filter推奨)
-	 *
-	 *	@access	private
-	 *	@param	mixed	$value	フォーム値
-	 *	@param	int		$flag	変換フラグ
-	 *	@return	mixed	変換結果
-	 *	@deprecated
-	 */
-	function _convert($value, $flag)
-	{
-		if (is_null($flag)) {
-			return $value;
-		}
-
-		$flag = intval($flag);
-
-		$key = "";
-		if ($flag & CONVERT_LTRIM) {
-			$value = ltrim($value);
-		}
-		if ($flag & CONVERT_RTRIM) {
-			$value = rtrim($value);
-		}
-		if ($flag & CONVERT_1BYTE_KANA) {
-			$key .= "K";
-		}
-		if ($flag & CONVERT_2BYTE_NUMERIC) {
-			$key .= "n";
-		}
-		if ($flag & CONVERT_2BYTE_ALPHABET) {
-			$key .= "r";
-		}
-		if ($key == "") {
-			return $value;
-		}
-
-		return mb_convert_kana($value, $key);
 	}
 
 	/**
