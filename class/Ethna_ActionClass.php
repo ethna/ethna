@@ -119,6 +119,7 @@ class Ethna_ActionClass
 	 *	画面表示前処理
 	 *
 	 *	@access	public
+	 *	@deprecated
 	 */
 	function preforward()
 	{
