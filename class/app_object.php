@@ -1101,15 +1101,18 @@ class Ethna_AppObject
 		$condition = null;
 		// 検索条件(現在設定されているプライマリキーは検索対象から除く)
 		if (is_null($this->id) == false) {
+			$primary_value = $this->getId();
+			$n = 0;
 			foreach (to_array($this->id_def) as $k) {
 				if (is_null($condition)) {
 					$condition = "WHERE ";
 				} else {
 					$condition .= " AND ";
 				}
-				$v = $this->getId();
-				Ethna_AppSQL::escapeSQL($v);
-				$condition .= Ethna_AppSQL::getCondition($k, $v, OBJECT_CONDITION_NE);
+				$value = $primary_value[$n];
+				Ethna_AppSQL::escapeSQL($value);
+				$condition .= Ethna_AppSQL::getCondition($k, $value, OBJECT_CONDITION_NE);
+				$n++;
 			}
 		}
 
