@@ -2,15 +2,15 @@
 /**
  *	Index.php
  *
+ *	@author		your name
  *	@package	{$project_id}
- *
- *	$Id$
+ *	@version	$Id$
  */
 
 /**
  *	indexビューの実装
  *
- *	@author		yourname
+ *	@author		your name
  *	@access		public
  *	@package	{$project_id}
  */

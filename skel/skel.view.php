@@ -2,15 +2,15 @@
 /**
  *	{$view_path}
  *
+ *	@author		your name
  *	@package	{$project_id}
- *
- *	$Id$
+ *	@version	$Id$
  */
 
 /**
  *	{$forward_name}ビューの実装
  *
- *	@author		yourname
+ *	@author		your name
  *	@access		public
  *	@package	{$project_id}
  */

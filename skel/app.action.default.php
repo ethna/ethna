@@ -2,15 +2,15 @@
 /**
  *	Index.php
  *
+ *	@author		your name
  *	@package	{$project_id}
- *
- *	$Id$
+ *	@version 	$Id$
  */
 
 /**
  *	indexフォームの実装
  *
- *	@author		yourname
+ *	@author		your name
  *	@access		public
  *	@package	{$project_id}
  */
@@ -44,7 +44,7 @@ class {$project_id}_Form_Index extends Ethna_ActionForm
 /**
  *	indexアクションの実装
  *
- *	@author		yourname
+ *	@author		your name
  *	@access		public
  *	@package	{$project_id}
  */

@@ -2,9 +2,9 @@
 /**
  *	{$project_id}_Controller.php
  *
+ *	@author		your name
  *	@package	{$project_id}
- *
- *	$Id$
+ *	@version	$Id$
  */
 
 /** アプリケーションベースディレクトリ */

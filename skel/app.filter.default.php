@@ -2,15 +2,15 @@
 /**
  *	{$project_id}_Filter_ExecutionTime.php
  *
+ *	@author		your name
  *	@package	{$project_id}
- *
- *	$Id$
+ *	@version	$Id$
  */
 
 /**
  *	実行時間計測フィルタの実装
  *
- *	@author		yourname
+ *	@author		your name
  *	@access		public
  *	@package	{$project_id}
  */

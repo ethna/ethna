@@ -2,7 +2,7 @@
 /**
  *	{$action_path}
  *
- *	@author		yourname
+ *	@author		your name
  *	@package	{$project_id}
  *	@version	$Id$
  */
@@ -10,7 +10,7 @@
 /**
  *	{$action_name}フォームの実装
  *
- *	@author		yourname
+ *	@author		your name
  *	@access		public
  *	@package	{$project_id}
  */
@@ -40,7 +40,7 @@ class {$action_form} extends Ethna_ActionForm
 /**
  *	{$action_name}アクションの実装
  *
- *	@author		yourname
+ *	@author		your name
  *	@access		public
  *	@package	{$project_id}
  */
