@@ -756,7 +756,7 @@ class Ethna_Controller
 			}
 		}
 
-		$this->logger->log(LOG_DEBUG, 'action_name[%s]', $action_name);
+		$this->logger->log(LOG_DEBUG, '<<<<<<<< action_name[%s] >>>>>>>>', $action_name);
 
 		return $action_name;
 	}

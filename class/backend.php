@@ -240,6 +240,17 @@ class Ethna_Backend
 	}
 
 	/**
+	 *	アプリケーションの設定ディレクトリを取得する
+	 *
+	 *	@access	public
+	 *	@return	string	設定ディレクトリのパス名
+	 */
+	function getEtcdir()
+	{
+		return $this->controller->getDirectory('etc');
+	}
+
+	/**
 	 *	アプリケーションのテンポラリディレクトリを取得する
 	 *
 	 *	@access	public
