@@ -1171,6 +1171,9 @@ class Ethna_Controller
 		// フォームからの指定が無い場合はエントリポイントに指定されたデフォルト値を利用する
 		if ($form_action_name == "" && count($default_action_name) > 0) {
 			$tmp = is_array($default_action_name) ? $default_action_name[0] : $default_action_name;
+			if ($tmp{strlen($tmp)-1} == '*') {
+				$tmp = substr($tmp, 0, -1);
+			}
 			$this->logger->log(LOG_DEBUG, '-> default_action_name[%s]', $tmp);
 			$action_name = $tmp;
 		} else {
