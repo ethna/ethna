@@ -20,7 +20,7 @@ include_once('Smarty/Smarty.class.php');
 
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '0.1.5');
+define('ETHNA_VERSION', '0.1.6-dev');
 
 /** Ethnaベースディレクトリ定義 */
 define('ETHNA_BASE', dirname(__FILE__));
