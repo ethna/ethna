@@ -658,6 +658,27 @@ class Ethna_AppObject
 	}
 
 	/**
+	 *	オブジェクトを置換する
+	 *
+	 *	MySQLのREPLACE文に相当する動作を行う(add()で重複エラーが発生したら
+	 *	update()を行う)
+	 *
+	 *	@access	public
+	 *	@return	mixed	0:正常終了 >0:オブジェクトID(追加時) Ethna_Error:エラー
+	 */
+	function replace()
+	{
+		$r = $this->add();
+		if (Ethna::isError($r) == false) {
+			return $r;
+		} else if ($r->getCode() != E_APP_DUPENT) {
+			return $r;
+		}
+
+		return $this->update();
+	}
+
+	/**
 	 *	オブジェクトを削除する
 	 *
 	 *	@access	public
@@ -1180,7 +1201,7 @@ class Ethna_AppObject
 		if (is_null($keys)) {
 			$keys = array_keys($def);
 		}
-		foreach ($keys as $key) {
+		foreach (to_array($keys) as $key) {
 			if (isset($def[$key]) == false) {
 				continue;
 			}
