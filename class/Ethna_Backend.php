@@ -23,64 +23,40 @@ class Ethna_Backend
 	 *	@access		private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト */
 	var	$controller;
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト($controllerの省略形)
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト($controllerの省略形) */
 	var	$ctl;
 
-	/**
-	 *	@var	object	Ethna_Config		設定オブジェクト
-	 */
+	/**	@var	object	Ethna_Config		設定オブジェクト */
 	var	$config;
 
-	/**
-	 *	@var	object	Ethna_I18N			i18nオブジェクト
-	 */
+	/**	@var	object	Ethna_I18N			i18nオブジェクト */
 	var $i18n;
 
-	/**
-	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
-	 */
+	/**	@var	object	Ethna_ActionError	アクションエラーオブジェクト */
 	var $action_error;
 
-	/**
-	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト($action_errorの省略形)
-	 */
+	/**	@var	object	Ethna_ActionError	アクションエラーオブジェクト($action_errorの省略形) */
 	var $ae;
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
-	 */
+	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト */
 	var $action_form;
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト($action_formの省略形)
-	 */
+	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト($action_formの省略形) */
 	var $af;
 
-	/**
-	 *	@var	object	Ethna_Session		セッションオブジェクト
-	 */
+	/**	@var	object	Ethna_Session		セッションオブジェクト */
 	var $session;
 
-	/**
-	 *	@var	array	Ethna_DBオブジェクトを格納した配列
-	 */
+	/**	@var	array	Ethna_DBオブジェクトを格納した配列 */
 	var $db;
 
-	/**
-	 *	@var	object	Ethna_Logger		ログオブジェクト
-	 */
+	/**	@var	object	Ethna_Logger		ログオブジェクト */
 	var $logger;
 
-	/**
-	 *	@var	array	マネージャオブジェクトキャッシュ
-	 */
+	/**	@var	array	マネージャオブジェクトキャッシュ */
 	var $manager = array();
 
 	/**#@-*/
@@ -371,8 +347,9 @@ class Ethna_Backend
 		}
 		$dsn_persistent = $this->controller->getDSN_persistent($type);
 
-		$db_class = $this->controller->getClass('db');
-		$this->db[$key] =& new $db_class($this->controller, $dsn, $dsn_persistent);
+		$class_factory =& $this->controller->getClassFactory();
+		$db_class_name = $class_factory->getObjectName('db');
+		$this->db[$key] =& new $db_class_name($this->controller, $dsn, $dsn_persistent);
 		$r = $this->db[$key]->connect();
 		if (Ethna::isError($r)) {
 			$this->db[$key] = null;

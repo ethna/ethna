@@ -23,9 +23,7 @@ class Ethna_SOAP_Gateway
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト */
 	var	$controller;
 
 	/**#@-*/

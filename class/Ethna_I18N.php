@@ -23,29 +23,19 @@ class Ethna_I18N
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	bool	gettextフラグ
-	 */
+	/**	@var	bool	gettextフラグ */
 	var $have_gettext;
 
-	/**
-	 *	@var	string	ロケールディレクトリ
-	 */
+	/**	@var	string	ロケールディレクトリ */
 	var $locale_dir;
 
-	/**
-	 *	@var	string	アプリケーションID
-	 */
+	/**	@var	string	アプリケーションID */
 	var $appid;
 
-	/**
-	 *	@var	string	システム側エンコーディング
-	 */
+	/**	@var	string	システム側エンコーディング */
 	var $systemencoding;
 
-	/**
-	 *	@var	string	クライアント側エンコーディング
-	 */
+	/**	@var	string	クライアント側エンコーディング */
 	var	$clientencoding;
 
 	/**#@-*/

@@ -4,10 +4,14 @@
 
 *** features
 
+- Ethna_ClassFactoryクラスを追加
+- Ethna_Controllerのbackend, i18n, session, action_errorメンバを廃止
+- Ethna_Controller::getClass()メソッドを廃止
 - Ethna_ActionClassにauthenticateメソッドを追加
 - preActionFilter/postActionFilterを追加(experimental)
 - Ethna_View_List(リスト表示用ビュー基底クラス)のソート対応
 - 組み込みSmarty関数is_error()を追加
+- Ethna_ActionForm::handleErrorの第2引数を廃止
 - Ethna_ActionForm::_handleErrorをpublicメソッドに変更(Ethna_ActionForm::handleErrorに名称変更)
 - Ethna_ActionForm::getDefメソッドに引数を追加(省略可)
 

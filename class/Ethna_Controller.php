@@ -23,29 +23,19 @@ class Ethna_Controller
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	string		アプリケーションID
-	 */
+	/**	@var	string		アプリケーションID */
 	var $appid = 'ETHNA';
 
-	/**
-	 *	@var	string		アプリケーションベースディレクトリ
-	 */
+	/**	@var	string		アプリケーションベースディレクトリ */
 	var $base = '';
 
-	/**
-	 *	@var	string		アプリケーションベースURL
-	 */
+	/**	@var	string		アプリケーションベースURL */
 	var	$url = '';
 
-	/**
-	 *	@var	string		アプリケーションDSN(Data Source Name)
-	 */
+	/**	@var	string		アプリケーションDSN(Data Source Name) */
 	var $dsn;
 
-	/**
-	 *	@var	array		アプリケーションディレクトリ
-	 */
+	/**	@var	array		アプリケーションディレクトリ */
 	var $directory = array(
 		'action'		=> 'app/action',
 		'etc'			=> 'etc',
@@ -59,151 +49,92 @@ class Ethna_Controller
 		'view'			=> 'app/view',
 	);
 
-	/**
-	 *	@var	array		DBアクセス定義
-	 */
+	/**	@var	array		DBアクセス定義 */
 	var	$db = array(
 		''				=> DB_TYPE_RW,
 	);
 
-	/**
-	 *	@var	array		拡張子設定
-	 */
+	/**	@var	array		拡張子設定 */
 	var $ext = array(
 		'php'			=> 'php',
 		'tpl'			=> 'tpl',
 	);
 
-	/**
-	 *	@var	array		クラス設定
-	 */
+	/**	@var	array		クラス設定 */
 	var $class = array(
+		'class'			=> 'Ethna_ClassFactory',
+		'backend'		=> 'Ethna_Backend',
 		'config'		=> 'Ethna_Config',
 		'db'			=> 'Ethna_DB',
+		'error'			=> 'Ethna_ActionError',
+		'form'			=> 'Ethna_ActionForm',
+		'i18n'			=> 'Ethna_I18N',
 		'logger'		=> 'Ethna_Logger',
+		'session'		=> 'Ethna_Session',
 		'sql'			=> 'Ethna_AppSQL',
+		'view'			=> 'Ethna_ViewClass',
 	);
 
-	/**
-	 *	@var	array		フィルタ設定
-	 */
+	/**	@var	array		フィルタ設定 */
 	var $filter = array(
 	);
 
-	/**
-	 *	@var	string		使用言語設定
-	 */
+	/**	@var	string		使用言語設定 */
 	var $language;
 
-	/**
-	 *	@var	string		システム側エンコーディング
-	 */
+	/**	@var	string		システム側エンコーディング */
 	var	$system_encoding;
 
-	/**
-	 *	@var	string		クライアント側エンコーディング
-	 */
+	/**	@var	string		クライアント側エンコーディング */
 	var	$client_encoding;
 
-	/**
-	 *	@var	string		クライアントタイプ
-	 */
+	/**	@var	string		クライアントタイプ */
 	var $client_type;
 
-	/**
-	 *	@var	string	現在実行中のアクション名
-	 */
+	/**	@var	string	現在実行中のアクション名 */
 	var	$action_name;
 
-	/**
-	 *	@var	array	forward定義
-	 */
+	/**	@var	array	forward定義 */
 	var $forward = array();
 
-	/**
-	 *	@var	array	action定義
-	 */
+	/**	@var	array	action定義 */
 	var $action = array();
 
-	/**
-	 *	@var	array	soap action定義
-	 */
+	/**	@var	array	soap action定義 */
 	var $soap_action = array();
 
-	/**
-	 *	@var	array	アプリケーションマネージャ定義
-	 */
+	/**	@var	array	アプリケーションマネージャ定義 */
 	var	$manager = array();
 
-	/**
-	 *	@var	array	smarty modifier定義
-	 */
+	/**	@var	array	smarty modifier定義 */
 	var $smarty_modifier_plugin = array();
 
-	/**
-	 *	@var	array	smarty function定義
-	 */
+	/**	@var	array	smarty function定義 */
 	var $smarty_function_plugin = array();
 
-	/**
-	 *	@var	array	smarty prefilter定義
-	 */
+	/**	@var	array	smarty prefilter定義 */
 	var $smarty_prefilter_plugin = array();
 
-	/**
-	 *	@var	array	smarty postfilter定義
-	 */
+	/**	@var	array	smarty postfilter定義 */
 	var $smarty_postfilter_plugin = array();
 
-	/**
-	 *	@var	array	smarty outputfilter定義
-	 */
+	/**	@var	array	smarty outputfilter定義 */
 	var $smarty_outputfilter_plugin = array();
 
-	/**
-	 *	@var	object	Ethna_Backend	backendオブジェクト
-	 */
-	var $backend = null;
+	/**	@var	array	フィルターチェイン(Ethna_Filterオブジェクトの配列) */
+	var	$filter_chain = array();
 
-	/**
-	 *	@var	object	Ethna_I18N		i18nオブジェクト
-	 */
-	var $i18n = null;
+	/**	@var	object	Ethna_ClassFactory	クラスファクトリオブジェクト */
+	var	$class_factory = null;
 
-	/**
-	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
-	 */
-	var $action_error = null;
+	/**	@var	object	Ethna_ActionForm	フォームオブジェクト */
+	var	$action_form = null;
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
-	 */
-	var $action_form = null;
-
-	/**
-	 *	@var	object	Ethna_Session		セッションオブジェクト
-	 */
-	var $session = null;
-
-	/**
-	 *	@var	object	Ethna_Config		設定オブジェクト
-	 */
+	/**	@var	object	Ethna_Config		設定オブジェクト */
 	var	$config = null;
 
-	/**
-	 *	@var	object	Ethna_Logger		ログオブジェクト
-	 */
+	/**	@var	object	Ethna_Logger		ログオブジェクト */
 	var	$logger = null;
-
-	/**
-	 *	@var	object	Ethna_AppSQL		SQLオブジェクト
-	 */
-	var	$sql = null;
-
-	/**
-	 *	@var	array	フィルターチェイン(Ethna_Filterオブジェクトの配列)
-	 */
-	var	$filter_chain = array();
 
 	/**#@-*/
 
@@ -217,6 +148,10 @@ class Ethna_Controller
 	{
 		$GLOBALS['controller'] =& $this;
 		$this->base = BASE;
+
+		// クラスファクトリオブジェクトの生成
+		$class_factory = $this->class['class'];
+		$this->class_factory =& new $class_factory($this, $this->class);
 
 		// エラーハンドラの設定
 		Ethna::setErrorCallback(array(&$this, 'handleError'));
@@ -239,24 +174,17 @@ class Ethna_Controller
 			}
 		}
 
-		$this->i18n =& new Ethna_I18N($this->getDirectory('locale'), $this->getAppId());
+		// 初期設定
 		list($this->language, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
 		$this->client_type = $this->_getDefaultClientType();
 
-		// 設定ファイル読み込み
-		$config_class = $this->class['config'];
-		$this->config =& new $config_class($this);
+		$this->config =& $this->getConfig();
 		$this->dsn = $this->_prepareDSN();
 		$this->url = $this->config->get('url');
 
 		// ログ出力開始
-		$logger_class = $this->class['logger'];
-		$this->logger =& new $logger_class($this);
+		$this->logger =& $this->getLogger();
 		$this->logger->begin();
-
-		// SQLオブジェクト生成
-		$sql_class = $this->class['sql'];
-		$this->sql =& new $sql_class($this);
 
 		// Ethnaマネージャ設定
 		$this->_activateEthnaManager();
@@ -314,6 +242,7 @@ class Ethna_Controller
 	function getDSN_persistent($type = "")
 	{
 		$key = sprintf("dsn%s_persistent", $type == "" ? "" : "_$type");
+
 		$dsn_persistent = $this->config->get($key);
 		if (is_null($dsn_persistent)) {
 			return false;
@@ -389,21 +318,6 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	アプリケーションクラス設定を返す
-	 *
-	 *	@access	public
-	 *	@param	string	$key	クラスタイプ("config", "db", "logger", "sql")
-	 *	@return	string	$keyに対応したクラス名(設定がない場合はnull)
-	 */
-	function getClass($key)
-	{
-		if (isset($this->class[$key]) == false) {
-			return null;
-		}
-		return $this->class[$key];
-	}
-
-	/**
 	 *	アプリケーションディレクトリ設定を返す
 	 *
 	 *	@access	public
@@ -449,36 +363,14 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	i18nオブジェクトのアクセサ(R)
+	 *	クラスファクトリオブジェクトのアクセサ(R)
 	 *
 	 *	@access	public
-	 *	@return	object	Ethna_I18N	i18nオブジェクト
+	 *	@return	object	Ethna_ClassFactory	クラスファクトリオブジェクト
 	 */
-	function &getI18N()
+	function &getClassFactory()
 	{
-		return $this->i18n;
-	}
-
-	/**
-	 *	設定オブジェクトのアクセサ
-	 *
-	 *	@access	public
-	 *	@return	object	Ethna_Config	設定オブジェクト
-	 */
-	function &getConfig()
-	{
-		return $this->config;
-	}
-
-	/**
-	 *	backendオブジェクトのアクセサ
-	 *
-	 *	@access	public
-	 *	@return	object	Ethna_Backend	backendオブジェクト
-	 */
-	function &getBackend()
-	{
-		return $this->backend;
+		return $this->class_factory;
 	}
 
 	/**
@@ -489,7 +381,7 @@ class Ethna_Controller
 	 */
 	function &getActionError()
 	{
-		return $this->action_error;
+		return $this->class_factory->getObject('error');
 	}
 
 	/**
@@ -500,18 +392,41 @@ class Ethna_Controller
 	 */
 	function &getActionForm()
 	{
+		// 明示的にクラスファクトリを利用していない
 		return $this->action_form;
 	}
 
 	/**
-	 *	セッションオブジェクトのアクセサ
+	 *	backendオブジェクトのアクセサ
 	 *
 	 *	@access	public
-	 *	@return	object	Ethna_Session		セッションオブジェクト
+	 *	@return	object	Ethna_Backend	backendオブジェクト
 	 */
-	function &getSession()
+	function &getBackend()
 	{
-		return $this->session;
+		return $this->class_factory->getObject('backend');
+	}
+
+	/**
+	 *	設定オブジェクトのアクセサ
+	 *
+	 *	@access	public
+	 *	@return	object	Ethna_Config	設定オブジェクト
+	 */
+	function &getConfig()
+	{
+		return $this->class_factory->getObject('config');
+	}
+
+	/**
+	 *	i18nオブジェクトのアクセサ(R)
+	 *
+	 *	@access	public
+	 *	@return	object	Ethna_I18N	i18nオブジェクト
+	 */
+	function &getI18N()
+	{
+		return $this->class_factory->getObject('i18n');
 	}
 
 	/**
@@ -522,7 +437,18 @@ class Ethna_Controller
 	 */
 	function &getLogger()
 	{
-		return $this->logger;
+		return $this->class_factory->getObject('logger');
+	}
+
+	/**
+	 *	セッションオブジェクトのアクセサ
+	 *
+	 *	@access	public
+	 *	@return	object	Ethna_Session		セッションオブジェクト
+	 */
+	function &getSession()
+	{
+		return $this->class_factory->getObject('session');
 	}
 
 	/**
@@ -533,7 +459,7 @@ class Ethna_Controller
 	 */
 	function &getSQL()
 	{
-		return $this->sql;
+		return $this->class_factory->getObject('sql');
 	}
 
 	/**
@@ -728,14 +654,11 @@ class Ethna_Controller
 		$this->_setLanguage($this->language, $this->system_encoding, $this->client_encoding);
 
 		// オブジェクト生成
-		$this->action_error =& new Ethna_ActionError();
 		$form_name = $this->getActionFormName($action_name);
 		$this->action_form =& new $form_name($this);
-		$this->session =& new Ethna_Session($this->getAppId(), $this->getDirectory('tmp'), $this->logger);
 
 		// バックエンド処理実行
-		$backend =& new Ethna_Backend($this);
-		$this->backend =& $backend;
+		$backend =& $this->getBackend();
 		$forward_name = $backend->perform($action_name);
 
 		// アクション実行後フィルタ
@@ -751,12 +674,14 @@ class Ethna_Controller
 		$forward_name = $this->_sortForward($action_name, $forward_name);
 
 		if ($forward_name != null) {
-			$view_name = $this->getViewClassName($forward_name);
-			$view_class =& new $view_name($this->backend, $forward_name, $this->_getForwardPath($forward_name));
+			$view_class_name = $this->getViewClassName($forward_name);
+			$view_class =& new $view_class_name($backend, $forward_name, $this->_getForwardPath($forward_name));
 			$view_class->preforward();
+
 			// 後方互換処理:(
-			if (is_subclass_of($view_class, 'Ethna_ViewClass') == false) {
-				$view_class =& new Ethna_ViewClass($this->backend, $forward_name, $this->_getForwardPath($forward_name));
+			$view_class_name = $this->class_factory->getObjectName('view');
+			if (is_subclass_of($view_class, $view_class_name) == false) {
+				$view_class =& new $view_class_name($backend, $forward_name, $this->_getForwardPath($forward_name));
 			}
 			$view_class->forward();
 		}
@@ -798,16 +723,13 @@ class Ethna_Controller
 	{
 		include_once('Ethna/contrib/amfphp/app/Gateway.php');
 
-		$this->action_error =& new Ethna_ActionError();
-
 		// Credentialヘッダでセッションを処理するのでここではnullに設定
 		$this->session = null;
 
 		$this->_setLanguage($this->language, $this->system_encoding, $this->client_encoding);
 
 		// backendオブジェクト
-		$backend =& new Ethna_Backend($this);
-		$this->backend =& $backend;
+		$backend =& $this->getBackend();
 
 		// アクションスクリプトをインクルード
 		$this->_includeActionScript();
@@ -1001,8 +923,9 @@ class Ethna_Controller
 		}
 		if (class_exists($action_obj['form_name']) == false) {
 			// フォームクラスは未定義でも良い
-			$this->logger->log(LOG_DEBUG, 'form class is not defined [%s] -> falling back to default [%s]', $action_obj['form_name'], 'Ethna_ActionForm');
-			$action_obj['form_name'] = 'Ethna_ActionForm';
+			$class_name = $this->class_factory->getObjectName('form');
+			$this->logger->log(LOG_DEBUG, 'form class is not defined [%s] -> falling back to default [%s]', $action_obj['form_name'], $class_name);
+			$action_obj['form_name'] = $class_name;
 		}
 
 		$action_obj['inspect'] = true;
@@ -1298,8 +1221,9 @@ class Ethna_Controller
 		if (class_exists($class_name)) {
 			return $class_name;
 		} else {
-			$this->logger->log(LOG_DEBUG, 'view class is not defined for [%s] -> use default [%s]', $forward_name, 'Ethna_ViewClass');
-			return 'Ethna_ViewClass';
+			$class_name = $this->class_factory->getObjectName('view');
+			$this->logger->log(LOG_DEBUG, 'view class is not defined for [%s] -> use default [%s]', $forward_name, $class_name);
+			return $class_name;
 		}
 	}
 
@@ -1514,7 +1438,8 @@ class Ethna_Controller
 		$this->system_encoding = $system_encoding;
 		$this->client_encoding = $client_encoding;
 
-		$this->i18n->setLanguage($language, $system_encoding, $client_encoding);
+		$i18n =& $this->getI18N();
+		$i18n->setLanguage($language, $system_encoding, $client_encoding);
 	}
 
 	/**

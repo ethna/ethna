@@ -23,24 +23,16 @@ class Ethna_View_List extends Ethna_ViewClass
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	int		表示開始オフセット
-	 */
+	/**	@var	int		表示開始オフセット */
 	var	$offset = 0;
 
-	/**
-	 *	@var	int		表示件数
-	 */
+	/**	@var	int		表示件数 */
 	var	$count = 25;
 
-	/**
-	 *	@var	array	検索対象項目一覧
-	 */
+	/**	@var	array	検索対象項目一覧 */
 	var	$search_list = array();
 
-	/**
-	 *	@var	string	表示対象クラス名
-	 */
+	/**	@var	string	表示対象クラス名 */
 	var	$class_name = null;
 
 	/**#@-*/

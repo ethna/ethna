@@ -23,36 +23,22 @@ class Ethna_LogWriter
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	string	ログアイデンティティ文字列
-	 */
+	/**	@var	string	ログアイデンティティ文字列 */
 	var	$ident;
 
-	/**
-	 *	@var	int		ログファシリティ
-	 */
+	/**	@var	int		ログファシリティ */
 	var	$facility;
 
-	/**
-	 *	@var	int		ログオプション
-	 */
+	/**	@var	int		ログオプション */
 	var	$option;
 
-	/**
-	 *	@var	string	ログファイル
-	 */
+	/**	@var	string	ログファイル */
 	var	$file;
 
-	/**
-	 *	@var	bool	バックトレースが取得可能かどうか
-	 */
+	/**	@var	bool	バックトレースが取得可能かどうか */
 	var	$have_backtrace;
 
-	/**#@-*/
-
-	/**
-	 *	@var	string	ログレベル名テーブル
-	 */
+	/**	@var	array	ログレベル名テーブル */
 	var	$level_name_table = array(
 		LOG_EMERG	=> 'EMERG',
 		LOG_ALERT	=> 'ALERT',
@@ -63,6 +49,8 @@ class Ethna_LogWriter
 		LOG_INFO	=> 'INFO',
 		LOG_DEBUG	=> 'DEBUG',
 	);
+
+	/**#@-*/
 
 	/**
 	 *	Ethna_LogWriterクラスのコンストラクタ

@@ -23,14 +23,10 @@ class Ethna_Config
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト */
 	var	$controller;
 	
-	/**
-	 *	@var	array	設定内容
-	 */
+	/**	@var	array	設定内容 */
 	var	$config = null;
 
 	/**#@-*/

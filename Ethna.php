@@ -35,6 +35,7 @@ include_once(ETHNA_BASE . '/class/Ethna_AppSearchObject.php');
 include_once(ETHNA_BASE . '/class/Ethna_Backend.php');
 include_once(ETHNA_BASE . '/class/Ethna_Config.php');
 include_once(ETHNA_BASE . '/class/Ethna_Controller.php');
+include_once(ETHNA_BASE . '/class/Ethna_ClassFactory.php');
 include_once(ETHNA_BASE . '/class/Ethna_DB.php');
 include_once(ETHNA_BASE . '/class/Ethna_Filter.php');
 include_once(ETHNA_BASE . '/class/Ethna_I18N.php');

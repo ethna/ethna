@@ -23,14 +23,10 @@ class Ethna_AppSearchObject
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	string	¸¡º÷ÃÍ
-	 */
+	/**	@var	string	¸¡º÷ÃÍ */
 	var $value;
 
-	/**
-	 *	@var	int		¸¡º÷¾ò·ï
-	 */
+	/**	@var	int		¸¡º÷¾ò·ï */
 	var $condition;
 
 	/**#@-*/

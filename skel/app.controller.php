@@ -118,10 +118,17 @@ class {$project_id}_Controller extends Ethna_Controller
 		 *	TODO: 設定クラス、ログクラス、SQLクラスをオーバーライド
 		 *	した場合は下記のクラス名を忘れずに変更してください
 		 */
-		'config'        => 'Ethna_Config',
+		'class'			=> 'Ethna_ClassFactory',
+		'backend'		=> 'Ethna_Backend',
+		'config'		=> 'Ethna_Config',
 		'db'			=> 'Ethna_DB',
-		'logger'        => 'Ethna_Logger',
-		'sql'           => 'Ethna_AppSQL',
+		'error'			=> 'Ethna_ActionError',
+		'form'			=> 'Ethna_ActionForm',
+		'i18n'			=> 'Ethna_I18N',
+		'logger'		=> 'Ethna_Logger',
+		'session'		=> 'Ethna_Session',
+		'sql'			=> 'Ethna_AppSQL',
+		'view'			=> 'Ethna_ViewClass',
 	);
 
 	/**
@@ -236,8 +243,9 @@ class {$project_id}_Controller extends Ethna_Controller
 		 * $smarty->assign_by_ref('session_id', session_id());
 		 *
 		 * // ログインフラグ(true/false)
-		 * if ($this->session->isStart()) {
-		 * 	$smarty->assign_by_ref('login', $this->session->isStart());
+		 * $session =& $this->getClassFactory('session');
+		 * if ($session && $this->session->isStart()) {
+		 * 	$smarty->assign_by_ref('login', $session->isStart());
 		 * }
 		 */
 	}

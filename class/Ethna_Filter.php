@@ -26,24 +26,16 @@ class Ethna_Filter
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト */
 	var	$controller;
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト($controllerの省略形)
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト($controllerの省略形) */
 	var	$ctl;
 
-	/**
-	 *	@var	object	Ethna_Config		設定オブジェクト
-	 */
+	/**	@var	object	Ethna_Config		設定オブジェクト */
 	var	$config;
 
-	/**
-	 *	@var	object	Ethna_Logger		ログオブジェクト
-	 */
+	/**	@var	object	Ethna_Logger		ログオブジェクト */
 	var $logger;
 
 	/**#@-*/

@@ -23,14 +23,10 @@ class Ethna_Error extends PEAR_Error
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_I18N	i18nオブジェクト
-	 */
+	/**	@var	object	Ethna_I18N	i18nオブジェクト */
 	var $i18n;
 
-	/**
-	 *	@var	object	Ethna_Logger	loggerオブジェクト
-	 */
+	/**	@var	object	Ethna_Logger	loggerオブジェクト */
 	var $logger;
 
 	/**#@-*/

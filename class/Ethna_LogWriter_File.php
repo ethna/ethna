@@ -23,9 +23,7 @@ class Ethna_LogWriter_File extends Ethna_LogWriter
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	int		ログファイルハンドル
-	 */
+	/**	@var	int		ログファイルハンドル */
 	var	$fp;
 
 	/**#@-*/

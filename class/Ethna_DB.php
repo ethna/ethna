@@ -23,39 +23,25 @@ class Ethna_DB
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	DB				PEAR DBオブジェクト
-	 */
+	/**	@var	object	DB				PEAR DBオブジェクト */
 	var $db;
 
-	/**
-	 *	@var	object	Ethna_Logger	ログオブジェクト
-	 */
+	/**	@var	object	Ethna_Logger	ログオブジェクト */
 	var $logger;
 
-	/**
-	 *	@var	object	Ethna_AppSQL	SQLオブジェクト
-	 */
+	/**	@var	object	Ethna_AppSQL	SQLオブジェクト */
 	var $sql;
 
-	/**
-	 *	@var	string	DBタイプ(mysql, pgsql...)
-	 */
+	/**	@var	string	DBタイプ(mysql, pgsql...) */
 	var $type;
 
-	/**
-	 *	@var	string	DSN
-	 */
+	/**	@var	string	DSN */
 	var $dsn;
 
-	/**
-	 *	@var	bool	持続接続フラグ
-	 */
+	/**	@var	bool	持続接続フラグ */
 	var $persistent;
 
-	/**
-	 *	@var	array	トランザクション管理スタック
-	 */
+	/**	@var	array	トランザクション管理スタック */
 	var	$transaction = array();
 
 	/**#@-*/

@@ -23,14 +23,10 @@ class Ethna_SOAP_ActionForm extends Ethna_ActionForm
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	array	引数定義
-	 */
+	/**	@var	array	引数定義 */
 	var $arg = array();
 
-	/**
-	 *	@var	array	戻り値定義
-	 */
+	/**	@var	array	戻り値定義 */
 	var $retval = array();
 
 	/**#@-*/

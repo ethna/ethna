@@ -27,25 +27,17 @@ class Ethna_MailSender
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	array	メールテンプレート定義
-	 */
+	/**	@var	array	メールテンプレート定義 */
 	var	$def = array(
 	);
 
-	/**
-	 *	@var	int		送信メールタイプ
-	 */
+	/**	@var	int		送信メールタイプ */
 	var	$type;
 
-	/**
-	 *	@var	object	Ethna_Backend	backendオブジェクト
-	 */
+	/**	@var	object	Ethna_Backend	backendオブジェクト */
 	var $backend;
 
-	/**
-	 *	@var	object	Ethna_Config	設定オブジェクト
-	 */
+	/**	@var	object	Ethna_Config	設定オブジェクト */
 	var $config;
 
 	/**#@-*/

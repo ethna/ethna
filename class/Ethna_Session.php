@@ -23,29 +23,19 @@ class Ethna_Session
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Logger	loggerオブジェクト
-	 */
+	/**	@var	object	Ethna_Logger	loggerオブジェクト */
 	var	$logger;
 
-	/**
-	 *	@var	string	セッション名
-	 */
+	/**	@var	string	セッション名 */
 	var $session_name;
 
-	/**
-	 *	@var	string	セッションデータ保存ディレクトリ
-	 */
+	/**	@var	string	セッションデータ保存ディレクトリ */
 	var	$session_save_dir;
 
-	/**
-	 *	@var	bool	セッション開始フラグ
-	 */
+	/**	@var	bool	セッション開始フラグ */
 	var $session_start = false;
 
-	/**
-	 *	@var	bool	匿名セッションフラグ
-	 */
+	/**	@var	bool	匿名セッションフラグ */
 	var $anonymous = false;
 
 	/**#@-*/

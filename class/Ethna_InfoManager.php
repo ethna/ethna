@@ -23,33 +23,26 @@ class Ethna_InfoManager extends Ethna_AppManager
 	 *	@access	private
 	 */
 	
-	/**
-	 *	@var	object	Ethna_Controller	コントローラオブジェクト
-	 */
+	/**	@var	object	Ethna_Controller	コントローラオブジェクト */
 	var	$ctl;
 
-	/**
-	 *	@var	array	アクションスクリプト解析結果キャッシュファイル
-	 */
+	/**	@var	object	Ethna_ClassFactory	クラスファクトリオブジェクト */
+	var	$class_factory;
+
+	/**	@var	array	アクションスクリプト解析結果キャッシュファイル */
 	var	$cache_class_list_file;
 
-	/**
-	 *	@var	array	アクションスクリプト解析結果キャッシュ
-	 */
+	/**	@var	array	アクションスクリプト解析結果キャッシュ */
 	var	$cache_class_list;
 
-	/**
-	 *	@var	array	[属性]DBタイプ一覧
-	 */
+	/**	@var	array	[属性]DBタイプ一覧 */
 	var	$db_type_list = array(
 		DB_TYPE_RW		=> array('name' => 'DB_TYPE_RW'),
 		DB_TYPE_RO		=> array('name' => 'DB_TYPE_RO'),
 		DB_TYPE_MISC	=> array('name' => 'DB_TYPE_MISC'),
 	);
 
-	/**
-	 *	@var	array	[属性]フォーム型一覧
-	 */
+	/**	@var	array	[属性]フォーム型一覧 */
 	var	$form_type_list = array(
 		FORM_TYPE_TEXT		=> array('name' => 'テキストボックス'),
 		FORM_TYPE_PASSWORD	=> array('name' => 'パスワード'),
@@ -61,9 +54,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 		FORM_TYPE_FILE		=> array('name' => 'ファイル'),
 	);
 
-	/**
-	 *	@var	array	[属性]変数型一覧
-	 */
+	/**	@var	array	[属性]変数型一覧 */
 	var	$var_type_list = array(
 		VAR_TYPE_INT		=> array('name' => '整数'),
 		VAR_TYPE_FLOAT		=> array('name' => '浮動小数点数'),
@@ -620,10 +611,10 @@ class Ethna_InfoManager extends Ethna_AppManager
 
 		// class
 		$elts = array();
-		$elts['設定'] = $this->ctl->getClass('config');
-		$elts['DB'] = $this->ctl->getClass('db');
-		$elts['ログ'] = $this->ctl->getClass('logger');
-		$elts['SQL'] = $this->ctl->getClass('sql');
+		$elts['設定'] = $this->class_factory->getObjectName('config');
+		$elts['DB'] = $this->class_factory->getObjectName('db');
+		$elts['ログ'] = $this->class_factory->getObjectName('logger');
+		$elts['SQL'] = $this->class_factory->getObjectName('sql');
 		$r['クラス'] = $elts;
 
 		// DB

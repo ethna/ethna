@@ -25,19 +25,13 @@ class Ethna_ActionError
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	array	エラーオブジェクトの一覧
-	 */
+	/**	@var	array	エラーオブジェクトの一覧 */
 	var $error_list = array();
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
-	 */
+	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト */
 	var $action_form = null;
 
-	/**
-	 *	@var	object	Ethna_Logger		ログオブジェクト
-	 */
+	/**	@var	object	Ethna_Logger		ログオブジェクト */
 	var $logger = null;
 	/**#@-*/
 

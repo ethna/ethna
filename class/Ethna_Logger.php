@@ -58,9 +58,7 @@ class Ethna_Logger extends Ethna_AppManager
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	array	ログファシリティ一覧
-	 */
+	/**	@var	array	ログファシリティ一覧 */
 	var $log_facility_list = array(
 		'auth' => array('name' => 'LOG_AUTH'),
 		'authpriv' => array('name' => 'LOG_AUTHPRIV'),
@@ -84,9 +82,7 @@ class Ethna_Logger extends Ethna_AppManager
 		'file' => array('name' => 'LOG_FILE'),
 	);
 
-	/**
-	 *	@var	array	ログレベル一覧
-	 */
+	/**	@var	array	ログレベル一覧 */
 	var $log_level_list = array(
 		'emerg' => array('name' => 'LOG_EMERG'),
 		'alert' => array('name' => 'LOG_ALERT'),
@@ -98,17 +94,13 @@ class Ethna_Logger extends Ethna_AppManager
 		'debug' => array('name' => 'LOG_DEBUG'),
 	);
 
-	/**
-	 *	@var	array	ログオプション一覧
-	 */
+	/**	@var	array	ログオプション一覧 */
 	var $log_option_list = array(
 		'pid' => array('name' => 'PID表示', 'value' => LOG_PID),
 		'function' => array('name' => '関数名表示', 'value' => LOG_FUNCTION),
 	);
 
-	/**
-	 *	@var	array	ログレベルテーブル
-	 */
+	/**	@var	array	ログレベルテーブル */
 	var $level_table = array(
 		LOG_EMERG	=> 7,
 		LOG_ALERT	=> 6,
@@ -120,39 +112,25 @@ class Ethna_Logger extends Ethna_AppManager
 		LOG_DEBUG	=> 0,
 	);
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト */
 	var	$controller;
 
-	/**
-	 *	@var	int		ログレベル
-	 */
+	/**	@var	int		ログレベル */
 	var $level;
 
-	/**
-	 *	@var	int		アラートレベル
-	 */
+	/**	@var	int		アラートレベル */
 	var $alert_level;
 
-	/**
-	 *	@var	string	アラートメールアドレス
-	 */
+	/**	@var	string	アラートメールアドレス */
 	var $alert_mailaddress;
 
-	/**
-	 *	@var	string	メッセージフィルタ(出力)
-	 */
+	/**	@var	string	メッセージフィルタ(出力) */
 	var $message_filter_do;
 
-	/**
-	 *	@var	string	メッセージフィルタ(無視)
-	 */
+	/**	@var	string	メッセージフィルタ(無視) */
 	var $message_filter_ignore;
 
-	/**
-	 *	@var	object	Ethna_LogWriter	ログ出力オブジェクト
-	 */
+	/**	@var	object	Ethna_LogWriter	ログ出力オブジェクト */
 	var	$writer;
 
 	/**#@-*/

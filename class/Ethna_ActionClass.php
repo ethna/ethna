@@ -23,44 +23,28 @@ class Ethna_ActionClass
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Backend		backendオブジェクト
-	 */
+	/**	@var	object	Ethna_Backend		backendオブジェクト */
 	var $backend;
 
-	/**
-	 *	@var	object	Ethna_Config		設定オブジェクト	
-	 */
+	/**	@var	object	Ethna_Config		設定オブジェクト	*/
 	var $config;
 
-	/**
-	 *	@var	object	Ethna_I18N			i18nオブジェクト
-	 */
+	/**	@var	object	Ethna_I18N			i18nオブジェクト */
 	var $i18n;
 
-	/**
-	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
-	 */
+	/**	@var	object	Ethna_ActionError	アクションエラーオブジェクト */
 	var $action_error;
 
-	/**
-	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト(省略形)
-	 */
+	/**	@var	object	Ethna_ActionError	アクションエラーオブジェクト(省略形) */
 	var $ae;
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
-	 */
+	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト */
 	var $action_form;
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト(省略形)
-	 */
+	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト(省略形) */
 	var $af;
 
-	/**
-	 *	@var	object	Ethna_Session		セッションオブジェクト
-	 */
+	/**	@var	object	Ethna_Session		セッションオブジェクト */
 	var $session;
 
 	/**#@-*/

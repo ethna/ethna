@@ -24,65 +24,41 @@ class Ethna_AppObject
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Backend		backendオブジェクト
-	 */
+	/**	@var	object	Ethna_Backend		backendオブジェクト */
 	var $backend;
 
-	/**
-	 *	@var	object	Ethna_Config		設定オブジェクト
-	 */
+	/**	@var	object	Ethna_Config		設定オブジェクト */
 	var $config;
 
-	/**
-	 *  @var    object  Ethna_DB      DBオブジェクト
-	 */
+	/**  @var    object  Ethna_DB      DBオブジェクト */
 	var $db;
 
-	/**
-	 *	@var	object	Ethna_I18N			i18nオブジェクト
-	 */
+	/**	@var	object	Ethna_I18N			i18nオブジェクト */
 	var $i18n;
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
-	 */
+	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト */
 	var $action_form;
 
-	/**
-	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト(省略形)
-	 */
+	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト(省略形) */
 	var $af;
 
-	/**
-	 *	@var	object	Ethna_Session		セッションオブジェクト
-	 */
+	/**	@var	object	Ethna_Session		セッションオブジェクト */
 	var $session;
 
-	/**
-	 *	@var	array	テーブル定義
-	 */
+	/**	@var	array	テーブル定義 */
 	var	$table_def = array();
 
-	/**
-	 *	@var	array	プロパティ定義
-	 */
+	/**	@var	array	プロパティ定義 */
 	var	$prop_def = array();
 
-	/**
-	 *	@var	array	プロパティ
-	 */
+	/**	@var	array	プロパティ */
 	var	$prop = null;
 	var $prop_backup = null;
 
-	/** 
-	 *	@var	array	プライマリキー定義
-	 */
+	/** @var	array	プライマリキー定義 */
 	var	$id_def = null;
 
-	/**
-	 *	@var	int		オブジェクトID
-	 */
+	/**	@var	int		オブジェクトID */
 	var	$id = null;
 
 	/**#@-*/

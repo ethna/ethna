@@ -23,44 +23,28 @@ class Ethna_SOAP_WsdlGenerator
 	 *	@access	private
 	 */
 
-	/**
-	 *	@var	object	Ethna_Controller	controllerオブジェクト
-	 */
+	/**	@var	object	Ethna_Controller	controllerオブジェクト */
 	var	$controller;
 
-	/**
-	 *	@var	object	Ethna_Config		設定オブジェクト
-	 */
+	/**	@var	object	Ethna_Config		設定オブジェクト */
 	var	$config;
 
-	/**
-	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
-	 */
+	/**	@var	object	Ethna_ActionError	アクションエラーオブジェクト */
 	var	$action_error;
 
-	/**
-	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト(省略形)
-	 */
+	/**	@var	object	Ethna_ActionError	アクションエラーオブジェクト(省略形) */
 	var	$ae;
 
-	/**
-	 *	@var	string		WSDL
-	 */
+	/**	@var	string		WSDL */
 	var	$wsdl;
 
-	/**
-	 *	@var	string		ゲートウェイクラスコード
-	 */
+	/**	@var	string		ゲートウェイクラスコード */
 	var	$gateway;
 
-	/**
-	 *	@var	string		ゲートウェイクラス識別名
-	 */
+	/**	@var	string		ゲートウェイクラス識別名 */
 	var	$name;
 
-	/**
-	 *	@var	string		ゲートウェイクラスネームスペース
-	 */
+	/**	@var	string		ゲートウェイクラスネームスペース */
 	var	$namespace;
 
 	/**#@-*/
