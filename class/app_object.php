@@ -181,6 +181,7 @@ class Ethna_AppManager
 	 *	@param	int		$offset		検索結果取得オフセット
 	 *	@param	int		$count		検索結果取得数
 	 *	@return	mixed	array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトID一覧) Ethna_Error:エラー
+	 *	@todo	パフォーマンス対策(1オブジェクトの占有メモリが多い場合)
 	 */
 	function getObjectList($class, $filter = null, $order = null, $offset = null, $count = null)
 	{
