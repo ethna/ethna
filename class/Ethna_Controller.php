@@ -51,7 +51,7 @@ class Ethna_Controller
 		'etc'			=> 'etc',
 		'locale'		=> 'locale',
 		'log'			=> 'log',
-		'plugins'		=> array('plugins'),
+		'plugins'		=> array(),
 		'template'		=> 'template',
 		'template_c'	=> 'tmp',
 		'tmp'			=> 'tmp',
@@ -206,8 +206,19 @@ class Ethna_Controller
 		$this->base = BASE;
 
 		foreach ($this->directory as $key => $value) {
-			if ($value[0] != '/') {
-				$this->directory[$key] = $this->base . (empty($this->base) ? '' : '/') . $value;
+			if ($key == 'plugins') {
+				// Smartyプラグインディレクトリは配列で指定する
+				$tmp = array(SMARTY_DIR . 'plugins');
+				foreach (to_array($value) as $elt) {
+					if ($elt{0} != '/') {
+						$tmp[] = $this->base . (empty($this->base) ? '' : '/') . $elt;
+					}
+				}
+				$this->directory[$key] = $tmp;
+			} else {
+				if ($value{0} != '/') {
+					$this->directory[$key] = $this->base . (empty($this->base) ? '' : '/') . $value;
+				}
 			}
 		}
 		$this->i18n =& new Ethna_I18N($this->getDirectory('locale'), $this->getAppId());
@@ -531,6 +542,7 @@ class Ethna_Controller
 			mkdir($smarty->compile_dir, 0755);
 		}
 		$smarty->plugins_dir = $this->getDirectory('plugins');
+		var_dump($smarty->plugins_dir);
 
 		// default modifiers
 		$smarty->register_modifier('number_format', 'smarty_modifier_number_format');
