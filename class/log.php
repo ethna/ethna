@@ -137,6 +137,16 @@ class Ethna_Logger extends Ethna_AppManager
 	var $alert_mailaddress;
 
 	/**
+	 *	@var	string	メッセージフィルタ(出力)
+	 */
+	var $message_filter_do;
+
+	/**
+	 *	@var	string	メッセージフィルタ(無視)
+	 */
+	var $message_filter_ignore;
+
+	/**
 	 *	@var	object	Ethna_LogWriter	ログ出力オブジェクト
 	 */
 	var	$writer;
@@ -154,6 +164,7 @@ class Ethna_Logger extends Ethna_AppManager
 		$this->controller =& $controller;
 		$config =& $controller->getConfig();
 		
+		// ログ設定の取得
 		$this->level = $this->_parseLogLevel($config->get('log_level'));
 		if (is_null($this->level)) {
 			// 未設定ならLOG_WARNING
@@ -162,6 +173,8 @@ class Ethna_Logger extends Ethna_AppManager
 		$facility = $this->_parseLogFacility($config->get('log_facility'));
 		$file = sprintf('%s/%s.log', $controller->getDirectory('log'), strtolower($controller->getAppid()));
 		list($this->alert_mailaddress, $this->alert_level, $option) = $this->parseLogOption($config->get('log_option'));
+		$this->message_filter_do = $config->get('log_filter_do');
+		$this->message_filter_ignore = $config->get('log_filter_ignore');
 
 		if ($facility == LOG_FILE) {
 			$writer_class = "Ethna_LogWriter_File";
@@ -218,8 +231,14 @@ class Ethna_Logger extends Ethna_AppManager
 	 */
 	function log($level, $message)
 	{
+		// ログメッセージフィルタ(レベルフィルタに優先する)
+		$r = $this->_isMessageMask($message);
+		if ($r === false) {
+			return;
+		}
+
 		// ログレベルフィルタ
-		if ($this->_isLevelMask($this->level, $level)) {
+		if ($r !== true && $this->_isLevelMask($this->level, $level)) {
 			return;
 		}
 
@@ -318,6 +337,27 @@ class Ethna_Logger extends Ethna_AppManager
 		set_error_handler("ethna_error_handler");
 
 		return 0;
+	}
+
+	/**
+	 *	ログメッセージのマスクチェックを行う
+	 *
+	 *	@access	private
+	 *	@param	string	$message	ログメッセージ
+	 *	@return	mixed	true:強制出力 false:強制無視 null:スキップ
+	 */
+	function _isMessageMask($message)
+	{
+		$regexp_do = sprintf("/%s/", $this->message_filter_do);
+		$regexp_ignore = sprintf("/%s/", $this->message_filter_ignore);
+
+		if ($this->message_filter_do && preg_match($regexp_do, $message)) {
+			return true;
+		}
+		if ($this->message_filter_ignore && preg_match($regexp_ignore, $message)) {
+			return false;
+		}
+		return null;
 	}
 
 	/**
