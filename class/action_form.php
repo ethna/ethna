@@ -130,7 +130,8 @@ class Ethna_ActionForm
 				}
 			}
 
-			if ($value['type'] == VAR_TYPE_FILE) {
+			$type = to_array($value['type']);
+			if ($type[0] == VAR_TYPE_FILE) {
 				@$this->form_vars[$name] =& $_FILES[$name];
 			} else {
 				if (isset($http_vars[$name]) == false) {
@@ -339,8 +340,10 @@ class Ethna_ActionForm
 				if (count($valid_keys) == 0 && $value['required']) {
 					$this->ae->add(E_FORM_REQUIRED, $name, "{form}にファイルを選択して下さい");
 					continue;
+				} else if (count($valid_keys) == 0 && $value['required'] == false) {
+					continue;
 				}
-				
+
 				if (is_array($this->form_vars[$name]['tmp_name'])) {
 					if (is_array($value['type']) == false) {
 						// 単一指定のフォームに配列が渡されている
@@ -363,7 +366,7 @@ class Ethna_ActionForm
 						$this->_validate($name, $this->form_vars[$name][$key], $value);
 					}
 				} else {
-					if (is_array($value['type']) == false) {
+					if (is_array($value['type'])) {
 						// 配列指定のフォームにスカラー値が渡されている
 						$this->ae->add(E_FORM_WRONGTYPE_FILE, $name, "{form}には配列を入力してください");
 						continue;
@@ -566,7 +569,7 @@ class Ethna_ActionForm
 
 		// required
 		if ($type == VAR_TYPE_FILE) {
-			if ($def['required'] && $var == null || $var['size'] == 0) {
+			if ($def['required'] && ($var == null || $var['size'] == 0)) {
 				if ($test == false) {
 					$this->ae->add(E_FORM_REQUIRED, $name, "{form}を入力してください");
 				}

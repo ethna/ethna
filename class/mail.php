@@ -113,7 +113,7 @@ class Ethna_MailSender
 
 			// multipartÂÐ±þ
 			if ($attach != null) {
-				$boundary = Etuna_Util::getRandom(); 
+				$boundary = Ethna_Util::getRandom(); 
 
 				$body = "This is a multi-part message in MIME format.\n\n" .
 					"--$boundary\n" .
