@@ -148,7 +148,7 @@ class Ethna_AppObject
 		
 		// DBエラー
 		if (is_null($this->my_db_ro)) {
-			return Ethna::raiseError(E_DB_NODSN, "Ethna_AppObjectを利用するにはデータベース設定が必要です");
+			return Ethna::raiseError("Ethna_AppObjectを利用するにはデータベース設定が必要です", E_DB_NODSN);
 		} else if (Ethna::isError($db_list)) {
 			return $db_list;
 		}
@@ -328,7 +328,7 @@ class Ethna_AppObject
 	{
 		$method = "_dump_$type";
 		if (method_exists($this, $method) == false) {
-			return Ethna::raiseError(E_APP_NOMETHOD, "メソッド未定義[%s]", $method);
+			return Ethna::raiseError("メソッド未定義[%s]", E_APP_NOMETHOD, $method);
 		}
 
 		return $this->$method();
@@ -386,7 +386,7 @@ class Ethna_AppObject
 		}
 		if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
 			foreach ($duplicate_key_list as $k) {
-				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[%s]', $k);
+				return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
 			}
 		}
 
@@ -395,7 +395,7 @@ class Ethna_AppObject
 		if (Ethna::isError($r)) {
 			if ($r->getCode() == E_DB_DUPENT) {
 				// レースコンディション
-				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[キー不明]');
+				return Ethna::raiseNotice('重複エラー[キー不明]', E_APP_DUPENT);
 			} else {
 				return $error;
 			}
@@ -439,7 +439,7 @@ class Ethna_AppObject
 		}
 		if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
 			foreach ($duplicate_key_list as $k) {
-				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[%s]', $k);
+				return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
 			}
 		}
 
@@ -448,7 +448,7 @@ class Ethna_AppObject
 		if (DB::isError($r)) {
 			if ($r->getCode() == E_DB_DUPENT) {
 				// レースコンディション
-				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[キー不明]');
+				return Ethna::raiseNotice('重複エラー[キー不明]', E_APP_DUPENT);
 			} else {
 				return $error;
 			}
