@@ -434,25 +434,28 @@ function smarty_function_checkbox_list($params, &$smarty)
 	if (isset($value) == false) {
 		$value = null;
 	}
+	if (isset($checked) == false) {
+		$checked = "checked";
+	}
 
 	if (is_null($key) == false) {
 		if (isset($form[$key])) {
 			if (is_null($value)) {
-				print "checked";
+				print $checked;
 			} else {
 				if (strcmp($form[$key], $value) == 0) {
-					print "checked";
+					print $checked;
 				}
 			}
 		}
 	} else if (is_null($value) == false) {
 		if (is_array($form)) {
 			if (in_array($value, $form)) {
-				print "checked";
+				print $checked;
 			}
 		} else {
 			if (strcmp($value, $form) == 0) {
-				print "checked";
+				print $checked;
 			}
 		}
 	}

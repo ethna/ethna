@@ -69,7 +69,7 @@ class Ethna_Backend
 	var $session;
 
 	/**
-	 *	@var	object	Ethna_DB			DBオブジェクト
+	 *	@var	array	Ethna_DBオブジェクトを格納した配列
 	 */
 	var $db;
 
@@ -107,7 +107,7 @@ class Ethna_Backend
 		$this->af =& $this->action_form;
 
 		$this->session =& $controller->getSession();
-		$this->db = null;
+		$this->db = array();
 		$this->logger =& $this->controller->getLogger();
 
 		// マネージャオブジェクトの生成
@@ -369,12 +369,12 @@ class Ethna_Backend
 	 */
 	function &getDB($type = "")
 	{
-		$varname =& $this->_getDB($type);
-		if (Ethna::isError($this->$varname)) {
-			return $this->$varname;
+		$key =& $this->_getDB($type);
+		if (Ethna::isError($key)) {
+			return $key;
 		}
-		if ($this->$varname != null) {
-			return $this->$varname;
+		if (isset($this->db[$key]) && $this->db[$key] != null) {
+			return $this->db[$key];
 		}
 
 		$dsn = $this->controller->getDSN($type);
@@ -383,16 +383,16 @@ class Ethna_Backend
 			return null;
 		}
 
-		$this->$varname =& new Ethna_DB($dsn, false, $this->controller);
-		$r = $this->$varname->connect();
+		$this->db[$key] =& new Ethna_DB($dsn, false, $this->controller);
+		$r = $this->db[$key]->connect();
 		if (Ethna::isError($r)) {
-			$this->$varname = null;
+			$this->db[$key] = null;
 			return $r;
 		}
 
 		register_shutdown_function(array($this, 'shutdownDB'));
 
-		return $this->$varname;
+		return $this->db[$key];
 	}
 
 	/**
@@ -429,9 +429,11 @@ class Ethna_Backend
 	 */
 	function shutdownDB()
 	{
-		if ($this->db != null && $this->db->isValid()) {
-			$this->db->disconnect();
-			$this->db = null;
+		foreach (array_keys($this->db) as $key) {
+			if ($this->db[$key] != null && $this->db[$key]->isValid()) {
+				$this->db[$key]->disconnect();
+				unset($this->db[$key]);
+			}
 		}
 	}
 
@@ -443,10 +445,11 @@ class Ethna_Backend
 	 */
 	function begin()
 	{
-		if ($this->db == null || $this->db->isValid() == false) {
+		$db =& $this->db[""];
+		if ($db == null || $db->isValid() == false) {
 			$this->log(LOG_WARNING, "begin() with inactive DB object");
 		}
-		$this->db->begin();
+		$db->begin();
 	}
 
 	/**
@@ -457,10 +460,11 @@ class Ethna_Backend
 	 */
 	function rollback()
 	{
-		if ($this->db == null || $this->db->isValid() == false) {
+		$db =& $this->db[""];
+		if ($db == null || $db->isValid() == false) {
 			$this->log(LOG_WARNING, "rollback() with inactive DB object");
 		}
-		$this->db->rollback();
+		$db->rollback();
 	}
 
 	/**
@@ -471,10 +475,11 @@ class Ethna_Backend
 	 */
 	function commit()
 	{
-		if ($this->db == null || $this->db->isValid() == false) {
+		$db =& $this->db[""];
+		if ($db == null || $db->isValid() == false) {
 			$this->log(LOG_WARNING, "commit() with inactive DB object");
 		}
-		$this->db->commit();
+		$db->commit();
 	}
 
 	/**
@@ -492,12 +497,12 @@ class Ethna_Backend
 		}
 
 		if ($type == "") {
-			$varname = "db";
+			$key = "";
 		} else {
-			$varname = sprintf("db_%s", strtolower($type));
+			$key = sprintf("%s", strtolower($type));
 		}
 
-		return $varname;
+		return $key;
 	}
 }
 // }}}

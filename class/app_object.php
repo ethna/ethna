@@ -949,7 +949,7 @@ class Ethna_AppObject
 		// プライマリキーはmulti columnsになり得るので別扱い
 		if ($check_pkey) {
 			$sql = $this->_getSQL_Duplicate($this->id_def);
-			$r =& $this->my_db_ro->query($sql);
+			$r =& $this->my_db_rw->query($sql);
 			if (Ethna::isError($r)) {
 				return $r;
 			} else if ($r->numRows() > 0) {
@@ -963,7 +963,7 @@ class Ethna_AppObject
 				continue;
 			}
 			$sql = $this->_getSQL_Duplicate($k);
-			$r =& $this->my_db_ro->query($sql);
+			$r =& $this->my_db_rw->query($sql);
 			if (Ethna::isError($r)) {
 				return $r;
 			} else if ($r->NumRows() > 0) {
