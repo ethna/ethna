@@ -1,5 +1,17 @@
 * 変更点一覧
 
+** [current] 0.1.2-dev
+
+- フレームワークが発行するSQL文に一部残っていたセミコロンを削除
+- エントリポイント(index.php)に記述されたデフォルトアクション名の1要素目にアスタリスクが使用されていると、正しく動作しない(かもしれない)問題を修正~
+例(こんな場合):
+ <?php
+ include_once('../../app/Sample_Controller.php');
+ Sample_Controller::Main('Sample_Controller', array(
+  'login*',
+ ));
+ ?>
+
 ** [2004/12/10] 0.1.1
 
 - ビューオブジェクトのpreforward()が呼ばれないことがある問題を修正
