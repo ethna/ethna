@@ -1,6 +1,6 @@
 <?php
 /**
- *	{$view_path}.php
+ *	{$view_path}
  *
  *	@package	{$project_id}
  *
@@ -14,7 +14,7 @@
  *	@access		public
  *	@package	{$project_id}
  */
-class {$project_id}_View_{$view_name} extends Ethna_ViewClass
+class {$project_id}_View_{$view_class} extends Ethna_ViewClass
 {
 	/**
 	 *	遷移前処理
