@@ -324,29 +324,79 @@ class Ethna_ActionForm
 	function validate()
 	{
 		foreach ($this->form as $name => $value) {
-			if (is_array($this->form_vars[$name]) && isset($this->form_vars[$name]['name']) == false) {
-				if (is_array($value['type']) == false) {
-					// スカラー型指定のフォームに配列が渡されている
-					$this->ae->add(E_FORM_WRONGTYPE_SCALAR, $name, "{form}にはスカラー値を入力してください");
+			$type = to_array($value['type']);
+			if ($type[0] == VAR_TYPE_FILE) {
+				// ファイル検証
+				$tmp_name = to_array($this->form_vars[$name]['tmp_name']);
+				$valid_keys = array();
+				foreach ($tmp_name as $k => $v) {
+					if (is_uploaded_file($tmp_name[$k]) == false) {
+						// ファイル以外の値は無視
+						continue;
+					}
+					$valid_keys[] = $k;
+				}
+				if (count($valid_keys) == 0 && $value['required']) {
+					$this->ae->add(E_FORM_REQUIRED, $name, "{form}にファイルを選択して下さい");
 					continue;
 				}
+				
+				if (is_array($this->form_vars[$name]['tmp_name'])) {
+					if (is_array($value['type']) == false) {
+						// 単一指定のフォームに配列が渡されている
+						$this->ae->add(E_FORM_WRONGTYPE_FILE, $name, "{form}にはスカラー値を入力してください");
+						continue;
+					}
 
-				// 配列の各要素に対する変換/検証
-				foreach (array_keys($this->form_vars[$name]) as $key) {
-					$this->form_vars[$name][$key] = $this->_convert($this->form_vars[$name][$key], $value['convert']);
-					$this->_validate($name, $this->form_vars[$name][$key], $value);
+					// ファイルデータを再構成
+					$files = array();
+					foreach ($valid_keys as $k) {
+						$files[$k]['name'] = $this->form_vars[$name]['name'][$k];
+						$files[$k]['type'] = $this->form_vars[$name]['type'][$k];
+						$files[$k]['tmp_name'] = $this->form_vars[$name]['tmp_name'][$k];
+						$files[$k]['size'] = $this->form_vars[$name]['size'][$k];
+					}
+					$this->form_vars[$name] = $files;
+
+					// 配列の各要素に対する検証
+					foreach (array_keys($this->form_vars[$name]) as $key) {
+						$this->_validate($name, $this->form_vars[$name][$key], $value);
+					}
+				} else {
+					if (is_array($value['type']) == false) {
+						// 配列指定のフォームにスカラー値が渡されている
+						$this->ae->add(E_FORM_WRONGTYPE_FILE, $name, "{form}には配列を入力してください");
+						continue;
+					}
+					if (count($valid_keys) == 0) {
+						$this->form_vars[$name] = null;
+					}
+					$this->_validate($name, $this->form_vars[$name], $value);
 				}
 			} else {
-				if ($this->form_vars[$name] == null && is_array($value['type']) && $value['required'] == false) {
-					// 配列型で省略可のものは値自体が送信されてなくてもエラーとしない
-					continue;
+				if (is_array($this->form_vars[$name])) {
+					if (is_array($value['type']) == false) {
+						// スカラー型指定のフォームに配列が渡されている
+						$this->ae->add(E_FORM_WRONGTYPE_SCALAR, $name, "{form}にはスカラー値を入力してください");
+						continue;
+					}
+
+					// 配列の各要素に対する変換/検証
+					foreach (array_keys($this->form_vars[$name]) as $key) {
+						$this->form_vars[$name][$key] = $this->_convert($this->form_vars[$name][$key], $value['convert']);
+						$this->_validate($name, $this->form_vars[$name][$key], $value);
+					}
+				} else {
+					if ($this->form_vars[$name] == null && is_array($value['type']) && $value['required'] == false) {
+						// 配列型で省略可のものは値自体が送信されてなくてもエラーとしない
+						continue;
+					} else if (is_array($value['type'])) {
+						$this->ae->add(E_FORM_WRONGTYPE_ARRAY, $name, "{form}には配列を入力してください");
+						continue;
+					}
+					$this->form_vars[$name] = $this->_convert($this->form_vars[$name], $value['convert']);
+					$this->_validate($name, $this->form_vars[$name], $value);
 				}
-				if (is_array($value['type'])) {
-					$this->ae->add(E_FORM_WRONGTYPE_ARRAY, $name, "{form}には配列を入力してください");
-					continue;
-				}
-				$this->form_vars[$name] = $this->_convert($this->form_vars[$name], $value['convert']);
-				$this->_validate($name, $this->form_vars[$name], $value);
 			}
 		}
 
@@ -516,7 +566,7 @@ class Ethna_ActionForm
 
 		// required
 		if ($type == VAR_TYPE_FILE) {
-			if ($def['required'] && $var['size'] == 0) {
+			if ($def['required'] && $var == null || $var['size'] == 0) {
 				if ($test == false) {
 					$this->ae->add(E_FORM_REQUIRED, $name, "{form}を入力してください");
 				}

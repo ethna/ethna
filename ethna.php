@@ -199,50 +199,53 @@ define('E_FORM_WRONGTYPE_DATETIME', 132);
 /**	エラーコード: フォーム値型エラー(BOOL型) */
 define('E_FORM_WRONGTYPE_BOOLEAN', 133);
 
+/**	エラーコード: フォーム値型エラー(FILE型) */
+define('E_FORM_WRONGTYPE_FILE', 134);
+
 /**	エラーコード: フォーム値必須エラー */
-define('E_FORM_REQUIRED', 134);
+define('E_FORM_REQUIRED', 135);
 
 /**	エラーコード: フォーム値最小値エラー(整数型) */
-define('E_FORM_MIN_INT', 135);
+define('E_FORM_MIN_INT', 136);
 
 /**	エラーコード: フォーム値最小値エラー(浮動小数点数型) */
-define('E_FORM_MIN_FLOAT', 136);
+define('E_FORM_MIN_FLOAT', 137);
 
 /**	エラーコード: フォーム値最小値エラー(文字列型) */
-define('E_FORM_MIN_STRING', 137);
+define('E_FORM_MIN_STRING', 138);
 
 /**	エラーコード: フォーム値最小値エラー(日付型) */
-define('E_FORM_MIN_DATETIME', 138);
+define('E_FORM_MIN_DATETIME', 139);
 
 /**	エラーコード: フォーム値最小値エラー(ファイル型) */
-define('E_FORM_MIN_FILE', 139);
+define('E_FORM_MIN_FILE', 140);
 
 /**	エラーコード: フォーム値最大値エラー(整数型) */
-define('E_FORM_MAX_INT', 140);
+define('E_FORM_MAX_INT', 141);
 
 /**	エラーコード: フォーム値最大値エラー(浮動小数点数型) */
-define('E_FORM_MAX_FLOAT', 141);
+define('E_FORM_MAX_FLOAT', 142);
 
 /**	エラーコード: フォーム値最大値エラー(文字列型) */
-define('E_FORM_MAX_STRING', 142);
+define('E_FORM_MAX_STRING', 143);
 
 /**	エラーコード: フォーム値最大値エラー(日付型) */
-define('E_FORM_MAX_DATETIME', 143);
+define('E_FORM_MAX_DATETIME', 144);
 
 /**	エラーコード: フォーム値最大値エラー(ファイル型) */
-define('E_FORM_MAX_FILE', 144);
+define('E_FORM_MAX_FILE', 145);
 
 /**	エラーコード: フォーム値文字種(正規表現)エラー */
-define('E_FORM_REGEXP', 145);
+define('E_FORM_REGEXP', 146);
 
 /**	エラーコード: フォーム値数値(カスタムチェック)エラー */
-define('E_FORM_INVALIDVALUE', 146);
+define('E_FORM_INVALIDVALUE', 147);
 
 /**	エラーコード: フォーム値文字種(カスタムチェック)エラー */
-define('E_FORM_INVALIDCHAR', 147);
+define('E_FORM_INVALIDCHAR', 148);
 
 /**	エラーコード: 確認用エントリ入力エラー */
-define('E_FORM_CONFIRM', 148);
+define('E_FORM_CONFIRM', 149);
 
 
 if (defined('E_STRICT') == false) {
