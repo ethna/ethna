@@ -51,6 +51,7 @@ class Ethna_Controller
 		'etc'			=> 'etc',
 		'locale'		=> 'locale',
 		'log'			=> 'log',
+		'plugins'		=> array('plugins'),
 		'template'		=> 'template',
 		'template_c'	=> 'tmp',
 		'tmp'			=> 'tmp',
@@ -471,10 +472,10 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	実行中のaction名を返す
+	 *	実行中のアクション名を返す
 	 *
 	 *	@access	public
-	 *	@return	string	実行中のaction名
+	 *	@return	string	実行中のアクション名
 	 */
 	function getCurrentActionName()
 	{
@@ -529,6 +530,7 @@ class Ethna_Controller
 		if (@is_dir($smarty->compile_dir) == false) {
 			mkdir($smarty->compile_dir, 0755);
 		}
+		$smarty->plugins_dir = $this->getDirectory('plugins');
 
 		// default modifiers
 		$smarty->register_modifier('number_format', 'smarty_modifier_number_format');
@@ -641,8 +643,8 @@ class Ethna_Controller
 	 *	フレームワークの処理を開始する
 	 *
 	 *	引数$default_action_nameに配列が指定された場合、その配列で指定された
-	 *	action以外は受け付けない(それ以外のactionが指定された場合、配列の先頭
-	 *	で指定されたアクションが実行される)
+	 *	アクション以外は受け付けない(それ以外のアクションが指定された場合、
+	 *	配列の先頭で指定されたアクションが実行される)
 	 *
 	 *	@access	public
 	 *	@param	mixed	$default_action_name	指定のアクション名
@@ -651,10 +653,10 @@ class Ethna_Controller
 	 */
 	function trigger($default_action_name = "", $fallback_action_name = "")
 	{
-		// action名の取得
+		// アクション名の取得
 		$action_name = $this->_getActionName($default_action_name, $fallback_action_name);
 
-		// action設定の取得
+		// アクション定義の取得
 		$action_obj =& $this->_getAction($action_name);
 		if (is_null($action_obj)) {
 			if ($fallback_action_name != "") {
@@ -704,7 +706,7 @@ class Ethna_Controller
 	 */
 	function trigger_SOAP()
 	{
-		// action定義をinclude
+		// アクションスクリプトをインクルード
 		$this->_includeActionScript();
 
 		// SOAPエントリクラス
@@ -738,7 +740,7 @@ class Ethna_Controller
 		$backend =& new Ethna_Backend($this);
 		$this->backend =& $backend;
 
-		// action定義をinclude
+		// アクションスクリプトをインクルード
 		$this->_includeActionScript();
 
 		// amfphpに処理を委譲
@@ -760,11 +762,11 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	指定されたactionのフォームクラス名を返す(オブジェクトの生成は行わない)
+	 *	指定されたアクションのフォームクラス名を返す(オブジェクトの生成は行わない)
 	 *
 	 *	@access	public
-	 *	@param	string	$action_name	action名
-	 *	@return	string	action formのクラス名
+	 *	@param	string	$action_name	アクション名
+	 *	@return	string	アクションのフォームクラス名
 	 */
 	function getActionFormName($action_name)
 	{
@@ -777,11 +779,11 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	指定されたactionのクラス名を返す(オブジェクトの生成は行わない)
+	 *	指定されたアクションのクラス名を返す(オブジェクトの生成は行わない)
 	 *
 	 *	@access	public
-	 *	@param	string	$action_name	actionの名称
-	 *	@return	string	action classのクラス名
+	 *	@param	string	$action_name	アクションの名称
+	 *	@return	string	アクションのクラス名
 	 */
 	function getActionClassName($action_name)
 	{
@@ -794,9 +796,10 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	指定されたforwardに対応するビュークラス名を返す(オブジェクトの生成は行わない)
+	 *	指定された遷移名に対応するビュークラス名を返す(オブジェクトの生成は行わない)
 	 *
-	 *	ビュークラスはActionClassにpreforwardを実装したもの(非推奨)、あるいはViewClassを継承したものいずれかどちらでもよい(ViewClass推奨)
+	 *	ビュークラスはAction Classにpreforward()メソッドを実装したもの(非推奨)、
+	 *	あるいはViewClassを継承したものいずれかどちらでもよい(ViewClass推奨)
 	 *
 	 *	@access	public
 	 *	@param	string	$forward_name	遷移先の名称
@@ -841,7 +844,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	actionに対応するフォームクラス名が省略された場合のデフォルトクラス名を返す
+	 *	アクションに対応するフォームクラス名が省略された場合のデフォルトクラス名を返す
 	 *
 	 *	デフォルトでは[プロジェクトID]_Form_[アクション名]となるので好み応じてオーバライドする
 	 *
@@ -872,7 +875,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	actionに対応するフォームパス名が省略された場合のデフォルトパス名を返す
+	 *	アクションに対応するフォームパス名が省略された場合のデフォルトパス名を返す
 	 *
 	 *	デフォルトでは_getDefaultActionPath()と同じ結果を返す(1ファイルに
 	 *	アクションクラスとフォームクラスが記述される)ので、好みに応じて
@@ -889,7 +892,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	actionに対応するアクションクラス名が省略された場合のデフォルトクラス名を返す
+	 *	アクションに対応するアクションクラス名が省略された場合のデフォルトクラス名を返す
 	 *
 	 *	デフォルトでは[プロジェクトID]_Action_[アクション名]となるので好み応じてオーバライドする
 	 *
@@ -920,7 +923,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	actionに対応するアクションパス名が省略された場合のデフォルトパス名を返す
+	 *	アクションに対応するアクションパス名が省略された場合のデフォルトパス名を返す
 	 *
 	 *	デフォルトでは"foo_bar" -> "/Foo/Bar.php"となるので好み応じてオーバーライドする
 	 *
@@ -952,7 +955,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	forwardに対応するビュークラス名が省略された場合のデフォルトクラス名を返す
+	 *	遷移名に対応するビュークラス名が省略された場合のデフォルトクラス名を返す
 	 *
 	 *	デフォルトでは[プロジェクトID]_View_[遷移名]となるので好み応じてオーバライドする
 	 *
@@ -981,7 +984,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	forwardに対応するビューパス名が省略された場合のデフォルトパス名を返す
+	 *	遷移名に対応するビューパス名が省略された場合のデフォルトパス名を返す
 	 *
 	 *	デフォルトでは"foo_bar" -> "/Foo/Bar.php"となるので好み応じてオーバーライドする
 	 *
@@ -1011,11 +1014,11 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	実行するaction名を返す
+	 *	実行するアクション名を返す
 	 *
 	 *	@access	private
 	 *	@param	mixed	$default_action_name	指定のaction名
-	 *	@return	string	実行するaction名
+	 *	@return	string	実行するアクション名
 	 */
 	function _getActionName($default_action_name, $fallback_action_name)
 	{
@@ -1048,7 +1051,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	フォームにより要求されたaction名を返す
+	 *	フォームにより要求されたアクション名を返す
 	 *
 	 *	アプリケーションの性質に応じてこのメソッドをオーバーライドして下さい。
 	 *	デフォルトでは"action_"で始まるフォーム値の"action_"の部分を除いたもの
@@ -1098,11 +1101,11 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	フォームにより要求されたactionに対応する定義を返す
+	 *	フォームにより要求されたアクション名に対応する定義を返す
 	 *
 	 *	@access	private
-	 *	@param	string	$action_name	actionの名称
-	 *	@return	array	action定義
+	 *	@param	string	$action_name	アクション名
+	 *	@return	array	アクション定義
 	 */
 	function &_getAction($action_name)
 	{
@@ -1122,7 +1125,7 @@ class Ethna_Controller
 			$this->logger->log(LOG_DEBUG, "action [%s] is not defined -> try default", $action_name);
 		}
 
-		// actionのインクルード
+		// アクションスクリプトのインクルード
 		$this->_includeActionScript($action_obj, $action_name);
 
 		// 省略値の補正
@@ -1167,10 +1170,10 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	指定されたforward名に対応する画面を出力する
+	 *	指定された遷移名に対応する画面を出力する
 	 *
 	 *	@access	private
-	 *	@param	string	$forward_name	Forward名
+	 *	@param	string	$forward_name	遷移名
 	 *	@return	bool	0:正常終了 -1:エラー
 	 */
 	function _forward($forward_name)
@@ -1200,7 +1203,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	forward名からテンプレートファイルのパス名を取得する
+	 *	遷移名からテンプレートファイルのパス名を取得する
 	 *
 	 *	@access	private
 	 *	@param	string	$forward_name	forward名
@@ -1268,7 +1271,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	action定義ファイルをインクルードする
+	 *	アクションスクリプトをインクルードする
 	 *
 	 *	ただし、インクルードしたファイルにクラスが正しく定義されているかどうかは保証しない
 	 *
@@ -1337,7 +1340,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	view定義ファイルをインクルードする
+	 *	ビュースクリプトをインクルードする
 	 *
 	 *	ただし、インクルードしたファイルにクラスが正しく定義されているかどうかは保証しない
 	 *
@@ -1441,7 +1444,7 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	forwardに対応するテンプレートパス名が省略された場合のデフォルトパス名を返す
+	 *	遷移名に対応するテンプレートパス名が省略された場合のデフォルトパス名を返す
 	 *
 	 *	デフォルトでは"foo_bar"というforward名が"foo/bar" + テンプレート拡張子となる
 	 *	ので好み応じてオーバライドする
