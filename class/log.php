@@ -255,7 +255,7 @@ class Ethna_Logger extends Ethna_AppManager
 			if ($this->alert_mailaddress) {
 				$this->_alertMail($output);
 			}
-			$this->_alert();
+			$this->_alert($output);
 		}
 	}
 
