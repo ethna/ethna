@@ -2,7 +2,7 @@
 
 ** [current] 0.1.2-dev
 
-** features
+*** features
 
 - スクリプトを1ファイルにまとめるツール(bin/unify_script.php)を追加
 
