@@ -12,7 +12,7 @@
 
 // ディレクトリ環境設定
 $base = dirname(dirname(dirname(__FILE__)));
-ini_set('include_path', ini_get('include_path') . ":$base");
+ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . "$base");
 
 include_once('Ethna/Ethna.php');
 

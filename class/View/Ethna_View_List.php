@@ -32,6 +32,9 @@ class Ethna_View_List extends Ethna_ViewClass
 	/**	@var	array	検索対象項目一覧 */
 	var	$search_list = array();
 
+	/**	@var	string	検索マネージャクラス名 */
+	var	$manager_name = null;
+
 	/**	@var	string	表示対象クラス名 */
 	var	$class_name = null;
 
@@ -69,8 +72,9 @@ class Ethna_View_List extends Ethna_ViewClass
 		}
 
 		// 表示項目一覧
+		$manager_name = $this->manager_name;
 		for ($i = 0; $i < 2; $i++) {
-			list($total, $obj_list) = $this->um->getObjectList($this->class_name, $filter, $sort, $this->offset, $this->count);
+			list($total, $obj_list) = $this->$manager_name->getObjectList($this->class_name, $filter, $sort, $this->offset, $this->count);
 			if (count($obj_list) == 0 && $this->offset >= $total) {
 				$this->offset = 0;
 				continue;
