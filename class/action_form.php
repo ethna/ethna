@@ -87,16 +87,23 @@ class Ethna_ActionForm
 	 */
 	var $ae;
 
+	/**
+	 *	@var	object	Ethna_I18N	i18nオブジェクト
+	 */
+	var $i18n;
+
 	/**#@-*/
 
 	/**
 	 *	Ethna_ActionFormクラスのコンストラクタ
 	 *
 	 *	@access	public
-	 *	@param	object	Ethna_ActionError	$action_error	action errorオブジェクト
+	 *	@param	object	Ethna_ActionError	&$action_error	action errorオブジェクト
+	 *	@param	object	Ethna_I18N			&$i18n			i18nオブジェクト
 	 */
-	function Ethna_ActionForm(&$action_error)
+	function Ethna_ActionForm(&$action_error, &$i18n)
 	{
+		$this->i18n =& $i18n;
 		$this->action_error =& $action_error;
 		$this->ae =& $this->action_error;
 
@@ -129,17 +136,6 @@ class Ethna_ActionForm
 	}
 
 	/**
-	 *	フォーム項目名一覧を返す
-	 *
-	 *	@access	public
-	 *	@return	array	フォーム項目名一覧
-	 */
-	function getNameList()
-	{
-		return array_keys($this->form);
-	}
-
-	/**
 	 *	フォーム値のアクセサ(R)
 	 *
 	 *	@access	public
@@ -152,6 +148,26 @@ class Ethna_ActionForm
 			return $this->form_vars[$name];
 		}
 		return null;
+	}
+	/**
+
+	 *	フォーム項目表示名を取得する
+	 *
+	 *	@access	public
+	 *	@param	string	$name	フォーム値の名称
+	 *	@return	mixed	フォーム値の表示名
+	 */
+	function getName($name)
+	{
+		if (isset($this->form[$name]) == false) {
+			return null;
+		}
+		if (isset($this->form[$name]['name'])) {
+			return $this->form[$name]['name'];
+		}
+
+		// try message catalog
+		return $this->i18n->get($name);
 	}
 
 	/**

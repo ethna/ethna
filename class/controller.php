@@ -573,7 +573,7 @@ class Ethna_Controller
 		// オブジェクト生成
 		$this->action_error = new Ethna_ActionError($this->i18n);
 		$form_name = $this->getActionFormName($action_name);
-		$this->action_form = new $form_name($this->action_error);
+		$this->action_form = new $form_name($this->action_error, $this->i18n);
 		$this->session = new Ethna_Session($this->getAppId(), $this->getDirectory('tmp'), $this->action_error);
 
 		// バックエンド処理実行

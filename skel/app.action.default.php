@@ -21,6 +21,22 @@ class {$project_id}_Form_Index extends Ethna_ActionForm
 	 *	@var	array	フォーム値定義
 	 */
 	var	$form = array(
+		/*
+		 *	TODO: このアクションが使用するフォーム値定義を記述してください
+		 *
+		 *	記述例：
+		 *
+		 *	'sample' => array(
+		 *		'name'			=> 'サンプル',		// 表示名
+		 *		'required'      => true,			// 必須オプション(true/false)
+		 *		'min'           => null,			// 最小値
+		 *		'max'           => null,			// 最大値
+		 *		'regexp'        => null,			// 文字種指定(正規表現)
+		 *		'custom'        => null,			// メソッドによるチェック
+		 *		'convert'       => null,			// 入力値自動変換オプション
+		 *		'type'          => VAR_TYPE_INT,	// 入力値型
+		 *	),
+		 */
 	);
 }
 
