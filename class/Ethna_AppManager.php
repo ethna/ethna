@@ -160,11 +160,25 @@ class Ethna_AppManager
 	 */
 	function getObjectList($class, $filter = null, $order = null, $offset = null, $count = null)
 	{
+		global $_ETHNA_APP_MANAGER_OL_CACHE;
+
 		$object_list = array();
 		$class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
 
-		$tmp =& new $class_name($this->backend);
-		list($length, $prop_list) = $tmp->searchProp(null, $filter, $order, $offset, $count);
+		// キャッシュチェック
+		$cache_class = strtolower($class_name);
+		if (is_array($_ETHNA_APP_MANAGER_OL_CACHE) == false || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OL_CACHE) == false) {
+			$_ETHNA_APP_MANAGER_OL_CACHE[$cache_class] = array();
+		}
+		$cache_key = serialize(array($filter, $order, $offset, $count));
+		if (array_key_exists($cache_key, $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class])) {
+			list($length, $prop_list) = $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key];
+		} else {
+			// キャッシュ更新
+			$tmp =& new $class_name($this->backend);
+			list($length, $prop_list) = $tmp->searchProp(null, $filter, $order, $offset, $count);
+			$_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key] = array($length, $prop_list);
+		}
 
 		foreach ($prop_list as $prop) {
 			$object =& new $class_name($this->backend, null, null, $prop);
@@ -192,11 +206,26 @@ class Ethna_AppManager
 	 */
 	function getObjectPropList($class, $keys = null, $filter = null, $order = null, $offset = null, $count = null)
 	{
+		global $_ETHNA_APP_MANAGER_OPL_CACHE;
+
 		$prop_list = array();
 		$class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
 
-		$tmp =& new $class_name($this->backend);
-		return $tmp->searchProp($keys, $filter, $order, $offset, $count);
+		// キャッシュチェック
+		$cache_class = strtolower($class_name);
+		if (is_array($_ETHNA_APP_MANAGER_OPL_CACHE) == false || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OPL_CACHE) == false) {
+			$_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class] = array();
+		}
+		$cache_key = serialize(array($filter, $order, $offset, $count));
+		if (array_key_exists($cache_key, $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class])) {
+			// skip
+		} else {
+			// キャッシュ更新
+			$tmp =& new $class_name($this->backend);
+			$_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class][$cache_key] = $tmp->searchProp($keys, $filter, $order, $offset, $count);
+		}
+
+		return $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class][$cache_key];
 	}
 
 	/**
@@ -213,16 +242,27 @@ class Ethna_AppManager
 	 */
 	function getObjectProp($class, $keys = null, $filter = null)
 	{
+		global $_ETHNA_APP_MANAGER_OP_CACHE;
+
 		$prop_list = array();
 		$class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
 
-		$tmp =& new $class_name($this->backend);
-		list(, $prop) = $tmp->searchProp($keys, $filter);
-		if (count($prop) > 0) {
-			return $prop[0];
-		} else {
-			return null;
+		// キャッシュチェック
+		$cache_class = strtolower($class_name);
+		if (is_array($_ETHNA_APP_MANAGER_OP_CACHE) == false || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OP_CACHE) == false) {
+			$_ETHNA_APP_MANAGER_OP_CACHE[$cache_class] = array();
 		}
+		$cache_key = serialize(array($filter));
+		if (array_key_exists($cache_key, $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class])) {
+			// skip
+		} else {
+			// キャッシュ更新
+			$tmp =& new $class_name($this->backend);
+			list(, $prop) = $tmp->searchProp($keys, $filter);
+			$_ETHNA_APP_MANAGER_OP_CACHE[$cache_class][$cache_key] = count($prop) > 0 ? $prop[0] : null;
+		}
+
+		return $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class][$cache_key];
 	}
 }
 // }}}

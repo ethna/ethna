@@ -449,7 +449,12 @@ class Ethna_AppObject
 			$this->backend->log(LOG_DEBUG, "update query with 0 updated rows");
 		}
 
+		// バックアップ/キャッシュ更新
 		$this->prop_backup = $this->prop;
+		unset($GLOBALS['_ETHNA_APP_OBJECT_CACHE'][strtolower(get_class($this))]);
+		unset($GLOBALS['_ETHNA_APP_MANAGER_OL_CACHE'][strtolower(get_class($this))]);
+		unset($GLOBALS['_ETHNA_APP_MANAGER_OPL_CACHE'][strtolower(get_class($this))]);
+		unset($GLOBALS['_ETHNA_APP_MANAGER_OP_CACHE'][strtolower(get_class($this))]);
 
 		return 0;
 	}
@@ -486,6 +491,7 @@ class Ethna_AppObject
 				}
 			}
 		}
+		
 		return $r;
 	}
 
@@ -503,7 +509,12 @@ class Ethna_AppObject
 			return $r;
 		}
 
+		// プロパティ/バックアップ/キャッシュクリア
 		$this->id = $this->prop = $this->prop_backup = null;
+		unset($GLOBALS['_ETHNA_APP_OBJECT_CACHE'][strtolower(get_class($this))]);
+		unset($GLOBALS['_ETHNA_APP_MANAGER_OL_CACHE'][strtolower(get_class($this))]);
+		unset($GLOBALS['_ETHNA_APP_MANAGER_OPL_CACHE'][strtolower(get_class($this))]);
+		unset($GLOBALS['_ETHNA_APP_MANAGER_OP_CACHE'][strtolower(get_class($this))]);
 
 		return 0;
 	}
@@ -623,6 +634,8 @@ class Ethna_AppObject
 	 */
 	function _setPropByDB($key_type, $key)
 	{
+		global $_ETHNA_APP_OBJECT_CACHE;
+
 		$key_type = to_array($key_type);
 		$key = to_array($key);
 		if (count($key_type) != count($key)) {
@@ -634,6 +647,17 @@ class Ethna_AppObject
 				trigger_error("Invalid key_type [$elt]", E_USER_ERROR);
 				return;
 			}
+		}
+
+		// キャッシュチェック
+		$class_name = strtolower(get_class($this));
+		if (is_array($_ETHNA_APP_OBJECT_CACHE) == false || array_key_exists($class_name, $_ETHNA_APP_OBJECT_CACHE) == false) {
+			$_ETHNA_APP_OBJECT_CACHE[$class_name] = array();
+		}
+		$cache_key = serialize(array($key_type, $key));
+		if (array_key_exists($cache_key, $_ETHNA_APP_OBJECT_CACHE[$class_name])) {
+			$this->prop = $_ETHNA_APP_OBJECT_CACHE[$class_name][$cache_key];
+			return;
 		}
 
 		// SQL文構築
@@ -656,6 +680,9 @@ class Ethna_AppObject
 			return;
 		}
 		$this->prop = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+		// キャッシュアップデート
+		$_ETHNA_APP_OBJECT_CACHE[$class_name][$cache_key] = $this->prop;
 	}
 
 	/**

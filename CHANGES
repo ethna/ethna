@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_AppObject/Ethna_AppManagerにキャッシュ機構を追加(experimental)
 - メールテンプレートエンジンのフックメソッドを追加
 - MIMEエンコード用ユーティリティメソッドを追加
 - include_pathのセパレータのwin32対応
