@@ -1111,9 +1111,7 @@ class Ethna_AppObject
 
 			if (is_object($v)) {
 				// Ethna_AppSearchObjectが指定されている場合
-				$tmp = $v->value;
-				Ethna_AppSQL::escapeSQL($tmp);
-				$condition .= Ethna_AppSQL::getCondition("$t.$k", $tmp, $v->condition);
+				$condition .= $v->toString("$t.$k");
 			} else if (is_array($v) && count($v) > 0 && is_object($v[0])) {
 				// Ethna_AppSearchObjectが配列で指定されている場合
 				$n = 0;
@@ -1121,9 +1119,7 @@ class Ethna_AppObject
 					if ($n > 0) {
 						$condition .= " AND ";
 					}
-					$tmp = $so->value;
-					Ethna_AppSQL::escapeSQL($tmp);
-					$condition .= Ethna_AppSQL::getCondition("$t.$k", $tmp, $so->condition);
+					$condition .= $so->toStrong("$t.$k");
 					$n++;
 				}
 			} else if ($prop_def[$k]['type'] == VAR_TYPE_STRING) {

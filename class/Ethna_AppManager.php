@@ -21,28 +21,6 @@ define('OBJECT_SORT_ASC', 0);
 define('OBJECT_SORT_DESC', 1);
 
 
-/** アプリケーションオブジェクト検索条件: != */
-define('OBJECT_CONDITION_NE', 0);
-
-/** アプリケーションオブジェクト検索条件: == */
-define('OBJECT_CONDITION_EQ', 1);
-
-/** アプリケーションオブジェクト検索条件: LIKE */
-define('OBJECT_CONDITION_LIKE', 2);
-
-/** アプリケーションオブジェクト検索条件: > */
-define('OBJECT_CONDITION_GT', 3);
-
-/** アプリケーションオブジェクト検索条件: < */
-define('OBJECT_CONDITION_LT', 4);
-
-/** アプリケーションオブジェクト検索条件: >= */
-define('OBJECT_CONDITION_GE', 5);
-
-/** アプリケーションオブジェクト検索条件: <= */
-define('OBJECT_CONDITION_LE', 6);
-
-
 /** アプリケーションオブジェクトインポートオプション: NULLプロパティ無変換 */
 define('OBJECT_IMPORT_IGNORE_NULL', 1);
 

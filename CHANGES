@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_AppSearchObjectの複合条件対応
 - Ethna_ClassFactoryクラスを追加
 - Ethna_Controllerのbackend, i18n, session, action_errorメンバを廃止
 - Ethna_Controller::getClass()メソッドを廃止
