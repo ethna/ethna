@@ -50,7 +50,7 @@ class {$action_class} extends Ethna_ActionClass
 	 *	{$action_name}アクションの前処理
 	 *
 	 *	@access	public
-	 *	@return	string		Forward先(正常終了ならnull)
+	 *	@return	string		遷移名(正常終了ならnull, 処理終了ならfalse)
 	 */
 	function prepare()
 	{
