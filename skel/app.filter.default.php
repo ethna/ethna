@@ -33,7 +33,7 @@ class {$project_id}_Filter_ExecutionTime extends Ethna_Filter
 	 *
 	 *	@access	public
 	 */
-	function prefilter()
+	function preFilter()
 	{
 		$stime = explode(' ', microtime());
 		$stime = $stime[1] + $stime[0];
@@ -45,7 +45,7 @@ class {$project_id}_Filter_ExecutionTime extends Ethna_Filter
 	 *
 	 *	@access	public
 	 */
-	function postfilter()
+	function postFilter()
 	{
 		$etime = explode(' ', microtime());
 		$etime = $etime[1] + $etime[0];
