@@ -8,13 +8,30 @@
  */
 
 /**
+ *	indexフォームの実装
+ *
+ *	@author		yourname
+ *	@access		public
+ *	@package	{$project_id}
+ */
+class {$project_id}_Form_Index extends Ethna_ActionClass
+{
+	/**
+	 *	@access	private
+	 *	@var	array	フォーム値定義
+	 */
+	var	$form = array(
+	);
+}
+
+/**
  *	indexアクションの実装
  *
  *	@author		yourname
  *	@access		public
  *	@package	{$project_id}
  */
-class IndexClass extends Ethna_ActionClass
+class {$project_id}_Action_Index extends Ethna_ActionClass
 {
 	/**
 	 *	indexアクションの前処理
