@@ -76,11 +76,12 @@ class Ethna_Util
 		Ethna_Util::purgeTmp("uniqid_", 60*60*1);
 
 		$filename = sprintf("%s/uniqid_%s_%s", $c->getDirectory('tmp'), $_SERVER['REMOTE_ADDR'], $uniqid);
-		$st = @stat($filename);
-		if ($st == false) {
+		if (file_exists($filename) == false) {
 			touch($filename);
 			return false;
 		}
+
+		$st = stat($filename);
 		if ($st[9] + 60*60*1 < time()) {
 			// too old
 			return false;
