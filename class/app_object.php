@@ -144,10 +144,11 @@ class Ethna_AppManager
 		if (is_array($this->$varname) == false) {
 			return null;
 		}
-		if (isset($this->$varname[$id]['name']) == false) {
+		$list =& $this->$varname;
+		if (isset($list[$id]) == false) {
 			return null;
 		}
-		return $this->$varname[$id]['name'];
+		return $list[$id]['name'];
 	}
 
 	/**

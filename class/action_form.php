@@ -359,6 +359,26 @@ class Ethna_ActionForm
 	}
 
 	/**
+	 *	チェックメソッド(基底クラス)
+	 *
+	 *	@access	public
+	 *	@param	string	$name	フォーム項目名
+	 *	@return	array	チェック対象のフォーム値(エラーが無い場合はnull)
+	 */
+	function check($name)
+	{
+		if (is_null($this->form_vars[$name]) || $this->form_vars[$name] === "") {
+			return null;
+		}
+
+		// Ethna_Backendの設定
+		$c =& $GLOBALS['controller'];
+		$this->backend =& $c->getBackend();
+
+		return to_array($this->form_vars[$name]);
+	}
+
+	/**
 	 *	チェックメソッド: 機種依存文字
 	 *
 	 *	@access	public
@@ -381,7 +401,7 @@ class Ethna_ActionForm
 				$i += 2;
 			} else if ($c == 0xad || ($c >= 0xf9 && $c <= 0xfc)) {
 				/* IBM拡張文字 / NEC選定IBM拡張文字 */
-				return new Ethna_Error(E_FORM_INVALIDCHAR, $name, 'vendor dependent chars in %s', $name);
+				return $this->ad->add(E_FORM_INVALIDCHAR, $name, '{form}に機種依存文字が入力されています');
 			} else {
 				$i++;
 			}
@@ -399,14 +419,13 @@ class Ethna_ActionForm
 	 */
 	function &checkMailaddress($name)
 	{
-		if (is_null($this->form_vars[$name]) || $this->form_vars[$name] === "") {
+		$form_vars = $this->check($name);
+		if ($form_vars == null) {
 			return null;
 		}
-
-		$vars = to_array($this->form_vars[$name]);
-		foreach ($vars as $v) {
+		foreach ($form_vars as $v) {
 			if (Ethna_Util::checkMailaddress($v) == false) {
-				return new Ethna_Error(E_FORM_INVALIDCHAR, $name, 'invalid characters in %s', $name);
+				return $this->ae->add(E_FORM_INVALIDCHAR, $name, '{form}を正しく入力してください');
 			}
 		}
 		return null;
@@ -421,14 +440,13 @@ class Ethna_ActionForm
 	 */
 	function &checkURL($name)
 	{
-		if (is_null($this->form_vars[$name]) || $this->form_vars[$name] === "") {
+		$form_vars = $this->check($name);
+		if ($form_vars == null) {
 			return null;
 		}
-
-		$vars = to_array($this->form_vars[$name]);
-		foreach ($vars as $v) {
+		foreach ($form_vars as $v) {
 			if (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/)/', $v) == 0) {
-				return new Ethna_Error(E_FORM_INVALIDCHAR, $name, 'invalid characters in %s', $name);
+				return $this->ae->add(E_FORM_INVALIDCHAR, $name, '{form}を正しく入力してください');
 			}
 		}
 		return null;
@@ -650,7 +668,7 @@ class Ethna_ActionForm
 		if ($def['custom'] != null) {
 			$error =& $this->{$def['custom']}($name);
 			if ($error != null) {
-				if ($tets == false) {
+				if ($test == false) {
 					$this->ae->addObject($error);
 				}
 				return false1;

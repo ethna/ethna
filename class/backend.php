@@ -272,7 +272,7 @@ class Ethna_Backend
 	 *
 	 *	@access	public
 	 *	@param	string	$action_name	実行するアクションの名称
-	 *	@return	string	Forward名(nullならforwardしない)
+	 *	@return	mixed	(string):Forward名(nullならforwardしない) Ethna_Error:エラー
 	 */
 	function perform($action_name)
 	{
@@ -281,6 +281,8 @@ class Ethna_Backend
 		$action_class_name = $this->controller->getActionClassName($action_name);
 		if ($action_class_name == null) {
 			return null;
+		} else if (class_exists($action_class_name) == false) {
+			return Ethna::raiseError(E_APP_UNDEFINED_ACTIONCLASS, "未定義のアクションクラス[%s]", $action_class_name);
 		}
 		$action_class =& new $action_class_name($this);
 

@@ -68,9 +68,10 @@ class Ethna_Util
 		}
 
 		// purge old files
-		Etuna_Util::_purgeTmp("uniqid_", 60*60*1);
+		Ethna_Util::_purgeTmp("uniqid_", 60*60*1);
 
 		$filename = sprintf("%s/uniqid_%s_%s", $c->getDirectory('tmp'), $_SERVER['REMOTE_ADDR'], $uniqid);
+		print $filename;
 		$st = @stat($filename);
 		if ($st == false) {
 			touch($filename);
@@ -373,11 +374,11 @@ class Ethna_Util
 	/**
 	 *	テンポラリディレクトリのファイルを削除する
 	 *
-	 *	@access	public
+	 *	@access	private
 	 *	@param	string	$prefix		ファイルのプレフィクス
 	 *	@param	int		$timeout	削除対象閾値(秒−60*60*1なら1時間)
 	 */
-	function purgeTmp($prefix, $timeout)
+	function _purgeTmp($prefix, $timeout)
 	{
 		$c =& $GLOBALS['controller'];
 

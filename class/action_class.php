@@ -71,6 +71,7 @@ class Ethna_ActionClass
 	 */
 	function Ethna_ActionClass(&$backend)
 	{
+		$c =& $backend->getController();
 		$this->backend =& $backend;
 		$this->config =& $this->backend->getConfig();
 		$this->i18n =& $this->backend->getI18N();
@@ -82,6 +83,12 @@ class Ethna_ActionClass
 		$this->af =& $this->action_form;
 
 		$this->session =& $this->backend->getSession();
+
+		// Ethna_AppManagerオブジェクトの設定
+		$manager_list = $c->getManagerList();
+		foreach ($manager_list as $k => $v) {
+			$this->$k = $backend->getManager($v);
+		}
 	}
 
 	/**

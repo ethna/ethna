@@ -186,7 +186,7 @@ class Ethna_Error
  *	Ethna_Errorクラスのみ)
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
- *	@access		private
+ *	@access		public
  *	@package	Ethna
  */
 class Ethna_AppError extends Ethna_Error

@@ -51,6 +51,7 @@ class Ethna_Controller
 		'log'			=> 'log',
 		'template'		=> 'template',
 		'template_c'	=> 'tmp',
+		'tmp'			=> 'tmp',
 	);
 
 	/**
@@ -542,8 +543,7 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@param	mixed	$default_action_name	指定のアクション名
-	 *	@return	mixed	0:正常終了 -1:エラー
-	 *	@todo	未サポートのactionが指定された場合のエラー処理
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function trigger($default_action_name = "")
 	{
@@ -557,8 +557,7 @@ class Ethna_Controller
 				$action_obj =& $this->_getAction($default_action_name);
 			}
 			if ($action_obj == null) {
-				trigger_error(sprintf("unsupported action [%s]", $action_name), E_USER_ERROR);
-				return -1;
+				return Ethna::raiseError(E_APP_DEFINED_ACTION, "未定義のアクション[%s]", $action_name);
 			} else {
 				$action_name = $default_action_name;
 			}
@@ -580,6 +579,10 @@ class Ethna_Controller
 		$backend =& new Ethna_Backend($this);
 		$this->backend =& $backend;
 		$forward_name = $backend->perform($action_name);
+		if (Ethna::isError($forward_name)) {
+			// (アプリケーションではなく)フレームワーク上でのエラー
+			return $forward_name;
+		}
 
 		// forward前処理実行
 		if (isset($this->forward[$forward_name]) &&

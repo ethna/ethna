@@ -595,14 +595,15 @@ class Ethna_LogWriter
 	function _getFunctionName()
 	{
 		$skip_method_list = array(
+			array('ethna', 'raise*'),
 			array('ethna_logger', null),
 			array('ethna_logwriter_*', null),
 			array('ethna_error', null),
 			array('ethna_apperror', null),
 			array('ethna_actionerror', null),
-			array('ethna', 'raise*'),
-			array(null, 'ethna_error_handler'),
 			array('ethna_backend', 'log'),
+			array(null, 'ethna_error_handler'),
+			array(null, 'trigger_error'),
 		);
 
 		if ($this->have_backtrace == false) {
