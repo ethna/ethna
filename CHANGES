@@ -8,6 +8,7 @@
 
 *** bug fixes
 
+- safe_mode=onの場合にuid/gid warningが発生する(可能性のある)問題を修正
 - 不要な参照渡しを削除
 - その他細かな修正(elseif -> else if等)
 - PATH_SEPARATOR/DIRECTORY_SEPARATORが未定義の場合(PHP 4.1.x等)の問題を修正
