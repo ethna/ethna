@@ -219,6 +219,14 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
 	$i = "$break" . str_repeat(" ", $indent);
 	$tmp = $string;
 	do {
+		$n = strpos($tmp, $break);
+		if ($n < $width) {
+			$s = substr($tmp, 0, $n);
+			$r .= $s . $i;
+			$tmp = substr($tmp, strlen($s) + strlen($break));
+			continue;
+		}
+
 		$s = mb_strimwidth($tmp, 0, $width, "", "EUC-JP");
 
 		// EUC-JPのみ対応
