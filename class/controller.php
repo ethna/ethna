@@ -274,11 +274,15 @@ class Ethna_Controller
 	function getTemplatedir()
 	{
 		$template = $this->getDirectory('template');
-		if ($this->client_type != null && file_exists($template . '/' . $this->client_type)) {
-			$template .= '/' . $this->client_type;
-		}
+
+		// 言語別ディレクトリ
 		if (file_exists($template . '/' . $this->language)) {
 			$template .= '/' . $this->language;
+		}
+
+		// クライアント別ディレクトリ(if we need)
+		if ($this->client_type == CLIENT_TYPE_MOBILE_AU && file_exists($template . '/au')) {
+			$template .= '/au';
 		}
 
 		return $template;
@@ -483,7 +487,10 @@ class Ethna_Controller
 	{
 		$smarty =& new Smarty();
 		$smarty->template_dir = $this->getTemplatedir();
-		$smarty->compile_dir = $this->getDirectory('template_c');
+		$smarty->compile_dir = $this->getDirectory('template_c') . '/tpl_' . md5($smarty->template_dir);
+		if (@is_dir($smarty->compile_dir) == false) {
+			mkdir($smarty->compile_dir, 0755);
+		}
 
 		// default modifiers
 		$smarty->register_modifier('number_format', 'smarty_modifier_number_format');
@@ -527,10 +534,12 @@ class Ethna_Controller
 	 *	@param	mixed	$action_name	指定のアクション名(省略可)
 	 *	@static
 	 */
-	function main($class_name, $action_name = "")
+	function main($class_name, $action_name = "", $client_type = null)
 	{
 		$c =& new $class_name;
-		$c->setClientType(CLIENT_TYPE_WWW);
+		if ($client_type != null) {
+			$c->setClientType($client_type);
+		}
 		$c->trigger($action_name);
 	}
 
@@ -629,11 +638,7 @@ class Ethna_Controller
 		}
 
 		// forward前処理実行
-		if (isset($this->forward[$forward_name]) &&
-			isset($this->forward[$forward_name]['preforward_name']) &&
-			class_exists($this->forward[$forward_name]['preforward_name'])) {
-			$backend->preforward($this->forward[$forward_name]['preforward_name']);
-		}
+		$backend->preforward($forward_name);
 
 		if ($forward_name != null) {
 			if ($this->_forward($forward_name) != 0) {
@@ -716,8 +721,13 @@ class Ethna_Controller
 	function getActionFormName($action_name)
 	{
 		$action_obj =& $this->_getAction($action_name);
-		if ($action_obj == null) {
+		if (is_null($action_obj)) {
 			return null;
+		}
+
+		// 省略値補完
+		if (isset($action_obj['form_name']) == false) {
+			$action_obj['form_name'] = $this->_getDefaultFormClass($action_name);
 		}
 
 		if (class_exists($action_obj['form_name'])) {
@@ -742,7 +752,49 @@ class Ethna_Controller
 			return null;
 		}
 
+		// 省略値補完
+		if (isset($action_obj['class_name']) == false) {
+			$action_obj['class_name'] = $this->_getDefaultActionClass($action_name);
+		}
+
 		return $action_obj['class_name'];
+	}
+
+	/**
+	 *	指定されたforwardに対応するビュークラス名を返す(オブジェクトの生成は行わない)
+	 *
+	 *	ビュークラスはActionClassにpreforwardを実装したもの、あるいはViewClassを継承したものいずれかどちらでもよい(ViewClass推奨)
+	 *
+	 *	@access	public
+	 *	@param	string	$forward_name	遷移先の名称
+	 *	@return	string	view classのクラス名
+	 */
+	function getViewClassName($forward_name)
+	{
+		if ($forward_name == null) {
+			return null;
+		}
+
+		$class_name = null;
+		if (isset($this->forward[$forward_name]) && isset($this->forward[$forward_name]['preforward_name'])) {
+			$class_name = $this->forward[$forward_name]['preforward_name'];
+			if (class_exists($class_name) == false) {
+				$this->backend->log(LOG_WARNING, 'specified preforward class [%s] is not defined -> falling back to default', $class_name);
+			} else {
+				return $class_name;
+			}
+		}
+
+		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($forward_name));
+
+		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$tmp = sprintf("%s_MobileAUView_%s", $this->getAppId(), $postfix);
+			if (class_exists($tmp)) {
+				return $tmp;
+			}
+		}
+
+		return sprintf("%s_View_%s", $this->getAppId(), $postfix);
 	}
 
 	/**
@@ -814,26 +866,14 @@ class Ethna_Controller
 	 */
 	function &_getAction($action_name)
 	{
-		if ($this->client_type == CLIENT_TYPE_WWW) {
-			$action =& $this->action;
-		} else if ($this->client_type == CLIENT_TYPE_SOAP) {
+		if ($this->client_type == CLIENT_TYPE_SOAP) {
 			$action =& $this->soap_action;
+		} else {
+			$action =& $this->action;
 		}
 
 		if (isset($action[$action_name]) == false) {
-			if ($action_name != null) {
-				return null;
-			}
-
 			return null;
-		}
-
-		// 省略値補完
-		if (isset($action[$action_name]['form_name']) == false) {
-			$action[$action_name]['form_name'] = $this->_getDefaultFormClass($action_name);
-		}
-		if (isset($action[$action_name]['class_name']) == false) {
-			$action[$action_name]['class_name'] = $this->_getDefaultActionClass($action_name);
 		}
 
 		return $action[$action_name];
@@ -1012,11 +1052,18 @@ class Ethna_Controller
 	 */
 	function _getDefaultFormClass($action_name)
 	{
-		return sprintf("%s_%sForm_%s",
-			$this->getAppId(),
-			$this->getClientType() == CLIENT_TYPE_SOAP ? "S" : "",
-			preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name))
-		);
+		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
+
+		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
+			return sprintf("%s_SOAPForm_%s", $this->getAppId(), $postfix);
+		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$tmp = sprintf("%s_MobileAUForm_%s", $this->getAppId(), $postfix);
+			if (class_exists($tmp)) {
+				return $tmp;
+			}
+		}
+
+		return sprintf("%s_Form_%s", $this->getAppId(), $postfix);
 	}
 
 	/**
@@ -1030,11 +1077,18 @@ class Ethna_Controller
 	 */
 	function _getDefaultActionClass($action_name)
 	{
-		return sprintf("%s_%sAction_%s",
-			$this->getAppId(),
-			$this->getClientType() == CLIENT_TYPE_SOAP ? "S" : "",
-			preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name))
-		);
+		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
+
+		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
+			return sprintf("%s_SOAPAction_%s", $this->getAppId(), $postfix);
+		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$tmp = sprintf("%s_MobileAUAction_%s", $this->getAppId(), $postfix);
+			if (class_exists($tmp)) {
+				return $tmp;
+			}
+		}
+
+		return sprintf("%s_Action_%s", $this->getAppId(), $postfix);
 	}
 
 	/**

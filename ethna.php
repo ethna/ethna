@@ -98,6 +98,9 @@ define('CLIENT_TYPE_SOAP', 2);
 /**	クライアントタイプ: Flash Player (with Flash Remoting) */
 define('CLIENT_TYPE_AMF', 3);
 
+/**	クライアントタイプ: モバイル(AU) */
+define('CLIENT_TYPE_MOBILE_AU', 4);
+
 
 /** DB種別定義: R/W */
 define('DB_TYPE_RW', 1);

@@ -336,12 +336,17 @@ class Ethna_Backend
 	 *	画面表示前処理を行う
 	 *
 	 *	@access	public
-	 *	@param	string	$action_class_name	forward名に関連付けられたaction class名
+	 *	@param	string	$forward_name	遷移先定義名
+	 *	@param	array	$forward_obj	遷移先定義
 	 */
-	function preforward($action_class_name)
+	function preforward($forward_name)
 	{
-		$action_class =& new $action_class_name($this);
-		$action_class->preforward();
+		$class_name = $this->controller->getViewClassName($forward_name);
+		if ($class_name == null) {
+			return null;
+		}
+		$view_class =& new $class_name($this, $forward_name);
+		$view_class->preforward();
 	}
 
 	/**
