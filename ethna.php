@@ -259,7 +259,8 @@ class Ethna
 	 */
 	function isError($obj, $code = null)
 	{
-		if (is_a($obj, 'Ethna_Error')) {
+		if (strcasecmp(get_class($obj), 'Ethna_Error') == 0 ||
+			is_subclass_of($obj, 'Ethna_Error')) {
 			if (is_null($code)) {
 				return true;
 			} else {
