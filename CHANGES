@@ -4,7 +4,7 @@
 
 *** bug fixes
 
-- SOAP/Mobile(AU)でアクションパスが正しく取得できない問題を修正
+- SOAP/Mobile(AU)でアクションスクリプトのパスが正しく取得できない問題を修正
 - Ethna_Util::getRandom()でmt_srand()しつつrand()を呼んでいた箇所をmt_rand()を呼び出すように修正
 - CHANGESのエンコーディング修正(ISO-2022-JP -> EUC-JP)
 - フレームワークが発行するSQL文に一部残っていたセミコロンを削除
