@@ -990,7 +990,7 @@ class Ethna_Controller
 	 *	デフォルトでは[プロジェクトID]_Form_[アクション名]となるので好み応じてオーバライドする
 	 *
 	 *	@access	public
-	 *	@param	string	$action_name	action名
+	 *	@param	string	$action_name	アクション名
 	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	アクションフォーム名
 	 */
@@ -1023,7 +1023,7 @@ class Ethna_Controller
 	 *	オーバーライドする
 	 *
 	 *	@access	public
-	 *	@param	string	$action_name	action名
+	 *	@param	string	$action_name	アクション名
 	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	form classが定義されるスクリプトのパス名
 	 */
@@ -1038,7 +1038,7 @@ class Ethna_Controller
 	 *	デフォルトでは[プロジェクトID]_Action_[アクション名]となるので好み応じてオーバライドする
 	 *
 	 *	@access	public
-	 *	@param	string	$action_name	action名
+	 *	@param	string	$action_name	アクション名
 	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	アクションクラス名
 	 */
@@ -1069,7 +1069,7 @@ class Ethna_Controller
 	 *	デフォルトでは"foo_bar" -> "/Foo/Bar.php"となるので好み応じてオーバーライドする
 	 *
 	 *	@access	public
-	 *	@param	string	$action_name	action名
+	 *	@param	string	$action_name	アクション名
 	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	アクションクラスが定義されるスクリプトのパス名
 	 */
@@ -1158,12 +1158,12 @@ class Ethna_Controller
 	 *	実行するアクション名を返す
 	 *
 	 *	@access	private
-	 *	@param	mixed	$default_action_name	指定のaction名
+	 *	@param	mixed	$default_action_name	指定のアクション名
 	 *	@return	string	実行するアクション名
 	 */
 	function _getActionName($default_action_name, $fallback_action_name)
 	{
-		// フォームから要求されたaction名を取得する
+		// フォームから要求されたアクション名を取得する
 		$form_action_name = $this->_getActionName_Form();
 		$form_action_name = preg_replace('/[^a-z0-9\-_]+/i', '', $form_action_name);
 		$this->logger->log(LOG_DEBUG, 'form_action_name[%s]', $form_action_name);
@@ -1180,10 +1180,10 @@ class Ethna_Controller
 			$action_name = $form_action_name;
 		}
 
-		// エントリポイントに配列が指定されている場合は指定以外のaction名は拒否する
+		// エントリポイントに配列が指定されている場合は指定以外のアクション名は拒否する
 		if (is_array($default_action_name)) {
 			if ($this->_isAcceptableActionName($action_name, $default_action_name) == false) {
-				// 指定以外のaction名で合った場合は$fallback_action_name(or デフォルト)
+				// 指定以外のアクション名で合った場合は$fallback_action_name(or デフォルト)
 				$tmp = $fallback_action_name != "" ? $fallback_action_name : $default_action_name[0];
 				if ($tmp{strlen($tmp)-1} == '*') {
 					$tmp = substr($tmp, 0, -1);
@@ -1203,7 +1203,7 @@ class Ethna_Controller
 	 *
 	 *	アプリケーションの性質に応じてこのメソッドをオーバーライドして下さい。
 	 *	デフォルトでは"action_"で始まるフォーム値の"action_"の部分を除いたもの
-	 *	("action_sample"なら"sample")がaction名として扱われます
+	 *	("action_sample"なら"sample")がアクション名として扱われます
 	 *
 	 *	@access	protected
 	 *	@return	string	フォームにより要求されたactionの名称
