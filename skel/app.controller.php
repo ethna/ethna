@@ -48,7 +48,7 @@ class {$project_id}_Controller extends Ethna_Controller
 		 *	記述例：
 		 *
 		 *	'index'			=> array(
-		 *		'preforward_name'	=> 'IndexClass',
+		 *		'preforward_name'	=> '{$project_id}_View_Index',
 		 *	),
 		 */
 	);
@@ -126,6 +126,45 @@ class {$project_id}_Controller extends Ethna_Controller
 		 *	記述例：
 		 *
 		 *	'smarty_function_foo_bar',
+		 */
+	);
+
+	/**
+	 *	@var	array	smarty prefilter定義
+	 */
+	var $smarty_prefilter_plugin = array(
+		/*
+		 *	TODO: ここにユーザ定義のsmarty prefilter一覧を記述してください
+		 *
+		 *	記述例：
+		 *
+		 *	'smarty_prefilter_foo_bar',
+		 */
+	);
+
+	/**
+	 *	@var	array	smarty postfilter定義
+	 */
+	var $smarty_postfilter_plugin = array(
+		/*
+		 *	TODO: ここにユーザ定義のsmarty postfilter一覧を記述してください
+		 *
+		 *	記述例：
+		 *
+		 *	'smarty_postfilter_foo_bar',
+		 */
+	);
+
+	/**
+	 *	@var	array	smarty outputfilter定義
+	 */
+	var $smarty_outputfilter_plugin = array(
+		/*
+		 *	TODO: ここにユーザ定義のsmarty outputfilter一覧を記述してください
+		 *
+		 *	記述例：
+		 *
+		 *	'smarty_outputfilter_foo_bar',
 		 */
 	);
 

@@ -619,7 +619,7 @@ class Ethna_ActionForm
 		}
 
 		// type
-		if (@strlen($var) > 0) {
+		if (is_array($var) == false && @strlen($var) > 0) {
 			if ($type == VAR_TYPE_INT) {
 				if (!preg_match('/^-?\d+$/', $var)) {
 					if ($test == false) {

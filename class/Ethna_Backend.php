@@ -325,11 +325,6 @@ class Ethna_Backend
 		$forward_name = null;
 
 		$action_class_name = $this->controller->getActionClassName($action_name);
-		if ($action_class_name == null) {
-			return null;
-		} else if (class_exists($action_class_name) == false) {
-			return Ethna::raiseError(E_APP_UNDEFINED_ACTIONCLASS, "未定義のアクションクラス[%s]", $action_class_name);
-		}
 		$action_class =& new $action_class_name($this);
 
 		// アクションの実行

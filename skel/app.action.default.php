@@ -71,14 +71,5 @@ class {$project_id}_Action_Index extends Ethna_ActionClass
 	{
 		return 'index';
 	}
-
-	/**
-	 *	遷移前処理
-	 *
-	 *	@access	public
-	 */
-	function preforward()
-	{
-	}
 }
 ?>
