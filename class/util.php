@@ -127,6 +127,110 @@ class Ethna_Util
 	}
 
 	/**
+	 *	CSV形式の文字列を配列に分割する
+	 *
+	 *	@access	public
+	 *	@param	string	$csv		CSV形式の文字列(1行分)
+	 * 	@param	string	$delimiter	フィールドの区切り文字
+	 *	@return	mixed	(array):分割結果 Ethna_Error:エラー(行継続)
+	 */
+	function explodeCSV($csv, $delimiter = ",")
+	{
+		$space_list = '';
+		foreach (array(" ", "\t", "\r", "\n") as $c) {
+			if ($c != $delimiter) {
+				$space_list .= $c;
+			}
+		}
+
+		$line_end = "";
+		if (preg_match("/([$space_list]+)\$/sS", $csv, $match)) {
+			$line_end = $match[1];
+		}
+		$csv = substr($csv, 0, strlen($csv)-strlen($line_end));
+		$csv .= ' ';
+
+		$field = '';
+		$retval = array();
+
+		$index = 0;
+		$csv_len = strlen($csv);
+		do {
+			/* 1. skip leading spaces */
+			if (preg_match("/^([$space_list]+)/sS", substr($csv, $index), $match)) {
+				$index += strlen($match[1]);
+			}
+			if ($index >= $csv_len) {
+				break;
+			}
+
+			/* 2. read field */
+			if ($csv{$index} == '"') {
+				/* 2A. handle quote delimited field */
+				$index++;
+				while ($index < $csv_len) {
+					if ($csv{$index} == '"') {
+						/* handle double quote */
+						if ($csv{$index+1} == '"') {
+							$field .= $csv{$index};
+							$index += 2;
+						} else {
+							/* must be end of string */
+							while ($csv{$index} != $delimiter && $index < $csv_len) {
+								$index++;
+							}
+							if ($csv{$index} == $delimiter) {
+								$index++;
+							}
+							break;
+						}
+					} else {
+						/* normal character */
+						// (tuned)>>>
+						// $field .= $csv{$index};
+						// $index++;
+						if (preg_match("/^([^\"]*)/S", substr($csv, $index), $match)) {
+							$field .= $match[1];
+							$index += strlen($match[1]);
+						}
+						// <<<(tuned)
+
+						if ($index == $csv_len) {
+							$field = substr($field, 0, strlen($field)-1);
+							$field .= $line_end;
+
+							/* request one more line */
+							return Ethna::raiseNotice(E_UTIL_CSV_CONTINUE);
+						}
+					}
+				}
+			} else {
+				/* 2B. handle non-quoted field */
+				// (tuned)>>>
+				// while ($csv{$index} != $delimiter && $index < $csv_len) {
+				//   $field .= $csv{$index};
+				//   $index++;
+				// }
+				if (preg_match("/^([^$delimiter]*)/S", substr($csv, $index), $match)) {
+					$field .= $match[1];
+					$index += strlen($match[1]);
+				}
+				// <<<(tuned)
+
+				/* remove trailing spaces */
+				$field = preg_replace("/[$space_list]+\$/S", '', $field);
+				if ($csv{$index} == $delimiter) {
+					$index++;
+				}
+			}
+			$retval[] = $field;
+			$field = '';
+		} while ($index < $csv_len);
+
+		return $retval;
+	}
+
+	/**
 	 *	CSVエスケープ処理を行う
 	 *
 	 *	@access	public
