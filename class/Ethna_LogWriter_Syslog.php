@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_LogWriter_File.php
+ *	Ethna_LogWriter_Syslog.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,42 +9,16 @@
  *	@version	$Id$
  */
 
-// {{{ Ethna_LogWriter_File
+// {{{ Ethna_LogWriter_Syslog
 /**
- *	ログ出力クラス(File)
+ *	ログ出力クラス(Syslog)
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_LogWriter_File extends Ethna_LogWriter
+class Ethna_LogWriter_Syslog extends Ethna_LogWriter
 {
-	/**#@+
-	 *	@access	private
-	 */
-
-	/**
-	 *	@var	int		ログファイルハンドル
-	 */
-	var	$fp;
-
-	/**#@-*/
-
-	/**
-	 *	Ethna_LogWriter_Fileクラスのコンストラクタ
-	 *
-	 *	@access	public
-	 *	@param	string	$log_ident		ログアイデンティティ文字列(プロセス名等)
-	 *	@param	int		$log_facility	ログファシリティ
-	 *	@param	string	$log_file		ログ出力先ファイル名(LOG_FILEオプションが指定されている場合のみ)
-	 *	@param	int		$log_option		ログオプション(LOG_FILE,LOG_FUNCTION...)
-	 */
-	function Ethna_LogWriter_File($log_ident, $log_facility, $log_file, $log_option)
-	{
-		parent::Ethna_LogWriter($log_ident, $log_facility, $log_file, $log_option);
-		$this->fp = null;
-	}
-
 	/**
 	 *	ログ出力を開始する
 	 *
@@ -52,7 +26,10 @@ class Ethna_LogWriter_File extends Ethna_LogWriter
 	 */
 	function begin()
 	{
-		$this->fp = fopen($this->file, 'a');
+		// syslog用オプションのみを指定
+		$option = $this->option & (LOG_PID);
+
+		openlog($this->ident, $option, $this->facility);
 	}
 
 	/**
@@ -64,22 +41,14 @@ class Ethna_LogWriter_File extends Ethna_LogWriter
 	 */
 	function log($level, $message)
 	{
-		if ($this->fp == null) {
-			return;
-		}
-
-		$prefix = strftime('%Y/%m/%d %H:%M:%S ') . $this->ident;
-		if ($this->option & LOG_PID) {
-			$prefix .= sprintf('[%d]', getmypid());
-		}
-		$prefix .= sprintf('(%s): ', $this->_getLogLevelName($level));
+		$prefix = sprintf('%s: ', $this->_getLogLevelName($level));
 		if ($this->option & LOG_FUNCTION) {
 			$function = $this->_getFunctionName();
 			if ($function) {
 				$prefix .= sprintf('%s: ', $function);
 			}
 		}
-		fwrite($this->fp, $prefix . $message . "\n");
+		syslog($level, $prefix . $message);
 
 		return $prefix . $message;
 	}
@@ -91,10 +60,7 @@ class Ethna_LogWriter_File extends Ethna_LogWriter
 	 */
 	function end()
 	{
-		if ($this->fp) {
-			fclose($this->fp);
-			$this->fp = null;
-		}
+		closelog();
 	}
 }
 // }}}

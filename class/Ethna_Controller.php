@@ -9,6 +9,20 @@
  *	@version	$Id$
  */
 
+// {{{ getController
+/**
+ *	コントローラオブジェクトを取得する
+ *
+ *	@access	public
+ *	@return	object	コントローラオブジェクト
+ */
+function &getController()
+{
+	$controller =& $GLOBALS['controller'];
+	return $controller;
+}
+// }}}
+
 // {{{ Ethna_Controller
 /**
  *	コントローラクラス
@@ -155,42 +169,42 @@ class Ethna_Controller
 	/**
 	 *	@var	object	Ethna_Backend	backendオブジェクト
 	 */
-	var $backend;
+	var $backend = null;
 
 	/**
 	 *	@var	object	Ethna_I18N		i18nオブジェクト
 	 */
-	var $i18n;
+	var $i18n = null;
 
 	/**
 	 *	@var	object	Ethna_ActionError	action errorオブジェクト
 	 */
-	var $action_error;
+	var $action_error = null;
 
 	/**
 	 *	@var	object	Ethna_ActionForm	action formオブジェクト
 	 */
-	var $action_form;
+	var $action_form = null;
 
 	/**
 	 *	@var	object	Ethna_Session		セッションオブジェクト
 	 */
-	var $session;
+	var $session = null;
 
 	/**
 	 *	@var	object	Ethna_Config		設定オブジェクト
 	 */
-	var	$config;
+	var	$config = null;
 
 	/**
 	 *	@var	object	Ethna_Logger		ログオブジェクト
 	 */
-	var	$logger;
+	var	$logger = null;
 
 	/**
 	 *	@var	object	Ethna_AppSQL		SQLオブジェクト
 	 */
-	var	$sql;
+	var	$sql = null;
 
 	/**#@-*/
 
@@ -205,6 +219,10 @@ class Ethna_Controller
 		$GLOBALS['controller'] =& $this;
 		$this->base = BASE;
 
+		// エラーハンドラの設定
+		Ethna::setErrorCallback(array(&$this, 'handleError'));
+
+		// ディレクトリ名の設定(相対パス->絶対パス)
 		foreach ($this->directory as $key => $value) {
 			if ($key == 'plugins') {
 				// Smartyプラグインディレクトリは配列で指定する
@@ -222,7 +240,6 @@ class Ethna_Controller
 			}
 		}
 		$this->i18n =& new Ethna_I18N($this->getDirectory('locale'), $this->getAppId());
-		$this->action_form = null;
 		list($this->language, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
 		$this->client_type = $this->_getDefaultClientType();
 
@@ -761,15 +778,40 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	致命的エラー発生時の画面を表示する
+	 *	エラーハンドラ
 	 *
-	 *	注意：メソッド呼び出し後全ての処理は中断される(このメソッドでexit()する)
+	 *	エラー発生時の追加処理を行いたい場合はこのメソッドを呼び出す
+	 *	(アラートメール送信等−デフォルトではログ出力時にアラートメール
+	 *	が送信されるが、エラー発生時に別にアラートメールをここで送信
+	 *	させることも可能)
 	 *
 	 *	@access	public
+	 *	@param	object	Ethna_Error		エラーオブジェクト
 	 */
-	function fatal()
+	function handleError(&$error)
 	{
-		exit(0);
+		// ログ出力
+		list ($log_level, $dummy) = $this->logger->errorLevelToLogLevel($error->getLevel());
+		$message = $error->getMessage();
+		$this->logger->log($log_level, sprintf("[APP(%d)] %s", $error->getCode(), $message));
+	}
+
+	/**
+	 *	エラーメッセージを取得する
+	 *
+	 *	@access	public
+	 *	@param	int		$code		エラーコード
+	 *	@return	string	エラーメッセージ
+	 */
+	function getErrorMessage($code)
+	{
+		$message_list =& $GLOBALS['_Ethna_error_message_list'];
+		for ($i = count($message_list)-1; $i >= 0; $i--) {
+			if (array_key_exists($code, $message_list[$i])) {
+				return $message_list[$i][$code];
+			}
+		}
+		return null;
 	}
 
 	/**

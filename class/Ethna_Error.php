@@ -17,36 +17,11 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_Error
+class Ethna_Error extends PEAR_Error
 {
 	/**#@+
 	 *	@access	private
 	 */
-
-	/**
-	 *	@var	int		エラーレベル
-	 */
-	var $level;
-
-	/**
-	 *	@var	int		エラーコード
-	 */
-	var $code;
-
-	/**
-	 *	@var	string	エラーメッセージ
-	 */
-	var $message;
-
-	/**
-	 *	@var	array	エラーメッセージ引数
-	 */
-	var $message_arg_list;
-
-	/**
-	 *	@var	array	ユーザ定義追加情報
-	 */
-	var $info;
 
 	/**
 	 *	@var	object	Ethna_I18N	i18nオブジェクト
@@ -65,33 +40,45 @@ class Ethna_Error
 	 *
 	 *	@access	public
 	 *	@param	int		$level				エラーレベル
+	 *	@param	string	$message			エラーメッセージ
 	 *	@param	int		$code				エラーコード
-	 *	@param	string	$message			エラーメッセージ(+引数)
-	 *	@param	array	$message_arg_list	エラーメッセージ引数
+	 *	@param	array	$userinfo			エラー追加情報(エラーコード以降の全ての引数)
 	 */
-	function Ethna_Error($level, $code, $message, $message_arg_list = array())
+	function Ethna_Error($message = null, $code = null, $mode = null, $options = null)
 	{
-		$this->controller =& $GLOBALS['controller'];
-		$this->i18n =& $this->controller->getI18N();
-		$this->logger =& $this->controller->getLogger();
+		$controller =& getController();
+		$this->i18n =& $controller->getI18N();
 
-		$this->level = $level;
-		$this->code = $code;
-		$this->message = $message;
-		$this->message_arg_list = $message_arg_list;
-		$this->info = array();
+		// $options以降の引数->$userinfo
+		if (func_num_args() > 4) {
+			$userinfo = array_slice(func_get_args(), 4);
+			if (count($userinfo) == 1 && is_array($userinfo[0])) {
+				$userinfo = $userinfo[0];
+			}
+		} else {
+			$userinfo = array();
+		}
 
-		// ログ
-		list ($log_level, $dummy) = Ethna_Logger::errorLevelToLogLevel($level);
-		$message = $this->getMessage();
-		$this->logger->log($log_level, sprintf("[APP(%d)] %s", $code, $message == null ? "(no message)" : $message));
+		// メッセージ補正処理
+		if (is_null($message)) {
+			// $codeからメッセージを取得する
+			$message = $controller->getErrorMessage($code);
+			if (is_null($message)) {
+				$message = 'unkown error';
+			}
+		}
+
+		parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
+
+		// Ethnaフレームワークのエラーハンドラ(PEAR_Errorのコールバックとは異なる)
+		Ethna::handleError($this);
 	}
 
 	/**
 	 *	levelへのアクセサ(R)
 	 *
 	 *	@access	public
-	 *	@return	int		エラーコード
+	 *	@return	int		エラーレベル
 	 */
 	function getLevel()
 	{
@@ -99,85 +86,60 @@ class Ethna_Error
 	}
 
 	/**
-	 *	codeへのアクセサ(R)
-	 *
-	 *	@access	public
-	 *	@return	int		エラーコード
-	 */
-	function getCode()
-	{
-		return $this->code;
-	}
-
-	/**
 	 *	messageへのアクセサ(R)
 	 *
+	 *	PEAR_Error::getMessage()をオーバーライドして以下の処理を行う
+	 *	- エラーメッセージのi18n処理
+	 *	- $userinfoとして渡されたデータによるvsprintf()処理
+	 *
 	 *	@access	public
-	 *	@return	array	エラーメッセージ
+	 *	@return	string	エラーメッセージ
 	 */
 	function getMessage()
 	{
 		$tmp_message = $this->i18n->get($this->message);
+		$tmp_userinfo = to_array($this->userinfo);
 		$tmp_message_arg_list = array();
-		for ($i = 0; $i < count($this->message_arg_list); $i++) {
-			$tmp_message_arg_list[] = $this->i18n->get($this->message_arg_list[$i]);
+		for ($i = 0; $i < count($tmp_userinfo); $i++) {
+			$tmp_message_arg_list[] = $this->i18n->get($tmp_userinfo[$i]);
 		}
 		return vsprintf($tmp_message, $tmp_message_arg_list);
 	}
 
 	/**
-	 *	message引数へのアクセサ(R)
+	 *	エラー追加情報へのアクセサ(R)
+	 *
+	 *	PEAR_Error::getUserInfo()をオーバーライドして、配列の個々の
+	 *	エントリへのアクセスをサポート
 	 *
 	 *	@access	public
-	 *	@param	int		message引数インデックス
+	 *	@param	int		$n		エラー追加情報のインデックス(省略可)
 	 *	@return	mixed	message引数
 	 */
-	function getInfo($n)
+	function getUserInfo($n = null)
 	{
-		if (isset($this->message_arg_list[$n])) {
-			return $this->message_arg_list[$n];
+		if (is_null($n)) {
+			return $this->userinfo;
+		}
+
+		if (isset($this->userinfo[$n])) {
+			return $this->userinfo[$n];
 		} else {
 			return null;
 		}
 	}
 
 	/**
-	 *	messageとその引数を加工せずに返す
+	 *	エラー追加情報へのアクセサ(W)
+	 *
+	 *	PEAR_Error::addUserInfo()をオーバーライド
 	 *
 	 *	@access	public
-	 *	@return	array	エラーメッセージ, エラーメッセージ引数
+	 *	@param	string	$info	追加するエラー情報
 	 */
-	function getMessage_Raw()
+	function addUserInfo($info)
 	{
-		return array($this->message, $this->message_arg_list);
-	}
-
-	/**
-	 *	ユーザ定義情報へのアクセサ(R)
-	 *
-	 *	@access	public
-	 *	@param	string	$key	ユーザ定義情報キー
-	 *	@return	mixed	$keyで指定されたユーザ定義情報
-	 */
-	function get($key)
-	{
-		if (isset($this->info[$key])) {
-			return $this->info[$key];
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 *	ユーザ定義情報へのアクセサ(W)
-	 *
-	 *	@access	public
-	 *	@param	string	$key	ユーザ定義情報キー
-	 *	@param	mixed	$value	ユーザ定義情報値
-	 */
-	function set($key, $value)
-	{
-		$this->info[$key] = $value;
+		$this->userinfo[] = $info;
 	}
 }
 // }}}

@@ -35,7 +35,7 @@ function to_array($v)
  */
 function is_error($name)
 {
-	$c =& $GLOBALS['controller'];
+	$c =& getController();
 
 	$action_error =& $c->getActionError();
 
@@ -61,7 +61,7 @@ class Ethna_Util
 	 */
 	function isDuplicatePost()
 	{
-		$c =& $GLOBALS['controller'];
+		$c =& getController();
 
 		// use raw post data
 		if (isset($_POST['uniqid'])) {
@@ -97,7 +97,7 @@ class Ethna_Util
 	 */
 	function clearDuplicatePost()
 	{
-		$c =& $GLOBALS['controller'];
+		$c =& getController();
 
 		// use raw post data
 		if (isset($_POST['uniqid'])) {
@@ -482,7 +482,7 @@ class Ethna_Util
 	 */
 	function purgeTmp($prefix, $timeout)
 	{
-		$c =& $GLOBALS['controller'];
+		$c =& getController();
 
 		$dh = opendir($c->getDirectory('tmp'));
 		if ($dh) {
@@ -577,9 +577,10 @@ class Ethna_Util
 	 *	@access	private
 	 *	@param	string	$arg	バックトレースの引数
 	 *	@param	int		$level	バックトレースのネストレベル
+	 *	@param	int		$wrap	改行フラグ
 	 *	@return	string	文字列にフォーマットされたバックトレース
 	 */
-	function _formatBacktrace($arg, $level = 0)
+	function _formatBacktrace($arg, $level = 0, $wrap = true)
 	{
 		$pad = str_repeat("  ", $level);
 		if (is_array($arg)) {
@@ -587,15 +588,17 @@ class Ethna_Util
 			if ($level+1 > 4) {
 				$r .= sprintf("     %s  *too deep*\n", $pad);
 			} else {
-				foreach ($arg as $elt) {
+				foreach ($arg as $key => $elt) {
+					$r .= Ethna_Util::_formatBacktrace($key, $level, false);
+					$r .= " => \n";
 					$r .= Ethna_Util::_formatBacktrace($elt, $level+1);
 				}
 			}
 			$r .= sprintf("     %s)\n", $pad);
 		} else if (is_object($arg)) {
-			$r = sprintf("     %s[object]%s\n", $pad, get_class($arg));
+			$r = sprintf("     %s[object]%s%s", $pad, get_class($arg), $wrap ? "\n" : "");
 		} else {
-			$r = sprintf("     %s[%s]%s\n", $pad, gettype($arg), $arg);
+			$r = sprintf("     %s[%s]%s%s", $pad, gettype($arg), $arg, $wrap ? "\n" : "");
 		}
 
 		return $r;

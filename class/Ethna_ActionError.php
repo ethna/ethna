@@ -10,7 +10,6 @@
  */
 
 include_once(ETHNA_BASE . '/class/Ethna_Error.php');
-include_once(ETHNA_BASE . '/class/Ethna_AppError.php');
 
 // {{{ Ethna_ActionError
 /**
@@ -27,10 +26,19 @@ class Ethna_ActionError
 	 */
 
 	/**
-	 *	@var	array	Ethna_Errorエラーオブジェクトの一覧
+	 *	@var	array	エラーオブジェクトの一覧
 	 */
 	var $error_list = array();
 
+	/**
+	 *	@var	object	Ethna_ActionForm	action formオブジェクト
+	 */
+	var $action_form = null;
+
+	/**
+	 *	@var	object	Ethna_Logger		ログオブジェクト
+	 */
+	var $logger = null;
 	/**#@-*/
 
 	/**
@@ -43,32 +51,45 @@ class Ethna_ActionError
 	}
 
 	/**
-	 *	Ethna_AppErrorオブジェクトを生成/追加する
+	 *	エラーオブジェクトを生成/追加する
 	 *
 	 *	@access	public
-	 *	@param	int		$code		エラーコード
 	 *	@param	string	$name		エラーの発生したフォーム項目名(不要ならnull)
-	 *	@param	string	$message	エラーメッセージ(+引数)
+	 *	@param	string	$message	エラーメッセージ
+	 *	@param	int		$code		エラーコード
 	 */
-	function add($code, $name, $message)
+	function add($name, $message, $code)
 	{
-		$message_arg_list = array_slice(func_get_args(), 3);
-		$app_error =& new Ethna_AppError(E_USER_NOTICE, $code, $name, $message, $message_arg_list);
-		$this->error_list[] =& $app_error;
+		if (func_num_args() > 3) {
+			$userinfo = array_slice(func_get_args(), 3);
+			$error =& Ethna::raiseNotice($message, $code, $userinfo);
+		} else {
+			$error =& Ethna::raiseNotice($message, $code);
+		}
+		$elt = array();
+		$elt['name'] = $name;
+		$elt['object'] =& $error;
+		$this->error_list[] =& $elt;
+
+		// ログ出力(補足)
+		$af =& $this->_getActionForm();
+		$logger =& $this->_getLogger();
+		$logger->log(LOG_NOTICE, '{form} -> %s', $this->action_form->getName($name));
 	}
 
 	/**
 	 *	Ethna_Errorオブジェクトを追加する
 	 *
 	 *	@access	public
-	 *	@param	object	Ethna_Error	$error	エラーオブジェクト
 	 *	@param	string				$name	エラーに対応するフォーム項目名(不要ならnull)
+	 *	@param	object	Ethna_Error	$error	エラーオブジェクト
 	 */
-	function addObject(&$error, $name = null)
+	function addObject($name, &$error)
 	{
-		list($message, $message_arg_list) = $error->getMessage_Raw();
-		$app_error =& new Ethna_AppError($error->getLevel(), $error->getCode(), $name, $message, $message_arg_list, false);
-		$this->error_list[] =& $app_error;
+		$elt = array();
+		$elt['name'] = $name;
+		$elt['object'] =& $error;
+		$this->error_list[] =& $elt;
 	}
 
 	/**
@@ -113,7 +134,7 @@ class Ethna_ActionError
 	function isError($name)
 	{
 		foreach ($this->error_list as $error) {
-			if (strcasecmp($error->getName(), $name) == 0) {
+			if (strcasecmp($error['name'], $name) == 0) {
 				return true;
 			}
 		}
@@ -130,8 +151,8 @@ class Ethna_ActionError
 	function getMessage($name)
 	{
 		foreach ($this->error_list as $error) {
-			if (strcasecmp($error->getName(), $name) == 0) {
-				return $error->getMessage();
+			if (strcasecmp($error['name'], $name) == 0) {
+				return $this->_getMessage($error);
 			}
 		}
 		return null;
@@ -159,9 +180,53 @@ class Ethna_ActionError
 		$message_list = array();
 
 		foreach ($this->error_list as $error) {
-			$message_list[] = $error->getMessage();
+			$message_list[] = $this->_getMessage($error);
 		}
 		return $message_list;
+	}
+
+	/**
+	 *	アプリケーションエラーメッセージを取得する
+	 *
+	 *	@access	private
+	 *	@param	array	エラーエントリ
+	 *	@return	string	エラーメッセージ
+	 */
+	function _getMessage(&$error)
+	{
+		$af =& $this->_getActionForm();
+		$form_name = $af->getName($error['name']);
+		return str_replace("{form}", $form_name, $error['object']->getMessage());
+	}
+
+	/**
+	 *	Ethna_ActionFormオブジェクトを取得する
+	 *
+	 *	@access	private
+	 *	@return	object	Ethna_ActionForm
+	 */
+	function &_getActionForm()
+	{
+		if (is_null($this->action_form)) {
+			$controller =& getController();
+			$this->action_form =& $controller->getActionForm();
+		}
+		return $this->action_form;
+	}
+
+	/**
+	 *	Ethna_Loggerオブジェクトを取得する
+	 *
+	 *	@access	private
+	 *	@return	object	Ethna_Logger
+	 */
+	function _getLogger()
+	{
+		if (is_null($this->logger)) {
+			$controller =& getController();
+			$this->logger =& $controller->getLogger();
+		}
+		return $this->logger;
 	}
 }
 // }}}

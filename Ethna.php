@@ -9,6 +9,9 @@
  *	@version	$Id$
  */
 
+/**	Ethna依存ライブラリ: PEAR, PEAR_Error */
+include_once('PEAR.php');
+
 /**	Ethna依存ライブラリ: PEAR::DB */
 include_once('DB.php');
 
@@ -53,11 +56,11 @@ include_once(ETHNA_BASE . '/class/Form/Ethna_Form_Info.php');
 include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
 
 if (extension_loaded('soap')) {
-	include_once(ETHNA_BASE . '/class/Ethna_SOAP_ActoinForm.php');
-	include_once(ETHNA_BASE . '/class/Ethna_SOAP_Gateway.php');
-	include_once(ETHNA_BASE . '/class/Ethna_SOAP_GatewayGenerator.php');
-	include_once(ETHNA_BASE . '/class/Ethna_SOAP_Util.php');
-	include_once(ETHNA_BASE . '/class/Ethna_SOAP_WsdlGenerator.php');
+	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_ActoinForm.php');
+	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Gateway.php');
+	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_GatewayGenerator.php');
+	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Util.php');
+	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_WsdlGenerator.php');
 }
 
 /** クライアント言語定義: 英語 */
@@ -248,16 +251,25 @@ if (defined('E_STRICT') == false) {
 	define('E_STRICT', 0);
 }
 
+/** Ethnaグローバル変数: エラーコールバック関数 */
+$GLOBALS['_Ethna_error_callback_list'] = array();
+
+/** Ethnaグローバル変数: エラーメッセージ */
+$GLOBALS['_Ethna_error_message_list'] = array();
+
+/** Ethnaグローバル変数: クライアント種別 */
+$GLOBALS['_Ethna_client_type'] = null; 
+
 
 // {{{ Ethna
 /**
- *	Ethnaフレームワーク基底クラス
+ *	Ethnaフレームワーククラス
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
  *	@package	Ethna
  */
-class Ethna
+class Ethna extends PEAR
 {
 	/**#@+
 	 *	@access	private
@@ -266,68 +278,100 @@ class Ethna
 	/**#@-*/
 
 	/**
-	 *	Ethna_Errorオブジェクトかどうかを判定する(または指定されたエラーコードの
-	 *	エラーかどうかを判定する)
-	 *
-	 *	@access	public
-	 *	@param	mixed	メソッド空の戻り値
-	 *	@param	int		エラーコード
-	 *	@return	bool	true:エラー false:正常終了
-	 *	@static
-	 */
-	function isError($obj, $code = null)
-	{
-		if (strcasecmp(get_class($obj), 'Ethna_Error') == 0 ||
-			is_subclass_of($obj, 'Ethna_Error')) {
-			if (is_null($code)) {
-				return true;
-			} else {
-				return $obj->getCode() == $code;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 *	Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_ERROR)
 	 *
 	 *	@access	public
+	 *	@param	string	$message			エラーメッセージ
 	 *	@param	int		$code				エラーコード
-	 *	@param	string	$message			エラーメッセージ(+引数)
 	 *	@static
 	 */
-	function &raiseError($code, $message = null)
+	function &raiseError($message, $code)
 	{
-		$message_arg_list = array_slice(func_get_args(), 2);
-		return new Ethna_Error(E_USER_ERROR, $code, $message, $message_arg_list);
+		if (func_num_args() > 2) {
+			$userinfo = array_slice(func_get_args(), 2);
+			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_ERROR, $userinfo);
+		} else {
+			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_ERROR);
+		}
+
+		return $error;
 	}
 
 	/**
 	 *	Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_WARNING)
 	 *
 	 *	@access	public
+	 *	@param	string	$message			エラーメッセージ
 	 *	@param	int		$code				エラーコード
-	 *	@param	string	$message			エラーメッセージ(+引数)
 	 *	@static
 	 */
-	function &raiseWarning($code, $message = null)
+	function &raiseWarning($message, $code)
 	{
-		$message_arg_list = array_slice(func_get_args(), 2);
-		return new Ethna_Error(E_USER_WARNING, $code, $message, $message_arg_list);
+		if (func_num_args() > 2) {
+			$userinfo = array_slice(func_get_args(), 2);
+			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_WARNING, $userinfo);
+		} else {
+			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_WARNING);
+		}
+
+		return $error;
 	}
 
 	/**
 	 *	Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_NOTICE)
 	 *
 	 *	@access	public
+	 *	@param	string	$message			エラーメッセージ
 	 *	@param	int		$code				エラーコード
-	 *	@param	string	$message			エラーメッセージ(+引数)
 	 *	@static
 	 */
-	function &raiseNotice($code, $message = null)
+	function &raiseNotice($message, $code)
 	{
-		$message_arg_list = array_slice(func_get_args(), 2);
-		return new Ethna_Error(E_USER_NOTICE, $code, $message, $message_arg_list);
+		if (func_num_args() > 2) {
+			$userinfo = array_slice(func_get_args(), 2);
+			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_NOTICE, $userinfo);
+		} else {
+			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_NOTICE);
+		}
+
+		return $error;
+	}
+
+	/**
+	 *	エラー発生時の(フレームワークとしての)コールバック関数を設定する
+	 *
+	 *	@access	public
+	 *	@param	mixed	string:コールバック関数名 array:コールバッククラス(名|オブジェクト)+メソッド名
+	 *	@static
+	 */
+	function setErrorCallback($callback)
+	{
+		$GLOBALS['_Ethna_error_callback_list'][] = $callback;
+	}
+
+	/**
+	 *	エラー発生時の処理を行う(コールバック関数/メソッドを呼び出す)
+	 *	
+	 *	@access	public
+	 *	@param	object	Ethna_Error		Ethna_Errorオブジェクト
+	 *	@static
+	 */
+	function handleError(&$error)
+	{
+		for ($i = 0; $i < count($GLOBALS['_Ethna_error_callback_list']); $i++) {
+			$callback =& $GLOBALS['_Ethna_error_callback_list'][$i];
+			if (is_array($callback) == false) {
+				call_user_func($callback, $error);
+			} else if (is_object($callback[0])) {
+				$object =& $callback[0];
+				$method = $callback[1];
+
+				// perform some more checks?
+				$object->$method($error);
+			} else {
+				call_user_func($callback, $error);
+			}
+		}
 	}
 }
 // }}}

@@ -258,7 +258,7 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
  */
 function smarty_modifier_i18n($string)
 {
-	$c =& $GLOBALS['controller'];
+	$c =& getController();
 
 	$i18n =& $c->getI18N();
 
@@ -337,7 +337,7 @@ function smarty_modifier_select($string, $value)
  */
 function smarty_modifier_form_value($string)
 {
-	$c =& $GLOBALS['controller'];
+	$c =& getController();
 	$af =& $c->getActionForm();
 
 	$elts = explode(".", $string);
@@ -364,7 +364,7 @@ function smarty_modifier_form_value($string)
  */
 function smarty_function_message($params, &$smarty)
 {
-	$c =& $GLOBALS['controller'];
+	$c =& getController();
 
 	extract($params);
 

@@ -115,7 +115,7 @@ class Ethna_SkeltonGenerator
 	 */
 	function generateActionSkelton($action_name)
 	{
-		$c =& $GLOBALS['controller'];
+		$c =& getController();
 
 		$action_dir = $c->getActiondir();
 		$action_class = $c->getDefaultActionClass($action_name, false);
@@ -147,7 +147,7 @@ class Ethna_SkeltonGenerator
 	 */
 	function generateViewSkelton($forward_name)
 	{
-		$c =& $GLOBALS['controller'];
+		$c =& getController();
 
 		$view_dir = $c->getViewdir();
 		$view_class = $c->getDefaultViewClass($forward_name, false);

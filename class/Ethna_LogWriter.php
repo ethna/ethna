@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Logger.php
+ *	Ethna_LogWriter.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,443 +9,213 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_LogWriter
 /**
- *	³ÈÄ¥¥í¥°¥×¥í¥Ñ¥Æ¥£:	¥Õ¥¡¥¤¥ë½ÐÎÏ
- */
-define('LOG_FILE', 1 << 16);
-
-/**
- *	³ÈÄ¥¥í¥°¥×¥í¥Ñ¥Æ¥£:	´Ø¿ôÌ¾É½¼¨
- */
-define('LOG_FUNCTION', 1 << 17);
-
-
-// {{{ ethna_error_handler
-/**
- *	¥¨¥é¡¼¥³¡¼¥ë¥Ð¥Ã¥¯´Ø¿ô
- *
- *	@param	int		$errno		¥¨¥é¡¼¥ì¥Ù¥ë
- *	@param	string	$errstr		¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸
- *	@param	string	$errfile	¥¨¥é¡¼È¯À¸²Õ½ê¤Î¥Õ¥¡¥¤¥ëÌ¾
- *	@param	string	$errline	¥¨¥é¡¼È¯À¸²Õ½ê¤Î¹ÔÈÖ¹æ
- */
-function ethna_error_handler($errno, $errstr, $errfile, $errline)
-{
-	$c =& $GLOBALS['controller'];
-
-	list($level, $name) = Ethna_Logger::errorLevelToLogLevel($errno);
-	if ($errno == E_STRICT) {
-		// E_STRICT¤ÏÉ½¼¨¤·¤Ê¤¤
-		return E_STRICT;
-	}
-
-	$logger =& $c->getLogger();
-	$logger->log($level, sprintf("[PHP] %s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
-}
-// }}}
-
-// {{{ Ethna_Logger
-/**
- *	¥í¥°´ÉÍý¥¯¥é¥¹
+ *	$B%m%0=PNO4pDl%/%i%9(B
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_Logger extends Ethna_AppManager
+class Ethna_LogWriter
 {
 	/**#@+
 	 *	@access	private
 	 */
 
 	/**
-	 *	@var	array	¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£°ìÍ÷
+	 *	@var	string	$B%m%0%"%$%G%s%F%#%F%#J8;zNs(B
 	 */
-	var $log_facility_list = array(
-		'auth' => array('name' => 'LOG_AUTH'),
-		'authpriv' => array('name' => 'LOG_AUTHPRIV'),
-		'cron' => array('name' => 'LOG_CRON'),
-		'daemon' => array('name' => 'LOG_DAEMON'),
-		'kern' => array('name' => 'LOG_KERN'),
-		'local0' => array('name' => 'LOG_LOCAL0'),
-		'local1' => array('name' => 'LOG_LOCAL1'),
-		'local2' => array('name' => 'LOG_LOCAL2'),
-		'local3' => array('name' => 'LOG_LOCAL3'),
-		'local4' => array('name' => 'LOG_LOCAL4'),
-		'local5' => array('name' => 'LOG_LOCAL5'),
-		'local6' => array('name' => 'LOG_LOCAL6'),
-		'local7' => array('name' => 'LOG_LOCAL7'),
-		'lpr' => array('name' => 'LOG_LPR'),
-		'mail' => array('name' => 'LOG_MAIL'),
-		'news' => array('name' => 'LOG_NEWS'),
-		'syslog' => array('name' => 'LOG_SYSLOG'),
-		'user' => array('name' => 'LOG_USER'),
-		'uucp' => array('name' => 'LOG_UUCP'),
-		'file' => array('name' => 'LOG_FILE'),
-	);
+	var	$ident;
 
 	/**
-	 *	@var	array	¥í¥°¥ì¥Ù¥ë°ìÍ÷
+	 *	@var	int		$B%m%0%U%!%7%j%F%#(B
 	 */
-	var $log_level_list = array(
-		'emerg' => array('name' => 'LOG_EMERG'),
-		'alert' => array('name' => 'LOG_ALERT'),
-		'crit' => array('name' => 'LOG_CRIT'),
-		'err' => array('name' => 'LOG_ERR'),
-		'warning' => array('name' => 'LOG_WARNING'),
-		'notice' => array('name' => 'LOG_NOTICE'),
-		'info' => array('name' => 'LOG_INFO'),
-		'debug' => array('name' => 'LOG_DEBUG'),
-	);
+	var	$facility;
 
 	/**
-	 *	@var	array	¥í¥°¥ª¥×¥·¥ç¥ó°ìÍ÷
+	 *	@var	int		$B%m%0%*%W%7%g%s(B
 	 */
-	var $log_option_list = array(
-		'pid' => array('name' => 'PIDÉ½¼¨', 'value' => LOG_PID),
-		'function' => array('name' => '´Ø¿ôÌ¾É½¼¨', 'value' => LOG_FUNCTION),
-	);
+	var	$option;
 
 	/**
-	 *	@var	array	¥í¥°¥ì¥Ù¥ë¥Æ¡¼¥Ö¥ë
+	 *	@var	string	$B%m%0%U%!%$%k(B
 	 */
-	var $level_table = array(
-		LOG_EMERG	=> 7,
-		LOG_ALERT	=> 6,
-		LOG_CRIT	=> 5,
-		LOG_ERR		=> 4,
-		LOG_WARNING	=> 3,
-		LOG_NOTICE	=> 2,
-		LOG_INFO	=> 1,
-		LOG_DEBUG	=> 0,
-	);
+	var	$file;
 
 	/**
-	 *	@var	object	Ethna_Controller	controller¥ª¥Ö¥¸¥§¥¯¥È
+	 *	@var	bool	$B%P%C%/%H%l!<%9$,<hF@2DG=$+$I$&$+(B
 	 */
-	var	$controller;
-
-	/**
-	 *	@var	int		¥í¥°¥ì¥Ù¥ë
-	 */
-	var $level;
-
-	/**
-	 *	@var	int		¥¢¥é¡¼¥È¥ì¥Ù¥ë
-	 */
-	var $alert_level;
-
-	/**
-	 *	@var	string	¥¢¥é¡¼¥È¥á¡¼¥ë¥¢¥É¥ì¥¹
-	 */
-	var $alert_mailaddress;
-
-	/**
-	 *	@var	string	¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(½ÐÎÏ)
-	 */
-	var $message_filter_do;
-
-	/**
-	 *	@var	string	¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(Ìµ»ë)
-	 */
-	var $message_filter_ignore;
-
-	/**
-	 *	@var	object	Ethna_LogWriter	¥í¥°½ÐÎÏ¥ª¥Ö¥¸¥§¥¯¥È
-	 */
-	var	$writer;
+	var	$have_backtrace;
 
 	/**#@-*/
-	
+
 	/**
-	 *	Ethna_Logger¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+	 *	@var	string	$B%m%0%l%Y%kL>%F!<%V%k(B
+	 */
+	var	$level_name_table = array(
+		LOG_EMERG	=> 'EMERG',
+		LOG_ALERT	=> 'ALERT',
+		LOG_CRIT	=> 'CRIT',
+		LOG_ERR		=> 'ERR',
+		LOG_WARNING	=> 'WARNING',
+		LOG_NOTICE	=> 'NOTICE',
+		LOG_INFO	=> 'INFO',
+		LOG_DEBUG	=> 'DEBUG',
+	);
+
+	/**
+	 *	Ethna_LogWriter$B%/%i%9$N%3%s%9%H%i%/%?(B
 	 *
 	 *	@access	public
-	 *	@param	object	Ethna_Controller	$controller	controller¥ª¥Ö¥¸¥§¥¯¥È
+	 *	@param	string	$log_ident		$B%m%0%"%$%G%s%F%#%F%#J8;zNs(B($B%W%m%;%9L>Ey(B)
+	 *	@param	int		$log_facility	$B%m%0%U%!%7%j%F%#(B
+	 *	@param	string	$log_file		$B%m%0=PNO@h%U%!%$%kL>(B(LOG_FILE$B%*%W%7%g%s$,;XDj$5$l$F$$$k>l9g$N$_(B)
+	 *	@param	int		$log_option		$B%m%0%*%W%7%g%s(B(LOG_FILE,LOG_FUNCTION...)
 	 */
-	function Ethna_Logger(&$controller)
+	function Ethna_LogWriter($log_ident, $log_facility, $log_file, $log_option)
 	{
-		$this->controller =& $controller;
-		$config =& $controller->getConfig();
-		
-		// ¥í¥°ÀßÄê¤Î¼èÆÀ
-		$this->level = $this->_parseLogLevel($config->get('log_level'));
-		if (is_null($this->level)) {
-			// Ì¤ÀßÄê¤Ê¤éLOG_WARNING
-			$this->level = LOG_WARNING;
-		}
-		$facility = $this->_parseLogFacility($config->get('log_facility'));
-		$file = sprintf('%s/%s.log', $controller->getDirectory('log'), strtolower($controller->getAppid()));
-		list($this->alert_mailaddress, $this->alert_level, $option) = $this->_parseLogOption($config->get('log_option'));
-		$this->message_filter_do = $config->get('log_filter_do');
-		$this->message_filter_ignore = $config->get('log_filter_ignore');
-
-		if ($facility == LOG_FILE) {
-			$writer_class = "Ethna_LogWriter_File";
-		} else if (is_null($facility)) {
-			$writer_class = "Ethna_LogWriter";
-		} else {
-			$writer_class = "Ethna_LogWriter_Syslog";
-		}
-		$this->writer =& new $writer_class($controller->getAppId(), $facility, $file, $option);
-
-		set_error_handler("ethna_error_handler");
+		$this->ident = $log_ident;
+		$this->facility = $log_facility;
+		$this->option = $log_option;
+		$this->file = $log_file;
+		$this->have_backtrace = function_exists('debug_backtrace');
 	}
 
 	/**
-	 *	PHP¥¨¥é¡¼¥ì¥Ù¥ë¤ò¥í¥°¥ì¥Ù¥ë¤ËÊÑ´¹¤¹¤ë
-	 *
-	 *	@access	public
-	 *	@param	int		$errno	PHP¥¨¥é¡¼¥ì¥Ù¥ë
-	 *	@return	array	¥í¥°¥ì¥Ù¥ë(LOG_NOTICE,...), ¥¨¥é¡¼¥ì¥Ù¥ëÉ½¼¨Ì¾("E_NOTICE"...)
-	 *	@static
-	 */
-	function errorLevelToLogLevel($errno)
-	{
-		switch ($errno) {
-		case E_ERROR:			$code = "E_ERROR"; $level = LOG_ERR; break;
-		case E_WARNING:			$code = "E_WARNING"; $level = LOG_WARNING; break;
-		case E_PARSE:			$code = "E_PARSE"; $level = LOG_CRIT; break;
-		case E_NOTICE:			$code = "E_NOTICE"; $level = LOG_NOTICE; break;
-		case E_USER_ERROR:		$code = "E_USER_ERROR"; $level = LOG_ERR; break;
-		case E_USER_WARNING:	$code = "E_USER_WARNING"; $level = LOG_WARNING; break;
-		case E_USER_NOTICE:		$code = "E_USER_NOTICE"; $level = LOG_NOTICE; break;
-		case E_STRICT:			$code = "E_STRING"; $level = LOG_NOTICE; return;
-		default:				$code = "E_UNKNOWN"; $level = LOG_DEBUG; break;
-		}
-		return array($level, $code);
-	}
-
-	/**
-	 *	¥í¥°½ÐÎÏ¤ò³«»Ï¤¹¤ë
+	 *	$B%m%0=PNO$r3+;O$9$k(B
 	 *
 	 *	@access	public
 	 */
 	function begin()
 	{
-		$this->writer->begin();
 	}
 
 	/**
-	 *	¥í¥°¤ò½ÐÎÏ¤¹¤ë
+	 *	$B%m%0$r=PNO$9$k(B
 	 *
 	 *	@access	public
-	 *	@param	int		$level		¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-	 *	@param	string	$message	¥í¥°¥á¥Ã¥»¡¼¥¸(+°ú¿ô)
+	 *	@param	int		$level		$B%m%0%l%Y%k(B(LOG_DEBUG, LOG_NOTICE...)
+	 *	@param	string	$message	$B%m%0%a%C%;!<%8(B(+$B0z?t(B)
 	 */
 	function log($level, $message)
 	{
-		// ¥í¥°¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(¥ì¥Ù¥ë¥Õ¥£¥ë¥¿¤ËÍ¥Àè¤¹¤ë)
-		$r = $this->_isMessageMask($message);
-		if ($r === false) {
-			return;
+		$prefix = strftime('%Y/%m/%d %H:%M:%S ') . $this->ident;
+		if ($this->option & LOG_PID) {
+			$prefix .= sprintf('[%d]', getmypid());
 		}
-
-		// ¥í¥°¥ì¥Ù¥ë¥Õ¥£¥ë¥¿
-		if ($r !== true && $this->_isLevelMask($this->level, $level)) {
-			return;
-		}
-
-		// ¥í¥°½ÐÎÏ
-		$args = func_get_args();
-		if (count($args) > 2) {
-			array_splice($args, 0, 2);
-			$message = vsprintf($message, $args);
-		}
-		$output = $this->writer->log($level, $message);
-
-		// ¥¢¥é¡¼¥È½èÍý
-		if ($this->_isLevelMask($this->alert_level, $level) == false) {
-			if ($this->alert_mailaddress) {
-				$this->_alertMail($output);
+		$prefix .= sprintf('(%s): ', $this->_getLogLevelName($level));
+		if ($this->option & LOG_FUNCTION) {
+			$function = $this->_getFunctionName();
+			if ($function) {
+				$prefix .= sprintf('%s: ', $function);
 			}
-			$this->_alert($output);
 		}
+		printf($prefix . $message . "\n");
+
+		return $prefix . $message;
 	}
 
 	/**
-	 *	¥í¥°½ÐÎÏ¤ò½ªÎ»¤¹¤ë
+	 *	$B%m%0=PNO$r=*N;$9$k(B
 	 *
 	 *	@access	public
 	 */
 	function end()
 	{
-		$this->writer->end();
 	}
 
 	/**
-	 *	¥í¥°¥ª¥×¥·¥ç¥ó(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)¤ò²òÀÏ¤¹¤ë
+	 *	$B%m%0%"%$%G%s%F%#%F%#J8;zNs$r<hF@$9$k(B
+	 *
+	 *	@access	public
+	 *	@return	string	$B%m%0%"%$%G%s%F%#%F%#J8;zNs(B
+	 */
+	function getIdent()
+	{
+		return $this->ident;
+	}
+
+	/**
+	 *	$B%m%0%l%Y%k$rI=<(J8;zNs$KJQ49$9$k(B
 	 *
 	 *	@access	private
-	 *	@param	string	$string	¥í¥°¥ª¥×¥·¥ç¥ó(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)
-	 *	@return	array	²òÀÏ¤µ¤ì¤¿ÀßÄê¥Õ¥¡¥¤¥ëÃÍ(¥¢¥é¡¼¥ÈÄÌÃÎ¥á¡¼¥ë¥¢¥É¥ì¥¹, ¥¢¥é¡¼¥ÈÂÐ¾Ý¥í¥°¥ì¥Ù¥ë, ¥í¥°¥ª¥×¥·¥ç¥ó)
+	 *	@param	int		$level	$B%m%0%l%Y%k(B(LOG_DEBUG,LOG_NOTICE...)
+	 *	@return	string	$B%m%0%l%Y%kI=<(J8;zNs(B(LOG_DEBUG$B"*(B"DEBUG")
 	 */
-	function _parseLogOption($string)
+	function _getLogLevelName($level)
 	{
-		$alert_mailaddress = null;
-		$alert_level = null;
-		$option = null;
-		$elts = explode(',', $string);
-		foreach ($elts as $elt) {
-			if (strncmp($elt, 'alert_mailaddress:', 18) == 0) {
-				$alert_mailaddress = substr($elt, 18);
-			} else if (strncmp($elt, 'alert_level:', 12) == 0) {
-				$alert_level = $this->_ParseLogLevel(substr($elt, 12));
-			} else if ($elt == 'pid') {
-				$option |= LOG_PID;
-			} else if ($elt == 'function') {
-				$option |= LOG_FUNCTION;
+		if (isset($this->level_name_table[$level]) == false) {
+			return null;
+		}
+		return $this->level_name_table[$level];
+	}
+
+	/**
+	 *	$B%m%0=PNO85$N4X?t$r<hF@$9$k(B
+	 *
+	 *	@access	private
+	 *	@return	string	$B%m%0=PNO85%/%i%9(B/$B%a%=%C%IL>(B("class.method")
+	 */
+	function _getFunctionName()
+	{
+		$skip_method_list = array(
+			array('ethna', 'raise*'),
+			array('ethna_logger', null),
+			array('ethna_logwriter_*', null),
+			array('ethna_error', null),
+			array('ethna_apperror', null),
+			array('ethna_actionerror', null),
+			array('ethna_backend', 'log'),
+			array(null, 'ethna_error_handler'),
+			array(null, 'trigger_error'),
+		);
+
+		if ($this->have_backtrace == false) {
+			return null;
+		}
+
+		$bt = debug_backtrace();
+		$i = 0;
+		while ($i < count($bt)) {
+			if (isset($bt[$i]['class']) == false) {
+				$bt[$i]['class'] = null;
+			}
+			$skip = false;
+
+			// $B%a%=%C%I%9%-%C%W=hM}(B
+			foreach ($skip_method_list as $method) {
+				$class = $function = true;
+				if ($method[0] != null) {
+					if (preg_match('/\*$/', $method[0])) {
+						$n = strncasecmp($bt[$i]['class'], $method[0], strlen($method[0])-1);
+					} else {
+						$n = strcasecmp($bt[$i]['class'], $method[0]);
+					}
+					$class = $n == 0 ? true : false;
+				}
+				if ($method[1] != null) {
+					if (preg_match('/\*$/', $method[1])) {
+						$n = strncasecmp($bt[$i]['function'], $method[1], strlen($method[1])-1);
+					} else {
+						$n = strcasecmp($bt[$i]['function'], $method[1]);
+					}
+					$function = $n == 0 ? true : false;
+				}
+				if ($class && $function) {
+					$skip = true;
+					break;
+				}
+			}
+
+			if ($skip) {
+				$i++;
+			} else {
+				break;
 			}
 		}
 
-		return array($alert_mailaddress, $alert_level, $option);
-	}
-
-	/**
-	 *	¥¢¥é¡¼¥È½èÍý(DBÀÜÂ³¥¨¥é¡¼Åù½èÍý¤Î·ÑÂ³¤¬º¤Æñ¤Ê¥¨¥é¡¼È¯À¸)¤ò¹Ô¤¦
-	 *
-	 *	@access	protected
-	 *	@param	$message	¥í¥°¥á¥Ã¥»¡¼¥¸
-	 */
-	function _alert($message)
-	{
-		$this->controller->fatal();
-	}
-
-	/**
-	 *	¥¢¥é¡¼¥È¥á¡¼¥ë¤òÁ÷¿®¤¹¤ë
-	 *
-	 *	@access	protected
-	 *	@param	string	$message	¥í¥°¥á¥Ã¥»¡¼¥¸
-	 *	@return	int		0:Àµ¾ï½ªÎ»
-	 */
-	function _alertMail($message)
-	{
-		restore_error_handler();
-
-		// ¥Ø¥Ã¥À
-		$header = "Mime-Version: 1.0\n";
-		$header .= "Content-Type: text/plain; charset=ISO-2022-JP\n";
-		$header .= "X-Alert: " . $this->writer->getIdent();
-		$subject = sprintf("[%s] alert (%s%s)\n", $this->writer->getIdent(), substr($message, 0, 12), strlen($message) > 12 ? "..." : "");
-		
-		// ËÜÊ¸
-		$mail = sprintf("--- [log message] ---\n%s\n\n", $message);
-		if (function_exists("debug_backtrace")) {
-			$bt = debug_backtrace();
-			$mail .= sprintf("--- [backtrace] ---\n%s\n", Util::FormatBacktrace($bt));
-		}
-
-		mail($this->alert_mailaddress, $subject, mb_convert_encoding($mail, "ISO-2022-JP", "EUC-JP"), $header);
-
-		set_error_handler("ethna_error_handler");
-
-		return 0;
-	}
-
-	/**
-	 *	¥í¥°¥á¥Ã¥»¡¼¥¸¤Î¥Þ¥¹¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
-	 *
-	 *	@access	private
-	 *	@param	string	$message	¥í¥°¥á¥Ã¥»¡¼¥¸
-	 *	@return	mixed	true:¶¯À©½ÐÎÏ false:¶¯À©Ìµ»ë null:¥¹¥­¥Ã¥×
-	 */
-	function _isMessageMask($message)
-	{
-		$regexp_do = sprintf("/%s/", $this->message_filter_do);
-		$regexp_ignore = sprintf("/%s/", $this->message_filter_ignore);
-
-		if ($this->message_filter_do && preg_match($regexp_do, $message)) {
-			return true;
-		}
-		if ($this->message_filter_ignore && preg_match($regexp_ignore, $message)) {
-			return false;
-		}
-		return null;
-	}
-
-	/**
-	 *	¥í¥°¥ì¥Ù¥ë¤Î¥Þ¥¹¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
-	 *
-	 *	@access	private
-	 *	@param	int		$src	¥í¥°¥ì¥Ù¥ë¥Þ¥¹¥¯
-	 *	@param	int		$dst	¥í¥°¥ì¥Ù¥ë
-	 *	@return	bool	true:ïçÃÍ°Ê²¼ false:ïçÃÍ°Ê¾å
-	 */
-	function _isLevelMask($src, $dst)
-	{
-		// ÃÎ¤é¤Ê¤¤¥ì¥Ù¥ë¤Ê¤é½ÐÎÏ¤·¤Ê¤¤
-		if (isset($this->level_table[$src]) == false || isset($this->level_table[$dst]) == false) {
-			return true;
-		}
-
-		if ($this->level_table[$dst] >= $this->level_table[$src]) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 *	¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)¤ò²òÀÏ¤¹¤ë
-	 *
-	 *	@access	private
-	 *	@param	string	$facility	¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)
-	 *	@return	int		¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£(LOG_LOCAL0, LOG_FILE...)
-	 */
-	function _parseLogFacility($facility)
-	{
-		$facility_map_table = array(
-			'auth'		=> LOG_AUTH,
-			'authpriv'	=> LOG_AUTHPRIV,
-			'cron'		=> LOG_CRON,
-			'daemon'	=> LOG_DAEMON,
-			'kern'		=> LOG_KERN,
-			'local0'	=> LOG_LOCAL0,
-			'local1'	=> LOG_LOCAL1,
-			'local2'	=> LOG_LOCAL2,
-			'local3'	=> LOG_LOCAL3,
-			'local4'	=> LOG_LOCAL4,
-			'local5'	=> LOG_LOCAL5,
-			'local6'	=> LOG_LOCAL6,
-			'local7'	=> LOG_LOCAL7,
-			'lpr'		=> LOG_LPR,
-			'mail'		=> LOG_MAIL,
-			'news'		=> LOG_NEWS,
-			'syslog'	=> LOG_SYSLOG,
-			'user'		=> LOG_USER,
-			'uucp'		=> LOG_UUCP,
-			'file'		=> LOG_FILE,
-		);
-		if (isset($facility_map_table[strtolower($facility)]) == false) {
-			return null;
-		}
-		return $facility_map_table[strtolower($facility)];
-	}
-
-	/**
-	 *	¥í¥°¥ì¥Ù¥ë(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)¤ò²òÀÏ¤¹¤ë
-	 *
-	 *	@access	private
-	 *	@param	string	$level	¥í¥°¥ì¥Ù¥ë(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)
-	 *	@return	int		¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-	 */
-	function _parseLogLevel($level)
-	{
-		$level_map_table = array(
-			'emerg'		=> LOG_EMERG,
-			'alert'		=> LOG_ALERT,
-			'crit'		=> LOG_CRIT,
-			'err'		=> LOG_ERR,
-			'warning'	=> LOG_WARNING,
-			'notice'	=> LOG_NOTICE,
-			'info'		=> LOG_INFO,
-			'debug'		=> LOG_DEBUG,
-		);
-		if (isset($level_map_table[strtolower($level)]) == false) {
-			return null;
-		}
-		return $level_map_table[strtolower($level)];
+		return sprintf("%s.%s", isset($bt[$i]['class']) ? $bt[$i]['class'] : 'global', $bt[$i]['function']);
 	}
 }
 // }}}
