@@ -44,22 +44,22 @@ class Ethna_Backend
 	var $i18n;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
+	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
 	 */
 	var $action_error;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト($action_errorの省略形)
+	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト($action_errorの省略形)
 	 */
 	var $ae;
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
 	 */
 	var $action_form;
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト($action_formの省略形)
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト($action_formの省略形)
 	 */
 	var $af;
 
@@ -173,10 +173,10 @@ class Ethna_Backend
 	}
 
 	/**
-	 *	action errorオブジェクトのアクセサ(R)
+	 *	アクションエラーオブジェクトのアクセサ(R)
 	 *
 	 *	@access	public
-	 *	@return	object	Ethna_ActionError	action errorオブジェクト
+	 *	@return	object	Ethna_ActionError	アクションエラーオブジェクト
 	 */
 	function &getActionError()
 	{
@@ -184,10 +184,10 @@ class Ethna_Backend
 	}
 
 	/**
-	 *	action formオブジェクトのアクセサ(R)
+	 *	アクションフォームオブジェクトのアクセサ(R)
 	 *
 	 *	@access	public
-	 *	@return	object	Ethna_ActionForm	action formオブジェクト
+	 *	@return	object	Ethna_ActionForm	アクションフォームオブジェクト
 	 */
 	function &getActionForm()
 	{

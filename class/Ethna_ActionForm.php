@@ -51,12 +51,12 @@ class Ethna_ActionForm
 	var $app_ne_vars = array();
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
+	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
 	 */
 	var $action_error;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト(省略形)
+	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト(省略形)
 	 */
 	var $ae;
 

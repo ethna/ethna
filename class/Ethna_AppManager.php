@@ -85,12 +85,12 @@ class Ethna_AppManager
 	var $i18n;
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
 	 */
 	var $action_form;
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト(省略形)
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト(省略形)
 	 */
 	var $af;
 

@@ -171,12 +171,12 @@ class Ethna_Controller
 	var $i18n = null;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
+	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
 	 */
 	var $action_error = null;
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
 	 */
 	var $action_form = null;
 
@@ -481,10 +481,10 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	action errorオブジェクトのアクセサ
+	 *	アクションエラーオブジェクトのアクセサ
 	 *
 	 *	@access	public
-	 *	@return	object	Ethna_ActionError	action errorオブジェクト
+	 *	@return	object	Ethna_ActionError	アクションエラーオブジェクト
 	 */
 	function &getActionError()
 	{
@@ -492,10 +492,10 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	action formオブジェクトのアクセサ
+	 *	アクションフォームformオブジェクトのアクセサ
 	 *
 	 *	@access	public
-	 *	@return	object	Ethna_ActionForm	action formオブジェクト
+	 *	@return	object	Ethna_ActionForm	アクションフォームformオブジェクト
 	 */
 	function &getActionForm()
 	{
@@ -992,7 +992,7 @@ class Ethna_Controller
 	 *	@access	public
 	 *	@param	string	$action_name	action名
 	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	action formクラス名
+	 *	@return	string	アクションフォーム名
 	 */
 	function getDefaultFormClass($action_name, $fallback = true)
 	{
@@ -1040,7 +1040,7 @@ class Ethna_Controller
 	 *	@access	public
 	 *	@param	string	$action_name	action名
 	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	action classクラス名
+	 *	@return	string	アクションクラス名
 	 */
 	function getDefaultActionClass($action_name, $fallback = true)
 	{
@@ -1071,7 +1071,7 @@ class Ethna_Controller
 	 *	@access	public
 	 *	@param	string	$action_name	action名
 	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	action classが定義されるスクリプトのパス名
+	 *	@return	string	アクションクラスが定義されるスクリプトのパス名
 	 */
 	function getDefaultActionPath($action_name, $fallback = true)
 	{

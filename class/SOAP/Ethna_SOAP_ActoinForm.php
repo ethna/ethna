@@ -39,7 +39,7 @@ class Ethna_SOAP_ActionForm extends Ethna_ActionForm
 	 *	Ethna_SOAP_ActionFormクラスのコンストラクタ
 	 *
 	 *	@access	public
-	 *	@param	object	Ethna_ActionError	$action_error	action errorオブジェクト
+	 *	@param	object	Ethna_ActionError	$action_error	アクションエラーオブジェクト
 	 */
 	function Ethna_SOAP_ActionForm(&$action_error)
 	{

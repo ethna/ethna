@@ -39,22 +39,22 @@ class Ethna_ViewClass
 	var $i18n;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
+	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト
 	 */
 	var $action_error;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト(省略形)
+	 *	@var	object	Ethna_ActionError	アクションエラーオブジェクト(省略形)
 	 */
 	var $ae;
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
 	 */
 	var $action_form;
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト(省略形)
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト(省略形)
 	 */
 	var $af;
 

@@ -31,7 +31,7 @@ class Ethna_ActionError
 	var $error_list = array();
 
 	/**
-	 *	@var	object	Ethna_ActionForm	action formオブジェクト
+	 *	@var	object	Ethna_ActionForm	アクションフォームオブジェクト
 	 */
 	var $action_form = null;
 
