@@ -39,6 +39,11 @@ class Ethna_DB
 	var $sql;
 
 	/**
+	 *	@var	string	DBタイプ(mysql, pgsql...)
+	 */
+	var $type;
+
+	/**
 	 *	@var	string	DSN
 	 */
 	var $dsn;
@@ -58,14 +63,22 @@ class Ethna_DB
 
 	/**
 	 *	Ethna_DBクラスのコンストラクタ
+	 *
+	 *	@access	public
+	 *	@param	object	Ethna_Controller	&$controller	コントローラオブジェクト
+	 *	@param	string	$dsn								DSN
+	 *	@param	bool	$persistent						持続接続設定
 	 */
-	function Ethna_DB($dsn, $persistent, &$controller)
+	function Ethna_DB(&$controller, $dsn, $persistent)
 	{
 		$this->dsn = $dsn;
 		$this->persistent = $persistent;
 		$this->db = null;
 		$this->logger =& $controller->getLogger();
 		$this->sql =& $controller->getSQL();
+
+		$dsninfo = DB::parseDSN($dsn);
+		$this->type = $dsninfo['phptype'];
 	}
 
 	/**
@@ -78,8 +91,8 @@ class Ethna_DB
 	{
 		$this->db =& DB::connect($this->dsn, $this->persistent);
 		if (DB::isError($this->db)) {
-			$error = Ethna::raiseError(E_DB_CONNECT, 'DB接続エラー: %s', $this->db->getUserInfo());
-			$error->set('obj', $this->db);
+			$error = Ethna::raiseError('DB接続エラー: %s', E_DB_CONNECT, $this->db->getUserInfo());
+			$error->addUserInfo($this->db);
 			$this->db = null;
 			return $error;
 		}
@@ -94,6 +107,9 @@ class Ethna_DB
 	 */
 	function disconnect()
 	{
+		if (is_null($this->db)) {
+			return;
+		}
 		$this->db->disconnect();
 	}
 
@@ -110,6 +126,17 @@ class Ethna_DB
 		} else {
 			return true;
 		}
+	}
+
+	/**
+	 *	DBタイプを返す
+	 *
+	 *	@access	public
+	 *	@return	string	DBタイプ
+	 */
+	function getType()
+	{
+		return $this->type;
 	}
 
 	/**
@@ -159,13 +186,20 @@ class Ethna_DB
 	/**
 	 *	直近のINSERTによるIDを取得する
 	 *
+	 *	接続中のDBがmysqlならmysql_insert_id()の値を返す
+	 *
 	 *	@access	public
-	 *	@return	int		直近のINSERTにより生成されたID
-	 *	@todo	MySQL以外対応
+	 *	@return	mixed	int:直近のINSERTにより生成されたID null:未サポート
 	 */
 	function getInsertId()
 	{
-		return mysql_insert_id($this->db->connection);
+		if ($this->isValid() == false) {
+			return null;
+		} else if ($this->type == 'mysql') {
+			return mysql_insert_id($this->db->connection);
+		}
+
+		return null;
 	}
 
 	/**
@@ -294,14 +328,11 @@ class Ethna_DB
 		$r =& $this->db->query($query);
 		if (DB::isError($r)) {
 			if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
-				$error = Ethna::raiseNotice(E_DB_DUPENT, 'ユニーク制約エラー[%s]', $query);
-				$error->set('obj', $r);
-				return $error;
+				$error = Ethna::raiseNotice('ユニーク制約エラー SQL[%s]', E_DB_DUPENT, $query, $this->db->errorNative(), $r->getUserInfo());
 			} else {
-				$error = Ethna::raiseError(E_DB_QUERY, 'クエリエラー[%s]', $query);
-				$error->set('obj', $r);
-				return $error;
+				$error = Ethna::raiseError('クエリエラー SQL[%s] CODE[%d] MESSAGE[%s]', E_DB_QUERY, $query, $this->db->errorNative(), $r->getUserInfo());
 			}
+			return $error;
 		}
 		return $r;
 	}

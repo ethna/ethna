@@ -377,8 +377,10 @@ class Ethna_Backend
 			// DB接続不要
 			return null;
 		}
+		$dsn_persistent = $this->controller->getDSN_persistent($type);
 
-		$this->db[$key] =& new Ethna_DB($dsn, false, $this->controller);
+		$db_class = $this->controller->getClass('db');
+		$this->db[$key] =& new $db_class($this->controller, $dsn, $dsn_persistent);
 		$r = $this->db[$key]->connect();
 		if (Ethna::isError($r)) {
 			$this->db[$key] = null;

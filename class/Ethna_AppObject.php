@@ -97,7 +97,7 @@ class Ethna_AppObject
 	 *	@param	mixed	$key_type	検索キー名
 	 *	@param	mixed	$key		検索キー
 	 *	@param	array	$prop		プロパティ一覧
-	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
+	 *	@return	mixed	0:正常終了 -1:キー/プロパティ未指定 Ethna_Error:エラー
 	 */
 	function Ethna_AppObject(&$backend, $key_type = null, $key = null, $prop = null)
 	{
@@ -146,7 +146,7 @@ class Ethna_AppObject
 			}
 		}
 		
-		// DBエラー
+		// DBエラーチェック
 		if (is_null($this->my_db_ro)) {
 			return Ethna::raiseError("Ethna_AppObjectを利用するにはデータベース設定が必要です", E_DB_NODSN);
 		} else if (Ethna::isError($db_list)) {
@@ -374,54 +374,64 @@ class Ethna_AppObject
 	 *	オブジェクトを追加する
 	 *
 	 *	@access	public
-	 *	@return	mixed	(int):追加したオブジェクトのID Ethna_Error:エラー
-	 *	@todo	フィールド定義にseq要素を追加してINSERT後に取得
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
+	 *	@todo	MySQL以外のシーケンス型(的なもの)対応
 	 */
 	function add()
 	{
-		// ユニークチェック(DBからのエラーではどのカラムが重複したかが判定できない)
-		$duplicate_key_list = $this->_getDuplicateKeyList();
-		if (Ethna::isError($duplicate_key_list)) {
-			return $duplicate_key_list;
-		}
-		if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
-			foreach ($duplicate_key_list as $k) {
-				return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
-			}
-		}
-
 		$sql = $this->_getSQL_Add();
-		$r =& $this->my_db_rw->query($sql);
-		if (Ethna::isError($r)) {
-			if ($r->getCode() == E_DB_DUPENT) {
-				// レースコンディション
-				return Ethna::raiseNotice('重複エラー[キー不明]', E_APP_DUPENT);
+		for ($i = 0; $i < 4; $i++) {
+			$r =& $this->my_db_rw->query($sql);
+			if (Ethna::isError($r)) {
+				if ($r->getCode() == E_DB_DUPENT) {
+					// 重複エラーキーの判別
+					$duplicate_key_list = $this->_getDuplicateKeyList();
+					if (Ethna::isError($duplicate_key_list)) {
+						return $duplicate_key_list;
+					}
+					if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
+						foreach ($duplicate_key_list as $k) {
+							return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
+						}
+					}
+				} else {
+					return $r;
+				}
 			} else {
-				return $error;
+				break;
 			}
+		}
+		if ($i == 4) {
+			// cannot be reached
+			return Ethna::raiseError('重複エラーキー判別エラー', E_GENERAL);
 		}
 
 		$this->prop_backup = $this->prop;
 
-		// オブジェクトIDの取得
-		$insert_id = false;
-		if (is_array($this->id_def) == false && (isset($this->prop[$this->id_def]) == false || $this->prop[$this->id_def] === "" || $this->prop[$this->id_def] === null)) {
-			$insert_id = true;
-		}
-		if ($insert_id) {
-			$this->id = $this->my_db_rw->getInsertId();
-			$this->prop[$this->id_def] = $this->prop_backup[$this->id_def] = $this->id;
-		} else {
-			if (is_array($this->id_def)) {
-				$this->id = array();
-				foreach ($this->id_def as $k) {
-					$this->id[] = $this->prop[$k];
+		// IDの取得(MySQLのみ対応)
+		if ($this->my_db_rw->getType() == 'mysql') {
+			// MySQLのAUTO_INCREMENTはテーブルに1カラムで且つPRIMARY KEY
+			foreach (to_array($this->id_def) as $id_def) {
+				if ($this->prop_def[$id_def]['seq']) {
+					$this->prop[$id_def] = $this->my_db_rw->getInsertId();
+					break;
 				}
-			} else {
-				$this->id = $this->prop[$this->id_def];
 			}
 		}
-		return $this->id;
+
+		// IDの設定
+		if (is_array($this->id_def)) {
+			$this->id = array();
+			foreach ($this->id_def as $k) {
+				$this->id[] = $this->prop[$k];
+			}
+		} else {
+			$this->id = $this->prop[$this->id_def];
+		}
+
+		$this->prop_backup = $this->prop;
+
+		return 0;
 	}
 
 	/**
@@ -432,30 +442,36 @@ class Ethna_AppObject
 	 */
 	function update()
 	{
-		// ユニークチェック(DBからのエラーではどのカラムが重複したかが判定できない)
-		$duplicate_key_list = $this->_getDuplicateKeyList();
-		if (Ethna::isError($duplicate_key_list)) {
-			return $duplicate_key_list;
-		}
-		if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
-			foreach ($duplicate_key_list as $k) {
-				return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
+		$sql = $this->_getSQL_Update();
+		for ($i = 0; $i < 4; $i++) {
+			$r =& $this->my_db_rw->query($sql);
+			if (Ethna::isError($r)) {
+				if ($r->getCode() == E_DB_DUPENT) {
+					// 重複エラーキーの判別
+					$duplicate_key_list = $this->_getDuplicateKeyList();
+					if (Ethna::isError($duplicate_key_list)) {
+						return $duplicate_key_list;
+					}
+					if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
+						foreach ($duplicate_key_list as $k) {
+							return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
+						}
+					}
+				} else {
+					return $r;
+				}
+			} else {
+				break;
 			}
+		}
+		if ($i == 4) {
+			// cannot be reached
+			return Ethna::raiseError('重複エラーキー判別エラー', E_GENERAL);
 		}
 
-		$sql = $this->_getSQL_Update();
-		$r =& $this->my_db_rw->query($sql);
-		if (DB::isError($r)) {
-			if ($r->getCode() == E_DB_DUPENT) {
-				// レースコンディション
-				return Ethna::raiseNotice('重複エラー[キー不明]', E_APP_DUPENT);
-			} else {
-				return $error;
-			}
-		}
 		$affected_rows = $this->my_db_rw->affectedRows();
 		if ($affected_rows <= 0) {
-			$this->backend->log(LOG_NOTICE, "update query with 0 updated rows");
+			$this->backend->log(LOG_DEBUG, "update query with 0 updated rows");
 		}
 
 		$this->prop_backup = $this->prop;

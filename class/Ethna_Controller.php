@@ -92,6 +92,7 @@ class Ethna_Controller
 	 */
 	var $class = array(
 		'config'		=> 'Ethna_Config',
+		'db'			=> 'Ethna_DB',
 		'logger'		=> 'Ethna_Logger',
 		'sql'			=> 'Ethna_AppSQL',
 	);
@@ -289,6 +290,23 @@ class Ethna_Controller
 	}
 
 	/**
+	 *	DSNの持続接続設定を返す
+	 *
+	 *	@access	public
+	 *	@param	string	$type	DB種別
+	 *	@return	bool	true:persistent false:non-persistent(あるいは設定無し)
+	 */
+	function getDSN_persistent($type = "")
+	{
+		$key = sprintf("dsn%s_persistent", $type == "" ? "" : "_$type");
+		$dsn_persistent = $this->config->get($key);
+		if (is_null($dsn_persistent)) {
+			return false;
+		}
+		return $dsn_persistent;
+	}
+
+	/**
 	 *	アプリケーションベースURLを返す
 	 *
 	 *	@access	public
@@ -353,6 +371,21 @@ class Ethna_Controller
 	function getViewdir()
 	{
 		return (empty($this->directory['view']) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory['view'] . "/"));
+	}
+
+	/**
+	 *	アプリケーションクラス設定を返す
+	 *
+	 *	@access	public
+	 *	@param	string	$key	クラスタイプ("config", "db", "logger", "sql")
+	 *	@return	string	$keyに対応したクラス名(設定がない場合はnull)
+	 */
+	function getClass($key)
+	{
+		if (isset($this->class[$key]) == false) {
+			return null;
+		}
+		return $this->class[$key];
 	}
 
 	/**

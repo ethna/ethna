@@ -52,8 +52,12 @@ class Ethna_Error extends PEAR_Error
 		// $options以降の引数->$userinfo
 		if (func_num_args() > 4) {
 			$userinfo = array_slice(func_get_args(), 4);
-			if (count($userinfo) == 1 && is_array($userinfo[0])) {
-				$userinfo = $userinfo[0];
+			if (count($userinfo) == 1) {
+				if (is_array($userinfo[0])) {
+					$userinfo = $userinfo[0];
+				} else if (is_null($userinfo[0])) {
+					$userinfo = array();
+				}
 			}
 		} else {
 			$userinfo = array();

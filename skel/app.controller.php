@@ -85,6 +85,7 @@ class {$project_id}_Controller extends Ethna_Controller
 		 *	した場合は下記のクラス名を忘れずに変更してください
 		 */
 		'config'        => 'Ethna_Config',
+		'db'			=> 'Ethna_DB',
 		'logger'        => 'Ethna_Logger',
 		'sql'           => 'Ethna_AppSQL',
 	);
