@@ -365,6 +365,7 @@ class Ethna_Backend
 		$this->db =& new Ethna_DB($this->controller->getDSN(), false, $this->controller);
 		$r = $this->db->connect();
 		if (Ethna::isError($r)) {
+			$this->db = null;
 			return $r;
 		}
 
