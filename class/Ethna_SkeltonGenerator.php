@@ -133,7 +133,9 @@ class Ethna_SkeltonGenerator
 
 		$this->_mkdir(dirname("$action_dir$action_path"), 0755);
 
-		if ($this->_generateFile("skel.action.php", "$action_dir$action_path", $macro) == false) {
+		if (file_exists("$action_dir$action_path")) {
+			printf("file [%s] aleady exists -> skip\n", "$action_dir$action_path");
+		} else if ($this->_generateFile("skel.action.php", "$action_dir$action_path", $macro) == false) {
 			printf("[warning] file creation failed [%s]\n", "$action_dir$action_path");
 		} else {
 			printf("action script(s) successfully created [%s]\n", "$action_dir$action_path");
@@ -163,7 +165,9 @@ class Ethna_SkeltonGenerator
 
 		$this->_mkdir(dirname("$view_dir/$view_path"), 0755);
 
-		if ($this->_generateFile("skel.view.php", "$view_dir$view_path", $macro) == false) {
+		if (file_exists("$view_dir$view_path")) {
+			printf("file [%s] aleady exists -> skip\n", "$view_dir$view_path");
+		} else if ($this->_generateFile("skel.view.php", "$view_dir$view_path", $macro) == false) {
 			printf("[warning] file creation failed [%s]\n", "$view_dir$view_path");
 		} else {
 			printf("view script(s) successfully created [%s]\n", "$view_dir$view_path");
@@ -209,6 +213,10 @@ class Ethna_SkeltonGenerator
 	 */
 	function _generateFile($skel, $entity, $macro)
 	{
+		if (file_exists($entity)) {
+			printf("file [%s] aleady exists -> skip\n", $entity);
+			return true;
+		}
 		$c =& Ethna_Controller::getInstance();
 		if (is_object($c)) {
 			$base = $c->getBasedir();
