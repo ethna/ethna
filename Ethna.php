@@ -38,7 +38,6 @@ include_once(ETHNA_BASE . '/class/Ethna_Controller.php');
 include_once(ETHNA_BASE . '/class/Ethna_DB.php');
 include_once(ETHNA_BASE . '/class/Ethna_Filter.php');
 include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
-include_once(ETHNA_BASE . '/class/Ethna_InfoManager.php');
 include_once(ETHNA_BASE . '/class/Ethna_LogWriter.php');
 include_once(ETHNA_BASE . '/class/Ethna_LogWriter_File.php');
 include_once(ETHNA_BASE . '/class/Ethna_LogWriter_Syslog.php');
@@ -50,9 +49,7 @@ include_once(ETHNA_BASE . '/class/Ethna_SmartyPlugin.php');
 include_once(ETHNA_BASE . '/class/Ethna_Util.php');
 include_once(ETHNA_BASE . '/class/Ethna_ViewClass.php');
 include_once(ETHNA_BASE . '/class/AMF/Ethna_AMF_ActionClass.php');
-include_once(ETHNA_BASE . '/class/Action/Ethna_Action_Info.php');
 include_once(ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php');
-include_once(ETHNA_BASE . '/class/Form/Ethna_Form_Info.php');
 include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
 
 if (extension_loaded('soap')) {

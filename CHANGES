@@ -4,6 +4,7 @@
 
 *** features
 
+- __ethna_info__アクションを追加
 - class_path, form_path, view_path属性のフルパス指定サポートを追加
 - スクリプトを1ファイルにまとめるツール(bin/unify_script.php)を追加
 

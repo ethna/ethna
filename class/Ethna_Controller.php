@@ -227,17 +227,18 @@ class Ethna_Controller
 				// Smartyプラグインディレクトリは配列で指定する
 				$tmp = array(SMARTY_DIR . 'plugins');
 				foreach (to_array($value) as $elt) {
-					if ($elt{0} != '/') {
+					if (Ethna_Util::isAbsolute($elt) == false) {
 						$tmp[] = $this->base . (empty($this->base) ? '' : '/') . $elt;
 					}
 				}
 				$this->directory[$key] = $tmp;
 			} else {
-				if ($value{0} != '/') {
+				if (Ethna_Util::isAbsolute($value) == false) {
 					$this->directory[$key] = $this->base . (empty($this->base) ? '' : '/') . $value;
 				}
 			}
 		}
+
 		$this->i18n =& new Ethna_I18N($this->getDirectory('locale'), $this->getAppId());
 		list($this->language, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
 		$this->client_type = $this->_getDefaultClientType();
@@ -591,74 +592,6 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	テンプレートエンジン取得する(現在はsmartyのみ対応)
-	 *
-	 *	@access	public
-	 *	@return	object	Smarty	テンプレートエンジンオブジェクト
-	 *	@todo	ブロック関数プラグイン(etc)対応
-	 */
-	function &getTemplateEngine()
-	{
-		$smarty =& new Smarty();
-		$smarty->template_dir = $this->getTemplatedir();
-		$smarty->compile_dir = $this->getDirectory('template_c') . '/tpl_' . md5($smarty->template_dir);
-		if (@is_dir($smarty->compile_dir) == false) {
-			mkdir($smarty->compile_dir, 0755);
-		}
-		$smarty->plugins_dir = $this->getDirectory('plugins');
-
-		// default modifiers
-		$smarty->register_modifier('number_format', 'smarty_modifier_number_format');
-		$smarty->register_modifier('strftime', 'smarty_modifier_strftime');
-		$smarty->register_modifier('count', 'smarty_modifier_count');
-		$smarty->register_modifier('join', 'smarty_modifier_join');
-		$smarty->register_modifier('filter', 'smarty_modifier_filter');
-		$smarty->register_modifier('unique', 'smarty_modifier_unique');
-		$smarty->register_modifier('wordwrap_i18n', 'smarty_modifier_wordwrap_i18n');
-		$smarty->register_modifier('i18n', 'smarty_modifier_i18n');
-		$smarty->register_modifier('checkbox', 'smarty_modifier_checkbox');
-		$smarty->register_modifier('select', 'smarty_modifier_select');
-		$smarty->register_modifier('form_value', 'smarty_modifier_form_value');
-
-		// user defined modifiers
-		foreach ($this->smarty_modifier_plugin as $modifier) {
-			$name = str_replace('smarty_modifier_', '', $modifier);
-			$smarty->register_modifier($name, $modifier);
-		}
-
-		// default functions
-		$smarty->register_function('message', 'smarty_function_message');
-		$smarty->register_function('uniqid', 'smarty_function_uniqid');
-		$smarty->register_function('select', 'smarty_function_select');
-		$smarty->register_function('checkbox_list', 'smarty_function_checkbox_list');
-
-		// user defined functions
-		foreach ($this->smarty_function_plugin as $function) {
-			$name = str_replace('smarty_function_', '', $function);
-			$smarty->register_function($name, $function);
-		}
-
-		// user defined prefilters
-		foreach ($this->smarty_prefilter_plugin as $prefilter) {
-			$smarty->register_prefilter($prefilter);
-		}
-
-		// user defined postfilters
-		foreach ($this->smarty_postfilter_plugin as $postfilter) {
-			$smarty->register_postfilter($postfilter);
-		}
-
-		// user defined outputfilters
-		foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
-			$smarty->register_outputfilter($outputfilter);
-		}
-
-		$this->_setDefaultTemplateEngine($smarty);
-
-		return $smarty;
-	}
-
-	/**
 	 *	アプリケーションのエントリポイント
 	 *
 	 *	@access	public
@@ -905,256 +838,6 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	指定されたアクションのフォームクラス名を返す(オブジェクトの生成は行わない)
-	 *
-	 *	@access	public
-	 *	@param	string	$action_name	アクション名
-	 *	@return	string	アクションのフォームクラス名
-	 */
-	function getActionFormName($action_name)
-	{
-		$action_obj =& $this->_getAction($action_name);
-		if (is_null($action_obj)) {
-			return null;
-		}
-
-		return $action_obj['form_name'];
-	}
-
-	/**
-	 *	指定されたアクションのクラス名を返す(オブジェクトの生成は行わない)
-	 *
-	 *	@access	public
-	 *	@param	string	$action_name	アクションの名称
-	 *	@return	string	アクションのクラス名
-	 */
-	function getActionClassName($action_name)
-	{
-		$action_obj =& $this->_getAction($action_name);
-		if ($action_obj == null) {
-			return null;
-		}
-
-		return $action_obj['class_name'];
-	}
-
-	/**
-	 *	指定された遷移名に対応するビュークラス名を返す(オブジェクトの生成は行わない)
-	 *
-	 *	@access	public
-	 *	@param	string	$forward_name	遷移先の名称
-	 *	@return	string	view classのクラス名
-	 */
-	function getViewClassName($forward_name)
-	{
-		if ($forward_name == null) {
-			return null;
-		}
-
-		if (isset($this->forward[$forward_name])) {
-			$forward_obj = $this->forward[$forward_name];
-		} else {
-			$forward_obj = array();
-		}
-
-		if (isset($forward_obj['view_name'])) {
-			$class_name = $forward_obj['view_name'];
-			if (class_exists($class_name)) {
-				return $class_name;
-			}
-		} else {
-			$class_name = null;
-		}
-
-		// viewのインクルード
-		$this->_includeViewScript($forward_obj, $forward_name);
-
-		if (is_null($class_name) == false && class_exists($class_name)) {
-			return $class_name;
-		} else if (is_null($class_name) == false) {
-			$this->logger->log(LOG_WARNING, 'stated view class is not defined [%s] -> try default', $class_name);
-		}
-
-		$class_name = $this->getDefaultViewClass($forward_name);
-		if (class_exists($class_name)) {
-			return $class_name;
-		} else {
-			$this->logger->log(LOG_DEBUG, 'view class is not defined for [%s] -> use default [%s]', $forward_name, 'Ethna_ViewClass');
-			return 'Ethna_ViewClass';
-		}
-	}
-
-	/**
-	 *	アクションに対応するフォームクラス名が省略された場合のデフォルトクラス名を返す
-	 *
-	 *	デフォルトでは[プロジェクトID]_Form_[アクション名]となるので好み応じてオーバライドする
-	 *
-	 *	@access	public
-	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	アクションフォーム名
-	 */
-	function getDefaultFormClass($action_name, $fallback = true)
-	{
-		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
-
-		$r = null;
-		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-			$r = sprintf("%s_SOAPForm_%s", $this->getAppId(), $postfix);
-		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$tmp = sprintf("%s_MobileAUForm_%s", $this->getAppId(), $postfix);
-			if ($fallback == false || class_exists($tmp)) {
-				$r = $tmp;
-			}
-		}
-
-		if ($r == null) {
-			$r = sprintf("%s_Form_%s", $this->getAppId(), $postfix);
-		}
-		$this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
-		return $r;
-	}
-
-	/**
-	 *	アクションに対応するフォームパス名が省略された場合のデフォルトパス名を返す
-	 *
-	 *	デフォルトでは_getDefaultActionPath()と同じ結果を返す(1ファイルに
-	 *	アクションクラスとフォームクラスが記述される)ので、好みに応じて
-	 *	オーバーライドする
-	 *
-	 *	@access	public
-	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	form classが定義されるスクリプトのパス名
-	 */
-	function getDefaultFormPath($action_name, $fallback = true)
-	{
-		return $this->getDefaultActionPath($action_name, $fallback);
-	}
-
-	/**
-	 *	アクションに対応するアクションクラス名が省略された場合のデフォルトクラス名を返す
-	 *
-	 *	デフォルトでは[プロジェクトID]_Action_[アクション名]となるので好み応じてオーバライドする
-	 *
-	 *	@access	public
-	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	アクションクラス名
-	 */
-	function getDefaultActionClass($action_name, $fallback = true)
-	{
-		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
-
-		$r = null;
-		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-			$r = sprintf("%s_SOAPAction_%s", $this->getAppId(), $postfix);
-		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$tmp = sprintf("%s_MobileAUAction_%s", $this->getAppId(), $postfix);
-			if ($fallback == false || class_exists($tmp)) {
-				$r = $tmp;
-			}
-		}
-
-		if ($r == null) {
-			$r = sprintf("%s_Action_%s", $this->getAppId(), $postfix);
-		}
-		$this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
-		return $r;
-	}
-
-	/**
-	 *	アクションに対応するアクションパス名が省略された場合のデフォルトパス名を返す
-	 *
-	 *	デフォルトでは"foo_bar" -> "/Foo/Bar.php"となるので好み応じてオーバーライドする
-	 *
-	 *	@access	public
-	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	アクションクラスが定義されるスクリプトのパス名
-	 */
-	function getDefaultActionPath($action_name, $fallback = true)
-	{
-		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($action_name)) . '.' . $this->getExt('php');
-		$action_dir = $this->getActiondir();
-
-		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-			$r = 'SOAP/' . $default_path;
-		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$r = 'MobileAU/' . $default_path;
-		} else {
-			$r = $default_path;
-		}
-
-		if ($fallback && file_exists($action_dir . $r) == false && $r != $default_path) {
-			$this->logger->log(LOG_DEBUG, 'client_type specific file not found [%s] -> try defualt', $r);
-			$r = $default_path;
-		}
-
-		$this->logger->log(LOG_DEBUG, "default action path [%s]", $r);
-		return $r;
-	}
-
-	/**
-	 *	遷移名に対応するビュークラス名が省略された場合のデフォルトクラス名を返す
-	 *
-	 *	デフォルトでは[プロジェクトID]_View_[遷移名]となるので好み応じてオーバライドする
-	 *
-	 *	@access	public
-	 *	@param	string	$forward_name	forward名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	view classクラス名
-	 */
-	function getDefaultViewClass($forward_name, $fallback = true)
-	{
-		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($forward_name));
-
-		$r = null;
-		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$tmp = sprintf("%s_MobileAUView_%s", $this->getAppId(), $postfix);
-			if ($fallback == false || class_exists($tmp)) {
-				$r = $tmp;
-			}
-		}
-
-		if ($r == null) {
-			$r = sprintf("%s_View_%s", $this->getAppId(), $postfix);
-		}
-		$this->logger->log(LOG_DEBUG, "default view class [%s]", $r);
-		return $r;
-	}
-
-	/**
-	 *	遷移名に対応するビューパス名が省略された場合のデフォルトパス名を返す
-	 *
-	 *	デフォルトでは"foo_bar" -> "/Foo/Bar.php"となるので好み応じてオーバーライドする
-	 *
-	 *	@access	public
-	 *	@param	string	$forward_name	forward名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
-	 *	@return	string	view classが定義されるスクリプトのパス名
-	 */
-	function getDefaultViewPath($forward_name, $fallback = true)
-	{
-		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($forward_name)) . '.' . $this->getExt('php');
-		$view_dir = $this->getViewdir();
-
-		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$r = 'MobileAU/' . $r;
-		} else {
-			$r = $default_path;
-		}
-
-		if ($fallback && file_exists($view_dir . $r) == false && $r != $default_path) {
-			$this->logger->log(LOG_DEBUG, 'client_type specific file not found [%s] -> try defualt', $r);
-			$r = $default_path;
-		}
-
-		$this->logger->log(LOG_DEBUG, "default view path [%s]", $r);
-		return $r;
-	}
-
-	/**
 	 *	実行するアクション名を返す
 	 *
 	 *	@access	private
@@ -1167,6 +850,11 @@ class Ethna_Controller
 		$form_action_name = $this->_getActionName_Form();
 		$form_action_name = preg_replace('/[^a-z0-9\-_]+/i', '', $form_action_name);
 		$this->logger->log(LOG_DEBUG, 'form_action_name[%s]', $form_action_name);
+
+		// Ethnaマネージャへのフォームからのリクエストは拒否
+		if ($form_action_name == "__ethna_info__") {
+			$form_action_name = "";
+		}
 
 		// フォームからの指定が無い場合はエントリポイントに指定されたデフォルト値を利用する
 		if ($form_action_name == "" && count($default_action_name) > 0) {
@@ -1283,7 +971,7 @@ class Ethna_Controller
 
 		if (isset($action_obj['form_name']) == false) {
 			$action_obj['form_name'] = $this->getDefaultFormClass($action_name);
-		} else {
+		} else if (class_exists($action_obj['form_name']) == false) {
 			// 明示指定されたフォームクラスが定義されていない場合は警告
 			$this->logger->log(LOG_WARNING, 'stated form class is not defined [%s]', $action_obj['form_name']);
 		}
@@ -1318,6 +1006,378 @@ class Ethna_Controller
 	}
 
 	/**
+	 *	フィルターチェインを生成する
+	 *
+	 *	@access	private
+	 */
+	function _createFilterChain()
+	{
+		$this->filter_chain = array();
+		foreach ($this->filter as $filter) {
+			$file = sprintf("%s/%s.%s", $this->getDirectory('filter'), $filter, $this->getExt('php'));
+			if (file_exists($file)) {
+				include_once($file);
+			}
+			if (class_exists($filter)) {
+				$this->filter_chain[] =& new $filter($this);
+			}
+		}
+	}
+
+	/**
+	 *	アクション名が実行許可されているものかどうかを返す
+	 *
+	 *	@access	private
+	 *	@param	string	$action_name			リクエストされたアクション名
+	 *	@param	array	$default_action_name	許可されているアクション名
+	 *	@return	bool	true:許可 false:不許可
+	 */
+	function _isAcceptableActionName($action_name, $default_action_name)
+	{
+		foreach (to_array($default_action_name) as $name) {
+			if ($action_name == $name) {
+				return true;
+			} else if ($name{strlen($name)-1} == '*') {
+				if (strncmp($action_name, substr($name, 0, -1), strlen($name)-1) == 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 *	指定されたアクションのフォームクラス名を返す(オブジェクトの生成は行わない)
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	アクション名
+	 *	@return	string	アクションのフォームクラス名
+	 */
+	function getActionFormName($action_name)
+	{
+		$action_obj =& $this->_getAction($action_name);
+		if (is_null($action_obj)) {
+			return null;
+		}
+
+		return $action_obj['form_name'];
+	}
+
+	/**
+	 *	アクションに対応するフォームクラス名が省略された場合のデフォルトクラス名を返す
+	 *
+	 *	デフォルトでは[プロジェクトID]_Form_[アクション名]となるので好み応じてオーバライドする
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	アクション名
+	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
+	 *	@return	string	アクションフォーム名
+	 */
+	function getDefaultFormClass($action_name, $fallback = true)
+	{
+		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
+
+		$r = null;
+		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
+			$r = sprintf("%s_SOAPForm_%s", $this->getAppId(), $postfix);
+		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$tmp = sprintf("%s_MobileAUForm_%s", $this->getAppId(), $postfix);
+			if ($fallback == false || class_exists($tmp)) {
+				$r = $tmp;
+			}
+		}
+
+		if ($r == null) {
+			$r = sprintf("%s_Form_%s", $this->getAppId(), $postfix);
+		}
+		$this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
+		return $r;
+	}
+
+	/**
+	 *	getDefaultFormClass()で取得したクラス名からアクション名を取得する
+	 *
+	 *	getDefaultFormClass()をオーバーライドした場合、こちらも合わせてオーバーライド
+	 *	することを推奨(必須ではない)
+	 *
+	 *	@access	public
+	 *	@param	string	$class_name		フォームクラス名
+	 *	@return	string	アクション名
+	 */
+	function actionFormToName($class_name)
+	{
+		$prefix = sprintf("%s_Form_", $this->getAppId());
+		if (preg_match("/$prefix(.*)/", $class_name, $match) == 0) {
+			// 不明なクラス名
+			return null;
+		}
+		$target = $match[1];
+
+		$action_name = substr(preg_replace('/([A-Z])/e', "'_' . strtolower('\$1')", $target), 1);
+
+		return $action_name;
+	}
+
+	/**
+	 *	アクションに対応するフォームパス名が省略された場合のデフォルトパス名を返す
+	 *
+	 *	デフォルトでは_getDefaultActionPath()と同じ結果を返す(1ファイルに
+	 *	アクションクラスとフォームクラスが記述される)ので、好みに応じて
+	 *	オーバーライドする
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	アクション名
+	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
+	 *	@return	string	form classが定義されるスクリプトのパス名
+	 */
+	function getDefaultFormPath($action_name, $fallback = true)
+	{
+		return $this->getDefaultActionPath($action_name, $fallback);
+	}
+
+	/**
+	 *	指定されたアクションのクラス名を返す(オブジェクトの生成は行わない)
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	アクションの名称
+	 *	@return	string	アクションのクラス名
+	 */
+	function getActionClassName($action_name)
+	{
+		$action_obj =& $this->_getAction($action_name);
+		if ($action_obj == null) {
+			return null;
+		}
+
+		return $action_obj['class_name'];
+	}
+
+	/**
+	 *	アクションに対応するアクションクラス名が省略された場合のデフォルトクラス名を返す
+	 *
+	 *	デフォルトでは[プロジェクトID]_Action_[アクション名]となるので好み応じてオーバライドする
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	アクション名
+	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
+	 *	@return	string	アクションクラス名
+	 */
+	function getDefaultActionClass($action_name, $fallback = true)
+	{
+		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
+
+		$r = null;
+		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
+			$r = sprintf("%s_SOAPAction_%s", $this->getAppId(), $postfix);
+		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$tmp = sprintf("%s_MobileAUAction_%s", $this->getAppId(), $postfix);
+			if ($fallback == false || class_exists($tmp)) {
+				$r = $tmp;
+			}
+		}
+
+		if ($r == null) {
+			$r = sprintf("%s_Action_%s", $this->getAppId(), $postfix);
+		}
+		$this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
+		return $r;
+	}
+
+	/**
+	 *	getDefaultActionClass()で取得したクラス名からアクション名を取得する
+	 *
+	 *	getDefaultActionClass()をオーバーライドした場合、こちらも合わせてオーバーライド
+	 *	することを推奨(必須ではない)
+	 *
+	 *	@access	public
+	 *	@param	string	$class_name		アクションクラス名
+	 *	@return	string	アクション名
+	 */
+	function actionClassToName($class_name)
+	{
+		$prefix = sprintf("%s_Action_", $this->getAppId());
+		if (preg_match("/$prefix(.*)/", $class_name, $match) == 0) {
+			// 不明なクラス名
+			return null;
+		}
+		$target = $match[1];
+
+		$action_name = substr(preg_replace('/([A-Z])/e', "'_' . strtolower('\$1')", $target), 1);
+
+		return $action_name;
+	}
+
+	/**
+	 *	アクションに対応するアクションパス名が省略された場合のデフォルトパス名を返す
+	 *
+	 *	デフォルトでは"foo_bar" -> "/Foo/Bar.php"となるので好み応じてオーバーライドする
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	アクション名
+	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
+	 *	@return	string	アクションクラスが定義されるスクリプトのパス名
+	 */
+	function getDefaultActionPath($action_name, $fallback = true)
+	{
+		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($action_name)) . '.' . $this->getExt('php');
+		$action_dir = $this->getActiondir();
+
+		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
+			$r = 'SOAP/' . $default_path;
+		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$r = 'MobileAU/' . $default_path;
+		} else {
+			$r = $default_path;
+		}
+
+		if ($fallback && file_exists($action_dir . $r) == false && $r != $default_path) {
+			$this->logger->log(LOG_DEBUG, 'client_type specific file not found [%s] -> try defualt', $r);
+			$r = $default_path;
+		}
+
+		$this->logger->log(LOG_DEBUG, "default action path [%s]", $r);
+		return $r;
+	}
+
+	/**
+	 *	指定された遷移名に対応するビュークラス名を返す(オブジェクトの生成は行わない)
+	 *
+	 *	@access	public
+	 *	@param	string	$forward_name	遷移先の名称
+	 *	@return	string	view classのクラス名
+	 */
+	function getViewClassName($forward_name)
+	{
+		if ($forward_name == null) {
+			return null;
+		}
+
+		if (isset($this->forward[$forward_name])) {
+			$forward_obj = $this->forward[$forward_name];
+		} else {
+			$forward_obj = array();
+		}
+
+		if (isset($forward_obj['view_name'])) {
+			$class_name = $forward_obj['view_name'];
+			if (class_exists($class_name)) {
+				return $class_name;
+			}
+		} else {
+			$class_name = null;
+		}
+
+		// viewのインクルード
+		$this->_includeViewScript($forward_obj, $forward_name);
+
+		if (is_null($class_name) == false && class_exists($class_name)) {
+			return $class_name;
+		} else if (is_null($class_name) == false) {
+			$this->logger->log(LOG_WARNING, 'stated view class is not defined [%s] -> try default', $class_name);
+		}
+
+		$class_name = $this->getDefaultViewClass($forward_name);
+		if (class_exists($class_name)) {
+			return $class_name;
+		} else {
+			$this->logger->log(LOG_DEBUG, 'view class is not defined for [%s] -> use default [%s]', $forward_name, 'Ethna_ViewClass');
+			return 'Ethna_ViewClass';
+		}
+	}
+
+	/**
+	 *	遷移名に対応するビュークラス名が省略された場合のデフォルトクラス名を返す
+	 *
+	 *	デフォルトでは[プロジェクトID]_View_[遷移名]となるので好み応じてオーバライドする
+	 *
+	 *	@access	public
+	 *	@param	string	$forward_name	forward名
+	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
+	 *	@return	string	view classクラス名
+	 */
+	function getDefaultViewClass($forward_name, $fallback = true)
+	{
+		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($forward_name));
+
+		$r = null;
+		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$tmp = sprintf("%s_MobileAUView_%s", $this->getAppId(), $postfix);
+			if ($fallback == false || class_exists($tmp)) {
+				$r = $tmp;
+			}
+		}
+
+		if ($r == null) {
+			$r = sprintf("%s_View_%s", $this->getAppId(), $postfix);
+		}
+		$this->logger->log(LOG_DEBUG, "default view class [%s]", $r);
+		return $r;
+	}
+
+	/**
+	 *	遷移名に対応するビューパス名が省略された場合のデフォルトパス名を返す
+	 *
+	 *	デフォルトでは"foo_bar" -> "/Foo/Bar.php"となるので好み応じてオーバーライドする
+	 *
+	 *	@access	public
+	 *	@param	string	$forward_name	forward名
+	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
+	 *	@return	string	view classが定義されるスクリプトのパス名
+	 */
+	function getDefaultViewPath($forward_name, $fallback = true)
+	{
+		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($forward_name)) . '.' . $this->getExt('php');
+		$view_dir = $this->getViewdir();
+
+		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
+			$r = 'MobileAU/' . $r;
+		} else {
+			$r = $default_path;
+		}
+
+		if ($fallback && file_exists($view_dir . $r) == false && $r != $default_path) {
+			$this->logger->log(LOG_DEBUG, 'client_type specific file not found [%s] -> try defualt', $r);
+			$r = $default_path;
+		}
+
+		$this->logger->log(LOG_DEBUG, "default view path [%s]", $r);
+		return $r;
+	}
+
+	/**
+	 *	遷移名に対応するテンプレートパス名が省略された場合のデフォルトパス名を返す
+	 *
+	 *	デフォルトでは"foo_bar"というforward名が"foo/bar" + テンプレート拡張子となる
+	 *	ので好み応じてオーバライドする
+	 *
+	 *	@access	public
+	 *	@param	string	$forward_name	forward名
+	 *	@return	string	forwardパス名
+	 */
+	function getDefaultForwardPath($forward_name)
+	{
+		return str_replace('_', '/', $forward_name) . '.' . $this->ext['tpl'];
+	}
+	
+	/**
+	 *	テンプレートパス名から遷移名を取得する
+	 *
+	 *	getDefaultForwardPath()をオーバーライドした場合、こちらも合わせてオーバーライド
+	 *	することを推奨(必須ではない)
+	 *
+	 *	@access	public
+	 *	@param	string	$forward_path	テンプレートパス名
+	 *	@return	string	遷移名
+	 */
+	function forwardPathToName($forward_path)
+	{
+		$forward_path = preg_replace('/^\/+/', '', $forward_path);
+		$forward_path = preg_replace(sprintf('/\.%s$/', $this->getExt('tpl')), '', $forward_path);
+
+		return str_replace('/', '_', $forward_path);
+	}
+
+	/**
 	 *	遷移名からテンプレートファイルのパス名を取得する
 	 *
 	 *	@access	private
@@ -1335,10 +1395,88 @@ class Ethna_Controller
 		$forward_obj =& $this->forward[$forward_name];
 		if (isset($forward_obj['forward_path']) == false) {
 			// 省略値補正
-			$forward_obj['forward_path'] = $this->_getDefaultForwardPath($forward_name);
+			$forward_obj['forward_path'] = $this->getDefaultForwardPath($forward_name);
 		}
 
 		return $forward_obj['forward_path'];
+	}
+
+	/**
+	 *	テンプレートエンジン取得する(現在はsmartyのみ対応)
+	 *
+	 *	@access	public
+	 *	@return	object	Smarty	テンプレートエンジンオブジェクト
+	 *	@todo	ブロック関数プラグイン(etc)対応
+	 */
+	function &getTemplateEngine()
+	{
+		$smarty =& new Smarty();
+		$smarty->template_dir = $this->getTemplatedir();
+		$smarty->compile_dir = $this->getDirectory('template_c') . '/tpl_' . md5($smarty->template_dir);
+		if (@is_dir($smarty->compile_dir) == false) {
+			mkdir($smarty->compile_dir, 0755);
+		}
+		$smarty->plugins_dir = $this->getDirectory('plugins');
+
+		// default modifiers
+		$smarty->register_modifier('number_format', 'smarty_modifier_number_format');
+		$smarty->register_modifier('strftime', 'smarty_modifier_strftime');
+		$smarty->register_modifier('count', 'smarty_modifier_count');
+		$smarty->register_modifier('join', 'smarty_modifier_join');
+		$smarty->register_modifier('filter', 'smarty_modifier_filter');
+		$smarty->register_modifier('unique', 'smarty_modifier_unique');
+		$smarty->register_modifier('wordwrap_i18n', 'smarty_modifier_wordwrap_i18n');
+		$smarty->register_modifier('i18n', 'smarty_modifier_i18n');
+		$smarty->register_modifier('checkbox', 'smarty_modifier_checkbox');
+		$smarty->register_modifier('select', 'smarty_modifier_select');
+		$smarty->register_modifier('form_value', 'smarty_modifier_form_value');
+
+		// user defined modifiers
+		foreach ($this->smarty_modifier_plugin as $modifier) {
+			$name = str_replace('smarty_modifier_', '', $modifier);
+			$smarty->register_modifier($name, $modifier);
+		}
+
+		// default functions
+		$smarty->register_function('message', 'smarty_function_message');
+		$smarty->register_function('uniqid', 'smarty_function_uniqid');
+		$smarty->register_function('select', 'smarty_function_select');
+		$smarty->register_function('checkbox_list', 'smarty_function_checkbox_list');
+
+		// user defined functions
+		foreach ($this->smarty_function_plugin as $function) {
+			$name = str_replace('smarty_function_', '', $function);
+			$smarty->register_function($name, $function);
+		}
+
+		// user defined prefilters
+		foreach ($this->smarty_prefilter_plugin as $prefilter) {
+			$smarty->register_prefilter($prefilter);
+		}
+
+		// user defined postfilters
+		foreach ($this->smarty_postfilter_plugin as $postfilter) {
+			$smarty->register_postfilter($postfilter);
+		}
+
+		// user defined outputfilters
+		foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
+			$smarty->register_outputfilter($outputfilter);
+		}
+
+		$this->_setDefaultTemplateEngine($smarty);
+
+		return $smarty;
+	}
+
+	/**
+	 *  テンプレートエンジンのデフォルト状態を設定する
+	 *
+	 *  @access protected
+	 *  @param  object  Smarty  $smarty テンプレートエンジンオブジェクト
+	 */
+	function _setDefaultTemplateEngine(&$smarty)
+	{
 	}
 
 	/**
@@ -1386,6 +1524,18 @@ class Ethna_Controller
 	}
 
 	/**
+	 *	マネージャクラス名を取得する
+	 *
+	 *	@access	public
+	 *	@param	string	$name	マネージャ名
+	 *	@return	string	マネージャクラス名
+	 */
+	function getManagerClassName($name)
+	{
+		return sprintf('%s_%sManager', $this->getAppId(), ucfirst($name));
+	}
+
+	/**
 	 *	アクションスクリプトをインクルードする
 	 *
 	 *	ただし、インクルードしたファイルにクラスが正しく定義されているかどうかは保証しない
@@ -1402,11 +1552,17 @@ class Ethna_Controller
 
 		// class_path属性チェック
 		if (isset($action_obj['class_path'])) {
-			if (file_exists($action_dir . $action_obj['class_path']) == false) {
-				$this->logger->log(LOG_WARNING, 'class_path file not found [%s] -> try default', $action_obj['class_path']);
+			// フルパス指定サポート
+			$tmp_path = $action_obj['class_path'];
+			if (Ethna_Util::isAbsolute($tmp_path) == false) {
+				$tmp_path = $action_dir . $tmp_path;
+			}
+
+			if (file_exists($tmp_path) == false) {
+				$this->logger->log(LOG_WARNING, 'class_path file not found [%s] -> try default', $tmp_path);
 			} else {
-				include_once($action_dir . $action_obj['class_path']);
-				$class_path = $action_obj['class_path'];
+				include_once($tmp_path);
+				$class_path = $tmp_path;
 			}
 		}
 
@@ -1429,14 +1585,20 @@ class Ethna_Controller
 
 		// form_path属性チェック
 		if (isset($action_obj['form_path'])) {
-			if ($action_obj['form_path'] == $class_path) {
+			// フルパス指定サポート
+			$tmp_path = $action_obj['class_path'];
+			if (Ethna_Util::isAbsolute($tmp_path) == false) {
+				$tmp_path = $action_dir . $tmp_path;
+			}
+
+			if ($tmp_path == $class_path) {
 				return;
 			}
-			if (file_exists($action_dir . $action_obj['form_path']) == false) {
-				$this->logger->log(LOG_WARNING, 'form_path file not found [%s] -> try default', $action_obj['form_path']);
+			if (file_exists($tmp_path) == false) {
+				$this->logger->log(LOG_WARNING, 'form_path file not found [%s] -> try default', $tmp_path);
 			} else {
-				include_once($action_dir . $action_obj['form_path']);
-				$form_path = $action_obj['form_path'];
+				include_once($tmp_path);
+				$form_path = $tmp_path;
 			}
 		}
 
@@ -1468,11 +1630,17 @@ class Ethna_Controller
 		$view_dir = $this->getViewdir();
 
 		// view_path属性チェック
-		if (isset($action_obj['view_path'])) {
-			if (file_exists($view_dir . $forward_obj['view_path']) == false) {
-				$this->logger->log(LOG_WARNING, 'view_path file not found [%s] -> try default', $forward_obj['view_path']);
+		if (isset($forward_obj['view_path'])) {
+			// フルパス指定サポート
+			$tmp_path = $forward_obj['view_path'];
+			if (Ethna_Util::isAbsolute($tmp_path) == false) {
+				$tmp_path = $view_dir . $tmp_path;
+			}
+
+			if (file_exists($tmp_path) == false) {
+				$this->logger->log(LOG_WARNING, 'view_path file not found [%s] -> try default', $tmp_path);
 			} else {
-				include_once($action_dir . $forward_obj['view_path']);
+				include_once($tmp_path);
 				return;
 			}
 		}
@@ -1515,62 +1683,6 @@ class Ethna_Controller
 			}
 		}
 		closedir($dh);
-	}
-
-	/**
-	 *  テンプレートエンジンのデフォルト状態を設定する
-	 *
-	 *  @access protected
-	 *  @param  object  Smarty  $smarty テンプレートエンジンオブジェクト
-	 */
-	function _setDefaultTemplateEngine(&$smarty)
-	{
-	}
-
-	/**
-	 *	Ethnaマネージャを設定する(不要な場合は空のメソッドとしてオーバーライドしてもよい)
-	 *
-	 *	@access	protected
-	 */
-	function _activateEthnaManager()
-	{
-		$base = dirname(dirname(__FILE__));
-
-		if ($this->config->get('debug') == false) {
-			return;
-		}
-
-		// action設定
-		$this->action['__ethna_info__'] = array(
-			'form_name' =>	'Ethna_Form_Info',
-			'class_name' =>	'Ethna_Action_Info',
-		);
-		$this->action['__ethna_info_do__'] = array(
-			'form_name' =>	'Ethna_Form_InfoDo',
-			'class_name' =>	'Ethna_Action_InfoDo',
-		);
-
-		// forward設定
-		$forward_obj = array();
-
-		$forward_obj['forward_path'] = sprintf("%s/tpl/info.tpl", $base);
-		$forward_obj['view_name'] = 'Ethna_Action_Info';
-		$this->forward['__ethna_info__'] = $forward_obj;
-	}
-
-	/**
-	 *	遷移名に対応するテンプレートパス名が省略された場合のデフォルトパス名を返す
-	 *
-	 *	デフォルトでは"foo_bar"というforward名が"foo/bar" + テンプレート拡張子となる
-	 *	ので好み応じてオーバライドする
-	 *
-	 *	@access	protected
-	 *	@param	string	$forward_name	forward名
-	 *	@return	string	forwardパス名
-	 */
-	function _getDefaultForwardPath($forward_name)
-	{
-		return str_replace('_', '/', $forward_name) . '.' . $this->ext['tpl'];
 	}
 
 	/**
@@ -1621,44 +1733,34 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	アクション名が実行許可されているものかどうかを返す
+	 *	Ethnaマネージャを設定する
 	 *
-	 *	@access	private
-	 *	@param	string	$action_name			リクエストされたアクション名
-	 *	@param	array	$default_action_name	許可されているアクション名
-	 *	@return	bool	true:許可 false:不許可
+	 *	不要な場合は空のメソッドとしてオーバーライドしてもよい
+	 *
+	 *	@access	protected
 	 */
-	function _isAcceptableActionName($action_name, $default_action_name)
+	function _activateEthnaManager()
 	{
-		foreach (to_array($default_action_name) as $name) {
-			if ($action_name == $name) {
-				return true;
-			} else if ($name{strlen($name)-1} == '*') {
-				if (strncmp($action_name, substr($name, 0, -1), strlen($name)-1) == 0) {
-					return true;
-				}
-			}
+		if ($this->config->get('debug') == false) {
+			return;
 		}
-		return false;
-	}
 
-	/**
-	 *	フィルターチェインを生成する
-	 *
-	 *	@access	private
-	 */
-	function _createFilterChain()
-	{
-		$this->filter_chain = array();
-		foreach ($this->filter as $filter) {
-			$file = sprintf("%s/%s.%s", $this->getDirectory('filter'), $filter, $this->getExt('php'));
-			if (file_exists($file)) {
-				include_once($file);
-			}
-			if (class_exists($filter)) {
-				$this->filter_chain[] =& new $filter($this);
-			}
-		}
+		include_once(ETHNA_BASE . '/class/Ethna_InfoManager.php');
+
+		// action設定
+		$this->action['__ethna_info__'] = array(
+			'form_name' =>	'Ethna_Form_Info',
+			'form_path' =>	sprintf('%s/class/Action/Ethna_Action_Info.php', ETHNA_BASE),
+			'class_name' =>	'Ethna_Action_Info',
+			'class_path' =>	sprintf('%s/class/Action/Ethna_Action_Info.php', ETHNA_BASE),
+		);
+
+		// forward設定
+		$this->forward['__ethna_info__'] = array(
+			'forward_path'	=> sprintf('%s/tpl/info.tpl', ETHNA_BASE),
+			'view_name'		=> 'Ethna_View_Info',
+			'view_path'		=> sprintf('%s/class/View/Ethna_View_Info.php', ETHNA_BASE),
+		);
 	}
 }
 // }}}

@@ -113,7 +113,7 @@ class Ethna_Backend
 		// マネージャオブジェクトの生成
 		$manager_list = $controller->getManagerList();
 		foreach ($manager_list as $key => $value) {
-			$class_name = $controller->getAppId() . "_" . ucfirst(strtolower($value)) . 'Manager';
+			$class_name = $this->controller->getManagerClassName($value);
 			$this->manager[$value] =& new $class_name($this);
 		}
 

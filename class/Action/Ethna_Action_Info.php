@@ -9,6 +9,25 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_Form_Info
+/**
+ *	__ethna_info__フォームの実装
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		public
+ *	@package	Ethna
+ */
+class Ethna_Form_Info extends Ethna_ActionForm
+{
+	/**
+	 *	@access	private
+	 *	@var	array	フォーム値定義
+	 */
+	var	$form = array(
+	);
+}
+// }}}
+
 // {{{ Ethna_Action_Info
 /**
  *	__ethna_info__アクションの実装
@@ -39,18 +58,6 @@ class Ethna_Action_Info extends Ethna_ActionClass
 	function perform()
 	{
 		return '__ethna_info__';
-	}
-
-	/**
-	 *	遷移前処理
-	 *
-	 *	@access	public
-	 */
-	function preforward()
-	{
-		$em =& new Ethna_InfoManager($this->backend);
-
-		$this->af->setApp('ethna_version', ETHNA_VERSION);
 	}
 }
 // }}}

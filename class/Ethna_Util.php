@@ -489,6 +489,30 @@ class Ethna_Util
 	}
 
 	/**
+	 *	パス名が絶対パスかどうかを返す
+	 *
+	 *	port from File in PEAR (for BC)
+	 *
+	 *	@access	public
+	 *	@param	string	$path
+	 *	@return	bool	true:絶対パス false:相対パス
+	 */
+	function isAbsolute($path)
+	{
+        if (preg_match("/\.\./", $path)) {
+            return false;
+        }
+
+        if (DIRECTORY_SEPARATOR == '/' && (substr($path, 0, 1) == '/' OR substr($path, 0, 1) == '~')) {
+            return true;
+        } elseif (DIRECTORY_SEPARATOR == '\\' && preg_match('/^[a-z]:\\\/i', $path)) {
+            return true;
+        }
+
+        return false;
+	}
+
+	/**
 	 *	テンポラリディレクトリのファイルを削除する
 	 *
 	 *	@access	public
