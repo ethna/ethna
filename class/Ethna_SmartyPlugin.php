@@ -220,7 +220,7 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
 	$tmp = $string;
 	do {
 		$n = strpos($tmp, $break);
-		if ($n < $width) {
+		if ($n !== false && $n < $width) {
 			$s = substr($tmp, 0, $n);
 			$r .= $s . $i;
 			$tmp = substr($tmp, strlen($s) + strlen($break));
