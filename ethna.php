@@ -163,14 +163,23 @@ define('E_SESSION_EXPIRE', 16);
 /**	エラーコード: セッションエラー(IPアドレスチェックエラー) */
 define('E_SESSION_IPCHECK', 17);
 
+/**	エラーコード: アクション未定義エラー */
+define('E_APP_UNDEFINED_ACTION', 32);
+
+/**	エラーコード: アクションクラス未定義エラー */
+define('E_APP_UNDEFINED_ACTIONCLASS', 33);
+
 /**	エラーコード: アプリケーションオブジェクトID重複エラー */
-define('E_APP_DUPENT', 32);
+define('E_APP_DUPENT', 34);
 
 /** エラーコード: アプリケーションメソッドが存在しない */
-define('E_APP_NOMETHOD', 33);
+define('E_APP_NOMETHOD', 35);
 
 /** エラーコード: ロックエラー */
-define('E_APP_LOCK', 34);
+define('E_APP_LOCK', 36);
+
+/** エラーコード: CSV分割エラー(行継続) */
+define('E_UTIL_CSV_CONTINUE', 64);
 
 /**	エラーコード: フォーム値型エラー(スカラー引数に配列指定) */
 define('E_FORM_WRONGTYPE_SCALAR', 128);
@@ -225,6 +234,16 @@ define('E_FORM_MAX_FILE', 144);
 
 /**	エラーコード: フォーム値文字種(正規表現)エラー */
 define('E_FORM_REGEXP', 145);
+
+/**	エラーコード: フォーム値数値(カスタムチェック)エラー */
+define('E_FORM_INVALIDVALUE', 146);
+
+/**	エラーコード: フォーム値文字種(カスタムチェック)エラー */
+define('E_FORM_INVALIDCHAR', 147);
+
+/**	エラーコード: 確認用エントリ入力エラー */
+define('E_FORM_CONFIRM', 148);
+
 
 if (defined('E_STRICT') == false) {
 	/**	PHP 5との互換保持定義 */
