@@ -46,7 +46,7 @@ class Ethna_Error extends PEAR_Error
 	 */
 	function Ethna_Error($message = null, $code = null, $mode = null, $options = null)
 	{
-		$controller =& getController();
+		$controller =& Ethna_Controller::getInstance();
 		$this->i18n =& $controller->getI18N();
 
 		// $options以降の引数->$userinfo

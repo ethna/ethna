@@ -9,20 +9,6 @@
  *	@version	$Id$
  */
 
-// {{{ getController
-/**
- *	コントローラオブジェクトを取得する
- *
- *	@access	public
- *	@return	object	コントローラオブジェクト
- */
-function &getController()
-{
-	$controller =& $GLOBALS['controller'];
-	return $controller;
-}
-// }}}
-
 // {{{ Ethna_Controller
 /**
  *	コントローラクラス
@@ -261,6 +247,22 @@ class Ethna_Controller
 
 		// Ethnaマネージャ設定
 		$this->_activateEthnaManager();
+	}
+
+	/**
+	 *	(現在アクティブな)コントローラのインスタンスを返す
+	 *
+	 *	@access	public
+	 *	@return	object	Ethna_Controller	コントローラのインスタンス
+	 *	@static
+	 */
+	function &getInstance()
+	{
+		if (isset($GLOBALS['controller'])) {
+			return $GLOBALS['controller'];
+		} else {
+			return null;
+		}
 	}
 
 	/**

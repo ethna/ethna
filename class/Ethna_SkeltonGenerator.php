@@ -115,7 +115,7 @@ class Ethna_SkeltonGenerator
 	 */
 	function generateActionSkelton($action_name)
 	{
-		$c =& getController();
+		$c =& Ethna_Controller::getInstance();
 
 		$action_dir = $c->getActiondir();
 		$action_class = $c->getDefaultActionClass($action_name, false);
@@ -147,7 +147,7 @@ class Ethna_SkeltonGenerator
 	 */
 	function generateViewSkelton($forward_name)
 	{
-		$c =& getController();
+		$c =& Ethna_Controller::getInstance();
 
 		$view_dir = $c->getViewdir();
 		$view_class = $c->getDefaultViewClass($forward_name, false);
@@ -207,7 +207,7 @@ class Ethna_SkeltonGenerator
 	 */
 	function _generateFile($skel, $entity, $macro)
 	{
-		$c =& getController();
+		$c =& Ethna_Controller::getInstance();
 		if (is_object($c)) {
 			$base = $c->getBasedir();
 			if (file_exists("$base/skel/$skel") == false) {

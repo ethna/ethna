@@ -438,7 +438,7 @@ class Ethna_ActionForm
 		}
 
 		// Ethna_Backend¤ÎÀßÄê
-		$c =& getController();
+		$c =& Ethna_Controller::getInstance();
 		$this->backend =& $c->getBackend();
 
 		return to_array($this->form_vars[$name]);

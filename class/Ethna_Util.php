@@ -35,7 +35,7 @@ function to_array($v)
  */
 function is_error($name)
 {
-	$c =& getController();
+	$c =& Ethna_Controller::getInstance();
 
 	$action_error =& $c->getActionError();
 
@@ -61,7 +61,7 @@ class Ethna_Util
 	 */
 	function isDuplicatePost()
 	{
-		$c =& getController();
+		$c =& Ethna_Controller::getInstance();
 
 		// use raw post data
 		if (isset($_POST['uniqid'])) {
@@ -97,7 +97,7 @@ class Ethna_Util
 	 */
 	function clearDuplicatePost()
 	{
-		$c =& getController();
+		$c =& Ethna_Controller::getInstance();
 
 		// use raw post data
 		if (isset($_POST['uniqid'])) {
@@ -482,7 +482,7 @@ class Ethna_Util
 	 */
 	function purgeTmp($prefix, $timeout)
 	{
-		$c =& getController();
+		$c =& Ethna_Controller::getInstance();
 
 		$dh = opendir($c->getDirectory('tmp'));
 		if ($dh) {

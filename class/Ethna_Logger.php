@@ -31,7 +31,7 @@ define('LOG_FUNCTION', 1 << 17);
  */
 function ethna_error_handler($errno, $errstr, $errfile, $errline)
 {
-	$c =& getController();
+	$c =& Ethna_Controller::getInstance();
 
 	list($level, $name) = Ethna_Logger::errorLevelToLogLevel($errno);
 	if ($errno == E_STRICT) {
