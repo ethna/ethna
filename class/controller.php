@@ -794,7 +794,13 @@ class Ethna_Controller
 			}
 		}
 
-		return sprintf("%s_View_%s", $this->getAppId(), $postfix);
+		$class_name = sprintf("%s_View_%s", $this->getAppId(), $postfix);
+		if (class_exists($class_name)) {
+			return $class_name;
+		}
+
+		// ビュークラスは必須ではない
+		return null;
 	}
 
 	/**

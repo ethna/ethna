@@ -571,7 +571,7 @@ class Ethna_ActionForm
 				} else {
 					$form_name = $key;
 				}
-				$hidden_vars .= sprintf("<input type=\"hidden\" name=\"%s\" value=\"%s\">\n",
+				$hidden_vars .= sprintf("<input type=\"hidden\" name=\"%s\" value=\"%s\" />\n",
 					$form_name, htmlspecialchars($v));
 			}
 		}
