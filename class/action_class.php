@@ -75,6 +75,7 @@ class Ethna_ActionClass
 		$this->backend =& $backend;
 		$this->config =& $this->backend->getConfig();
 		$this->i18n =& $this->backend->getI18N();
+		$this->db =& $this->backend->getDB();
 
 		$this->action_error =& $this->backend->getActionError();
 		$this->ae =& $this->action_error;

@@ -372,5 +372,44 @@ class Ethna_Backend
 			$this->db = null;
 		}
 	}
+
+	/**
+	 *	DBトランザクションを開始する
+	 *
+	 *	@access	public
+	 */
+	function begin()
+	{
+		if ($this->db == null || $this->db->isValid() == false) {
+			$this->log(LOG_WARNING, "begin() with inactive DB object");
+		}
+		$this->db->begin();
+	}
+
+	/**
+	 *	DBトランザクションを中断する
+	 *
+	 *	@access	public
+	 */
+	function rollback()
+	{
+		if ($this->db == null || $this->db->isValid() == false) {
+			$this->log(LOG_WARNING, "rollback() with inactive DB object");
+		}
+		$this->db->rollback();
+	}
+
+	/**
+	 *	DBトランザクションをコミットする
+	 *
+	 *	@access	public
+	 */
+	function commit()
+	{
+		if ($this->db == null || $this->db->isValid() == false) {
+			$this->log(LOG_WARNING, "commit() with inactive DB object");
+		}
+		$this->db->commit();
+	}
 }
 ?>
