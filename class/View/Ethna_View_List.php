@@ -63,14 +63,18 @@ class Ethna_View_List extends Ethna_ViewClass
 
 		// 検索条件
 		$filter = array();
+		$sort = array();
 		foreach ($this->search_list as $key) {
 			if ($this->af->get("s_$key") != "") {
 				$filter[$key] = $this->af->get("s_$key");
 			}
+			if ($this->af->get("sort") == $key) {
+				$order = $this->af->get("order") == "desc" ? OBJECT_SORT_DESC : OBJECT_SORT_ASC;
+				$sort = array(
+					$key => $order,
+				);
+			}
 		}
-
-		// TODO: ソート条件
-		$sort = array();
 
 		// 表示項目一覧
 		for ($i = 0; $i < 2; $i++) {

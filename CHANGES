@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_View_List(リスト表示用ビュー基底クラス)のソート対応
 - Ethna_ActionClass::prepare()でヘッダが送信済みの場合はperform()を実行せずに処理を終了するように変更
 - 組み込みSmarty関数is_error()を追加
 - Ethna_ActionForm::_handleErrorをpublicメソッドに変更(Ethna_ActionForm::handleErrorに名称変更)
@@ -11,6 +12,7 @@
 
 *** bug fixes
 
+- フォーム定義に配列を指定していた場合の必須チェックが正しく行われない問題を修正
 - __ethna_info__がサブディレクトリに定義されたアクションを正しく取得できない問題を修正
 - VAR_TYPE_FILEの場合はregexp属性が無効になるように修正
 

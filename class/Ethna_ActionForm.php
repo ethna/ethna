@@ -389,12 +389,17 @@ class Ethna_ActionForm
 						$this->_validate($name, $this->form_vars[$name][$key], $value);
 					}
 				} else {
-					if ($this->form_vars[$name] == null && is_array($value['type']) && $value['required'] == false) {
-						// 配列型で省略可のものは値自体が送信されてなくてもエラーとしない
-						continue;
-					} else if (is_array($value['type'])) {
-						$this->handleError($name, $value, E_FORM_WRONGTYPE_ARRAY);
-						continue;
+					if (is_array($value['type'])) {
+						if ($this->form_vars[$name] == null && $value['required'] == false) {
+							// 配列型で省略可のものは値自体が送信されてなくてもエラーとしない
+							continue;
+						} else if ($this->form_vars[$name] == null) {
+							$this->handleError($name, $value, E_FORM_REQUIRED);
+							continue;
+						} else {
+							$this->handleError($name, $value, E_FORM_WRONGTYPE_ARRAY);
+							continue;
+						}
 					}
 					$this->form_vars[$name] = $this->_filter($this->form_vars[$name], $value['filter']);
 					$this->_validate($name, $this->form_vars[$name], $value);
