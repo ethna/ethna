@@ -845,7 +845,7 @@ class Ethna_Controller
 	 */
 	function _trigger_AMF()
 	{
-		include_once('ethna/contrib/amfphp/app/Gateway.php');
+		include_once('Ethna/contrib/amfphp/app/Gateway.php');
 
 		$this->action_error =& new Ethna_ActionError();
 
