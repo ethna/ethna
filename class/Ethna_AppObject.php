@@ -17,7 +17,6 @@
  *	@access		public
  *	@package	Ethna
  *	@todo		複数テーブルのJOIN対応
- *	@todo		複数カラムによるプライマリキー利用時の動作検証
  */
 class Ethna_AppObject
 {

@@ -397,35 +397,50 @@ class Ethna_Util
 	/**
 	 *	ランダムなハッシュ値を生成する
 	 *
+	 *	決して高速ではないので乱用は避けること
+	 *
 	 *	@access	public
 	 *	@param	int		$length	ハッシュ値の長さ(〜64)
 	 *	@return	string	ハッシュ値
-	 *	@todo	Linux以外の環境対応
 	 */
 	function getRandom($length = 64)
 	{
+		static $srand = false;
+
+		if ($srand == false) {
+			list($usec, $sec) = explode(' ', microtime());
+			mt_srand((float) $sec + ((float) $usec * 100000) + getmypid());
+			$srand = true;
+		}
+
 		$value = "";
 		for ($i = 0; $i < 2; $i++) {
-			$rx = $tx = 0;
-			$fp = fopen('/proc/net/dev', 'r');
-			if ($fp != null) {
-				$header = true;
-				while (feof($fp) === false) {
-					$s = fgets($fp, 4096);
-					if ($header) {
-						$header = false;
-						continue;
-					}
-					$v = preg_split('/[:\s]+/', $s);
-					if (is_array($v) && count($v) > 10) {
-						$rx += $v[2];
-						$tx += $v[10];
+			// for Linux
+			if (file_exists('/proc/net/dev')) {
+				$rx = $tx = 0;
+				$fp = fopen('/proc/net/dev', 'r');
+				if ($fp != null) {
+					$header = true;
+					while (feof($fp) === false) {
+						$s = fgets($fp, 4096);
+						if ($header) {
+							$header = false;
+							continue;
+						}
+						$v = preg_split('/[:\s]+/', $s);
+						if (is_array($v) && count($v) > 10) {
+							$rx += $v[2];
+							$tx += $v[10];
+						}
 					}
 				}
+				$platform_value = $rx . $tx . mt_rand() . getmypid();
+			} else {
+				$platform_value = mt_rand() . getmypid();
 			}
 			$now = strftime('%Y%m%d %T');
 			$time = gettimeofday();
-			$v = $now . $time['usec'] . $rx . $tx . rand(0, time());
+			$v = $now . $time['usec'] . $platform_value . rand(0, time());
 			$value .= md5($v);
 		}
 
