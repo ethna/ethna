@@ -616,34 +616,34 @@ class Ethna_ActionForm
 		} else if ($code == E_FORM_WRONGTYPE_BOOLEAN) {
 			$message = "{form}には1または0のみ入力できます";
 		} else if ($code == E_FORM_MIN_INT) {
-			$this->ae->add($name, "{form}には%d以上の数字(整数)を入力して下さい", $code, $def['min']);
+			$this->ae->add($name, "{form}には%d以上の数字(整数)を入力して下さい", $code, $value['min']);
 			return;
 		} else if ($code == E_FORM_MIN_FLOAT) {
-			$this->ae->add($name, "{form}には%f以上の数字(小数)を入力して下さい", $code, $def['min']);
+			$this->ae->add($name, "{form}には%f以上の数字(小数)を入力して下さい", $code, $value['min']);
 			return;
 		} else if ($code == E_FORM_MIN_DATETIME) {
-			$this->ae->add($name, "{form}には%s以降の日付を入力して下さい", $code, $def['min']);
+			$this->ae->add($name, "{form}には%s以降の日付を入力して下さい", $code, $value['min']);
 			return;
 		} else if ($code == E_FORM_MIN_FILE) {
-			$this->ae->add($name, "{form}には%dKB以上のファイルを指定して下さい", $code, $def['min']);
+			$this->ae->add($name, "{form}には%dKB以上のファイルを指定して下さい", $code, $value['min']);
 			return;
 		} else if ($code == E_FORM_MIN_STRING) {
-			$this->ae->add($name, "{form}には%d文字以上入力して下さい", $code, $def['min']);
+			$this->ae->add($name, "{form}には%d文字以上入力して下さい", $code, $value['min']);
 			return;
 		} else if ($code == E_FORM_MAX_INT) {
-			$this->ae->add($name, "{form}には%d以下の数字(整数)を入力して下さい", $code, $def['max']);
+			$this->ae->add($name, "{form}には%d以下の数字(整数)を入力して下さい", $code, $value['max']);
 			return;
 		} else if ($code == E_FORM_MAX_FLOAT) {
-			$this->ae->add($name, "{form}には%f以下の数字(小数)を入力して下さい", $code, $def['max']);
+			$this->ae->add($name, "{form}には%f以下の数字(小数)を入力して下さい", $code, $value['max']);
 			return;
 		} else if ($code == E_FORM_MAX_DATETIME) {
-			$this->ae->add($name, "{form}には%s以前の日付を入力して下さい", $code, $def['max']);
+			$this->ae->add($name, "{form}には%s以前の日付を入力して下さい", $code, $value['max']);
 			return;
 		} else if ($code == E_FORM_MAX_FILE) {
-			$this->ae->add($name, "{form}には%dKB以下のファイルを指定して下さい", $code, $def['max']);
+			$this->ae->add($name, "{form}には%dKB以下のファイルを指定して下さい", $code, $value['max']);
 			return;
 		} else if ($code == E_FORM_MAX_STRING) {
-			$this->ae->add($name, "{form}は%d文字以下で入力して下さい", $code, $def['max']);
+			$this->ae->add($name, "{form}は%d文字以下で入力して下さい", $code, $value['max']);
 			return;
 		} else if ($code == E_FORM_REGEXP) {
 			$message = "{form}を正しく入力してください";

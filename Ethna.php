@@ -289,6 +289,9 @@ class Ethna extends PEAR
 	{
 		if (func_num_args() > 2) {
 			$userinfo = array_slice(func_get_args(), 2);
+			if (count($userinfo) == 1 && is_array($userinfo[0])) {
+				$userinfo = $userinfo[0];
+			}
 			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_ERROR, $userinfo);
 		} else {
 			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_ERROR);
@@ -309,6 +312,9 @@ class Ethna extends PEAR
 	{
 		if (func_num_args() > 2) {
 			$userinfo = array_slice(func_get_args(), 2);
+			if (count($userinfo) == 1 && is_array($userinfo[0])) {
+				$userinfo = $userinfo[0];
+			}
 			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_WARNING, $userinfo);
 		} else {
 			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_WARNING);
@@ -329,6 +335,9 @@ class Ethna extends PEAR
 	{
 		if (func_num_args() > 2) {
 			$userinfo = array_slice(func_get_args(), 2);
+			if (count($userinfo) == 1 && is_array($userinfo[0])) {
+				$userinfo = $userinfo[0];
+			}
 			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_NOTICE, $userinfo);
 		} else {
 			$error =& new Ethna_Error($message, $code, PEAR_ERROR_RETURN, E_USER_NOTICE);
