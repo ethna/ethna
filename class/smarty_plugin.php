@@ -440,7 +440,7 @@ function smarty_function_checkbox_list($params, &$smarty)
 			if (is_null($value)) {
 				print "checked";
 			} else {
-				if ($form[$key] == $value) {
+				if (strcmp($form[$key], $value) == 0) {
 					print "checked";
 				}
 			}
@@ -451,7 +451,7 @@ function smarty_function_checkbox_list($params, &$smarty)
 				print "checked";
 			}
 		} else {
-			if ($value == $form) {
+			if (strcmp($value, $form) == 0) {
 				print "checked";
 			}
 		}
