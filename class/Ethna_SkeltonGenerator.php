@@ -49,6 +49,10 @@ class Ethna_SkeltonGenerator
 			array("www", 0755),
 		);
 
+		if ($this->_checkAppId($id) == false) {
+			return false;
+		}
+
 		$basedir = sprintf("%s/%s", $basedir, strtolower($id));
 
 		// ディレクトリ作成
@@ -255,6 +259,27 @@ class Ethna_SkeltonGenerator
 
 		$st = stat("$base/skel/$skel");
 		if (chmod($entity, $st[2]) == false) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 *	アプリケーションIDをチェックする
+	 *
+	 *	@access	private
+	 *	@param	string	$id		アプリケーションID
+	 *	@return	bool	true:問題なし false:使用不可
+	 */
+	function _checkAppId($id)
+	{
+		if (strcasecmp($id, 'ethna') == 0) {
+			printf("Application Id [%s] is reserved\n", $id);
+			return false;
+		}
+		if (preg_match('/^[0-9a-zA-Z]+$/', $id) == 0) {
+			printf("Only Numeric(0-9) and Alphabetical(A-Z) is allowed for Application Id\n");
 			return false;
 		}
 
