@@ -58,10 +58,10 @@ class Ethna_I18N
 	function Ethna_I18N($locale_dir, $appid)
 	{
 		$this->locale_dir = $locale_dir;
-		$this->appid = $appid;
+		$this->appid = strtoupper($appid);
 		$this->have_gettext = extension_loaded("gettext") ? true : false;
 
-		$this->SetLanguage(LANG_JA);
+		$this->setLanguage(LANG_JA);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Ethna_I18N
 	 *	@param	string	$clientencoding	クライアントエンコーディング名
 	 *	@return	string	言語に対応して設定されたロケール名
 	 */
-	function SetLanguage($language, $systemencoding = null, $clientencoding = null)
+	function setLanguage($language, $systemencoding = null, $clientencoding = null)
 	{
 		switch ($language) {
 		case LANG_EN:
