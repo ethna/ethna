@@ -140,6 +140,7 @@ class Ethna_Session
 		if ($this->session_start) {
 			// we need this?
 			$_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+			$_SESSION['__anonymous__'] = $anonymous;
 			return true;
 		}
 
@@ -153,9 +154,7 @@ class Ethna_Session
 		session_id(Ethna_Util::getRandom());
 		session_start();
 		$_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
-		if ($anonymous) {
-			$_SESSION['__anonymous__'] = true;
-		}
+		$_SESSION['__anonymous__'] = $anonymous;
 		$this->session_start = true;
 
 		return true;
