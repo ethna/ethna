@@ -116,7 +116,14 @@ class Ethna_AppManager
 		$this->action_form =& $backend->getActionForm();
 		$this->af =& $this->action_form;
 		$this->session =& $backend->getSession();
-		$this->db =& $this->backend->getDB();
+
+		$db_list = $backend->getDBlist();
+		if (Ethna::isError($db_list) == false) {
+			foreach ($db_list as $elt) {
+				$varname = $elt['varname'];
+				$this->$varname =& $elt['db'];
+			}
+		}
 	}
 
 	/**
@@ -327,7 +334,23 @@ class Ethna_AppObject
 		$this->action_form =& $backend->getActionForm();
 		$this->af =& $this->action_form;
 		$this->session =& $backend->getSession();
-		$this->db =& $backend->getDB();
+
+		$db_list = $backend->getDBlist();
+		if (Ethna::isError($db_list) == false) {
+			foreach ($db_list as $elt) {
+				$varname = $elt['varname'];
+				$this->$varname =& $elt['db'];
+
+				if ($elt['type'] == DB_TYPE_RW) {
+					$this->my_db_rw =& $elt['db'];
+				} else if ($elt['type'] == DB_TYPE_RO) {
+					$this->my_db_ro =& $elt['db'];
+				}
+			}
+		}
+		if (isset($this->my_db_ro) == false && $this->my_db_rw) {
+			$this->my_db_ro =& $this->my_db_rw;
+		}
 
 		$c =& $backend->getController();
 
@@ -352,10 +375,10 @@ class Ethna_AppObject
 		}
 		
 		// DBエラー
-		if (is_null($this->db)) {
+		if (is_null($this->my_db_ro)) {
 			return Ethna::raiseError(E_DB_NODSN, "Ethna_AppObjectを利用するにはデータベース設定が必要です");
-		} else if (Ethna::isError($this->db)) {
-			return $this->db;
+		} else if (Ethna::isError($db_list)) {
+			return $db_list;
 		}
 
 		// キー妥当性チェック
@@ -596,7 +619,7 @@ class Ethna_AppObject
 		}
 
 		$sql = $this->_getSQL_Add();
-		$r =& $this->db->query($sql);
+		$r =& $this->my_db_rw->query($sql);
 		if (Ethna::isError($r)) {
 			if ($r->getCode() == E_DB_DUPENT) {
 				// レースコンディション
@@ -614,7 +637,7 @@ class Ethna_AppObject
 			$insert_id = true;
 		}
 		if ($insert_id) {
-			$this->id = $this->db->getInsertId();
+			$this->id = $this->my_db_rw->getInsertId();
 			$this->prop[$this->id_def] = $this->prop_backup[$this->id_def] = $this->id;
 		} else {
 			if (is_array($this->id_def)) {
@@ -649,7 +672,7 @@ class Ethna_AppObject
 		}
 
 		$sql = $this->_getSQL_Update();
-		$r =& $this->db->query($sql);
+		$r =& $this->my_db_rw->query($sql);
 		if (DB::isError($r)) {
 			if ($r->getCode() == E_DB_DUPENT) {
 				// レースコンディション
@@ -658,7 +681,7 @@ class Ethna_AppObject
 				return $error;
 			}
 		}
-		$affected_rows = $this->db->affectedRows();
+		$affected_rows = $this->my_db_rw->affectedRows();
 		if ($affected_rows <= 0) {
 			$this->backend->log(LOG_NOTICE, "update query with 0 updated rows");
 		}
@@ -682,7 +705,7 @@ class Ethna_AppObject
 		$sql = $this->_getSQL_Select($this->getIdDef(), $this->getId());
 
 		for ($i = 0; $i < 3; $i++) {
-			$r = $this->db->query($sql);
+			$r = $this->my_db_rw->query($sql);
 			if (Ethna::isError($r)) {
 				return $r;
 			}
@@ -712,7 +735,7 @@ class Ethna_AppObject
 	function remove()
 	{
 		$sql = $this->_getSQL_Remove();
-		$r =& $this->db->query($sql);
+		$r =& $this->my_db_rw->query($sql);
 		if (Ethna::isError($r)) {
 			return $r;
 		}
@@ -736,7 +759,7 @@ class Ethna_AppObject
 	{
 		if (is_null($filter) == false) {
 			$sql = $this->_getSQL_SearchLength($filter);
-			$r =& $this->db->query($sql);
+			$r =& $this->my_db_ro->query($sql);
 			if (Ethna::isError($r)) {
 				return $r;
 			}
@@ -748,7 +771,7 @@ class Ethna_AppObject
 
 		$id_list = array();
 		$sql = $this->_getSQL_SearchId($filter, $order, $offset, $count);
-		$r =& $this->db->query($sql);
+		$r =& $this->my_db_ro->query($sql);
 		if (Ethna::isError($r)) {
 			return $r;
 		}
@@ -784,7 +807,7 @@ class Ethna_AppObject
 	{
 		if (is_null($filter) == false) {
 			$sql = $this->_getSQL_SearchLength($filter);
-			$r =& $this->db->query($sql);
+			$r =& $this->my_db_ro->query($sql);
 			if (Ethna::isError($r)) {
 				return $r;
 			}
@@ -796,7 +819,7 @@ class Ethna_AppObject
 
 		$prop_list = array();
 		$sql = $this->_getSQL_SearchProp($keys, $filter, $order, $offset, $count);
-		$r =& $this->db->query($sql);
+		$r =& $this->my_db_ro->query($sql);
 		if (Ethna::isError($r)) {
 			return $r;
 		}
@@ -854,7 +877,7 @@ class Ethna_AppObject
 		$sql = $this->_getSQL_Select($key_type, $key);
 
 		// プロパティ取得
-		$r =& $this->db->query($sql);
+		$r =& $this->my_db_ro->query($sql);
 		if (Ethna::isError($r)) {
 			return;
 		}
@@ -926,7 +949,7 @@ class Ethna_AppObject
 		// プライマリキーはmulti columnsになり得るので別扱い
 		if ($check_pkey) {
 			$sql = $this->_getSQL_Duplicate($this->id_def);
-			$r =& $this->db->query($sql);
+			$r =& $this->my_db_ro->query($sql);
 			if (Ethna::isError($r)) {
 				return $r;
 			} else if ($r->numRows() > 0) {
@@ -940,7 +963,7 @@ class Ethna_AppObject
 				continue;
 			}
 			$sql = $this->_getSQL_Duplicate($k);
-			$r =& $this->db->query($sql);
+			$r =& $this->my_db_ro->query($sql);
 			if (Ethna::isError($r)) {
 				return $r;
 			} else if ($r->NumRows() > 0) {
@@ -1105,7 +1128,7 @@ class Ethna_AppObject
 		$condition = null;
 		// 検索条件(現在設定されているプライマリキーは検索対象から除く)
 		if (is_null($this->id) == false) {
-			$primary_value = $this->getId();
+			$primary_value = to_array($this->getId());
 			$n = 0;
 			foreach (to_array($this->id_def) as $k) {
 				if (is_null($condition)) {

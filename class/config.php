@@ -161,7 +161,7 @@ class Ethna_Config
 		fwrite($fp, sprintf("/*\n * %s\n *\n * update: %s\n */\n", basename($file), strftime('%Y/%m/%d %H:%M:%S')));
 		fwrite($fp, "\$config = array(\n");
 		foreach ($this->config as $key => $value) {
-			fputs($fp, "\t'$key' => '$value',\n");
+			$this->_setConfigValue($fp, $key, $value, 0);
 		}
 		fwrite($fp, ");\n?>\n");
 		fclose($fp);
@@ -169,6 +169,25 @@ class Ethna_Config
 		Ethna_Util::unlockFile($lh);
 
 		return 0;
+	}
+
+	/**
+	 *	設定ファイルに設定値を書き込む
+	 *
+	 *	@access	private
+	 */
+	function _setConfigValue($fp, $key, $value, $level)
+	{
+		fputs($fp, sprintf("%s'%s' => ", str_repeat("\t", $level+1), $key));
+		if (is_array($value)) {
+			fputs($fp, sprintf("array(\n"));
+			foreach ($value as $k => $v) {
+				$this->_setConfigValue($fp, $k, $v, $level+1);
+			}
+			fputs($fp, sprintf("%s),\n", str_repeat("\t", $level+1)));
+		} else {
+			fputs($fp, sprintf("'%s',\n", $value));
+		}
 	}
 
 	/**

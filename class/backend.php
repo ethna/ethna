@@ -348,30 +348,62 @@ class Ethna_Backend
 	 *	DBオブジェクトを返す
 	 *
 	 *	@access	public
+	 *	@param	string	$type		DB種別(Ethna_Controller::dbメンバで定義)
 	 *	@return	mixed	Ethna_DB:DBオブジェクト null:DSN設定なし Ethna_Error:エラー
 	 */
-	function &getDB()
+	function &getDB($type = "")
 	{
-		if ($this->db != null) {
-			return $this->db;
+		$db =& $this->_getDB($type);
+		if (Ethna::isError($db)) {
+			return $db;
+		}
+		if ($db != null) {
+			return $db;
 		}
 
-		$dsn = $this->controller->getDSN();
+		$dsn = $this->controller->getDSN($type);
 		if ($dsn == "") {
 			// DB接続不要
 			return null;
 		}
 
-		$this->db =& new Ethna_DB($this->controller->getDSN(), false, $this->controller);
-		$r = $this->db->connect();
+		$db =& new Ethna_DB($dsn, false, $this->controller);
+		$r = $db->connect();
 		if (Ethna::isError($r)) {
-			$this->db = null;
+			$db = null;
 			return $r;
 		}
 
 		register_shutdown_function(array($this, 'shutdownDB'));
 
-		return $this->db;
+		return $db;
+	}
+
+	/**
+	 *	DBオブジェクト(全て)を取得する
+	 *
+	 *	@access	public
+	 *	@return	mixed	array:Ethna_DBオブジェクトの一覧 Ethan_Error:(いずれか一つ以上の接続で)エラー
+	 *	@todo	respect access controlls
+	 */
+	function getDBlist()
+	{
+		$r = array();
+		foreach ($this->controller->db as $key => $value) {
+			$db =& $this->getDB($key);
+			if (Ethna::isError($db)) {
+				return $r;
+			}
+			$elt = array();
+			$elt['db'] =& $db;
+			$elt['type'] = $value;
+			$elt['varname'] = "db";
+			if ($key != "") {
+				$elt['varname'] = sprintf("db_%s", strtolower($key));
+			}
+			$r[] = $elt;
+		}
+		return $r;
 	}
 
 	/**
@@ -424,6 +456,33 @@ class Ethna_Backend
 			$this->log(LOG_WARNING, "commit() with inactive DB object");
 		}
 		$this->db->commit();
+	}
+
+	/**
+	 *	指定されたDB種別に対応するDBオブジェクトを格納したメンバ変数を取得する
+	 *
+	 *	@access	private
+	 *	@param	string	$type	DB種別
+	 *	@return	mixed	Ethna_DB:$typeに対応するDBオブジェクト null:未定義 Ethna_Error:不正なDB種別
+	 */
+	function &_getDB($type = "")
+	{
+		$type = $this->controller->getDB($type);
+		if (is_null($type)) {
+			return Ethna::raiseError(E_DB_INVALIDTYPE, "未定義のDB種別[%s]", $type);
+		}
+
+		if ($type == "") {
+			$varname = "db";
+		} else {
+			$varname = sprintf("db_%s", strtolower($type));
+		}
+
+		if (isset($this->$varname)) {
+			return $this->$varname;
+		}
+
+		return null;
 	}
 }
 // }}}

@@ -57,6 +57,13 @@ class Ethna_Controller
 	);
 
 	/**
+	 *	@var	array		DBアクセス定義
+	 */
+	var	$db = array(
+		''				=> DB_TYPE_RW,
+	);
+
+	/**
 	 *	@var	array		拡張子設定
 	 */
 	var $ext = array(
@@ -194,7 +201,7 @@ class Ethna_Controller
 		// 設定ファイル読み込み
 		$config_class = $this->class['config'];
 		$this->config =& new $config_class($this);
-		$this->dsn = $this->config->get('dsn');
+		$this->dsn = $this->_prepareDSN();
 		$this->url = $this->config->get('url');
 
 		// ログ出力開始
@@ -225,11 +232,15 @@ class Ethna_Controller
 	 *	DSNを返す
 	 *
 	 *	@access	public
+	 *	@param	string	$type	DB種別
 	 *	@return	string	DSN
 	 */
-	function getDSN()
+	function getDSN($type = "")
 	{
-		return $this->dsn;
+		if (isset($this->dsn[$type]) == false) {
+			return null;
+		}
+		return $this->dsn[$type];
 	}
 
 	/**
@@ -286,6 +297,21 @@ class Ethna_Controller
 			return null;
 		}
 		return $this->directory[$key];
+	}
+
+	/**
+	 *	DB設定を返す
+	 *
+	 *	@access	public
+	 *	@param	string	$key	DBタイプ("r", ...)
+	 *	@return	string	$keyに対応するDB種別定義(設定が無い場合はnull)
+	 */
+	function getDB($key)
+	{
+		if (isset($this->db[$key]) == false) {
+			return null;
+		}
+		return $this->db[$key];
 	}
 
 	/**
@@ -1024,6 +1050,53 @@ class Ethna_Controller
 	function _getDefaultForwardPath($forward_name)
 	{
 		return str_replace('_', '/', $forward_name) . '.' . $this->ext['tpl'];
+	}
+
+	/**
+	 *	設定ファイルのDSN定義から使用するデータを再構築する(スレーブアクセス分岐等)
+	 *
+	 *	DSNの定義方法(デフォルト:設定ファイル)を変えたい場合はここをオーバーライドする
+	 *
+	 *	@access	protected
+	 *	@return	array	DSN定義
+	 */
+	function _prepareDSN()
+	{
+		$r = array();
+
+		foreach ($this->db as $key => $value) {
+			$config_key = "dsn";
+			if ($key != "") {
+				$config_key .= "_$key";
+			}
+			$dsn = $this->config->get($config_key);
+			if (is_array($dsn)) {
+				// 種別1つにつき複数DSNが定義されている場合はアクセス分岐
+				$dsn = $this->_selectDSN($key, $dsn);
+			}
+			$r[$key] = $dsn;
+		}
+		return $r;
+	}
+
+	/**
+	 *	DSNのアクセス分岐を行う
+	 *	
+	 *	スレーブサーバへの振分け処理(デフォルト:ランダム)を変更したい場合はこのメソッドをオーバーライドする
+	 *
+	 *	@access	protected
+	 *	@param	string	$type		DB種別
+	 *	@param	array	$dsn_list	DSN一覧
+	 *	@return	string	選択されたDSN
+	 */
+	function _selectDSN($type, $dsn_list)
+	{
+		// デフォルト:ランダム
+		list($usec, $sec) = explode(' ', microtime());
+		mt_srand($sec + ((float) $usec * 100000));
+		$n = mt_rand(0, count($dsn_list)-1);
+		
+		return $dsn_list[$n];
 	}
 }
 // }}}

@@ -504,7 +504,7 @@ class Ethna_Util
 	 *
 	 *	@access	public
 	 *	@param	string	$file		ロックするファイル名
-	 *	@param	int		$mode		ロックモード(LOCK_SH, LOCK_EX)
+	 *	@param	int		$mode		ロックモード('r', 'rw')
 	 *	@param	int		$timeout	ロック待ちタイムアウト(秒−0なら無限)
 	 *	@return	int		ロックハンドル(falseならエラー)
 	 */
@@ -528,8 +528,7 @@ class Ethna_Util
 			// timed out
 			return false;
 		}
-		@unlink($lock);
-
+ 
 		return $lh;
 	}
 
