@@ -193,6 +193,17 @@ class Ethna_Backend
 	}
 
 	/**
+	 *	ログオブジェクトのアクセサ(R)
+	 *
+	 *	@access	public
+	 *	@return	object	Ethna_Logger	ログオブジェクト
+	 */
+	function &getLogger()
+	{
+		return $this->logger;
+	}
+
+	/**
 	 *	セッションオブジェクトのアクセサ(R)
 	 *
 	 *	@access	public
