@@ -404,7 +404,7 @@ function smarty_function_checkbox_list($params, &$smarty)
 	}
 
 	if (is_null($key) == false) {
-		if ($form[$key] != "" && $form[$key] != 0) {
+		if (isset($form[$key])) {
 			if (is_null($value)) {
 				print "checked";
 			} else {
