@@ -85,8 +85,8 @@ class Ethna_SkeltonGenerator
 		$macro['action_name'] = '{$action_name}';
 		$macro['action_path'] = '{$action_path}';
 		$macro['forward_name'] = '{$forward_name}';
-		$macro['preforward_name'] = '{$preforward_name}';
-		$macro['preforward_path'] = '{$preforward_path}';
+		$macro['view_name'] = '{$view_name}';
+		$macro['view_path'] = '{$view_path}';
 
 		if ($this->_generateFile("www.index.php", "$basedir/www/index.php", $macro) == false ||
 			$this->_generateFile("www.info.php", "$basedir/www/info.php", $macro) == false ||

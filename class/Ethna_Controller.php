@@ -49,6 +49,7 @@ class Ethna_Controller
 	var $directory = array(
 		'action'		=> 'app/action',
 		'etc'			=> 'etc',
+		'filter'		=> 'app/filter',
 		'locale'		=> 'locale',
 		'log'			=> 'log',
 		'plugins'		=> array(),
@@ -658,7 +659,7 @@ class Ethna_Controller
 	function main($class_name, $action_name = "", $fallback_action_name = "")
 	{
 		$c =& new $class_name;
-		$c->trigger($action_name, $fallback_action_name);
+		$c->trigger('www', $action_name, $fallback_action_name);
 	}
 
 	/**
@@ -673,7 +674,7 @@ class Ethna_Controller
 	{
 		$c =& new $class_name;
 		$c->action[$action_name] = array();
-		$c->trigger($action_name);
+		$c->trigger('www', $action_name);
 	}
 
 	/**
@@ -687,7 +688,7 @@ class Ethna_Controller
 	{
 		$c =& new $class_name;
 		$c->setClientType(CLIENT_TYPE_SOAP);
-		$c->trigger_SOAP();
+		$c->trigger('soap');
 	}
 
 	/**
@@ -701,22 +702,49 @@ class Ethna_Controller
 	{
 		$c =& new $class_name;
 		$c->setClientType(CLIENT_TYPE_AMF);
-		$c->trigger_AMF();
+		$c->trigger('amf');
 	}
 
 	/**
 	 *	フレームワークの処理を開始する
 	 *
-	 *	引数$default_action_nameに配列が指定された場合、その配列で指定された
-	 *	アクション以外は受け付けない(それ以外のアクションが指定された場合、
-	 *	配列の先頭で指定されたアクションが実行される)
-	 *
 	 *	@access	public
+	 *	@param	strint	$type					処理タイプ(WWW/SOAP/AMF)
 	 *	@param	mixed	$default_action_name	指定のアクション名
 	 *	@param	mixed	$fallback_action_name	アクション名が決定できなかった場合に実行されるアクション名
 	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
-	function trigger($default_action_name = "", $fallback_action_name = "")
+	function trigger($type, $default_action_name = "", $fallback_action_name = "")
+	{
+		// フィルターの生成
+
+		// prefilter
+
+		// trigger
+		if ($type == 'www') {
+			$this->_trigger($default_action_name, $fallback_action_name);
+		} else if ($type == 'soap') {
+			$this->_trigger_SOAP();
+		} else if ($type == 'amf') {
+			$this->_trigger_AMF();
+		}
+
+		// postfilter
+	}
+
+	/**
+	 *	フレームワークの処理を実行する(WWW)
+	 *
+	 *	引数$default_action_nameに配列が指定された場合、その配列で指定された
+	 *	アクション以外は受け付けない(それ以外のアクションが指定された場合、
+	 *	配列の先頭で指定されたアクションが実行される)
+	 *
+	 *	@access	private
+	 *	@param	mixed	$default_action_name	指定のアクション名
+	 *	@param	mixed	$fallback_action_name	アクション名が決定できなかった場合に実行されるアクション名
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
+	 */
+	function _trigger($default_action_name = "", $fallback_action_name = "")
 	{
 		// アクション名の取得
 		$action_name = $this->_getActionName($default_action_name, $fallback_action_name);
@@ -768,11 +796,13 @@ class Ethna_Controller
 	}
 
 	/**
-	 *  SOAPフレームワークの処理を開始する
+	 *  SOAPフレームワークの処理を実行する
+	 *
+	 *	(experimental)
  	 *
-	 *  @access public
+	 *  @access private
 	 */
-	function trigger_SOAP()
+	function _trigger_SOAP()
 	{
 		// アクションスクリプトをインクルード
 		$this->_includeActionScript();
@@ -789,11 +819,13 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	AMF(Flash Remoting)フレームワークの処理を開始する
+	 *	AMF(Flash Remoting)フレームワークの処理を実行する
+	 *
+	 *	(experimental)
 	 *
 	 *	@access	public
 	 */
-	function trigger_AMF()
+	function _trigger_AMF()
 	{
 		include_once('ethna/contrib/amfphp/app/Gateway.php');
 

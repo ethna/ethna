@@ -48,7 +48,7 @@ class {$project_id}_Controller extends Ethna_Controller
 		 *	記述例：
 		 *
 		 *	'index'			=> array(
-		 *		'preforward_name'	=> '{$project_id}_View_Index',
+		 *		'view_name'	=> '{$project_id}_View_Index',
 		 *	),
 		 */
 	);
@@ -177,15 +177,21 @@ class {$project_id}_Controller extends Ethna_Controller
 	 *	@access	protected
 	 *	@param	object	Smarty	$smarty	テンプレートエンジンオブジェクト
 	 */
-	function _setDefaultMacro(&$smarty)
+	function _setDefaultTemplateEngine(&$smarty)
 	{
-		$smarty->assign_by_ref('session_name', session_name());
-		$smarty->assign_by_ref('session_id', session_id());
-
-		/* ログインフラグ(true/false) */
-		if ($this->session->isStart()) {
-			$smarty->assign_by_ref('login', $this->session->isStart());
-		}
+		/*
+		 *	TODO: ここでテンプレートエンジンの初期設定や
+		 *  全てのビューに共通なテンプレート変数を設定します
+		 *
+		 *	記述例：
+		 * $smarty->assign_by_ref('session_name', session_name());
+		 * $smarty->assign_by_ref('session_id', session_id());
+		 *
+		 * // ログインフラグ(true/false)
+		 * if ($this->session->isStart()) {
+		 * 	$smarty->assign_by_ref('login', $this->session->isStart());
+		 * }
+		 */
 	}
 }
 ?>
