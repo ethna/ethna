@@ -172,7 +172,7 @@ class Ethna_Logger extends Ethna_AppManager
 		}
 		$facility = $this->_parseLogFacility($config->get('log_facility'));
 		$file = sprintf('%s/%s.log', $controller->getDirectory('log'), strtolower($controller->getAppid()));
-		list($this->alert_mailaddress, $this->alert_level, $option) = $this->parseLogOption($config->get('log_option'));
+		list($this->alert_mailaddress, $this->alert_level, $option) = $this->_parseLogOption($config->get('log_option'));
 		$this->message_filter_do = $config->get('log_filter_do');
 		$this->message_filter_ignore = $config->get('log_filter_ignore');
 
@@ -276,7 +276,7 @@ class Ethna_Logger extends Ethna_AppManager
 	 *	@param	string	$string	ログオプション(設定ファイル値)
 	 *	@return	array	解析された設定ファイル値(アラート通知メールアドレス, アラート対象ログレベル, ログオプション)
 	 */
-	function parseLogOption($string)
+	function _parseLogOption($string)
 	{
 		$alert_mailaddress = null;
 		$alert_level = null;
