@@ -94,10 +94,21 @@ class Ethna_ActionClass
 	}
 
 	/**
-	 *	ビジネスロジック実行前の処理(セッションチェック、フォーム値チェック等)を行う
+	 *	アクション実行前の認証処理を行う
 	 *
 	 *	@access	public
-	 *	@return	string	Forward名(nullなら正常終了)
+	 *	@return	string	遷移名(nullなら正常終了, falseなら処理終了)
+	 */
+	function authenticate()
+	{
+		return null;
+	}
+
+	/**
+	 *	アクション実行前の処理(フォーム値チェック等)を行う
+	 *
+	 *	@access	public
+	 *	@return	string	遷移名(nullなら正常終了, falseなら処理終了)
 	 */
 	function prepare()
 	{
@@ -105,10 +116,10 @@ class Ethna_ActionClass
 	}
 
 	/**
-	 *	action処理
+	 *	アクション実行
 	 *
 	 *	@access	public
-	 *	@return	string	Forward名
+	 *	@return	string	遷移名(nullなら遷移は行わない)
 	 */
 	function perform()
 	{

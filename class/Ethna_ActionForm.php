@@ -364,6 +364,10 @@ class Ethna_ActionForm
 					foreach (array_keys($this->form_vars[$name]) as $key) {
 						$this->_validate($name, $this->form_vars[$name][$key], $value);
 					}
+					// カスタムメソッドの実行
+					if ($value['custom'] != null) {
+						$this->{$value['custom']}($name);
+					}
 				} else {
 					if (is_array($value['type'])) {
 						// 配列指定のフォームにスカラー値が渡されている
@@ -387,6 +391,10 @@ class Ethna_ActionForm
 					foreach (array_keys($this->form_vars[$name]) as $key) {
 						$this->form_vars[$name][$key] = $this->_filter($this->form_vars[$name][$key], $value['filter']);
 						$this->_validate($name, $this->form_vars[$name][$key], $value);
+					}
+					// カスタムメソッドの実行
+					if ($value['custom'] != null) {
+						$this->{$value['custom']}($name);
 					}
 				} else {
 					if (is_array($value['type'])) {
@@ -481,6 +489,9 @@ class Ethna_ActionForm
 			return null;
 		}
 		foreach ($form_vars as $v) {
+			if ($v === "") {
+				continue;
+			}
 			if ($v != "0" && $v != "1") {
 				return $this->ae->add($name, '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
 			}
@@ -502,6 +513,9 @@ class Ethna_ActionForm
 			return null;
 		}
 		foreach ($form_vars as $v) {
+			if ($v === "") {
+				continue;
+			}
 			if (Ethna_Util::checkMailaddress($v) == false) {
 				return $this->ae->add($name, '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
 			}
@@ -523,6 +537,9 @@ class Ethna_ActionForm
 			return null;
 		}
 		foreach ($form_vars as $v) {
+			if ($v === "") {
+				continue;
+			}
 			if (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/)/', $v) == 0) {
 				return $this->ae->add($name, '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
 			}
@@ -821,7 +838,11 @@ class Ethna_ActionForm
 
 		// custom (TODO: respect $test flag)
 		if ($def['custom'] != null) {
-			$this->{$def['custom']}($name);
+			if (isset($this->form[$name]['type']) && is_array($this->form[$name]['type']) == false) {
+				$this->{$def['custom']}($name);
+			} else {
+				// 配列指定の場合は全要素一括でカスタムメソッドを実行するためスキップ
+			}
 		}
 
 		return true;

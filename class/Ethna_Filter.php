@@ -70,8 +70,32 @@ class Ethna_Filter
 	 *
 	 *	@access	public
 	 */
-	function prefilter()
+	function preFilter()
 	{
+	}
+
+	/**
+	 *	アクション実行前フィルタ
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	実行されるアクション名
+	 *	@return	string	null:正常終了 (string):実行するアクション名を変更
+	 */
+	function preActionFilter($action_name)
+	{
+		return null;
+	}
+
+	/**
+	 *	アクション実行後フィルタ
+	 *
+	 *	@access	public
+	 *	@param	string	$action_name	実行されたアクション名
+	 *	@param	string	$forward_name	実行されたアクションからの戻り値
+	 */
+	function postActionFilter($action_name, $forward_name)
+	{
+		return null;
 	}
 
 	/**
@@ -79,7 +103,7 @@ class Ethna_Filter
 	 *
 	 *	@access	public
 	 */
-	function postfilter()
+	function postFilter()
 	{
 	}
 }

@@ -663,9 +663,9 @@ class Ethna_Controller
 		// フィルターの生成
 		$this->_createFilterChain();
 
-		// prefilter
+		// 実行前フィルタ
 		for ($i = 0; $i < count($this->filter_chain); $i++) {
-			$this->filter_chain[$i]->prefilter();
+			$this->filter_chain[$i]->preFilter();
 		}
 
 		// trigger
@@ -677,9 +677,9 @@ class Ethna_Controller
 			$this->_trigger_AMF();
 		}
 
-		// postfilter
+		// 実行後フィルタ
 		for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
-			$this->filter_chain[$i]->postfilter();
+			$this->filter_chain[$i]->postFilter();
 		}
 	}
 
@@ -713,6 +713,15 @@ class Ethna_Controller
 				$action_name = $fallback_action_name;
 			}
 		}
+
+		// アクション実行前フィルタ
+		for ($i = 0; $i < count($this->filter_chain); $i++) {
+			$r = $this->filter_chain[$i]->preActionFilter($action_name);
+			if ($r != null) {
+				$this->logger->log(LOG_DEBUG, 'action [%s] -> [%s] by %s', $action_name, $r, get_class($this->filter_chain[$i]));
+				$action_name = $r;
+			}
+		}
 		$this->action_name = $action_name;
 
 		// 言語設定
@@ -728,6 +737,15 @@ class Ethna_Controller
 		$backend =& new Ethna_Backend($this);
 		$this->backend =& $backend;
 		$forward_name = $backend->perform($action_name);
+
+		// アクション実行後フィルタ
+		for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
+			$r = $this->filter_chain[$i]->postActionFilter($action_name, $forward_name);
+			if ($r != null) {
+				$this->logger->log(LOG_DEBUG, 'forward [%s] -> [%s] by %s', $forward_name, $r, get_class($this->filter_chain[$i]));
+				$forward_name = $r;
+			}
+		}
 
 		// コントローラで遷移先を決定する(オプション)
 		$forward_name = $this->_sortForward($action_name, $forward_name);

@@ -328,11 +328,18 @@ class Ethna_Backend
 		$action_class =& new $action_class_name($this);
 
 		// アクションの実行
-		$forward_name = $action_class->prepare();
-		if ($forward_name != null) {
-			return $forward_name;
-		} else if (headers_sent()) {
+		$forward_name = $action_class->authenticate();
+		if ($forward_name === false) {
 			return null;
+		} else if ($forward_name !== null) {
+			return $forward_name;
+		}
+
+		$forward_name = $action_class->prepare();
+		if ($forward_name === false) {
+			return null;
+		} else if ($forward_name !== null) {
+			return $forward_name;
 		}
 
 		$forward_name = $action_class->perform();
