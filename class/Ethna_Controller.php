@@ -1079,9 +1079,9 @@ class Ethna_Controller
 		$action_dir = $this->getActiondir();
 
 		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-			$r = 'SOAP/' . $r;
+			$r = 'SOAP/' . $default_path;
 		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$r = 'MobileAU/' . $r;
+			$r = 'MobileAU/' . $default_path;
 		} else {
 			$r = $default_path;
 		}
