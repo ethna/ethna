@@ -1206,12 +1206,12 @@ class Ethna_Controller
 	 *	("action_sample"なら"sample")がアクション名として扱われます
 	 *
 	 *	@access	protected
-	 *	@return	string	フォームにより要求されたactionの名称
+	 *	@return	string	フォームにより要求されたアクション名
 	 */
 	function _getActionName_Form()
 	{
 		if (isset($_SERVER['REQUEST_METHOD']) == false) {
-			return $default_action_name;
+			return null;
 		}
 
 		if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
