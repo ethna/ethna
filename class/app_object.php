@@ -1136,10 +1136,11 @@ class Ethna_AppObject
 	 */
 	function _getSQL_SearchLength($filter)
 	{
+		// テーブル
 		$tables = implode(',', array_keys($this->table_def));
-
-		// 検索用追加テーブルJOIN
-		$tables .= $this->_SQLPlugin_SearchTable();
+		if ($this->_isAdditionalField($filter)) {
+			$tables .= " " . $this->_SQLPlugin_SearchTable();
+		}
 
 		$id_def = to_array($this->id_def);
 		$column_id = $this->_getPrimaryTable() . "." . $id_def[0];	// any id columns will do
@@ -1162,10 +1163,11 @@ class Ethna_AppObject
 	 */
 	function _getSQL_SearchId($filter, $order, $offset, $count)
 	{
+		// テーブル
 		$tables = implode(',', array_keys($this->table_def));
-
-		// 検索用追加テーブルJOIN
-		$tables .= $this->_SQLPlugin_SearchTable();
+		if ($this->_isAdditionalField($filter) || $this->_isAdditionalField($order)) {
+			$tables .= " " . $this->_SQLPlugin_SearchTable();
+		}
 
 		$column_id = "";
 		foreach (to_array($this->id_def) as $id) {
@@ -1215,9 +1217,22 @@ class Ethna_AppObject
 	 */
 	function _getSQL_SearchProp($keys, $filter, $order, $offset, $count)
 	{
+		// テーブル
 		$tables = implode(',', array_keys($this->table_def));
+		if ($this->_isAdditionalField($filter) || $this->_isAdditionalField($order)) {
+			$tables .= " " . $this->_SQLPlugin_SearchTable();
+		}
+		$p_table = $this->_getPrimaryTable();
 
-		$def = $this->getDef();
+		// 検索用追加プロパティ
+		if ($this->_isAdditionalField($filter) || $this->_isAdditionalField($order)) {
+			$search_prop_def = $this->_SQLPlugin_SearchPropDef();
+		} else {
+			$search_prop_def = array();
+		}
+		$def = array_merge($this->getDef(), $search_prop_def);
+
+		// カラム
 		$column = "";
 		if (is_null($keys)) {
 			$keys = array_keys($def);
@@ -1229,7 +1244,8 @@ class Ethna_AppObject
 			if ($column != "") {
 				$column .= ", ";
 			}
-			$column .= $key;
+			$t = isset($def[$key]['table']) ? $def[$key]['table'] : $p_table;
+			$column .= sprintf("%s.%s", $t, $key);
 		}
 
 		$condition = $this->_getSQL_SearchCondition($filter);
@@ -1276,8 +1292,11 @@ class Ethna_AppObject
 		$p_table = $this->_getPrimaryTable();
 
 		// 検索用追加プロパティ
-		$search_prop_def = $this->_SQLPlugin_SearchPropDef();
-
+		if ($this->_isAdditionalField($filter)) {
+			$search_prop_def = $this->_SQLPlugin_SearchPropDef();
+		} else {
+			$search_prop_def = array();
+		}
 		$prop_def = array_merge($this->prop_def, $search_prop_def);
 
 		$condition = null;
@@ -1383,6 +1402,28 @@ class Ethna_AppObject
 		}
 
 		return $dump;
+	}
+
+	/**
+	 *	(検索条件|ソート条件)フィールドに追加フィールドが含まれるかどうかを返す
+	 *
+	 *	@access	private
+	 *	@param	array	$field	(検索条件|ソート条件)定義
+	 *	@return	bool	true:含まれる false:含まれない
+	 */
+	function _isAdditionalField($field)
+	{
+		if (is_array($field) == false) {
+			return false;
+		}
+
+		$def = $this->getDef();
+		foreach ($field as $key => $value) {
+			if (array_key_exists($key, $def) == false) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

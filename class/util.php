@@ -185,6 +185,10 @@ class Ethna_Util
 	 *	Google風リンクリストを返す
 	 *
 	 *	@access	public
+	 *	@param	int		$total		検索総件数
+	 *	@param	int		$offset		表示オフセット
+	 *	@param	int		$count		表示件数
+	 *	@return	array	リンク情報を格納した配列
 	 */
 	function getDirectLinkList($total, $offset, $count)
 	{
