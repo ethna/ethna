@@ -18,6 +18,24 @@ include_once('DB.php');
 /** Ethna依存ライブラリ: Smarty */
 include_once('Smarty/Smarty.class.php');
 
+if (!defined('PATH_SEPARATOR')) {
+	if (OS_WINDOWS) {
+		/** include_pathセパレータ(Windows) */
+		define('PATH_SEPARATOR', ';');
+	} else {
+		/** include_pathセパレータ(Unix) */
+		define('PATH_SEPARATOR', ':');
+	}
+}
+if (!defined('DIRECTORY_SEPARATOR')) {
+	if (OS_WINDOWS) {
+		/** ディレクトリセパレータ(Windows) */
+		define('DIRECTORY_SEPARATOR', '\\');
+	} else {
+		/** ディレクトリセパレータ(Unix) */
+		define('DIRECTORY_SEPARATOR', '/');
+	}
+}
 
 /** バージョン定義 */
 define('ETHNA_VERSION', '0.1.6-dev');
