@@ -602,6 +602,9 @@ class Ethna_ActionForm
 			case FORM_TYPE_FILE:
 				$message = "{form}を選択して下さい";
 				break;
+			default:
+				$message = "{form}を入力して下さい";
+				break;
 			}
 		} else if ($code == E_FORM_WRONGTYPE_SCALAR) {
 			$message = "{form}にはスカラー値を入力して下さい";
