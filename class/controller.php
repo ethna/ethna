@@ -540,9 +540,9 @@ class Ethna_Controller
 	 *	action以外は受け付けない(それ以外のactionが指定された場合、配列の先頭
 	 *	で指定されたアクションが実行される)
 	 *
-	 *	@access	private
+	 *	@access	public
 	 *	@param	mixed	$default_action_name	指定のアクション名
-	 *	@return	bool	true:正常終了 false:エラー	
+	 *	@return	mixed	0:正常終了 -1:エラー
 	 *	@todo	未サポートのactionが指定された場合のエラー処理
 	 */
 	function trigger($default_action_name = "")
@@ -558,7 +558,7 @@ class Ethna_Controller
 			}
 			if ($action_obj == null) {
 				trigger_error(sprintf("unsupported action [%s]", $action_name), E_USER_ERROR);
-				return false;
+				return -1;
 			} else {
 				$action_name = $default_action_name;
 			}
@@ -573,8 +573,8 @@ class Ethna_Controller
 		// オブジェクト生成
 		$this->action_error = new Ethna_ActionError($this->i18n);
 		$form_name = $this->getActionFormName($action_name);
-		$this->action_form = new $form_name($this->action_error, $this->i18n);
-		$this->session = new Ethna_Session($this->getAppId(), $this->getDirectory('tmp'), $this->action_error);
+		$this->action_form = new $form_name($this);
+		$this->session = new Ethna_Session($this->getAppId(), $this->getDirectory('tmp'), $this->logger);
 
 		// バックエンド処理実行
 		$backend = new Ethna_Backend($this);
@@ -590,11 +590,11 @@ class Ethna_Controller
 
 		if ($forward_name != null) {
 			if ($this->_forward($forward_name) != 0) {
-				return false;
+				return -1;
 			}
 		}
 
-		return true;
+		return 0;
 	}
 
 	/**
@@ -645,6 +645,18 @@ class Ethna_Controller
 		$gateway = new Gateway();
 		$gateway->setBaseClassPath('');
 		$gateway->service();
+	}
+
+	/**
+	 *	致命的エラー発生時の画面を表示する
+	 *
+	 *	注意：メソッド呼び出し後全ての処理は中断される(このメソッドでexit()する)
+	 *
+	 *	@access	public
+	 */
+	function fatal()
+	{
+		exit(0);
 	}
 
 	/**
@@ -785,7 +797,7 @@ class Ethna_Controller
 	 *
 	 *	@access	private
 	 *	@param	string	$forward_name	Forward名
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	bool	0:正常終了 -1:エラー
 	 */
 	function _forward($forward_name)
 	{
@@ -810,7 +822,7 @@ class Ethna_Controller
 
 		$smarty->display($forward_path);
 
-		return true;
+		return 0;
 	}
 
 	/**

@@ -24,7 +24,7 @@ class {$project_id}_Form_Index extends Ethna_ActionForm
 		/*
 		 *	TODO: このアクションが使用するフォーム値定義を記述してください
 		 *
-		 *	記述例：
+		 *	記述例(typeを除く全ての要素は省略可能)：
 		 *
 		 *	'sample' => array(
 		 *		'name'			=> 'サンプル',		// 表示名
@@ -34,6 +34,7 @@ class {$project_id}_Form_Index extends Ethna_ActionForm
 		 *		'regexp'        => null,			// 文字種指定(正規表現)
 		 *		'custom'        => null,			// メソッドによるチェック
 		 *		'convert'       => null,			// 入力値自動変換オプション
+		 *		'form_type'		=> FORM_TYPE_TEXT	// フォーム型
 		 *		'type'          => VAR_TYPE_INT,	// 入力値型
 		 *	),
 		 */

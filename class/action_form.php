@@ -98,13 +98,12 @@ class Ethna_ActionForm
 	 *	Ethna_ActionFormクラスのコンストラクタ
 	 *
 	 *	@access	public
-	 *	@param	object	Ethna_ActionError	&$action_error	action errorオブジェクト
-	 *	@param	object	Ethna_I18N			&$i18n			i18nオブジェクト
+	 *	@param	object	Ethna_Controller	&$controller	controllerオブジェクト
 	 */
-	function Ethna_ActionForm(&$action_error, &$i18n)
+	function Ethna_ActionForm(&$controller)
 	{
-		$this->i18n =& $i18n;
-		$this->action_error =& $action_error;
+		$this->i18n =& $controller->getI18N();
+		$this->action_error =& $controller->getActionError();
 		$this->ae =& $this->action_error;
 
 		if (isset($_SERVER['REQUEST_METHOD']) == false) {
@@ -316,7 +315,7 @@ class Ethna_ActionForm
 			if (is_array($this->form_vars[$name]) && isset($this->form_vars[$name]['name']) == false) {
 				if (is_array($value['type']) == false) {
 					// スカラー型指定のフォームに配列が渡されている
-					$this->ae->add(E_FORM_WRONGTYPE, $name, "%s should not be an array", $name);
+					$this->ae->add(E_FORM_WRONGTYPE_SCALAR, $name, "{form}にはスカラー値を入力してください");
 					continue;
 				}
 
@@ -331,7 +330,7 @@ class Ethna_ActionForm
 					continue;
 				}
 				if (is_array($value['type'])) {
-					$this->ae->add(E_FORM_WRONGTYPE, $name, "%s should be an array", $name);
+					$this->ae->add(E_FORM_WRONGTYPE_ARRAY, $name, "{form}には配列を入力してください");
 					continue;
 				}
 				$this->form_vars[$name] = $this->_convert($this->form_vars[$name], $value['convert']);
@@ -489,14 +488,14 @@ class Ethna_ActionForm
 		if ($type == VAR_TYPE_FILE) {
 			if ($def['required'] && $var['size'] == 0) {
 				if ($test == false) {
-					$this->ae->add(E_FORM_REQUIRED, $name, "%s is required", $name);
+					$this->ae->add(E_FORM_REQUIRED, $name, "{form}を入力してください");
 				}
 				return false;
 			}
 		} else {
 			if ($def['required'] && strlen($var) == 0) {
 				if ($test == false) {
-					$this->ae->add(E_FORM_REQUIRED, $name, "%s is required", $name);
+					$this->ae->add(E_FORM_REQUIRED, $name, "{form}を入力してください");
 				}
 				return false;
 			}
@@ -507,28 +506,28 @@ class Ethna_ActionForm
 			if ($type == VAR_TYPE_INT) {
 				if (!preg_match('/^-?\d+$/', $var)) {
 					if ($test == false) {
-						$this->ae->add(E_FORM_WRONGTYPE, $name, "input %s as int", $name);
+						$this->ae->add(E_FORM_WRONGTYPE_INT, $name, "{form}には数字(整数)を入力してください");
 					}
 					return false;
 				}
 			} else if ($type == VAR_TYPE_FLOAT) {
 				if (!preg_match('/^-?\d+$/', $var) && !preg_match('/^-?\d+\.\d+$/', $var)) {
 					if ($test == false) {
-						$this->ae->add(E_FORM_WRONGTYPE, $name, "input %s as float", $name);
+						$this->ae->add(E_FORM_WRONGTYPE_FLOAT, $name, "{form}には数字(小数)を入力してください");
 					}
 					return false;
 				}
 			} else if ($type == VAR_TYPE_DATETIME) {
 				if (strtotime($var) == -1) {
 					if ($test == false) {
-						$this->ae->add(E_FORM_WRONGTYPE, $name, "input %s as datetime", $name);
+						$this->ae->add(E_FORM_WRONGTYPE_DATETIME, $name, "{form}には日付を入力してください");
 					}
 					return false;
 				}
 			} else if ($type == VAR_TYPE_BOOLEAN) {
 				if ($var != "1" && $var != "0") {
 					if ($test == false) {
-						$this->ae->add(E_FORM_WRONGTYPE, $name, "input %s as boolean", $name);
+						$this->ae->add(E_FORM_WRONGTYPE_BOOLEAN, $name, "{form}には1または0のみ入力できます");
 					}
 					return false;
 				}
@@ -541,23 +540,34 @@ class Ethna_ActionForm
 		if ($type == VAR_TYPE_INT && $var !== "") {
 			if (!is_null($def['min']) && $var < $def['min']) {
 				if ($test == false) {
-					$this->ae->add(E_FORM_MIN, $name, "%s requires at least %d", $name, $def['min']);
+					$this->ae->add(E_FORM_MIN_INT, $name, "{form}には%d以上の数字(整数)を入力してください", $def['min']);
 				}
 				return false;
 			}
 		} else if ($type == VAR_TYPE_FLOAT && $var !== "") {
 			if (!is_null($def['min']) && $var < $def['min']) {
 				if ($test == false) {
-					$this->ae->add(E_FORM_MIN, $name, "%s requires at least %f", $name, $def['min']);
+					$this->ae->add(E_FORM_MIN_FLOAT, $name, "{form}には%f以上の数字(小数)を入力してください", $def['min']);
+				}
+				return false;
+			}
+		} else if ($type == VAR_TYPE_DATETIME && $var !== "") {
+			if (!is_null($def['min'])) {
+				$t_min = strtotime($def['min']);
+				$t_var = strtotime($var);
+				if ($t_var < $t_min) {
+					if ($test == false) {
+						$this->ae->add(E_FORM_MIN_DATETIME, $name, "{form}には%s以降の日付を入力してください", $def['min']);
+					}
 				}
 				return false;
 			}
 		} else if ($type == VAR_TYPE_FILE) {
 			if (!is_null($def['min'])) {
 				$st = @stat($var['tmp_name']);
-				if ($st[7] < $def['min']) {
+				if ($st[7] < $def['min'] * 1024) {
 					if ($test == false) {
-						$this->ae->add(E_FORM_MIN, $name, "%s requires at least %d bytes", $name, $def['min']);
+						$this->ae->add(E_FORM_MIN_FILE, $name, "{form}には%dKB以上のファイルを指定してください", $def['min']);
 					}
 					return false;
 				}
@@ -565,7 +575,7 @@ class Ethna_ActionForm
 		} else {
 			if (!is_null($def['min']) && strlen($var) < $def['min'] && $var !== "") {
 				if ($test == false) {
-					$this->ae->add(E_FORM_MIN, $name, "%s requires at least %d characters", $name, $def['min']);
+					$this->ae->add(E_FORM_MIN_STRING, $name, "{form}には%d文字以上入力してください", $def['min']);
 				}
 				return false;
 			}
@@ -575,23 +585,34 @@ class Ethna_ActionForm
 		if ($type == VAR_TYPE_INT && $var !== "") {
 			if (!is_null($def['max']) && $var > $def['max']) {
 				if ($test == false) {
-					$this->ae->add(E_FORM_MAX, $name, "%s can accept %d at most", $name, $def['max']);
+					$this->ae->add(E_FORM_MAX_INT, $name, "{form}には%d以下の数字(整数)を入力してください", $def['max']);
 				}
 				return false;
 			}
 		} else if ($type == VAR_TYPE_FLOAT && $var !== "") {
 			if (!is_null($def['max']) && $var > $def['max']) {
 				if ($test == false) {
-					$this->ae->add(E_FORM_MAX, $name, "%s can accept %f at most", $name, $def['max']);
+					$this->ae->add(E_FORM_MAX_FLOAT, $name, "{form}には%d以下の数字(小数)を入力してください", $def['max']);
+				}
+				return false;
+			}
+		} else if ($type == VAR_TYPE_DATETIME && $var !== "") {
+			if (!is_null($def['max'])) {
+				$t_min = strtotime($def['max']);
+				$t_var = strtotime($var);
+				if ($t_var > $t_min) {
+					if ($test == false) {
+						$this->ae->add(E_FORM_MAX_DATETIME, $name, "{form}には%s以前の日付を入力してください", $def['max']);
+					}
 				}
 				return false;
 			}
 		} else if ($type == VAR_TYPE_FILE) {
 			if (!is_null($def['max'])) {
 				$st = @stat($var['tmp_name']);
-				if ($st[7] > $def['max']) {
+				if ($st[7] > $def['max'] * 1024) {
 					if ($test == false) {
-						$this->ae->add(E_FORM_MAX, $name, "%s can accept %d bytes at most", $name, $def['max']);
+						$this->ae->add(E_FORM_MAX_FILE, $name, "{form}には%dKBまでのファイルを指定してください", $def['max']);
 					}
 					return false;
 				}
@@ -599,7 +620,7 @@ class Ethna_ActionForm
 		} else {
 			if (!is_null($def['max']) && strlen($var) > $def['max'] && $var !== "") {
 				if ($test == false) {
-					$this->ae->add(E_FORM_MAX, $name, "%s can accept %d characters at most", $name, $def['max']);
+					$this->ae->add(E_FORM_MAX_STRING, $name, "{form}は%d文字以下で入力してください", $name, $def['max']);
 				}
 				return false;
 			}
@@ -608,7 +629,7 @@ class Ethna_ActionForm
 		// regexp
 		if ($def['regexp'] != null && strlen($var) > 0 && preg_match($def['regexp'], $var) == 0) {
 			if ($test == false) {
-				$this->ae->add(E_FORM_INVALIDCHAR, $name, "invalid characters in %s", $name);
+				$this->ae->add(E_FORM_REGEXP, $name, "{form}を正しく入力してください");
 			}
 			return false;
 		}

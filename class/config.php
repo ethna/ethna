@@ -45,10 +45,11 @@ class Ethna_Config
 		$this->controller =& $controller;
 
 		// 設定ファイルの読み込み
-		if ($this->_getConfig() == false) {
-			// この時点ではlogging等は出来ない
+		$r = $this->_getConfig();
+		if (Ethna::isError($r)) {
+			// この時点ではlogging等は出来ない(Loggerオブジェクトが生成されていない)
 			$fp = fopen("php://stderr", "r");
-			fputs($fp, sprintf("error occured while reading config file(s)\n"));
+			fputs($fp, sprintf("error occured while reading config file(s) [%s]\n"), $r->getInfo(0));
 			fclose($fp);
 			$this->controller->fatal();
 		}
@@ -85,7 +86,7 @@ class Ethna_Config
 	 *	設定ファイルを更新する
 	 *
 	 *	@access	public
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function update()
 	{
@@ -96,7 +97,7 @@ class Ethna_Config
 	 *	設定ファイルを読み込む
 	 *
 	 *	@access	private
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function _getConfig()
 	{
@@ -104,8 +105,8 @@ class Ethna_Config
 		$file = $this->_getConfigFile();
 		if (file_exists($file)) {
 			$lh = Ethna_Util::lockFile($file, 'r');
-			if ($lh == false) {
-				return false;
+			if (Ethna::isError($lh)) {
+				return $lh;
 			}
 
 			include($file);
@@ -132,27 +133,27 @@ class Ethna_Config
 
 		$this->config = $config;
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 *	設定ファイルに書き込む
 	 *
 	 *	@access	private
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function _setConfig()
 	{
 		$file = $this->_getConfigFile();
 
 		$lh = Ethna_Util::lockFile($file, 'w');
-		if ($lh == false) {
-			return false;
+		if (Ethna::isError($lh)) {
+			return $lh;
 		}
 
 		$fp = fopen($file, 'w');
 		if ($fp == null) {
-			return false;
+			return Ethna::raiseError(E_APP_WRITE, "ファイル書き込みエラー[%s]", $file);
 		}
 		fwrite($fp, "<?php\n");
 		fwrite($fp, sprintf("/*\n * %s\n *\n * update: %s\n */\n", basename($file), strftime('%Y/%m/%d %H:%M:%S')));
@@ -165,7 +166,7 @@ class Ethna_Config
 
 		Ethna_Util::unlockFile($lh);
 
-		return true;
+		return 0;
 	}
 
 	/**

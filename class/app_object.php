@@ -83,16 +83,6 @@ class Ethna_AppManager
 	var $i18n;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
-	 */
-	var $action_error;
-
-	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト(省略形)
-	 */
-	var $ae;
-
-	/**
 	 *	@var	object	Ethna_ActionForm	action formオブジェクト
 	 */
 	var $action_form;
@@ -121,8 +111,6 @@ class Ethna_AppManager
 		$this->backend =& $backend;
 		$this->config = $backend->getConfig();
 		$this->i18n =& $backend->getI18N();
-		$this->action_error =& $backend->getActionError();
-		$this->ae =& $this->action_error;
 		$this->action_form =& $backend->getActionForm();
 		$this->af =& $this->action_form;
 		$this->session =& $backend->getSession();
@@ -219,16 +207,6 @@ class Ethna_AppObject
 	var $i18n;
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
-	 */
-	var $action_error;
-
-	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト(省略形)
-	 */
-	var $ae;
-
-	/**
 	 *	@var	object	Ethna_ActionForm	action formオブジェクト
 	 */
 	var $action_form;
@@ -280,8 +258,6 @@ class Ethna_AppObject
 		$this->backend =& $backend;
 		$this->config =& $backend->getConfig();
 		$this->db =& $backend->getDB();
-		$this->action_error =& $backend->getActionError();
-		$this->ae =& $this->action_error;
 		$this->action_form =& $backend->getActionForm();
 		$this->af =& $this->action_form;
 		$this->session =& $backend->getSession();
@@ -506,7 +482,7 @@ class Ethna_AppObject
 	{
 		$method = "_dump_$type";
 		if (method_exists($this, $method) == false) {
-			return null;
+			return Ethna::raiseError(E_APP_NOMETHOD, "メソッド未定義[%s]", $method);
 		}
 
 		return $this->$method();
@@ -552,32 +528,30 @@ class Ethna_AppObject
 	 *	オブジェクトを追加する
 	 *
 	 *	@access	public
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	mixed	(int):追加したオブジェクトのID Ethna_Error:エラー
 	 */
 	function add()
 	{
 		// ユニークチェック(DBからのエラーではどのカラムが重複したかが判定できない)
 		$duplicate_key_list = $this->_getDuplicateKeyList();
+		if (Ethna::isError($duplicate_key_list)) {
+			return $duplicate_key_list;
+		}
 		if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
 			foreach ($duplicate_key_list as $k) {
-				$this->action_error->add(E_APP_DUPOBJ, null, '%s is already used', $k);
+				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[%s]', $k);
 			}
-			return false;
-		} else if ($duplicate_key_list === false) {
-			return false;
 		}
 
 		$sql = $this->_getSQL_Add();
-		$r =& $this->db->query_test($sql);
-		if (DB::isError($r)) {
-			if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
+		$r =& $this->db->query($sql);
+		if (Ethna::isError($r)) {
+			if ($r->getCode() == E_DB_DUPENT) {
 				// レースコンディション
-				$this->action_error->add(E_APP_DUPOBJ, null, 'duplicate key');
+				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[キー不明]');
 			} else {
-				// その他致命的エラー
-				trigger_error(sprintf("db error: %s [%s]", $r->getMessage(), $query), E_USER_ERROR);
+				return $error;
 			}
-			return false;
 		}
 
 		$this->prop_backup = $this->prop;
@@ -609,56 +583,54 @@ class Ethna_AppObject
 	 *	オブジェクトを更新する
 	 *
 	 *	@access	public
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function update()
 	{
 		// ユニークチェック(DBからのエラーではどのカラムが重複したかが判定できない)
 		$duplicate_key_list = $this->_getDuplicateKeyList();
+		if (Ethna::isError($duplicate_key_list)) {
+			return $duplicate_key_list;
+		}
 		if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
 			foreach ($duplicate_key_list as $k) {
-				$this->action_error->add(E_APP_DUPOBJ, null, '%s is already used', $k);
+				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[%s]', $k);
 			}
-			return false;
-		} else if ($duplicate_key_list === false) {
-			return false;
 		}
 
 		$sql = $this->_getSQL_Update();
 		$r =& $this->db->query_test($sql);
 		if (DB::isError($r)) {
-			if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
+			if ($r->getCode() == E_DB_DUPENT) {
 				// レースコンディション
-				$this->action_error->add(E_APP_DUPOBJ, null, 'duplicate key');
+				return Ethna::raiseNotice(E_APP_DUPENT, '重複エラー[キー不明]');
 			} else {
-				// その他致命的エラー
-				trigger_error(sprintf("db error: %s [%s]", $r->getMessage(), $query), E_USER_ERROR);
+				return $error;
 			}
-			return false;
 		}
 
 		$this->prop_backup = $this->prop;
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 *	オブジェクトを削除する
 	 *
 	 *	@access	public
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function remove()
 	{
 		$sql = $this->_getSQL_Remove();
 		$r =& $this->db->query($sql);
-		if ($r == null) {
-			return false;
+		if (Ethna::isError($r)) {
+			return $r;
 		}
 
 		$this->id = $this->prop = $this->prop_backup = null;
 
-		return true;
+		return 0;
 	}
 
 	/**
@@ -669,15 +641,15 @@ class Ethna_AppObject
 	 *	@param	array	$order		検索結果ソート条件
 	 *	@param	int		$offset		検索結果取得オフセット
 	 *	@param	int		$count		検索結果取得数
-	 *	@return	array	0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトID一覧
+	 *	@return	mixed	array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトID一覧) Ethna_Error:エラー
 	 */
 	function search($filter = null, $order = null, $offset = null, $count = null)
 	{
 		if (is_null($filter) == false) {
 			$sql = $this->_getSQL_SearchLength($filter);
 			$r =& $this->db->query($sql);
-			if ($r == null) {
-				return false;
+			if (Ethna::isError($r)) {
+				return $r;
 			}
 			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 			$length = $row['id_count'];
@@ -688,8 +660,8 @@ class Ethna_AppObject
 		$id_list = array();
 		$sql = $this->_getSQL_Search($filter, $order, $offset, $count);
 		$r =& $this->db->query($sql);
-		if ($r == null) {
-			return false;
+		if (Ethna::isError($r)) {
+			return $r;
 		}
 		$n = $r->numRows();
 		for ($i = 0; $i < $n; $i++) {
@@ -715,11 +687,11 @@ class Ethna_AppObject
 	 *	デフォルトプロパティをここで設定することが出来る
 	 *
 	 *	@access	protected
-	 *	@return	bool	true:デフォルトプロパティを設定 false:処理をスキップ
+	 *	@return	int		0:正常終了
 	 */
 	function _setDefault($key_type, $key)
 	{
-		return false;
+		return 0;
 	}
 
 	/**
@@ -740,7 +712,7 @@ class Ethna_AppObject
 	 *	重複キーを取得する
 	 *
 	 *	@access	private
-	 *	@return	mixed	true:重複なし false:エラー array:重複キーのプロパティ名一覧
+	 *	@return	mixed	0:重複なし Ethna_Error:エラー array:重複キーのプロパティ名一覧
 	 */
 	function _getDuplicateKeyList()
 	{
@@ -759,8 +731,8 @@ class Ethna_AppObject
 		if ($check_pkey) {
 			$sql = $this->_getSQL_Duplicate($this->id_def);
 			$r =& $this->db->query($sql);
-			if ($r == null) {
-				return false;
+			if (Ethna::isError($r)) {
+				return $r;
 			} else if ($r->numRows() > 0) {
 				$duplicate_key_list = to_array($this->id_def); // we can overwrite $key_list here
 			}
@@ -773,9 +745,8 @@ class Ethna_AppObject
 			}
 			$sql = $this->_getSQL_Duplicate($k);
 			$r =& $this->db->query($sql);
-			if ($r == null) {
-				$this->action_error->add(E_DB_QUERY, null, $r->getMessage());
-				return false;
+			if (Ethna::isError($r)) {
+				return $r;
 			} else if ($r->NumRows() > 0) {
 				$duplicate_key_list[] = $k;
 			}
@@ -784,7 +755,7 @@ class Ethna_AppObject
 		if (count($duplicate_key_list) > 0) {
 			return $duplicate_key_list;
 		} else {
-			return true;
+			return 0;
 		}
 	}
 
@@ -913,7 +884,7 @@ class Ethna_AppObject
 		}
 		if (is_null($condition)) {
 			trigger_error("DELETE with no conditon", E_USER_ERROR);
-			return false;
+			return null;
 		}
 
 		$sql = "DELETE FROM $tables $condition;";

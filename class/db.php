@@ -14,7 +14,6 @@
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
  *	@package	Ethna
- *	@todo		MySQL以外対応
  */
 class Ethna_DB
 {
@@ -43,22 +42,7 @@ class Ethna_DB
 	var $persistent;
 
 	/**
-	 *	@var	string	エラーメッセージ
-	 */
-	var	$message;
-
-	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
-	 */
-	var	$action_error;
-
-	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト(省略形)
-	 */
-	var	$ae;
-
-	/**
-	 *	@var	array	DBトランザクション管理スタック
+	 *	@var	array	トランザクション管理スタック
 	 */
 	var	$transaction = array();
 
@@ -72,15 +56,27 @@ class Ethna_DB
 	{
 		$this->dsn = $dsn;
 		$this->persistent = $persistent;
-		$this->message = null;
-		$this->action_error =& $controller->getActionError();
-		$this->ae =& $this->action_error;
-
-		$this->db =& DB::Connect($dsn, $persistent);
-		if (DB::isError($this->db)) {
-			trigger_error(sprintf("db connect error: %s", mysql_error()), E_USER_ERROR);
-		}
+		$this->db = null;
 		$this->sql =& $controller->getSQL();
+	}
+
+	/**
+	 *	DBに接続する
+	 *
+	 *	@access	public
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
+	 */
+	function connect()
+	{
+		$this->db =& DB::connect($dsn, $persistent);
+		if (DB::isError($this->db)) {
+			$error = Ethna::raiseError(E_DB_CONNECT, 'DB接続エラー: %s', $this->db->getUserInfo());
+			$error->set('obj', $this->db);
+			$this->db = null;
+			return $error;
+		}
+
+		return 0;
 	}
 
 	/**
@@ -101,22 +97,11 @@ class Ethna_DB
 	 */
 	function isValid()
 	{
-		if (DB::isError($this->db)) {
-			$this->message = $this->db->GetMessage();
+		if (is_null($this->db)) {
 			return false;
+		} else {
+			return true;
 		}
-		return true;
-	}
-
-	/**
-	 *	最新のエラーメッセージを返す
-	 *
-	 *	@access	public
-	 *	@return	string	エラーメッセージ
-	 */
-	function getMessage()
-	{
-		return $this->message;
 	}
 
 	/**
@@ -124,31 +109,19 @@ class Ethna_DB
 	 *
 	 *	@access	public
 	 *	@param	string	$query	SQL文
-	 *	@return	object	DB_Result	結果オブジェクト
+	 *	@return	mixed	DB_Result:結果オブジェクト Ethna_Error:エラー
 	 */
 	function &query($query)
 	{
-		return $this->_query($query, false);
-	}
-
-	/**
-	 *	クエリを発行する(テストモード)
-	 *
-	 *	@access	public
-	 *	@param	string	$query	SQL文
-	 *	@return	object	DB_Result	結果オブジェクト
-	 */
-	function &query_test($query)
-	{
-		return $this->_query($query, true);
+		return $this->_query($query);
 	}
 
 	/**
 	 *	SQL文指定クエリを発行する
 	 *
 	 *	@access	public
-	 *	@param	string	$sqlid		SQL-ID
-	 *	@return	object	DB_Result	結果オブジェクト
+	 *	@param	string	$sqlid		SQL-ID(+引数)
+	 *	@return	mixed	DB_Result:結果オブジェクト Ethna_Error:エラー
 	 */
 	function &sqlquery($sqlid)
 	{
@@ -156,23 +129,7 @@ class Ethna_DB
 		array_shift($args);
 		$query = $this->sql->get($sqlid, $args);
 
-		return $this->_query($query, false);
-	}
-
-	/**
-	 *	SQL文指定クエリを発行する(テストモード)
-	 *
-	 *	@access	public
-	 *	@param	string	$sqlid		SQL-ID
-	 *	@return	object	DB_Result	結果オブジェクト
-	 */
-	function &sqlquery_test($sqlid)
-	{
-		$args = func_get_args();
-		array_shift($args);
-		$query = $this->sql->get($sqlid, $args);
-
-		return $this->_query($query, true);
+		return $this->_query($query);
 	}
 
 	/**
@@ -196,6 +153,7 @@ class Ethna_DB
 	 *
 	 *	@access	public
 	 *	@return	int		直近のINSERTにより生成されたID
+	 *	@todo	MySQL以外対応
 	 */
 	function getInsertId()
 	{
@@ -207,7 +165,7 @@ class Ethna_DB
 	 *
 	 *	@access	public
 	 *	@param	mixed	ロック対象テーブル名
-	 *	@return	object	DB_Result	結果オブジェクト
+	 *	@return	mixed	DB_Result:結果オブジェクト Ethna_Error:エラー
 	 */
 	function lock($tables)
 	{
@@ -228,7 +186,7 @@ class Ethna_DB
 	 *	テーブルのロックを解放する
 	 *
 	 *	@access	public
-	 *	@return	object	DB_Result	結果オブジェクト
+	 *	@return	mixed	DB_Result:結果オブジェクト Ethna_Error:エラー
 	 */
 	function unlock()
 	{
@@ -240,52 +198,70 @@ class Ethna_DB
 	 *	DBトランザクションを開始する
 	 *
 	 *	@access	public
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function begin()
 	{
 		if (count($this->transaction) > 0) {
 			$this->transaction[] = true;
-			return;
+			return 0;
 		}
 
-		$this->query('BEGIN;');
+		$r = $this->query('BEGIN;');
+		if (Ethna::isError($r)) {
+			return $r;
+		}
 		$this->transaction[] = true;
+
+		return 0;
 	}
 
 	/**
 	 *	DBトランザクションを中断する
 	 *
 	 *	@access	public
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function rollback()
 	{
 		if (count($this->transaction) == 0) {
-			return;
+			return 0;
 		} else if (count($this->transaction) > 1) {
 			array_pop($this->transaction);
-			return;
+			return 0;
 		}
 
-		$this->query('ROLLBACK;');
+		$r = $this->query('ROLLBACK;');
+		if (Ethna::isError($r)) {
+			return $r;
+		}
 		array_pop($this->transaction);
+
+		return 0;
 	}
 
 	/**
 	 *	DBトランザクションを終了する
 	 *
 	 *	@access	public
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function commit()
 	{
 		if (count($this->transaction) == 0) {
-			return;
+			return 0;
 		} else if (count($this->transaction) > 1) {
 			array_pop($this->transaction);
-			return;
+			return 0;
 		}
 
-		$this->query('COMMIT;');
+		$r = $this->query('COMMIT;');
+		if (Ethna::isError($r)) {
+			return $r;
+		}
 		array_pop($this->transaction);
+
+		return 0;
 	}
 
 	/**
@@ -294,21 +270,20 @@ class Ethna_DB
 	 *	@access	private
 	 *	@param	string	$query	SQL文
 	 *	@param	bool	$test	テストモードフラグ(true:エラーオブジェクトが追加されない)
-	 *	@return	object	DB_Result	結果オブジェクト
+	 *	@return	mixed	DB_Result:結果オブジェクト Ethna_Error:エラー
 	 */
-	function &_query($query, $test = false)
+	function &_query($query)
 	{
-		$this->message = null;
-
 		$r =& $this->db->query($query);
 		if (DB::isError($r)) {
-			if ($test == false) {
-				// 想定外のSQLエラー
-				trigger_error(sprintf("db error: %s [%s]", mysql_error(), $query), E_USER_ERROR);
-				return null;
+			if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
+				$error = Ethna::raiseNotice(E_DB_DUPENT, 'ユニーク制約エラー[%s]', $query);
+				$error->set('obj', $r);
+				return $error;
 			} else {
-				// 想定内のSQLエラー(duplicate entry等)
-				return $r;
+				$error = Ethna::raiseError(E_DB_QUERY, 'クエリエラー[%s]', $query);
+				$error->set('obj', $r);
+				return $error;
 			}
 		}
 		return $r;

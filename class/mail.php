@@ -47,11 +47,6 @@ class Ethna_MailSender
 	 */
 	var $config;
 
-	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
-	 */
-	var $action_error;
-
 	/**#@-*/
 
 	/**
@@ -64,7 +59,6 @@ class Ethna_MailSender
 	{
 		$this->backend =& $backend;
 		$this->config =& $this->backend->getConfig();
-		$this->action_error =& $this->backend->getActionError();
 	}
 
 	/**

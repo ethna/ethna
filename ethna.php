@@ -99,13 +99,13 @@ define('CLIENT_TYPE_AMF', 3);
 
 
 /**	要素型: 整数 */
-define('VAR_TYPE_INT', 0);
+define('VAR_TYPE_INT', 1);
 
 /**	要素型: 浮動小数点数 */
-define('VAR_TYPE_FLOAT', 2);
+define('VAR_TYPE_FLOAT', 1);
 
 /**	要素型: 文字列 */
-define('VAR_TYPE_STRING', 1);
+define('VAR_TYPE_STRING', 2);
 
 /**	要素型: 日付 */
 define('VAR_TYPE_DATETIME', 3);
@@ -117,38 +117,195 @@ define('VAR_TYPE_BOOLEAN', 4);
 define('VAR_TYPE_FILE', 5);
 
 
-/**	エラーコード: DB接続失敗 */
-define('E_DB_CONNECT', 1);
+/** フォーム型: text */
+define('FORM_TYPE_TEXT', 1);
+
+/** フォーム型: password */
+define('FORM_TYPE_PASSWORD', 2);
+
+/** フォーム型: textarea */
+define('FORM_TYPE_TEXTAREA', 3);
+
+/** フォーム型: select */
+define('FORM_TYPE_SELECT', 4);
+
+/** フォーム型: radio */
+define('FORM_TYPE_RADIO', 5);
+
+/** フォーム型: checkbox */
+define('FORM_TYPE_CHECKBOX', 6);
+
+/** フォーム型: button */
+define('FORM_TYPE_SUBMIT', 7);
+
+/** フォーム型: button */
+define('FORM_TYPE_FILE', 8);
+
+
+/**	エラーコード: 一般エラー */
+define('E_GENERAL', 1);
+
+/**	エラーコード: DB接続エラー */
+define('E_DB_CONNECT', 2);
 
 /**	エラーコード: DBクエリエラー */
-define('E_DB_QUERY', 2);
+define('E_DB_QUERY', 3);
 
-/**	エラーコード: セッションエラー */
-define('E_SESSION_INVALID', 16);
+/**	エラーコード: DBユニークキーエラー */
+define('E_DB_DUPENT', 4);
 
-/**	エラーコード: オブジェクトID重複エラー */
-define('E_APP_DUPOBJ', 32);
+/**	エラーコード: セッションエラー(有効期限切れ) */
+define('E_SESSION_EXPIRE', 16);
 
-/**	エラーコード: フォーム値文字種エラー */
-define('E_FORM_WRONGTYPE', 48);
+/**	エラーコード: セッションエラー(IPアドレスチェックエラー) */
+define('E_SESSION_IPCHECK', 17);
+
+/**	エラーコード: アプリケーションオブジェクトID重複エラー */
+define('E_APP_DUPENT', 32);
+
+/** エラーコード: アプリケーションメソッドが存在しない */
+define('E_APP_NOMETHOD', 33);
+
+/** エラーコード: ロックエラー */
+define('E_APP_LOCK', 34);
+
+/**	エラーコード: フォーム値型エラー(スカラー引数に配列指定) */
+define('E_FORM_WRONGTYPE_SCALAR', 128);
+
+/**	エラーコード: フォーム値型エラー(配列引数にスカラー指定) */
+define('E_FORM_WRONGTYPE_ARRAY', 129);
+
+/**	エラーコード: フォーム値型エラー(整数型) */
+define('E_FORM_WRONGTYPE_INT', 130);
+
+/**	エラーコード: フォーム値型エラー(浮動小数点数型) */
+define('E_FORM_WRONGTYPE_FLOAT', 131);
+
+/**	エラーコード: フォーム値型エラー(日付型) */
+define('E_FORM_WRONGTYPE_DATETIME', 132);
+
+/**	エラーコード: フォーム値型エラー(BOOL型) */
+define('E_FORM_WRONGTYPE_BOOLEAN', 133);
 
 /**	エラーコード: フォーム値必須エラー */
-define('E_FORM_REQUIRED', 49);
+define('E_FORM_REQUIRED', 134);
 
-/**	エラーコード: フォーム値最小値エラー */
-define('E_FORM_MIN', 50);
+/**	エラーコード: フォーム値最小値エラー(整数型) */
+define('E_FORM_MIN_INT', 135);
 
-/**	エラーコード: フォーム値最大値エラー */
-define('E_FORM_MAX', 51);
+/**	エラーコード: フォーム値最小値エラー(浮動小数点数型) */
+define('E_FORM_MIN_FLOAT', 136);
 
-/**	エラーコード: フォーム値不正文字エラー */
-define('E_FORM_INVALIDCHAR', 52);
+/**	エラーコード: フォーム値最小値エラー(文字列型) */
+define('E_FORM_MIN_STRING', 137);
 
-/**	エラーコード: フォーム値不正値エラー */
-define('E_FORM_INVALIDVALUE', 53);
+/**	エラーコード: フォーム値最小値エラー(日付型) */
+define('E_FORM_MIN_DATETIME', 138);
+
+/**	エラーコード: フォーム値最小値エラー(ファイル型) */
+define('E_FORM_MIN_FILE', 139);
+
+/**	エラーコード: フォーム値最大値エラー(整数型) */
+define('E_FORM_MAX_INT', 140);
+
+/**	エラーコード: フォーム値最大値エラー(浮動小数点数型) */
+define('E_FORM_MAX_FLOAT', 141);
+
+/**	エラーコード: フォーム値最大値エラー(文字列型) */
+define('E_FORM_MAX_STRING', 142);
+
+/**	エラーコード: フォーム値最大値エラー(日付型) */
+define('E_FORM_MAX_DATETIME', 143);
+
+/**	エラーコード: フォーム値最大値エラー(ファイル型) */
+define('E_FORM_MAX_FILE', 144);
+
+/**	エラーコード: フォーム値文字種(正規表現)エラー */
+define('E_FORM_REGEXP', 145);
 
 if (defined('E_STRICT') == false) {
 	/**	PHP 5との互換保持定義 */
 	define('E_STRICT', 0);
+}
+
+
+/**
+ *	Ethnaフレームワーク基底クラス
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		public
+ *	@package	Ethna
+ */
+class Ethna
+{
+	/**#@+
+	 *	@access	private
+	 */
+
+	/**#@-*/
+
+	/**
+	 *	Ethna_Errorオブジェクトかどうかを判定する(または指定されたエラーコードの
+	 *	エラーかどうかを判定する)
+	 *
+	 *	@access	public
+	 *	@param	mixed	メソッド空の戻り値
+	 *	@param	int		エラーコード
+	 *	@return	bool	true:エラー false:正常終了
+	 *	@static
+	 */
+	function isError($obj, $code = null)
+	{
+		if (is_a($obj, 'Ethna_Errror')) {
+			if (is_null($code)) {
+				return true;
+			} else {
+				return $obj->getCode() == $code;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 *	Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_ERROR)
+	 *
+	 *	@access	public
+	 *	@param	int		$code				エラーコード
+	 *	@param	string	$message			エラーメッセージ(+引数)
+	 *	@static
+	 */
+	function &raiseError($code, $message)
+	{
+		$message_arg_list = array_slice(func_get_args(), 2);
+		return new Ethna_Error(E_USER_ERROR, $code, $message, $message_arg_list);
+	}
+
+	/**
+	 *	Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_WARNING)
+	 *
+	 *	@access	public
+	 *	@param	int		$code				エラーコード
+	 *	@param	string	$message			エラーメッセージ(+引数)
+	 *	@static
+	 */
+	function &raiseWarning($code, $message)
+	{
+		$message_arg_list = array_slice(func_get_args(), 2);
+		return new Ethna_Error(E_USER_WARNING, $code, $message, $message_arg_list);
+	}
+
+	/**
+	 *	Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_NOTICE)
+	 *
+	 *	@access	public
+	 *	@param	int		$code				エラーコード
+	 *	@param	string	$message			エラーメッセージ(+引数)
+	 *	@static
+	 */
+	function &raiseNotice($code, $message)
+	{
+		$message_arg_list = array_slice(func_get_args(), 2);
+		return new Ethna_Error(E_USER_NOTICE, $code, $message, $message_arg_list);
+	}
 }
 ?>

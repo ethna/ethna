@@ -9,7 +9,7 @@
  */
 
 /**
- *	アプリケーションエラークラス
+ *	エラークラス
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
@@ -20,6 +20,11 @@ class Ethna_Error
 	/**#@+
 	 *	@access	private
 	 */
+
+	/**
+	 *	@var	int		エラーレベル
+	 */
+	var $level;
 
 	/**
 	 *	@var	int		エラーコード
@@ -37,32 +42,58 @@ class Ethna_Error
 	var $message_arg_list;
 
 	/**
-	 *	@var	string	エラーが発生したフォーム項目名
+	 *	@var	array	ユーザ定義追加情報
 	 */
-	var $name;
+	var $info;
 
 	/**
 	 *	@var	object	Ethna_I18N	i18nオブジェクト
 	 */
 	var $i18n;
 
-	/**#@-*/
+	/**
+	 *	@var	object	Ethna_Logger	loggerオブジェクト
+	 */
+	var $logger;
 
+	/**#@-*/
 
 	/**
 	 *	Ethna_Errorクラスのコンストラクタ
 	 *
 	 *	@access	public
-	 *	@param	int		$code		エラーコード
-	 *	@param	string	$name		エラーが発生したフォーム項目(不要ならnull)
-	 *	@param	string	$message	エラーメッセージ(+引数)
+	 *	@param	int		$level				エラーレベル
+	 *	@param	int		$code				エラーコード
+	 *	@param	string	$message			エラーメッセージ(+引数)
+	 *	@param	array	$message_arg_list	エラーメッセージ引数
 	 */
-	function Ethna_Error($code, $name, $message)
+	function Ethna_Error($level, $code, $message, $message_arg_list = array())
 	{
+		$this->controller =& $GLOBALS['controller'];
+		$this->i18n =& $this->controller->getI18N();
+		$this->logger =& $this->controller->getLogger();
+
+		$this->level = $level;
 		$this->code = $code;
-		$this->name = $name;
 		$this->message = $message;
-		$this->message_arg_list = array_slice(func_get_args(), 3);
+		$this->message_arg_list = $message_arg_list;
+		$this->info = array();
+
+		// ログ
+		list ($log_level, $dummy) = Ethna_Logger::errorLevelToLogLevel($level);
+		$message = $this->getMessage();
+		$this->logger->log($log_level, sprintf("[APP-ERROR(%d)] %s", $code, $message));
+	}
+
+	/**
+	 *	levelへのアクセサ(R)
+	 *
+	 *	@access	public
+	 *	@return	int		エラーコード
+	 */
+	function getLevel()
+	{
+		return $this->level;
 	}
 
 	/**
@@ -74,6 +105,138 @@ class Ethna_Error
 	function getCode()
 	{
 		return $this->code;
+	}
+
+	/**
+	 *	messageへのアクセサ(R)
+	 *
+	 *	@access	public
+	 *	@return	array	エラーメッセージ
+	 */
+	function getMessage()
+	{
+		$tmp_message = $this->i18n->get($this->message);
+		$tmp_message_arg_list = array();
+		for ($i = 0; $i < count($this->message_arg_list); $i++) {
+			$tmp_message_arg_list[] = $this->i18n->get($this->message_arg_list[$i]);
+		}
+		return vsprintf($tmp_message, $tmp_message_arg_list);
+	}
+
+	/**
+	 *	message引数へのアクセサ(R)
+	 *
+	 *	@access	public
+	 *	@param	int		message引数インデックス
+	 *	@return	mixed	message引数
+	 */
+	function getInfo($n)
+	{
+		if (isset($this->message_arg_list[$n])) {
+			return $this->message_arg_list[$n];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 *	messageとその引数を加工せずに返す
+	 *
+	 *	@acess	public
+	 *	@return	array	エラーメッセージ, エラーメッセージ引数
+	 */
+	function getMessage_Raw()
+	{
+		return array($this->message, $this->message_arg_list);
+	}
+
+	/**
+	 *	ユーザ定義情報へのアクセサ(R)
+	 *
+	 *	@access	public
+	 *	@param	string	$key	ユーザ定義情報キー
+	 *	@return	mixed	$keyで指定されたユーザ定義情報
+	 */
+	function get($key)
+	{
+		if (isset($this->info[$key])) {
+			return $this->info[$key];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 *	ユーザ定義情報へのアクセサ(W)
+	 *
+	 *	@access	public
+	 *	@param	string	$key	ユーザ定義情報キー
+	 *	@param	mixed	$value	ユーザ定義情報値
+	 */
+	function set($key, $value)
+	{
+		$this->info[$key] = $value;
+	}
+}
+
+/**
+ *	アプリケーションエラークラス
+ *
+ *	このクラスはEthna_ActoinErrorクラスでのみ利用される(開発者が生成するのは
+ *	Ethna_Errorクラスのみ)
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		private
+ *	@package	Ethna
+ */
+class Ethna_AppError extends Ethna_Error
+{
+	/**#@+
+	 *	@access	private
+	 */
+
+	/**
+	 *	@var	string	エラーが発生したフォーム項目名
+	 */
+	var $name;
+
+	/**
+	 *	@var	object	Ethna_ActionForm	action formオブジェクト
+	 */
+	var $action_form;
+
+	/**#@-*/
+
+	/**
+	 *	Ethna_AppErrorクラスのコンストラクタ
+	 *
+	 *	@access	public
+	 *	@param	int		$level		エラーレベル
+	 *	@param	int		$code		エラーコード
+	 *	@param	string	$name		エラーが発生したフォーム項目(不要ならnull)
+	 *	@param	string	$message	エラーメッセージ
+	 *	@param	string	$message	エラーメッセージ引数
+	 *	@param	bool	$logging	エラーログ出力フラグ
+	 */
+	function Ethna_AppError($level, $code, $name, $message, $message_arg_list, $logging)
+	{
+		$this->controller =& $GLOBALS['controller'];
+		$this->i18n =& $this->controller->getI18N();
+		$this->logger =& $this->controller->getLogger();
+		$this->action_form =& $this->controller->getActionForm();
+
+		$this->level = $level;
+		$this->code = $code;
+		$this->name = $name;
+		$this->message = $message;
+		$this->message_arg_list = $message_arg_list;
+
+		// ログ
+		if ($logging) {
+			list ($log_level, $dummy) = Ethna_Logger::errorLevelToLogLevel($level);
+			$message = $this->getMessage();
+			$this->logger->log($log_level, sprintf("[APP-ERROR(%d)] %s", $code, $message));
+		}
 	}
 
 	/**
@@ -95,16 +258,13 @@ class Ethna_Error
 	 */
 	function getMessage()
 	{
-		$message_arg_list = array_merge(array($this->message), $this->message_arg_list);
-		$eval_statement = "return sprintf(";
-		for ($i = 0; $i < count($message_arg_list); $i++) {
-			if ($i > 0) {
-				$eval_statement .= ", ";
-			}
-			$eval_statement .= "\$this->i18n->get(\$message_arg_list[$i])";
-		}
-		$eval_statement .= ");";
-		return eval($eval_statement);
+		$message = parent::getMesssage();
+
+		// マクロ処理
+		$form_name = $this->action_form->getName($this->getName());
+		$message = str_replace("{form}", $form_name, $message);
+
+		return $message;
 	}
 }
 
@@ -126,26 +286,19 @@ class Ethna_ActionError
 	 */
 	var $error_list = array();
 
-	/**
-	 *	@var	object	Ethna_I18N	i18nオブジェクト
-	 */
-	var $i18n;
-
 	/**#@-*/
 
 	/**
 	 *	Ethna_ActionErrorクラスのコンストラクタ
 	 *
 	 *	@access	public
-	 *	@param	object	Ethna_I18N	$i18n	i18nオブジェクト
 	 */
-	function Ethna_ActionError(&$i18n)
+	function Ethna_ActionError()
 	{
-		$this->i18n =& $i18n;
 	}
 
 	/**
-	 *	エラーオブジェクトを生成/追加する
+	 *	Ethna_AppErrorオブジェクトを生成/追加する
 	 *
 	 *	@access	public
 	 *	@param	int		$code		エラーコード
@@ -155,24 +308,22 @@ class Ethna_ActionError
 	function add($code, $name, $message)
 	{
 		$message_arg_list = array_slice(func_get_args(), 3);
-		$eval_statement = "\$error = new Ethna_Error(\$code, \$name, \$message";
-		for ($i = 0; $i < count($message_arg_list); $i++) {
-			$eval_statement .= ", \$message_arg_list[$i]";
-		}
-		$eval_statement .= ");";
-		eval($eval_statement);
-		$this->error_list[] =& $error;
+		$app_errro = new Ethna_AppError(E_USER_NOTICE, $code, $name, $message, $message_arg_list);
+		$this->error_list[] =& $app_error;
 	}
 
 	/**
-	 *	エラーオブジェクトを追加する
+	 *	Ethna_Errorオブジェクトを追加する
 	 *
 	 *	@access	public
 	 *	@param	object	Ethna_Error	$error	エラーオブジェクト
+	 *	@param	string				$name	エラーに対応するフォーム項目名(不要ならnull)
 	 */
-	function addObject(&$error)
+	function addObject(&$error, $name = null)
 	{
-		$this->error_list[] =& $error;
+		list($message, $message_arg_list) = $error->getMessage_Raw();
+		$app_error = new Ethna_AppError($error->getLevel(), $error->getCode(), $message, $message_arg_list, false);
+		$this->error_list[] =& $app_error;
 	}
 
 	/**
@@ -187,7 +338,7 @@ class Ethna_ActionError
 	}
 
 	/**
-	 *	エラーオブジェクトの数を返す(Count()メソッドのエイリアス)
+	 *	エラーオブジェクトの数を返す(count()メソッドのエイリアス)
 	 *
 	 *	@access	public
 	 *	@return	int		エラーオブジェクトの数

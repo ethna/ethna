@@ -88,7 +88,7 @@ class Ethna_Util
 	 *	POSTのユニークチェックフラグをクリアする
 	 *
 	 *	@access	public
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
 	function clearDuplicatePost()
 	{
@@ -98,13 +98,17 @@ class Ethna_Util
 		if (isset($_POST['uniqid'])) {
 			$uniqid = $_POST['uniqid'];
 		} else {
-			return false;
+			return 0;
 		}
 
 		$filename = sprintf("%s/uniqid_%s_%s", $c->getDirectory('tmp'), $_SERVER['REMOTE_ADDR'], $uniqid);
-		unlink($filename);
+		if (file_exists($filename)) {
+			if (unlink($filename) == false) {
+				return Ethna::raiseWarning(E_APP_WRITE, $filename);
+			}
+		}
 
-		return true;
+		return 0;
 	}
 
 	/**

@@ -22,14 +22,9 @@ class Ethna_Session
 	 */
 
 	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト
+	 *	@var	object	Ethna_Logger	loggerオブジェクト
 	 */
-	var $action_error;
-
-	/**
-	 *	@var	object	Ethna_ActionError	action errorオブジェクト(省略形)
-	 */
-	var $ae;
+	var	$logger;
 
 	/**
 	 *	@var	string	セッション名
@@ -59,14 +54,12 @@ class Ethna_Session
 	 *	@access	public
 	 *	@param	string	$appid		アプリケーションID(セッション名として使用)
 	 *	@param	string	$save_dir	セッションデータを保存するディレクトリ
-	 *	@param	object	Ethna_ActionError	$action_error	ActionErrorオブジェクト
 	 */
-	function Ethna_Session($appid, $save_dir, &$action_error)
+	function Ethna_Session($appid, $save_dir, $logger)
 	{
 		$this->session_name = "${appid}SESSID";
 		$this->session_save_dir = $save_dir;
-		$this->action_error =& $action_error;
-		$this->ae =& $this->action_error;
+		$this->logger =& $logger;
 
 		if ($this->session_save_dir != "") {
 			session_save_path($this->session_save_dir);
@@ -117,7 +110,6 @@ class Ethna_Session
 		if (!$this->session_start) {
 			if (!empty($_COOKIE[$this->session_name]) || session_id() != null) {
 				setcookie($this->session_name, "", 0, "/");
-				$this->ae->Add(E_SESSION_INVALID, null, 'invalid session');
 			}
 			return false;
 		}
@@ -128,7 +120,6 @@ class Ethna_Session
 			setcookie($this->session_name, "", 0, "/");
 			session_destroy();
 			$this->session_start = false;
-			$this->ae->Add(E_SESSION_INVALID, null, 'invalid session');
 			return false;
 		}
 
@@ -291,6 +282,7 @@ class Ethna_Session
 		if (($src & 0xffff0000) == ($dst & 0xffff0000)) {
 			return true;
 		} else {
+			$this->logger(LOG_NOTICE, "session IP validation failed [%s] - [%s]", $src_ip, $dst_ip);
 			return false;
 		}
 	}

@@ -300,7 +300,7 @@ class Ethna_Backend
 	 *	DBオブジェクトを返す
 	 *
 	 *	@access	public
-	 *	@return	object	Ethna_DB	DBオブジェクト(エラーもしくはDB設定が無い場合はnull)
+	 *	@return	mixed	Ethna_DB:DBオブジェクト null:DSN設定なし Ethna_Error:エラー
 	 */
 	function &getDB()
 	{
@@ -315,9 +315,9 @@ class Ethna_Backend
 		}
 
 		$this->db =& new Ethna_DB($this->controller->getDSN(), false, $this->controller);
-		if ($this->db->isValid() == false) {
-			$this->db = null;
-			return null;
+		$r = $this->db->connect();
+		if (Ethna::isError($r)) {
+			return $r;
 		}
 
 		register_shutdown_function(array($this, 'shutdownDB'));
@@ -332,7 +332,7 @@ class Ethna_Backend
 	 */
 	function shutdownDB()
 	{
-		if ($this->db != null) {
+		if ($this->db != null && $this->db->isValid()) {
 			$this->db->disconnect();
 			$this->db = null;
 		}

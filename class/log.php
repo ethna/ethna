@@ -31,26 +31,14 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
 {
 	$c =& $GLOBALS['controller'];
 
-	// errno -> level
-	switch ($errno) {
-	case E_ERROR:			$code = "E_ERROR"; $level = LOG_ERR; break;
-	case E_WARNING:			$code = "E_WARNING"; $level = LOG_WARNING; break;
-	case E_PARSE:			$code = "E_PARSE"; $level = LOG_CRIT; break;
-	case E_NOTICE:			$code = "E_NOTICE"; $level = LOG_NOTICE; break;
-	case E_USER_ERROR:		$code = "E_USER_ERROR"; $level = LOG_ERR; break;
-	case E_USER_WARNING:	$code = "E_USER_WARNING"; $level = LOG_WARNING; break;
-	case E_USER_NOTICE:		$code = "E_USER_NOTICE"; $level = LOG_NOTICE; break;
-	case E_STRICT:			$code = "E_STRING"; $level = LOG_NOTICE; return;
-	default:				$code = "E_UNKNOWN"; $level = LOG_DEBUG; break;
-	}
-
+	list($level, $name) = Ethna_Logger::errorLevelToLogLevel($errno);
 	if ($errno == E_STRICT) {
 		// E_STRICTは表示しない
 		return E_STRICT;
 	}
 
 	$logger =& $c->getLogger();
-	$logger->log($level, sprintf("%s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
+	$logger->log($level, sprintf("[PHP-ERROR] %s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
 }
 
 /**
@@ -188,6 +176,30 @@ class Ethna_Logger extends Ethna_AppManager
 	}
 
 	/**
+	 *	PHPエラーレベルをログレベルに変換する
+	 *
+	 *	@access	public
+	 *	@param	int		$errno	PHPエラーレベル
+	 *	@return	array	ログレベル(LOG_NOTICE,...), エラーレベル表示名("E_NOTICE"...)
+	 *	@static
+	 */
+	function errorLevelToLogLevel($errno)
+	{
+		switch ($errno) {
+		case E_ERROR:			$code = "E_ERROR"; $level = LOG_ERR; break;
+		case E_WARNING:			$code = "E_WARNING"; $level = LOG_WARNING; break;
+		case E_PARSE:			$code = "E_PARSE"; $level = LOG_CRIT; break;
+		case E_NOTICE:			$code = "E_NOTICE"; $level = LOG_NOTICE; break;
+		case E_USER_ERROR:		$code = "E_USER_ERROR"; $level = LOG_ERR; break;
+		case E_USER_WARNING:	$code = "E_USER_WARNING"; $level = LOG_WARNING; break;
+		case E_USER_NOTICE:		$code = "E_USER_NOTICE"; $level = LOG_NOTICE; break;
+		case E_STRICT:			$code = "E_STRING"; $level = LOG_NOTICE; return;
+		default:				$code = "E_UNKNOWN"; $level = LOG_DEBUG; break;
+		}
+		return array($level, $code);
+	}
+
+	/**
 	 *	ログ出力を開始する
 	 *
 	 *	@access	public
@@ -220,8 +232,11 @@ class Ethna_Logger extends Ethna_AppManager
 		$output = $this->writer->log($level, $message);
 
 		// アラート処理
-		if ($this->_isLevelMask($this->alert_level, $level) == false && $this->alert_mailaddress) {
-			$this->_alert($output);
+		if ($this->_isLevelMask($this->alert_level, $level) == false) {
+			if ($this->alert_mailaddress) {
+				$this->_alertMail($output);
+			}
+			$this->_alert();
 		}
 	}
 
@@ -264,13 +279,24 @@ class Ethna_Logger extends Ethna_AppManager
 	}
 
 	/**
-	 *	アラートメールを送信する
+	 *	アラート処理(DB接続エラー等処理の継続が困難なエラー発生)を行う
 	 *
-	 *	@access	private
-	 *	@param	string	$message	ログメッセージ
-	 *	@return	bool	true:正常終了 false:エラー
+	 *	@access	protected
+	 *	@param	$message	ログメッセージ
 	 */
 	function _alert($message)
+	{
+		$this->controller->fatal();
+	}
+
+	/**
+	 *	アラートメールを送信する
+	 *
+	 *	@access	protected
+	 *	@param	string	$message	ログメッセージ
+	 *	@return	int		0:正常終了
+	 */
+	function _alertMail($message)
 	{
 		restore_error_handler();
 
@@ -291,7 +317,7 @@ class Ethna_Logger extends Ethna_AppManager
 
 		set_error_handler("ethna_error_handler");
 
-		return true;
+		return 0;
 	}
 
 	/**
