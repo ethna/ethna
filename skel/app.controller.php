@@ -1,6 +1,6 @@
 <?php
 /**
- *	{$project_prefix}_controller.php
+ *	{$project_id}_Controller.php
  *
  *	@package	{$project_id}
  *
@@ -17,8 +17,8 @@ ini_set('include_path', ini_get('include_path') . ":$app:$lib");
 
 
 /** アプリケーションライブラリのインクルード */
-include_once('ethna/ethna.php');
-include_once('{$project_prefix}_error.php');
+include_once('Ethna/Ethna.php');
+include_once('{$project_id}_Error.php');
 
 /**
  *	{$project_id}アプリケーションのコントローラ定義

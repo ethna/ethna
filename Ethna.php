@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	ethna.php
+ *	Ethna.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -16,71 +16,49 @@ include_once('DB.php');
 include_once('Smarty/Smarty.class.php');
 
 
-/** Ethnaコンポーネント: Action Class */
-include_once('ethna/class/action_class.php');
-
-/** Ethnaコンポーネント: Action Error */
-include_once('ethna/class/action_error.php');
-
-/** Ethnaコンポーネント: Action Form */
-include_once('ethna/class/action_form.php');
-
-/** Ethnaコンポーネント: Applicationオブジェクト */
-include_once('ethna/class/app_object.php');
-
-/** Ethnaコンポーネント: 設定情報表示オブジェクト */
-include_once('ethna/class/app_info.php');
-
-/** Ethnaコンポーネント: SQLオブジェクト */
-include_once('ethna/class/app_sql.php');
-
-/** Ethnaコンポーネント: Backend */
-include_once('ethna/class/backend.php');
-
-/** Ethnaコンポーネント: Config */
-include_once('ethna/class/config.php');
-
-/** Ethnaコンポーネント: Controller */
-include_once('ethna/class/controller.php');
-
-/** Ethnaコンポーネント: DB */
-include_once('ethna/class/db.php');
-
-/** Ethnaコンポーネント: i18n */
-include_once('ethna/class/i18n.php');
-
-/** Ethnaコンポーネント: Logger */
-include_once('ethna/class/log.php');
-
-/** Ethnaコンポーネント: MailSender */
-include_once('ethna/class/mail.php');
-
-/** Ethnaコンポーネント: Session */
-include_once('ethna/class/session.php');
-
-/** Ethnaコンポーネント: SkeltonGenerator */
-include_once('ethna/class/skelton.php');
-
-/** Ethnaコンポーネント: Smartyプラグイン関数 */
-include_once('ethna/class/smarty_plugin.php');
-
-/** Ethnaコンポーネント: ユーティリティ */
-include_once('ethna/class/util.php');
-
-if (extension_loaded('soap')) {
-	/** Ethnaコンポーネント: SOAPゲートウェイ */
-	include_once('ethna/class/soap_gateway.php');
-
-	/** Ethnaコンポーネント: SOAPユーティリティ */
-	include_once('ethna/class/soap_util.php');
-
-	/** Ethnaコンポーネント: WSDL生成クラス */
-	include_once('ethna/class/soap_wsdl.php');
-}
-
 /** バージョン定義 */
 define('ETHNA_VERSION', '0.1.0');
 
+/** Ethnaベースディレクトリ定義 */
+define('ETHNA_BASE', dirname(__FILE__));
+
+
+include_once(ETHNA_BASE . '/class/Ethna_ActionClass.php');
+include_once(ETHNA_BASE . '/class/Ethna_ActionError.php');
+include_once(ETHNA_BASE . '/class/Ethna_ActionForm.php');
+include_once(ETHNA_BASE . '/class/Ethna_AppManager.php');
+include_once(ETHNA_BASE . '/class/Ethna_AppObject.php');
+include_once(ETHNA_BASE . '/class/Ethna_AppSQL.php');
+include_once(ETHNA_BASE . '/class/Ethna_AppSearchObject.php');
+include_once(ETHNA_BASE . '/class/Ethna_Backend.php');
+include_once(ETHNA_BASE . '/class/Ethna_Config.php');
+include_once(ETHNA_BASE . '/class/Ethna_Controller.php');
+include_once(ETHNA_BASE . '/class/Ethna_DB.php');
+include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
+include_once(ETHNA_BASE . '/class/Ethna_InfoManager.php');
+include_once(ETHNA_BASE . '/class/Ethna_LogWriter.php');
+include_once(ETHNA_BASE . '/class/Ethna_LogWriter_File.php');
+include_once(ETHNA_BASE . '/class/Ethna_LogWriter_Syslog.php');
+include_once(ETHNA_BASE . '/class/Ethna_Logger.php');
+include_once(ETHNA_BASE . '/class/Ethna_MailSender.php');
+include_once(ETHNA_BASE . '/class/Ethna_Session.php');
+include_once(ETHNA_BASE . '/class/Ethna_SkeltonGenerator.php');
+include_once(ETHNA_BASE . '/class/Ethna_SmartyPlugin.php');
+include_once(ETHNA_BASE . '/class/Ethna_Util.php');
+include_once(ETHNA_BASE . '/class/Ethna_ViewClass.php');
+include_once(ETHNA_BASE . '/class/AMF/Ethna_AMF_ActionClass.php');
+include_once(ETHNA_BASE . '/class/Action/Ethna_Action_Info.php');
+include_once(ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php');
+include_once(ETHNA_BASE . '/class/Form/Ethna_Form_Info.php');
+include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
+
+if (extension_loaded('soap')) {
+	include_once(ETHNA_BASE . '/class/Ethna_SOAP_ActoinForm.php');
+	include_once(ETHNA_BASE . '/class/Ethna_SOAP_Gateway.php');
+	include_once(ETHNA_BASE . '/class/Ethna_SOAP_GatewayGenerator.php');
+	include_once(ETHNA_BASE . '/class/Ethna_SOAP_Util.php');
+	include_once(ETHNA_BASE . '/class/Ethna_SOAP_WsdlGenerator.php');
+}
 
 /** クライアント言語定義: 英語 */
 define('LANG_EN', 'en');

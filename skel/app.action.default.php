@@ -1,6 +1,6 @@
 <?php
 /**
- *	{$project_prefix}.php
+ *	Index.php
  *
  *	@package	{$project_id}
  *

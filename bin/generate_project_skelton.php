@@ -14,7 +14,7 @@
 $base = dirname(dirname(dirname(__FILE__)));
 ini_set('include_path', ini_get('include_path') . ":$base");
 
-include_once('ethna/ethna.php');
+include_once('Ethna/Ethna.php');
 
 // 引数妥当性チェック
 if ($_SERVER['argc'] != 3) {

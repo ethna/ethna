@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	mail.php
+ *	Ethna_MailSender.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License

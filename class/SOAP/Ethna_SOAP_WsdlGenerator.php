@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	soap_wsdl.php
+ *	Ethna_SOAP_WsdlGenerator.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,7 +9,7 @@
  *	@version	$Id$
  */
 
-// {{{ Ethna_WsdlGenerator
+// {{{ Ethna_SOAP_WsdlGenerator
 /**
  *	指定されたコントローラに対応するWSDLを生成するクラス
  *
@@ -17,7 +17,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_WsdlGenerator
+class Ethna_SOAP_WsdlGenerator
 {
 	/**#@+
 	 *	@access	private
@@ -66,9 +66,9 @@ class Ethna_WsdlGenerator
 	/**#@-*/
 
 	/**
-	 *	Ethna_WsdlGeneratorクラスのコンストラクタ
+	 *	Ethna_SOAP_WsdlGeneratorクラスのコンストラクタ
 	 */
-	function Ethna_WsdlGenerator($gateway)
+	function Ethna_SOAP_WsdlGenerator($gateway)
 	{
 		$this->controller =& $GLOBALS['controller'];
 		$this->config =& $this->controller->getConfig();
@@ -171,7 +171,7 @@ EOD;
 			}
 
 			// デフォルトエントリを追加
-			Ethna_SoapUtil::fixRetval($form->retval);
+			Ethna_SOAP_Util::fixRetval($form->retval);
 
 			// シリアライズ
 			$retval_name = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($k)) . "Result";
@@ -310,7 +310,7 @@ EOD;
 		$types = $this->__serializeTypes($def, $name);
 
 		foreach ($def as $k => $v) {
-			if (is_array($def[$k]) == false || Ethna_SoapUtil::isArrayOfScalar($def[$k])) {
+			if (is_array($def[$k]) == false || Ethna_SOAP_Util::isArrayOfScalar($def[$k])) {
 				continue;
 			}
 			$types .= $this->_serializeTypes($def[$k], $k);
@@ -331,7 +331,7 @@ EOD;
 	{
 		$keys = array_keys($def);
 
-		if (Ethna_SoapUtil::isArrayOfObject($def)) {
+		if (Ethna_SOAP_Util::isArrayOfObject($def)) {
 			$array_name = sprintf("ArrayOf%s", $keys[0]);
 			$name = $keys[0];
 			$types = "   <s:complexType name=\"$array_name\">\n";
@@ -354,11 +354,11 @@ EOD;
 					$inner_name = sprintf("ArrayOf%s", $inner_keys[0]);
 					$types .= "     <s:element name=\"$key\" type=\"tns:$inner_name\" />\n";
 				} else {
-					$type_name = "tns:" . Ethna_SoapUtil::getArrayTypeName($def[$key][$inner_keys[0]]);
+					$type_name = "tns:" . Ethna_SOAP_Util::getArrayTypeName($def[$key][$inner_keys[0]]);
 					$types .= "     <s:element name=\"$key\" type=\"$type_name\" />\n";
 				}
 			} else {
-				$type_name = Ethna_SoapUtil::getScalarTypeName($def[$key]);
+				$type_name = Ethna_SOAP_Util::getScalarTypeName($def[$key]);
 				$types .= "     <s:element name=\"$key\" type=\"s:$type_name\" />\n";
 			}
 		}
@@ -391,9 +391,9 @@ EOD;
 			$type_id =& $form->form[$key]['type'];
 			if (is_array($type_id)) {
 				$type_keys = array_keys($type_id);
-				$ttype = "tns:" . Ethna_SoapUtil::getArrayTypeName($type_id[$type_keys[0]]);
+				$ttype = "tns:" . Ethna_SOAP_Util::getArrayTypeName($type_id[$type_keys[0]]);
 			} else {
-				$type = "s:" . Ethna_SoapUtil::getScalarTypeName($type_id);
+				$type = "s:" . Ethna_SOAP_Util::getScalarTypeName($type_id);
 			}
 			$message .= "  <part name=\"$key\" type=\"$type\" />\n";
 		}

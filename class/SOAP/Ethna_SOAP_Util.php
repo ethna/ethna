@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	soap_util.php
+ *	Ethna_SOAP_Util.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,7 +9,7 @@
  *	@version	$Id$
  */
 
-// {{{ Ethna_SoapUtil
+// {{{ Ethna_SOAP_Util
 /**
  *	SOAPユーティリティクラス
  *
@@ -17,7 +17,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_SoapUtil
+class Ethna_SOAP_Util
 {
 	/**
 	 *	型定義がオブジェクト型の配列かどうかを返す

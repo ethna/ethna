@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	skelton.php
+ *	Ethna_SkeltonGenerator.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -76,13 +76,13 @@ class Ethna_SkeltonGenerator
 		$macro['application_id'] = strtoupper($id);
 		$macro['project_id'] = ucfirst($id);
 		$macro['project_prefix'] = strtolower($id);
+		$macro['basedir'] = realpath($basedir);
 
 		if ($this->_generateFile("www.index.php", "$basedir/www/index.php", $macro) == false ||
 			$this->_generateFile("www.info.php", "$basedir/www/info.php", $macro) == false ||
-			$this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_controller.php", $macro['project_prefix']), $macro) == false ||
-			$this->_generateFile("app.error.php", sprintf("$basedir/app/%s_error.php", $macro['project_prefix']), $macro) == false ||
-			$this->_generateFile("app.action.default.php", sprintf("$basedir/app/action/%s.php", $macro['project_prefix']), $macro) == false ||
-			$this->_generateFile("app.action.default.php", sprintf("$basedir/app/action/%s.php", $macro['project_prefix']), $macro) == false ||
+			$this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_Controller.php", $macro['project_id']), $macro) == false ||
+			$this->_generateFile("app.error.php", sprintf("$basedir/app/%s_Error.php", $macro['project_id']), $macro) == false ||
+			$this->_generateFile("app.action.default.php", sprintf("$basedir/app/action/Index.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||
 			$this->_generateFile("template.index.tpl", sprintf("$basedir/template/ja/index.tpl"), $macro) == false) {
 			return false;

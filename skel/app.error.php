@@ -1,6 +1,6 @@
 <?php
 /**
- *	{$project_prefix}_error.php
+ *	{$project_id}_Error.php
  *
  *	@package	{$project_id}
  *

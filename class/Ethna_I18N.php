@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	i18n.php
+ *	Ethna_I18N.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License

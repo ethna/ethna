@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	session.php
+ *	Ethna_Session.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
