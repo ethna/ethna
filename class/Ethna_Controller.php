@@ -802,9 +802,9 @@ class Ethna_Controller
 		if ($forward_name != null) {
 			$view_name = $this->getViewClassName($forward_name);
 			$view_class =& new $view_name($this->backend, $forward_name, $this->_getForwardPath($forward_name));
+			$view_class->preforward();
 			// 後方互換処理:(
 			if (is_subclass_of($view_class, 'Ethna_ViewClass') == false) {
-				$view_class->preforward();
 				$view_class =& new Ethna_ViewClass($this->backend, $forward_name, $this->_getForwardPath($forward_name));
 			}
 			$view_class->forward();
