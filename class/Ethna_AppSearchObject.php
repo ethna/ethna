@@ -43,7 +43,7 @@ class Ethna_AppSearchObject
 	 *	@param	string	$value		¸¡º÷ÃÍ
 	 *	@param	int		$condition	¸¡º÷¾ò·ï(OBJECT_CONDITION_NE,...)
 	 */
-	function AppSearchObject($value, $condition)
+	function Ethna_AppSearchObject($value, $condition)
 	{
 		$this->value = $value;
 		$this->condition = $condition;

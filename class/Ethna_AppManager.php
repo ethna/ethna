@@ -219,7 +219,7 @@ class Ethna_AppManager
 	 *
 	 *	@access	public
 	 *	@param	string	$class		Ethna_AppObjectの継承クラス名
-	 *	@param	array	$keys		取得するプロパティ一覧
+	 *	@param	array	$keys		取得するプロパティ一覧(nullなら全て)
 	 *	@param	array	$filter		検索条件
 	 *	@param	array	$order		検索結果ソート条件
 	 *	@param	int		$offset		検索結果取得オフセット
@@ -233,6 +233,32 @@ class Ethna_AppManager
 
 		$tmp =& new $class_name($this->backend);
 		return $tmp->searchProp($keys, $filter, $order, $offset, $count);
+	}
+
+	/**
+	 *	オブジェクトプロパティを返す
+	 *
+	 *	getObjectPropList()メソッドの簡易版で、$filterにより結果が1エントリに
+	 *	制限される場合(プライマリキーでの検索等)に利用する
+	 *
+	 *	@access	public
+	 *	@param	string	$class		Ethna_AppObjectの継承クラス名
+	 *	@param	array	$keys		取得するプロパティ一覧
+	 *	@param	array	$filter		検索条件
+	 *	@return	mixed	array:プロパティ一覧 null:エントリなし Ethna_Error:エラー
+	 */
+	function getObjectProp($class, $keys = null, $filter = null)
+	{
+		$prop_list = array();
+		$class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
+
+		$tmp =& new $class_name($this->backend);
+		list(, $prop) = $tmp->searchProp($keys, $filter);
+		if (count($prop) > 0) {
+			return $prop[0];
+		} else {
+			return null;
+		}
 	}
 }
 // }}}

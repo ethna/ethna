@@ -542,7 +542,6 @@ class Ethna_Controller
 			mkdir($smarty->compile_dir, 0755);
 		}
 		$smarty->plugins_dir = $this->getDirectory('plugins');
-		var_dump($smarty->plugins_dir);
 
 		// default modifiers
 		$smarty->register_modifier('number_format', 'smarty_modifier_number_format');
