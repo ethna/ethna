@@ -15,9 +15,19 @@
 define('LOG_FILE', 1 << 16);
 
 /**
+ *	拡張ログプロパティ:	標準出力
+ */
+define('LOG_ECHO', 1 << 17);
+
+/**
  *	拡張ログプロパティ:	関数名表示
  */
-define('LOG_FUNCTION', 1 << 17);
+define('LOG_FUNCTION', 1 << 18);
+
+/**
+ *	拡張ログプロパティ:	ファイル名+行番号表示
+ */
+define('LOG_POS', 1 << 19);
 
 
 // {{{ ethna_error_handler
@@ -31,16 +41,53 @@ define('LOG_FUNCTION', 1 << 17);
  */
 function ethna_error_handler($errno, $errstr, $errfile, $errline)
 {
-	$c =& Ethna_Controller::getInstance();
-
-	list($level, $name) = Ethna_Logger::errorLevelToLogLevel($errno);
 	if ($errno == E_STRICT) {
 		// E_STRICTは表示しない
 		return E_STRICT;
 	}
 
+	list($level, $name) = Ethna_Logger::errorLevelToLogLevel($errno);
+	switch ($errno) {
+	case E_ERROR:
+	case E_CORE_ERROR:
+	case E_COMPILE_ERROR:
+	case E_USER_ERROR:
+		$php_errno = 'Fatal error'; break;
+	case E_WARNING:
+	case E_CORE_WARNING:
+	case E_COMPILE_WARNING:
+	case E_USER_WARNING:
+		$php_errno = 'Warning'; break;
+	case E_PARSE:
+		$php_errno = 'Parse error'; break;
+	case E_NOTICE:
+	case E_USER_NOTICE:
+		$php_errno = 'Notice'; break;
+	default:
+		$php_errno = 'Unknown error'; break;
+	}
+
+	$php_errstr = sprintf('PHP %s: %s in %s on line %d', $php_errno, $errstr, $errfile, $errline);
+	if (ini_get('log_errors') && (error_reporting() & $errno)) {
+		$locale = setlocale(LC_TIME, 0);
+		setlocale(LC_TIME, 'C');
+		error_log($php_errstr, 0);
+		setlocale(LC_TIME, $locale);
+	}
+
+	$c =& Ethna_Controller::getInstance();
 	$logger =& $c->getLogger();
-	$logger->log($level, sprintf("[PHP] %s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
+	$logger->log($level, sprintf("[PHP] %s: %s in %s on line %d", $name, $errstr, $errfile, $errline));
+
+	$facility = $logger->getLogFacility();
+	if (($facility != LOG_ECHO && is_null($facility) == false) && ini_get('display_errors') && (error_reporting() & $errno)) {
+		if ($c->getCLI()) {
+			$format = "%s: %s in %s on line %d\n";
+		} else {
+			$format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
+		}
+		printf($format, $php_errno, $errstr, $errfile, $errline);
+	}
 }
 // }}}
 
@@ -80,6 +127,7 @@ class Ethna_Logger extends Ethna_AppManager
 		'user' => array('name' => 'LOG_USER'),
 		'uucp' => array('name' => 'LOG_UUCP'),
 		'file' => array('name' => 'LOG_FILE'),
+		'echo' => array('name' => 'LOG_ECHO'),
 	);
 
 	/**	@var	array	ログレベル一覧 */
@@ -98,6 +146,7 @@ class Ethna_Logger extends Ethna_AppManager
 	var $log_option_list = array(
 		'pid' => array('name' => 'PID表示', 'value' => LOG_PID),
 		'function' => array('name' => '関数名表示', 'value' => LOG_FUNCTION),
+		'pos' => array('name' => 'ファイル名表示', 'value' => LOG_POS),
 	);
 
 	/**	@var	array	ログレベルテーブル */
@@ -117,6 +166,9 @@ class Ethna_Logger extends Ethna_AppManager
 
 	/**	@var	int		ログレベル */
 	var $level;
+
+	/**	@var	int		ログファシリティ */
+	var $facility;
 
 	/**	@var	int		アラートレベル */
 	var $alert_level;
@@ -152,24 +204,29 @@ class Ethna_Logger extends Ethna_AppManager
 			// 未設定ならLOG_WARNING
 			$this->level = LOG_WARNING;
 		}
-		$facility = $this->_parseLogFacility($config->get('log_facility'));
-		$file = sprintf('%s/%s.log', $controller->getDirectory('log'), strtolower($controller->getAppid()));
+		$this->facility = $this->_parseLogFacility($config->get('log_facility'));
 		$option = $this->_parseLogOption($config->get('log_option'));
 		$this->alert_level = $this->_parseLogLevel($config->get('log_alert_level'));
 		$this->alert_mailaddress = preg_split('/\s*,\s*/', $config->get('log_alert_mailaddress'));
 		$this->message_filter_do = $config->get('log_filter_do');
 		$this->message_filter_ignore = $config->get('log_filter_ignore');
 
-		if ($facility == LOG_FILE) {
-			$writer_class = "Ethna_LogWriter_File";
-		} else if (is_null($facility)) {
-			$writer_class = "Ethna_LogWriter";
-		} else {
-			$writer_class = "Ethna_LogWriter_Syslog";
-		}
-		$this->writer =& new $writer_class($controller->getAppId(), $facility, $file, $option);
+		// LogWriterクラスの生成
+		$file = $this->_getLogFile();
+		$this->writer =& $this->_getLogWriter($file, $option);
 
 		set_error_handler("ethna_error_handler");
+	}
+
+	/**
+	 *	ログファシリティを取得する
+	 *
+	 *	@access	public
+	 *	@return	int		ログファシリティ
+	 */
+	function getLogFacility()
+	{
+		return $this->facility;
 	}
 
 	/**
@@ -253,6 +310,47 @@ class Ethna_Logger extends Ethna_AppManager
 	}
 
 	/**
+	 *	ログファイルの書き出し先を取得する(ログファシリティに
+	 *	LOG_FILEが指定されている場合のみ有効)
+	 *
+	 *	ログファイルの書き出し先を変更したい場合はこのメソッドを
+	 *	オーバーライドします
+	 *
+	 *	@access	protected
+	 *	@return	string	ログファイルの書き出し先
+	 */
+	function _getLogFile()
+	{
+		return sprintf('%s/%s.log',
+			$this->controller->getDirectory('log'),
+			strtolower($this->controller->getAppid())
+		);
+	}
+
+	/**
+	 *	LogWriterオブジェクトを取得する
+	 *
+	 *	アプリケーション固有のLogWriterを利用したい場合はこのメソッドを
+	 *	オーバーライドします
+	 *
+	 *	@access	protected
+	 *	@param	string	$file		ログファイル
+	 *	@param	array	$option		ログオプション
+	 *	@return	object	LogWriter	LogWriterオブジェクト
+	 */
+	function &_getLogWriter($file, $option)
+	{
+		if ($this->facility == LOG_FILE) {
+			$writer_class = "Ethna_LogWriter_File";
+		} else if ($this->facility == LOG_ECHO || is_null($this->facility)) {
+			$writer_class = "Ethna_LogWriter";
+		} else {
+			$writer_class = "Ethna_LogWriter_Syslog";
+		}
+		return new $writer_class($this->controller->getAppId(), $this->facility, $file, $option);
+	}
+
+	/**
 	 *	ログオプション(設定ファイル値)を解析する
 	 *
 	 *	@access	private
@@ -268,6 +366,8 @@ class Ethna_Logger extends Ethna_AppManager
 				$option |= LOG_PID;
 			} else if ($elt == 'function') {
 				$option |= LOG_FUNCTION;
+			} else if ($elt == 'pos') {
+				$option |= LOG_POS;
 			}
 		}
 

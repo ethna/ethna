@@ -71,10 +71,17 @@ class Ethna_LogWriter_File extends Ethna_LogWriter
 			$prefix .= sprintf('[%d]', getmypid());
 		}
 		$prefix .= sprintf('(%s): ', $this->_getLogLevelName($level));
-		if ($this->option & LOG_FUNCTION) {
-			$function = $this->_getFunctionName();
-			if ($function) {
-				$prefix .= sprintf('%s: ', $function);
+		if ($this->option & (LOG_FUNCTION | LOG_POS)) {
+			$tmp = "";
+			$bt = $this->_getBacktrace();
+			if ($bt && ($this->option & LOG_FUNCTION) && $bt['function']) {
+				$tmp .= $bt['function'];
+			}
+			if ($bt && ($this->option & LOG_POS) && $bt['pos']) {
+				$tmp .= $tmp ? sprintf('(%s)', $bt['pos']) : $bt['pos'];
+			}
+			if ($tmp) {
+				$prefix .= $tmp . ": ";
 			}
 		}
 		fwrite($this->fp, $prefix . $message . "\n");

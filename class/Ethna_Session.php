@@ -273,7 +273,7 @@ class Ethna_Session
 		if (($src & 0xffff0000) == ($dst & 0xffff0000)) {
 			return true;
 		} else {
-			$this->logger(LOG_NOTICE, "session IP validation failed [%s] - [%s]", $src_ip, $dst_ip);
+			$this->logger->log(LOG_NOTICE, "session IP validation failed [%s] - [%s]", $src_ip, $dst_ip);
 			return false;
 		}
 	}

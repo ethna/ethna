@@ -4,12 +4,18 @@
 
 *** features
 
+- Ethna_Controller::getCLI()(CLIで実行中かどうかを返すメソッド)を追加
+- ethna_error_handlerがphp.iniの設定に応じてPHPログも出力するように変更
+- Smartyプラグイン(truncate_i18n)を追加
 - Ethna_AppObject/Ethna_AppManagerにキャッシュ機構を追加(experimental)
 - メールテンプレートエンジンのフックメソッドを追加
 - MIMEエンコード用ユーティリティメソッドを追加
 - include_pathのセパレータのwin32対応
 
 *** bug fixes
+
+- ethna_error_handlerのtypoを修正
+- Ethna_Sessionクラスでログが正しく出力されない問題を修正
 
 ** [2005/01/14] 0.1.4
 

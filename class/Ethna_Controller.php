@@ -136,6 +136,9 @@ class Ethna_Controller
 	/**	@var	object	Ethna_Logger		ログオブジェクト */
 	var	$logger = null;
 
+	/**	@var	bool	CLIアクション実行中フラグ */
+	var	$cli 	= false;
+
 	/**#@-*/
 
 
@@ -518,6 +521,28 @@ class Ethna_Controller
 	}
 
 	/**
+	 *	CLI実行中フラグを取得する
+	 *
+	 *	@access	public
+	 *	@return	bool	CLI実行中フラグ
+	 */
+	function getCLI()
+	{
+		return $this->cli;
+	}
+
+	/**
+	 *	CLI実行中フラグを設定する
+	 *
+	 *	@access	public
+	 *	@param	bool	CLI実行中フラグ
+	 */
+	function setCLI($cli)
+	{
+		$this->cli = $cli;
+	}
+
+	/**
 	 *	アプリケーションのエントリポイント
 	 *
 	 *	@access	public
@@ -543,6 +568,7 @@ class Ethna_Controller
 	function main_CLI($class_name, $action_name)
 	{
 		$c =& new $class_name;
+		$c->setCLI(true);
 		$c->action[$action_name] = array();
 		$c->trigger('www', $action_name);
 	}
@@ -634,7 +660,7 @@ class Ethna_Controller
 				$action_obj =& $this->_getAction($fallback_action_name);
 			}
 			if ($action_obj == null) {
-				return Ethna::raiseError(E_APP_UNDEFINED_ACTION, "undefined action [%s]", $action_name);
+				return Ethna::raiseError("undefined action [%s]", E_APP_UNDEFINED_ACTION, $action_name);
 			} else {
 				$action_name = $fallback_action_name;
 			}
@@ -756,7 +782,7 @@ class Ethna_Controller
 		// ログ出力
 		list ($log_level, $dummy) = $this->logger->errorLevelToLogLevel($error->getLevel());
 		$message = $error->getMessage();
-		$this->logger->log($log_level, sprintf("[APP(%d)] %s", $error->getCode(), $message));
+		$this->logger->log($log_level, sprintf("%s [ERROR CODE(%d)]", $message, $error->getCode()));
 	}
 
 	/**
@@ -1367,6 +1393,7 @@ class Ethna_Controller
 		$smarty->register_modifier('filter', 'smarty_modifier_filter');
 		$smarty->register_modifier('unique', 'smarty_modifier_unique');
 		$smarty->register_modifier('wordwrap_i18n', 'smarty_modifier_wordwrap_i18n');
+		$smarty->register_modifier('truncate_i18n', 'smarty_modifier_truncate_i18n');
 		$smarty->register_modifier('i18n', 'smarty_modifier_i18n');
 		$smarty->register_modifier('checkbox', 'smarty_modifier_checkbox');
 		$smarty->register_modifier('select', 'smarty_modifier_select');

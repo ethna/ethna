@@ -88,18 +88,30 @@ class Ethna_LogWriter
 	 */
 	function log($level, $message)
 	{
-		$prefix = strftime('%Y/%m/%d %H:%M:%S ') . $this->ident;
+		$c =& Ethna_Controller::getInstance();
+
+		$prefix = $this->ident;
 		if ($this->option & LOG_PID) {
 			$prefix .= sprintf('[%d]', getmypid());
 		}
-		$prefix .= sprintf('(%s): ', $this->_getLogLevelName($level));
-		if ($this->option & LOG_FUNCTION) {
-			$function = $this->_getFunctionName();
-			if ($function) {
-				$prefix .= sprintf('%s: ', $function);
+		$prefix .= sprintf($c->getCLI() ? '(%s): ' : '(<b>%s</b>): ',
+			$this->_getLogLevelName($level)
+		);
+		if ($this->option & (LOG_FUNCTION | LOG_POS)) {
+			$tmp = "";
+			$bt = $this->_getBacktrace();
+			if ($bt && ($this->option & LOG_FUNCTION) && $bt['function']) {
+				$tmp .= $bt['function'];
+			}
+			if ($bt && ($this->option & LOG_POS) && $bt['pos']) {
+				$tmp .= $tmp ? sprintf('(%s)', $bt['pos']) : $bt['pos'];
+			}
+			if ($tmp) {
+				$prefix .= $tmp . ": ";
 			}
 		}
-		printf($prefix . $message . "\n");
+
+		printf($prefix . $message . "%s\n", $c->getCLI() ? "" : "<br />");
 
 		return $prefix . $message;
 	}
@@ -140,17 +152,19 @@ class Ethna_LogWriter
 	}
 
 	/**
-	 *	ログ出力元の関数を取得する
+	 *	ログ出力箇所の情報(関数名/ファイル名等)を取得する
 	 *
 	 *	@access	private
-	 *	@return	string	ログ出力元クラス/メソッド名("class.method")
+	 *	@return	array	ログ出力箇所の情報
 	 */
-	function _getFunctionName()
+	function _getBacktrace()
 	{
 		$skip_method_list = array(
-			array('ethna', 'raise*'),
+			array('ethna', 'raise.*'),
+			array(null, 'raiseerror'),
+			array(null, 'handleerror'),
 			array('ethna_logger', null),
-			array('ethna_logwriter_*', null),
+			array('ethna_logwriter*', null),
 			array('ethna_error', null),
 			array('ethna_apperror', null),
 			array('ethna_actionerror', null),
@@ -175,20 +189,10 @@ class Ethna_LogWriter
 			foreach ($skip_method_list as $method) {
 				$class = $function = true;
 				if ($method[0] != null) {
-					if (preg_match('/\*$/', $method[0])) {
-						$n = strncasecmp($bt[$i]['class'], $method[0], strlen($method[0])-1);
-					} else {
-						$n = strcasecmp($bt[$i]['class'], $method[0]);
-					}
-					$class = $n == 0 ? true : false;
+					$class = preg_match("/$method[0]/i", $bt[$i]['class']);
 				}
 				if ($method[1] != null) {
-					if (preg_match('/\*$/', $method[1])) {
-						$n = strncasecmp($bt[$i]['function'], $method[1], strlen($method[1])-1);
-					} else {
-						$n = strcasecmp($bt[$i]['function'], $method[1]);
-					}
-					$function = $n == 0 ? true : false;
+					$function = preg_match("/$method[1]/i", $bt[$i]['function']);
 				}
 				if ($class && $function) {
 					$skip = true;
@@ -203,7 +207,20 @@ class Ethna_LogWriter
 			}
 		}
 
-		return sprintf("%s.%s", isset($bt[$i]['class']) ? $bt[$i]['class'] : 'global', $bt[$i]['function']);
+		$c =& Ethna_Controller::getInstance();
+		$basedir = $c->getBasedir();
+
+		$function = sprintf("%s.%s", isset($bt[$i]['class']) ? $bt[$i]['class'] : 'global', $bt[$i]['function']);
+
+		$file = $bt[$i]['file'];
+		if (strncmp($file, $basedir, strlen($basedir)) == 0) {
+			$file = substr($file, strlen($basedir));
+		}
+		if (strncmp($file, ETHNA_BASE, strlen(ETHNA_BASE)) == 0) {
+			$file = preg_replace('#^/+#', '', substr($file, strlen(ETHNA_BASE)));
+		}
+		$line = $bt[$i]['line'];
+		return array('function' => $function, 'pos' => sprintf('%s:%s', $file, $line));
 	}
 }
 // }}}

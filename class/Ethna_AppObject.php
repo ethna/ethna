@@ -451,10 +451,7 @@ class Ethna_AppObject
 
 		// バックアップ/キャッシュ更新
 		$this->prop_backup = $this->prop;
-		unset($GLOBALS['_ETHNA_APP_OBJECT_CACHE'][strtolower(get_class($this))]);
-		unset($GLOBALS['_ETHNA_APP_MANAGER_OL_CACHE'][strtolower(get_class($this))]);
-		unset($GLOBALS['_ETHNA_APP_MANAGER_OPL_CACHE'][strtolower(get_class($this))]);
-		unset($GLOBALS['_ETHNA_APP_MANAGER_OP_CACHE'][strtolower(get_class($this))]);
+		$this->_clearPropCache();
 
 		return 0;
 	}
@@ -511,10 +508,7 @@ class Ethna_AppObject
 
 		// プロパティ/バックアップ/キャッシュクリア
 		$this->id = $this->prop = $this->prop_backup = null;
-		unset($GLOBALS['_ETHNA_APP_OBJECT_CACHE'][strtolower(get_class($this))]);
-		unset($GLOBALS['_ETHNA_APP_MANAGER_OL_CACHE'][strtolower(get_class($this))]);
-		unset($GLOBALS['_ETHNA_APP_MANAGER_OPL_CACHE'][strtolower(get_class($this))]);
-		unset($GLOBALS['_ETHNA_APP_MANAGER_OP_CACHE'][strtolower(get_class($this))]);
+		$this->_clearPropCache();
 
 		return 0;
 	}
@@ -779,7 +773,15 @@ class Ethna_AppObject
 	function _getSQL_Select($key_type, $key)
 	{
 		$key_type = to_array($key_type);
-		$key = to_array($key);
+		if (is_null($key)) {
+			// add()前
+			$key = array();
+			for ($i = 0; $i < count($key_type); $i++) {
+				$key[$i] = null;
+			}
+		} else {
+			$key = to_array($key);
+		}
 
 		// SQLエスケープ
 		Ethna_AppSQL::escapeSQL($key);
@@ -1256,6 +1258,21 @@ class Ethna_AppObject
 			}
 		}
 		return false;
+	}
+
+	/**
+	 *	キャッシュデータを削除する
+	 *
+	 *	@access	private
+	 */
+	function _clearPropCache()
+	{
+		$class_name = strtolower(get_class($this));
+		foreach (array('_ETHNA_APP_OBJECT_CACHE', '_ETHNA_APP_MANAGER_OL_CACHE', '_ETHNA_APP_MANAGER_OPL_CACHE', '_ETHNA_APP_MANAGER_OP_CACHE') as $key) {
+			if (array_key_exists($key, $GLOBALS) && array_key_exists($class_name, $GLOBALS[$key])) {
+				unset($GLOBALS[$key][$class_name]);
+			}
+		}
 	}
 }
 // }}}
