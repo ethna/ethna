@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	app_info.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_InfoManager
 /**
  *	Ethnaマネージャクラス
  *
@@ -18,7 +20,9 @@
 class Ethna_InfoManager extends Ethna_AppManager
 {
 }
+// }}}
 
+// {{{ Ethna_Form_Info
 /**
  *	__ethna_info__フォームの実装
  *
@@ -35,7 +39,9 @@ class Ethna_Form_Info extends Ethna_ActionForm
 	var	$form = array(
 	);
 }
+// }}}
 
+// {{{ Ethna_Action_Info
 /**
  *	__ethna_info__アクションの実装
  *
@@ -79,4 +85,5 @@ class Ethna_Action_Info extends Ethna_ActionClass
 		$this->af->setApp('ethna_version', ETHNA_VERSION);
 	}
 }
+// }}}
 ?>

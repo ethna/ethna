@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	mail.php
  *
@@ -8,11 +9,11 @@
  *	@version	$Id$
  */
 
-/**
- *	メールテンプレートタイプ: 直接送信
- */
+/** メールテンプレートタイプ: 直接送信 */
 define('MAILSENDER_TYPE_DIRECT', 0);
 
+
+// {{{ Ethna_MailSender
 /**
  *	メール送信クラス
  *
@@ -202,4 +203,5 @@ class Ethna_MailSender
 		return array($header, $body);
 	}
 }
+// }}}
 ?>

@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	action_form.php
  *
@@ -44,6 +45,7 @@ define('CONVERT_LRTRIM', (1 << 3) | (1 << 4));
 define('CONVERT_2BYTE', (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4));
 
 
+// {{{ Ethna_ActionForm
 /**
  *	アクションフォームクラス
  *
@@ -798,7 +800,9 @@ class Ethna_ActionForm
 		return mb_convert_kana($value, $key);
 	}
 }
+// }}}
 
+// {{{ Ethna_SOAP_ActionForm
 /**
  *	SOAPフォームクラス
  *
@@ -837,4 +841,5 @@ class Ethna_SOAP_ActionForm extends Ethna_ActionForm
 		parent::Ethna_ActionForm($action_error);
 	}
 }
+// }}}
 ?>

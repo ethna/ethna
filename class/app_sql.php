@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	app_sql.php
  *
@@ -8,7 +9,7 @@
  *	@version	$Id$
  */
 
-
+// {{{ Ethna_AppSQL
 /**
  *	アプリケーションSQLベースクラス
  *
@@ -164,4 +165,5 @@ class Ethna_AppSQL
 		return "$field $op $operand";
 	}
 }
+// }}}
 ?>

@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	i18n.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_I18N
 /**
  *	i18n関連の処理を行うクラス
  *
@@ -114,4 +116,5 @@ class Ethna_I18N
 		}
 	}
 }
+// }}}
 ?>

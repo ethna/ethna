@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	skelton.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_SkeltonGenerator
 /**
  *	スケルトン生成クラス
  *
@@ -117,4 +119,5 @@ class Ethna_SkeltonGenerator
 		return true;
 	}
 }
+// }}}
 ?>

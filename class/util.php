@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	util.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ to_array
 /**
  *	グローバルユーティリティ関数: スカラー値を要素数1の配列として返す
  *
@@ -22,7 +24,9 @@ function to_array($v)
 		return array($v);
 	}
 }
+// }}}
 
+// {{{ is_error
 /**
  *	グローバルユーティリティ関数: 指定されたフォーム項目にエラーがあるかどうかを返す
  *
@@ -37,8 +41,9 @@ function is_error($name)
 
 	return $action_error->isError($name);
 }
+// }}}
 
-
+// {{{ Ethna_Util
 /**
  *	ユーティリティクラス
  *
@@ -597,4 +602,5 @@ class Ethna_Util
 		return $r;
 	}
 }
+// }}}
 ?>

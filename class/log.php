@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	log.php
  *
@@ -19,6 +20,7 @@ define('LOG_FILE', 1 << 16);
 define('LOG_FUNCTION', 1 << 17);
 
 
+// {{{ ethna_error_handler
 /**
  *	エラーコールバック関数
  *
@@ -40,7 +42,9 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
 	$logger =& $c->getLogger();
 	$logger->log($level, sprintf("[PHP] %s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
 }
+// }}}
 
+// {{{ Ethna_Logger
 /**
  *	ログ管理クラス
  *
@@ -444,7 +448,9 @@ class Ethna_Logger extends Ethna_AppManager
 		return $level_map_table[strtolower($level)];
 	}
 }
+// }}}
 
+// {{{ Ethna_LogWriter
 /**
  *	ログ出力基底クラス
  *
@@ -653,7 +659,9 @@ class Ethna_LogWriter
 		return sprintf("%s.%s", isset($bt[$i]['class']) ? $bt[$i]['class'] : 'global', $bt[$i]['function']);
 	}
 }
+// }}}
 
+// {{{ Ethna_LogWriter_File
 /**
  *	ログ出力クラス(File)
  *
@@ -741,7 +749,9 @@ class Ethna_LogWriter_File extends Ethna_LogWriter
 		}
 	}
 }
+// }}}
 
+// {{{ Ethna_LogWriter_Syslog
 /**
  *	ログ出力クラス(Syslog)
  *
@@ -795,4 +805,5 @@ class Ethna_LogWriter_Syslog extends Ethna_LogWriter
 		closelog();
 	}
 }
+// }}}
 ?>

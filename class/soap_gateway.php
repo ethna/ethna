@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	soap_gateway.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_SoapGateway
 /**
  *	SOAPゲートウェイの基底クラス
  *
@@ -100,7 +102,9 @@ class Ethna_SoapGateway
 		return $message;
 	}
 }
+// }}}
 
+// {{{ Ethna_SoapGatewayGenerator
 /**
  *	指定されたコントローラに対応するゲートウェイクラスコードを生成するクラス
  *
@@ -282,4 +286,5 @@ class Ethna_SoapGatewayGenerator
 		return sprintf("%s/%s", $this->config->get('url'), $this->name);
 	}
 }
+// }}}
 ?>

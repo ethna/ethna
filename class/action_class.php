@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	action_class.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_ActionClass
 /**
  *	action実行クラス
  *
@@ -122,7 +124,9 @@ class Ethna_ActionClass
 	{
 	}
 }
+// }}}
 
+// {{{ Ethna_List_ActionClass
 /**
  *	リスト表示アクション基底クラスの実装
  *
@@ -314,6 +318,7 @@ class Ethna_List_ActionClass extends Ethna_ActionClass
 }
 // }}}
 
+// {{{ Ethna_CLI_ActionClass
 /**
  *	コマンドラインaction実行クラス
  *
@@ -335,7 +340,9 @@ class Ethna_CLI_ActionClass extends Ethna_ActionClass
 		$_SERVER['HTTP_USER_AGENT'] = "";
 	}
 }
+// }}}
 
+// {{{ Ethna_AMF_ActionClass
 /**
  *	AMF(Flash Remoting)action実行クラス
  *
@@ -425,4 +432,5 @@ class Ethna_AMF_ActionClass
 		$this->session =& new Session($c->getAppId(), $this->backend->getTmpdir(), $this->ae);
 	}
 }
+// }}}
 ?>

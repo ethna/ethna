@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	controller.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_Controller
 /**
  *	コントローラクラス
  *
@@ -1024,4 +1026,5 @@ class Ethna_Controller
 		return str_replace('_', '/', $forward_name) . '.' . $this->ext['tpl'];
 	}
 }
+// }}}
 ?>

@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	soap_util.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_SoapUtil
 /**
  *	SOAPユーティリティクラス
  *
@@ -131,4 +133,5 @@ class Ethna_SoapUtil
 		$retval['errormessage'] = VAR_TYPE_STRING;
 	}
 }
+// }}}
 ?>

@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	app_object.php
  *
@@ -49,6 +50,7 @@ define('OBJECT_IMPORT_IGNORE_NULL', 1);
 define('OBJECT_IMPORT_CONVERT_NULL', 2);
 
 
+// {{{ Ethna_AppManager
 /**
  *	アプリケーションマネージャのベースクラス
  *
@@ -226,7 +228,9 @@ class Ethna_AppManager
 		return $tmp->searchProp($keys, $filter, $order, $offset, $count);
 	}
 }
+// }}}
 
+// {{{ Ethna_AppObject
 /**
  *	アプリケーションオブジェクトのベースクラス
  *
@@ -1431,7 +1435,9 @@ class Ethna_AppObject
 		return false;
 	}
 }
+// }}}
 
+// {{{ Ethna_AppSearchObject
 /**
  *	アプリケーションオブジェクト検索条件クラス
  *
@@ -1471,4 +1477,5 @@ class Ethna_AppSearchObject
 		$this->condition = $condition;
 	}
 }
+// }}}
 ?>

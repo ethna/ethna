@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	ethna.php
  *
@@ -254,6 +255,7 @@ if (defined('E_STRICT') == false) {
 }
 
 
+// {{{ Ethna
 /**
  *	Ethnaフレームワーク基底クラス
  *
@@ -334,4 +336,5 @@ class Ethna
 		return new Ethna_Error(E_USER_NOTICE, $code, $message, $message_arg_list);
 	}
 }
+// }}}
 ?>

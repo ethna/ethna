@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	soap_wsdl.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_WsdlGenerator
 /**
  *	指定されたコントローラに対応するWSDLを生成するクラス
  *
@@ -436,4 +438,5 @@ EOD;
 		return $port_type;
 	}
 }
+// }}}
 ?>

@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	backend.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_Backend
 /**
  *	バックエンド処理クラス
  *
@@ -423,4 +425,5 @@ class Ethna_Backend
 		$this->db->commit();
 	}
 }
+// }}}
 ?>

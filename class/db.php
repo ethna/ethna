@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	db.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_DB
 /**
  *	DB¥¯¥é¥¹
  *
@@ -305,4 +307,5 @@ class Ethna_DB
 		return $r;
 	}
 }
+// }}}
 ?>

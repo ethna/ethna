@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	action_error.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_Error
 /**
  *	エラークラス
  *
@@ -178,7 +180,9 @@ class Ethna_Error
 		$this->info[$key] = $value;
 	}
 }
+// }}}
 
+// {{{ Ethna_AppError
 /**
  *	アプリケーションエラークラス
  *
@@ -267,7 +271,9 @@ class Ethna_AppError extends Ethna_Error
 		return $message;
 	}
 }
+// }}}
 
+// {{{ Ethna_ActionError
 /**
  *	アプリケーションエラー管理クラス
  *
@@ -419,4 +425,5 @@ class Ethna_ActionError
 		return $message_list;
 	}
 }
+// }}}
 ?>

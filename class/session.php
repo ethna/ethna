@@ -1,4 +1,5 @@
 <?php
+// vim: foldmethod=marker
 /**
  *	session.php
  *
@@ -8,6 +9,7 @@
  *	@version	$Id$
  */
 
+// {{{ Ethna_Session
 /**
  *	セッションクラス
  *
@@ -287,4 +289,5 @@ class Ethna_Session
 		}
 	}
 }
+// }}}
 ?>
