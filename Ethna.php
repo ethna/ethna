@@ -97,19 +97,19 @@ define('DB_TYPE_MISC', 3);
 define('VAR_TYPE_INT', 1);
 
 /** 要素型: 浮動小数点数 */
-define('VAR_TYPE_FLOAT', 1);
+define('VAR_TYPE_FLOAT', 2);
 
 /** 要素型: 文字列 */
-define('VAR_TYPE_STRING', 2);
+define('VAR_TYPE_STRING', 3);
 
 /** 要素型: 日付 */
-define('VAR_TYPE_DATETIME', 3);
+define('VAR_TYPE_DATETIME', 4);
 
 /** 要素型: 真偽値 */
-define('VAR_TYPE_BOOLEAN', 4);
+define('VAR_TYPE_BOOLEAN', 5);
 
 /** 要素型: ファイル */
-define('VAR_TYPE_FILE', 5);
+define('VAR_TYPE_FILE', 6);
 
 
 /** フォーム型: text */
