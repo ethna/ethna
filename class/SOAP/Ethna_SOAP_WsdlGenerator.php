@@ -70,7 +70,7 @@ class Ethna_SOAP_WsdlGenerator
 	 */
 	function Ethna_SOAP_WsdlGenerator($gateway)
 	{
-		$this->controller =& $GLOBALS['controller'];
+		$this->controller =& Ethna_Controller::getInstance();
 		$this->config =& $this->controller->getConfig();
 		$this->action_error = null;
 		$this->ae =& $this->action_error;
@@ -391,7 +391,7 @@ EOD;
 			$type_id =& $form->form[$key]['type'];
 			if (is_array($type_id)) {
 				$type_keys = array_keys($type_id);
-				$ttype = "tns:" . Ethna_SOAP_Util::getArrayTypeName($type_id[$type_keys[0]]);
+				$type = "tns:" . Ethna_SOAP_Util::getArrayTypeName($type_id[$type_keys[0]]);
 			} else {
 				$type = "s:" . Ethna_SOAP_Util::getScalarTypeName($type_id);
 			}

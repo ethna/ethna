@@ -37,7 +37,7 @@ class Ethna_SOAP_Gateway
 	 */
 	function Ethna_SOAP_Gateway()
 	{
-		$this->controller =& $GLOBALS['controller'];
+		$this->controller =& Ethna_Controller::getInstance();
 	}
 
 	/**

@@ -67,7 +67,7 @@ class Ethna_SOAP_GatewayGenerator
 	 */
 	function Ethna_SOAP_GatewayGenerator()
 	{
-		$this->controller =& $GLOBALS['controller'];
+		$this->controller =& Ethna_Controller::getInstance();
 		$this->config =& $this->controller->getConfig();
 		$this->action_error = null;
 		$this->ae =& $this->action_error;
