@@ -26,7 +26,7 @@ class Ethna_Controller
 	/**
 	 *	@var	string		アプリケーションID
 	 */
-	var $appid = 'PHPSTRUTS';
+	var $appid = 'ETHNA';
 
 	/**
 	 *	@var	string		アプリケーションベースディレクトリ
