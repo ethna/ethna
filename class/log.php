@@ -58,48 +58,48 @@ class Ethna_Logger extends Ethna_AppManager
 	 *	@var	array	ログファシリティ一覧
 	 */
 	var $log_facility_list = array(
-		array('id' => 'auth', 'name' => 'LOG_AUTH'),
-		array('id' => 'authpriv', 'name' => 'LOG_AUTHPRIV'),
-		array('id' => 'cron', 'name' => 'LOG_CRON'),
-		array('id' => 'daemon', 'name' => 'LOG_DAEMON'),
-		array('id' => 'kern', 'name' => 'LOG_KERN'),
-		array('id' => 'local0', 'name' => 'LOG_LOCAL0'),
-		array('id' => 'local1', 'name' => 'LOG_LOCAL1'),
-		array('id' => 'local2', 'name' => 'LOG_LOCAL2'),
-		array('id' => 'local3', 'name' => 'LOG_LOCAL3'),
-		array('id' => 'local4', 'name' => 'LOG_LOCAL4'),
-		array('id' => 'local5', 'name' => 'LOG_LOCAL5'),
-		array('id' => 'local6', 'name' => 'LOG_LOCAL6'),
-		array('id' => 'local7', 'name' => 'LOG_LOCAL7'),
-		array('id' => 'lpr', 'name' => 'LOG_LPR'),
-		array('id' => 'mail', 'name' => 'LOG_MAIL'),
-		array('id' => 'news', 'name' => 'LOG_NEWS'),
-		array('id' => 'syslog', 'name' => 'LOG_SYSLOG'),
-		array('id' => 'user', 'name' => 'LOG_USER'),
-		array('id' => 'uucp', 'name' => 'LOG_UUCP'),
-		array('id' => 'file', 'name' => 'LOG_FILE'),
+		'auth' => array('name' => 'LOG_AUTH'),
+		'authpriv' => array('name' => 'LOG_AUTHPRIV'),
+		'cron' => array('name' => 'LOG_CRON'),
+		'daemon' => array('name' => 'LOG_DAEMON'),
+		'kern' => array('name' => 'LOG_KERN'),
+		'local0' => array('name' => 'LOG_LOCAL0'),
+		'local1' => array('name' => 'LOG_LOCAL1'),
+		'local2' => array('name' => 'LOG_LOCAL2'),
+		'local3' => array('name' => 'LOG_LOCAL3'),
+		'local4' => array('name' => 'LOG_LOCAL4'),
+		'local5' => array('name' => 'LOG_LOCAL5'),
+		'local6' => array('name' => 'LOG_LOCAL6'),
+		'local7' => array('name' => 'LOG_LOCAL7'),
+		'lpr' => array('name' => 'LOG_LPR'),
+		'mail' => array('name' => 'LOG_MAIL'),
+		'news' => array('name' => 'LOG_NEWS'),
+		'syslog' => array('name' => 'LOG_SYSLOG'),
+		'user' => array('name' => 'LOG_USER'),
+		'uucp' => array('name' => 'LOG_UUCP'),
+		'file' => array('name' => 'LOG_FILE'),
 	);
 
 	/**
 	 *	@var	array	ログレベル一覧
 	 */
 	var $log_level_list = array(
-		array('id' => 'emerg', 'name' => 'LOG_EMERG'),
-		array('id' => 'alert', 'name' => 'LOG_ALERT'),
-		array('id' => 'crit', 'name' => 'LOG_CRIT'),
-		array('id' => 'err', 'name' => 'LOG_ERR'),
-		array('id' => 'warning', 'name' => 'LOG_WARNING'),
-		array('id' => 'notice', 'name' => 'LOG_NOTICE'),
-		array('id' => 'info', 'name' => 'LOG_INFO'),
-		array('id' => 'debug', 'name' => 'LOG_DEBUG'),
+		'emerg' => array('name' => 'LOG_EMERG'),
+		'alert' => array('name' => 'LOG_ALERT'),
+		'crit' => array('name' => 'LOG_CRIT'),
+		'err' => array('name' => 'LOG_ERR'),
+		'warning' => array('name' => 'LOG_WARNING'),
+		'notice' => array('name' => 'LOG_NOTICE'),
+		'info' => array('name' => 'LOG_INFO'),
+		'debug' => array('name' => 'LOG_DEBUG'),
 	);
 
 	/**
 	 *	@var	array	ログオプション一覧
 	 */
 	var $log_option_list = array(
-		array('id' => 'pid', 'name' => 'PID表示', 'value' => LOG_PID),
-		array('id' => 'function', 'name' => '関数名表示', 'value' => LOG_FUNCTION),
+		'pid' => array('name' => 'PID表示', 'value' => LOG_PID),
+		'function' => array('name' => '関数名表示', 'value' => LOG_FUNCTION),
 	);
 
 	/**
