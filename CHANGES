@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_ActionClass::prepare()でヘッダが送信済みの場合はperform()を実行せずに処理を終了するように変更
 - 組み込みSmarty関数is_error()を追加
 - Ethna_ActionForm::_handleErrorをpublicメソッドに変更(Ethna_ActionForm::handleErrorに名称変更)
 - Ethna_ActionForm::getDefメソッドに引数を追加(省略可)
@@ -11,7 +12,6 @@
 *** bug fixes
 
 - VAR_TYPE_FILEの場合はregexp属性が無効になるように修正
-
 
 ** [2004/12/23] 0.1.2
 

@@ -331,6 +331,8 @@ class Ethna_Backend
 		$forward_name = $action_class->prepare();
 		if ($forward_name != null) {
 			return $forward_name;
+		} else if (headers_sent()) {
+			return null;
 		}
 
 		$forward_name = $action_class->perform();
