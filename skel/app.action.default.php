@@ -14,7 +14,7 @@
  *	@access		public
  *	@package	{$project_id}
  */
-class {$project_id}_Form_Index extends Ethna_ActionClass
+class {$project_id}_Form_Index extends Ethna_ActionForm
 {
 	/**
 	 *	@access	private
