@@ -232,7 +232,7 @@ class Ethna_DB
 			$sql .= "$table WRITE";
 		}
 
-		return $this->query("LOCK TABLES $sql;");
+		return $this->query("LOCK TABLES $sql");
 	}
 
 	/**
@@ -244,7 +244,7 @@ class Ethna_DB
 	function unlock()
 	{
 		$this->message = null;
-		return $this->query("UNLOCK TABLES;");
+		return $this->query("UNLOCK TABLES");
 	}
 
 	/**
