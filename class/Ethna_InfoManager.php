@@ -207,7 +207,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 		closedir($dh);
 
 		foreach ($child_dir_list as $child_dir) {
-			$tmp = $this->_analyzeActionList($child_dir);
+			$tmp = $this->_analyzeActionList($child_dir . "/");
 			$r = array_merge($r, $tmp);
 		}
 
