@@ -774,7 +774,7 @@ class Ethna_Controller
 			$action[$action_name]['form_name'] = $this->_getDefaultFormClass($action_name);
 		}
 		if (isset($action[$action_name]['class_name']) == false) {
-			$actoin[$action_name]['class_name'] = $this->_getDefaultActionClass($action_name);
+			$action[$action_name]['class_name'] = $this->_getDefaultActionClass($action_name);
 		}
 
 		return $action[$action_name];
