@@ -63,6 +63,16 @@ class Ethna_ViewClass
 	 */
 	var $session;
 
+	/**
+	 *	@var	string	遷移名
+	 */
+	var $forward_name;
+
+	/**
+	 *	@var	string	遷移先テンプレートファイル名
+	 */
+	var $forward_path;
+
 	/**#@-*/
 
 	/**
@@ -70,9 +80,10 @@ class Ethna_ViewClass
 	 *
 	 *	@access	public
 	 *	@param	object	Ethna_Backend	$backend	backendオブジェクト
-	 *	@param	string	Viewに関連付けられているfoward名
+	 *	@param	string	$forward_name	ビューに関連付けられている遷移名
+	 *	@param	string	$forward_path	ビューに関連付けられているテンプレートファイル名
 	 */
-	function Ethna_ViewClass(&$backend, $forward)
+	function Ethna_ViewClass(&$backend, $forward_name, $forward_path)
 	{
 		$c =& $backend->getController();
 		$this->backend =& $backend;
@@ -92,14 +103,72 @@ class Ethna_ViewClass
 		foreach ($manager_list as $k => $v) {
 			$this->$k = $backend->getManager($v);
 		}
+
+		$this->forward_name = $forward_name;
+		$this->forward_path = $forward_path;
 	}
 
 	/**
 	 *	画面表示前処理
 	 *
+	 *	テンプレートに設定する値でコンテキストに依存しないものは
+	 *	ここで設定する(例:セレクトボックス等)
+	 *
 	 *	@access	public
 	 */
 	function preforward()
+	{
+	}
+
+	/**
+	 *	遷移名に対応する画面を出力する
+	 *
+	 *	特殊な画面を表示する場合を除いて特にオーバーライドする必要は無い
+	 *	(preforward()のみオーバーライドすれば良い)
+	 *
+	 *	@access	public
+	 */
+	function forward()
+	{
+		$smarty =& $this->_getTemplateEngine();
+		$this->_setDefault($smarty);
+		$smarty->display($this->forward_path);
+	}
+
+	/**
+	 *	Smartyオブジェクトを取得する
+	 *
+	 *	@access	protected
+	 *	@return	object	Smarty	Smartyオブジェクト
+	 */
+	function &_getTemplateEngine()
+	{
+		$c =& $this->backend->getController();
+		$smarty =& $c->getTemplateEngine();
+
+		$form_array =& $this->af->getArray();
+		$app_array =& $this->af->getAppArray();
+		$app_ne_array =& $this->af->getAppNEArray();
+		$smarty->assign_by_ref('form', $form_array);
+		$smarty->assign_by_ref('app', $app_array);
+		$smarty->assign_by_ref('app_ne', $app_ne_array);
+		$smarty->assign_by_ref('errors', Ethna_Util::escapeHtml($this->ae->getMessageList()));
+		if (isset($_SESSION)) {
+			$smarty->assign_by_ref('session', Ethna_Util::escapeHtml($_SESSION));
+		}
+		$smarty->assign('script', basename($_SERVER['PHP_SELF']));
+		$smarty->assign('request_uri', htmlspecialchars($_SERVER['REQUEST_URI']));
+
+		return $smarty;
+	}
+
+	/**
+	 *	共通値を設定する
+	 *
+	 *	@access	protected
+	 *	@param	object	Smarty	Smartyオブジェクト
+	 */
+	function _setDefault(&$smarty)
 	{
 	}
 }

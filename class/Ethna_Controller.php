@@ -641,6 +641,8 @@ class Ethna_Controller
 			$smarty->register_outputfilter($outputfilter);
 		}
 
+		$this->_setDefaultTemplateEngine($smarty);
+
 		return $smarty;
 	}
 
@@ -748,15 +750,18 @@ class Ethna_Controller
 		$this->backend =& $backend;
 		$forward_name = $backend->perform($action_name);
 
-		// コントローラで遷移先を決定する
+		// コントローラで遷移先を決定する(オプション)
 		$forward_name = $this->_sortForward($action_name, $forward_name);
 
 		if ($forward_name != null) {
-			$backend->preforward($forward_name);
-
-			if ($this->_forward($forward_name) != 0) {
-				return -1;
+			$view_name = $this->getViewClassName($forward_name);
+			$view_class =& new $view_name($this->backend, $forward_name, $this->_getForwardPath($forward_name));
+			// 後方互換処理:(
+			if (is_a($view_class, 'Ethna_ViewClass') == false) {
+				$view_class->preforward();
+				$view_class =& new Ethna_ViewClass($this->backend, $forward_name, $this->_getForwardPath($forward_name));
 			}
+			$view_class->forward();
 		}
 
 		return 0;
@@ -886,9 +891,6 @@ class Ethna_Controller
 	/**
 	 *	指定された遷移名に対応するビュークラス名を返す(オブジェクトの生成は行わない)
 	 *
-	 *	ビュークラスはAction Classにpreforward()メソッドを実装したもの(非推奨)、
-	 *	あるいはViewClassを継承したものいずれかどちらでもよい(ViewClass推奨)
-	 *
 	 *	@access	public
 	 *	@param	string	$forward_name	遷移先の名称
 	 *	@return	string	view classのクラス名
@@ -905,8 +907,8 @@ class Ethna_Controller
 			$forward_obj = array();
 		}
 
-		if (isset($forward_obj['preforward_name'])) {
-			$class_name = $forward_obj['preforward_name'];
+		if (isset($forward_obj['view_name'])) {
+			$class_name = $forward_obj['view_name'];
 			if (class_exists($class_name)) {
 				return $class_name;
 			}
@@ -920,14 +922,15 @@ class Ethna_Controller
 		if (is_null($class_name) == false && class_exists($class_name)) {
 			return $class_name;
 		} else if (is_null($class_name) == false) {
-			$this->logger->log(LOG_WARNING, 'stated preforward class is not defined [%s] -> try default', $class_name);
+			$this->logger->log(LOG_WARNING, 'stated view class is not defined [%s] -> try default', $class_name);
 		}
 
 		$class_name = $this->getDefaultViewClass($forward_name);
 		if (class_exists($class_name)) {
 			return $class_name;
 		} else {
-			return null;
+			$this->logger->log(LOG_DEBUG, 'view class is not defined for [%s] -> use default [%s]', $forward_name, 'Ethna_ViewClass');
+			return 'Ethna_ViewClass';
 		}
 	}
 
@@ -1067,7 +1070,7 @@ class Ethna_Controller
 		if ($r == null) {
 			$r = sprintf("%s_View_%s", $this->getAppId(), $postfix);
 		}
-		$this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
+		$this->logger->log(LOG_DEBUG, "default view class [%s]", $r);
 		return $r;
 	}
 
@@ -1097,7 +1100,7 @@ class Ethna_Controller
 			$r = $default_path;
 		}
 
-		$this->logger->log(LOG_DEBUG, "default action path [%s]", $r);
+		$this->logger->log(LOG_DEBUG, "default view path [%s]", $r);
 		return $r;
 	}
 
@@ -1262,39 +1265,6 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	指定された遷移名に対応する画面を出力する
-	 *
-	 *	@access	private
-	 *	@param	string	$forward_name	遷移名
-	 *	@return	bool	0:正常終了 -1:エラー
-	 */
-	function _forward($forward_name)
-	{
-		$forward_path = $this->_getForwardPath($forward_name);
-		$smarty =& $this->getTemplateEngine();
-
-		$form_array =& $this->action_form->getArray();
-		$app_array =& $this->action_form->getAppArray();
-		$app_ne_array =& $this->action_form->getAppNEArray();
-		$smarty->assign_by_ref('form', $form_array);
-		$smarty->assign_by_ref('app', $app_array);
-		$smarty->assign_by_ref('app_ne', $app_ne_array);
-		$smarty->assign_by_ref('errors', Ethna_Util::escapeHtml($this->action_error->getMessageList()));
-		if (isset($_SESSION)) {
-			$smarty->assign_by_ref('session', Ethna_Util::escapeHtml($_SESSION));
-		}
-		$smarty->assign('script', basename($_SERVER['PHP_SELF']));
-		$smarty->assign('request_uri', htmlspecialchars($_SERVER['REQUEST_URI']));
-
-		// デフォルトマクロの設定
-		$this->_setDefaultMacro($smarty);
-
-		$smarty->display($forward_path);
-
-		return 0;
-	}
-
-	/**
 	 *	遷移名からテンプレートファイルのパス名を取得する
 	 *
 	 *	@access	private
@@ -1444,24 +1414,24 @@ class Ethna_Controller
 	{
 		$view_dir = $this->getViewdir();
 
-		// preforward_path属性チェック
-		if (isset($action_obj['preforward_path'])) {
-			if (file_exists($view_dir . $forward_obj['preforward_path']) == false) {
-				$this->logger->log(LOG_WARNING, 'preforward_path file not found [%s] -> try default', $forward_obj['preforward_path']);
+		// view_path属性チェック
+		if (isset($action_obj['view_path'])) {
+			if (file_exists($view_dir . $forward_obj['view_path']) == false) {
+				$this->logger->log(LOG_WARNING, 'view_path file not found [%s] -> try default', $forward_obj['view_path']);
 			} else {
-				include_once($action_dir . $forward_obj['preforward_path']);
+				include_once($action_dir . $forward_obj['view_path']);
 				return;
 			}
 		}
 
 		// デフォルトチェック
-		$preforward_path = $this->getDefaultViewPath($forward_name);
-		if (file_exists($view_dir . $preforward_path)) {
-			include_once($view_dir . $preforward_path);
+		$view_path = $this->getDefaultViewPath($forward_name);
+		if (file_exists($view_dir . $view_path)) {
+			include_once($view_dir . $view_path);
 			return;
 		} else {
-			$this->logger->log(LOG_DEBUG, 'default preforward file not found [%s]', $preforward_path);
-			$preforward_path = null;
+			$this->logger->log(LOG_DEBUG, 'default view file not found [%s]', $view_path);
+			$view_path = null;
 		}
 	}
 
@@ -1495,12 +1465,12 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	遷移時のデフォルトマクロを設定する
+	 *  テンプレートエンジンのデフォルト状態を設定する
 	 *
-	 *	@access	protected
-	 *	@param	object	Smarty	$smarty	テンプレートエンジンオブジェクト
+	 *  @access protected
+	 *  @param  object  Smarty  $smarty テンプレートエンジンオブジェクト
 	 */
-	function _setDefaultMacro(&$smarty)
+	function _setDefaultTemplateEngine(&$smarty)
 	{
 	}
 
@@ -1531,7 +1501,7 @@ class Ethna_Controller
 		$forward_obj = array();
 
 		$forward_obj['forward_path'] = sprintf("%s/tpl/info.tpl", $base);
-		$forward_obj['preforward_name'] = 'Ethna_Action_Info';
+		$forward_obj['view_name'] = 'Ethna_Action_Info';
 		$this->forward['__ethna_info__'] = $forward_obj;
 	}
 
