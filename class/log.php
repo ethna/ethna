@@ -1,0 +1,696 @@
+<?php
+/**
+ *	log.php
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *	@package	Ethna
+ *	@version	$Id$
+ */
+
+/**
+ *	拡張ログプロパティ:	ファイル出力
+ */
+define('LOG_FILE', 1 << 16);
+
+/**
+ *	拡張ログプロパティ:	関数名表示
+ */
+define('LOG_FUNCTION', 1 << 17);
+
+
+/**
+ *	エラーコールバック関数
+ *
+ *	@param	int		$errno		エラーレベル
+ *	@param	string	$errstr		エラーメッセージ
+ *	@param	string	$errfile	エラー発生箇所のファイル名
+ *	@param	string	$errline	エラー発生箇所の行番号
+ */
+function ethna_error_handler($errno, $errstr, $errfile, $errline)
+{
+	$c =& $GLOBALS['controller'];
+
+	// errno -> level
+	switch ($errno) {
+	case E_ERROR:			$code = "E_ERROR"; $level = LOG_ERR; break;
+	case E_WARNING:			$code = "E_WARNING"; $level = LOG_WARNING; break;
+	case E_PARSE:			$code = "E_PARSE"; $level = LOG_CRIT; break;
+	case E_NOTICE:			$code = "E_NOTICE"; $level = LOG_NOTICE; break;
+	case E_USER_ERROR:		$code = "E_USER_ERROR"; $level = LOG_ERR; break;
+	case E_USER_WARNING:	$code = "E_USER_WARNING"; $level = LOG_WARNING; break;
+	case E_USER_NOTICE:		$code = "E_USER_NOTICE"; $level = LOG_NOTICE; break;
+	case E_STRICT:			$code = "E_STRING"; $level = LOG_NOTICE; return;
+	default:				$code = "E_UNKNOWN"; $level = LOG_DEBUG; break;
+	}
+
+	if ($errno == E_STRICT) {
+		// E_STRICTは表示しない
+		return E_STRICT;
+	}
+
+	$logger =& $c->getLogger();
+	$logger->log($level, sprintf("%s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
+}
+
+/**
+ *	ログ管理クラス
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		public
+ *	@package	Ethna
+ */
+class Ethna_Logger extends Ethna_AppManager
+{
+	/**#@+
+	 *	@access	private
+	 */
+
+	/**
+	 *	@var	array	ログファシリティ一覧
+	 */
+	var $log_facility_list = array(
+		array('id' => 'auth', 'name' => 'LOG_AUTH'),
+		array('id' => 'authpriv', 'name' => 'LOG_AUTHPRIV'),
+		array('id' => 'cron', 'name' => 'LOG_CRON'),
+		array('id' => 'daemon', 'name' => 'LOG_DAEMON'),
+		array('id' => 'kern', 'name' => 'LOG_KERN'),
+		array('id' => 'local0', 'name' => 'LOG_LOCAL0'),
+		array('id' => 'local1', 'name' => 'LOG_LOCAL1'),
+		array('id' => 'local2', 'name' => 'LOG_LOCAL2'),
+		array('id' => 'local3', 'name' => 'LOG_LOCAL3'),
+		array('id' => 'local4', 'name' => 'LOG_LOCAL4'),
+		array('id' => 'local5', 'name' => 'LOG_LOCAL5'),
+		array('id' => 'local6', 'name' => 'LOG_LOCAL6'),
+		array('id' => 'local7', 'name' => 'LOG_LOCAL7'),
+		array('id' => 'lpr', 'name' => 'LOG_LPR'),
+		array('id' => 'mail', 'name' => 'LOG_MAIL'),
+		array('id' => 'news', 'name' => 'LOG_NEWS'),
+		array('id' => 'syslog', 'name' => 'LOG_SYSLOG'),
+		array('id' => 'user', 'name' => 'LOG_USER'),
+		array('id' => 'uucp', 'name' => 'LOG_UUCP'),
+		array('id' => 'file', 'name' => 'LOG_FILE'),
+	);
+
+	/**
+	 *	@var	array	ログレベル一覧
+	 */
+	var $log_level_list = array(
+		array('id' => 'emerg', 'name' => 'LOG_EMERG'),
+		array('id' => 'alert', 'name' => 'LOG_ALERT'),
+		array('id' => 'crit', 'name' => 'LOG_CRIT'),
+		array('id' => 'err', 'name' => 'LOG_ERR'),
+		array('id' => 'warning', 'name' => 'LOG_WARNING'),
+		array('id' => 'notice', 'name' => 'LOG_NOTICE'),
+		array('id' => 'info', 'name' => 'LOG_INFO'),
+		array('id' => 'debug', 'name' => 'LOG_DEBUG'),
+	);
+
+	/**
+	 *	@var	array	ログオプション一覧
+	 */
+	var $log_option_list = array(
+		array('id' => 'pid', 'name' => 'PID表示', 'value' => LOG_PID),
+		array('id' => 'function', 'name' => '関数名表示', 'value' => LOG_FUNCTION),
+	);
+
+	/**
+	 *	@var	array	ログレベルテーブル
+	 */
+	var $level_table = array(
+		LOG_EMERG	=> 7,
+		LOG_ALERT	=> 6,
+		LOG_CRIT	=> 5,
+		LOG_ERR		=> 4,
+		LOG_WARNING	=> 3,
+		LOG_NOTICE	=> 2,
+		LOG_INFO	=> 1,
+		LOG_DEBUG	=> 0,
+	);
+
+	/**
+	 *	@var	object	Ethna_Controller	controllerオブジェクト
+	 */
+	var	$controller;
+
+	/**
+	 *	@var	int		ログレベル
+	 */
+	var $level;
+
+	/**
+	 *	@var	int		アラートレベル
+	 */
+	var $alert_level;
+
+	/**
+	 *	@var	string	アラートメールアドレス
+	 */
+	var $alert_mailaddress;
+
+	/**
+	 *	@var	object	Ethna_LogWriter	ログ出力オブジェクト
+	 */
+	var	$writer;
+
+	/**#@-*/
+	
+	/**
+	 *	Ethna_Loggerクラスのコンストラクタ
+	 *
+	 *	@access	public
+	 *	@param	object	Ethna_Controller	$controller	controllerオブジェクト
+	 */
+	function Ethna_Logger(&$controller)
+	{
+		$this->controller =& $controller;
+		$config =& $controller->getConfig();
+		
+		$this->level = $this->_parseLogLevel($config->get('log_level'));
+		if (is_null($this->level)) {
+			// 未設定ならLOG_WARNING
+			$this->level = LOG_WARNING;
+		}
+		$facility = $this->_parseLogFacility($config->get('log_facility'));
+		$file = sprintf('%s/%s.log', $controller->getDirectory('log'), strtolower($controller->getAppid()));
+		list($this->alert_mailaddress, $this->alert_level, $option) = $this->parseLogOption($config->get('log_option'));
+
+		if ($facility == LOG_FILE) {
+			$writer_class = "Ethna_LogWriter_File";
+		} else if (is_null($facility)) {
+			$writer_class = "Ethna_LogWriter";
+		} else {
+			$writer_class = "Ethna_LogWriter_Syslog";
+		}
+		$this->writer = new $writer_class($controller->getAppId(), $facility, $file, $option);
+
+		set_error_handler("ethna_error_handler");
+	}
+
+	/**
+	 *	ログ出力を開始する
+	 *
+	 *	@access	public
+	 */
+	function begin()
+	{
+		$this->writer->begin();
+	}
+
+	/**
+	 *	ログを出力する
+	 *
+	 *	@access	public
+	 *	@param	int		$level		ログレベル(LOG_DEBUG, LOG_NOTICE...)
+	 *	@param	string	$message	ログメッセージ(+引数)
+	 */
+	function log($level, $message)
+	{
+		// ログレベルフィルタ
+		if ($this->_isLevelMask($this->level, $level)) {
+			return;
+		}
+
+		// ログ出力
+		$args = func_get_args();
+		if (count($args) > 2) {
+			array_splice($args, 0, 2);
+			$message = vsprintf($message, $args);
+		}
+		$output = $this->writer->log($level, $message);
+
+		// アラート処理
+		if ($this->_isLevelMask($this->alert_level, $level) == false && $this->alert_mailaddress) {
+			$this->_alert($output);
+		}
+	}
+
+	/**
+	 *	ログ出力を終了する
+	 *
+	 *	@access	public
+	 */
+	function end()
+	{
+		$this->writer->end();
+	}
+
+	/**
+	 *	ログオプション(設定ファイル値)を解析する
+	 *
+	 *	@access	private
+	 *	@param	string	$string	ログオプション(設定ファイル値)
+	 *	@return	array	解析された設定ファイル値(アラート通知メールアドレス, アラート対象ログレベル, ログオプション)
+	 */
+	function parseLogOption($string)
+	{
+		$alert_mailaddress = null;
+		$alert_level = null;
+		$option = null;
+		$elts = explode(',', $string);
+		foreach ($elts as $elt) {
+			if (strncmp($elt, 'alert_mailaddress:', 18) == 0) {
+				$alert_mailaddress = substr($elt, 18);
+			} else if (strncmp($elt, 'alert_level:', 12) == 0) {
+				$alert_level = $this->_ParseLogLevel(substr($elt, 12));
+			} else if ($elt == 'pid') {
+				$option |= LOG_PID;
+			} else if ($elt == 'function') {
+				$option |= LOG_FUNCTION;
+			}
+		}
+
+		return array($alert_mailaddress, $alert_level, $option);
+	}
+
+	/**
+	 *	アラートメールを送信する
+	 *
+	 *	@access	private
+	 *	@param	string	$message	ログメッセージ
+	 *	@return	bool	true:正常終了 false:エラー
+	 */
+	function _alert($message)
+	{
+		restore_error_handler();
+
+		// ヘッダ
+		$header = "Mime-Version: 1.0\n";
+		$header .= "Content-Type: text/plain; charset=ISO-2022-JP\n";
+		$header .= "X-Alert: " . $this->writer->getIdent();
+		$subject = sprintf("[%s] alert (%s%s)\n", $this->writer->getIdent(), substr($message, 0, 12), strlen($message) > 12 ? "..." : "");
+		
+		// 本文
+		$mail = sprintf("--- [log message] ---\n%s\n\n", $message);
+		if (function_exists("debug_backtrace")) {
+			$bt = debug_backtrace();
+			$mail .= sprintf("--- [backtrace] ---\n%s\n", Util::FormatBacktrace($bt));
+		}
+
+		mail($this->alert_mailaddress, $subject, mb_convert_encoding($mail, "ISO-2022-JP", "EUC-JP"), $header);
+
+		set_error_handler("ethna_error_handler");
+
+		return true;
+	}
+
+	/**
+	 *	ログレベルのマスクチェックを行う
+	 *
+	 *	@access	private
+	 *	@param	int		$src	ログレベルマスク
+	 *	@param	int		$dst	ログレベル
+	 *	@return	bool	true:閾値以下 false:閾値以上
+	 */
+	function _isLevelMask($src, $dst)
+	{
+		// 知らないレベルなら出力しない
+		if (isset($this->level_table[$src]) == false || isset($this->level_table[$dst]) == false) {
+			return true;
+		}
+
+		if ($this->level_table[$dst] >= $this->level_table[$src]) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 *	ログファシリティ(設定ファイル値)を解析する
+	 *
+	 *	@access	private
+	 *	@param	string	$facility	ログファシリティ(設定ファイル値)
+	 *	@return	int		ログファシリティ(LOG_LOCAL0, LOG_FILE...)
+	 */
+	function _parseLogFacility($facility)
+	{
+		$facility_map_table = array(
+			'auth'		=> LOG_AUTH,
+			'authpriv'	=> LOG_AUTHPRIV,
+			'cron'		=> LOG_CRON,
+			'daemon'	=> LOG_DAEMON,
+			'kern'		=> LOG_KERN,
+			'local0'	=> LOG_LOCAL0,
+			'local1'	=> LOG_LOCAL1,
+			'local2'	=> LOG_LOCAL2,
+			'local3'	=> LOG_LOCAL3,
+			'local4'	=> LOG_LOCAL4,
+			'local5'	=> LOG_LOCAL5,
+			'local6'	=> LOG_LOCAL6,
+			'local7'	=> LOG_LOCAL7,
+			'lpr'		=> LOG_LPR,
+			'mail'		=> LOG_MAIL,
+			'news'		=> LOG_NEWS,
+			'syslog'	=> LOG_SYSLOG,
+			'user'		=> LOG_USER,
+			'uucp'		=> LOG_UUCP,
+			'file'		=> LOG_FILE,
+		);
+		if (isset($facility_map_table[strtolower($facility)]) == false) {
+			return null;
+		}
+		return $facility_map_table[strtolower($facility)];
+	}
+
+	/**
+	 *	ログレベル(設定ファイル値)を解析する
+	 *
+	 *	@access	private
+	 *	@param	string	$level	ログレベル(設定ファイル値)
+	 *	@return	int		ログレベル(LOG_DEBUG, LOG_NOTICE...)
+	 */
+	function _parseLogLevel($level)
+	{
+		$level_map_table = array(
+			'emerg'		=> LOG_EMERG,
+			'alert'		=> LOG_ALERT,
+			'crit'		=> LOG_CRIT,
+			'err'		=> LOG_ERR,
+			'warning'	=> LOG_WARNING,
+			'notice'	=> LOG_NOTICE,
+			'info'		=> LOG_INFO,
+			'debug'		=> LOG_DEBUG,
+		);
+		if (isset($level_map_table[strtolower($level)]) == false) {
+			return null;
+		}
+		return $level_map_table[strtolower($level)];
+	}
+}
+
+/**
+ *	ログ出力基底クラス
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		public
+ *	@package	Ethna
+ */
+class Ethna_LogWriter
+{
+	/**#@+
+	 *	@access	private
+	 */
+
+	/**
+	 *	@var	string	ログアイデンティティ文字列
+	 */
+	var	$ident;
+
+	/**
+	 *	@var	int		ログファシリティ
+	 */
+	var	$facility;
+
+	/**
+	 *	@var	int		ログオプション
+	 */
+	var	$option;
+
+	/**
+	 *	@var	string	ログファイル
+	 */
+	var	$file;
+
+	/**
+	 *	@var	bool	バックトレースが取得可能かどうか
+	 */
+	var	$have_backtrace;
+
+	/**#@-*/
+
+	/**
+	 *	@var	string	ログレベル名テーブル
+	 */
+	var	$level_name_table = array(
+		LOG_EMERG	=> 'EMERG',
+		LOG_ALERT	=> 'ALERT',
+		LOG_CRIT	=> 'CRIT',
+		LOG_ERR		=> 'ERR',
+		LOG_WARNING	=> 'WARNING',
+		LOG_NOTICE	=> 'NOTICE',
+		LOG_INFO	=> 'INFO',
+		LOG_DEBUG	=> 'DEBUG',
+	);
+
+	/**
+	 *	Ethna_LogWriterクラスのコンストラクタ
+	 *
+	 *	@access	public
+	 *	@param	string	$log_ident		ログアイデンティティ文字列(プロセス名等)
+	 *	@param	int		$log_facility	ログファシリティ
+	 *	@param	string	$log_file		ログ出力先ファイル名(LOG_FILEオプションが指定されている場合のみ)
+	 *	@param	int		$log_option		ログオプション(LOG_FILE,LOG_FUNCTION...)
+	 */
+	function Ethna_LogWriter($log_ident, $log_facility, $log_file, $log_option)
+	{
+		$this->ident = $log_ident;
+		$this->facility = $log_facility;
+		$this->option = $log_option;
+		$this->file = $log_file;
+		$this->have_backtrace = function_exists('debug_backtrace');
+	}
+
+	/**
+	 *	ログ出力を開始する
+	 *
+	 *	@access	public
+	 */
+	function begin()
+	{
+	}
+
+	/**
+	 *	ログを出力する
+	 *
+	 *	@access	public
+	 *	@param	int		$level		ログレベル(LOG_DEBUG, LOG_NOTICE...)
+	 *	@param	string	$message	ログメッセージ(+引数)
+	 */
+	function log($level, $message)
+	{
+		$prefix = strftime('%Y/%m/%d %H:%M:%S ') . $this->ident;
+		if ($this->option & LOG_PID) {
+			$prefix .= sprintf('[%d]', getmypid());
+		}
+		$prefix .= sprintf('(%s): ', $this->_getLogLevelName($level));
+		if ($this->option & LOG_FUNCTION) {
+			$function = $this->_getFunctionName();
+			if ($function) {
+				$prefix .= sprintf('%s: ', $function);
+			}
+		}
+		printf($prefix . $message . "\n");
+
+		return $prefix . $message;
+	}
+
+	/**
+	 *	ログ出力を終了する
+	 *
+	 *	@access	public
+	 */
+	function end()
+	{
+	}
+
+	/**
+	 *	ログアイデンティティ文字列を取得する
+	 *
+	 *	@access	public
+	 *	@return	string	ログアイデンティティ文字列
+	 */
+	function getIdent()
+	{
+		return $this->ident;
+	}
+
+	/**
+	 *	ログレベルを表示文字列に変換する
+	 *
+	 *	@access	private
+	 *	@param	int		$level	ログレベル(LOG_DEBUG,LOG_NOTICE...)
+	 *	@return	string	ログレベル表示文字列(LOG_DEBUG→"DEBUG")
+	 */
+	function _getLogLevelName($level)
+	{
+		if (isset($this->level_name_table[$level]) == false) {
+			return null;
+		}
+		return $this->level_name_table[$level];
+	}
+
+	/**
+	 *	ログ出力元の関数を取得する
+	 *
+	 *	@access	private
+	 *	@return	string	ログ出力元クラス/メソッド名("class.method")
+	 */
+	function _getFunctionName()
+	{
+		if ($this->have_backtrace == false) {
+			return null;
+		}
+
+		$bt = debug_backtrace();
+		$i = 0;
+		while ($i < count($bt)) {
+			if (isset($bt[$i]['class']) == false) {
+				$bt[$i]['class'] = null;
+			}
+			if (strcasecmp($bt[$i]['class'], 'logger') == 0 ||
+				strncasecmp($bt[$i]['class'], 'logwriter_', 10) == 0 ||
+				strcasecmp($bt[$i]['function'], 'ethna_error_handler') == 0 ||
+				(strcasecmp($bt[$i]['class'], 'backend') == 0 && strcasecmp($bt[$i]['function'], 'log') == 0)) {
+				$i++;
+			} else {
+				break;
+			}
+		}
+
+		return sprintf("%s.%s", isset($bt[$i]['class']) ? $bt[$i]['class'] : 'global', $bt[$i]['function']);
+	}
+}
+
+/**
+ *	ログ出力クラス(File)
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		public
+ *	@package	Ethna
+ */
+class Ethna_LogWriter_File extends Ethna_LogWriter
+{
+	/**#@+
+	 *	@access	private
+	 */
+
+	/**
+	 *	@var	int		ログファイルハンドル
+	 */
+	var	$fp;
+
+	/**#@-*/
+
+	/**
+	 *	Ethna_LogWriter_Fileクラスのコンストラクタ
+	 *
+	 *	@access	public
+	 *	@param	string	$log_ident		ログアイデンティティ文字列(プロセス名等)
+	 *	@param	int		$log_facility	ログファシリティ
+	 *	@param	string	$log_file		ログ出力先ファイル名(LOG_FILEオプションが指定されている場合のみ)
+	 *	@param	int		$log_option		ログオプション(LOG_FILE,LOG_FUNCTION...)
+	 */
+	function Ethna_LogWriter_File($log_ident, $log_facility, $log_file, $log_option)
+	{
+		parent::LogWriter($log_ident, $log_facility, $log_file, $log_option);
+		$this->fp = null;
+	}
+
+	/**
+	 *	ログ出力を開始する
+	 *
+	 *	@access	public
+	 */
+	function begin()
+	{
+		$this->fp = fopen($this->file, 'a');
+	}
+
+	/**
+	 *	ログを出力する
+	 *
+	 *	@access	public
+	 *	@param	int		$level		ログレベル(LOG_DEBUG, LOG_NOTICE...)
+	 *	@param	string	$message	ログメッセージ(+引数)
+	 */
+	function log($level, $message)
+	{
+		if ($this->fp == null) {
+			return;
+		}
+
+		$prefix = strftime('%Y/%m/%d %H:%M:%S ') . $this->ident;
+		if ($this->option & LOG_PID) {
+			$prefix .= sprintf('[%d]', getmypid());
+		}
+		$prefix .= sprintf('(%s): ', $this->_getLogLevelName($level));
+		if ($this->option & LOG_FUNCTION) {
+			$function = $this->_getFunctionName();
+			if ($function) {
+				$prefix .= sprintf('%s: ', $function);
+			}
+		}
+		fwrite($this->fp, $prefix . $message . "\n");
+
+		return $prefix . $message;
+	}
+
+	/**
+	 *	ログ出力を終了する
+	 *
+	 *	@access	public
+	 */
+	function end()
+	{
+		if ($this->fp) {
+			fclose($this->fp);
+			$this->fp = null;
+		}
+	}
+}
+
+/**
+ *	ログ出力クラス(Syslog)
+ *
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		public
+ *	@package	Ethna
+ */
+class Ethna_LogWriter_Syslog extends Ethna_LogWriter
+{
+	/**
+	 *	ログ出力を開始する
+	 *
+	 *	@access	public
+	 */
+	function begin()
+	{
+		// syslog用オプションのみを指定
+		$option = $this->option & (LOG_PID);
+
+		openlog($this->ident, $option, $this->facility);
+	}
+
+	/**
+	 *	ログを出力する
+	 *
+	 *	@access	public
+	 *	@param	int		$level		ログレベル(LOG_DEBUG, LOG_NOTICE...)
+	 *	@param	string	$message	ログメッセージ(+引数)
+	 */
+	function log($level, $message)
+	{
+		$prefix = sprintf('%s: ', $this->_getLogLevelName($level));
+		if ($this->option & LOG_FUNCTION) {
+			$function = $this->_getFunctionName();
+			if ($function) {
+				$prefix .= sprintf('%s: ', $function);
+			}
+		}
+		syslog($level, $prefix . $message);
+
+		return $prefix . $message;
+	}
+
+	/**
+	 *	ログ出力を終了する
+	 *
+	 *	@access	public
+	 */
+	function end()
+	{
+		closelog();
+	}
+}
+?>

@@ -1,0 +1,22 @@
+! Ethna todo lists
+
+!! Platforms
+
+* モバイル対応
+* Linux以外対応
+* MySQL以外対応(検証)
+
+
+!! Features
+
+* アクション/フォーム値一覧HTML作成
+* アクション/forwardの管理用ウェブインターフェース
+* 複数DSN対応(e.g. r, r/w...)
+* SOAP対応
+* AMF対応
+
+
+!! Misc
+
+* パフォーマンスチューニング
+* エラー処理ポリシー策定
