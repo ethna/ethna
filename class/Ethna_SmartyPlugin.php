@@ -447,12 +447,16 @@ function smarty_function_uniqid($params, &$smarty)
  *	@param	array	$list	選択肢一覧
  *	@param	string	$name	フォーム項目名
  *	@param	string	$value	セレクトボックスに渡されたフォーム値
+ *	@param	string	$empty	空エントリ(「---選択して下さい---」等)
  */
 function smarty_function_select($params, &$smarty)
 {
 	extract($params);
 
 	print "<select name=\"$name\">\n";
+	if ($empty) {
+		printf("<option value=\"\">%s</option>\n", $empty);
+	}
 	foreach ($list as $id => $elt) {
 		printf("<option value=\"%s\" %s>%s</option>\n", $id, $id == $value ? "selected" : "", $elt['name']);
 	}

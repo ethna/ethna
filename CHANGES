@@ -4,6 +4,8 @@
 
 *** features
 
+- smarty_function_selectに$empty引数を追加
+
 *** bug fixes
 
 - 不要な参照渡しを削除
