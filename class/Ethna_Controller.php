@@ -1112,6 +1112,7 @@ class Ethna_Controller
 	{
 		// フォームから要求されたaction名を取得する
 		$form_action_name = $this->_getActionName_Form();
+		$form_action_name = preg_replace('/[^a-z0-9\-_]+/i', '', $form_action_name);
 		$this->logger->log(LOG_DEBUG, 'form_action_name[%s]', $form_action_name);
 
 		// フォームからの指定が無い場合はエントリポイントに指定されたデフォルト値を利用する
