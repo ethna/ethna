@@ -145,11 +145,20 @@ class Ethna_ActionForm
 	 *	フォーム値定義を取得する
 	 *
 	 *	@access	public
+	 *	@param	string	$name	取得するフォーム名(省略可:nullなら全ての定義を取得する)
 	 *	@return	array	フォーム値定義
 	 */
-	function getDef()
+	function getDef($name = null)
 	{
-		return $this->form;
+		if (is_null($name)) {
+			return $this->form;
+		}
+
+		if (array_key_exists($name, $this->form) == false) {
+			return null;
+		} else {
+			return $this->form[$name];
+		}
 	}
 
 	/**
@@ -328,7 +337,7 @@ class Ethna_ActionForm
 					$valid_keys[] = $k;
 				}
 				if (count($valid_keys) == 0 && $value['required']) {
-					$this->_handleError($name, $value, E_FORM_REQUIRED);
+					$this->handleError($name, $value, E_FORM_REQUIRED);
 					continue;
 				} else if (count($valid_keys) == 0 && $value['required'] == false) {
 					continue;
@@ -337,7 +346,7 @@ class Ethna_ActionForm
 				if (is_array($this->form_vars[$name]['tmp_name'])) {
 					if (is_array($value['type']) == false) {
 						// 単一指定のフォームに配列が渡されている
-						$this->_handleError($name, $value, E_FORM_WRONGTYPE_SCALAR);
+						$this->handleError($name, $value, E_FORM_WRONGTYPE_SCALAR);
 						continue;
 					}
 
@@ -358,7 +367,7 @@ class Ethna_ActionForm
 				} else {
 					if (is_array($value['type'])) {
 						// 配列指定のフォームにスカラー値が渡されている
-						$this->_handleError($name, $value, E_FORM_WRONGTYPE_ARRAY);
+						$this->handleError($name, $value, E_FORM_WRONGTYPE_ARRAY);
 						continue;
 					}
 					if (count($valid_keys) == 0) {
@@ -370,7 +379,7 @@ class Ethna_ActionForm
 				if (is_array($this->form_vars[$name])) {
 					if (is_array($value['type']) == false) {
 						// スカラー型指定のフォームに配列が渡されている
-						$this->_handleError($name, $value, E_FORM_WRONGTYPE_SCALAR);
+						$this->handleError($name, $value, E_FORM_WRONGTYPE_SCALAR);
 						continue;
 					}
 
@@ -384,7 +393,7 @@ class Ethna_ActionForm
 						// 配列型で省略可のものは値自体が送信されてなくてもエラーとしない
 						continue;
 					} else if (is_array($value['type'])) {
-						$this->_handleError($name, $value, E_FORM_WRONGTYPE_ARRAY);
+						$this->handleError($name, $value, E_FORM_WRONGTYPE_ARRAY);
 						continue;
 					}
 					$this->form_vars[$name] = $this->_filter($this->form_vars[$name], $value['filter']);
@@ -558,12 +567,12 @@ class Ethna_ActionForm
 	/**
 	 *	フォーム値検証のエラー処理を行う
 	 *
-	 *	@access	protected
+	 *	@access	public
 	 *	@param	string		$name	フォーム項目名
 	 *	@param	array		$value	フォーム定義
 	 *	@param	int			$code	エラーコード
 	 */
-	function _handleError($name, $value, $code)
+	function handleError($name, $value, $code)
 	{
 		if ($code == E_FORM_REQUIRED) {
 			switch ($value['form_type']) {
@@ -659,14 +668,14 @@ class Ethna_ActionForm
 		if ($type == VAR_TYPE_FILE) {
 			if ($def['required'] && ($var == null || $var['size'] == 0)) {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_REQUIRED);
+					$this->handleError($name, $def, E_FORM_REQUIRED);
 				}
 				return false;
 			}
 		} else {
 			if ($def['required'] && strlen($var) == 0) {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_REQUIRED);
+					$this->handleError($name, $def, E_FORM_REQUIRED);
 				}
 				return false;
 			}
@@ -677,28 +686,28 @@ class Ethna_ActionForm
 			if ($type == VAR_TYPE_INT) {
 				if (!preg_match('/^-?\d+$/', $var)) {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_WRONGTYPE_INT);
+						$this->handleError($name, $def, E_FORM_WRONGTYPE_INT);
 					}
 					return false;
 				}
 			} else if ($type == VAR_TYPE_FLOAT) {
 				if (!preg_match('/^-?\d+$/', $var) && !preg_match('/^-?\d+\.\d+$/', $var)) {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_WRONGTYPE_FLOAT);
+						$this->handleError($name, $def, E_FORM_WRONGTYPE_FLOAT);
 					}
 					return false;
 				}
 			} else if ($type == VAR_TYPE_DATETIME) {
 				if (strtotime($var) == -1) {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_WRONGTYPE_DATETIME);
+						$this->handleError($name, $def, E_FORM_WRONGTYPE_DATETIME);
 					}
 					return false;
 				}
 			} else if ($type == VAR_TYPE_BOOLEAN) {
 				if ($var != "1" && $var != "0") {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_WRONGTYPE_BOOLEAN);
+						$this->handleError($name, $def, E_FORM_WRONGTYPE_BOOLEAN);
 					}
 					return false;
 				}
@@ -711,14 +720,14 @@ class Ethna_ActionForm
 		if ($type == VAR_TYPE_INT && $var !== "") {
 			if (!is_null($def['min']) && $var < $def['min']) {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_MIN_INT);
+					$this->handleError($name, $def, E_FORM_MIN_INT);
 				}
 				return false;
 			}
 		} else if ($type == VAR_TYPE_FLOAT && $var !== "") {
 			if (!is_null($def['min']) && $var < $def['min']) {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_MIN_FLOAT);
+					$this->handleError($name, $def, E_FORM_MIN_FLOAT);
 				}
 				return false;
 			}
@@ -728,7 +737,7 @@ class Ethna_ActionForm
 				$t_var = strtotime($var);
 				if ($t_var < $t_min) {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_MIN_DATETIME);
+						$this->handleError($name, $def, E_FORM_MIN_DATETIME);
 					}
 				}
 				return false;
@@ -738,7 +747,7 @@ class Ethna_ActionForm
 				$st = @stat($var['tmp_name']);
 				if ($st[7] < $def['min'] * 1024) {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_MIN_FILE);
+						$this->handleError($name, $def, E_FORM_MIN_FILE);
 					}
 					return false;
 				}
@@ -746,7 +755,7 @@ class Ethna_ActionForm
 		} else {
 			if (!is_null($def['min']) && strlen($var) < $def['min'] && $var !== "") {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_MIN_STRING);
+					$this->handleError($name, $def, E_FORM_MIN_STRING);
 				}
 				return false;
 			}
@@ -756,14 +765,14 @@ class Ethna_ActionForm
 		if ($type == VAR_TYPE_INT && $var !== "") {
 			if (!is_null($def['max']) && $var > $def['max']) {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_MAX_INT);
+					$this->handleError($name, $def, E_FORM_MAX_INT);
 				}
 				return false;
 			}
 		} else if ($type == VAR_TYPE_FLOAT && $var !== "") {
 			if (!is_null($def['max']) && $var > $def['max']) {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_MAX_FLOAT);
+					$this->handleError($name, $def, E_FORM_MAX_FLOAT);
 				}
 				return false;
 			}
@@ -773,7 +782,7 @@ class Ethna_ActionForm
 				$t_var = strtotime($var);
 				if ($t_var > $t_min) {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_MAX_DATETIME);
+						$this->handleError($name, $def, E_FORM_MAX_DATETIME);
 					}
 				}
 				return false;
@@ -783,7 +792,7 @@ class Ethna_ActionForm
 				$st = @stat($var['tmp_name']);
 				if ($st[7] > $def['max'] * 1024) {
 					if ($test == false) {
-						$this->_handleError($name, $def, E_FORM_MAX_FILE);
+						$this->handleError($name, $def, E_FORM_MAX_FILE);
 					}
 					return false;
 				}
@@ -791,16 +800,16 @@ class Ethna_ActionForm
 		} else {
 			if (!is_null($def['max']) && strlen($var) > $def['max'] && $var !== "") {
 				if ($test == false) {
-					$this->_handleError($name, $def, E_FORM_MAX_STRING);
+					$this->handleError($name, $def, E_FORM_MAX_STRING);
 				}
 				return false;
 			}
 		}
 
 		// regexp
-		if ($def['regexp'] != null && strlen($var) > 0 && preg_match($def['regexp'], $var) == 0) {
+		if ($type != VAR_TYPE_FILE && $def['regexp'] != null && strlen($var) > 0 && preg_match($def['regexp'], $var) == 0) {
 			if ($test == false) {
-				$this->_handleError($name, $def, E_FORM_REGEXP);
+				$this->handleError($name, $def, E_FORM_REGEXP);
 			}
 			return false;
 		}
