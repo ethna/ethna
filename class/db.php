@@ -68,7 +68,7 @@ class Ethna_DB
 	 */
 	function connect()
 	{
-		$this->db =& DB::connect($dsn, $persistent);
+		$this->db =& DB::connect($this->dsn, $this->persistent);
 		if (DB::isError($this->db)) {
 			$error = Ethna::raiseError(E_DB_CONNECT, 'DB接続エラー: %s', $this->db->getUserInfo());
 			$error->set('obj', $this->db);
@@ -226,16 +226,14 @@ class Ethna_DB
 	{
 		if (count($this->transaction) == 0) {
 			return 0;
-		} else if (count($this->transaction) > 1) {
-			array_pop($this->transaction);
-			return 0;
 		}
 
+		// ロールバック時はスタック数に関わらずトランザクションをクリアする
 		$r = $this->query('ROLLBACK;');
 		if (Ethna::isError($r)) {
 			return $r;
 		}
-		array_pop($this->transaction);
+		$this->transaction = array();
 
 		return 0;
 	}

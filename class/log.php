@@ -38,7 +38,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
 	}
 
 	$logger =& $c->getLogger();
-	$logger->log($level, sprintf("[PHP-ERROR] %s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
+	$logger->log($level, sprintf("[PHP] %s: %s in %s on line %d", $code, $errstr, $errfile, $errline));
 }
 
 /**
@@ -554,6 +554,17 @@ class Ethna_LogWriter
 	 */
 	function _getFunctionName()
 	{
+		$skip_method_list = array(
+			array('ethna_logger', null),
+			array('ethna_logwriter_*', null),
+			array('ethna_error', null),
+			array('ethna_apperror', null),
+			array('ethna_actionerror', null),
+			array('ethna', 'raise*'),
+			array(null, 'ethna_error_handler'),
+			array('ethna_backend', 'log'),
+		);
+
 		if ($this->have_backtrace == false) {
 			return null;
 		}
@@ -564,10 +575,34 @@ class Ethna_LogWriter
 			if (isset($bt[$i]['class']) == false) {
 				$bt[$i]['class'] = null;
 			}
-			if (strcasecmp($bt[$i]['class'], 'logger') == 0 ||
-				strncasecmp($bt[$i]['class'], 'logwriter_', 10) == 0 ||
-				strcasecmp($bt[$i]['function'], 'ethna_error_handler') == 0 ||
-				(strcasecmp($bt[$i]['class'], 'backend') == 0 && strcasecmp($bt[$i]['function'], 'log') == 0)) {
+			$skip = false;
+
+			// メソッドスキップ処理
+			foreach ($skip_method_list as $method) {
+				$class = $function = true;
+				if ($method[0] != null) {
+					if (preg_match('/\*$/', $method[0])) {
+						$n = strncasecmp($bt[$i]['class'], $method[0], strlen($method[0])-1);
+					} else {
+						$n = strcasecmp($bt[$i]['class'], $method[0]);
+					}
+					$class = $n == 0 ? true : false;
+				}
+				if ($method[1] != null) {
+					if (preg_match('/\*$/', $method[1])) {
+						$n = strncasecmp($bt[$i]['function'], $method[1], strlen($method[1])-1);
+					} else {
+						$n = strcasecmp($bt[$i]['function'], $method[1]);
+					}
+					$function = $n == 0 ? true : false;
+				}
+				if ($class && $function) {
+					$skip = true;
+					break;
+				}
+			}
+
+			if ($skip) {
 				$i++;
 			} else {
 				break;
@@ -609,7 +644,7 @@ class Ethna_LogWriter_File extends Ethna_LogWriter
 	 */
 	function Ethna_LogWriter_File($log_ident, $log_facility, $log_file, $log_option)
 	{
-		parent::LogWriter($log_ident, $log_facility, $log_file, $log_option);
+		parent::Ethna_LogWriter($log_ident, $log_facility, $log_file, $log_option);
 		$this->fp = null;
 	}
 

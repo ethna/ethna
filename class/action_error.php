@@ -82,7 +82,7 @@ class Ethna_Error
 		// ¥í¥°
 		list ($log_level, $dummy) = Ethna_Logger::errorLevelToLogLevel($level);
 		$message = $this->getMessage();
-		$this->logger->log($log_level, sprintf("[APP-ERROR(%d)] %s", $code, $message));
+		$this->logger->log($log_level, sprintf("[APP(%d)] %s", $code, $message == null ? "(no message)" : $message));
 	}
 
 	/**
@@ -235,7 +235,7 @@ class Ethna_AppError extends Ethna_Error
 		if ($logging) {
 			list ($log_level, $dummy) = Ethna_Logger::errorLevelToLogLevel($level);
 			$message = $this->getMessage();
-			$this->logger->log($log_level, sprintf("[APP-ERROR(%d)] %s", $code, $message));
+			$this->logger->log($log_level, sprintf("[USER(%d)-%s] %s", $code, $name == null ? "(no name)" : $name, $message == null ? "(no message)" : $message));
 		}
 	}
 

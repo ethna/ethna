@@ -183,19 +183,43 @@ class Ethna_AppManager
 	 */
 	function getObjectList($class, $filter = null, $order = null, $offset = null, $count = null)
 	{
-		$obj_list = array();
+		$object_list = array();
 		$class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
 
 		$tmp =& new $class_name($this->backend);
-		$id_def = $tmp->getIdDef();
-		list($length, $id_list) = $tmp->search($filter, $order, $offset, $count);
+		list($length, $prop_list) = $tmp->searchProp(null, $filter, $order, $offset, $count);
 
-		foreach ($id_list as $id) {
-			$obj =& new $class_name($this->backend, $id_def, $id);
-			$obj_list[] = $obj;
+		foreach ($prop_list as $prop) {
+			$object =& new $class_name($this->backend, null, null, $prop);
+			$object_list[] = $object;
 		}
 
-		return array($length, $obj_list);
+		return array($length, $object_list);
+	}
+
+	/**
+	 *	オブジェクトプロパティの一覧を返す
+	 *
+	 *	getObjectList()メソッドは条件にマッチするIDを元にEthna_AppObjectを生成する
+	 *	ためコストがかかる。こちらはプロパティのみをSELECTするので低コストでデータ
+	 *	を取得することが可能。
+	 *
+	 *	@access	public
+	 *	@param	string	$class		Ethna_AppObjectの継承クラス名
+	 *	@param	array	$keys		取得するプロパティ一覧
+	 *	@param	array	$filter		検索条件
+	 *	@param	array	$order		検索結果ソート条件
+	 *	@param	int		$offset		検索結果取得オフセット
+	 *	@param	int		$count		検索結果取得数
+	 *	@return	mixed	array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のプロパティ一覧) Ethna_Error:エラー
+	 */
+	function getObjectPropList($class, $keys = null, $filter = null, $order = null, $offset = null, $count = null)
+	{
+		$prop_list = array();
+		$class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
+
+		$tmp =& new $class_name($this->backend);
+		return $tmp->searchProp($keys, $filter, $order, $offset, $count);
 	}
 }
 
@@ -280,15 +304,22 @@ class Ethna_AppObject
 
 	/**
 	 *	Ethna_AppObjectクラスのコンストラクタ
+	 *
+	 *	@access	public
+	 *	@param	object	Ethna_Backend	&$backend	Ethna_Backendオブジェクト
+	 *	@param	mixed	$key_type	検索キー名
+	 *	@param	mixed	$key		検索キー
+	 *	@param	array	$prop		プロパティ一覧
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
-	function Ethna_AppObject(&$backend, $key_type = null, $key = null)
+	function Ethna_AppObject(&$backend, $key_type = null, $key = null, $prop = null)
 	{
 		$this->backend =& $backend;
 		$this->config =& $backend->getConfig();
-		$this->db =& $backend->getDB();
 		$this->action_form =& $backend->getActionForm();
 		$this->af =& $this->action_form;
 		$this->session =& $backend->getSession();
+		$this->db =& $backend->getDB();
 
 		$c =& $backend->getController();
 
@@ -311,45 +342,27 @@ class Ethna_AppObject
 				$this->id_def = array($this->id_def, $k);
 			}
 		}
+		
+		// DBエラー
+		if (is_null($this->db)) {
+			return Ethna::raiseError(E_DB_NODSN, "Ethna_AppObjectを利用するにはデータベース設定が必要です");
+		} else if (Ethna::isError($this->db)) {
+			return $this->db;
+		}
 
 		// キー妥当性チェック
-		if (is_null($key_type) && is_null($key)) {
+		if (is_null($key_type) && is_null($key) && is_null($prop)) {
 			// perhaps for adding object
-			return;
-		}
-		$key_type = to_array($key_type);
-		$key = to_array($key);
-		if (count($key_type) != count($key)) {
-			trigger_error(sprintf("Unmatched key_type & key length [%d-%d]", count($key_type), count($key)), E_USER_ERROR);
-			return;
-		}
-		foreach ($key_type as $elt) {
-			if (isset($this->prop_def[$elt]) == false) {
-				trigger_error("Invalid key_type [$elt]", E_USER_ERROR);
-				return;
-			}
+			return 0;
 		}
 
-		// SQL文構築
-		$sql = $this->_getSQL_Select($key_type, $key);
+		// プロパティ設定
+		if (is_null($prop)) {
+			$this->_setPropByDB($key_type, $key);
+		} else {
+			$this->_setPropByValue($prop);
+		}
 
-		// プロパティ取得
-		$r =& $this->db->query($sql);
-		if ($r == null) {
-			return;
-		}
-		$n = $r->numRows();
-		if ($n == 0) {
-			// try default
-			if ($this->_setDefault($key_type, $key) == false) {
-				// nop
-			}
-			return;
-		} else if ($n > 1) {
-			trigger_error("Invalid key (multiple rows found) [$key]", E_USER_ERROR);
-			return;
-		}
-		$this->prop = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->prop_backup = $this->prop;
 
 		if (is_array($this->id_def)) {
@@ -360,6 +373,8 @@ class Ethna_AppObject
 		} else {
 			$this->id = $this->prop[$this->id_def];
 		}
+
+		return 0;
 	}
 
 	/**
@@ -627,7 +642,7 @@ class Ethna_AppObject
 		}
 
 		$sql = $this->_getSQL_Update();
-		$r =& $this->db->query_test($sql);
+		$r =& $this->db->query($sql);
 		if (DB::isError($r)) {
 			if ($r->getCode() == E_DB_DUPENT) {
 				// レースコンディション
@@ -662,7 +677,7 @@ class Ethna_AppObject
 	}
 
 	/**
-	 *	オブジェクトを検索する
+	 *	オブジェクトIDを検索する
 	 *
 	 *	@access	public
 	 *	@param	array	$filter		検索条件
@@ -671,7 +686,7 @@ class Ethna_AppObject
 	 *	@param	int		$count		検索結果取得数
 	 *	@return	mixed	array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトID一覧) Ethna_Error:エラー
 	 */
-	function search($filter = null, $order = null, $offset = null, $count = null)
+	function searchId($filter = null, $order = null, $offset = null, $count = null)
 	{
 		if (is_null($filter) == false) {
 			$sql = $this->_getSQL_SearchLength($filter);
@@ -686,7 +701,7 @@ class Ethna_AppObject
 		}
 
 		$id_list = array();
-		$sql = $this->_getSQL_Search($filter, $order, $offset, $count);
+		$sql = $this->_getSQL_SearchId($filter, $order, $offset, $count);
 		$r =& $this->db->query($sql);
 		if (Ethna::isError($r)) {
 			return $r;
@@ -709,17 +724,124 @@ class Ethna_AppObject
 	}
 
 	/**
+	 *	オブジェクトプロパティを検索する
+	 *
+	 *	@access	public
+	 *	@param	array	$keys		取得するプロパティ
+	 *	@param	array	$filter		検索条件
+	 *	@param	array	$order		検索結果ソート条件
+	 *	@param	int		$offset		検索結果取得オフセット
+	 *	@param	int		$count		検索結果取得数
+	 *	@return	mixed	array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトプロパティ一覧) Ethna_Error:エラー
+	 */
+	function searchProp($keys = null, $filter = null, $order = null, $offset = null, $count = null)
+	{
+		if (is_null($filter) == false) {
+			$sql = $this->_getSQL_SearchLength($filter);
+			$r =& $this->db->query($sql);
+			if (Ethna::isError($r)) {
+				return $r;
+			}
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$length = $row['id_count'];
+		} else {
+			$length = null;
+		}
+
+		$prop_list = array();
+		$sql = $this->_getSQL_SearchProp($keys, $filter, $order, $offset, $count);
+		$r =& $this->db->query($sql);
+		if (Ethna::isError($r)) {
+			return $r;
+		}
+		$n = $r->numRows();
+		for ($i = 0; $i < $n; $i++) {
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$prop_list[] = $row;
+		}
+		if (is_null($length)) {
+			$length = count($prop_list);
+		}
+
+		return array($length, $prop_list);
+	}
+
+	/**
 	 *	オブジェクトのアプリケーションデフォルトプロパティを設定する
 	 *
 	 *	コンストラクタにより指定されたキーにマッチするエントリがなかった場合の
 	 *	デフォルトプロパティをここで設定することが出来る
 	 *
 	 *	@access	protected
+	 *	@param	mixed	$key_type	検索キー名
+	 *	@param	mixed	$key		検索キー
 	 *	@return	int		0:正常終了
 	 */
 	function _setDefault($key_type, $key)
 	{
 		return 0;
+	}
+
+	/**
+	 *	オブジェクトプロパティをDBから取得する
+	 *
+	 *	@access	private
+	 *	@param	mixed	$key_type	検索キー名
+	 *	@param	mixed	$key		検索キー
+	 */
+	function _setPropByDB($key_type, $key)
+	{
+		$key_type = to_array($key_type);
+		$key = to_array($key);
+		if (count($key_type) != count($key)) {
+			trigger_error(sprintf("Unmatched key_type & key length [%d-%d]", count($key_type), count($key)), E_USER_ERROR);
+			return;
+		}
+		foreach ($key_type as $elt) {
+			if (isset($this->prop_def[$elt]) == false) {
+				trigger_error("Invalid key_type [$elt]", E_USER_ERROR);
+				return;
+			}
+		}
+
+		// SQL文構築
+		$sql = $this->_getSQL_Select($key_type, $key);
+
+		// プロパティ取得
+		$r =& $this->db->query($sql);
+		if (Ethna::isError($r)) {
+			return;
+		}
+		$n = $r->numRows();
+		if ($n == 0) {
+			// try default
+			if ($this->_setDefault($key_type, $key) == false) {
+				// nop
+			}
+			return;
+		} else if ($n > 1) {
+			trigger_error("Invalid key (multiple rows found) [$key]", E_USER_ERROR);
+			return;
+		}
+		$this->prop = $r->fetchRow(DB_FETCHMODE_ASSOC);
+	}
+
+	/**
+	 *	コンストラクタで指定されたプロパティを設定する
+	 *
+	 *	@access	private
+	 *	@param	array	$prop	プロパティ一覧
+	 */
+	function _setPropByValue($prop)
+	{
+		$def = $this->getDef();
+		foreach ($def as $key => $value) {
+			if ($value['primary'] && isset($prop[$key]) == false) {
+				// プライマリキーは省略不可
+				trigger_error("primary key is not identical", E_USER_ERROR);
+			}
+			$this->prop[$key] = $prop[$key];
+		}
 	}
 
 	/**
@@ -987,7 +1109,7 @@ class Ethna_AppObject
 	}
 
 	/**
-	 *	オブジェクト検索を行うSQL文を構築する
+	 *	オブジェクトID検索を行うSQL文を構築する
 	 *
 	 *	@access	private
 	 *	@param	array	$filter		検索条件
@@ -996,7 +1118,7 @@ class Ethna_AppObject
 	 *	@param	int		$count		検索結果取得数
 	 *	@return	string	オブジェクト検索を行うSELECT文
 	 */
-	function _getSQL_Search($filter, $order, $offset, $count)
+	function _getSQL_SearchId($filter, $order, $offset, $count)
 	{
 		$tables = implode(',', array_keys($this->table_def));
 
@@ -1034,6 +1156,64 @@ class Ethna_AppObject
 		}
 
 		$sql = "SELECT DISTINCT $column_id FROM $tables $condition $sort $limit;";
+
+		return $sql;
+	}
+
+	/**
+	 *	オブジェクトプロパティ検索を行うSQL文を構築する
+	 *
+	 *	@access	private
+	 *	@param	array	$keys		取得プロパティ一覧
+	 *	@param	array	$filter		検索条件
+	 *	@param	array	$order		検索結果ソート条件
+	 *	@param	int		$offset		検索結果取得オフセット
+	 *	@param	int		$count		検索結果取得数
+	 *	@return	string	オブジェクト検索を行うSELECT文
+	 */
+	function _getSQL_SearchProp($keys, $filter, $order, $offset, $count)
+	{
+		$tables = implode(',', array_keys($this->table_def));
+
+		$def = $this->getDef();
+		$column = "";
+		if (is_null($keys)) {
+			$keys = array_keys($def);
+		}
+		foreach ($keys as $key) {
+			if (isset($def[$key]) == false) {
+				continue;
+			}
+			if ($column != "") {
+				$column .= ", ";
+			}
+			$column .= $key;
+		}
+
+		$condition = $this->_getSQL_SearchCondition($filter);
+
+		$sort = "";
+		if (is_array($order)) {
+			foreach ($order as $k => $v) {
+				if ($sort == "") {
+					$sort = "ORDER BY ";
+				} else {
+					$sort .= ", ";
+				}
+				$sort .= sprintf("%s %s", $k, $v == OBJECT_SORT_ASC ? "ASC" : "DESC");
+			}
+		}
+
+		$limit = "";
+		if (is_null($count) == false) {
+			$limit = "LIMIT ";
+			if (is_null($offset) == false) {
+				$limit .= sprintf("%d,", $offset);
+			}
+			$limit .= sprintf("%d", $count);
+		}
+
+		$sql = "SELECT $column FROM $tables $condition $sort $limit;";
 
 		return $sql;
 	}

@@ -92,6 +92,11 @@ class Ethna_ActionForm
 	 */
 	var $i18n;
 
+	/**
+	 *	@var	array	フォーム定義要素
+	 */
+	var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'convert', 'form_type', 'type');
+
 	/**#@-*/
 
 	/**
@@ -118,6 +123,13 @@ class Ethna_ActionForm
 
 		// フォーム値設定
 		foreach ($this->form as $name => $value) {
+			// 省略値補正
+			foreach ($this->def as $k) {
+				if (isset($value[$k]) == false) {
+					$this->form[$name][$k] = null;
+				}
+			}
+
 			if ($value['type'] == VAR_TYPE_FILE) {
 				@$this->form_vars[$name] =& $_FILES[$name];
 			} else {
@@ -670,7 +682,7 @@ class Ethna_ActionForm
 		if ($flag & CONVERT_1BYTE_KANA) {
 			$key .= "K";
 		}
-		if ($flag & CONVERT_2BYTE_DIGIT) {
+		if ($flag & CONVERT_2BYTE_NUMERIC) {
 			$key .= "n";
 		}
 		if ($flag & CONVERT_2BYTE_ALPHABET) {

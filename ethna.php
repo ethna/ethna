@@ -148,11 +148,14 @@ define('E_GENERAL', 1);
 /**	エラーコード: DB接続エラー */
 define('E_DB_CONNECT', 2);
 
+/**	エラーコード: DB設定なし */
+define('E_DB_NODSN', 3);
+
 /**	エラーコード: DBクエリエラー */
-define('E_DB_QUERY', 3);
+define('E_DB_QUERY', 4);
 
 /**	エラーコード: DBユニークキーエラー */
-define('E_DB_DUPENT', 4);
+define('E_DB_DUPENT', 5);
 
 /**	エラーコード: セッションエラー(有効期限切れ) */
 define('E_SESSION_EXPIRE', 16);
@@ -274,7 +277,7 @@ class Ethna
 	 *	@param	string	$message			エラーメッセージ(+引数)
 	 *	@static
 	 */
-	function &raiseError($code, $message)
+	function &raiseError($code, $message = null)
 	{
 		$message_arg_list = array_slice(func_get_args(), 2);
 		return new Ethna_Error(E_USER_ERROR, $code, $message, $message_arg_list);
@@ -288,7 +291,7 @@ class Ethna
 	 *	@param	string	$message			エラーメッセージ(+引数)
 	 *	@static
 	 */
-	function &raiseWarning($code, $message)
+	function &raiseWarning($code, $message = null)
 	{
 		$message_arg_list = array_slice(func_get_args(), 2);
 		return new Ethna_Error(E_USER_WARNING, $code, $message, $message_arg_list);
@@ -302,7 +305,7 @@ class Ethna
 	 *	@param	string	$message			エラーメッセージ(+引数)
 	 *	@static
 	 */
-	function &raiseNotice($code, $message)
+	function &raiseNotice($code, $message = null)
 	{
 		$message_arg_list = array_slice(func_get_args(), 2);
 		return new Ethna_Error(E_USER_NOTICE, $code, $message, $message_arg_list);

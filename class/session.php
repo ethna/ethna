@@ -87,7 +87,7 @@ class Ethna_Session
 			$this->session_start = true;
 
 			// check session
-			if ($this->isValidSession() == false) {
+			if ($this->isValid() == false) {
 				setcookie($this->session_name, "", 0, "/");
 				$this->session_start = false;
 			}

@@ -118,7 +118,7 @@ class Ethna_Util
 	 *	@param	string	$mailaddress	チェックするメールアドレス
 	 *	@return	bool	true: 正しいメールアドレス false: 不正な形式
 	 */
-	function isValidMailAddress($mailaddress)
+	function checkMailAddress($mailaddress)
 	{
 		if (preg_match('/^([a-z0-9_]|\-|\.|\+)+@(([a-z0-9_]|\-)+\.)+[a-z]{2,4}$/i', $mailaddress)) {
 			return true;
@@ -174,7 +174,7 @@ class Ethna_Util
 		foreach (array_keys($vars) as $name) {
 			if (is_array($vars[$name])) {
 				$retval[$name] = array();
-				Util::_escapeHtml($vars[$name], $retval[$name]);
+				Ethna_Util::_escapeHtml($vars[$name], $retval[$name]);
 			} else {
 				$retval[$name] = htmlspecialchars($vars[$name]);
 			}
