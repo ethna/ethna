@@ -1126,9 +1126,12 @@ class Ethna_Controller
 
 		// エントリポイントに配列が指定されている場合は指定以外のaction名は拒否する
 		if (is_array($default_action_name)) {
-			if (in_array($action_name, $default_action_name) == false) {
+			if ($this->_isAcceptableActionName($action_name, $default_action_name) == false) {
 				// 指定以外のaction名で合った場合は$fallback_action_name(or デフォルト)
 				$tmp = $fallback_action_name != "" ? $fallback_action_name : $default_action_name[0];
+				if ($tmp{strlen($tmp)-1} == '*') {
+					$tmp = substr($tmp, 0, -1);
+				}
 				$this->logger->log(LOG_DEBUG, '-> fallback_action_name[%s]', $tmp);
 				$action_name = $tmp;
 			}
@@ -1592,6 +1595,28 @@ class Ethna_Controller
 		$n = mt_rand(0, count($dsn_list)-1);
 		
 		return $dsn_list[$n];
+	}
+
+	/**
+	 *	アクション名が実行許可されているものかどうかを返す
+	 *
+	 *	@access	private
+	 *	@param	string	$action_name			リクエストされたアクション名
+	 *	@param	array	$default_action_name	許可されているアクション名
+	 *	@return	bool	true:許可 false:不許可
+	 */
+	function _isAcceptableActionName($action_name, $default_action_name)
+	{
+		foreach (to_array($default_action_name) as $name) {
+			if ($action_name == $name) {
+				return true;
+			} else if ($name{strlen($name)-1} == '*') {
+				if (strncmp($action_name, substr($name, 0, -1), strlen($name)-1) == 0) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
 // }}}
