@@ -31,7 +31,7 @@ class Ethna_SkeltonGenerator
 
 		$basedir = sprintf("%s/%s", $basedir, strtolower($id));
 
-		/* ディレクトリ作成 */
+		// ディレクトリ作成
 		if (is_dir($basedir) == false) {
 			if (mkdir($basedir, $mode) == false) {
 				return false;
@@ -50,7 +50,7 @@ class Ethna_SkeltonGenerator
 			}
 		}
 
-		/* スケルトンファイル作成 */
+		// スケルトンファイル作成
 		$macro['application_id'] = strtoupper($id);
 		$macro['project_id'] = ucfirst($id);
 		$macro['project_prefix'] = strtolower($id);
