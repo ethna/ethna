@@ -349,7 +349,7 @@ class Ethna_ActionForm
 					$valid_keys[] = $k;
 				}
 				if (count($valid_keys) == 0 && $value['required']) {
-					$this->ae->add(E_FORM_REQUIRED, $name, "{form}にファイルを選択して下さい");
+					$this->ae->add(E_FORM_REQUIRED, $name, "{form}を選択して下さい");
 					continue;
 				} else if (count($valid_keys) == 0 && $value['required'] == false) {
 					continue;

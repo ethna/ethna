@@ -287,6 +287,21 @@ class Ethna_Controller
 	}
 
 	/**
+	 *	アプリケーション拡張子設定を返す
+	 *
+	 *	@access	public
+	 *	@param	string	$key	拡張子タイプ("php", "tpl"...)
+	 *	@return	string	$keyに対応した拡張子(設定が無い場合はnull)
+	 */
+	function getExt($key)
+	{
+		if (isset($this->ext[$key]) == false) {
+			return null;
+		}
+		return $this->ext[$key];
+	}
+
+	/**
 	 *	i18nオブジェクトのアクセサ(R)
 	 *
 	 *	@access	public
@@ -453,6 +468,7 @@ class Ethna_Controller
 		$smarty->register_modifier('i18n', 'smarty_modifier_i18n');
 		$smarty->register_modifier('checkbox', 'smarty_modifier_checkbox');
 		$smarty->register_modifier('select', 'smarty_modifier_select');
+		$smarty->register_modifier('form_value', 'smarty_modifier_form_value');
 
 		// user defined modifiers
 		foreach ($this->smarty_modifier_plugin as $modifier) {

@@ -576,6 +576,7 @@ class Ethna_AppObject
 	 *
 	 *	@access	public
 	 *	@return	mixed	(int):追加したオブジェクトのID Ethna_Error:エラー
+	 *	@todo	フィールド定義にseq要素を追加してINSERT後に取得
 	 */
 	function add()
 	{
@@ -605,14 +606,12 @@ class Ethna_AppObject
 
 		// オブジェクトIDの取得
 		$insert_id = false;
-		foreach (to_array($this->id_def) as $k) {
-			if (isset($this->prop[$k]) == false || $this->prop[$k] === "" || $this->prop[$k] === null) {
-				$insert_id = true;
-				break;
-			}
+		if (is_array($this->id_def) == false && (isset($this->prop[$this->id_def]) == false || $this->prop[$$this->id_def] === "" || $this->prop[$this->id_def] === null)) {
+			$insert_id = true;
 		}
 		if ($insert_id) {
 			$this->id = $this->db->getInsertId();
+			$this->prop[$this->id_def] = $this->prop_backup[$this->id_def] = $this->id;
 		} else {
 			if (is_array($this->id_def)) {
 				$this->id = array();
@@ -1108,7 +1107,7 @@ class Ethna_AppObject
 				} else {
 					$condition .= " AND ";
 				}
-				$v = $this->prop_backup[$k];	// equals to $this->id
+				$v = $this->getId();
 				Ethna_AppSQL::escapeSQL($v);
 				$condition .= Ethna_AppSQL::getCondition($k, $v, OBJECT_CONDITION_NE);
 			}

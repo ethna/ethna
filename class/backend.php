@@ -273,6 +273,17 @@ class Ethna_Backend
 	}
 
 	/**
+	 *	アプリケーションのテンプレートファイル拡張子を取得する
+	 *
+	 *	@access	public
+	 *	@return	string	テンプレートファイルの拡張子
+	 */
+	function getTemplateext()
+	{
+		return $this->controller->getExt('tpl');
+	}
+
+	/**
 	 *	ログを出力する
 	 *
 	 *	@access	public

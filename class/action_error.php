@@ -322,7 +322,7 @@ class Ethna_ActionError
 	function addObject(&$error, $name = null)
 	{
 		list($message, $message_arg_list) = $error->getMessage_Raw();
-		$app_error =& new Ethna_AppError($error->getLevel(), $error->getCode(), $message, $message_arg_list, false);
+		$app_error =& new Ethna_AppError($error->getLevel(), $error->getCode(), $name, $message, $message_arg_list, false);
 		$this->error_list[] =& $app_error;
 	}
 
