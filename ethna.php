@@ -99,6 +99,16 @@ define('CLIENT_TYPE_SOAP', 2);
 define('CLIENT_TYPE_AMF', 3);
 
 
+/** DB種別定義: R/W */
+define('DB_TYPE_RW', 1);
+
+/** DB種別定義: R/O */
+define('DB_TYPE_RO', 2);
+
+/** DB種別定義: Misc  */
+define('DB_TYPE_MISC', 3);
+
+
 /**	要素型: 整数 */
 define('VAR_TYPE_INT', 1);
 
@@ -157,6 +167,9 @@ define('E_DB_QUERY', 4);
 
 /**	エラーコード: DBユニークキーエラー */
 define('E_DB_DUPENT', 5);
+
+/**	エラーコード: DB種別エラー */
+define('E_DB_INVALIDTYPE', 6);
 
 /**	エラーコード: セッションエラー(有効期限切れ) */
 define('E_SESSION_EXPIRE', 16);
