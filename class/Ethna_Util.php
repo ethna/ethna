@@ -440,7 +440,7 @@ class Ethna_Util
 			}
 			$now = strftime('%Y%m%d %T');
 			$time = gettimeofday();
-			$v = $now . $time['usec'] . $platform_value . rand(0, time());
+			$v = $now . $time['usec'] . $platform_value . mt_rand(0, time());
 			$value .= md5($v);
 		}
 
