@@ -29,17 +29,34 @@ class Ethna_SkeltonGenerator
 	 */
 	function generateProjectSkelton($basedir, $id)
 	{
-		$mode = 0755;
+		$dir_list = array(
+			array("app", 0755),
+			array("app/action", 0755),
+			array("bin", 0755),
+			array("etc", 0755),
+			array("lib", 0755),
+			array("locale", 0755),
+			array("locale/ja", 0755),
+			array("locale/ja/LC_MESSAGES", 0755),
+			array("log", 0777),
+			array("schema", 0755),
+			array("template", 0755),
+			array("template/ja", 0755),
+			array("tmp", 0777),
+			array("www", 0755),
+		);
 
 		$basedir = sprintf("%s/%s", $basedir, strtolower($id));
 
 		// ディレクトリ作成
 		if (is_dir($basedir) == false) {
-			if (mkdir($basedir, $mode) == false) {
+			if (mkdir($basedir, 0755) == false) {
 				return false;
 			}
 		}
-		foreach (array("app", "app/action", "bin", "etc", "lib", "locale", "locale/ja", "locale/ja/LC_MESSAGES", "log", "schema", "template", "template/ja", "tmp", "www") as $dir) {
+		foreach ($dir_list as $dir) {
+			$mode = $dir[1];
+			$dir = $dir[0];
 			$target = "$basedir/$dir";
 			if (is_dir($target)) {
 				printf("%s already exists -> skipping...\n", $target);
@@ -48,7 +65,10 @@ class Ethna_SkeltonGenerator
 			if (mkdir($target, $mode) == false) {
 				return false;
 			} else {
-				printf("proejct sub director created [%s]\n", $target);
+				printf("proejct sub directory created [%s]\n", $target);
+			}
+			if (chmod($target, $mode) == false) {
+				return false;
 			}
 		}
 
