@@ -1040,7 +1040,7 @@ class Ethna_AppObject
 			if (is_null($condition)) {
 				$condition = "WHERE ";
 			} else {
-				$condition = " AND ";
+				$condition .= " AND ";
 			}
 			$v = $this->prop_backup[$k];	// equals to $this->id
 			Ethna_AppSQL::escapeSQL($v);
