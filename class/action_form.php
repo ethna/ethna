@@ -475,6 +475,27 @@ class Ethna_ActionForm
 	}
 
 	/**
+	 *	チェックメソッド: bool値
+	 *
+	 *	@access	public
+	 *	@param	string	$name	フォーム項目名
+	 *	@return	object	Ethna_Error	エラーオブジェクト(エラーが無い場合はnull)
+	 */
+	function &checkBoolean($name)
+	{
+		$form_vars = $this->check($name);
+		if ($form_vars == null) {
+			return null;
+		}
+		foreach ($form_vars as $v) {
+			if ($v != "0" && $v != "1") {
+				return $this->ae->add(E_FORM_INVALIDCHAR, $name, '{form}を正しく入力してください');
+			}
+		}
+		return null;
+	}
+
+	/**
 	 *	チェックメソッド: メールアドレス
 	 *
 	 *	@access	public
