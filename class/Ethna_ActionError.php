@@ -63,7 +63,7 @@ class Ethna_ActionError
 		$elt = array();
 		$elt['name'] = $name;
 		$elt['object'] =& $error;
-		$this->error_list[] =& $elt;
+		$this->error_list[] = $elt;
 
 		// ログ出力(補足)
 		$af =& $this->_getActionForm();
@@ -83,7 +83,7 @@ class Ethna_ActionError
 		$elt = array();
 		$elt['name'] = $name;
 		$elt['object'] =& $error;
-		$this->error_list[] =& $elt;
+		$this->error_list[] = $elt;
 	}
 
 	/**

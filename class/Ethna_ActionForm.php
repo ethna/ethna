@@ -95,7 +95,11 @@ class Ethna_ActionForm
 
 			$type = to_array($value['type']);
 			if ($type[0] == VAR_TYPE_FILE) {
-				@$this->form_vars[$name] =& $_FILES[$name];
+				if (isset($_FILES[$name]) == false) {
+					$this->form_vars[$name] = null;
+				} else {
+					$this->form_vars[$name] = $_FILES[$name];
+				}
 			} else {
 				if (isset($http_vars[$name]) == false) {
 					if (isset($http_vars["{$name}_x"])) {
@@ -104,7 +108,7 @@ class Ethna_ActionForm
 						@$this->form_vars[$name] = null;
 					}
 				} else {
-					@$this->form_vars[$name] = $http_vars[$name];
+					$this->form_vars[$name] = $http_vars[$name];
 				}
 			}
 		}

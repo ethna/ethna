@@ -527,7 +527,7 @@ class Ethna_Util
 
         if (DIRECTORY_SEPARATOR == '/' && (substr($path, 0, 1) == '/' OR substr($path, 0, 1) == '~')) {
             return true;
-        } elseif (DIRECTORY_SEPARATOR == '\\' && preg_match('/^[a-z]:\\\/i', $path)) {
+        } else if (DIRECTORY_SEPARATOR == '\\' && preg_match('/^[a-z]:\\\/i', $path)) {
             return true;
         }
 
