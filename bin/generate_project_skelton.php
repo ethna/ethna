@@ -11,6 +11,15 @@
  */
 
 // ディレクトリ環境設定
+if (!defined('PATH_SEPARATOR')) {
+	if (OS_WINDOWS) {
+		/** include_pathセパレータ(Windows) */
+		define('PATH_SEPARATOR', ';');
+	} else {
+		/** include_pathセパレータ(Unix) */
+		define('PATH_SEPARATOR', ':');
+	}
+}
 $base = dirname(dirname(dirname(__FILE__)));
 ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . "$base");
 
