@@ -4,7 +4,11 @@
 
 *** features
 
+- Ethna_AppObjectでJOINした場合に、(可能なら)プライマリキーでGROUP BYするように変更
+
 *** bug fixes
+
+- __ethna_info__が全く動作しない問題を修正:(
 
 ** [2005/01/13] 0.1.3
 

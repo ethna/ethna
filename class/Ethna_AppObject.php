@@ -941,7 +941,7 @@ class Ethna_AppObject
 		$column_id = $this->_getPrimaryTable() . "." . $id_def[0];	// any id columns will do
 
 		$condition = $this->_getSQL_SearchCondition($filter);
-		$sql = "SELECT DISTINCT COUNT($column_id) AS id_count FROM $tables $condition";
+		$sql = "SELECT COUNT(DISTINCT $column_id) AS id_count FROM $tables $condition";
 
 		return $sql;
 	}
@@ -1029,6 +1029,7 @@ class Ethna_AppObject
 
 		// カラム
 		$column = "";
+		$group_by = "";
 		if (is_null($keys)) {
 			$keys = array_keys($def);
 		}
@@ -1041,6 +1042,19 @@ class Ethna_AppObject
 			}
 			$t = isset($def[$key]['table']) ? $def[$key]['table'] : $p_table;
 			$column .= sprintf("%s.%s", $t, $key);
+
+			// フィールドがプライマリーキーならGROUP BYする
+			if ((isset($def[$key]['table']) && $def[$key]['table'] == $p_table) ||
+				isset($def[$key]['table']) == false) {
+				if ($def[$key]['primary']) {
+					if ($group_by != "") {
+						$group_by .= ",";
+					} else {
+						$group_by .= "GROUP BY";
+					}
+					$group_by .= " $column";
+				}
+			}
 		}
 
 		$condition = $this->_getSQL_SearchCondition($filter);
@@ -1066,7 +1080,7 @@ class Ethna_AppObject
 			$limit .= sprintf("%d", $count);
 		}
 
-		$sql = "SELECT $column FROM $tables $condition $sort $limit";
+		$sql = "SELECT $column FROM $tables $condition $group_by $sort $limit";
 
 		return $sql;
 	}

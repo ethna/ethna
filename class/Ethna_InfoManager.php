@@ -76,6 +76,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 	{
 		parent::Ethna_AppManager($backend);
 		$this->ctl =& Ethna_Controller::getInstance();
+		$this->class_factory =& $this->ctl->getClassFactory();
 
 		// アクションスクリプト解析結果キャッシュ取得
 		$this->cache_class_list_file = sprintf('%s/ethna_info_class_list', $this->ctl->getDirectory('tmp'));
