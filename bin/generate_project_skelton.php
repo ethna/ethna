@@ -10,6 +10,8 @@
  *	@version	$Id$
  */
 
+include_once('PEAR.php');
+
 // ディレクトリ環境設定
 if (!defined('PATH_SEPARATOR')) {
 	if (OS_WINDOWS) {
