@@ -4,10 +4,14 @@
 
 *** features
 
+- class_path, form_path, view_path属性のフルパス指定サポートを追加
 - スクリプトを1ファイルにまとめるツール(bin/unify_script.php)を追加
 
 *** bug fixes
 
+- プロジェクトスケルトン生成時にアプリケーションIDの文字種/予約語をチェックするように修正
+- 'form_name'を指定すると無用に警告が発生する問題を修正
+- 絶対パス判定のプラットフォーム依存を修正(Windows対応改善)
 - VAR_TYPE_INTとVAR_TYPE_FLOATの定義値が重複していた問題を修正
 - SOAP/Mobile(AU)でアクションスクリプトのパスが正しく取得できない問題を修正
 - Ethna_Util::getRandom()でmt_srand()しつつrand()を呼んでいた箇所をmt_rand()を呼び出すように修正
