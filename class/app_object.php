@@ -1114,7 +1114,7 @@ class Ethna_AppObject
 	 *	</code>
 	 *
 	 *	@access	protected
-	 *	@return	テーブルJOINのSQL文
+	 *	@return	string	テーブルJOINのSQL文
 	 */
 	function _SQLPlugin_SearchTable()
 	{
