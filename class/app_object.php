@@ -606,7 +606,7 @@ class Ethna_AppObject
 
 		// オブジェクトIDの取得
 		$insert_id = false;
-		if (is_array($this->id_def) == false && (isset($this->prop[$this->id_def]) == false || $this->prop[$$this->id_def] === "" || $this->prop[$this->id_def] === null)) {
+		if (is_array($this->id_def) == false && (isset($this->prop[$this->id_def]) == false || $this->prop[$this->id_def] === "" || $this->prop[$this->id_def] === null)) {
 			$insert_id = true;
 		}
 		if ($insert_id) {
