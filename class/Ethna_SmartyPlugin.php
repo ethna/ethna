@@ -194,7 +194,9 @@ function smarty_modifier_unique($array, $key = null)
 }
 
 /**
- *	smarty modifier:文字列のwordwrap処理(EUC-JP対応)
+ *	smarty modifier:文字列のwordwrap処理
+ *
+ *	[現在EUC-JP対応はEUC-JPのみ対応]
  *
  *	sample:
  *	<code>
@@ -266,7 +268,7 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
  */
 function smarty_modifier_truncate_i18n($string, $len = 80, $postfix = "...")
 {
-	return mb_strimwidth($string, 0, $len, $postfix, 'EUC-JP');
+	return mb_strimwidth($string, 0, $len, $postfix);
 }
 
 /**

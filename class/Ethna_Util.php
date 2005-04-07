@@ -296,7 +296,7 @@ class Ethna_Util
 		while ($pos < mb_strlen($string))
 		{
 			$tmp = mb_strimwidth($string, $pos, $split, "");
-			$pos += mb_strlen($tmp, 'EUC-JP');
+			$pos += mb_strlen($tmp);
 			$_string .= (($_string)? ' ' : '') . mb_encode_mimeheader($tmp, 'ISO-2022-JP');
 		}
 		return $_string;

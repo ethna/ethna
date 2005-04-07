@@ -5,6 +5,7 @@
 *** features
 
 - smarty_function_selectに$empty引数を追加
+- mb_*の変換元エンコーディングを、EUC-JP固定から内部エンコーディングに変更
 
 *** bug fixes
 

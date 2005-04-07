@@ -191,7 +191,7 @@ class Ethna_MailSender
 			$header[$i][] = preg_replace('/([^\x00-\x7f]+)/e', "Ethna_Util::encode_MIME('$1')", $value);
 		}
 
-		$body = mb_convert_encoding($body, "ISO-2022-JP", "EUC-JP");
+		$body = mb_convert_encoding($body, "ISO-2022-JP");
 
 		return array($header, $body);
 	}

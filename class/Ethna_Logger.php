@@ -399,7 +399,7 @@ class Ethna_Logger extends Ethna_AppManager
 		}
 
 		foreach ($this->alert_mailaddress as $mailaddress) {
-			mail($mailaddress, $subject, mb_convert_encoding($mail, "ISO-2022-JP", "EUC-JP"), $header);
+			mail($mailaddress, $subject, mb_convert_encoding($mail, "ISO-2022-JP"), $header);
 		}
 
 		set_error_handler("ethna_error_handler");
