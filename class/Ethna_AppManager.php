@@ -81,7 +81,7 @@ class Ethna_AppManager
 		$this->af =& $this->action_form;
 		$this->session =& $backend->getSession();
 
-		$db_list = $backend->getDBlist();
+		$db_list = $backend->getDBList();
 		if (Ethna::isError($db_list) == false) {
 			foreach ($db_list as $elt) {
 				$varname = $elt['varname'];

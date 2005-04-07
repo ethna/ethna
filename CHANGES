@@ -7,6 +7,8 @@
 - smarty_function_selectに$empty引数を追加
 - mb_*の変換元エンコーディングを、EUC-JP固定から内部エンコーディングに変更
 - Ethna_Backend::begin(), Ethna_Backend::commit(), Ethna_Backend::rollback()を廃止
+- Ethna_Controller::getDB()をEthna_Controller::getDBType()に変更
+- Ethna_DBクラスを抽象クラス(扱い)として新たにEthna_DBクラスを実装したEthna_DB_PEARクラスを追加
 
 *** bug fixes
 

@@ -339,10 +339,10 @@ class Ethna_Controller
 	 *	DB設定を返す
 	 *
 	 *	@access	public
-	 *	@param	string	$key	DBタイプ("r", ...)
+	 *	@param	string	$key	DBキー("r", ...)
 	 *	@return	string	$keyに対応するDB種別定義(設定が無い場合はnull)
 	 */
-	function getDB($key)
+	function getDBType($key)
 	{
 		if (isset($this->db[$key]) == false) {
 			return null;

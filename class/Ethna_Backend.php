@@ -349,6 +349,12 @@ class Ethna_Backend
 
 		$class_factory =& $this->controller->getClassFactory();
 		$db_class_name = $class_factory->getObjectName('db');
+		
+		// BC: Ethna_DB -> Ethna_DB_PEAR
+		if ($db_class_name == 'Ethna_DB') {
+			$db_class_name = 'Ethna_DB_PEAR';
+		}
+
 		$this->db[$key] =& new $db_class_name($this->controller, $dsn, $dsn_persistent);
 		$r = $this->db[$key]->connect();
 		if (Ethna::isError($r)) {
@@ -368,7 +374,7 @@ class Ethna_Backend
 	 *	@return	mixed	array:Ethna_DBオブジェクトの一覧 Ethan_Error:(いずれか一つ以上の接続で)エラー
 	 *	@todo	respect access controlls
 	 */
-	function getDBlist()
+	function getDBList()
 	{
 		$r = array();
 		foreach ($this->controller->db as $key => $value) {
@@ -404,7 +410,7 @@ class Ethna_Backend
 	}
 
 	/**
-	 *	指定されたDB種別に対応するDBオブジェクトを格納したメンバ変数を取得する
+	 *	指定されたDB種別に対応する(当該DBオブジェクトを格納するための)メンバ変数名を取得する
 	 *
 	 *	@access	private
 	 *	@param	string	$type	DB種別
@@ -412,7 +418,7 @@ class Ethna_Backend
 	 */
 	function &_getDB($type = "")
 	{
-		$r = $this->controller->getDB($type);
+		$r = $this->controller->getDBType($type);
 		if (is_null($r)) {
 			return Ethna::raiseError(E_DB_INVALIDTYPE, "未定義のDB種別[%s]", $type);
 		}
