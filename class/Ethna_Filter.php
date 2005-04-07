@@ -61,6 +61,7 @@ class Ethna_Filter
 	 *	実行前フィルタ
 	 *
 	 *	@access	public
+	 *	@return	Ethna_Error:実行中止 any:正常終了
 	 */
 	function preFilter()
 	{
@@ -84,6 +85,7 @@ class Ethna_Filter
 	 *	@access	public
 	 *	@param	string	$action_name	実行されたアクション名
 	 *	@param	string	$forward_name	実行されたアクションからの戻り値
+	 *	@return	string	null:正常終了 (string):遷移名を変更
 	 */
 	function postActionFilter($action_name, $forward_name)
 	{
@@ -94,6 +96,7 @@ class Ethna_Filter
 	 *	実行後フィルタ
 	 *
 	 *	@access	public
+	 *	@return	Ethna_Error:実行中止 any:正常終了
 	 */
 	function postFilter()
 	{

@@ -617,7 +617,10 @@ class Ethna_Controller
 
 		// 実行前フィルタ
 		for ($i = 0; $i < count($this->filter_chain); $i++) {
-			$this->filter_chain[$i]->preFilter();
+			$r = $this->filter_chain[$i]->preFilter();
+			if (Ethna::isError($r)) {
+				return;
+			}
 		}
 
 		// trigger
@@ -631,7 +634,10 @@ class Ethna_Controller
 
 		// 実行後フィルタ
 		for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
-			$this->filter_chain[$i]->postFilter();
+			$r = $this->filter_chain[$i]->postFilter();
+			if (Ethna::isError($r)) {
+				return $r;
+			}
 		}
 	}
 

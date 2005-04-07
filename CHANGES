@@ -6,12 +6,13 @@
 
 - smarty_function_selectに$empty引数を追加
 - mb_*の変換元エンコーディングを、EUC-JP固定から内部エンコーディングに変更
-- Ethna_Backend::begin(), Ethna_Backend::commit(), Ethna_Backend::rollback()を廃止
+- Ethna_Backend::begin()、Ethna_Backend::commit()、Ethna_Backend::rollback()を廃止
 - Ethna_Controller::getDB()をEthna_Controller::getDBType()に変更
 - Ethna_DBクラスを抽象クラス(扱い)として新たにEthna_DBクラスを実装したEthna_DB_PEARクラスを追加
 - Ethna_LogWriterクラスを抽象クラス(扱い)として新たにEthna_LogWriterクラスを実装したEthna_LogWriter_Echo、Ethna_LogWriter_File、Ethna_LogWriter_Syslogクラスを追加
 - log_facilityがnullの場合のログ出力クラスをEthna_LogWriter_EchoからEthna_LogWriterに変更(ログ出力なし)
 - log_facilityにクラス名を書いた場合はそのクラスをログ出力クラスとして利用するように変更
+- Ethna_Filter::preFilter()、Ethna_Filter::postFilter()がEthna_Errorオブジェクトを返した場合は実行を中止するように変更
 
 *** bug fixes
 
