@@ -1381,6 +1381,8 @@ class Ethna_Controller
 		$smarty->template_dir = $this->getTemplatedir();
 		$smarty->compile_dir = $this->getDirectory('template_c');
 		$smarty->compile_id = md5($smarty->template_dir);
+
+		// 一応がんばってみる
 		if (@is_dir($smarty->compile_dir) == false) {
 			mkdir($smarty->compile_dir, 0755);
 		}
