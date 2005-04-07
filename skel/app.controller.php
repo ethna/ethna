@@ -121,7 +121,7 @@ class {$project_id}_Controller extends Ethna_Controller
 		'class'			=> 'Ethna_ClassFactory',
 		'backend'		=> 'Ethna_Backend',
 		'config'		=> 'Ethna_Config',
-		'db'			=> 'Ethna_DB',
+		'db'			=> 'Ethna_DB_PEAR',
 		'error'			=> 'Ethna_ActionError',
 		'form'			=> 'Ethna_ActionForm',
 		'i18n'			=> 'Ethna_I18N',
