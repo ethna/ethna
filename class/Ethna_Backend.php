@@ -404,51 +404,6 @@ class Ethna_Backend
 	}
 
 	/**
-	 *	DBトランザクションを開始する
-	 *
-	 *	@access	public
-	 *	@deprecated
-	 */
-	function begin()
-	{
-		$db =& $this->db[""];
-		if ($db == null || $db->isValid() == false) {
-			$this->log(LOG_WARNING, "begin() with inactive DB object");
-		}
-		$db->begin();
-	}
-
-	/**
-	 *	DBトランザクションを中断する
-	 *
-	 *	@access	public
-	 *	@deprecated
-	 */
-	function rollback()
-	{
-		$db =& $this->db[""];
-		if ($db == null || $db->isValid() == false) {
-			$this->log(LOG_WARNING, "rollback() with inactive DB object");
-		}
-		$db->rollback();
-	}
-
-	/**
-	 *	DBトランザクションをコミットする
-	 *
-	 *	@access	public
-	 *	@deprecated
-	 */
-	function commit()
-	{
-		$db =& $this->db[""];
-		if ($db == null || $db->isValid() == false) {
-			$this->log(LOG_WARNING, "commit() with inactive DB object");
-		}
-		$db->commit();
-	}
-
-	/**
 	 *	指定されたDB種別に対応するDBオブジェクトを格納したメンバ変数を取得する
 	 *
 	 *	@access	private
