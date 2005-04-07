@@ -80,7 +80,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
 	$logger->log($level, sprintf("[PHP] %s: %s in %s on line %d", $name, $errstr, $errfile, $errline));
 
 	$facility = $logger->getLogFacility();
-	if (($facility != LOG_ECHO && is_null($facility) == false) && ini_get('display_errors') && (error_reporting() & $errno)) {
+	if (($facility != LOG_ECHO) && ini_get('display_errors') && (error_reporting() & $errno)) {
 		if ($c->getCLI()) {
 			$format = "%s: %s in %s on line %d\n";
 		} else {
@@ -340,12 +340,22 @@ class Ethna_Logger extends Ethna_AppManager
 	 */
 	function &_getLogWriter($file, $option)
 	{
-		if ($this->facility == LOG_FILE) {
-			$writer_class = "Ethna_LogWriter_File";
-		} else if ($this->facility == LOG_ECHO || is_null($this->facility)) {
+		if (is_null($this->facility)) {
 			$writer_class = "Ethna_LogWriter";
-		} else {
-			$writer_class = "Ethna_LogWriter_Syslog";
+		} else if (is_integer($this->facility)) {
+			if ($this->facility == LOG_FILE) {
+				$writer_class = "Ethna_LogWriter_File";
+			} else if ($this->facility == LOG_ECHO) {
+				$writer_class = "Ethna_LogWriter_Echo";
+			} else {
+				$writer_class = "Ethna_LogWriter_Syslog";
+			}
+		} else if (is_string($this->facility)) {
+			$writer_class = $this->facility;
+			if (class_exists($writer_class) == false) {
+				// falling back to default
+				$writer_class = "Ethna_LogWriter";
+			}
 		}
 		return new $writer_class($this->controller->getAppId(), $this->facility, $file, $option);
 	}
@@ -480,9 +490,10 @@ class Ethna_Logger extends Ethna_AppManager
 			'user'		=> LOG_USER,
 			'uucp'		=> LOG_UUCP,
 			'file'		=> LOG_FILE,
+			'echo'		=> LOG_ECHO,
 		);
 		if (isset($facility_map_table[strtolower($facility)]) == false) {
-			return null;
+			return $facility;
 		}
 		return $facility_map_table[strtolower($facility)];
 	}

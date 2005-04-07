@@ -88,32 +88,6 @@ class Ethna_LogWriter
 	 */
 	function log($level, $message)
 	{
-		$c =& Ethna_Controller::getInstance();
-
-		$prefix = $this->ident;
-		if ($this->option & LOG_PID) {
-			$prefix .= sprintf('[%d]', getmypid());
-		}
-		$prefix .= sprintf($c->getCLI() ? '(%s): ' : '(<b>%s</b>): ',
-			$this->_getLogLevelName($level)
-		);
-		if ($this->option & (LOG_FUNCTION | LOG_POS)) {
-			$tmp = "";
-			$bt = $this->_getBacktrace();
-			if ($bt && ($this->option & LOG_FUNCTION) && $bt['function']) {
-				$tmp .= $bt['function'];
-			}
-			if ($bt && ($this->option & LOG_POS) && $bt['pos']) {
-				$tmp .= $tmp ? sprintf('(%s)', $bt['pos']) : $bt['pos'];
-			}
-			if ($tmp) {
-				$prefix .= $tmp . ": ";
-			}
-		}
-
-		printf($prefix . $message . "%s\n", $c->getCLI() ? "" : "<br />");
-
-		return $prefix . $message;
 	}
 
 	/**
