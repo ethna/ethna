@@ -619,7 +619,7 @@ class Ethna_Controller
 		for ($i = 0; $i < count($this->filter_chain); $i++) {
 			$r = $this->filter_chain[$i]->preFilter();
 			if (Ethna::isError($r)) {
-				return;
+				return $r;
 			}
 		}
 
@@ -645,8 +645,8 @@ class Ethna_Controller
 	 *	フレームワークの処理を実行する(WWW)
 	 *
 	 *	引数$default_action_nameに配列が指定された場合、その配列で指定された
-	 *	アクション以外は受け付けない(それ以外のアクションが指定された場合、
-	 *	配列の先頭で指定されたアクションが実行される)
+	 *	アクション以外は受け付けない(指定されていないアクションが指定された
+	 *	場合、配列の先頭で指定されたアクションが実行される)
 	 *
 	 *	@access	private
 	 *	@param	mixed	$default_action_name	指定のアクション名
@@ -665,7 +665,7 @@ class Ethna_Controller
 				$this->logger->log(LOG_DEBUG, 'undefined action [%s] -> try fallback action [%s]', $action_name, $fallback_action_name);
 				$action_obj =& $this->_getAction($fallback_action_name);
 			}
-			if ($action_obj == null) {
+			if (is_null($action_obj)) {
 				return Ethna::raiseError("undefined action [%s]", E_APP_UNDEFINED_ACTION, $action_name);
 			} else {
 				$action_name = $fallback_action_name;
@@ -1703,6 +1703,10 @@ class Ethna_Controller
 	 */
 	function _selectDSN($type, $dsn_list)
 	{
+		if (is_array($dsn_list) == false) {
+			return $dsn_list;
+		}
+
 		// デフォルト:ランダム
 		list($usec, $sec) = explode(' ', microtime());
 		mt_srand($sec + ((float) $usec * 100000));
