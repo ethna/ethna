@@ -612,10 +612,17 @@ class Ethna_InfoManager extends Ethna_AppManager
 
 		// class
 		$elts = array();
+		$elts['バックエンド'] = $this->class_factory->getObjectName('backend');
+		$elts['クラスファクトリ'] = $this->class_factory->getObjectName('class');
 		$elts['設定'] = $this->class_factory->getObjectName('config');
 		$elts['DB'] = $this->class_factory->getObjectName('db');
+		$elts['エラー'] = $this->class_factory->getObjectName('error');
+		$elts['フォーム'] = $this->class_factory->getObjectName('form');
 		$elts['ログ'] = $this->class_factory->getObjectName('logger');
+		$elts['i18n'] = $this->class_factory->getObjectName('i18n');
+		$elts['セッション'] = $this->class_factory->getObjectName('session');
 		$elts['SQL'] = $this->class_factory->getObjectName('sql');
+		$elts['ビュー'] = $this->class_factory->getObjectName('view');
 		$r['クラス'] = $elts;
 
 		// DB
