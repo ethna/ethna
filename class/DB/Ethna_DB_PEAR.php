@@ -17,7 +17,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_DB_PEAR
+class Ethna_DB_PEAR extends Ethna_DB
 {
 	/**#@+
 	 *	@access	private
