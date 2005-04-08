@@ -59,6 +59,9 @@ class Ethna_ActionForm
 	/**	@var	array	フォーム定義要素 */
 	var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'filter', 'form_type', 'type');
 
+	/**	@var	bool	追加検証強制フラグ */
+	var	$force_validate_plus = false;
+
 	/**#@-*/
 
 	/**
@@ -304,6 +307,28 @@ class Ethna_ActionForm
 	}
 
 	/**
+	 *	追加検証強制フラグを取得する
+	 *
+	 *	@access	public
+	 *	@return	bool	true:追加検証強制(通常検証でエラーが発生した場合でも_validatePlus()が呼び出される) false:追加検証非強制
+	 */
+	function isForceValidatePlus()
+	{
+		return $this->force_validate_plus;
+	}
+
+	/**
+	 *	追加検証強制フラグを設定する
+	 *
+	 *	@access	public
+	 *	@param	$force_validate_plus	追加検証強制フラグ
+	 */
+	function setForceValidatePlus($force_validate_plus)
+	{
+		$this->force_validate_plus = $force_validate_plus;
+	}
+
+	/**
 	 *	フォーム値検証メソッド
 	 *
 	 *	@access	public
@@ -403,7 +428,7 @@ class Ethna_ActionForm
 			}
 		}
 
-		if ($this->ae->count() == 0) {
+		if ($this->ae->count() == 0 || $this->isForceValidatePlus()) {
 			// 追加検証メソッド
 			$this->_validatePlus();
 		}
