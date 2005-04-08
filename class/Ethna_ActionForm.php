@@ -379,7 +379,7 @@ class Ethna_ActionForm
 					}
 					// カスタムメソッドの実行
 					if ($value['custom'] != null) {
-						$this->{$value['custom']}($name);
+						$this->_validateCustom($def['custom'], $name);
 					}
 				} else {
 					if (is_array($value['type'])) {
@@ -407,7 +407,7 @@ class Ethna_ActionForm
 					}
 					// カスタムメソッドの実行
 					if ($value['custom'] != null) {
-						$this->{$value['custom']}($name);
+						$this->_validateCustom($def['custom'], $name);
 					}
 				} else {
 					if (is_array($value['type'])) {
@@ -852,13 +852,31 @@ class Ethna_ActionForm
 		// custom (TODO: respect $test flag)
 		if ($def['custom'] != null) {
 			if (isset($this->form[$name]['type']) && is_array($this->form[$name]['type']) == false) {
-				$this->{$def['custom']}($name);
+				$this->_validateCustom($def['custom'], $name);
 			} else {
 				// 配列指定の場合は全要素一括でカスタムメソッドを実行するためスキップ
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 *	カスタムチェックメソッドを実行する
+	 *
+	 *	@access	protected
+	 *	@param	string	$method_list	カスタムメソッド名(カンマ区切り)
+	 *	@param	string	$name			フォーム項目名
+	 */
+	function _validateCustom($method_list, $name)
+	{
+		$method_list = preg_split('/\s*,\s*/', $method_list, -1, PREG_SPLIT_NO_EMPTY);
+		if (is_array($method_list) == false) {
+			return;
+		}
+		foreach ($method_list as $method) {
+			$this->$method($name);
+		}
 	}
 
 	/**

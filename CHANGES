@@ -15,6 +15,7 @@
 - Ethna_Filter::preFilter()、Ethna_Filter::postFilter()がEthna_Errorオブジェクトを返した場合は実行を中止するように変更
 - Ethna_InfoManagerの設定表示項目を追加
 - Ethna_ActionForm::isForceValidatePlus()、Ethna_ActionForm::setForceValidatePlus()メソッドと、$force_validate_plusメンバを追加($force_validate_plusをtrueに設定すると、通常検証でエラーが発生した場合でも_validatePlus()メソッドが実行される−デフォルト:false)
+- フォーム値定義のcustom属性にカンマ区切りでの複数メソッドサポートを追加
 
 *** bug fixes
 
