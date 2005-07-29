@@ -73,7 +73,15 @@ class Ethna_Session
 		if (array_key_exists($this->session_name, $http_vars) && $http_vars[$this->session_name] != null) {
 			$_COOKIE[$this->session_name] = $http_vars[$this->session_name];
 		}
+	}
 
+	/**
+	 *	セッションを復帰する
+	 *
+	 *	@access	public
+	 */
+	function restore()
+	{
 		if (!empty($_COOKIE[$this->session_name]) || session_id() != null) {
 			session_start();
 			$this->session_start = true;

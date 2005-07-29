@@ -691,6 +691,8 @@ class Ethna_Controller
 
 		// バックエンド処理実行
 		$backend =& $this->getBackend();
+		$session =& $this->getSession();
+		$session->restore();
 		$forward_name = $backend->perform($action_name);
 
 		// アクション実行後フィルタ
@@ -730,9 +732,6 @@ class Ethna_Controller
 	 */
 	function _trigger_SOAP()
 	{
-		// アクションスクリプトをインクルード
-		$this->_includeActionScript();
-
 		// SOAPエントリクラス
 		$gg =& new Ethna_SoapGatewayGenerator();
 		$script = $gg->generate();
