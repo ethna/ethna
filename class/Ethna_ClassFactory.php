@@ -110,7 +110,8 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Backend($class_name)
 	{
-		return new $class_name($this->ctl);
+		$_ret_object = new $class_name($this->ctl);
+		return $_ret_object;
 	}
 
 	/**
@@ -122,7 +123,8 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Config($class_name)
 	{
-		return new $class_name($this->ctl);
+		$_ret_object = new $class_name($this->ctl);
+		return $_ret_object;
 	}
 
 	/**
@@ -134,7 +136,8 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_I18n($class_name)
 	{
-		return new $class_name($this->ctl->getDirectory('locale'), $this->ctl->getAppId());
+		$_ret_object = new $class_name($this->ctl->getDirectory('locale'), $this->ctl->getAppId());
+		return $_ret_object;
 	}
 
 	/**
@@ -146,7 +149,8 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Logger($class_name)
 	{
-		return new $class_name($this->ctl);
+		$_ret_object = new $class_name($this->ctl);
+		return $_ret_object;
 	}
 
 	/**
@@ -158,7 +162,8 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Session($class_name)
 	{
-		return new $class_name($this->ctl->getAppId(), $this->ctl->getDirectory('tmp'), $this->ctl->getLogger());
+		$_ret_object = new $class_name($this->ctl->getAppId(), $this->ctl->getDirectory('tmp'), $this->ctl->getLogger());
+		return $_ret_object;
 	}
 
 	/**
@@ -170,7 +175,8 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Sql($class_name)
 	{
-		return new $class_name($this->ctl);
+		$_ret_object = new $class_name($this->ctl);
+		return $_ret_object;
 	}
 }
 // }}}

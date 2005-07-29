@@ -357,7 +357,8 @@ class Ethna_Logger extends Ethna_AppManager
 				$writer_class = "Ethna_LogWriter";
 			}
 		}
-		return new $writer_class($this->controller->getAppId(), $this->facility, $file, $option);
+		$_ret_object = new $writer_class($this->controller->getAppId(), $this->facility, $file, $option);
+		return $_ret_object;
 	}
 
 	/**
