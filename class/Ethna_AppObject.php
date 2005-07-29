@@ -163,7 +163,11 @@ class Ethna_AppObject
 	 */
 	function isValid()
 	{
-		return is_null($this->id) ? false : true;
+		if (is_array($this->id)) {
+			return is_null($this->id[0]) ? false : true;
+		} else {
+			return is_null($this->id) ? false : true;
+		}
 	}
 
 	/**
@@ -1255,6 +1259,12 @@ class Ethna_AppObject
 		foreach ($field as $key => $value) {
 			if (array_key_exists($key, $def) == false) {
 				return true;
+			}
+			if (is_object($value)) {
+				// Ethna_AppSearchObject
+				if ($value->isTarget($key)) {
+					return true;
+				}
 			}
 		}
 		return false;
