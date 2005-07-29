@@ -82,7 +82,7 @@ class Ethna_Backend
 		$this->action_form =& $controller->getActionForm();
 		$this->af =& $this->action_form;
 
-		$this->session =& $controller->getSession();
+		$this->session =& $this->controller->getSession();
 		$this->db = array();
 		$this->logger =& $this->controller->getLogger();
 
