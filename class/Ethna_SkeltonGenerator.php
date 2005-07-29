@@ -217,6 +217,8 @@ class Ethna_SkeltonGenerator
 	 */
 	function _generateFile($skel, $entity, $macro)
 	{
+		$base = null;
+
 		if (file_exists($entity)) {
 			printf("file [%s] aleady exists -> skip\n", $entity);
 			return true;

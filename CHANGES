@@ -19,6 +19,7 @@
 
 *** bug fixes
 
+- [[#6074>http://sourceforge.jp/tracker/index.php?func=detail&aid=6074&group_id=1343&atid=5092]](generate_project_skelton.phpの動作異常)を修正
 - safe_mode=onの場合にuid/gid warningが発生する(可能性のある)問題を修正
 - 不要な参照渡しを削除
 - その他細かな修正(elseif -> else if等)
