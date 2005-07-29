@@ -1,6 +1,6 @@
 * 変更点一覧
 
-** [current] 0.1.6-dev
+** [current] 0.2.0-dev
 
 *** features
 
@@ -24,6 +24,12 @@
 - その他細かな修正(elseif -> else if等)
 - PATH_SEPARATOR/DIRECTORY_SEPARATORが未定義の場合(PHP 4.1.x等)の問題を修正
 - smarty_modifier_wordwrap_i18n()の改行対応
+- ユーザ定義フォーム検証メソッドが呼び出されない(ことがある)問題を修正
+- マルチカラムプライマリキー利用時にオブジェクトの正当性が正しく判別できない問題を修正
+- Ethna_AppObjectのJOIN検索がSQLエラーになる（ことがある）問題を修正
+- セッションを復帰させるタイミングを遅延(無限ループする問題を修正)
+- Ethna_MalSenderからmail()関数にオプションを渡せるように修正
+- Ethna_View_List::_fixNameObjectに対象オブジェクトも渡すように修正
 
 
 ** [2005/03/02] 0.1.5
