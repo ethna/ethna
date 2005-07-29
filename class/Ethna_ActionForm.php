@@ -379,7 +379,7 @@ class Ethna_ActionForm
 					}
 					// カスタムメソッドの実行
 					if ($value['custom'] != null) {
-						$this->_validateCustom($def['custom'], $name);
+						$this->_validateCustom($value['custom'], $name);
 					}
 				} else {
 					if (is_array($value['type'])) {
@@ -407,7 +407,7 @@ class Ethna_ActionForm
 					}
 					// カスタムメソッドの実行
 					if ($value['custom'] != null) {
-						$this->_validateCustom($def['custom'], $name);
+						$this->_validateCustom($value['custom'], $name);
 					}
 				} else {
 					if (is_array($value['type'])) {
