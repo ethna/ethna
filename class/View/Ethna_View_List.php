@@ -85,7 +85,7 @@ class Ethna_View_List extends Ethna_ViewClass
 		$r = array();
 		foreach ($obj_list as $obj) {
 			$value = $obj->getNameObject();
-			$value = $this->_fixNameObject($value);
+			$value = $this->_fixNameObject($value, $obj);
 			$r[] = $value;
 		}
 		$list_name = sprintf("%s_list", strtolower(preg_replace('/(.)([A-Z])/', '\\1_\\2', $this->class_name)));
@@ -104,9 +104,9 @@ class Ethna_View_List extends Ethna_ViewClass
 	 *
 	 *	@access	protected
 	 */
-	function _fixNameObject($obj)
+	function _fixNameObject($value, $obj)
 	{
-		return $obj;
+		return $value;
 	}
 	
 	/**
