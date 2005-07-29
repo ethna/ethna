@@ -97,6 +97,27 @@ class Ethna_AppSearchObject
 	}
 
 	/**
+	 *	指定されたフィールドが検索対象となっているかどうかを返す
+	 *
+	 *	@access	public
+	 */
+	function isTarget($field)
+	{
+		foreach ($this->object_list as $object) {
+			if ($object['name'] == $field) {
+				return true;
+			}
+			if (is_object($object['object'])) {
+				$r = $object['object']->isTarget($field);
+				if ($r) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 *	検索条件SQL文を返す
 	 *
 	 *	@access	public
