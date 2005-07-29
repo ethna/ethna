@@ -37,6 +37,9 @@ class Ethna_MailSender
 	/**	@var	int		送信メールタイプ */
 	var	$type;
 
+	/**	@var	string	送信オプション */
+	var	$option = '';
+
 	/**	@var	object	Ethna_Backend	backendオブジェクト */
 	var $backend;
 
@@ -55,6 +58,17 @@ class Ethna_MailSender
 	{
 		$this->backend =& $backend;
 		$this->config =& $this->backend->getConfig();
+	}
+
+	/**
+	 *	メールオプションを設定する
+	 *
+	 *	@access	public
+	 *	@param	string	$option	メール送信オプション
+	 */
+	function setOption($option)
+	{
+		$this->option = $option;
 	}
 
 	/**
@@ -150,7 +164,7 @@ class Ethna_MailSender
 				$header_line .= $value[0] . ": " . $value[1];
 			}
 
-			mail($rcpt, $header['subject'][1], $body, $header_line);
+			mail($rcpt, $header['subject'][1], $body, $header_line, $this->option);
 		}
 	}
 
