@@ -30,6 +30,9 @@ class Ethna_ActionForm
 	 *	@access	private
 	 */
 
+	/**	@var	array	フォーム値定義(デフォルト) */
+	var $form_default = array();
+
 	/**	@var	array	フォーム値定義 */
 	var $form = array();
 
@@ -81,40 +84,11 @@ class Ethna_ActionForm
 			return;
 		}
 
-		if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-			$http_vars =& $_POST;
-		} else {
-			$http_vars =& $_GET;
-		}
+		// フォーム値定義の設定
+		$this->_setFormDef();
 
-		// フォーム値設定
-		foreach ($this->form as $name => $value) {
-			// 省略値補正
-			foreach ($this->def as $k) {
-				if (isset($value[$k]) == false) {
-					$this->form[$name][$k] = null;
-				}
-			}
-
-			$type = to_array($value['type']);
-			if ($type[0] == VAR_TYPE_FILE) {
-				if (isset($_FILES[$name]) == false) {
-					$this->form_vars[$name] = null;
-				} else {
-					$this->form_vars[$name] = $_FILES[$name];
-				}
-			} else {
-				if (isset($http_vars[$name]) == false) {
-					if (isset($http_vars["{$name}_x"])) {
-						@$this->form_vars[$name] = $http_vars["{$name}_x"];
-					} else {
-						@$this->form_vars[$name] = null;
-					}
-				} else {
-					$this->form_vars[$name] = $http_vars[$name];
-				}
-			}
-		}
+		// フォーム値の設定
+		$this->setFormVars();
 	}
 
 	/**
@@ -173,6 +147,48 @@ class Ethna_ActionForm
 	}
 
 	/**
+	 *	ユーザから送信されたフォーム値をフォーム値定義に従ってインポートする
+	 *
+	 *	@access	public
+	 */
+	function setFormVars()
+	{
+		if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
+			$http_vars =& $_POST;
+		} else {
+			$http_vars =& $_GET;
+		}
+
+		foreach ($this->form as $name => $value) {
+			// 省略値補正
+			foreach ($this->def as $k) {
+				if (isset($value[$k]) == false) {
+					$this->form[$name][$k] = null;
+				}
+			}
+
+			$type = to_array($value['type']);
+			if ($type[0] == VAR_TYPE_FILE) {
+				if (isset($_FILES[$name]) == false) {
+					$this->form_vars[$name] = null;
+				} else {
+					$this->form_vars[$name] = $_FILES[$name];
+				}
+			} else {
+				if (isset($http_vars[$name]) == false) {
+					if (isset($http_vars["{$name}_x"])) {
+						@$this->form_vars[$name] = $http_vars["{$name}_x"];
+					} else {
+						@$this->form_vars[$name] = null;
+					}
+				} else {
+					$this->form_vars[$name] = $http_vars[$name];
+				}
+			}
+		}
+	}
+
+	/**
 	 *	フォーム値へのアクセサ(W)
 	 *
 	 *	@access	public
@@ -182,6 +198,23 @@ class Ethna_ActionForm
 	function set($name, $value)
 	{
 		$this->form_vars[$name] = $value;
+	}
+
+	/**
+	 *	フォーム値定義を設定する
+	 *
+	 *	@access	public
+	 *	@param	string	$name	設定するフォーム名(省略可:nullなら全ての定義を設定する)
+	 *	@param	array	$value	設定するフォーム値定義
+	 *	@return	array	フォーム値定義
+	 */
+	function setDef($name, $value)
+	{
+		if (is_null($name)) {
+			$this->form = $value;
+		}
+
+		$this->form[$name] = $value;
 	}
 
 	/**
@@ -975,6 +1008,24 @@ class Ethna_ActionForm
 	function _filter_kana_hantozen($value)
 	{
 		return mb_convert_kana($value, "K");
+	}
+
+	/**
+	 *	フォーム値定義を設定する
+	 *
+	 *	@access	protected
+	 */
+	function _setFormDef()
+	{
+		foreach ($this->form as $key => $value) {
+			if (array_key_exists($key, $this->form_default) && is_array($this->form_default)) {
+				foreach ($this->form_default[$key] as $def_key => $def_value) {
+					if (array_key_exists($def_key, $value) == false) {
+						$this->form[$key][$def_key] = $def_value;
+					}
+				}
+			}
+		}
 	}
 }
 // }}}

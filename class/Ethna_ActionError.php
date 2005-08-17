@@ -52,7 +52,7 @@ class Ethna_ActionError
 	 *	@param	string	$message	エラーメッセージ
 	 *	@param	int		$code		エラーコード
 	 */
-	function add($name, $message, $code)
+	function add($name, $message, $code = null)
 	{
 		if (func_num_args() > 3) {
 			$userinfo = array_slice(func_get_args(), 3);

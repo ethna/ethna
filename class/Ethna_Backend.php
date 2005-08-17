@@ -47,6 +47,12 @@ class Ethna_Backend
 	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト($action_formの省略形) */
 	var $af;
 
+	/**	@var	object	Ethna_ActionClass	アクションクラスオブジェクト */
+	var $action_form;
+
+	/**	@var	object	Ethna_ActionClass	アクションクラスオブジェクト($action_classの省略形) */
+	var $ac;
+
 	/**	@var	object	Ethna_Session		セッションオブジェクト */
 	var $session;
 
@@ -81,6 +87,8 @@ class Ethna_Backend
 		$this->ae =& $this->action_error;
 		$this->action_form =& $controller->getActionForm();
 		$this->af =& $this->action_form;
+		$this->action_class = null;
+		$this->ac =& $this->action_class;
 
 		$this->session =& $this->controller->getSession();
 		$this->db = array();
@@ -168,6 +176,17 @@ class Ethna_Backend
 	function &getActionForm()
 	{
 		return $this->action_form;
+	}
+
+	/**
+	 *	実行中のアクションクラスを返す
+	 *
+	 *	@access	public
+	 *	@return	mixed	Ethna_ActionClass:アクションクラス null:アクションクラス未定
+	 */
+	function &getActionClass()
+	{
+		return $this->action_class;
 	}
 
 	/**
@@ -301,24 +320,25 @@ class Ethna_Backend
 		$forward_name = null;
 
 		$action_class_name = $this->controller->getActionClassName($action_name);
-		$action_class =& new $action_class_name($this);
+		$this->action_class =& new $action_class_name($this);
+		$this->ac =& $this->action_class;
 
 		// アクションの実行
-		$forward_name = $action_class->authenticate();
+		$forward_name = $this->ac->authenticate();
 		if ($forward_name === false) {
 			return null;
 		} else if ($forward_name !== null) {
 			return $forward_name;
 		}
 
-		$forward_name = $action_class->prepare();
+		$forward_name = $this->ac->prepare();
 		if ($forward_name === false) {
 			return null;
 		} else if ($forward_name !== null) {
 			return $forward_name;
 		}
 
-		$forward_name = $action_class->perform();
+		$forward_name = $this->ac->perform();
 
 		return $forward_name;
 	}

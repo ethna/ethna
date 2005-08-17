@@ -135,6 +135,9 @@ class Ethna_SkeltonGenerator
 		$macro['action_form'] = $action_form;
 		$macro['action_path'] = $action_path;
 
+		$user_macro = $this->_getUserMacro();
+		$macro = array_merge($macro, $user_macro);
+
 		$this->_mkdir(dirname("$action_dir$action_path"), 0755);
 
 		if (file_exists("$action_dir$action_path")) {
@@ -166,6 +169,9 @@ class Ethna_SkeltonGenerator
 		$macro['forward_name'] = $forward_name;
 		$macro['view_class'] = $view_class;
 		$macro['view_path'] = $view_path;
+
+		$user_macro = $this->_getUserMacro();
+		$macro = array_merge($macro, $user_macro);
 
 		$this->_mkdir(dirname("$view_dir/$view_path"), 0755);
 
@@ -286,6 +292,22 @@ class Ethna_SkeltonGenerator
 		}
 
 		return true;
+	}
+
+	/**
+	 *	ユーザ定義のマクロを設定する(~/.ethna)
+	 *
+	 *	@access	private
+	 */
+	function _getUserMacro()
+	{
+		$home = $_SERVER['HOME'];
+		if (is_file("$home/.ethna") == false) {
+			return array();
+		}
+
+		$user_macro = parse_ini_file("$home/.ethna");
+		return $user_macro;
 	}
 }
 // }}}
