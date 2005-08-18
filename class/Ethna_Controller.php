@@ -563,14 +563,15 @@ class Ethna_Controller
 	 *	@access	public
 	 *	@param	string	$class_name		アプリケーションコントローラのクラス名
 	 *	@param	string	$action_name	実行するアクション名
+	 *	@param	bool	$enable_filter	フィルタチェインを有効にするかどうか
 	 *	@static
 	 */
-	function main_CLI($class_name, $action_name)
+	function main_CLI($class_name, $action_name, $enable_filter = true)
 	{
 		$c =& new $class_name;
 		$c->setCLI(true);
 		$c->action[$action_name] = array();
-		$c->trigger('www', $action_name);
+		$c->trigger('www', $action_name, "", $enable_filter);
 	}
 
 	/**
@@ -608,12 +609,15 @@ class Ethna_Controller
 	 *	@param	strint	$type					処理タイプ(WWW/SOAP/AMF)
 	 *	@param	mixed	$default_action_name	指定のアクション名
 	 *	@param	mixed	$fallback_action_name	アクション名が決定できなかった場合に実行されるアクション名
+	 *	@param	bool	$enable_filter	フィルタチェインを有効にするかどうか
 	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
-	function trigger($type, $default_action_name = "", $fallback_action_name = "")
+	function trigger($type, $default_action_name = "", $fallback_action_name = "", $enable_filter = true)
 	{
 		// フィルターの生成
-		$this->_createFilterChain();
+		if ($enable_filter) {
+			$this->_createFilterChain();
+		}
 
 		// 実行前フィルタ
 		for ($i = 0; $i < count($this->filter_chain); $i++) {
@@ -633,10 +637,12 @@ class Ethna_Controller
 		}
 
 		// 実行後フィルタ
-		for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
-			$r = $this->filter_chain[$i]->postFilter();
-			if (Ethna::isError($r)) {
-				return $r;
+		if ($this->getCLI() == false) {
+			for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
+				$r = $this->filter_chain[$i]->postFilter();
+				if (Ethna::isError($r)) {
+					return $r;
+				}
 			}
 		}
 	}

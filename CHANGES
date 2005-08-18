@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_Controller::main_CLI()メソッドにフィルタを無効化させるオプションを追加
 - Ethna_ActionFormクラスのフォーム値定義をダイナミックに変更出来るように修正
 - Ethna_ActionFormクラスのフォーム値定義にテンプレート機能を追加
 - Ethna_Backend::getActionClasss()メソッドの追加(実行中のアクションクラスを取得)
