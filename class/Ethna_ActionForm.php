@@ -31,7 +31,7 @@ class Ethna_ActionForm
 	 */
 
 	/**	@var	array	フォーム値定義(デフォルト) */
-	var $form_default = array();
+	var $form_template = array();
 
 	/**	@var	array	フォーム値定義 */
 	var $form = array();
@@ -83,6 +83,9 @@ class Ethna_ActionForm
 		if (isset($_SERVER['REQUEST_METHOD']) == false) {
 			return;
 		}
+
+		// フォーム値テンプレートの更新
+		$this->form_template = $this->_setFormTemplate($this->form_template);
 
 		// フォーム値定義の設定
 		$this->_setFormDef();
@@ -1011,6 +1014,18 @@ class Ethna_ActionForm
 	}
 
 	/**
+	 *	フォーム値定義テンプレートを設定する
+	 *
+	 *	@access	protected
+	 *	@param	array	$form_template	フォーム値テンプレート
+	 *	@return	array	フォーム値テンプレート
+	 */
+	function _setFormTemplate($form_template)
+	{
+		return $form_template;
+	}
+
+	/**
 	 *	フォーム値定義を設定する
 	 *
 	 *	@access	protected
@@ -1018,8 +1033,8 @@ class Ethna_ActionForm
 	function _setFormDef()
 	{
 		foreach ($this->form as $key => $value) {
-			if (array_key_exists($key, $this->form_default) && is_array($this->form_default)) {
-				foreach ($this->form_default[$key] as $def_key => $def_value) {
+			if (array_key_exists($key, $this->form_template) && is_array($this->form_template)) {
+				foreach ($this->form_template[$key] as $def_key => $def_value) {
 					if (array_key_exists($def_key, $value) == false) {
 						$this->form[$key][$def_key] = $def_value;
 					}
