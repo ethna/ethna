@@ -645,6 +645,32 @@ class Ethna_ActionForm
 	function handleError($name, $code)
 	{
 		$def = $this->getDef($name);
+
+		// ユーザ定義エラーメッセージ
+		$code_map = array(
+			E_FORM_REQUIRED		=> 'required_error',
+			E_FORM_WRONGTYPE_SCALAR	=> 'type_error',
+			E_FORM_WRONGTYPE_ARRAY	=> 'type_error',
+			E_FORM_WRONGTYPE_INT	=> 'type_error',
+			E_FORM_WRONGTYPE_FLOAT	=> 'type_error',
+			E_FORM_WRONGTYPE_DATETIME	=> 'type_error',
+			E_FORM_WRONGTYPE_BOOLEAN	=> 'type_error',
+			E_FORM_MIN_INT		=> 'min_error',
+			E_FORM_MIN_FLOAT	=> 'min_error',
+			E_FORM_MIN_DATETIME	=> 'min_error',
+			E_FORM_MIN_FILE		=> 'min_error',
+			E_FORM_MIN_STRING	=> 'min_error',
+			E_FORM_MAX_INT		=> 'max_error',
+			E_FORM_MAX_FLOAT	=> 'max_error',
+			E_FORM_MAX_DATETIME	=> 'max_error',
+			E_FORM_MAX_FILE		=> 'max_error',
+			E_FORM_MAX_STRING	=> 'max_error',
+			E_FORM_REGEXP		=> 'regexp_error',
+		);
+		if (array_key_exists($code_map[$code], $def)) {
+			$this->ae->add($name, $def[$code_map[$code]], $code);
+		}
+
 		if ($code == E_FORM_REQUIRED) {
 			switch ($def['form_type']) {
 			case FORM_TYPE_TEXT:
