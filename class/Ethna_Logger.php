@@ -112,14 +112,6 @@ class Ethna_Logger extends Ethna_AppManager
 		'cron' => array('name' => 'LOG_CRON'),
 		'daemon' => array('name' => 'LOG_DAEMON'),
 		'kern' => array('name' => 'LOG_KERN'),
-		'local0' => array('name' => 'LOG_LOCAL0'),
-		'local1' => array('name' => 'LOG_LOCAL1'),
-		'local2' => array('name' => 'LOG_LOCAL2'),
-		'local3' => array('name' => 'LOG_LOCAL3'),
-		'local4' => array('name' => 'LOG_LOCAL4'),
-		'local5' => array('name' => 'LOG_LOCAL5'),
-		'local6' => array('name' => 'LOG_LOCAL6'),
-		'local7' => array('name' => 'LOG_LOCAL7'),
 		'lpr' => array('name' => 'LOG_LPR'),
 		'mail' => array('name' => 'LOG_MAIL'),
 		'news' => array('name' => 'LOG_NEWS'),
@@ -214,6 +206,12 @@ class Ethna_Logger extends Ethna_AppManager
 		// LogWriterクラスの生成
 		$file = $this->_getLogFile();
 		$this->writer =& $this->_getLogWriter($file, $option);
+
+		for ($i = 0; $i < 8; $i++) {
+			if (defined("LOG_LOCAL$i")) {
+				$this->log_facility_list["local$i"] = array('name' => "LOG_LOCAL$i");
+			}
+		}
 
 		set_error_handler("ethna_error_handler");
 	}
@@ -476,14 +474,6 @@ class Ethna_Logger extends Ethna_AppManager
 			'cron'		=> LOG_CRON,
 			'daemon'	=> LOG_DAEMON,
 			'kern'		=> LOG_KERN,
-			'local0'	=> LOG_LOCAL0,
-			'local1'	=> LOG_LOCAL1,
-			'local2'	=> LOG_LOCAL2,
-			'local3'	=> LOG_LOCAL3,
-			'local4'	=> LOG_LOCAL4,
-			'local5'	=> LOG_LOCAL5,
-			'local6'	=> LOG_LOCAL6,
-			'local7'	=> LOG_LOCAL7,
 			'lpr'		=> LOG_LPR,
 			'mail'		=> LOG_MAIL,
 			'news'		=> LOG_NEWS,
@@ -493,6 +483,13 @@ class Ethna_Logger extends Ethna_AppManager
 			'file'		=> LOG_FILE,
 			'echo'		=> LOG_ECHO,
 		);
+
+		for ($i = 0; $i < 8; $i++) {
+			if (defined("LOG_LOCAL$i")) {
+				$facility_map_table["local$i"] = constant("LOG_LOCAL$i");
+			}
+		}
+
 		if (isset($facility_map_table[strtolower($facility)]) == false) {
 			return $facility;
 		}
