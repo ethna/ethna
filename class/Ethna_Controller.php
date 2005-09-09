@@ -150,7 +150,9 @@ class Ethna_Controller
 	function Ethna_Controller()
 	{
 		$GLOBALS['controller'] =& $this;
-		$this->base = BASE;
+		if ($this->base == "") {
+			$this->base = BASE;
+		}
 
 		// クラスファクトリオブジェクトの生成
 		$class_factory = $this->class['class'];

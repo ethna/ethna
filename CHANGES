@@ -25,6 +25,7 @@
 
 *** bug fixes
 
+- BASE定数の影響でコントローラの継承が困難な問題を修正
 - Windows環境で定義されていないLOG_LOCAL定数を評価してしまう問題を修正
 - [[#6423>http://sourceforge.jp/tracker/index.php?func=detail&aid=6423&group_id=1343&atid=5092]](php-4.4.0で大量のエラーの後、Segv(11))を修正(patch by ramsyさん)
 - [[#6074>http://sourceforge.jp/tracker/index.php?func=detail&aid=6074&group_id=1343&atid=5092]](generate_project_skelton.phpの動作異常)を修正
