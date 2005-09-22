@@ -669,6 +669,7 @@ class Ethna_ActionForm
 		);
 		if (array_key_exists($code_map[$code], $def)) {
 			$this->ae->add($name, $def[$code_map[$code]], $code);
+			return;
 		}
 
 		if ($code == E_FORM_REQUIRED) {

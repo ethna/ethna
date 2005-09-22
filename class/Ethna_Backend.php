@@ -48,7 +48,7 @@ class Ethna_Backend
 	var $af;
 
 	/**	@var	object	Ethna_ActionClass	アクションクラスオブジェクト */
-	var $action_form;
+	var $action_class;
 
 	/**	@var	object	Ethna_ActionClass	アクションクラスオブジェクト($action_classの省略形) */
 	var $ac;
