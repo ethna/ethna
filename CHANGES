@@ -25,6 +25,7 @@
 
 *** bug fixes
 
+- .museum対応
 - Ethna_Backendクラスのクラスメンバ多重定義を修正
 - BASE定数の影響でコントローラの継承が困難な問題を修正
 - Windows環境で定義されていないLOG_LOCAL定数を評価してしまう問題を修正
