@@ -25,6 +25,8 @@
 
 *** bug fixes
 
+- [[#6566>https://sourceforge.jp/tracker/index.php?func=detail&aid=6566&group_id=1343&atid=5092]](skel.action.phpのサンプルでtypo)を修正
+- [[#7451>https://sourceforge.jp/tracker/index.php?func=detail&aid=7451&group_id=1343&atid=5092]](PHP 5.0.5対応)を修正
 - .museum対応
 - Ethna_Backendクラスのクラスメンバ多重定義を修正
 - BASE定数の影響でコントローラの継承が困難な問題を修正
