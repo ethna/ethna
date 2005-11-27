@@ -132,9 +132,11 @@ class Ethna_ViewClass
 		$smarty->assign_by_ref('form', $form_array);
 		$smarty->assign_by_ref('app', $app_array);
 		$smarty->assign_by_ref('app_ne', $app_ne_array);
-		$smarty->assign_by_ref('errors', Ethna_Util::escapeHtml($this->ae->getMessageList()));
+		$message_list = Ethna_Util::escapeHtml($this->ae->getMessageList());
+		$smarty->assign_by_ref('errors', $message_list);
 		if (isset($_SESSION)) {
-			$smarty->assign_by_ref('session', Ethna_Util::escapeHtml($_SESSION));
+			$tmp_session = Ethna_Util::escapeHtml($_SESSION);
+			$smarty->assign_by_ref('session', $tmp_session);
 		}
 		$smarty->assign('script', basename($_SERVER['PHP_SELF']));
 		$smarty->assign('request_uri', htmlspecialchars($_SERVER['REQUEST_URI']));
