@@ -515,7 +515,7 @@ class Ethna_ActionForm
 				$i += 2;
 			} else if ($c == 0xad || ($c >= 0xf9 && $c <= 0xfc)) {
 				/* IBM拡張文字 / NEC選定IBM拡張文字 */
-				return $this->ad->add(E_FORM_INVALIDCHAR, $name, '{form}に機種依存文字が入力されています');
+				return $this->ae->add($name, '{form}に機種依存文字が入力されています', E_FORM_INVALIDCHAR);
 			} else {
 				$i++;
 			}
