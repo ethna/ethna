@@ -715,7 +715,7 @@ class Ethna_ActionForm
 			$this->ae->add($name, "{form}には%dKB以上のファイルを指定して下さい", $code, $def['min']);
 			return;
 		} else if ($code == E_FORM_MIN_STRING) {
-			$this->ae->add($name, "{form}には%d文字以上入力して下さい", $code, $def['min']);
+			$this->ae->add($name, "{form}には全角%d文字以上(半角%d文字以上)入力して下さい", $code, intval($def['min']/2), $def['min']);
 			return;
 		} else if ($code == E_FORM_MAX_INT) {
 			$this->ae->add($name, "{form}には%d以下の数字(整数)を入力して下さい", $code, $def['max']);
@@ -730,7 +730,7 @@ class Ethna_ActionForm
 			$this->ae->add($name, "{form}には%dKB以下のファイルを指定して下さい", $code, $def['max']);
 			return;
 		} else if ($code == E_FORM_MAX_STRING) {
-			$this->ae->add($name, "{form}は%d文字以下で入力して下さい", $code, $def['max']);
+			$this->ae->add($name, "{form}は全角%d文字以下(半角%d文字以下)で入力して下さい", $code, intval($def['max']/2), $def['max']);
 			return;
 		} else if ($code == E_FORM_REGEXP) {
 			$message = "{form}を正しく入力してください";

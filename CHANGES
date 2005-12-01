@@ -4,6 +4,7 @@
 
 *** features
 
+- 文字列のmin/maxエラーのデフォルトエラーメッセージを修正
 - フォーム値定義にカスタムエラーメッセージを定義できるように変更
 - Ethna_Controller::main_CLI()メソッドにフィルタを無効化させるオプションを追加
 - Ethna_ActionFormクラスのフォーム値定義をダイナミックに変更出来るように修正
@@ -25,6 +26,7 @@
 
 *** bug fixes
 
+- Ethna_SOAP_ActionForm.phpのtypoを修正
 - [[#6616>http://sourceforge.jp/tracker/index.php?func=detail&aid=6616&group_id=1343&atid=5092]](セッションにObjectを格納できない)を修正
 - [[#7640>https://sourceforge.jp/tracker/index.php?func=detail&aid=7640&group_id=1343&atid=5092]](機種依存文字のチェックでエラーメッセージが表示されない。)を修正
 - [[#6566>https://sourceforge.jp/tracker/index.php?func=detail&aid=6566&group_id=1343&atid=5092]](skel.action.phpのサンプルでtypo)を修正

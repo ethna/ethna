@@ -74,7 +74,7 @@ include_once(ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php');
 include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
 
 if (extension_loaded('soap')) {
-	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_ActoinForm.php');
+	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_ActionForm.php');
 	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Gateway.php');
 	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_GatewayGenerator.php');
 	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Util.php');
