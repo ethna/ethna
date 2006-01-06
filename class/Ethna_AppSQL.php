@@ -34,7 +34,7 @@ class Ethna_AppSQL
 	 *	@access	public
 	 *	@param	object	Ethna_Controller	&$controller	controllerオブジェクト
 	 */
-	function Ethna_AppManager(&$controller)
+	function Ethna_AppSQL(&$controller)
 	{
 		$this->controller =& $controller;
 	}

@@ -26,6 +26,7 @@
 
 *** bug fixes
 
+- Ethna_AppSQLクラスのコンストラクタメソッド名を修正
 - [[#7659>http://sourceforge.jp/tracker/index.php?func=detail&aid=7659&group_id=1343&atid=5092]](Ethna_Config.phpでNoticeエラー)を修正
 - Ethna_SOAP_ActionForm.phpのtypoを修正
 - [[#6616>http://sourceforge.jp/tracker/index.php?func=detail&aid=6616&group_id=1343&atid=5092]](セッションにObjectを格納できない)を修正
