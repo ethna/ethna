@@ -741,7 +741,7 @@ class Ethna_Controller
 	function _trigger_SOAP()
 	{
 		// SOAPエントリクラス
-		$gg =& new Ethna_SoapGatewayGenerator();
+		$gg =& new Ethna_SOAP_GatewayGenerator();
 		$script = $gg->generate();
 		eval($script);
 
