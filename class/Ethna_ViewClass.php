@@ -139,7 +139,7 @@ class Ethna_ViewClass
 			$smarty->assign_by_ref('session', $tmp_session);
 		}
 		$smarty->assign('script', basename($_SERVER['PHP_SELF']));
-		$smarty->assign('request_uri', htmlspecialchars($_SERVER['REQUEST_URI']));
+		$smarty->assign('request_uri', htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES));
 
 		return $smarty;
 	}

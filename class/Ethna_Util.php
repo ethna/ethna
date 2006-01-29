@@ -276,7 +276,7 @@ class Ethna_Util
 				$retval[$name] = array();
 				Ethna_Util::_escapeHtml($vars[$name], $retval[$name]);
 			} else if (!is_object($vars[$name])) {
-				$retval[$name] = htmlspecialchars($vars[$name]);
+				$retval[$name] = htmlspecialchars($vars[$name], ENT_QUOTES);
 			}
 		}
 	}

@@ -375,7 +375,7 @@ function smarty_modifier_form_value($string)
 		$r = $r[$elts[$i]];
 	}
 
-	return htmlspecialchars($r);
+	return htmlspecialchars($r, ENT_QUOTES);
 }
 
 /**
