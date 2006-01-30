@@ -1,6 +1,6 @@
 * 変更点一覧
 
-** [current] 0.2.0-dev
+** [2006/01/29] 0.2.0
 
 *** features
 
@@ -26,6 +26,7 @@
 
 *** bug fixes
 
+- htmlspecialcharsにENT_QUOTESオプションを追加
 - Ethna_AppSQLクラスのコンストラクタメソッド名を修正
 - [[#7659>http://sourceforge.jp/tracker/index.php?func=detail&aid=7659&group_id=1343&atid=5092]](Ethna_Config.phpでNoticeエラー)を修正
 - Ethna_SOAP_ActionForm.phpのtypoを修正
