@@ -391,7 +391,7 @@ class Ethna_AppObject
 		if ($this->my_db_rw->getType() == 'mysql') {
 			// MySQLのAUTO_INCREMENTはテーブルに1カラムで且つPRIMARY KEY
 			foreach (to_array($this->id_def) as $id_def) {
-				if ($this->prop_def[$id_def]['seq']) {
+				if (isset($this->prop_def[$id_def]['seq']) && $this->prop_def[$id_def]['seq']) {
 					$this->prop[$id_def] = $this->my_db_rw->getInsertId();
 					break;
 				}
