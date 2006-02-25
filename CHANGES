@@ -7,6 +7,7 @@
 *** bug fixes
 
 - [[#7717>http://sourceforge.jp/tracker/index.php?func=detail&aid=7717&group_id=1343&atid=5092]](Ethna_AppObject::add()でNotice)を修正
+- [[#7664>http://sourceforge.jp/tracker/index.php?func=detail&aid=7664&group_id=1343&atid=5092]](Ethna_AppObjectのバグ)を修正
 
 ** [2006/01/29] 0.2.0
 
