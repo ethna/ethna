@@ -101,9 +101,11 @@ class Ethna_SkeltonGenerator
 			$this->_generateFile("app.filter.default.php", sprintf("$basedir/app/filter/%s_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||
 			$this->_generateFile("bin.generate_action_script.php", "$basedir/bin/generate_action_script.php", $macro) == false ||
+			$this->_generateFile("bin.generate_app_object.php", "$basedir/bin/generate_app_object.php", $macro) == false ||
 			$this->_generateFile("bin.generate_view_script.php", "$basedir/bin/generate_view_script.php", $macro) == false ||
 			$this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||
 			$this->_generateFile("skel.action.php", sprintf("$basedir/skel/skel.action.php"), $macro) == false ||
+			$this->_generateFile("skel.app_object.php", sprintf("$basedir/skel/skel.app_object.php"), $macro) == false ||
 			$this->_generateFile("skel.view.php", sprintf("$basedir/skel/skel.view.php"), $macro) == false ||
 			$this->_generateFile("template.index.tpl", sprintf("$basedir/template/ja/index.tpl"), $macro) == false) {
 			return false;
