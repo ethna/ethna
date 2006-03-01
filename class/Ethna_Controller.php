@@ -1430,8 +1430,14 @@ class Ethna_Controller
 
 		// user defined functions
 		foreach ($this->smarty_function_plugin as $function) {
-			$name = str_replace('smarty_function_', '', $function);
-			$smarty->register_function($name, $function);
+            
+			if ( !is_array($function) ) {
+				$name = str_replace('smarty_function_', '', $function);
+				$smarty->register_function($name, $function);
+			} else {
+				$smarty->register_function($function[1], $function);
+			}
+
 		}
 
 		// user defined prefilters
