@@ -19,7 +19,6 @@ $config = array(
     'changelogoldtonew' => false,
     'description' => $description,
     'simpleoutput' => true,
-
     );
  
 print("Start Script\n");

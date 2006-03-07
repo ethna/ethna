@@ -105,6 +105,16 @@ class Ethna_DB
 	function commit()
 	{
 	}
+
+    /**
+     *  テーブル定義情報を取得する
+     *
+     *  @access public
+     *  @return mixed   array: PEAR::DBに準じたメタデータ Ethna_Error::エラー
+     */
+    function getMetaData()
+    {
+    }
 }
 // }}}
 ?>

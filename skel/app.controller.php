@@ -2,7 +2,7 @@
 /**
  *	{$project_id}_Controller.php
  *
- *	@author		your name
+ *	@author		{$author}
  *	@package	{$project_id}
  *	@version	$Id$
  */
@@ -23,7 +23,7 @@ include_once('{$project_id}_Error.php');
 /**
  *	{$project_id}アプリケーションのコントローラ定義
  *
- *	@author		your name
+ *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */
@@ -84,6 +84,7 @@ class {$project_id}_Controller extends Ethna_Controller
 	 */
 	var $directory = array(
 		'action'		=> 'app/action',
+        'app'           => 'app',
 		'etc'			=> 'etc',
 		'filter'		=> 'app/filter',
 		'locale'		=> 'locale',

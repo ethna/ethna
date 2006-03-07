@@ -43,7 +43,9 @@ class Ethna_Error extends PEAR_Error
 	function Ethna_Error($message = null, $code = null, $mode = null, $options = null)
 	{
 		$controller =& Ethna_Controller::getInstance();
-		$this->i18n =& $controller->getI18N();
+        if ($controller !== null) {
+            $this->i18n =& $controller->getI18N();
+        }
 
 		// $options以降の引数->$userinfo
 		if (func_num_args() > 4) {
@@ -97,11 +99,11 @@ class Ethna_Error extends PEAR_Error
 	 */
 	function getMessage()
 	{
-		$tmp_message = $this->i18n->get($this->message);
+        $tmp_message = $this->i18n ? $this->i18n->get($this->message) : $this->message;
 		$tmp_userinfo = to_array($this->userinfo);
 		$tmp_message_arg_list = array();
 		for ($i = 0; $i < count($tmp_userinfo); $i++) {
-			$tmp_message_arg_list[] = $this->i18n->get($tmp_userinfo[$i]);
+            $tmp_message_arg_list[] = $this->i18n ? $this->i18n->get($tmp_userinfo[$i]) : $tmp_userinfo[$i];
 		}
 		return vsprintf($tmp_message, $tmp_message_arg_list);
 	}

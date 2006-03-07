@@ -1,28 +1,37 @@
 <?php
-class {$app_manager}Manager extends Ethna_AppManager
+/**
+ *	{$app_path}
+ *
+ *	@author		{$author}
+ *	@package	{$project_id}
+ *	@version	$Id$
+ */
+
+/**
+ *	{$app_object}Manager
+ *
+ *	@author		{$author}
+ *	@access		public
+ *	@package	{$project_id}
+ */
+class {$app_object}Manager extends Ethna_AppManager
 {
 }
 
+/**
+ *	{$app_object}
+ *
+ *	@author		{$author}
+ *	@access		public
+ *	@package	{$project_id}
+ */
 class {$app_object} extends Ethna_AppObject
 {
     /**
-     *  @var    array   テーブル定義
+     *  プロパティの表示名を取得する
+     *
+     *  @access public
      */
-    var $table_def = 
-        array(
-              '{$table}' => 
-              array(
-                    'primary' => true
-                    ),
-              );
-    
-    /**
-     *  @var    array   プロパティ定義
-     */
-    var $prop_def = array(
-        {$prop_def}
-              );
-    
     function getName($key)
     {
         return $this->get($key);

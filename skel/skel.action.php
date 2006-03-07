@@ -2,7 +2,7 @@
 /**
  *	{$action_path}
  *
- *	@author		your name
+ *	@author		{$author}
  *	@package	{$project_id}
  *	@version	$Id$
  */
@@ -10,7 +10,7 @@
 /**
  *	{$action_name}フォームの実装
  *
- *	@author		your name
+ *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */

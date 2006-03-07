@@ -2,7 +2,7 @@
 /**
  *	{$project_id}_Filter_ExecutionTime.php
  *
- *	@author		your name
+ *	@author		{$author}
  *	@package	{$project_id}
  *	@version	$Id$
  */
@@ -10,7 +10,7 @@
 /**
  *	実行時間計測フィルタの実装
  *
- *	@author		your name
+ *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */

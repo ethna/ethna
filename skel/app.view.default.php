@@ -2,7 +2,7 @@
 /**
  *	Index.php
  *
- *	@author		your name
+ *	@author		{$author}
  *	@package	{$project_id}
  *	@version	$Id$
  */
@@ -10,7 +10,7 @@
 /**
  *	indexビューの実装
  *
- *	@author		your name
+ *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */

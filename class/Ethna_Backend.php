@@ -57,7 +57,7 @@ class Ethna_Backend
 	var $session;
 
 	/**	@var	array	Ethna_DBオブジェクトを格納した配列 */
-	var $db;
+	var $db_list;
 
 	/**	@var	object	Ethna_Logger		ログオブジェクト */
 	var $logger;
@@ -91,7 +91,7 @@ class Ethna_Backend
 		$this->ac =& $this->action_class;
 
 		$this->session =& $this->controller->getSession();
-		$this->db = array();
+		$this->db_list = array();
 		$this->logger =& $this->controller->getLogger();
 
 		// マネージャオブジェクトの生成
@@ -347,25 +347,25 @@ class Ethna_Backend
 	 *	DBオブジェクトを返す
 	 *
 	 *	@access	public
-	 *	@param	string	$type		DB種別(Ethna_Controller::dbメンバで定義)
+	 *	@param	string	$db_key DBキー
 	 *	@return	mixed	Ethna_DB:DBオブジェクト null:DSN設定なし Ethna_Error:エラー
 	 */
-	function &getDB($type = "")
+	function &getDB($db_key = "")
 	{
-		$key =& $this->_getDB($type);
-		if (Ethna::isError($key)) {
-			return $key;
+		$db_varname =& $this->_getDBVarname($db_key);
+		if (Ethna::isError($db_varname)) {
+			return $db_varname;
 		}
-		if (isset($this->db[$key]) && $this->db[$key] != null) {
-			return $this->db[$key];
+		if (isset($this->db_list[$db_varname]) && $this->db_list[$db_varname] != null) {
+			return $this->db_list[$db_varname];
 		}
 
-		$dsn = $this->controller->getDSN($type);
+		$dsn = $this->controller->getDSN($db_key);
 		if ($dsn == "") {
 			// DB接続不要
 			return null;
 		}
-		$dsn_persistent = $this->controller->getDSN_persistent($type);
+		$dsn_persistent = $this->controller->getDSN_persistent($db_key);
 
 		$class_factory =& $this->controller->getClassFactory();
 		$db_class_name = $class_factory->getObjectName('db');
@@ -375,16 +375,16 @@ class Ethna_Backend
 			$db_class_name = 'Ethna_DB_PEAR';
 		}
 
-		$this->db[$key] =& new $db_class_name($this->controller, $dsn, $dsn_persistent);
-		$r = $this->db[$key]->connect();
+		$this->db_list[$db_varname] =& new $db_class_name($this->controller, $dsn, $dsn_persistent);
+		$r = $this->db_list[$db_varname]->connect();
 		if (Ethna::isError($r)) {
-			$this->db[$key] = null;
+			$this->db_list[$db_varname] = null;
 			return $r;
 		}
 
 		register_shutdown_function(array($this, 'shutdownDB'));
 
-		return $this->db[$key];
+		return $this->db_list[$db_varname];
 	}
 
 	/**
@@ -392,22 +392,23 @@ class Ethna_Backend
 	 *
 	 *	@access	public
 	 *	@return	mixed	array:Ethna_DBオブジェクトの一覧 Ethan_Error:(いずれか一つ以上の接続で)エラー
-	 *	@todo	respect access controlls
 	 */
 	function getDBList()
 	{
 		$r = array();
-		foreach ($this->controller->db as $key => $value) {
-			$db =& $this->getDB($key);
+        $db_define_list = $this->controller->getDBType();
+		foreach ($db_define_list as $db_key => $db_type) {
+			$db =& $this->getDB($db_key);
 			if (Ethna::isError($db)) {
 				return $r;
 			}
 			$elt = array();
 			$elt['db'] =& $db;
-			$elt['type'] = $value;
+            $elt['key'] = $db_key;
+			$elt['type'] = $db_type;
 			$elt['varname'] = "db";
 			if ($key != "") {
-				$elt['varname'] = sprintf("db_%s", strtolower($key));
+				$elt['varname'] = sprintf("db_%s", strtolower($db_key));
 			}
 			$r[] = $elt;
 		}
@@ -421,35 +422,39 @@ class Ethna_Backend
 	 */
 	function shutdownDB()
 	{
-		foreach (array_keys($this->db) as $key) {
-			if ($this->db[$key] != null && $this->db[$key]->isValid()) {
-				$this->db[$key]->disconnect();
-				unset($this->db[$key]);
+		foreach (array_keys($this->db_list) as $key) {
+			if ($this->db_list[$key] != null && $this->db_list[$key]->isValid()) {
+				$this->db_list[$key]->disconnect();
+				unset($this->db_list[$key]);
 			}
 		}
 	}
 
 	/**
-	 *	指定されたDB種別に対応する(当該DBオブジェクトを格納するための)メンバ変数名を取得する
+	 *	指定されたDBキーに対応する(当該DBオブジェクトを格納するための)メンバ変数名を取得する
+     *
+     *  正直もう要らないのですが、後方互換性維持のために一応残してある状態です
+     *  (Ethna_AppManagerクラスなどで、$this->dbとかしている箇所が少なからずあ
+     *  るので)
 	 *
 	 *	@access	private
-	 *	@param	string	$type	DB種別
+	 *	@param	string	$db_key DBキー
 	 *	@return	mixed	string:メンバ変数名 Ethna_Error:不正なDB種別
 	 */
-	function &_getDB($type = "")
+	function &_getDBVarname($db_key = "")
 	{
-		$r = $this->controller->getDBType($type);
+		$r = $this->controller->getDBType($db_key);
 		if (is_null($r)) {
-			return Ethna::raiseError(E_DB_INVALIDTYPE, "未定義のDB種別[%s]", $type);
+			return Ethna::raiseError(E_DB_INVALIDTYPE, "未定義のDB種別[%s]", $db_key);
 		}
 
-		if ($type == "") {
-			$key = "";
+		if ($db_key == "") {
+			$db_varname = "";
 		} else {
-			$key = sprintf("%s", strtolower($type));
+			$db_varname = sprintf("%s", strtolower($db_key));
 		}
 
-		return $key;
+		return $db_varname;
 	}
 }
 // }}}

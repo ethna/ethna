@@ -30,9 +30,6 @@ class Ethna_AppObject
 	/**	@var	object	Ethna_Config		設定オブジェクト */
 	var $config;
 
-	/**  @var    object  Ethna_DB      DBオブジェクト */
-	var $db;
-
 	/**	@var	object	Ethna_I18N			i18nオブジェクト */
 	var $i18n;
 
@@ -45,14 +42,19 @@ class Ethna_AppObject
 	/**	@var	object	Ethna_Session		セッションオブジェクト */
 	var $session;
 
+    /** @var    string  DB定義プレフィクス */
+    var $db_prefix = null;
+
 	/**	@var	array	テーブル定義 */
-	var	$table_def = array();
+	var	$table_def = null;
 
 	/**	@var	array	プロパティ定義 */
-	var	$prop_def = array();
+	var	$prop_def = null;
 
 	/**	@var	array	プロパティ */
 	var	$prop = null;
+
+	/**	@var	array	プロパティ(バックアップ) */
 	var $prop_backup = null;
 
 	/** @var	array	プライマリキー定義 */
@@ -81,30 +83,33 @@ class Ethna_AppObject
 		$this->action_form =& $backend->getActionForm();
 		$this->af =& $this->action_form;
 		$this->session =& $backend->getSession();
+		$ctl =& $backend->getController();
 
-		$db_list = $backend->getDBList();
-		if (Ethna::isError($db_list) == false) {
-			foreach ($db_list as $elt) {
-				$varname = $elt['varname'];
-				$this->$varname =& $elt['db'];
+        // DBオブジェクトの設定
+        $db_list =& $this->_getDBList();
+		if (Ethna::isError($db_list)) {
+			return $db_list;
+		} else if (is_null($db_list['rw'])) {
+			return Ethna::raiseError("Ethna_AppObjectを利用するにはデータベース設定が必要です", E_DB_NODSN);
+        }
+        $this->my_db_rw =& $db_list['rw'];
+        $this->my_db_ro =& $db_list['ro'];
 
-				if ($elt['type'] == DB_TYPE_RW) {
-					$this->my_db_rw =& $elt['db'];
-				} else if ($elt['type'] == DB_TYPE_RO) {
-					$this->my_db_ro =& $elt['db'];
-				}
-			}
-		}
-		if (isset($this->my_db_ro) == false && $this->my_db_rw) {
-			$this->my_db_ro =& $this->my_db_rw;
-		}
-
-		$c =& $backend->getController();
+        // プロパティ定義自動取得
+        if (is_null($this->table_def)) {
+            $this->table_def = $this->_getTableDef();
+        }
+        if (is_string($this->table_def)) {
+            $this->table_def = array($this->table_def => array('primary' => true));
+        }
+        if (is_null($this->prop_def)) {
+            $this->prop_def = $this->_getPropDef();
+        }
 
 		// Ethna_AppManagerオブジェクトの設定
-		$manager_list = $c->getManagerList();
+		$manager_list = $ctl->getManagerList();
 		foreach ($manager_list as $k => $v) {
-			$this->$k = $backend->getManager($v);
+			$this->$k =& $backend->getManager($v);
 		}
 
 		// オブジェクトのプライマリキー定義構築
@@ -121,13 +126,6 @@ class Ethna_AppObject
 			}
 		}
 		
-		// DBエラーチェック
-		if (is_null($this->my_db_ro)) {
-			return Ethna::raiseError("Ethna_AppObjectを利用するにはデータベース設定が必要です", E_DB_NODSN);
-		} else if (Ethna::isError($db_list)) {
-			return $db_list;
-		}
-
 		// キー妥当性チェック
 		if (is_null($key_type) && is_null($key) && is_null($prop)) {
 			// perhaps for adding object
@@ -1284,6 +1282,129 @@ class Ethna_AppObject
 			}
 		}
 	}
+
+    /**
+     *  DBオブジェクト(read only/read-write)を取得する
+     *
+     *  @access protected
+     *  @return array   array('ro' => {read only db object}, 'rw' => {read-write db object})
+     */
+    function _getDBList()
+    {
+        $r = array('ro' => null, 'rw' => null);
+
+        $db_list = $this->backend->getDBList();
+		if (Ethna::isError($db_list)) {
+            return $r;
+        }
+        foreach ($db_list as $elt) {
+            if ($this->db_prefix) {
+                // 特定のプレフィクスが指定されたDB接続を利用
+                // (テーブルごとにDBが異なる場合など)
+                if (strncmp($this->db_prefix, $elt['key'], strlen($this->db_prefix)) != 0) {
+                    continue;
+                }
+            }
+
+            $varname = $elt['varname'];
+
+            // for B.C.
+            $this->$varname =& $elt['db'];
+
+            if ($elt['type'] == DB_TYPE_RW) {
+                $r['rw'] =& $elt['db'];
+            } else if ($elt['type'] == DB_TYPE_RO) {
+                $r['ro'] =& $elt['db'];
+            }
+		}
+		if ($r['ro'] == null && $r['rw'] != null) {
+			$r['ro'] =& $r['rw'];
+		}
+
+        return $r;
+    }
+
+    /**
+     *  テーブル定義を取得する
+     *
+     *  (クラス名→テーブル名のルールを変えたい場合は
+     *  このメソッドをオーバーライドします)
+     *
+     *  @access protected
+     *  @return array   テーブル定義
+     */
+    function _getTableDef()
+    {
+        $class_name = get_class($this);
+        if (preg_match('/(\w+)_(.*)/', $class_name, $match) == 0) {
+            return null;
+        }
+        $table = $match[2];
+
+        // PHP 4は常に小文字を返す...のでPHP 5専用
+        $table = preg_replace('/^([A-Z])/e', "strtolower('\$1')", $table);
+        $table = preg_replace('/([A-Z])/e', "'_' . strtolower('\$1')", $table);
+
+        return array($table => array('primary' => true));
+    }
+
+    /**
+     *  プロパティ定義を取得する
+     *
+     *  @access protected
+     *  @return array   プロパティ定義
+     */
+    function _getPropDef()
+    {
+        if (is_null($this->table_def)) {
+            return null;
+        }
+        foreach ($this->table_def as $table_name => $table_attr) {
+            // use 1st one
+            break;
+        }
+        $r = $this->my_db_ro->getMetaData($table_name);
+        if(Ethna::isError($r)){
+            return null;
+        }
+
+        $prop_def = array();
+        foreach ($r as $i => $field_def) {
+            $primary = (strpos($field_def['flags'], "primary_key") === false) ? false : true;
+            $key = (strpos($field_def['flags'], "key") === false) ? false : true;
+            switch ($field_def['type']) {
+            case 'int':
+                $type = VAR_TYPE_INT;
+                break;
+            case 'datetime':
+                $type = VAR_TYPE_DATETIME;
+                break;
+            case 'blob':
+            default:
+                $type = VAR_TYPE_STRING;
+                break;
+            }
+
+            $prop_def[$field_def['name']] = array(
+                'primary'   => $primary,
+                'key'       => $key,
+                'type'      => $type,
+                'form_name' => $this->_fieldNameToFormName($field_def['name']),
+            );
+        }
+
+        return $prop_def;
+    }
+
+    /**
+     *  データベースフィールド名に対応するフォーム名を取得する
+     *
+     *  @access protected
+     */
+    function _fieldNameToFormName($field_def)
+    {
+        return $field_name['name'];
+    }
 }
 // }}}
 ?>

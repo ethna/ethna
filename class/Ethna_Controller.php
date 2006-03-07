@@ -38,6 +38,7 @@ class Ethna_Controller
 	/**	@var	array		アプリケーションディレクトリ */
 	var $directory = array(
 		'action'		=> 'app/action',
+        'app'           => 'app',
 		'etc'			=> 'etc',
 		'filter'		=> 'app/filter',
 		'locale'		=> 'locale',
@@ -88,9 +89,6 @@ class Ethna_Controller
 	/**	@var	string		クライアント側エンコーディング */
 	var	$client_encoding;
 
-	/**	@var	string		クライアントタイプ */
-	var $client_type;
-
 	/**	@var	string	現在実行中のアクション名 */
 	var	$action_name;
 
@@ -99,9 +97,6 @@ class Ethna_Controller
 
 	/**	@var	array	action定義 */
 	var $action = array();
-
-	/**	@var	array	soap action定義 */
-	var $soap_action = array();
 
 	/**	@var	array	アプリケーションマネージャ定義 */
 	var	$manager = array();
@@ -136,8 +131,8 @@ class Ethna_Controller
 	/**	@var	object	Ethna_Logger		ログオブジェクト */
 	var	$logger = null;
 
-	/**	@var	bool	CLIアクション実行中フラグ */
-	var	$cli 	= false;
+	/**	@var	string  リクエストのゲートウェイ(www/cli/rest/xmlrpc/soap...) */
+	var	$gateway = GATEWAY_WWW;
 
 	/**#@-*/
 
@@ -149,7 +144,7 @@ class Ethna_Controller
 	 */
 	function Ethna_Controller()
 	{
-		$GLOBALS['controller'] =& $this;
+		$GLOBALS['_Ethna_controller'] =& $this;
 		if ($this->base == "") {
 			$this->base = BASE;
 		}
@@ -181,7 +176,6 @@ class Ethna_Controller
 
 		// 初期設定
 		list($this->language, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
-		$this->client_type = $this->_getDefaultClientType();
 
 		$this->config =& $this->getConfig();
 		$this->dsn = $this->_prepareDSN();
@@ -204,8 +198,8 @@ class Ethna_Controller
 	 */
 	function &getInstance()
 	{
-		if (isset($GLOBALS['controller'])) {
-			return $GLOBALS['controller'];
+		if (isset($GLOBALS['_Ethna_controller'])) {
+			return $GLOBALS['_Ethna_controller'];
 		} else {
 			return null;
 		}
@@ -223,36 +217,75 @@ class Ethna_Controller
 	}
 
 	/**
+	 *	アプリケーションIDをチェックする
+	 *
+	 *	@access	public
+	 *	@param	string	$id		アプリケーションID
+	 *	@return	mixed   true:OK Ethna_Error:NG
+	 */
+	function checkAppId($id)
+	{
+		if (strcasecmp($id, 'ethna') == 0) {
+            return Ethna::raiseError(sprintf("Application Id [%s] is reserved\n", $id));
+		}
+		if (preg_match('/^[0-9a-zA-Z]+$/', $id) == 0) {
+            return Ethna::raiseError(sprintf("Only Numeric(0-9) and Alphabetical(A-Z) is allowed for Application Id\n"));
+		}
+
+		return true;
+	}
+
+	/**
 	 *	DSNを返す
 	 *
 	 *	@access	public
-	 *	@param	string	$type	DB種別
+	 *	@param	string	$db_key DBキー
 	 *	@return	string	DSN
 	 */
 	function getDSN($type = "")
 	{
-		if (isset($this->dsn[$type]) == false) {
+		if (isset($this->dsn[$db_key]) == false) {
 			return null;
 		}
-		return $this->dsn[$type];
+		return $this->dsn[$db_key];
 	}
 
 	/**
 	 *	DSNの持続接続設定を返す
 	 *
 	 *	@access	public
-	 *	@param	string	$type	DB種別
+	 *	@param	string	$db_key DBキー
 	 *	@return	bool	true:persistent false:non-persistent(あるいは設定無し)
 	 */
-	function getDSN_persistent($type = "")
+	function getDSN_persistent($db_key = "")
 	{
-		$key = sprintf("dsn%s_persistent", $type == "" ? "" : "_$type");
+		$key = sprintf("dsn%s_persistent", $db_key == "" ? "" : "_$db_key");
 
 		$dsn_persistent = $this->config->get($key);
 		if (is_null($dsn_persistent)) {
 			return false;
 		}
 		return $dsn_persistent;
+	}
+
+	/**
+	 *	DB設定を返す
+	 *
+	 *	@access	public
+	 *	@param	string	$db_key DBキー("", "r", "rw", "default", "blog_r"...)
+	 *	@return	string	$db_keyに対応するDB種別定義(設定が無い場合はnull)
+	 */
+	function getDBType($db_key = null)
+	{
+        if (is_null($db_key)) {
+            // 一覧を返す
+            return $this->db;
+        }
+
+		if (isset($this->db[$db_key]) == false) {
+			return null;
+		}
+		return $this->db[$db_key];
 	}
 
 	/**
@@ -292,11 +325,6 @@ class Ethna_Controller
 			$template .= '/' . $this->language;
 		}
 
-		// クライアント別ディレクトリ(if we need)
-		if ($this->client_type == CLIENT_TYPE_MOBILE_AU && file_exists($template . '/au')) {
-			$template .= '/au';
-		}
-
 		return $template;
 	}
 
@@ -331,25 +359,15 @@ class Ethna_Controller
 	 */
 	function getDirectory($key)
 	{
+        // for B.C.
+        if ($key == 'app' && isset($this->directory[$key]) == false) {
+            return BASE . '/app';
+        }
+
 		if (isset($this->directory[$key]) == false) {
 			return null;
 		}
 		return $this->directory[$key];
-	}
-
-	/**
-	 *	DB設定を返す
-	 *
-	 *	@access	public
-	 *	@param	string	$key	DBキー("r", ...)
-	 *	@return	string	$keyに対応するDB種別定義(設定が無い場合はnull)
-	 */
-	function getDBType($key)
-	{
-		if (isset($this->db[$key]) == false) {
-			return null;
-		}
-		return $this->db[$key];
 	}
 
 	/**
@@ -500,49 +518,26 @@ class Ethna_Controller
 		return array($this->language, $this->system_encoding, $this->client_encoding);
 	}
 
-	/**
-	 *	クライアントタイプを取得する
-	 *
-	 *	@access	public
-	 *	@return	int		クライアントタイプ定義(CLIENT_TYPE_WWW...)
-	 */
-	function getClientType()
-	{
-		return $this->client_type;
-	}
+    /**
+     *  ゲートウェイを取得する
+     *
+     *  @access public
+     */
+    function getGateway()
+    {
+        return $this->gateway;
+    }
 
-	/**
-	 *	クライアントタイプを設定する
-	 *
-	 *	@access	public
-	 *	@param	int		$client_type	クライアントタイプ定義(CLIENT_TYPE_WWW...)
-	 */
-	function setClientType($client_type)
-	{
-		$this->client_type = $client_type;
-	}
-
-	/**
-	 *	CLI実行中フラグを取得する
-	 *
-	 *	@access	public
-	 *	@return	bool	CLI実行中フラグ
-	 */
-	function getCLI()
-	{
-		return $this->cli;
-	}
-
-	/**
-	 *	CLI実行中フラグを設定する
-	 *
-	 *	@access	public
-	 *	@param	bool	CLI実行中フラグ
-	 */
-	function setCLI($cli)
-	{
-		$this->cli = $cli;
-	}
+    /**
+     *  ゲートウェイモードを設定する
+     *
+     *  @access public
+     */
+    function setGateway($gateway)
+    {
+        // TODO: check value?
+        $this->gateway = $gateway;
+    }
 
 	/**
 	 *	アプリケーションのエントリポイント
@@ -556,11 +551,11 @@ class Ethna_Controller
 	function main($class_name, $action_name = "", $fallback_action_name = "")
 	{
 		$c =& new $class_name;
-		$c->trigger('www', $action_name, $fallback_action_name);
+		$c->trigger($action_name, $fallback_action_name);
 	}
 
 	/**
-	 *	コマンドラインアプリケーションのエントリポイント
+	 *	CLIアプリケーションのエントリポイント
 	 *
 	 *	@access	public
 	 *	@param	string	$class_name		アプリケーションコントローラのクラス名
@@ -571,50 +566,53 @@ class Ethna_Controller
 	function main_CLI($class_name, $action_name, $enable_filter = true)
 	{
 		$c =& new $class_name;
-		$c->setCLI(true);
+		$c->setGateway(GATEWAY_CLI);
 		$c->action[$action_name] = array();
-		$c->trigger('www', $action_name, "", $enable_filter);
+		$c->trigger($action_name, "", $enable_filter);
+	}
+
+	/**
+	 *	XMLRPCアプリケーションのエントリポイント
+	 *
+	 *	@access	public
+	 *	@param	string	$class_name		アプリケーションコントローラのクラス名
+	 *	@param	mixed	$action_name	指定のアクション名(省略可)
+	 *	@param	mixed	$fallback_action_name	アクションが決定できなかった場合に実行されるアクション名(省略可)
+	 *	@static
+	 */
+	function main_XMLRPC($class_name, $action_name = "", $fallback_action_name = "")
+	{
+		$c =& new $class_name;
+		$c->setGateway(GATEWAY_XMLRPC);
+		$c->trigger($action_name, $fallback_action_name);
 	}
 
 	/**
 	 *	SOAPアプリケーションのエントリポイント
 	 *
 	 *	@access	public
-	 *	@param	string	$class_name	アプリケーションコントローラのクラス名
+	 *	@param	string	$class_name		アプリケーションコントローラのクラス名
+	 *	@param	mixed	$action_name	指定のアクション名(省略可)
+	 *	@param	mixed	$fallback_action_name	アクションが決定できなかった場合に実行されるアクション名(省略可)
 	 *	@static
 	 */
-	function main_SOAP($class_name)
+	function main_SOAP($class_name, $action_name = "", $fallback_action_name = "")
 	{
 		$c =& new $class_name;
-		$c->setClientType(CLIENT_TYPE_SOAP);
-		$c->trigger('soap');
-	}
-
-	/**
-	 *	AMF(Flash Remoting)アプリケーションのエントリポイント
-	 *
-	 *	@access	public
-	 *	@param	string	$class_name	アプリケーションコントローラのクラス名
-	 *	@static
-	 */
-	function main_AMF($class_name)
-	{
-		$c =& new $class_name;
-		$c->setClientType(CLIENT_TYPE_AMF);
-		$c->trigger('amf');
+		$c->setGateway(GATEWAY_SOAP);
+		$c->trigger($action_name, $fallback_action_name);
 	}
 
 	/**
 	 *	フレームワークの処理を開始する
 	 *
 	 *	@access	public
-	 *	@param	strint	$type					処理タイプ(WWW/SOAP/AMF)
 	 *	@param	mixed	$default_action_name	指定のアクション名
 	 *	@param	mixed	$fallback_action_name	アクション名が決定できなかった場合に実行されるアクション名
 	 *	@param	bool	$enable_filter	フィルタチェインを有効にするかどうか
 	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
-	function trigger($type, $default_action_name = "", $fallback_action_name = "", $enable_filter = true)
+	function trigger($default_action_name = "", $fallback_action_name = "", $enable_filter = true)
 	{
 		// フィルターの生成
 		if ($enable_filter) {
@@ -630,22 +628,27 @@ class Ethna_Controller
 		}
 
 		// trigger
-		if ($type == 'www') {
-			$this->_trigger($default_action_name, $fallback_action_name);
-		} else if ($type == 'soap') {
+        switch ($this->getGateway()) {
+        case GATEWAY_WWW:
+			$this->_trigger_WWW($default_action_name, $fallback_action_name);
+            break;
+        case GATEWAY_CLI:
+			$this->_trigger_CLI($default_action_name);
+            break;
+        case GATEWAY_XMLRPC:
+			$this->_trigger_XMLRPC();
+            break;
+        case GATEWAY_SOAP:
 			$this->_trigger_SOAP();
-		} else if ($type == 'amf') {
-			$this->_trigger_AMF();
+            break;
 		}
 
 		// 実行後フィルタ
-		if ($this->getCLI() == false) {
-			for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
-				$r = $this->filter_chain[$i]->postFilter();
-				if (Ethna::isError($r)) {
-					return $r;
-				}
-			}
+        for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
+            $r = $this->filter_chain[$i]->postFilter();
+            if (Ethna::isError($r)) {
+                return $r;
+            }
 		}
 	}
 
@@ -661,7 +664,7 @@ class Ethna_Controller
 	 *	@param	mixed	$fallback_action_name	アクション名が決定できなかった場合に実行されるアクション名
 	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
 	 */
-	function _trigger($default_action_name = "", $fallback_action_name = "")
+	function _trigger_WWW($default_action_name = "", $fallback_action_name = "")
 	{
 		// アクション名の取得
 		$action_name = $this->_getActionName($default_action_name, $fallback_action_name);
@@ -732,10 +735,32 @@ class Ethna_Controller
 	}
 
 	/**
+	 *	フレームワークの処理を実行する(CLI)
+	 *
+	 *	@access	private
+	 *	@param	mixed	$default_action_name	指定のアクション名
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
+	 */
+	function _trigger_CLI($default_action_name = "")
+	{
+        return $this->_trigger_WWW($default_action_name);
+    }
+
+	/**
+	 *	フレームワークの処理を実行する(XMLRPC)
+	 *
+	 *	@access	private
+	 *	@param	mixed	$action_name	指定のアクション名
+	 *	@return	mixed	0:正常終了 Ethna_Error:エラー
+	 */
+	function _trigger_XMLRPC($action_name = "")
+	{
+        die("sorry, xmlrpc gateway is not supported yet");
+    }
+
+	/**
 	 *  SOAPフレームワークの処理を実行する
 	 *
-	 *	(experimental)
- 	 *
 	 *  @access private
 	 */
 	function _trigger_SOAP()
@@ -749,34 +774,6 @@ class Ethna_Controller
 		$server =& new SoapServer(null, array('uri' => $this->config->get('url')));
 		$server->setClass($gg->getClassName());
 		$server->handle();
-	}
-
-	/**
-	 *	AMF(Flash Remoting)フレームワークの処理を実行する
-	 *
-	 *	(experimental)
-	 *
-	 *	@access	public
-	 */
-	function _trigger_AMF()
-	{
-		include_once('Ethna/contrib/amfphp/app/Gateway.php');
-
-		// Credentialヘッダでセッションを処理するのでここではnullに設定
-		$this->session = null;
-
-		$this->_setLanguage($this->language, $this->system_encoding, $this->client_encoding);
-
-		// backendオブジェクト
-		$backend =& $this->getBackend();
-
-		// アクションスクリプトをインクルード
-		$this->_includeActionScript();
-
-		// amfphpに処理を委譲
-		$gateway =& new Gateway();
-		$gateway->setBaseClassPath('');
-		$gateway->service();
 	}
 
 	/**
@@ -924,11 +921,7 @@ class Ethna_Controller
 	 */
 	function &_getAction($action_name)
 	{
-		if ($this->client_type == CLIENT_TYPE_SOAP) {
-			$action =& $this->soap_action;
-		} else {
-			$action =& $this->action;
-		}
+		$action =& $this->action;
 
 		$action_obj = array();
 		if (isset($action[$action_name])) {
@@ -1050,27 +1043,14 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	アクションフォーム名
 	 */
-	function getDefaultFormClass($action_name, $fallback = true)
+	function getDefaultFormClass($action_name)
 	{
 		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
-
-		$r = null;
-		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-			$r = sprintf("%s_SOAPForm_%s", $this->getAppId(), $postfix);
-		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$tmp = sprintf("%s_MobileAUForm_%s", $this->getAppId(), $postfix);
-			if ($fallback == false || class_exists($tmp)) {
-				$r = $tmp;
-			}
-		}
-
-		if ($r == null) {
-			$r = sprintf("%s_Form_%s", $this->getAppId(), $postfix);
-		}
+		$r = sprintf("%s_Form_%s", $this->getAppId(), $postfix);
 		$this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
+
 		return $r;
 	}
 
@@ -1107,12 +1087,11 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	form classが定義されるスクリプトのパス名
 	 */
-	function getDefaultFormPath($action_name, $fallback = true)
+	function getDefaultFormPath($action_name)
 	{
-		return $this->getDefaultActionPath($action_name, $fallback);
+		return $this->getDefaultActionPath($action_name);
 	}
 
 	/**
@@ -1139,27 +1118,14 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	アクションクラス名
 	 */
-	function getDefaultActionClass($action_name, $fallback = true)
+	function getDefaultActionClass($action_name)
 	{
 		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
-
-		$r = null;
-		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-			$r = sprintf("%s_SOAPAction_%s", $this->getAppId(), $postfix);
-		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$tmp = sprintf("%s_MobileAUAction_%s", $this->getAppId(), $postfix);
-			if ($fallback == false || class_exists($tmp)) {
-				$r = $tmp;
-			}
-		}
-
-		if ($r == null) {
-			$r = sprintf("%s_Action_%s", $this->getAppId(), $postfix);
-		}
+		$r = sprintf("%s_Action_%s", $this->getAppId(), $postfix);
 		$this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
+
 		return $r;
 	}
 
@@ -1194,28 +1160,13 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@param	string	$action_name	アクション名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	アクションクラスが定義されるスクリプトのパス名
 	 */
-	function getDefaultActionPath($action_name, $fallback = true)
+	function getDefaultActionPath($action_name)
 	{
-		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($action_name)) . '.' . $this->getExt('php');
-		$action_dir = $this->getActiondir();
-
-		if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-			$r = 'SOAP/' . $default_path;
-		} else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$r = 'MobileAU/' . $default_path;
-		} else {
-			$r = $default_path;
-		}
-
-		if ($fallback && file_exists($action_dir . $r) == false && $r != $default_path) {
-			$this->logger->log(LOG_DEBUG, 'client_type specific file not found [%s] -> try defualt', $r);
-			$r = $default_path;
-		}
-
+		$r = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($action_name)) . '.' . $this->getExt('php');
 		$this->logger->log(LOG_DEBUG, "default action path [%s]", $r);
+
 		return $r;
 	}
 
@@ -1273,25 +1224,14 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@param	string	$forward_name	forward名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	view classクラス名
 	 */
-	function getDefaultViewClass($forward_name, $fallback = true)
+	function getDefaultViewClass($forward_name)
 	{
 		$postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($forward_name));
-
-		$r = null;
-		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$tmp = sprintf("%s_MobileAUView_%s", $this->getAppId(), $postfix);
-			if ($fallback == false || class_exists($tmp)) {
-				$r = $tmp;
-			}
-		}
-
-		if ($r == null) {
-			$r = sprintf("%s_View_%s", $this->getAppId(), $postfix);
-		}
+		$r = sprintf("%s_View_%s", $this->getAppId(), $postfix);
 		$this->logger->log(LOG_DEBUG, "default view class [%s]", $r);
+
 		return $r;
 	}
 
@@ -1302,26 +1242,13 @@ class Ethna_Controller
 	 *
 	 *	@access	public
 	 *	@param	string	$forward_name	forward名
-	 *	@param	bool	$fallback		クライアント種別によるfallback on/off
 	 *	@return	string	view classが定義されるスクリプトのパス名
 	 */
-	function getDefaultViewPath($forward_name, $fallback = true)
+	function getDefaultViewPath($forward_name)
 	{
-		$default_path = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($forward_name)) . '.' . $this->getExt('php');
-		$view_dir = $this->getViewdir();
-
-		if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-			$r = 'MobileAU/' . $r;
-		} else {
-			$r = $default_path;
-		}
-
-		if ($fallback && file_exists($view_dir . $r) == false && $r != $default_path) {
-			$this->logger->log(LOG_DEBUG, 'client_type specific file not found [%s] -> try defualt', $r);
-			$r = $default_path;
-		}
-
+		$r = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($forward_name)) . '.' . $this->getExt('php');
 		$this->logger->log(LOG_DEBUG, "default view path [%s]", $r);
+
 		return $r;
 	}
 
@@ -1502,17 +1429,17 @@ class Ethna_Controller
 	}
 
 	/**
-	 *	デフォルト状態でのクライアントタイプを取得する
+	 *	デフォルト状態でのゲートウェイを取得する
 	 *
 	 *	@access	protected
-	 *	@return	int		クライアントタイプ定義(CLIENT_TYPE_WWW...)
+	 *	@return	int		ゲートウェイ定義(GATEWAY_WWW, GATEWAY_CLI...)
 	 */
-	function _getDefaultClientType()
+	function _getDefaultGateway($gateway)
 	{
-		if (is_null($GLOBALS['_Ethna_client_type']) == false) {
-			return $GLOBALS['_Ethna_client_type'];
+		if (is_null($GLOBALS['_Ethna_gateway']) == false) {
+			return $GLOBALS['_Ethna_gateway'];
 		}
-		return CLIENT_TYPE_WWW;
+		return GATEWAY_WWW;
 	}
 
 	/**
@@ -1683,7 +1610,7 @@ class Ethna_Controller
 	 *	DSNの定義方法(デフォルト:設定ファイル)を変えたい場合はここをオーバーライドする
 	 *
 	 *	@access	protected
-	 *	@return	array	DSN定義
+     *	@return	array	DSN定義(array('DBキー1' => 'dsn1', 'DBキー2' => 'dsn2', ...))
 	 */
 	function _prepareDSN()
 	{
@@ -1757,6 +1684,30 @@ class Ethna_Controller
 			'view_name'		=> 'Ethna_View_Info',
 			'view_path'		=> sprintf('%s/class/View/Ethna_View_Info.php', ETHNA_BASE),
 		);
+	}
+
+	/**
+	 *	CLI実行中フラグを取得する
+	 *
+	 *	@access	public
+	 *	@return	bool	CLI実行中フラグ
+     *  @obsolete
+	 */
+	function getCLI()
+	{
+		return $this->gateway == GATEWAY_CLI ? true : false;
+	}
+
+	/**
+	 *	CLI実行中フラグを設定する
+	 *
+	 *	@access	public
+	 *	@param	bool	CLI実行中フラグ
+     *  @obsolete
+	 */
+	function setCLI($cli)
+	{
+        $this->gateway = $cli ? GATEWAY_CLI : $this->_getDefaultGateway();
 	}
 }
 // }}}

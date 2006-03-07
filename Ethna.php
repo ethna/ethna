@@ -9,30 +9,27 @@
  *	@version	$Id$
  */
 
-/** Ethna依存ライブラリ: PEAR, PEAR_Error */
+/** Ethna depends on PEAR */
 include_once('PEAR.php');
 
-/** Ethna依存ライブラリ: PEAR::DB */
-include_once('DB.php');
-
-/** Ethna依存ライブラリ: Smarty */
+/** Ethna (*currently*) depends on Smarty */
 include_once('Smarty/Smarty.class.php');
 
 if (!defined('PATH_SEPARATOR')) {
 	if (OS_WINDOWS) {
-		/** include_pathセパレータ(Windows) */
+		/** include_path separator(Windows) */
 		define('PATH_SEPARATOR', ';');
 	} else {
-		/** include_pathセパレータ(Unix) */
+		/** include_path separator(Unix) */
 		define('PATH_SEPARATOR', ':');
 	}
 }
 if (!defined('DIRECTORY_SEPARATOR')) {
 	if (OS_WINDOWS) {
-		/** ディレクトリセパレータ(Windows) */
+		/** directory separator(Windows) */
 		define('DIRECTORY_SEPARATOR', '\\');
 	} else {
-		/** ディレクトリセパレータ(Unix) */
+		/** separator(Unix) */
 		define('DIRECTORY_SEPARATOR', '/');
 	}
 }
@@ -57,6 +54,8 @@ include_once(ETHNA_BASE . '/class/Ethna_ClassFactory.php');
 include_once(ETHNA_BASE . '/class/Ethna_DB.php');
 include_once(ETHNA_BASE . '/class/DB/Ethna_DB_PEAR.php');
 include_once(ETHNA_BASE . '/class/Ethna_Filter.php');
+include_once(ETHNA_BASE . '/class/Ethna_Handle.php');
+include_once(ETHNA_BASE . '/class/Handle/Ethna_Handle_Manager.php');
 include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
 include_once(ETHNA_BASE . '/class/Ethna_LogWriter.php');
 include_once(ETHNA_BASE . '/class/LogWriter/Ethna_LogWriter_Echo.php');
@@ -69,7 +68,6 @@ include_once(ETHNA_BASE . '/class/Ethna_SkeltonGenerator.php');
 include_once(ETHNA_BASE . '/class/Ethna_SmartyPlugin.php');
 include_once(ETHNA_BASE . '/class/Ethna_Util.php');
 include_once(ETHNA_BASE . '/class/Ethna_ViewClass.php');
-include_once(ETHNA_BASE . '/class/AMF/Ethna_AMF_ActionClass.php');
 include_once(ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php');
 include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
 
@@ -88,17 +86,17 @@ define('LANG_EN', 'en');
 define('LANG_JA', 'ja');
 
 
-/** クライアントタイプ: ウェブブラウザ(PC) */
-define('CLIENT_TYPE_WWW', 1);
+/** ゲートウェイ: WWW */
+define('GATEWAY_WWW', 1);
 
-/** クライアントタイプ: SOAPクライアント */
-define('CLIENT_TYPE_SOAP', 2);
+/** ゲートウェイ: CLI */
+define('GATEWAY_CLI', 2);
 
-/** クライアントタイプ: Flash Player (with Flash Remoting) */
-define('CLIENT_TYPE_AMF', 3);
+/** ゲートウェイ: XMLRPC */
+define('GATEWAY_XMLRPC', 3);
 
-/** クライアントタイプ: モバイル(AU) */
-define('CLIENT_TYPE_MOBILE_AU', 4);
+/** ゲートウェイ: SOAP */
+define('GATEWAY_SOAP', 4);
 
 
 /** DB種別定義: R/W */
@@ -303,7 +301,7 @@ class Ethna extends PEAR
 	 *	@param	int		$code				エラーコード
 	 *	@static
 	 */
-	function &raiseError($message, $code)
+	function &raiseError($message, $code = E_GENERAL)
 	{
 		$userinfo = null;
 		if (func_num_args() > 2) {
@@ -323,7 +321,7 @@ class Ethna extends PEAR
 	 *	@param	int		$code				エラーコード
 	 *	@static
 	 */
-	function &raiseWarning($message, $code)
+	function &raiseWarning($message, $code = E_GENERAL)
 	{
 		$userinfo = null;
 		if (func_num_args() > 2) {
@@ -343,7 +341,7 @@ class Ethna extends PEAR
 	 *	@param	int		$code				エラーコード
 	 *	@static
 	 */
-	function &raiseNotice($message, $code)
+	function &raiseNotice($message, $code = E_GENERAL)
 	{
 		$userinfo = null;
 		if (func_num_args() > 2) {

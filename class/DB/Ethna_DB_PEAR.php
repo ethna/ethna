@@ -8,6 +8,7 @@
  *	@package	Ethna
  *	@version	$Id$
  */
+include_once('DB.php');
 
 // {{{ Ethna_DB_PEAR
 /**
@@ -183,6 +184,18 @@ class Ethna_DB_PEAR extends Ethna_DB
 
 		return 0;
 	}
+
+    /**
+     *  テーブル定義情報を取得する
+     *
+     *  @access public
+     *  @param  string  $table  テーブル名
+     *  @return mixed   array: PEAR::DBに準じたメタデータ Ethna_Error::エラー
+     */
+    function getMetaData($table)
+    {
+        return $this->db->tableInfo($table);
+    }
 	// }}}
 
 	// {{{ Ethna_AppObject連携のための実装

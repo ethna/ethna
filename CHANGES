@@ -3,11 +3,30 @@
 ** [current] 2.0.1-dev
 
 *** features
+
+- Haste_ADOdb, Haste_Creoleマージ(from Haste Project by haltさん)
+- Ethna_AppObjectクラスのテーブル/プロパティ定義自動生成サポート追加(from generate_app_object originally by 井上さん+haltさん)
+- Ethna_Controller::getAppdir()メソッドを追加
+- Ethna_Controller::getDBType()の引数がnullだった場合に定義一覧を返すように変更
+- ethnaコマンドラインハンドラを追加(+ハンドラをpluggableに+add-viewでテンプレート生成サポート)−please cp bin/ethna to /usr/local/bin or somewhere
+ generate_project_skelton.php -> ethna add-project
+ generate_action_script.php   -> ethna add-action
+ generate_view_script.php     -> ethna add-view
+ generate_app_object.php      -> ethna add-app-object
+- [breaking B.C.] client_typeを廃止 -> gateway追加
+-- CLIENT_TYPE定数廃止
+-- Ethna_Controller::getClientType(), Ethna_Controller::setClientType()廃止
+-- Ethna_Controller::setCLI()/Ethna_Controller::getCLI() -> obsolete
+-- GATEWAY定数追加(GATEWAY_WWW, GATEWAY_CLI, GATEWAY_XMLRPC, GATEWAY_SOAP)
+-- Ethna_Controller::setGateway()/Ethna_Controller::getGateway()追加
+-- 作りかけのAMFゲートウェイサポートを(一旦)廃止
+- Ethna_SkeltonGenerator::_checkAppId()をEthna_Controller::checkAppId()に移動
 - generate_app_objectを追加
 - クラスのメソッドもSmartyFunctionとして登録できるように修正
 
 *** bug fixes
 
+- typo fixed (aleady -> already)
 - [[#7717>http://sourceforge.jp/tracker/index.php?func=detail&aid=7717&group_id=1343&atid=5092]](Ethna_AppObject::add()でNotice)を修正
 - [[#7664>http://sourceforge.jp/tracker/index.php?func=detail&aid=7664&group_id=1343&atid=5092]](Ethna_AppObjectのバグ)を修正
 - [[#7729>http://sourceforge.jp/tracker/index.php?func=detail&aid=7729&group_id=1343&atid=5092]](ethna_infoがFirefoxだとずれる)を修正

@@ -1,0 +1,3 @@
+[project]
+controller_file = "app/{$project_id}_Controller.php"
+controller_class = "{$project_id}_Controller"
