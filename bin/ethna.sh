@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#   ethna
+#   ethna.sh
 #
 #   simple command line gateway
 #
