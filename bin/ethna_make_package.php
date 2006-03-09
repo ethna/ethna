@@ -64,7 +64,7 @@ $config = array(
     'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc'),
     'description' => $description,
     'installexceptions' => array('bin/ethna.sh' => '/', 'bin/ethna.bat' => '/'),
-    'installas' => array('bin/ethna.sh' => 'ethna'),
+    'installas' => array('bin/ethna.sh' => 'ethna', 'bin/ethna.bat' => 'ethna.bat'),
 );
  
 $packagexml = new PEAR_PackageFileManager2();
