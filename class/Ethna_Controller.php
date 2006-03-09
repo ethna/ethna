@@ -242,7 +242,7 @@ class Ethna_Controller
 	 *	@param	string	$db_key DB¥­¡¼
 	 *	@return	string	DSN
 	 */
-	function getDSN($type = "")
+	function getDSN($db_key = "")
 	{
 		if (isset($this->dsn[$db_key]) == false) {
 			return null;
