@@ -82,7 +82,7 @@ class Ethna_Session
 	 */
 	function restore()
 	{
-		if (!empty($_COOKIE[$this->session_name]) || session_id() != null) {
+		if (!empty($_COOKIE[$this->session_name]) || session_id() != "") {
 			session_start();
 			$this->session_start = true;
 

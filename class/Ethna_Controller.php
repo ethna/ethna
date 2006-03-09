@@ -828,7 +828,8 @@ class Ethna_Controller
 		$this->logger->log(LOG_DEBUG, 'form_action_name[%s]', $form_action_name);
 
 		// Ethnaマネージャへのフォームからのリクエストは拒否
-		if ($form_action_name == "__ethna_info__") {
+		if ($form_action_name == "__ethna_info__" ||
+			$form_action_name == "__ethna_unittest__") {
 			$form_action_name = "";
 		}
 
@@ -1669,6 +1670,7 @@ class Ethna_Controller
 		}
 
 		include_once(ETHNA_BASE . '/class/Ethna_InfoManager.php');
+		include_once(ETHNA_BASE . '/class/Ethna_UnitTestManager.php');
 
 		// action設定
 		$this->action['__ethna_info__'] = array(
@@ -1684,6 +1686,23 @@ class Ethna_Controller
 			'view_name'		=> 'Ethna_View_Info',
 			'view_path'		=> sprintf('%s/class/View/Ethna_View_Info.php', ETHNA_BASE),
 		);
+        
+        
+		// action設定
+		$this->action['__ethna_unittest__'] = array(
+			'form_name' =>	'Ethna_Form_UnitTest',
+			'form_path' =>	sprintf('%s/class/Action/Ethna_Action_UnitTest.php', ETHNA_BASE),
+			'class_name' =>	'Ethna_Action_UnitTest',
+			'class_path' =>	sprintf('%s/class/Action/Ethna_Action_UnitTest.php', ETHNA_BASE),
+		);
+
+		// forward設定
+		$this->forward['__ethna_unittest__'] = array(
+			'forward_path'	=> sprintf('%s/tpl/unittest.tpl', ETHNA_BASE),
+			'view_name'		=> 'Ethna_View_UnitTest',
+			'view_path'		=> sprintf('%s/class/View/Ethna_View_UnitTest.php', ETHNA_BASE),
+		);
+
 	}
 
 	/**
