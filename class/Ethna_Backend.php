@@ -407,7 +407,7 @@ class Ethna_Backend
             $elt['key'] = $db_key;
 			$elt['type'] = $db_type;
 			$elt['varname'] = "db";
-			if ($key != "") {
+			if ($db_key != "") {
 				$elt['varname'] = sprintf("db_%s", strtolower($db_key));
 			}
 			$r[] = $elt;
