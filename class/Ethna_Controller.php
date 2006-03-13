@@ -1672,7 +1672,11 @@ class Ethna_Controller
         }
 
         include_once(ETHNA_BASE . '/class/Ethna_InfoManager.php');
-        include_once(ETHNA_BASE . '/class/Ethna_UnitTestManager.php');
+        
+        // see if we have simpletest
+        if (file_exists_ex('simpletest/unit_tester.php', true)) {
+            include_once(ETHNA_BASE . '/class/Ethna_UnitTestManager.php');
+        }
 
         // actionÀßÄê
         $this->action['__ethna_info__'] = array(

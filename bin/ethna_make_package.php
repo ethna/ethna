@@ -1,6 +1,6 @@
 <?php
 /**
- *	make_package.php
+ *	ethna_make_package.php
  *
  *  package.xml generator for Ethna
  *

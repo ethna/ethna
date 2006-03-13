@@ -43,6 +43,61 @@ function is_error($name)
 }
 // }}}
 
+// {{{ file_exists_ex
+/**
+ *	グローバルユーティリティ関数: include_pathを検索しつつfile_exists()する
+ *
+ *	@param	string	$path               ファイル名
+ *	@param	bool    $use_include_path   include_pathをチェックするかどうか
+ *	@return	bool	true:有り false:無し
+ */
+function file_exists_ex($path, $use_include_path = true)
+{
+    if ($use_include_path == false) {
+        return file_exists($path);
+    }
+
+    // check if absolute
+    if (is_absolute_path($path)) {
+        return file_exists($path);
+    }
+
+    $include_path_list = explode(PATH_SEPARATOR, get_include_path());
+    if (is_array($include_path_list) == false) {
+        return file_exists($path);
+    }
+
+    foreach ($include_path_list as $include_path) {
+        if (file_exists($include_path . DIRECTORY_SEPARATOR . $path)) {
+            return true;
+        }
+    }
+    return false;
+}
+// }}}
+
+// {{{ is_absolute_path
+/**
+ *	グローバルユーティリティ関数: 絶対パスかどうかを返す
+ *
+ *	@param	string	$path               ファイル名
+ *	@return	bool	true:絶対 false:相対
+ */
+function is_absolute_path($path)
+{
+    if (OS_WINDOWS) {
+        if (preg_match('/^[a-z]:/i', $path) && $path{2} == DIRECTORY_SEPARATOR) {
+            return true;
+        }
+    } else {
+        if ($path{0} == DIRECTORY_SEPARATOR) {
+            return true;
+        }
+    }
+    return false;
+}
+// }}}
+
 // {{{ Ethna_Util
 /**
  *	ユーティリティクラス

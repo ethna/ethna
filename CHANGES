@@ -4,7 +4,9 @@
 
 *** features
 
+- なげやり便利関数file_exists_ex(), is_absolute_path()を追加
 - SimpleTestとの連携機能を追加(ethnaコマンドにadd-action-test,add-view-testの追加など)
+-- SimpleTestのインストールチェックを追加
 - package.xml生成スクリプト改善(ethnaコマンドインストール対応など)
 - Haste_ADOdb, Haste_Creoleマージ(from Haste Project by haltさん)
 - Ethna_AppObjectクラスのテーブル/プロパティ定義自動生成サポート追加(from generate_app_object originally by 井上さん+haltさん)
