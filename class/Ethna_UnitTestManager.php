@@ -132,7 +132,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
         // °ìÈÌ
         foreach ($this->testcase as $class_name => $file_name) {
             $dir = $this->ctl->getBasedir().'/';
-            require_once "$dir$file_name";
+            @include_once "$dir$file_name";
             $testcase_name = $class_name.'_TestCase';
             $test->addTestCase(new $testcase_name($this->ctl));
         }

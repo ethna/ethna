@@ -8,7 +8,7 @@
  *  @version    $Id$
  */
 
-require_once ('simpletest/scorer.php');
+require_once 'simpletest/scorer.php';
 
 /**
  *  Ethnaマネージャクラス
@@ -30,7 +30,8 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      *  @access public
      *  @param  string  $character_set  キャラクタセット
      */
-    function Ethna_UnitTestReporter($character_set = 'EUC-JP') {
+    function Ethna_UnitTestReporter($character_set = 'EUC-JP')
+    {
         $this->SimpleReporter();
         $this->_character_set = $character_set;
         $this->report= array();
@@ -43,7 +44,8 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      *  @access public
      *  @param string   $test_name  テスト名称
      */
-    function paintFooter($test_name) {
+    function paintFooter($test_name)
+    {
         $colour = ($this->getFailCount() + $this->getExceptionCount() > 0 ? "red" : "green");
         $this->result = array(
             'TestCaseProgress' => $this->getTestCaseProgress(),
@@ -78,7 +80,8 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      *  @access public
      *　@param string   $message    メッセージ
      */
-    function paintFail($message) {
+    function paintFail($message)
+    {
         parent::paintFail($message);
 
         $test_list = $this->getTestList();
@@ -95,7 +98,8 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      *  @access public
      *　@param string   $message    メッセージ
      */
-    function paintException($message) {
+    function paintException($message)
+    {
         parent::paintException($message);
 
         $breadcrumb = $this->getTestList();
@@ -146,7 +150,8 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      *  @access public
      *　@param string   $message    メッセージ
      */
-    function paintFormattedMessage($message) {
+    function paintFormattedMessage($message)
+    {
         $this->report[] = array(
             'type' => 'FormattedMessage',
             'message' => $this->_htmlEntities($message),
@@ -160,7 +165,8 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      *　@param string   $message    プレーンテキスト
      *　@return string              HTMLエンティティ変換済みメッセージ
      */
-    function _htmlEntities($message) {
+    function _htmlEntities($message)
+    {
         return htmlentities($message, ENT_COMPAT, $this->_character_set);
     }
 }

@@ -43,10 +43,18 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
         $this->af->setApp('app_id', $ctl->getAppId());
         $this->af->setApp('ethna_version', ETHNA_VERSION);
 
-        // unittest
+        // include
+        $inc = sprintf("%s/%s_UnitTestManager.php",
+            $ctl->getDirectory('app'),
+            $ctl->getAppId());
+        @include_once "{$inc}";
+
+        // run
         $r = sprintf("%s_UnitTestManager", $ctl->getAppId());
         $ut =& new $r($this->backend);
         list($report, $result) = $ut->run();
+        
+        // result
         $this->af->setApp('report', $report);
         $this->af->setApp('result', $result);
 
