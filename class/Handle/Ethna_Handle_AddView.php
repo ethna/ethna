@@ -104,6 +104,7 @@ class Ethna_Handle_AddView extends Ethna_Handle
             $view = $r[1][0];
             $app_dir = getcwd();
         } else {
+            $view = $r[1][0];
             $app_dir = $r[1][1];
         }
 
