@@ -2,7 +2,7 @@
 /**
  *	{$project_id}_UnitTestManager.php
  *
- *	@author		your name
+ *	@author		{$author}
  *	@package	{$project_id}
  *	@version	$Id$
  */
@@ -10,7 +10,7 @@
 /**
  *	{$project_id}ユニットテストマネージャクラス
  *
- *	@author		your name
+ *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */

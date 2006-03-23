@@ -40,7 +40,7 @@ class {$action_form} extends Ethna_ActionForm
 /**
  *	{$action_name}アクションの実装
  *
- *	@author		your name
+ *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */

@@ -44,7 +44,7 @@ class {$project_id}_Form_Index extends Ethna_ActionForm
 /**
  *	indexアクションの実装
  *
- *	@author		your name
+ *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */

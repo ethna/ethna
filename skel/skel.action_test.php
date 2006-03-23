@@ -2,7 +2,7 @@
 /**
  *  {$action_path}
  *
- *  @author     your name
+ *  @author     {$author}
  *  @package    {$project_id}
  *  @version    $Id$
  */
@@ -10,7 +10,7 @@
 /**
  *  {$action_name}フォームのテストケース
  *
- *  @author     your name
+ *  @author     {$author}
  *  @access     public
  *  @package    {$project_id}
  */
@@ -61,7 +61,7 @@ class {$action_form}_TestCase extends Ethna_UnitTestCase
 /**
  *  {$action_name}アクションのテストケース
  *
- *  @author     your name
+ *  @author     {$author}
  *  @access     public
  *  @package    {$project_id}
  */
