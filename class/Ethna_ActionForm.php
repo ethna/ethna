@@ -89,9 +89,6 @@ class Ethna_ActionForm
 
 		// フォーム値定義の設定
 		$this->_setFormDef();
-
-		// フォーム値の設定
-		$this->setFormVars();
 	}
 
 	/**

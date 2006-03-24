@@ -32,6 +32,7 @@ class Ethna_SkeltonGenerator
 		$dir_list = array(
 			array("app", 0755),
 			array("app/action", 0755),
+			array("app/action_xmlrpc", 0755),
 			array("app/filter", 0755),
 			array("app/view", 0755),
 			array("bin", 0755),
@@ -103,8 +104,10 @@ class Ethna_SkeltonGenerator
 		$macro['view_name'] = '{$view_name}';
 		$macro['view_path'] = '{$view_path}';
 
+        // the longest if? :)
 		if ($this->_generateFile("www.index.php", "$basedir/www/index.php", $macro) == false ||
 			$this->_generateFile("www.info.php", "$basedir/www/info.php", $macro) == false ||
+			$this->_generateFile("www.xmlrpc.php", "$basedir/www/xmlrpc.php", $macro) == false ||
 			$this->_generateFile("dot.ethna", "$basedir/.ethna", $macro) == false ||
 			$this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_Controller.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("app.error.php", sprintf("$basedir/app/%s_Error.php", $macro['project_id']), $macro) == false ||
@@ -133,9 +136,10 @@ class Ethna_SkeltonGenerator
 	 *	@access	public
 	 *	@param	string	$action_name	アクション名
      *  @param  string  $app_dir        プロジェクトディレクトリ
+     *  @param  int     $gateway        ゲートウェイ
 	 *	@return	bool	true:成功 false:失敗
 	 */
-	function generateActionSkelton($action_name, $app_dir)
+	function generateActionSkelton($action_name, $app_dir, $gateway = GATEWAY_WWW)
 	{
         // discover controller
         $controller_class = $this->_discoverController($app_dir);
@@ -146,10 +150,10 @@ class Ethna_SkeltonGenerator
         $c =& new $controller_class;
         $c->setGateway(GATEWAY_CLI);
 
-		$action_dir = $c->getActiondir();
-		$action_class = $c->getDefaultActionClass($action_name, false);
-		$action_form = $c->getDefaultFormClass($action_name, false);
-		$action_path = $c->getDefaultActionPath($action_name, false);
+		$action_dir = $c->getActiondir($gateway);
+		$action_class = $c->getDefaultActionClass($action_name, $gateway);
+		$action_form = $c->getDefaultFormClass($action_name, $gateway);
+		$action_path = $c->getDefaultActionPath($action_name);
 
 		$macro = array();
 		$macro['project_id'] = $c->getAppId();
@@ -163,9 +167,19 @@ class Ethna_SkeltonGenerator
 
 		$this->_mkdir(dirname("$action_dir$action_path"), 0755);
 
+        switch ($gateway) {
+        case GATEWAY_WWW:
+        case GATEWAY_CLI:
+            $skelton = "skel.action.php";
+            break;
+        case GATEWAY_XMLRPC:
+            $skelton = "skel.action_xmlrpc.php";
+            break;
+        }
+
 		if (file_exists("$action_dir$action_path")) {
 			printf("file [%s] already exists -> skip\n", "$action_dir$action_path");
-		} else if ($this->_generateFile("skel.action.php", "$action_dir$action_path", $macro) == false) {
+		} else if ($this->_generateFile($skelton, "$action_dir$action_path", $macro) == false) {
 			printf("[warning] file creation failed [%s]\n", "$action_dir$action_path");
 		} else {
 			printf("action script(s) successfully created [%s]\n", "$action_dir$action_path");

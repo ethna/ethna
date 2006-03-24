@@ -13,6 +13,8 @@
 /**
  *  コントローラクラス
  *
+ *  @todo       gatewayでswitchしてるところがダサダサ
+ *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
  *  @package    Ethna
@@ -38,6 +40,7 @@ class Ethna_Controller
     /** @var    array       アプリケーションディレクトリ */
     var $directory = array(
         'action'        => 'app/action',
+        'action_xmlrpc' => 'app/action_xmlrpc',
         'app'           => 'app',
         'etc'           => 'etc',
         'filter'        => 'app/filter',
@@ -92,11 +95,17 @@ class Ethna_Controller
     /** @var    string  現在実行中のアクション名 */
     var $action_name;
 
+    /** @var    string  現在実行中のXMLRPCメソッド名 */
+    var $xmlrpc_method_name;
+
     /** @var    array   forward定義 */
     var $forward = array();
 
     /** @var    array   action定義 */
     var $action = array();
+
+    /** @var    array   action(XMLRPC)定義 */
+    var $action_xmlrpc = array();
 
     /** @var    array   アプリケーションマネージャ定義 */
     var $manager = array();
@@ -335,9 +344,20 @@ class Ethna_Controller
      *  @access public
      *  @return string  アクションディレクトリ
      */
-    function getActiondir()
+    function getActiondir($gateway = null)
     {
-        return (empty($this->directory['action']) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory['action'] . "/"));
+        $key = 'action';
+        $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
+        switch ($gateway) {
+        case GATEWAY_WWW:
+        case GATEWAY_CLI:
+            $key = 'action';
+            break;
+        case GATEWAY_XMLRPC:
+            $key = 'action_xmlrpc';
+        }
+
+        return (empty($this->directory[$key]) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory[$key] . "/"));
     }
 
     /**
@@ -509,6 +529,17 @@ class Ethna_Controller
     }
 
     /**
+     *  実行中のXMLRPCメソッド名を返す
+     *
+     *  @access public
+     *  @return string  実行中のXMLRPCメソッド名
+     */
+    function getXmlrpcMethodName()
+    {
+        return $this->xmlrpc_method_name;
+    }
+
+    /**
      *  使用言語を取得する
      *
      *  @access public
@@ -576,16 +607,19 @@ class Ethna_Controller
      *  XMLRPCアプリケーションのエントリポイント
      *
      *  @access public
-     *  @param  string  $class_name     アプリケーションコントローラのクラス名
-     *  @param  mixed   $action_name    指定のアクション名(省略可)
-     *  @param  mixed   $fallback_action_name   アクションが決定できなかった場合に実行されるアクション名(省略可)
      *  @static
      */
-    function main_XMLRPC($class_name, $action_name = "", $fallback_action_name = "")
+    function main_XMLRPC($class_name)
     {
+        if (extension_loaded('xmlrpc') == false) {
+            die("xmlrpc extension is required to enable this gateway");
+        } else if (ini_get('always_populate_raw_post_data') == false) {
+            die("always_populate_raw_post_data ini variable should be true to enable this gateway");
+        }
+
         $c =& new $class_name;
         $c->setGateway(GATEWAY_XMLRPC);
-        $c->trigger($action_name, $fallback_action_name);
+        $c->trigger("", "", false);
     }
 
     /**
@@ -700,6 +734,7 @@ class Ethna_Controller
         // オブジェクト生成
         $form_name = $this->getActionFormName($action_name);
         $this->action_form =& new $form_name($this);
+        $this->action_form->setFormVars();
 
         // バックエンド処理実行
         $backend =& $this->getBackend();
@@ -756,7 +791,56 @@ class Ethna_Controller
      */
     function _trigger_XMLRPC($action_name = "")
     {
-        die("sorry, xmlrpc gateway is not supported yet");
+        $xmlrpc_gateway_method_name = "_Ethna_XmlrpcGateway";
+
+        $xmlrpc_server = xmlrpc_server_create();
+        $method = null;
+        $param = xmlrpc_decode_request($GLOBALS['HTTP_RAW_POST_DATA'], $method);
+        $this->xmlrpc_method_name = $method;
+
+        $request = xmlrpc_encode_request($xmlrpc_gateway_method_name, $param, array("output_type" => "xml", "verbosity" => "pretty", "escaping" => array('markup'), "version" => "xmlrpc", "encoding" => "utf-8")); 
+        xmlrpc_server_register_method($xmlrpc_server, $xmlrpc_gateway_method_name, $xmlrpc_gateway_method_name);
+        $r = xmlrpc_server_call_method($xmlrpc_server, $request, null, array("output_type" => "xml", "verbosity" => "pretty", "escaping" => array('markup'), "version" => "xmlrpc", "encoding" => "utf-8"));
+
+        header('Content-Length: ' . strlen($r));
+        header('Content-Type: text/xml; charset=UTF-8');
+        print $r;
+    }
+
+    /**
+     *  _trigger_XMLRPCのコールバックメソッド
+     *
+     *  @access public
+     */
+    function trigger_XMLRPC($method, $param)
+    {
+        // アクション定義の取得
+        $action_obj =& $this->_getAction($method);
+        if (is_null($action_obj)) {
+            return Ethna::raiseError("undefined xmlrpc method [%s]", E_APP_UNDEFINED_ACTION, $method);
+        }
+
+        // オブジェクト生成
+        $form_name = $this->getActionFormName($method);
+        $this->action_form =& new $form_name($this);
+        $def = $this->action_form->getDef();
+        $n = 0;
+        foreach ($def as $key => $value) {
+            if (isset($param[$n]) == false) {
+                $this->action_form->set($key, null);
+            } else {
+                $this->action_form->set($key, $param[$n]);
+            }
+            $n++;
+        }
+
+        // バックエンド処理実行
+        $backend =& $this->getBackend();
+        $session =& $this->getSession();
+        $session->restore();
+        $r = $backend->perform($method);
+
+        return $r;
     }
 
     /**
@@ -921,9 +1005,19 @@ class Ethna_Controller
      *  @param  string  $action_name    アクション名
      *  @return array   アクション定義
      */
-    function &_getAction($action_name)
+    function &_getAction($action_name, $gateway = null)
     {
-        $action =& $this->action;
+        $action = array();
+        $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
+        switch ($gateway) {
+        case GATEWAY_WWW:
+        case GATEWAY_CLI:
+            $action =& $this->action;
+            break;
+        case GATEWAY_XMLRPC:
+            $action =& $this->action_xmlrpc;
+            break;
+        }
 
         $action_obj = array();
         if (isset($action[$action_name])) {
@@ -936,7 +1030,7 @@ class Ethna_Controller
         }
 
         // アクションスクリプトのインクルード
-        $this->_includeActionScript($action_obj, $action_name);
+        $this->_includeActionScript($action_obj, $action_name, $gateway);
 
         // 省略値の補正
         if (isset($action_obj['class_name']) == false) {
@@ -1048,10 +1142,12 @@ class Ethna_Controller
      *  @param  string  $action_name    アクション名
      *  @return string  アクションフォーム名
      */
-    function getDefaultFormClass($action_name)
+    function getDefaultFormClass($action_name, $gateway = null)
     {
+        $gateway_prefix = $this->_getGatewayPrefix($gateway);
+
         $postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
-        $r = sprintf("%s_Form_%s", $this->getAppId(), $postfix);
+        $r = sprintf("%s_%sForm_%s", $this->getAppId(), $gateway_prefix ? $gateway_prefix . "_" : "", $postfix);
         $this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
 
         return $r;
@@ -1123,10 +1219,12 @@ class Ethna_Controller
      *  @param  string  $action_name    アクション名
      *  @return string  アクションクラス名
      */
-    function getDefaultActionClass($action_name)
+    function getDefaultActionClass($action_name, $gateway = null)
     {
+        $gateway_prefix = $this->_getGatewayPrefix($gateway);
+
         $postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
-        $r = sprintf("%s_Action_%s", $this->getAppId(), $postfix);
+        $r = sprintf("%s_%sAction_%s", $this->getAppId(), $gateway_prefix ? $gateway_prefix . "_" : "", $postfix);
         $this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
 
         return $r;
@@ -1229,10 +1327,12 @@ class Ethna_Controller
      *  @param  string  $forward_name   forward名
      *  @return string  view classクラス名
      */
-    function getDefaultViewClass($forward_name)
+    function getDefaultViewClass($forward_name, $gateway = null)
     {
+        $gateway_prefix = $this->_getGatewayPrefix($gateway);
+
         $postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($forward_name));
-        $r = sprintf("%s_View_%s", $this->getAppId(), $postfix);
+        $r = sprintf("%s_%sView_%s", $this->getAppId(), $gateway_prefix ? $gateway_prefix . "_" : "", $postfix);
         $this->logger->log(LOG_DEBUG, "default view class [%s]", $r);
 
         return $r;
@@ -1443,6 +1543,31 @@ class Ethna_Controller
             return $GLOBALS['_Ethna_gateway'];
         }
         return GATEWAY_WWW;
+    }
+
+    /**
+     *  ゲートウェイに対応したクラス名のプレフィクスを取得する
+     *
+     *  @access public
+     *  @param  string  $gateway    ゲートウェイ
+     *  @return string  ゲートウェイクラスプレフィクス
+     */
+    function _getGatewayPrefix($gateway = null)
+    {
+        $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
+        switch ($gateway) {
+        case GATEWAY_WWW:
+        case GATEWAY_CLI:
+            $prefix = '';
+            break;
+        case GATEWAY_XMLRPC:
+            $prefix = 'Xmlrpc';
+            break;
+        default:
+            $prefix = '';
+        }
+
+        return $prefix;
     }
 
     /**
@@ -1736,4 +1861,21 @@ class Ethna_Controller
     }
 }
 // }}}
+
+/**
+ *  XMLRPCゲートウェイのスタブクラス
+ *
+ *  @access     public
+ */
+function _Ethna_XmlrpcGateway($method_stub, $param)
+{
+    $ctl =& Ethna_Controller::getInstance();
+    $method = $ctl->getXmlrpcMethodName();
+    $r = $ctl->trigger_XMLRPC($method, $param);
+    if (Ethna::isError($r)) {
+        // ToDo: notify fault
+        return -1;
+    }
+    return $r;
+}
 ?>

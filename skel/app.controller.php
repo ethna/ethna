@@ -84,6 +84,7 @@ class {$project_id}_Controller extends Ethna_Controller
 	 */
 	var $directory = array(
 		'action'		=> 'app/action',
+        'action_xmlrpc' => 'app/action_xmlrpc',
         'app'           => 'app',
 		'etc'			=> 'etc',
 		'filter'		=> 'app/filter',

@@ -4,6 +4,13 @@
 
 *** features
 
+- XMLRPCゲートウェイサポート追加(experimental)
+-- ethna add-action-xmlrpc [action]でXMLRPCメソッドを追加可能
+-- 引数1つとフォーム定義1つが定義順に対応します
+-- ToDo
+--- 出力バッファチェック
+--- method not foundなどエラー処理対応
+- Ethna_ActionFormクラスのコンストラクタでsetFormVars()を実行しないように変更
 - スケルトンに含まれる'your name'をマクロ({$author})に変更(~/.ethna対応)
 - なげやり便利関数file_exists_ex(), is_absolute_path()を追加
 - SimpleTestとの連携機能を追加(ethnaコマンドにadd-action-test,add-view-testの追加など)

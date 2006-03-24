@@ -83,6 +83,8 @@ class Ethna_Handle_Manager
         }
         closedir($dh);
 
+        usort($handler_list, array($this, "_handler_sort_callback"));
+
         return $handler_list;
     }
 
@@ -137,6 +139,14 @@ class Ethna_Handle_Manager
     {
         $id = preg_replace('/\-(.)/e', "strtoupper('\$1')", ucfirst($id));
         return sprintf("Ethna_Handle_%s", $id);
+    }
+
+    /**
+     *  sort callback method
+     */
+    function _handler_sort_callback($a, $b)
+    {
+        return strcmp($a->getId(), $b->getId());
     }
 }
 // }}}
