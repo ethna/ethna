@@ -344,7 +344,12 @@ class Ethna_Logger extends Ethna_AppManager
 			if ($this->facility == LOG_FILE) {
 				$writer_class = "Ethna_LogWriter_File";
 			} else if ($this->facility == LOG_ECHO) {
-				$writer_class = "Ethna_LogWriter_Echo";
+                if ($this->controller->getGateway() == GATEWAY_WWW ||
+                    $this->controller->getGateway() == GATEWAY_CLI) {
+                    $writer_class = "Ethna_LogWriter_Echo";
+                } else {
+                    $writer_class = "Ethna_LogWriter";
+                }
 			} else {
 				$writer_class = "Ethna_LogWriter_Syslog";
 			}

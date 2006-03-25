@@ -4,6 +4,8 @@
 
 *** features
 
+- XMLRPCゲートウェイにfaultCodeサポートを追加
+-- actionでEthna_Error(あるいはPEAR_Error)オブジェクトを返すとエラーを返せます
 - XMLRPCゲートウェイサポート追加(experimental)
 -- ethna add-action-xmlrpc [action]でXMLRPCメソッドを追加可能
 -- 引数1つとフォーム定義1つが定義順に対応します

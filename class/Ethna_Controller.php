@@ -151,12 +151,14 @@ class Ethna_Controller
      *
      *  @access     public
      */
-    function Ethna_Controller()
+    function Ethna_Controller($gateway = GATEWAY_WWW)
     {
         $GLOBALS['_Ethna_controller'] =& $this;
         if ($this->base == "") {
             $this->base = BASE;
         }
+
+        $this->gateway = $gateway;
 
         // クラスファクトリオブジェクトの生成
         $class_factory = $this->class['class'];
@@ -567,7 +569,6 @@ class Ethna_Controller
      */
     function setGateway($gateway)
     {
-        // TODO: check value?
         $this->gateway = $gateway;
     }
 
@@ -597,8 +598,7 @@ class Ethna_Controller
      */
     function main_CLI($class_name, $action_name, $enable_filter = true)
     {
-        $c =& new $class_name;
-        $c->setGateway(GATEWAY_CLI);
+        $c =& new $class_name(GATEWAY_CLI);
         $c->action[$action_name] = array();
         $c->trigger($action_name, "", $enable_filter);
     }
@@ -617,8 +617,7 @@ class Ethna_Controller
             die("always_populate_raw_post_data ini variable should be true to enable this gateway");
         }
 
-        $c =& new $class_name;
-        $c->setGateway(GATEWAY_XMLRPC);
+        $c =& new $class_name(GATEWAY_XMLRPC);
         $c->trigger("", "", false);
     }
 
@@ -633,8 +632,7 @@ class Ethna_Controller
      */
     function main_SOAP($class_name, $action_name = "", $fallback_action_name = "")
     {
-        $c =& new $class_name;
-        $c->setGateway(GATEWAY_SOAP);
+        $c =& new $class_name(GATEWAY_SOAP);
         $c->trigger($action_name, $fallback_action_name);
     }
 
@@ -1873,8 +1871,10 @@ function _Ethna_XmlrpcGateway($method_stub, $param)
     $method = $ctl->getXmlrpcMethodName();
     $r = $ctl->trigger_XMLRPC($method, $param);
     if (Ethna::isError($r)) {
-        // ToDo: notify fault
-        return -1;
+        return array(
+            'faultCode' => $r->getCode(),
+            'faultString' => $r->getMessage(),
+        );
     }
     return $r;
 }
