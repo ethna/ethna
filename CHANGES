@@ -46,6 +46,7 @@
 - [[#7664>http://sourceforge.jp/tracker/index.php?func=detail&aid=7664&group_id=1343&atid=5092]](Ethna_AppObjectのバグ)を修正
 - [[#7729>http://sourceforge.jp/tracker/index.php?func=detail&aid=7729&group_id=1343&atid=5092]](ethna_infoがFirefoxだとずれる)を修正
 
+- (within beta) ethna_handle.phpが無用にob_end_clean()する問題を修正
 - (within beta) ethna add-viewでプロジェクトディレクトリを指定した場合に正しくファイルが生成されない問題を修正
 
 ** [2006/01/29] 0.2.0

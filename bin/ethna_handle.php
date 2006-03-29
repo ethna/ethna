@@ -9,7 +9,9 @@
  *	@package	Ethna
  *	@version	$Id$
  */
-ob_end_clean();
+while (ob_get_level()) {
+    ob_end_clean();
+}
 
 include_once('PEAR.php');
 include_once('Console/Getopt.php');
