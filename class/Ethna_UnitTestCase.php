@@ -104,6 +104,24 @@ class Ethna_UnitTestCase extends UnitTestCase
     }
 
     /**
+     *  validateOneTime()
+     *
+     *  @access public
+     *  @return int $result
+     */
+    function validateOneTime()
+    {
+        if ($this->af == null) {
+            $this->createActionForm();
+        }
+
+        $result = $this->af->validate();
+        $this->af->ae->clear();
+
+        return $result;
+    }
+
+    /**
      *  単純なアクションフォームの作成
      *
      *  @access public
