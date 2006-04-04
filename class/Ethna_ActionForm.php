@@ -36,9 +36,7 @@ class Ethna_ActionForm
 	/**	@var	array	フォーム値定義 */
 	var $form = array();
 
-	/**
-	 *	@var	array	フォーム値
-	 */
+	/** @var	array	フォーム値 */
 	var $form_vars = array();
 
 	/**	@var	array	アプリケーション設定値 */
@@ -89,6 +87,15 @@ class Ethna_ActionForm
 
 		// フォーム値定義の設定
 		$this->_setFormDef();
+
+		// 省略値補正
+		foreach ($this->form as $name => $value) {
+			foreach ($this->def as $k) {
+				if (isset($value[$k]) == false) {
+					$this->form[$name][$k] = null;
+				}
+			}
+		}
 	}
 
 	/**
@@ -159,31 +166,81 @@ class Ethna_ActionForm
 			$http_vars =& $_GET;
 		}
 
-		foreach ($this->form as $name => $value) {
-			// 省略値補正
-			foreach ($this->def as $k) {
-				if (isset($value[$k]) == false) {
-					$this->form[$name][$k] = null;
-				}
-			}
+		foreach ($this->form as $name => $def) {
+			$type = is_array($def['type']) ? $def['type'][0] : $def['type'];
+			if ($type == VAR_TYPE_FILE) {
+				// ファイルの場合
 
-			$type = to_array($value['type']);
-			if ($type[0] == VAR_TYPE_FILE) {
-				if (isset($_FILES[$name]) == false) {
+				// 値の有無の検査
+				if (isset($_FILES[$name]) == false || is_null($_FILES[$name])) {
 					$this->form_vars[$name] = null;
-				} else {
-					$this->form_vars[$name] = $_FILES[$name];
+					continue;
 				}
-			} else {
-				if (isset($http_vars[$name]) == false) {
-					if (isset($http_vars["{$name}_x"])) {
-						@$this->form_vars[$name] = $http_vars["{$name}_x"];
-					} else {
-						@$this->form_vars[$name] = null;
+
+				// 配列構造の検査
+				if (is_array($def['type'])) {
+					if (is_array($_FILES[$name]['tmp_name']) == false) {
+						$this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
+						$this->form_vars[$name] = null;
+						continue;
 					}
 				} else {
-					$this->form_vars[$name] = $http_vars[$name];
+					if (is_array($_FILES[$name]['tmp_name'])) {
+						$this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
+						$this->form_vars[$name] = null;
+						continue;
+					}
 				}
+
+				$files = null;
+				if (is_array($def['type'])) {
+					$files = array();
+					// ファイルデータを再構成
+					foreach (array_keys($_FILES[$name]['name']) as $key) {
+						$files[$key] = array();
+						$files[$key]['name'] = $_FILES[$name]['name'][$key];
+						$files[$key]['type'] = $_FILES[$name]['type'][$key];
+						$files[$key]['size'] = $_FILES[$name]['size'][$key];
+						$files[$key]['tmp_name'] = $_FILES[$name]['tmp_name'][$key];
+						$files[$key]['error'] = $_FILES[$name]['error'][$key];
+					}
+				} else {
+					$files = $_FILES[$name];
+				}
+
+				// 値のインポート
+				$this->form_vars[$name] = $files;
+
+			} else {
+				// ファイル以外の場合
+
+				// 値の有無の検査
+				if (isset($http_vars[$name]) == false || is_null($http_vars[$name])) {
+					$this->form_vars[$name] = null;
+					if (isset($http_vars["{$name}_x"]) && isset($http_vars["{$name}_y"])) {
+						// 以前の仕様に合わせる
+						$this->form_vars[$name] = $http_vars["{$name}_x"];
+					}
+					continue;
+				}
+
+				// 配列構造の検査
+				if (is_array($def['type'])) {
+					if (is_array($http_vars[$name]) == false) {
+						$this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
+						$this->form_vars[$name] = null;
+						continue;
+					}
+				} else {
+					if (is_array($http_vars[$name])) {
+						$this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
+						$this->form_vars[$name] = null;
+						continue;
+					}
+				}
+
+				// 値のインポート
+				$this->form_vars[$name] = $http_vars[$name];
 			}
 		}
 	}
@@ -267,7 +324,7 @@ class Ethna_ActionForm
 	 *	@param	boolean	$escape	HTMLエスケープフラグ(true:エスケープする)
 	 *	@return	array	フォーム値を格納した配列
 	 */
-	function getAppArray($escape = true)
+	function &getAppArray($escape = true)
 	{
 		$retval = array();
 
@@ -310,7 +367,7 @@ class Ethna_ActionForm
 	 *	@param	boolean	$escape	HTMLエスケープフラグ(true:エスケープする)
 	 *	@return	array	フォーム値を格納した配列
 	 */
-	function getAppNEArray($escape = false)
+	function &getAppNEArray($escape = false)
 	{
 		$retval = array();
 
@@ -369,95 +426,58 @@ class Ethna_ActionForm
 	 */
 	function validate()
 	{
-		foreach ($this->form as $name => $value) {
-			$type = to_array($value['type']);
-			if ($type[0] == VAR_TYPE_FILE) {
-				// ファイル検証
-				$tmp_name = to_array($this->form_vars[$name]['tmp_name']);
-				$valid_keys = array();
-				foreach ($tmp_name as $k => $v) {
-					if (is_uploaded_file($tmp_name[$k]) == false) {
-						// ファイル以外の値は無視
-						continue;
-					}
-					$valid_keys[] = $k;
-				}
-				if (count($valid_keys) == 0 && $value['required']) {
-					$this->handleError($name, E_FORM_REQUIRED);
-					continue;
-				} else if (count($valid_keys) == 0 && $value['required'] == false) {
-					continue;
-				}
-
-				if (is_array($this->form_vars[$name]['tmp_name'])) {
-					if (is_array($value['type']) == false) {
-						// 単一指定のフォームに配列が渡されている
-						$this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
-						continue;
-					}
-
-					// ファイルデータを再構成
-					$files = array();
-					foreach ($valid_keys as $k) {
-						$files[$k]['name'] = $this->form_vars[$name]['name'][$k];
-						$files[$k]['type'] = $this->form_vars[$name]['type'][$k];
-						$files[$k]['tmp_name'] = $this->form_vars[$name]['tmp_name'][$k];
-						$files[$k]['size'] = $this->form_vars[$name]['size'][$k];
-					}
-					$this->form_vars[$name] = $files;
-
-					// 配列の各要素に対する検証
-					foreach (array_keys($this->form_vars[$name]) as $key) {
-						$this->_validate($name, $this->form_vars[$name][$key], $value);
-					}
-					// カスタムメソッドの実行
-					if ($value['custom'] != null) {
-						$this->_validateCustom($value['custom'], $name);
-					}
-				} else {
-					if (is_array($value['type'])) {
-						// 配列指定のフォームにスカラー値が渡されている
-						$this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
-						continue;
-					}
-					if (count($valid_keys) == 0) {
-						$this->form_vars[$name] = null;
-					}
-					$this->_validate($name, $this->form_vars[$name], $value);
-				}
+		foreach ($this->form as $name => $def) {
+			// 配列でラップする
+			if (is_null($this->form_vars[$name])) {
+				$form_vars = array();
+			} else if (is_array($def['type'])) {
+				$form_vars =& $this->form_vars[$name];
 			} else {
-				if (is_array($this->form_vars[$name])) {
-					if (is_array($value['type']) == false) {
-						// スカラー型指定のフォームに配列が渡されている
-						$this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
+				$form_vars = array(& $this->form_vars[$name]);
+			}
+
+			// ファイルの場合は配列で1つvalidならrequired条件をクリアする
+			// TODO: この数を指定できるようにする
+			$type = is_array($def['type']) ? $def['type'][0] : $def['type'];
+			$valid_keys = array();
+			$required_num = max(1, $type == VAR_TYPE_FILE ? 1 : count($form_vars));
+
+			foreach (array_keys($form_vars) as $key) {
+				// filter
+				if ($type != VAR_TYPE_FILE) {
+					$form_vars[$key] =
+						$this->_filter($form_vars[$key], $def['filter']);
+				}
+
+				// 値が空かチェック
+				if ($type == VAR_TYPE_FILE) {
+					if ($form_vars[$key]['size'] == 0
+						|| is_uploaded_file($form_vars[$key]['tmp_name']) == false) {
 						continue;
 					}
-
-					// 配列の各要素に対する変換/検証
-					foreach (array_keys($this->form_vars[$name]) as $key) {
-						$this->form_vars[$name][$key] = $this->_filter($this->form_vars[$name][$key], $value['filter']);
-						$this->_validate($name, $this->form_vars[$name][$key], $value);
-					}
-					// カスタムメソッドの実行
-					if ($value['custom'] != null) {
-						$this->_validateCustom($value['custom'], $name);
-					}
 				} else {
-					if (is_array($value['type'])) {
-						if ($this->form_vars[$name] == null && $value['required'] == false) {
-							// 配列型で省略可のものは値自体が送信されてなくてもエラーとしない
-							continue;
-						} else if ($this->form_vars[$name] == null) {
-							$this->handleError($name, E_FORM_REQUIRED);
-							continue;
-						} else {
-							$this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
-							continue;
-						}
+					if (strlen($form_vars[$key]) == 0) {
+						continue;
 					}
-					$this->form_vars[$name] = $this->_filter($this->form_vars[$name], $value['filter']);
-					$this->_validate($name, $this->form_vars[$name], $value);
 				}
+
+				// valid_keys に追加
+				$valid_keys[] = $key;
+
+				// _validate
+				$this->_validate($name, $form_vars[$key], $def);
+			}
+
+			// required の判定
+			if ($def['required'] && (count($valid_keys) < $required_num)) {
+				$this->handleError($name, E_FORM_REQUIRED);
+				continue;
+			}
+
+			// カスタムメソッドの実行
+			// TODO: 配列とスカラーでの仕様を明確にする
+			if ($def['custom'] != null && is_array($def['type'])) {
+				$this->_validateCustom($def['custom'], $name);
 			}
 		}
 
@@ -750,7 +770,7 @@ class Ethna_ActionForm
 	 *
 	 *	@access	private
 	 *	@param	string	$name		フォーム項目名
-	 *	@param	mixed	$var		フォーム値
+	 *	@param	mixed	$var		フォーム値(配列であれば個々の中身)
 	 *	@param	array	$def		フォーム値定義
 	 *	@param	bool	$test		エラーオブジェクト登録フラグ(true:登録しない)
 	 *	@return	bool	true:正常終了 false:エラー
@@ -759,74 +779,57 @@ class Ethna_ActionForm
 	{
 		$type = is_array($def['type']) ? $def['type'][0] : $def['type'];
 
-		// required
-		if ($type == VAR_TYPE_FILE) {
-			if ($def['required'] && ($var == null || $var['size'] == 0)) {
-				if ($test == false) {
-					$this->handleError($name, E_FORM_REQUIRED);
-				}
-				return false;
-			}
-		} else {
-			if ($def['required'] && strlen($var) == 0) {
-				if ($test == false) {
-					$this->handleError($name, E_FORM_REQUIRED);
-				}
-				return false;
-			}
-		}
-
 		// type
-		if (is_array($var) == false && @strlen($var) > 0) {
-			if ($type == VAR_TYPE_INT) {
-				if (!preg_match('/^-?\d+$/', $var)) {
-					if ($test == false) {
-						$this->handleError($name, E_FORM_WRONGTYPE_INT);
-					}
-					return false;
+		if ($type == VAR_TYPE_INT) {
+			if (!preg_match('/^-?\d+$/', $var)) {
+				if ($test == false) {
+					$this->handleError($name, E_FORM_WRONGTYPE_INT);
 				}
-			} else if ($type == VAR_TYPE_FLOAT) {
-				if (!preg_match('/^-?\d+$/', $var) && !preg_match('/^-?\d+\.\d+$/', $var)) {
-					if ($test == false) {
-						$this->handleError($name, E_FORM_WRONGTYPE_FLOAT);
-					}
-					return false;
-				}
-			} else if ($type == VAR_TYPE_DATETIME) {
-				if (strtotime($var) == -1) {
-					if ($test == false) {
-						$this->handleError($name, E_FORM_WRONGTYPE_DATETIME);
-					}
-					return false;
-				}
-			} else if ($type == VAR_TYPE_BOOLEAN) {
-				if ($var != "1" && $var != "0") {
-					if ($test == false) {
-						$this->handleError($name, E_FORM_WRONGTYPE_BOOLEAN);
-					}
-					return false;
-				}
-			} else if ($type == VAR_TYPE_STRING) {
-				// nothing to do
+				return false;
 			}
+		} else if ($type == VAR_TYPE_FLOAT) {
+			if (!preg_match('/^-?\d+$/', $var) && !preg_match('/^-?\d+\.\d+$/', $var)) {
+				if ($test == false) {
+					$this->handleError($name, E_FORM_WRONGTYPE_FLOAT);
+				}
+				return false;
+			}
+		} else if ($type == VAR_TYPE_DATETIME) {
+			if (strtotime($var) == -1) {
+				if ($test == false) {
+					$this->handleError($name, E_FORM_WRONGTYPE_DATETIME);
+				}
+				return false;
+			}
+		} else if ($type == VAR_TYPE_BOOLEAN) {
+			if ($var != "1" && $var != "0") {
+				if ($test == false) {
+					$this->handleError($name, E_FORM_WRONGTYPE_BOOLEAN);
+				}
+				return false;
+			}
+		} else if ($type == VAR_TYPE_STRING) {
+			// nothing to do
+		} else if ($type == VAR_TYPE_FILE) {
+			// nothing to do
 		}
 
 		// min
-		if ($type == VAR_TYPE_INT && $var !== "") {
+		if ($type == VAR_TYPE_INT) {
 			if (!is_null($def['min']) && $var < $def['min']) {
 				if ($test == false) {
 					$this->handleError($name, E_FORM_MIN_INT);
 				}
 				return false;
 			}
-		} else if ($type == VAR_TYPE_FLOAT && $var !== "") {
+		} else if ($type == VAR_TYPE_FLOAT) {
 			if (!is_null($def['min']) && $var < $def['min']) {
 				if ($test == false) {
 					$this->handleError($name, E_FORM_MIN_FLOAT);
 				}
 				return false;
 			}
-		} else if ($type == VAR_TYPE_DATETIME && $var !== "") {
+		} else if ($type == VAR_TYPE_DATETIME) {
 			if (!is_null($def['min'])) {
 				$t_min = strtotime($def['min']);
 				$t_var = strtotime($var);
@@ -848,7 +851,7 @@ class Ethna_ActionForm
 				}
 			}
 		} else {
-			if (!is_null($def['min']) && strlen($var) < $def['min'] && $var !== "") {
+			if (!is_null($def['min']) && strlen($var) < $def['min']) {
 				if ($test == false) {
 					$this->handleError($name, E_FORM_MIN_STRING);
 				}
@@ -857,21 +860,21 @@ class Ethna_ActionForm
 		}
 
 		// max
-		if ($type == VAR_TYPE_INT && $var !== "") {
+		if ($type == VAR_TYPE_INT) {
 			if (!is_null($def['max']) && $var > $def['max']) {
 				if ($test == false) {
 					$this->handleError($name, E_FORM_MAX_INT);
 				}
 				return false;
 			}
-		} else if ($type == VAR_TYPE_FLOAT && $var !== "") {
+		} else if ($type == VAR_TYPE_FLOAT) {
 			if (!is_null($def['max']) && $var > $def['max']) {
 				if ($test == false) {
 					$this->handleError($name, E_FORM_MAX_FLOAT);
 				}
 				return false;
 			}
-		} else if ($type == VAR_TYPE_DATETIME && $var !== "") {
+		} else if ($type == VAR_TYPE_DATETIME) {
 			if (!is_null($def['max'])) {
 				$t_min = strtotime($def['max']);
 				$t_var = strtotime($var);
@@ -893,7 +896,7 @@ class Ethna_ActionForm
 				}
 			}
 		} else {
-			if (!is_null($def['max']) && strlen($var) > $def['max'] && $var !== "") {
+			if (!is_null($def['max']) && strlen($var) > $def['max']) {
 				if ($test == false) {
 					$this->handleError($name, E_FORM_MAX_STRING);
 				}
@@ -902,7 +905,8 @@ class Ethna_ActionForm
 		}
 
 		// regexp
-		if ($type != VAR_TYPE_FILE && $def['regexp'] != null && strlen($var) > 0 && preg_match($def['regexp'], $var) == 0) {
+		if ($type != VAR_TYPE_FILE && $def['regexp'] != null && strlen($var) > 0
+			&& preg_match($def['regexp'], $var) == 0) {
 			if ($test == false) {
 				$this->handleError($name, E_FORM_REGEXP);
 			}
@@ -963,6 +967,18 @@ class Ethna_ActionForm
 		}
 
 		return $value;
+	}
+
+	/**
+	 *	フォーム値変換フィルタ: 全角英数字->半角英数字
+	 *
+	 *	@access	protected
+	 *	@param	mixed	$value	フォーム値
+	 *	@return	mixed	変換結果
+	 */
+	function _filter_alnum_zentohan($value)
+	{
+		return mb_convert_kana($value, "a");
 	}
 
 	/**

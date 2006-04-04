@@ -4,6 +4,14 @@
 
 *** features
 
+- Ethna_ActionForm リファクタリング (by いちい)
+-- $this->form の省略値補正を setFormVars() からコンストラクタに移動
+-- フォーム値のスカラー/配列チェックを setFormVars() でするように変更
+--- vaildate() する前に setFormVars() でエラー (handleError()) が発生することがあります
+-- フォーム値のスカラー/配列チェックでフォーム値定義と異なる場合は null にする
+-- ファイルデータの再構成を常に行うように変更
+-- フォーム値定義が配列で required, max/min の設定がある場合のバグを修正
+-- _filter_alnum_zentohan() を追加 (mb_convert_kana($value, "a"))
 - XMLRPCゲートウェイにfaultCodeサポートを追加
 -- actionでEthna_Error(あるいはPEAR_Error)オブジェクトを返すとエラーを返せます
 - XMLRPCゲートウェイサポート追加(experimental)

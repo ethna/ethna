@@ -214,7 +214,7 @@ class Ethna_ActionError
 	 *	@access	private
 	 *	@return	object	Ethna_Logger
 	 */
-	function _getLogger()
+	function &_getLogger()
 	{
 		if (is_null($this->logger)) {
 			$controller =& Ethna_Controller::getInstance();
