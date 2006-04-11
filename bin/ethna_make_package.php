@@ -99,7 +99,7 @@ $packagexml->addReplacement('bin/ethna.sh', 'pear-config', '@PHP-BIN@', 'php_bin
 
 $packagexml->addRelease();
 $packagexml->setOSInstallCondition('windows');
-$packagexml->addInstallAs('bin/ethna.bat', 'ethna');
+$packagexml->addInstallAs('bin/ethna.bat', 'ethna.bat');
 $packagexml->addIgnoreToRelease('bin/ethna.sh');
 $packagexml->addRelease();
 $packagexml->addInstallAs('bin/ethna.sh', 'ethna');

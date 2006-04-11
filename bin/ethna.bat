@@ -10,7 +10,11 @@ rem
 
 if "%OS%"=="Windows_NT" @setlocal
 
-set DEFAULT_ETHNA_HOME=%~dp0..
+if NOT "%PHP_PEAR_INSTALL_DIR%" == "" (
+set DEFAULT_ETHNA_HOME=%PHP_PEAR_INSTALL_DIR%\Ethna
+) ELSE (
+set DEFAULT_ETHNA_HOME=%~dp0
+)
 
 goto init
 goto cleanup
