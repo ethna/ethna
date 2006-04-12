@@ -428,6 +428,7 @@ class Ethna_ActionForm
 	{
 		foreach ($this->form as $name => $def) {
 			// 配列でラップする
+			unset($form_vars);
 			if (is_null($this->form_vars[$name])) {
 				$form_vars = array();
 			} else if (is_array($def['type'])) {
