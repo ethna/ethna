@@ -4,7 +4,7 @@
  *  Ethna_DB_ADOdb.php
  *
  *  @package    Ethna
- *  @author     halt <halt.hde@gmail.com>
+ *  @author     halt <halt.feits@gmail.com>
  *  @version    $Id$
  */
 
@@ -155,9 +155,9 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function &query($query)
+    function &query($query, $inputarr = false)
     {
-        return $this->_query($query);
+        return $this->_query($query, $inputarr);
     }
     //}}}
     
@@ -169,10 +169,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function &_query($query)
+    function &_query($query, $inputarr = false)
     {
         $this->logger->log(LOG_DEBUG, "$query");
-        $r =& $this->db->execute($query);
+        $r =& $this->db->execute($query, $inputarr);
         if (DB::isError($r)) {
             if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
                 $error = Ethna::raiseNotice('ユニーク制約エラー SQL[%s]', E_DB_DUPENT, $query, $this->db->errorNative(), $r->getUserInfo());
@@ -191,10 +191,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *
      * @access public
      */
-    function getAll($query)
+    function getAll($query, $inputarr = false)
     {
         $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
-        return $this->db->getAll($query);
+        return $this->db->getAll($query, $inputarr);
     }
     //}}}
 
