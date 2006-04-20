@@ -313,6 +313,49 @@ class Ethna_SkeltonGenerator
 	}
 
 	/**
+	 *	アプリケーションマネージャのスケルトンを生成する
+	 *
+	 *	@access	public
+	 *	@param	string	$manager_name    アプリケーションマネージ名
+     *  @param  string  $app_dir        プロジェクトディレクトリ
+	 *	@return	bool	true:成功 false:失敗
+	 */
+	function generateAppManagerSkelton($manager_name, $app_dir)
+	{
+        // discover controller
+        $controller_class = $this->_discoverController($app_dir);
+        if (Ethna::isError($controller_class)) {
+            return $controller_class;
+        }
+
+        $c =& new $controller_class;
+        $c->setGateway(GATEWAY_CLI);
+
+        $manager_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($manager_name));
+
+		$app_dir = $c->getDirectory('app');
+        $app_path = ucfirst($c->getAppId()) . '_' . $manager_id .'Manager.php';
+
+		$macro = array();
+		$macro['project_id'] = $c->getAppId();
+        $macro['app_path'] = $app_path;
+        $macro['app_manager'] = ucfirst($c->getAppId()) . '_' . $manager_id;
+
+		$user_macro = $this->_getUserMacro();
+		$macro = array_merge($macro, $user_macro);
+
+        $path = "$app_dir/$app_path";
+		$this->_mkdir(dirname($path), 0755);
+		if (file_exists($path)) {
+			printf("file [%s] already exists -> skip\n", $path);
+		} else if ($this->_generateFile("skel.app_manager.php", $path, $macro) == false) {
+			printf("[warning] file creation failed [%s]\n", $path);
+		} else {
+			printf("app-manager script(s) successfully created [%s]\n", $path);
+		}
+	}
+
+	/**
 	 *	アクション用テストのスケルトンを生成する
 	 *
 	 *	@access	public

@@ -4,6 +4,7 @@
 
 *** features
 
+- ethnaコマンドにadd-app-managerを追加(thanks butatic)
 - Ethna_ActionForm リファクタリング (by いちい)
 -- $this->form の省略値補正を setFormVars() からコンストラクタに移動
 -- フォーム値のスカラー/配列チェックを setFormVars() でするように変更
