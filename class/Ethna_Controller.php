@@ -121,6 +121,9 @@ class Ethna_Controller
     /** @var    array   smarty function定義 */
     var $smarty_function_plugin = array();
 
+    /** @var    array   smarty block定義 */
+    var $smarty_block_plugin = array();
+
     /** @var    array   smarty prefilter定義 */
     var $smarty_prefilter_plugin = array();
 
@@ -1469,11 +1472,26 @@ class Ethna_Controller
         // user defined functions
         foreach ($this->smarty_function_plugin as $function) {
             
-            if ( !is_array($function) ) {
+            if (!is_array($function)) {
                 $name = str_replace('smarty_function_', '', $function);
                 $smarty->register_function($name, $function);
             } else {
                 $smarty->register_function($function[1], $function);
+            }
+
+        }
+
+        // default blocks
+        $smarty->register_block('form', 'smarty_block_form');
+
+        // user defined blocks
+        foreach ($this->smarty_block_plugin as $block) {
+            
+            if (!is_array($block)) {
+                $name = str_replace('smarty_block_', '', $block);
+                $smarty->register_block($name, $block);
+            } else {
+                $smarty->register_block($block[1], $block);
             }
 
         }

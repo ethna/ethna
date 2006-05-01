@@ -516,4 +516,54 @@ function smarty_function_checkbox_list($params, &$smarty)
 		}
 	}
 }
+
+/**
+ *	smarty block:フォームタグ出力プラグイン
+ */
+function smarty_block_form($params, $content, &$smarty, &$repeat)
+{
+	extract($params);
+
+    $s = "";
+    if ($repeat) {
+        $s = "<form";
+
+        // fundamentals
+        if ($action !== false) {
+            if (isset($action) == false) {
+                $action = basename($_SERVER['PHP_SELF']);
+            }
+            $s .= sprintf(' action="%s"', htmlspecialchars($action, ENT_QUOTES));
+        }
+        if ($method !== false) {
+            if (isset($method) == false) {
+                $method = "post";
+            }
+            $s .= sprintf(' method="%s"', htmlspecialchars($method, ENT_QUOTES));
+        }
+
+        // enctypeはdefault off(-> "!=")
+        // + 値がめんどいので略称対応("file"とか...うぅむ?)
+        if ($enctype != "") {
+            if ($enctype == "file" || $enctype == "multipart") {
+                $enctype = "multipart/form-data";
+            } else if ($enctype == "url") {
+                $enctype = "application/x-www-form-urlencoded";
+            }
+            $s .= sprintf(' enctype="%s"', htmlspecialchars($enctype, ENT_QUOTES));
+        }
+
+        // additionals
+        foreach (array('target', 'name', 'id', 'class') as $key) {
+            if (${$key} != "") {
+                $s .= sprintf(' %s="%s"', $key, htmlspecialchars(${$key}, ENT_QUOTES));
+            }
+        }
+
+        $s .= ">";
+    } else {
+        $s = "</form>";
+    }
+    print $s;
+}
 ?>

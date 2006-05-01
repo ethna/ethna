@@ -4,6 +4,8 @@
 
 *** features
 
+- (ぷち)省エネブロックプラグイン{form}...{/form}追加
+- Ethna_Controllerに$smarty_block_pluginプロパティを追加
 - ethnaコマンドにadd-action-cliを追加
 - [breaking B.C.] main_CLIのアクション定義ディレクトリをaction_cliに変更
 -- controllerのdirectoryプロパティに'bin'要素を追加
