@@ -35,7 +35,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 }
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '2.0.1-dev');
+define('ETHNA_VERSION', '2.1.0-dev');
 
 /** Ethnaベースディレクトリ定義 */
 define('ETHNA_BASE', dirname(__FILE__));

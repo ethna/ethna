@@ -1,9 +1,12 @@
 * 変更点一覧
 
-** [current] 2.0.1-dev
+** [current] 2.1.0-dev
 
 *** features
 
+- ethnaコマンドにadd-action-cliを追加
+- [breaking B.C.] main_CLIのアクション定義ディレクトリをaction_cliに変更
+-- controllerのdirectoryプロパティに'bin'要素を追加
 - ethnaコマンドにadd-app-managerを追加(thanks butatic)
 - Ethna_ActionForm リファクタリング (by いちい)
 -- $this->form の省略値補正を setFormVars() からコンストラクタに移動

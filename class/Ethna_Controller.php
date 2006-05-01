@@ -40,8 +40,10 @@ class Ethna_Controller
     /** @var    array       アプリケーションディレクトリ */
     var $directory = array(
         'action'        => 'app/action',
+        'action_cli'    => 'app/action_cli',
         'action_xmlrpc' => 'app/action_xmlrpc',
         'app'           => 'app',
+        'bin'           => 'bin',
         'etc'           => 'etc',
         'filter'        => 'app/filter',
         'locale'        => 'locale',
@@ -103,6 +105,9 @@ class Ethna_Controller
 
     /** @var    array   action定義 */
     var $action = array();
+
+    /** @var    array   action(CLI)定義 */
+    var $action_cli = array();
 
     /** @var    array   action(XMLRPC)定義 */
     var $action_xmlrpc = array();
@@ -352,11 +357,14 @@ class Ethna_Controller
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
         switch ($gateway) {
         case GATEWAY_WWW:
-        case GATEWAY_CLI:
             $key = 'action';
+            break;
+        case GATEWAY_CLI:
+            $key = 'action_cli';
             break;
         case GATEWAY_XMLRPC:
             $key = 'action_xmlrpc';
+            break;
         }
 
         return (empty($this->directory[$key]) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory[$key] . "/"));
@@ -599,7 +607,7 @@ class Ethna_Controller
     function main_CLI($class_name, $action_name, $enable_filter = true)
     {
         $c =& new $class_name(GATEWAY_CLI);
-        $c->action[$action_name] = array();
+        $c->action_cli[$action_name] = array();
         $c->trigger($action_name, "", $enable_filter);
     }
 
@@ -1009,8 +1017,10 @@ class Ethna_Controller
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
         switch ($gateway) {
         case GATEWAY_WWW:
-        case GATEWAY_CLI:
             $action =& $this->action;
+            break;
+        case GATEWAY_CLI:
+            $action =& $this->action_cli;
             break;
         case GATEWAY_XMLRPC:
             $action =& $this->action_xmlrpc;
@@ -1028,7 +1038,7 @@ class Ethna_Controller
         }
 
         // アクションスクリプトのインクルード
-        $this->_includeActionScript($action_obj, $action_name, $gateway);
+        $this->_includeActionScript($action_obj, $action_name);
 
         // 省略値の補正
         if (isset($action_obj['class_name']) == false) {
@@ -1044,7 +1054,7 @@ class Ethna_Controller
 
         // 必要条件の確認
         if (class_exists($action_obj['class_name']) == false) {
-            $this->logger->log(LOG_WARNING, 'action class is not defined [%s]', $action_obj['class_name']);
+            $this->logger->log(LOG_NOTICE, 'action class is not defined [%s]', $action_obj['class_name']);
             $_ret_object = null;
             return $_ret_object;
         }
@@ -1555,14 +1565,17 @@ class Ethna_Controller
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
         switch ($gateway) {
         case GATEWAY_WWW:
-        case GATEWAY_CLI:
             $prefix = '';
+            break;
+        case GATEWAY_CLI:
+            $prefix = 'Cli';
             break;
         case GATEWAY_XMLRPC:
             $prefix = 'Xmlrpc';
             break;
         default:
             $prefix = '';
+            break;
         }
 
         return $prefix;

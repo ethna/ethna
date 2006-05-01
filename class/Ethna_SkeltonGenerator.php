@@ -32,6 +32,7 @@ class Ethna_SkeltonGenerator
 		$dir_list = array(
 			array("app", 0755),
 			array("app/action", 0755),
+			array("app/action_cli", 0755),
 			array("app/action_xmlrpc", 0755),
 			array("app/filter", 0755),
 			array("app/view", 0755),
@@ -61,6 +62,7 @@ class Ethna_SkeltonGenerator
 		if (is_dir($basedir) == false) {
             // confirm
             printf("creating directory ($basedir) [y/n]: ");
+            flush();
             $fp = fopen("php://stdin", "r");
             $r = trim(fgets($fp, 128));
             fclose($fp);
@@ -107,6 +109,7 @@ class Ethna_SkeltonGenerator
         // the longest if? :)
 		if ($this->_generateFile("www.index.php", "$basedir/www/index.php", $macro) == false ||
 			$this->_generateFile("www.info.php", "$basedir/www/info.php", $macro) == false ||
+			$this->_generateFile("www.unittest.php", "$basedir/www/unittest.php", $macro) == false ||
 			$this->_generateFile("www.xmlrpc.php", "$basedir/www/xmlrpc.php", $macro) == false ||
 			$this->_generateFile("dot.ethna", "$basedir/.ethna", $macro) == false ||
 			$this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_Controller.php", $macro['project_id']), $macro) == false ||
@@ -114,14 +117,15 @@ class Ethna_SkeltonGenerator
 			$this->_generateFile("app.action.default.php", "$basedir/app/action/Index.php", $macro) == false ||
 			$this->_generateFile("app.filter.default.php", sprintf("$basedir/app/filter/%s_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||
+			$this->_generateFile("app.unittest.php", sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||
 			$this->_generateFile("skel.action.php", sprintf("$basedir/skel/skel.action.php"), $macro) == false ||
+			$this->_generateFile("skel.action_cli.php", sprintf("$basedir/skel/skel.action_cli.php"), $macro) == false ||
+			$this->_generateFile("skel.action_test.php", sprintf("$basedir/skel/skel.action_test.php"), $macro) == false ||
 			$this->_generateFile("skel.app_object.php", sprintf("$basedir/skel/skel.app_object.php"), $macro) == false ||
+			$this->_generateFile("skel.cli.php", sprintf("$basedir/skel/skel.cli.php"), $macro) == false ||
 			$this->_generateFile("skel.view.php", sprintf("$basedir/skel/skel.view.php"), $macro) == false ||
 			$this->_generateFile("skel.template.tpl", sprintf("$basedir/skel/skel.template.tpl"), $macro) == false ||
-			$this->_generateFile("app.unittest.php", sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']), $macro) == false ||
-			$this->_generateFile("www.unittest.php", "$basedir/www/unittest.php", $macro) == false ||
-			$this->_generateFile("skel.action_test.php", sprintf("$basedir/skel/skel.action_test.php"), $macro) == false ||
 			$this->_generateFile("skel.view_test.php", sprintf("$basedir/skel/skel.view_test.php"), $macro) == false ||
 			$this->_generateFile("template.index.tpl", sprintf("$basedir/template/ja/index.tpl"), $macro) == false) {
 			return Ethna::raiseError('generating files failed');
@@ -169,8 +173,10 @@ class Ethna_SkeltonGenerator
 
         switch ($gateway) {
         case GATEWAY_WWW:
-        case GATEWAY_CLI:
             $skelton = "skel.action.php";
+            break;
+        case GATEWAY_CLI:
+            $skelton = "skel.action_cli.php";
             break;
         case GATEWAY_XMLRPC:
             $skelton = "skel.action_xmlrpc.php";
@@ -226,6 +232,48 @@ class Ethna_SkeltonGenerator
 			printf("[warning] file creation failed [%s]\n", "$view_dir$view_path");
 		} else {
 			printf("view script(s) successfully created [%s]\n", "$view_dir$view_path");
+		}
+	}
+
+	/**
+	 *	CLIエントリポイントのスケルトンを生成する
+	 *
+	 *	@access	public
+	 *	@param	string	$forward_name	アクション名
+     *  @param  string  $app_dir        プロジェクトディレクトリ
+	 *	@return	bool	true:成功 false:失敗
+	 */
+	function generateCliSkelton($action_name, $app_dir)
+	{
+        // discover controller
+        $controller_class = $this->_discoverController($app_dir);
+        if (Ethna::isError($controller_class)) {
+            return $controller_class;
+        }
+
+        $c =& new $controller_class;
+        $c->setGateway(GATEWAY_CLI);
+
+		$action_dir = $c->getActiondir($gateway);
+		$app_dir = $c->getDirectory('app');
+		$bin_dir = $c->getDirectory('bin');
+        $cli_file = sprintf("%s/%s.%s", $bin_dir, $action_name, $c->getExt('php'));
+
+		$macro = array();
+		$macro['project_id'] = $c->getAppId();
+		$macro['action_name'] = $action_name;
+		$macro['dir_app'] = $app_dir;
+		$macro['dir_bin'] = $bin_dir;
+
+		$user_macro = $this->_getUserMacro();
+		$macro = array_merge($macro, $user_macro);
+
+		if (file_exists($cli_file)) {
+			printf("file [%s] already exists -> skip\n", $cli_file);
+		} else if ($this->_generateFile("skel.cli.php", $cli_file, $macro) == false) {
+			printf("[warning] file creation failed [%s]\n", $cli_file);
+		} else {
+			printf("action script(s) successfully created [%s]\n", $cli_file);
 		}
 	}
 
