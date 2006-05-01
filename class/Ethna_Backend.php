@@ -281,17 +281,6 @@ class Ethna_Backend
 	}
 
 	/**
-	 *	現在処理中のクライアント種別を取得する
-	 *
-	 *	@access	public
-	 *	@return	int		クライアント種別
-	 */
-	function getClientType()
-	{
-		return $this->controller->getClientType();
-	}
-
-	/**
 	 *	ログを出力する
 	 *
 	 *	@access	public
