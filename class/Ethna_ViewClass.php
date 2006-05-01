@@ -115,6 +115,24 @@ class Ethna_ViewClass
 		$smarty->display($this->forward_path);
 	}
 
+    /**
+     *  指定されたフォーム項目に対応するフォーム名(w/ レンダリング)を取得する
+     *
+     *  @access public
+     */
+    function getFormName($name, $params)
+    {
+    }
+
+    /**
+     *  指定されたフォーム項目に対応するフォームタグを取得する
+     *
+     *  @access public
+     */
+    function getFormInput($name, $params)
+    {
+    }
+
 	/**
 	 *	Smartyオブジェクトを取得する
 	 *

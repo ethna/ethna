@@ -518,6 +518,48 @@ function smarty_function_checkbox_list($params, &$smarty)
 }
 
 /**
+ *	smarty function:フォーム表示名生成
+ *
+ *	@param	string	$name	フォーム項目名
+ */
+function smarty_function_form_name($params, &$smarty)
+{
+    if (isset($params['name']) == false) {
+        return null;
+    }
+    $name = $params['name'];
+    unset($params['name']);
+
+	$c =& Ethna_Controller::getInstance();
+    $view =& $c->getView();
+    if ($view === null) {
+        return null;
+    }
+    print $view->getFormName($name, $params);
+}
+
+/**
+ *	smarty function:フォームタグ生成
+ *
+ *	@param	string	$name	フォーム項目名
+ */
+function smarty_function_form_input($params, &$smarty)
+{
+    if (isset($params['name']) == false) {
+        return null;
+    }
+    $name = $params['name'];
+    unset($params['name']);
+
+	$c =& Ethna_Controller::getInstance();
+    $view =& $c->getView();
+    if ($view === null) {
+        return null;
+    }
+    print $view->getFormInput($name, $params);
+}
+
+/**
  *	smarty block:フォームタグ出力プラグイン
  */
 function smarty_block_form($params, $content, &$smarty, &$repeat)
@@ -562,6 +604,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
 
         $s .= ">";
     } else {
+        print $content;
         $s = "</form>";
     }
     print $s;

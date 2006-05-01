@@ -109,16 +109,6 @@ class Ethna_ActionClass
 	{
 		return null;
 	}
-
-	/**
-	 *	画面表示前処理
-	 *
-	 *	@access	public
-	 *	@deprecated
-	 */
-	function preforward()
-	{
-	}
 }
 // }}}
 ?>

@@ -4,6 +4,7 @@
 
 *** features
 
+- [breaking B.C.] Ethna_ActionClassのpreforward()サポート(むかーしのコードにありましたのです)削除
 - (ぷち)省エネブロックプラグイン{form}...{/form}追加
 - Ethna_Controllerに$smarty_block_pluginプロパティを追加
 - ethnaコマンドにadd-action-cliを追加

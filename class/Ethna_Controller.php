@@ -142,6 +142,9 @@ class Ethna_Controller
     /** @var    object  Ethna_ActionForm    フォームオブジェクト */
     var $action_form = null;
 
+    /** @var    object  Ethna_View          ビューオブジェクト */
+    var $view = null;
+
     /** @var    object  Ethna_Config        設定オブジェクト */
     var $config = null;
 
@@ -442,15 +445,27 @@ class Ethna_Controller
     }
 
     /**
-     *  アクションフォームformオブジェクトのアクセサ
+     *  アクションフォームオブジェクトのアクセサ
      *
      *  @access public
-     *  @return object  Ethna_ActionForm    アクションフォームformオブジェクト
+     *  @return object  Ethna_ActionForm    アクションフォームオブジェクト
      */
     function &getActionForm()
     {
         // 明示的にクラスファクトリを利用していない
         return $this->action_form;
+    }
+
+    /**
+     *  ビューオブジェクトのアクセサ
+     *
+     *  @access public
+     *  @return object  Ethna_View          ビューオブジェクト
+     */
+    function &getView()
+    {
+        // 明示的にクラスファクトリを利用していない
+        return $this->view;
     }
 
     /**
@@ -765,15 +780,9 @@ class Ethna_Controller
 
         if ($forward_name != null) {
             $view_class_name = $this->getViewClassName($forward_name);
-            $view_class =& new $view_class_name($backend, $forward_name, $this->_getForwardPath($forward_name));
-            $view_class->preforward();
-
-            // 後方互換処理:(
-            $view_class_name = $this->class_factory->getObjectName('view');
-            if (is_subclass_of($view_class, $view_class_name) == false) {
-                $view_class =& new $view_class_name($backend, $forward_name, $this->_getForwardPath($forward_name));
-            }
-            $view_class->forward();
+            $this->view =& new $view_class_name($backend, $forward_name, $this->_getForwardPath($forward_name));
+            $this->view->preforward();
+            $this->view->forward();
         }
 
         return 0;
@@ -1468,6 +1477,8 @@ class Ethna_Controller
         $smarty->register_function('uniqid', 'smarty_function_uniqid');
         $smarty->register_function('select', 'smarty_function_select');
         $smarty->register_function('checkbox_list', 'smarty_function_checkbox_list');
+        $smarty->register_function('form_name', 'smarty_function_form_name');
+        $smarty->register_function('form_input', 'smarty_function_form_input');
 
         // user defined functions
         foreach ($this->smarty_function_plugin as $function) {
