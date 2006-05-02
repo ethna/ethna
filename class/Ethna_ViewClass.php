@@ -44,6 +44,9 @@ class Ethna_ViewClass
 	/**	@var	object	Ethna_ActionForm	アクションフォームオブジェクト(省略形) */
 	var $af;
 
+	/**	@var    array   アクションフォームオブジェクト(helper) */
+	var $helper_action_form = array();
+
 	/**	@var	object	Ethna_Session		セッションオブジェクト */
 	var $session;
 
@@ -86,6 +89,13 @@ class Ethna_ViewClass
 
 		$this->forward_name = $forward_name;
 		$this->forward_path = $forward_path;
+
+        foreach ($this->helper_action_form as $key => $value) {
+            if (is_object($value)) {
+                continue;
+            }
+            $this->helper_action_form[$key] =& $this->_getHelperActionForm($key);
+        }
 	}
 
 	/**
@@ -116,21 +126,275 @@ class Ethna_ViewClass
 	}
 
     /**
+     *  helperアクションフォームオブジェクトを設定する
+     *
+     *  @access public
+     */
+    function addActionFormHelper($action)
+    {
+        if (is_object($this->helper_action_form[$action])) {
+            return;
+        }
+        $this->helper_action_form[$action] =& $this->_getHelperActionForm($action);
+    }
+
+    /**
+     *  helperアクションフォームオブジェクトを削除する
+     *
+     *  @access public
+     */
+    function clearActionFormHelper($action)
+    {
+        unset($this->helper_action_form[$action]);
+    }
+
+    /**
      *  指定されたフォーム項目に対応するフォーム名(w/ レンダリング)を取得する
      *
      *  @access public
      */
     function getFormName($name, $params)
     {
+        $def = $this->_getHelperActionFormDef($name);
+        $form_name = null;
+        if (is_null($def) || isset($def['name']) == false) {
+            $form_name = $name;
+        } else {
+            $form_name = $def['name'];
+        }
+
+        return $form_name;
     }
 
     /**
      *  指定されたフォーム項目に対応するフォームタグを取得する
      *
+     *  experimental(というかとりあえず-細かい実装は別クラスに行きそうです)
+     *
      *  @access public
+     *  @todo   form_type各種対応/JavaScript対応...
      */
     function getFormInput($name, $params)
     {
+        $def = $this->_getHelperActionFormDef($name);
+        if (is_null($def)) {
+            return "";
+        }
+
+        if (isset($def['form_type']) == false) {
+            $def['form_type'] = FORM_TYPE_TEXT;
+        }
+        
+        switch ($def['form_type']) {
+        case FORM_TYPE_BUTTON:
+            $input = $this->_getFormInput_Button($name, $def, $params);
+            break;
+        case FORM_TYPE_CHECKBOX:
+            // T.B.D.
+            break;
+        case FORM_TYPE_FILE:
+            $input = $this->_getFormInput_File($name, $def, $params);
+            break;
+        case FORM_TYPE_HIDDEN:
+            $input = $this->_getFormInput_Hidden($name, $def, $params);
+            break;
+        case FORM_TYPE_PASSWORD:
+            $input = $this->_getFormInput_Password($name, $def, $params);
+            break;
+        case FORM_TYPE_RADIO:
+            // T.B.D.
+            break;
+        case FORM_TYPE_SELECT:
+            // T.B.D.
+            break;
+        case FORM_TYPE_SUBMIT:
+            $input = $this->_getFormInput_Submit($name, $def, $params);
+            break;
+        case FORM_TYPE_TEXTAREA:
+            $input = $this->_getFormInput_Textarea($name, $def, $params);
+            break;
+        case FORM_TYPE_TEXT:
+        default:
+            $input = $this->_getFormInput_Text($name, $def, $params);
+            break;
+        }
+
+        print $input;
+    }
+
+    /**
+     *  アクションフォームオブジェクト(helper)を生成する
+     *
+     *  @access protected
+     */
+    function &_getHelperActionForm($action)
+    {
+        $af = null;
+        $ctl =& Ethna_Controller::getInstance();
+        $form_name = $ctl->getActionFormName($action);
+        if ($form_name == null) {
+            // TODO: logging
+            return null;
+        }
+        $af =& new $form_name($ctl);
+
+        return $af;
+    }
+
+    /**
+     *  フォーム項目に対応するフォーム定義を取得する
+     *
+     *  @access protected
+     */
+    function _getHelperActionFormDef($name)
+    {
+        $def = $this->af->getDef($name);
+        if (is_null($def)) {
+            foreach ($this->helper_action_form as $key => $value) {
+                if (is_object($value) == false) {
+                    continue;
+                }
+                $def = $value->getDef($name);
+                if (is_null($def) == false) {
+                    break;
+                }
+            }
+        }
+        return $def;
+    }
+
+    /**
+     *  フォームタグを取得する(type="button")
+     *
+     *  @access protected
+     */
+    function _getFormInput_Button($name, $def, $params)
+    {
+        $r = array();
+        $r['type'] = "button";
+        $r['name'] = $name;
+
+        return $this->_getFormInput_Html("input", $r, $params);
+    }
+
+    /**
+     *  フォームタグを取得する(type="file")
+     *
+     *  @access protected
+     */
+    function _getFormInput_File($name, $def, $params)
+    {
+        $r = array();
+        $r['type'] = "file";
+        $r['name'] = $name;
+        $r['value'] = "";
+
+        return $this->_getFormInput_Html("input", $r, $params);
+    }
+
+    /**
+     *  フォームタグを取得する(type="hidden")
+     *
+     *  @access protected
+     */
+    function _getFormInput_Hidden($name, $def, $params)
+    {
+        $r = array();
+        $r['type'] = "hidden";
+        $r['name'] = $name;
+        $r['value'] = $this->af->get($name);
+
+        return $this->_getFormInput_Html("input", $r, $params);
+    }
+
+    /**
+     *  フォームタグを取得する(type="password")
+     *
+     *  @access protected
+     */
+    function _getFormInput_Password($name, $def, $params)
+    {
+        $r = array();
+        $r['type'] = "password";
+        $r['name'] = $name;
+        $r['value'] = $this->af->get($name);
+
+        return $this->_getFormInput_Html("input", $r, $params);
+    }
+
+    /**
+     *  フォームタグを取得する(type="submit")
+     *
+     *  @access protected
+     */
+    function _getFormInput_Submit($name, $def, $params)
+    {
+        $r = array();
+        $r['type'] = "submit";
+        $r['name'] = $name;
+
+        return $this->_getFormInput_Html("input", $r, $params);
+    }
+
+    /**
+     *  フォームタグを取得する(textarea)
+     *
+     *  @access protected
+     */
+    function _getFormInput_Textarea($name, $def, $params)
+    {
+        $r = array();
+        $r['name'] = $name;
+
+        return $this->_getFormInput_Html("textarea", $r, $params, $this->af->get($name));
+    }
+
+    /**
+     *  フォームタグを取得する(type="text")
+     *
+     *  @access protected
+     */
+    function _getFormInput_Text($name, $def, $params)
+    {
+        $r = array();
+        $r['type'] = "text";
+        $r['name'] = $name;
+        $r['value'] = $this->af->get($name);
+        if (isset($def['max']) && $def['max']) {
+            $r['maxlength'] = $def['max'];
+        }
+
+        return $this->_getFormInput_Html("input", $r, $params);
+    }
+
+    /**
+     *  HTMLタグを取得する
+     *
+     *  @access protected
+     */
+    function _getFormInput_Html($tag, $attr, $user_attr, $element = "")
+    {
+        // user defs
+        foreach ($user_attr as $key => $value) {
+            if ($key == "type" || $key == "name" || preg_match('/^[a-z0-9]+$/i', $key) == 0) {
+                continue;
+            }
+            $attr[$key] = $value;
+        }
+
+        $r = "<$tag";
+
+        foreach ($attr as $key => $value) {
+            $r .= sprintf(' %s="%s"', $key, htmlspecialchars($value, ENT_QUOTES));
+        }
+
+        if ($element != "") {
+            $r .= sprintf('>%s</%s>', htmlspecialchars($element, ENT_QUOTES), $tag);
+        } else {
+            $r .= " />";
+        }
+
+        return $r;
     }
 
 	/**

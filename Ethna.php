@@ -152,6 +152,12 @@ define('FORM_TYPE_SUBMIT', 7);
 /** フォーム型: file */
 define('FORM_TYPE_FILE', 8);
 
+/** フォーム型: button */
+define('FORM_TYPE_BUTTON', 9);
+
+/** フォーム型: hidden */
+define('FORM_TYPE_HIDDEN', 10);
+
 
 /** エラーコード: 一般エラー */
 define('E_GENERAL', 1);

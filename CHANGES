@@ -4,6 +4,9 @@
 
 *** features
 
+- {form_name}, {form_input}プラグイン追加(激しくexperimentalというかongoing)
+- Ethna_ViewClassでhelperアクションフォーム対応
+-- Ethna_ViewClass->helper_action_form = array('some_action_name' => null, ...)とすると{form_name}とかで使えます
 - [breaking B.C.] Ethna_ActionClassのpreforward()サポート(むかーしのコードにありましたのです)削除
 - (ぷち)省エネブロックプラグイン{form}...{/form}追加
 -- ethna_action引数も追加(勝手にhiddenタグ生成)
