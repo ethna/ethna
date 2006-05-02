@@ -6,6 +6,7 @@
 
 - [breaking B.C.] Ethna_ActionClassのpreforward()サポート(むかーしのコードにありましたのです)削除
 - (ぷち)省エネブロックプラグイン{form}...{/form}追加
+-- ethna_action引数も追加(勝手にhiddenタグ生成)
 - Ethna_Controllerに$smarty_block_pluginプロパティを追加
 - ethnaコマンドにadd-action-cliを追加
 - [breaking B.C.] main_CLIのアクション定義ディレクトリをaction_cliに変更

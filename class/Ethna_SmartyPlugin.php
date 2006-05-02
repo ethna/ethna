@@ -596,13 +596,18 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
         }
 
         // additionals
-        foreach (array('target', 'name', 'id', 'class') as $key) {
+        foreach (array('accept', 'accept-charset', 'autocomplete', 'class', 'id', 'lang', 'name', 'style', 'target', 'title', 'urn') as $key) {
             if (${$key} != "") {
                 $s .= sprintf(' %s="%s"', $key, htmlspecialchars(${$key}, ENT_QUOTES));
             }
         }
 
         $s .= ">";
+
+        if ($ethna_action != "") {
+            $c =& Ethna_Controller::getInstance();
+            $s .= $c->getActionRequest($ethna_action, "hidden");
+        }
     } else {
         print $content;
         $s = "</form>";

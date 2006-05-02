@@ -1017,6 +1017,25 @@ class Ethna_Controller
     }
 
     /**
+     *  アクション名を指定するクエリ/HTMLを生成する
+     *
+     *  @access public
+     *  @param  string  $action action to request
+     *  @param  string  $type   hidden, url...
+     *  @todo   consider gateway
+     */
+    function getActionRequest($action, $type = "hidden")
+    {
+        $s = null; 
+        if ($type == "hidden") {
+            $s = sprintf('<input type="hidden" name="%s" value="true">', htmlspecialchars($action, ENT_QUOTES));
+        } else if ($type == "url") {
+            $s = sprintf('%s=true', urlencode($action));
+        }
+        return $s;
+    }
+
+    /**
      *  フォームにより要求されたアクション名に対応する定義を返す
      *
      *  @access private
@@ -1096,7 +1115,7 @@ class Ethna_Controller
     }
 
     /**
-     *  フィルターチェインを生成する
+     *  フィルタチェインを生成する
      *
      *  @access private
      */
