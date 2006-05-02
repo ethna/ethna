@@ -372,7 +372,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Html($tag, $attr, $user_attr, $element = "")
+    function _getFormInput_Html($tag, $attr, $user_attr, $element = false)
     {
         // user defs
         foreach ($user_attr as $key => $value) {
@@ -388,7 +388,7 @@ class Ethna_ViewClass
             $r .= sprintf(' %s="%s"', $key, htmlspecialchars($value, ENT_QUOTES));
         }
 
-        if ($element != "") {
+        if ($element !== false) {
             $r .= sprintf('>%s</%s>', htmlspecialchars($element, ENT_QUOTES), $tag);
         } else {
             $r .= " />";
