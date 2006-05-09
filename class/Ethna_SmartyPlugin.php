@@ -342,7 +342,7 @@ function smarty_modifier_checkbox($string)
 function smarty_modifier_select($string, $value)
 {
 	if ($string == $value) {
-		print "selected";
+		print 'selected="true"';
 	}
 }
 
@@ -468,7 +468,7 @@ function smarty_function_select($params, &$smarty)
 		printf("<option value=\"\">%s</option>\n", $empty);
 	}
 	foreach ($list as $id => $elt) {
-		printf("<option value=\"%s\" %s>%s</option>\n", $id, $id == $value ? "selected" : "", $elt['name']);
+		printf("<option value=\"%s\" %s>%s</option>\n", $id, $id == $value ? 'selected="true"' : '', $elt['name']);
 	}
 	print "</select>\n";
 }

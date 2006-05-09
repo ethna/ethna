@@ -4,6 +4,7 @@
 
 *** features
 
+- smarty_modifier_select(), smarty_function_select()の"selected"属性のxhtml対応(selected="true")
 - {form_name}, {form_input}プラグイン追加(激しくexperimentalというかongoing)
 - Ethna_ViewClassでhelperアクションフォーム対応
 -- Ethna_ViewClass->helper_action_form = array('some_action_name' => null, ...)とすると{form_name}とかで使えます
