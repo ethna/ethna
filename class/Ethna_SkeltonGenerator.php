@@ -49,6 +49,8 @@ class Ethna_SkeltonGenerator
 			array("template/ja", 0755),
 			array("tmp", 0777),
 			array("www", 0755),
+			array("www/css", 0755),
+			array("www/js", 0755),
 		);
 
 		$r = Ethna_Controller::checkAppId($id);
@@ -111,6 +113,7 @@ class Ethna_SkeltonGenerator
 			$this->_generateFile("www.info.php", "$basedir/www/info.php", $macro) == false ||
 			$this->_generateFile("www.unittest.php", "$basedir/www/unittest.php", $macro) == false ||
 			$this->_generateFile("www.xmlrpc.php", "$basedir/www/xmlrpc.php", $macro) == false ||
+			$this->_generateFile("www.css.ethna.css", "$basedir/www/css/ethna.css", $macro) == false ||
 			$this->_generateFile("dot.ethna", "$basedir/.ethna", $macro) == false ||
 			$this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_Controller.php", $macro['project_id']), $macro) == false ||
 			$this->_generateFile("app.error.php", sprintf("$basedir/app/%s_Error.php", $macro['project_id']), $macro) == false ||

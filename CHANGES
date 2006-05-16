@@ -4,6 +4,7 @@
 
 *** features
 
+- add-project時のデフォルトテンプレートデザインを変更
 - ethnaコマンドに-v(--version)オプションを追加
 - smarty_modifier_select(), smarty_function_select()の"selected"属性のxhtml対応(selected="true")
 - {form_name}, {form_input}プラグイン追加(激しくexperimentalというかongoing)
