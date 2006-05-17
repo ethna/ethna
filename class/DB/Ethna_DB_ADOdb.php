@@ -45,6 +45,8 @@ class Ethna_DB_ADOdb extends Ethna_DB
     function Ethna_DB_ADOdb(&$controller, $dsn, $persistent)
     {
         $this->dsn = $dsn;
+        $this->persistent = $persistent;
+        $this->logger =& $controller->getLogger();
     }
 
     //{{{ connect
@@ -173,13 +175,13 @@ class Ethna_DB_ADOdb extends Ethna_DB
     {
         $this->logger->log(LOG_DEBUG, "$query");
         $r =& $this->db->execute($query, $inputarr);
-        if (DB::isError($r)) {
-            if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
-                $error = Ethna::raiseNotice('ユニーク制約エラー SQL[%s]', E_DB_DUPENT, $query, $this->db->errorNative(), $r->getUserInfo());
-            } else {
-                $error = Ethna::raiseError('クエリエラー SQL[%s] CODE[%d] MESSAGE[%s]', E_DB_QUERY, $query, $this->db->errorNative(), $r->getUserInfo());
-            }
+
+        if ($r === false) {
+
+            $error = Ethna::raiseError('エラー SQL[%s] CODE[%d] MESSAGE[%s]', E_DB_QUERY, $query);
+
             return $error;
+
         }
         return $r;
     }
