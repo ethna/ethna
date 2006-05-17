@@ -221,6 +221,21 @@ class Ethna_DB_ADOdb extends Ethna_DB
     }
     //}}}
     
+    //{{{ pageExecute
+    /**
+     * pageExecute
+     *
+     * @param string $query
+     * @param string $nrows
+     * @param integer $page
+     * @param array $inputarr
+     */
+    function pageExecute($query, $nrows, $page, $inputarr = false)
+    {
+        return $this->db->PageExecute($query, $nrows, $page, $inputarr);
+    }
+    //}}}
+
     // {{{ parseDSN()
 
     /**
