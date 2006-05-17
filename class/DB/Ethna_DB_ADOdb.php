@@ -201,9 +201,9 @@ class Ethna_DB_ADOdb extends Ethna_DB
     //}}}
 
     //{{{ getRow
-    function getRow($query)
+    function getRow($query, $inputarr = false)
     {
-        return $this->db->GetRow($query);
+        return $this->db->GetRow($query, $inputarr);
     }
     //}}}
 
