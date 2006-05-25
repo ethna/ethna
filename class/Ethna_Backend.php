@@ -371,7 +371,7 @@ class Ethna_Backend
 			return $r;
 		}
 
-		register_shutdown_function(array($this, 'shutdownDB'));
+		register_shutdown_function(array(&$this, 'shutdownDB'));
 
 		return $this->db_list[$db_varname];
 	}
