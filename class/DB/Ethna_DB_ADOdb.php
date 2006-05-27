@@ -4,9 +4,14 @@
  *  Ethna_DB_ADOdb.php
  *
  *  @package    Ethna
- *  @author     halt <halt.feits@gmail.com>
+ *  @author     halt feits <halt.feits@gmail.com>
  *  @version    $Id$
  */
+
+/**
+ * ADOdb config setting
+ */
+define('ADODB_OUTP', 'sprintf'); //disable output error
 
 require_once 'adodb/adodb.inc.php';
 
@@ -16,7 +21,7 @@ require_once 'adodb/adodb.inc.php';
  *  EthnaのフレームワークでADOdbオブジェクトを扱うための抽象クラス
  *
  *  @package    Ethna
- *  @author     halt <halt.hde@gmail.com>
+ *  @author     halt feits <halt.feits@gmail.com>
  *  @access     public
  */
 class Ethna_DB_ADOdb extends Ethna_DB
