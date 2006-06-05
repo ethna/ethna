@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_FilterのスケルトンにpreActionFilter()/postActionFilter()を追加
 - Ethna_AppObject::_getPropDef()にキャッシュ処理を追加
 - Ethna_CacheManagerクラスを追加(w/ localfile) - from GREE:)
 - Ethna_DB::getDSN()メソッドを追加
