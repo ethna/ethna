@@ -48,6 +48,7 @@ include_once(ETHNA_BASE . '/class/Ethna_AppObject.php');
 include_once(ETHNA_BASE . '/class/Ethna_AppSQL.php');
 include_once(ETHNA_BASE . '/class/Ethna_AppSearchObject.php');
 include_once(ETHNA_BASE . '/class/Ethna_Backend.php');
+include_once(ETHNA_BASE . '/class/Ethna_CacheManager.php');
 include_once(ETHNA_BASE . '/class/Ethna_Config.php');
 include_once(ETHNA_BASE . '/class/Ethna_Controller.php');
 include_once(ETHNA_BASE . '/class/Ethna_ClassFactory.php');
@@ -267,6 +268,18 @@ define('E_FORM_INVALIDCHAR', 148);
 /** エラーコード: 確認用エントリ入力エラー */
 define('E_FORM_CONFIRM', 149);
 
+/** エラーコード: キャッシュタイプ不正 */
+define('E_CACHE_INVALID_TYPE', 256);
+
+/** エラーコード: キャッシュ値なし */
+define('E_CACHE_NO_VALUE', 257);
+
+/** エラーコード: キャッシュ有効期限 */
+define('E_CACHE_EXPIRED', 258);
+
+/** エラーコード: キャッシュエラー(その他) */
+define('E_CACHE_GENERAL', 259);
+
 
 if (defined('E_STRICT') == false) {
 	/** PHP 5との互換保持定義 */
@@ -278,9 +291,6 @@ $GLOBALS['_Ethna_error_callback_list'] = array();
 
 /** Ethnaグローバル変数: エラーメッセージ */
 $GLOBALS['_Ethna_error_message_list'] = array();
-
-/** Ethnaグローバル変数: クライアント種別 */
-$GLOBALS['_Ethna_client_type'] = null; 
 
 
 // {{{ Ethna

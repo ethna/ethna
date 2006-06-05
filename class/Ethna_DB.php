@@ -45,6 +45,8 @@ class Ethna_DB
 	 */
 	function Ethna_DB(&$controller, $dsn, $persistent)
 	{
+		$this->dsn = $dsn;
+		$this->persistent = $persistent;
 	}
 
 	/**
@@ -114,6 +116,17 @@ class Ethna_DB
      */
     function getMetaData()
     {
+    }
+
+    /**
+     *  DSNを取得する
+     *
+     *  @access public
+     *  @return string  DSN
+     */
+    function getDSN()
+    {
+        return $this->dsn;
     }
 }
 // }}}

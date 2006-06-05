@@ -45,7 +45,7 @@ class Ethna_DB_Creole extends Ethna_DB
      */
     function Ethna_DB_Creole(&$controller, $dsn, $persistent)
     {
-        $this->dsn = $dsn;
+        parent::Ethna_DB($controller, $dsn, $persistent);
     }
 
     /**

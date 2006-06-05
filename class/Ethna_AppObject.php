@@ -57,6 +57,9 @@ class Ethna_AppObject
     /** @var    array   プロパティ(バックアップ) */
     var $prop_backup = null;
 
+    /** @var    int     プロパティ定義キャッシュ有効期間(sec) */
+    var $prop_def_cache_lifetime = 86400;
+
     /** @var    array   プライマリキー定義 */
     var $id_def = null;
 
@@ -1363,6 +1366,19 @@ class Ethna_AppObject
             // use 1st one
             break;
         }
+
+        $cache_manager =& Ethna_CacheManager::getInstance('localfile');
+        $cache_manager->setNamespace('ethna_app_object');
+
+        $cache_key = $this->my_db_ro->getDSN();
+        $cache_key = preg_replace('|[:/@+]|', '', $dsn);
+        $cache_key = "$dsn-$table_name";
+
+        $prop_def = $cache_manager->get($cache_key, $this->prop_def_cache_lifetime);
+        if (PEAR::isError($prop_def) == false) {
+            return $prop_def;
+        }
+
         $r = $this->my_db_ro->getMetaData($table_name);
         if(Ethna::isError($r)){
             return null;
@@ -1389,9 +1405,11 @@ class Ethna_AppObject
                 'primary'   => $primary,
                 'key'       => $key,
                 'type'      => $type,
-                'form_name' => $this->_fieldNameToFormName($field_def['name']),
+                'form_name' => $this->_fieldNameToFormName($field_def),
             );
         }
+        
+        $cache_manager->set($cache_key, $prop_def);
 
         return $prop_def;
     }
@@ -1403,7 +1421,7 @@ class Ethna_AppObject
      */
     function _fieldNameToFormName($field_def)
     {
-        return $field_name['name'];
+        return $field_def['name'];
     }
 }
 // }}}

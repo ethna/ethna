@@ -60,8 +60,8 @@ class Ethna_DB_PEAR extends Ethna_DB
 	 */
 	function Ethna_DB_PEAR(&$controller, $dsn, $persistent)
 	{
-		$this->dsn = $dsn;
-		$this->persistent = $persistent;
+        parent::Ethna_DB($controller, $dsn, $persistent);
+
 		$this->db = null;
 		$this->logger =& $controller->getLogger();
 		$this->sql =& $controller->getSQL();

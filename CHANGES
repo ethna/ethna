@@ -4,6 +4,9 @@
 
 *** features
 
+- Ethna_AppObject::_getPropDef()にキャッシュ処理を追加
+- Ethna_CacheManagerクラスを追加(w/ localfile) - from GREE:)
+- Ethna_DB::getDSN()メソッドを追加
 - iniファイルのスケルトンにdsnサンプル追加
 - add-templateコマンド追加(by nnno)
 - add-project時のデフォルトテンプレートデザインを変更
@@ -64,6 +67,7 @@
 
 *** bug fixes
 
+- [[#8400>http://sourceforge.jp/tracker/index.php?func=detail&aid=8400&group_id=1343&atid=5092]](AppObject prop_def[]['form_name']がNULL)
 - [[#7751>http://sourceforge.jp/tracker/index.php?func=detail&aid=7751&group_id=1343&atid=5092]](SAFE_MODEでmail関数の第５引数があるとWaning)を修正
 - [[#8496>http://sourceforge.jp/tracker/index.php?func=detail&aid=8496&group_id=1343&atid=5092]](Ethna_AppObject.php内のtypo)を修正
 - [[#8387>http://sourceforge.jp/tracker/index.php?func=detail&aid=8387&group_id=1343&atid=5092]](checkMailaddressやcheckURLでNotice)を修正

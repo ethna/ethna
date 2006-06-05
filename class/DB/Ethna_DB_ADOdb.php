@@ -49,8 +49,8 @@ class Ethna_DB_ADOdb extends Ethna_DB
      */
     function Ethna_DB_ADOdb(&$controller, $dsn, $persistent)
     {
-        $this->dsn = $dsn;
-        $this->persistent = $persistent;
+        parent::Ethna_DB($controller, $dsn, $persistent);
+
         $this->logger =& $controller->getLogger();
     }
 
