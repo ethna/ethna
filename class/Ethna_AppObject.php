@@ -1371,8 +1371,8 @@ class Ethna_AppObject
         $cache_manager->setNamespace('ethna_app_object');
 
         $cache_key = $this->my_db_ro->getDSN();
-        $cache_key = preg_replace('|[:/@+]|', '', $dsn);
-        $cache_key = "$dsn-$table_name";
+        $cache_key = preg_replace('|[:/@+]|', '', $cache_key);
+        $cache_key = "$cache_key-$table_name";
 
         $prop_def = $cache_manager->get($cache_key, $this->prop_def_cache_lifetime);
         if (PEAR::isError($prop_def) == false) {
@@ -1387,6 +1387,10 @@ class Ethna_AppObject
         $prop_def = array();
         foreach ($r as $i => $field_def) {
             $primary = (strpos($field_def['flags'], "primary_key") === false) ? false : true;
+
+            // TODO: db independent
+            $seq = (strpos($field_def['flags'], "auto_increment") === false) ? false : true;
+
             $key = (strpos($field_def['flags'], "key") === false) ? false : true;
             switch ($field_def['type']) {
             case 'int':
@@ -1403,6 +1407,7 @@ class Ethna_AppObject
 
             $prop_def[$field_def['name']] = array(
                 'primary'   => $primary,
+                'seq'       => $seq,
                 'key'       => $key,
                 'type'      => $type,
                 'form_name' => $this->_fieldNameToFormName($field_def),
