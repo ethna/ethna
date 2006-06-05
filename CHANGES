@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_Backend::setActionForm(), Ethna_Backend::setActionClass()メソッドを追加
 - Ethna_FilterのスケルトンにpreActionFilter()/postActionFilter()を追加
 - Ethna_AppObject::_getPropDef()にキャッシュ処理を追加
 - Ethna_CacheManagerクラスを追加(w/ localfile) - from GREE:)
@@ -68,6 +69,7 @@
 
 *** bug fixes
 
+- [[#8079>http://sourceforge.jp/tracker/index.php?func=detail&aid=8079&group_id=1343&atid=5092]](FilterでBackendを呼ぶとActionFormの値が空になる)
 - [[#8200>http://sourceforge.jp/tracker/index.php?func=detail&aid=8200&group_id=1343&atid=5092]](PHP5.1.0以降でafのvalidate()で日付チェックが効かない)
 - [[#8179>http://sourceforge.jp/tracker/index.php?func=detail&aid=8179&group_id=1343&atid=5092]](getManagerの戻り値が参照渡しになっていない)
 - [[#8400>http://sourceforge.jp/tracker/index.php?func=detail&aid=8400&group_id=1343&atid=5092]](AppObject prop_def[]['form_name']がNULL)

@@ -762,6 +762,8 @@ class Ethna_Controller
 
         // バックエンド処理実行
         $backend =& $this->getBackend();
+        $backend->setActionForm($this->action_form);
+
         $session =& $this->getSession();
         $session->restore();
         $forward_name = $backend->perform($action_name);

@@ -179,7 +179,18 @@ class Ethna_Backend
 	}
 
 	/**
-	 *	実行中のアクションクラスを返す
+	 *	アクションフォームオブジェクトのアクセサ(W)
+	 *
+	 *	@access	public
+	 */
+	function &setActionForm(&$action_form)
+	{
+		$this->action_form =& $action_form;
+        $this->af =& $action_form;
+	}
+
+	/**
+	 *	実行中のアクションクラスオブジェクトのアクセサ(R)
 	 *
 	 *	@access	public
 	 *	@return	mixed	Ethna_ActionClass:アクションクラス null:アクションクラス未定
@@ -187,6 +198,17 @@ class Ethna_Backend
 	function &getActionClass()
 	{
 		return $this->action_class;
+	}
+
+	/**
+	 *	実行中のアクションクラスオブジェクトのアクセサ(W)
+	 *
+	 *	@access	public
+	 */
+	function &setActionClass(&$action_class)
+	{
+        $this->action_class =& $action_class;
+        $this->ac =& $action_class;
 	}
 
 	/**
