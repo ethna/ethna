@@ -84,7 +84,7 @@ class Ethna_ViewClass
 		// Ethna_AppManagerオブジェクトの設定
 		$manager_list = $c->getManagerList();
 		foreach ($manager_list as $k => $v) {
-			$this->$k = $backend->getManager($v);
+			$this->$k =& $backend->getManager($v);
 		}
 
 		$this->forward_name = $forward_name;

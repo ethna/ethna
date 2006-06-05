@@ -94,7 +94,7 @@ class Ethna_Backend
 		$this->db_list = array();
 		$this->logger =& $this->controller->getLogger();
 
-		// マネージャオブジェクトの生成
+		// マネージャオブジェクトの生成(TODO: create on demand)
 		$manager_list = $controller->getManagerList();
 		foreach ($manager_list as $key => $value) {
 			$class_name = $this->controller->getManagerClassName($value);
