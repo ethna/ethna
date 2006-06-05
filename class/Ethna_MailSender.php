@@ -164,7 +164,12 @@ class Ethna_MailSender
                 $header_line .= $value[0] . ": " . $value[1];
             }
 
-            mail($rcpt, $header['subject'][1], $body, $header_line, $this->option);
+            if (is_string($this->option)) {
+                mail($rcpt, $header['subject'][1], $body, $header_line, $this->option);
+            } else {
+                mail($rcpt, $header['subject'][1], $body, $header_line);
+            }
+
         }
     }
 
