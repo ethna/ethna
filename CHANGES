@@ -63,6 +63,7 @@
 
 *** bug fixes
 
+- [[#8496>http://sourceforge.jp/tracker/index.php?func=detail&aid=8496&group_id=1343&atid=5092]](Ethna_AppObject.php内のtypo)を修正
 - [[#8387>http://sourceforge.jp/tracker/index.php?func=detail&aid=8387&group_id=1343&atid=5092]](checkMailaddressやcheckURLでNotice)を修正
 - [[#8130>http://sourceforge.jp/tracker/index.php?func=detail&aid=8130&group_id=1343&atid=5092]](Noticeつぶし)を修正
 - typo fixed (aleady -> already)
