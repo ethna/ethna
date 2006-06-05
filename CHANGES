@@ -4,6 +4,7 @@
 
 *** features
 
+- iniファイルのスケルトンにdsnサンプル追加
 - add-templateコマンド追加(by nnno)
 - add-project時のデフォルトテンプレートデザインを変更
 - ethnaコマンドに-v(--version)オプションを追加
