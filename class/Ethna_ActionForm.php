@@ -810,7 +810,8 @@ class Ethna_ActionForm
                 return false;
             }
         } else if ($type == VAR_TYPE_DATETIME) {
-            if (strtotime($var) == -1) {
+            $r = strtotime($var);
+            if ($r == -1 || $r === false) {
                 if ($test == false) {
                     $this->handleError($name, E_FORM_WRONGTYPE_DATETIME);
                 }
