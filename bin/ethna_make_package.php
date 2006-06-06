@@ -41,8 +41,8 @@ $package = 'Ethna';
 
 // x.0.y -> beta
 // x.1.y -> stable
-$major_version = "2.0";
-$minor_version = "1";
+$major_version = "2.1";
+$minor_version = "0";
 
 if ($state == 'alpha' || $state == 'beta') {
     $version = $major_version . strftime('.%Y%m%d%H');
@@ -77,7 +77,7 @@ $packagexml->setAPIVersion($version);
 $packagexml->setReleaseVersion($version);
 $packagexml->setReleaseStability($state);
 $packagexml->setAPIStability($state);
-$packagexml->setNotes('2.0.1 would be brand-new package');
+$packagexml->setNotes('Ethna PHP Web Application Framework');
 $packagexml->setPackageType('php');
 
 $packagexml->addRole('tpl', 'php');

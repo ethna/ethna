@@ -32,7 +32,7 @@ goto cleanup
 
 :run
 IF EXIST "@PEAR-DIR@" (
-  %PHP_COMMAND% -d html_errors=off -qC "@PEAR-DIR@\ethna_handle.php" %1 %2 %3 %4 %5 %6 %7 %8 %9
+  %PHP_COMMAND% -d html_errors=off -qC "@PEAR-DIR@\Ethna\ethna_handle.php" %1 %2 %3 %4 %5 %6 %7 %8 %9
 ) ELSE (
   %PHP_COMMAND% -d html_errors=off -qC "%ETHNA_HOME%\bin\ethna_handle.php" %1 %2 %3 %4 %5 %6 %7 %8 %9
 )
@@ -43,7 +43,7 @@ set PHP_COMMAND=php.exe
 goto init
 
 :set_classpath
-set PHP_CLASSPATH=%ETHNA_HOME%\lib
+set PHP_CLASSPATH=%ETHNA_HOME%\class
 goto init
 
 :cleanup

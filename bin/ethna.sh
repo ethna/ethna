@@ -9,7 +9,7 @@
 
 if [ -z "$ETHNA_HOME" ];
 then
-    ETHNA_HOME="@PEAR-DIR@"
+    ETHNA_HOME="@PEAR-DIR@/Ethna"
 fi
 
 if (test -z "$PHP_COMMAND");
@@ -19,7 +19,7 @@ fi
 
 if (test -z "$PHP_CLASSPATH");
 then
-    PHP_CLASSPATH=$ETHNA_HOME/lib
+    PHP_CLASSPATH=$ETHNA_HOME/class
     export PHP_CLASSPATH
 fi
 
