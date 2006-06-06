@@ -1,6 +1,13 @@
 * 変更点一覧
 
-** [current] 2.1.0
+** 2.3.0-dev
+
+*** features
+
+*** bug fixes
+
+
+** 2.1.0
 
 *** features
 
@@ -89,6 +96,7 @@
 - (within beta) ethna add-viewでプロジェクトディレクトリを指定した場合に正しくファイルが生成されない問題を修正
 - (within beta) Windows版のethnaコマンドがパッケージからインストールした場合実行できない問題を修正
 - (within beta) ActionFormの配列のフォーム値が破壊される問題を修正(by sfioさん)
+
 
 ** [2006/01/29] 0.2.0
 
