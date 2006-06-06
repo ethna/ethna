@@ -4,6 +4,7 @@
 
 *** features
 
+- ethnaコマンドのETHNA_HOMEをインストール時に決定するように改善
 - Ethna_ActionForm::validate() で多次元配列が渡されたときのnoticeを回避
 - Ethna_Backend::setActionForm(), Ethna_Backend::setActionClass()メソッドを追加
 - Ethna_FilterのスケルトンにpreActionFilter()/postActionFilter()を追加

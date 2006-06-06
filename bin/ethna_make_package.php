@@ -94,8 +94,10 @@ $packagexml->addMaintainer('lead', 'cocoitiban', 'Keita Arai', 'cocoiti@comio.in
 
 $packagexml->setLicense('The BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
 
-$packagexml->addReplacement('bin/ethna.bat', 'pear-config', '@PHP-BIN@', 'php_bin');
-$packagexml->addReplacement('bin/ethna.sh', 'pear-config', '@PHP-BIN@', 'php_bin');
+$packagexml->addReplacement('bin/ethna.bat', 'pear-config', '@PEAR-DIR@', 'php_dir');
+$packagexml->addReplacement('bin/ethna.bat', 'pear-config', '@PHP-BIN@', 'bin_dir');
+$packagexml->addReplacement('bin/ethna.sh', 'pear-config', '@PEAR-DIR@', 'php_dir');
+$packagexml->addReplacement('bin/ethna.sh', 'pear-config', '@PHP-BIN@', 'bin_dir');
 
 $packagexml->addRelease();
 $packagexml->setOSInstallCondition('windows');
