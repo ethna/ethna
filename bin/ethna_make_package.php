@@ -80,6 +80,7 @@ $packagexml->setAPIStability($state);
 $packagexml->setNotes('Ethna PHP Web Application Framework');
 $packagexml->setPackageType('php');
 
+$packagexml->addRole('css', 'php');
 $packagexml->addRole('tpl', 'php');
 $packagexml->addRole('ethna', 'php');
 $packagexml->addRole('sh', 'script');
