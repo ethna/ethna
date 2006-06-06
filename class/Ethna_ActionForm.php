@@ -227,6 +227,8 @@ class Ethna_ActionForm
                 // 配列構造の検査
                 if (is_array($def['type'])) {
                     if (is_array($http_vars[$name]) == false) {
+                        // 厳密には、この配列の各要素はスカラーであるべき
+                        // TODO: 多次元の配列にも対応する
                         $this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
                         $this->form_vars[$name] = null;
                         continue;
@@ -457,7 +459,8 @@ class Ethna_ActionForm
                         continue;
                     }
                 } else {
-                    if (strlen($form_vars[$key]) == 0) {
+                    if (is_scalar($form_vars[$key]) == false
+                        || strlen($form_vars[$key]) == 0) {
                         continue;
                     }
                 }
