@@ -1,11 +1,10 @@
 * 変更点一覧
 
-** 2.3.0-dev
-
-*** features
+** 2.1.1
 
 *** bug fixes
 
+- ethna.batのパスを修正
 
 ** 2.1.0
 
