@@ -183,7 +183,7 @@ class Ethna_Backend
 	 *
 	 *	@access	public
 	 */
-	function &setActionForm(&$action_form)
+	function setActionForm(&$action_form)
 	{
 		$this->action_form =& $action_form;
         $this->af =& $action_form;
@@ -205,7 +205,7 @@ class Ethna_Backend
 	 *
 	 *	@access	public
 	 */
-	function &setActionClass(&$action_class)
+	function setActionClass(&$action_class)
 	{
         $this->action_class =& $action_class;
         $this->ac =& $action_class;
