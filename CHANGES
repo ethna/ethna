@@ -6,6 +6,7 @@
 
 *** bug fixes
 
+- Ethna_Controller::getActionRequest()メソッドのデフォルト状態の振舞いを修正
 
 ** 2.1.1
 
