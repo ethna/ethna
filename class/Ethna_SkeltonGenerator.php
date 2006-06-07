@@ -87,7 +87,7 @@ class Ethna_SkeltonGenerator
 			if (mkdir($target, $mode) == false) {
 				return Ethna::raiseError('directory creation failed');
 			} else {
-				printf("proejct sub directory created [%s]\n", $target);
+				printf("project sub directory created [%s]\n", $target);
 			}
 			if (chmod($target, $mode) == false) {
 				return Ethna::raiseError('chmod failed');
