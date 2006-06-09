@@ -414,7 +414,7 @@ class Ethna_SkeltonGenerator
      *  @param  string  $app_dir        プロジェクトディレクトリ
 	 *	@return	bool	true:成功 false:失敗
 	 */
-	function generateActionTestSkelton($action_name, $app_dir)
+	function generateActionTestSkelton($action_name, $app_dir, $gateway = GATEWAY_WWW)
 	{
         // discover controller
         $controller_class = $this->_discoverController($app_dir);
@@ -425,7 +425,7 @@ class Ethna_SkeltonGenerator
         $c =& new $controller_class;
         $c->setGateway(GATEWAY_CLI);
 
-		$action_dir = $c->getActiondir();
+		$action_dir = $c->getActiondir($gateway);
 		$action_class = $c->getDefaultActionClass($action_name, false);
 		$action_form = $c->getDefaultFormClass($action_name, false);
 		$action_path = $c->getDefaultActionPath($action_name . "Test", false);
