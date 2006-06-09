@@ -31,5 +31,27 @@ $config = array(
     'log_alert_mailaddress' => '',
     'log_filter_do' => '',
     'log_filter_ignore' => 'Undefined index.*%%.*tpl',
+
+    // memcache
+    // sample-1: single (or default) memcache
+    // 'memcache_host' => 'localhost',
+    // 'memcache_port' => 11211,
+    //
+    // use connect or pconnect
+    // 'memcache_use_connect' => false,
+    //
+    // sample-2: multiple memcache servers (distributing w/ namespace and ids)
+    // 'memcache' => array(
+    //     'namespace1' => array(
+    //         0 => array(
+    //             'memcache_host' => 'cache1.example.com',
+    //             'memcache_port' => 11211,
+    //         ),
+    //         1 => array(
+    //             'memcache_host' => 'cache2.example.com',
+    //             'memcache_port' => 11211,
+    //         ),
+    //     ),
+    // ),
 );
 ?>
