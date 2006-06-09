@@ -14,10 +14,6 @@
  *	@version    $Id$
  */
 
-/** memcacheプロセスへの接続タイムアウト */
-define('GREE_CACHE_MANAGER_MEMCACHE_TIMEOUT', 3);
-
-
 /**
  *	キャッシュマネージャクラス(memcache版)
  *
@@ -55,7 +51,14 @@ class Ethna_CacheManager_Memcache extends Ethna_CacheManager
      */
 	function _getMemcache($cache_key, $namespace = null)
 	{
-		$n = GREE_CACHE_MANAGER_MEMCACHE_TIMEOUT;
+        $retry = $this->config->get('memcache_retry');
+        if ($retry == "") {
+            $retry = 3;
+        }
+        $timeout = $this->config->get('memcache_timeout');
+        if ($timeout == "") {
+            $timeout = 3;
+        }
 		$r = false;
 
 		list($host, $port) = $this->_getMemcacheInfo($cache_key, $namespace);
@@ -66,17 +69,17 @@ class Ethna_CacheManager_Memcache extends Ethna_CacheManager
 		}
 		$this->memcache_pool["$host:$port"] =& new MemCache();
 
-		while ($n > 0) {
+		while ($retry > 0) {
             if ($this->config->get('memcache_use_connect')) {
-				$r = $this->memcache_pool["$host:$port"]->connect($host, $port, 3);
+				$r = $this->memcache_pool["$host:$port"]->connect($host, $port, $timeout);
 			} else {
-				$r = $this->memcache_pool["$host:$port"]->pconnect($host, $port, 3);
+				$r = $this->memcache_pool["$host:$port"]->pconnect($host, $port, $timeout);
 			}
 			if ($r) {
 				break;
 			}
 			sleep(1);
-			$n--;
+			$retry--;
 		}
 		if ($r == false) {
 			trigger_error("memcache: connection failed");

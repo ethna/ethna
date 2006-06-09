@@ -36,9 +36,9 @@ $config = array(
     // sample-1: single (or default) memcache
     // 'memcache_host' => 'localhost',
     // 'memcache_port' => 11211,
-    //
-    // use connect or pconnect
     // 'memcache_use_connect' => false,
+    // 'memcache_retry' => 3,
+    // 'memcache_timeout' => 3,
     //
     // sample-2: multiple memcache servers (distributing w/ namespace and ids)
     // 'memcache' => array(
