@@ -102,19 +102,22 @@ class Ethna_Handle_AddActionCli extends Ethna_Handle_AddAction
         if (count($r[1]) < 0) {
             return Ethna::raiseError('too few arguments', 'usage');
         } else if (count($r[1]) == 1) {
-            $view = $r[1][0];
+            $action = $r[1][0];
             $app_dir = getcwd();
         } else {
-            $view = $r[1][0];
+            $action = $r[1][0];
             $app_dir = $r[1][1];
         }
 
-        // TODO: check view name(?) - how it would be easy and pluggable
+        $r = Ethna_Controller::checkActionName($action);
+        if (Ethna::isError($r)) {
+            return $r;
+        }
         if (is_dir($app_dir) == false) {
             return Ethna::raiseError("no such directory [$app_dir]");
         }
 
-        return array($view, $app_dir, $entry_point);
+        return array($action, $app_dir, $entry_point);
     }
 }
 // }}}

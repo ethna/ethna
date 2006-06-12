@@ -259,6 +259,36 @@ class Ethna_Controller
     }
 
     /**
+     *  アクション名をチェックする
+     *
+     *  @access public
+     *  @param  string  $action_name    アクション名
+     *  @return mixed   true:OK Ethna_Error:NG
+     */
+    function checkActionName($action_name)
+    {
+        if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $action_name) == 0) {
+            return Ethna::raiseError(sprintf("invalid action name [$action_name]"));
+        }
+        return true;
+    }
+
+    /**
+     *  ビュー名をチェックする
+     *
+     *  @access public
+     *  @param  string  $view_name    ビュー名
+     *  @return mixed   true:OK Ethna_Error:NG
+     */
+    function checkViewName($view_name)
+    {
+        if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $view_name) == 0) {
+            return Ethna::raiseError(sprintf("invalid view name [$view_name]"));
+        }
+        return true;
+    }
+
+    /**
      *  DSNを返す
      *
      *  @access public

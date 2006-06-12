@@ -4,6 +4,7 @@
 
 *** features
 
+- ethnaコマンドにアクション名、ビュー名のチェック処理を追加(Ethna_Controller::checkActionName(), Ethna_Controller::checkViewName()を追加)
 - Ethna_CacheManager_Memcache(キャッシュマネージャのmemcacheサポート)追加
 
 *** bug fixes

@@ -80,7 +80,10 @@ class Ethna_Handle_AddViewTest extends Ethna_Handle
             $arg_list = $this->arg_list;
         }
 
-        // TODO: check view name(?) - how it would be easy and pluggable
+        $r = Ethna_Controller::checkViewName($arg_list[0]);
+        if (Ethna::isError($r)) {
+            return $r;
+        }
         if (is_dir($arg_list[1]) == false) {
             return Ethna::raiseError("no such directory [{$arg_list[1]}]");
         }

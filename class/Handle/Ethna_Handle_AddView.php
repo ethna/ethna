@@ -108,7 +108,10 @@ class Ethna_Handle_AddView extends Ethna_Handle
             $app_dir = $r[1][1];
         }
 
-        // TODO: check view name(?) - how it would be easy and pluggable
+        $r = Ethna_Controller::checkViewName($view);
+        if (Ethna::isError($r)) {
+            return $r;
+        }
         if (is_dir($app_dir) == false) {
             return Ethna::raiseError("no such directory [$app_dir]");
         }
