@@ -13,20 +13,20 @@
 - Ethna_SkeltonGeneratorクラスのtypoを修正(proejct -> project)
 
 
-** 2.1.2
+** [2006/06/07] 2.1.2
 
 *** bug fixes
 
 - Ethna_Controller::getActionRequest()メソッドのデフォルト状態の振舞いを修正
 
 
-** 2.1.1
+** [2006/06/07] 2.1.1
 
 *** bug fixes
 
 - ethna.batのパスを修正
 
-** 2.1.0
+** [2006/06/06] 2.1.0
 
 *** features
 
