@@ -269,16 +269,16 @@ define('E_FORM_INVALIDCHAR', 148);
 define('E_FORM_CONFIRM', 149);
 
 /** エラーコード: キャッシュタイプ不正 */
-define('E_CACHE_INVALID_TYPE', 256);
+define('E_CACHE_INVALID_TYPE', 192);
 
 /** エラーコード: キャッシュ値なし */
-define('E_CACHE_NO_VALUE', 257);
+define('E_CACHE_NO_VALUE', 193);
 
 /** エラーコード: キャッシュ有効期限 */
-define('E_CACHE_EXPIRED', 258);
+define('E_CACHE_EXPIRED', 194);
 
 /** エラーコード: キャッシュエラー(その他) */
-define('E_CACHE_GENERAL', 259);
+define('E_CACHE_GENERAL', 195);
 
 
 if (defined('E_STRICT') == false) {
