@@ -9,6 +9,7 @@
 
 *** bug fixes
 
+- ethnaコマンドにサポートされていないオプションのみを指定して起動した場合(ethna -hなど)にFatal Errorとなる問題を修正
 - Ethna_Backend::getDBのNoticeエラーを修正
 - キャッシュマネージャのエラーコードが256以上(アプリケーション用)になっていた問題を修正
 - ethna add-action-testしたときにファイルがapp/action_cliに生成されてしまう問題を修正

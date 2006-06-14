@@ -36,6 +36,8 @@ $getopt =& new Console_Getopt();
 $arg_list = $getopt->readPHPArgv();
 array_shift($arg_list);
 
+$ehm =& new Ethna_Handle_Manager();
+
 list($my_arg_list, $arg_list) = _Ethna_HandleGateway_SeparateArgList($arg_list);
 $r = $getopt->getopt($my_arg_list, "v", array("version"));
 if (Ethna::isError($r)) {
@@ -51,7 +53,6 @@ foreach ($r[0] as $opt) {
     }
 }
 
-$ehm =& new Ethna_Handle_Manager();
 if (count($arg_list) == 0) {
     usage($ehm);
     exit(1);
