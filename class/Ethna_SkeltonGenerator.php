@@ -597,7 +597,6 @@ class Ethna_SkeltonGenerator
             $home = $_SERVER['HOME'];
         }
 
-        }
         if (is_file("$home/.ethna") == false) {
             return array();
         }
