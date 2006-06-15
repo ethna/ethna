@@ -649,11 +649,16 @@ class Ethna_ActionForm
             if (is_array($exclude_list) == true && in_array($key, $exclude_list) == true) {
                 continue;
             }
+            
+            $type = is_array($value['type']) ? $value['type'][0] : $value['type'];
+            if ($type == VAR_TYPE_FILE) {
+                continue;
+            }
 
             $form_value = $this->form_vars[$key];
             if (is_array($form_value) == false) {
                 $form_value = array($form_value);
-                $form_array = false;
+                $form_array = is_array($value['type']);
             } else {
                 $form_array = true;
             }
