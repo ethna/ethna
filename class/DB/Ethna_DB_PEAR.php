@@ -43,6 +43,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 	/**	@var	string	DSN */
 	var $dsn;
 
+	/**	@var	array   DSN (DB::parseDSN()の返り値) */
+	var $dsninfo;
+
 	/**	@var	bool	持続接続フラグ */
 	var $persistent;
 
@@ -66,8 +69,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 		$this->logger =& $controller->getLogger();
 		$this->sql =& $controller->getSQL();
 
-		$dsninfo = DB::parseDSN($dsn);
-		$this->type = $dsninfo['phptype'];
+		$this->dsninfo = DB::parseDSN($dsn);
+		$this->dsninfo['new_link'] = true;
+		$this->type = $this->dsninfo['phptype'];
 	}
 
 	/**
@@ -78,7 +82,7 @@ class Ethna_DB_PEAR extends Ethna_DB
 	 */
 	function connect()
 	{
-		$this->db =& DB::connect($this->dsn, $this->persistent);
+		$this->db =& DB::connect($this->dsninfo, $this->persistent);
 		if (DB::isError($this->db)) {
 			$error = Ethna::raiseError('DB接続エラー: %s', E_DB_CONNECT, $this->db->getUserInfo());
 			$error->addUserInfo($this->db);
@@ -96,7 +100,7 @@ class Ethna_DB_PEAR extends Ethna_DB
 	 */
 	function disconnect()
 	{
-		if (is_null($this->db)) {
+		if ($this->isValid() == false) {
 			return;
 		}
 		$this->db->disconnect();
@@ -110,7 +114,8 @@ class Ethna_DB_PEAR extends Ethna_DB
 	 */
 	function isValid()
 	{
-		if (is_null($this->db)) {
+		if (is_null($this->db)
+            || is_resource($this->db->connection) == false) {
 			return false;
 		} else {
 			return true;

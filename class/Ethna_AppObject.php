@@ -109,6 +109,13 @@ class Ethna_AppObject
             $this->prop_def = $this->_getPropDef();
         }
 
+        // プロパティ定義の必須キーを補完
+        foreach (array_keys($this->prop_def) as $k) {
+            if (isset($this->prop_def[$k]['primary']) == false) {
+                $this->prop_def[$k]['primary'] = false;
+            }
+        }
+
         // Ethna_AppManagerオブジェクトの設定
         $manager_list = $ctl->getManagerList();
         foreach ($manager_list as $k => $v) {

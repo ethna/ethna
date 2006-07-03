@@ -9,6 +9,7 @@
 
 *** bug fixes
 
+- Ethna_DB_PEAR, Ethna_AppObjectのWARNINGを回避([ethna-users:0383])
 - Windowsでホームディレクトリの.ethnaファイルが参照されない問題を修正
 - session_startしていないとrestoreメソッドがうまく動かない問題を修正
 - ethnaコマンドにサポートされていないオプションのみを指定して起動した場合(ethna -hなど)にFatal Errorとなる問題を修正
