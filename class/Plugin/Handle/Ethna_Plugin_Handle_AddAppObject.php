@@ -1,23 +1,24 @@
 <?php
+// vim: foldmethod=marker
 /**
- *  Ethna_Handle_AddViewTest.php
+ *	Ethna_Handle_AddAppObject.php
  *
- *  @author     halt feits <halt.feits@gmail.com>
- *  @package    Ethna
- *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *  @version    $Id$
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *	@package	Ethna
+ *	@version	$Id$
  */
 
+// {{{ Ethna_Plugin_Handle_AddAppObject
 /**
- *  add-view-test handler
+ *  add-app-object handler
  *
- *  @author     halt feits <halt.feits@gmail.com>
- *  @access     public
- *  @package    Ethna
+ *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@access		public
+ *	@package	Ethna
  */
-class Ethna_Handle_AddViewTest extends Ethna_Handle
+class Ethna_Plugin_Handle_AddAppObject extends Ethna_Plugin_Handle
 {
-    
     /**
      *  get handler's description
      *
@@ -25,11 +26,11 @@ class Ethna_Handle_AddViewTest extends Ethna_Handle
      */
     function getDescription()
     {
-        return "add new view test to project:\n    {$this->id} [view] ([project-base-dir])\n";
+        return "add new app-object to project:\n    {$this->id} [table name] ([project-base-dir])\n";
     }
 
     /**
-     *  add view test
+     *  add app-object
      *
      *  @access public
      */
@@ -39,10 +40,10 @@ class Ethna_Handle_AddViewTest extends Ethna_Handle
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($view_name, $app_dir) = $r;
+        list($table_name, $app_dir) = $r;
 
         $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateViewTestSkelton($view_name, $app_dir);
+        $r = $sg->generateAppObjectSkelton($table_name, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
@@ -58,7 +59,7 @@ class Ethna_Handle_AddViewTest extends Ethna_Handle
      */
     function usage()
     {
-        printf("usage:\nethna %s [view] ([project-base-dir])\n\n", $this->id);
+        printf("usage:\nethna %s [table name] ([project-base-dir])\n\n", $this->id);
     }
 
     /**
@@ -80,17 +81,12 @@ class Ethna_Handle_AddViewTest extends Ethna_Handle
             $arg_list = $this->arg_list;
         }
 
-        $r = Ethna_Controller::checkViewName($arg_list[0]);
-        if (Ethna::isError($r)) {
-            return $r;
-        }
         if (is_dir($arg_list[1]) == false) {
             return Ethna::raiseError("no such directory [{$arg_list[1]}]");
         }
 
         return $arg_list;
     }
-    
 }
-
+// }}}
 ?>

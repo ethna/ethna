@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_LogWriter_Echo.php
+ *	Ethna_Plugin_Logwriter_Echo.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,7 +9,7 @@
  *	@version	$Id$
  */
 
-// {{{ Ethna_LogWriter_Echo
+// {{{ Ethna_Plugin_Logwriter_Echo
 /**
  *	ログ出力基底クラス
  *
@@ -17,7 +17,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_LogWriter_Echo extends Ethna_LogWriter
+class Ethna_Plugin_Logwriter_Echo extends Ethna_Plugin_Logwriter
 {
 	/**#@+
 	 *	@access	private
@@ -37,19 +37,20 @@ class Ethna_LogWriter_Echo extends Ethna_LogWriter
 		$c =& Ethna_Controller::getInstance();
 
 		$prefix = $this->ident;
-		if ($this->option & LOG_PID) {
+		if (array_key_exists("pid", $this->option)) {
 			$prefix .= sprintf('[%d]', getmypid());
 		}
-		$prefix .= sprintf($c->getCLI() ? '(%s): ' : '(<b>%s</b>): ',
+		$prefix .= sprintf($c->getGateway() != GATEWAY_WWW ? '(%s): ' : '(<b>%s</b>): ',
 			$this->_getLogLevelName($level)
 		);
-		if ($this->option & (LOG_FUNCTION | LOG_POS)) {
+        if (array_key_exists("function", $this->option) ||
+            array_key_exists("pos", $this->option)) {
 			$tmp = "";
 			$bt = $this->_getBacktrace();
-			if ($bt && ($this->option & LOG_FUNCTION) && $bt['function']) {
+            if ($bt && array_key_exists("function", $this->option) && $bt['function']) {
 				$tmp .= $bt['function'];
 			}
-			if ($bt && ($this->option & LOG_POS) && $bt['pos']) {
+            if ($bt && array_key_exists("pos", $this->option) && $bt['pos']) {
 				$tmp .= $tmp ? sprintf('(%s)', $bt['pos']) : $bt['pos'];
 			}
 			if ($tmp) {
@@ -57,7 +58,7 @@ class Ethna_LogWriter_Echo extends Ethna_LogWriter
 			}
 		}
 
-		printf($prefix . $message . "%s\n", $c->getCLI() ? "" : "<br />");
+		printf($prefix . $message . "%s\n", $c->getGateway() != GATEWAY_WWW ? "" : "<br />");
 
 		return $prefix . $message;
 	}

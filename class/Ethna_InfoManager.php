@@ -620,6 +620,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 		$elts['フォーム'] = $this->class_factory->getObjectName('form');
 		$elts['ログ'] = $this->class_factory->getObjectName('logger');
 		$elts['i18n'] = $this->class_factory->getObjectName('i18n');
+		$elts['プラグイン'] = $this->class_factory->getObjectName('plugin');
 		$elts['セッション'] = $this->class_factory->getObjectName('session');
 		$elts['SQL'] = $this->class_factory->getObjectName('sql');
 		$elts['ビュー'] = $this->class_factory->getObjectName('view');
@@ -659,6 +660,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 		$elts['アクション'] = $this->ctl->getActiondir();
 		$elts['ビュー'] = $this->ctl->getViewdir();
 		$elts['フィルタ'] = $this->ctl->getDirectory('filter');
+		$elts['プラグイン'] = $this->ctl->getDirectory('app_plugin');
 		$elts['テンプレート'] = $this->ctl->getTemplatedir();
 		$elts['テンプレートキャッシュ'] = $this->ctl->getDirectory('template_c');
 		$elts['Smartyプラグイン'] = implode(',', $this->ctl->getDirectory('plugins'));
@@ -685,6 +687,18 @@ class Ethna_InfoManager extends Ethna_AppManager
 			}
 		}
 		$r['フィルタ'] = $elts;
+
+		// plugin
+        $plugin_type_list = array('validator', 'filter');
+        foreach ($plugin_type_list as $type) {
+            $elts = array();
+            $plugin = $this->ctl->getPlugin();
+            $plugin->_searchAllPluginSrc($type);
+            foreach (array_keys($plugin->src_registry[$type]) as $name) {
+                $elts[$name] = $plugin->src_registry[$type][$name][1];
+            }
+            $r["プラグイン ({$type})"] = $elts;
+        }
 
 		// manager
 		$elts = array();

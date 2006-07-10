@@ -1,6 +1,6 @@
 <?php
 /**
- *	{$project_id}_Filter_ExecutionTime.php
+ *	{$project_id}_Plugin_Filter_ExecutionTime.php
  *
  *	@author		{$author}
  *	@package	{$project_id}
@@ -8,13 +8,13 @@
  */
 
 /**
- *	実行時間計測フィルタの実装
+ *	実行時間計測フィルタプラグインの実装
  *
  *	@author		{$author}
  *	@access		public
  *	@package	{$project_id}
  */
-class {$project_id}_Filter_ExecutionTime extends Ethna_Filter
+class {$project_id}_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
 {
 	/**#@+
 	 *	@access	private

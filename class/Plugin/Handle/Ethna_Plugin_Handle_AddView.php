@@ -1,24 +1,23 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Handle_AddActionCli.php
+ *	Ethna_Handle_AddView.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
  *	@package	Ethna
  *	@version	$Id$
  */
-include_once(ETHNA_BASE . '/class/Handle/Ethna_Handle_AddAction.php');
 
-// {{{ Ethna_Handle_AddActionCli
+// {{{ Ethna_Plugin_Handle_AddView
 /**
- *  add-action handler
+ *  add-view handler
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_Handle_AddActionCli extends Ethna_Handle_AddAction
+class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle
 {
     /**
      *  get handler's description
@@ -27,11 +26,11 @@ class Ethna_Handle_AddActionCli extends Ethna_Handle_AddAction
      */
     function getDescription()
     {
-        return "add new cli action (and an entry point) to project:\n    {$this->id} (-e) [action] ([project-base-dir])\n";
+        return "add new view (and template) to project:\n    {$this->id} (-t) [view] ([project-base-dir])\n";
     }
 
     /**
-     *  add action
+     *  add view
      *
      *  @access public
      */
@@ -41,17 +40,17 @@ class Ethna_Handle_AddActionCli extends Ethna_Handle_AddAction
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($action_name, $app_dir, $entry_point) = $r;
+        list($view, $app_dir, $template) = $r;
 
         $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateActionSkelton($action_name, $app_dir, GATEWAY_CLI);
+        $r = $sg->generateViewSkelton($view, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
-        if ($entry_point) {
-            $r = $sg->generateCliSkelton($action_name, $app_dir);
+        if ($template) {
+            $r = $sg->generateTemplateSkelton($view, $app_dir);
             if (Ethna::isError($r)) {
                 printf("error occurred while generating skelton. please see also following error message(s)\n\n");
                 return $r;
@@ -68,7 +67,7 @@ class Ethna_Handle_AddActionCli extends Ethna_Handle_AddAction
      */
     function usage()
     {
-        printf("usage:\nethna %s (-e) [action] ([project-base-dir])\n  -e: add an entry point, too\n", $this->id);
+        printf("usage:\nethna %s (-t) [view] ([project-base-dir])\n  -t: add template, too\n", $this->id);
     }
 
     /**
@@ -88,28 +87,28 @@ class Ethna_Handle_AddActionCli extends Ethna_Handle_AddAction
         $getopt =& new Console_Getopt();
         $arg_list = $this->arg_list;
         array_unshift($arg_list, "dummy");
-        $r = $getopt->getopt($arg_list, "e", array("entry-point"));
+        $r = $getopt->getopt($arg_list, "t", array("template"));
         if (Ethna::isError($r)) {
             return $r;
         }
 
-        $entry_point = false;
+        $template = false;
         foreach ($r[0] as $opt) {
-            if ($opt[0] == "e" || $opt[0] == "--entry-point") {
-                $entry_point = true;
+            if ($opt[0] == "t" || $opt[0] == "--template") {
+                $template = true;
             }
         }
         if (count($r[1]) < 0) {
             return Ethna::raiseError('too few arguments', 'usage');
         } else if (count($r[1]) == 1) {
-            $action = $r[1][0];
+            $view = $r[1][0];
             $app_dir = getcwd();
         } else {
-            $action = $r[1][0];
+            $view = $r[1][0];
             $app_dir = $r[1][1];
         }
 
-        $r = Ethna_Controller::checkActionName($action);
+        $r = Ethna_Controller::checkViewName($view);
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -117,7 +116,7 @@ class Ethna_Handle_AddActionCli extends Ethna_Handle_AddAction
             return Ethna::raiseError("no such directory [$app_dir]");
         }
 
-        return array($action, $app_dir, $entry_point);
+        return array($view, $app_dir, $template);
     }
 }
 // }}}

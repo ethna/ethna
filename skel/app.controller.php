@@ -87,6 +87,7 @@ class {$project_id}_Controller extends Ethna_Controller
 		'action_cli'	=> 'app/action_cli',
         'action_xmlrpc' => 'app/action_xmlrpc',
         'app'           => 'app',
+		'plugin'	    => 'app/plugin',
         'bin'           => 'bin',
 		'etc'			=> 'etc',
 		'filter'		=> 'app/filter',
@@ -130,9 +131,11 @@ class {$project_id}_Controller extends Ethna_Controller
 		'form'			=> 'Ethna_ActionForm',
 		'i18n'			=> 'Ethna_I18N',
 		'logger'		=> 'Ethna_Logger',
+		'plugin'		=> 'Ethna_Plugin',
 		'session'		=> 'Ethna_Session',
 		'sql'			=> 'Ethna_AppSQL',
 		'view'			=> 'Ethna_ViewClass',
+        'renderer'      => 'Ethna_Renderer_Smarty',
 	);
 
 	/**
@@ -140,12 +143,14 @@ class {$project_id}_Controller extends Ethna_Controller
 	 */
 	var $filter = array(
 		/*
-		 *	TODO: フィルタを利用する場合はここにそのクラス名を
+		 *	TODO: フィルタを利用する場合はここにそのプラグイン名を
 		 *	記述してください
+         *  (クラス名を指定するとfilterディレクトリからフィルタクラス
+         *  を読み込みます)
 		 *
 		 *	記述例：
 		 *
-		 *	'{$project_id}_Filter_ExecutionTime',
+		 *	'ExecutionTime',
 		 */
 	);
 

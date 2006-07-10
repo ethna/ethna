@@ -110,7 +110,7 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Backend($class_name)
 	{
-		$_ret_object = new $class_name($this->ctl);
+		$_ret_object =& new $class_name($this->ctl);
 		return $_ret_object;
 	}
 
@@ -123,7 +123,7 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Config($class_name)
 	{
-		$_ret_object = new $class_name($this->ctl);
+		$_ret_object =& new $class_name($this->ctl);
 		return $_ret_object;
 	}
 
@@ -136,7 +136,7 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_I18n($class_name)
 	{
-		$_ret_object = new $class_name($this->ctl->getDirectory('locale'), $this->ctl->getAppId());
+		$_ret_object =& new $class_name($this->ctl->getDirectory('locale'), $this->ctl->getAppId());
 		return $_ret_object;
 	}
 
@@ -149,7 +149,20 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Logger($class_name)
 	{
-		$_ret_object = new $class_name($this->ctl);
+		$_ret_object =& new $class_name($this->ctl);
+		return $_ret_object;
+	}
+
+	/**
+	 *	オブジェクト生成メソッド(plugin)
+	 *
+	 *	@access	protected
+	 *	@param	string	$class_name		クラス名
+	 *	@return	object	生成されたオブジェクト(エラーならnull)
+	 */
+	function &_getObject_Plugin($class_name)
+	{
+		$_ret_object =& new $class_name($this->ctl);
 		return $_ret_object;
 	}
 
@@ -162,7 +175,7 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Session($class_name)
 	{
-		$_ret_object = new $class_name($this->ctl->getAppId(), $this->ctl->getDirectory('tmp'), $this->ctl->getLogger());
+		$_ret_object =& new $class_name($this->ctl->getAppId(), $this->ctl->getDirectory('tmp'), $this->ctl->getLogger());
 		return $_ret_object;
 	}
 
@@ -175,7 +188,7 @@ class Ethna_ClassFactory
 	 */
 	function &_getObject_Sql($class_name)
 	{
-		$_ret_object = new $class_name($this->ctl);
+		$_ret_object =& new $class_name($this->ctl);
 		return $_ret_object;
 	}
 }

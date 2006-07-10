@@ -60,15 +60,7 @@ class Ethna_ActionError
 		} else {
 			$error =& Ethna::raiseNotice($message, $code);
 		}
-		$elt = array();
-		$elt['name'] = $name;
-		$elt['object'] =& $error;
-		$this->error_list[] = $elt;
-
-		// ログ出力(補足)
-		$af =& $this->_getActionForm();
-		$logger =& $this->_getLogger();
-		$logger->log(LOG_NOTICE, '{form} -> [%s]', $this->action_form->getName($name));
+		$this->addObject($name, $error);
 	}
 
 	/**
@@ -84,6 +76,11 @@ class Ethna_ActionError
 		$elt['name'] = $name;
 		$elt['object'] =& $error;
 		$this->error_list[] = $elt;
+
+		// ログ出力(補足)
+		$af =& $this->_getActionForm();
+		$logger =& $this->_getLogger();
+		$logger->log(LOG_NOTICE, '{form} -> [%s]', $this->action_form->getName($name));
 	}
 
 	/**

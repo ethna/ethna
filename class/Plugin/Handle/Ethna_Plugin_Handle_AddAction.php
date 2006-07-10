@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Handle_AddProject.php
+ *	Ethna_Handle_AddAction.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,15 +9,15 @@
  *	@version	$Id$
  */
 
-// {{{ Ethna_Handle_AddProject
+// {{{ Ethna_Plugin_Handle_AddAction
 /**
- *  add-project handler
+ *  add-action handler
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_Handle_AddProject extends Ethna_Handle
+class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
 {
     /**
      *  get handler's description
@@ -26,11 +26,11 @@ class Ethna_Handle_AddProject extends Ethna_Handle
      */
     function getDescription()
     {
-        return "add new project:\n    {$this->id} [project-id] ([project-base-dir])\n";
+        return "add new action to project:\n    {$this->id} [action] ([project-base-dir])\n";
     }
 
     /**
-     *  add project:)
+     *  add action
      *
      *  @access public
      */
@@ -40,16 +40,15 @@ class Ethna_Handle_AddProject extends Ethna_Handle
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($app_id, $app_dir) = $r;
+        list($action_name, $app_dir) = $r;
 
         $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateProjectSkelton($app_dir, $app_id);
+        $r = $sg->generateActionSkelton($action_name, $app_dir);
         if (Ethna::isError($r)) {
-            printf("error occurred while generating skelton. please see also error messages given above\n\n");
+            printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
-        printf("\nproject skelton for [%s] is successfully generated at [%s]\n\n", $app_id, $app_dir);
         return true;
     }
 
@@ -60,7 +59,7 @@ class Ethna_Handle_AddProject extends Ethna_Handle
      */
     function usage()
     {
-        printf("usage:\nethna %s [project-id] ([project-base-dir])\n\n", $this->id);
+        printf("usage:\nethna %s [action] ([project-base-dir])\n\n", $this->id);
     }
 
     /**
@@ -82,7 +81,7 @@ class Ethna_Handle_AddProject extends Ethna_Handle
             $arg_list = $this->arg_list;
         }
 
-        $r = Ethna_Controller::checkAppId($arg_list[0]);
+        $r = Ethna_Controller::checkActionName($arg_list[0]);
         if (Ethna::isError($r)) {
             return $r;
         }

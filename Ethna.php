@@ -12,9 +12,6 @@
 /** Ethna depends on PEAR */
 include_once('PEAR.php');
 
-/** Ethna (*currently*) depends on Smarty */
-include_once('Smarty/Smarty.class.php');
-
 if (!defined('PATH_SEPARATOR')) {
 	if (OS_WINDOWS) {
 		/** include_path separator(Windows) */
@@ -56,12 +53,7 @@ include_once(ETHNA_BASE . '/class/Ethna_DB.php');
 include_once(ETHNA_BASE . '/class/DB/Ethna_DB_PEAR.php');
 include_once(ETHNA_BASE . '/class/Ethna_Filter.php');
 include_once(ETHNA_BASE . '/class/Ethna_Handle.php');
-include_once(ETHNA_BASE . '/class/Handle/Ethna_Handle_Manager.php');
 include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
-include_once(ETHNA_BASE . '/class/Ethna_LogWriter.php');
-include_once(ETHNA_BASE . '/class/LogWriter/Ethna_LogWriter_Echo.php');
-include_once(ETHNA_BASE . '/class/LogWriter/Ethna_LogWriter_File.php');
-include_once(ETHNA_BASE . '/class/LogWriter/Ethna_LogWriter_Syslog.php');
 include_once(ETHNA_BASE . '/class/Ethna_Logger.php');
 include_once(ETHNA_BASE . '/class/Ethna_MailSender.php');
 include_once(ETHNA_BASE . '/class/Ethna_Session.php');
@@ -71,6 +63,9 @@ include_once(ETHNA_BASE . '/class/Ethna_Util.php');
 include_once(ETHNA_BASE . '/class/Ethna_ViewClass.php');
 include_once(ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php');
 include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
+include_once(ETHNA_BASE . '/class/Ethna_Plugin.php');
+include_once(ETHNA_BASE . '/class/Ethna_Renderer.php');
+include_once(ETHNA_BASE . '/class/Renderer/Ethna_Renderer_Smarty.php');
 
 if (extension_loaded('soap')) {
 	include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_ActionForm.php');
@@ -280,6 +275,11 @@ define('E_CACHE_EXPIRED', 194);
 /** エラーコード: キャッシュエラー(その他) */
 define('E_CACHE_GENERAL', 195);
 
+/** エラーコード: プラグインが見つからない */
+define('E_PLUGIN_NOTFOUND', 196);
+
+/** エラーコード: プラグインエラー(その他) */
+define('E_PLUGIN_GENERAL', 197);
 
 if (defined('E_STRICT') == false) {
 	/** PHP 5との互換保持定義 */

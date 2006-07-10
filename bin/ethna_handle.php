@@ -36,12 +36,12 @@ $getopt =& new Console_Getopt();
 $arg_list = $getopt->readPHPArgv();
 array_shift($arg_list);
 
-$ehm =& new Ethna_Handle_Manager();
+$eh =& new Ethna_Handle();
 
 list($my_arg_list, $arg_list) = _Ethna_HandleGateway_SeparateArgList($arg_list);
 $r = $getopt->getopt($my_arg_list, "v", array("version"));
 if (Ethna::isError($r)) {
-    usage($ehm);
+    usage($eh);
     exit(1);
 }
 
@@ -54,16 +54,16 @@ foreach ($r[0] as $opt) {
 }
 
 if (count($arg_list) == 0) {
-    usage($ehm);
+    usage($eh);
     exit(1);
 }
 
 $id = array_shift($arg_list);
 
-$handler =& $ehm->getHandler($id);
+$handler =& $eh->getHandler($id);
 if (Ethna::isError($handler)) {
     printf("no such command: %s\n\n", $id);
-    usage($ehm);
+    usage($eh);
     exit(1);
 }
 
@@ -81,9 +81,9 @@ if (Ethna::isError($r)) {
 /**
  *  usage
  */
-function usage(&$ehm)
+function usage(&$eh)
 {
-    $handler_list = $ehm->getHandlerList();
+    $handler_list = $eh->getHandlerList();
     printf("usage: ethna [option] [command] [args...]\n\n");
     printf("available options are as follows:\n\n");
     printf("  -v, --version    show version and exit\n");

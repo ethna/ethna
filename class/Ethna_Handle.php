@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Handle
 /**
- *  base class of Ethna (Command Line) Handlers
+ *  Manager class of Ethna (Command Line) Handlers
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
@@ -19,68 +19,69 @@
  */
 class Ethna_Handle
 {
-    /** @var    handler's id */
-    var $id;
+    /**#@+
+     *  @access     private
+     */
 
-    /** @var    command line arguments */
-    var $arg_list;
+    /** @var    object  Ethna_Controller    controllerオブジェクト */
+    var $controller;
+
+    /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
+    var $ctl;
+
+    /** @var    object  Ethna_Pluguin       pluginオブジェクト */
+    var $plugin;
+
+    /**#@-*/
 
     /**
      *  Ethna_Handle constructor (stub for php4)
      *
      *  @access public
      */
-    function Ethna_Handle($id)
+    function Ethna_Handle()
     {
-        $this->id = $id;
+        $this->controller =& new Ethna_Controller();
+        $this->controller->setGateway(GATEWAY_CLI);
+        $this->ctl =& $this->controller;
+        $this->plugin =& $this->controller->getPlugin();
     }
 
     /**
-     *  get handler-id
+     *  get handler object
      *
      *  @access public
      */
-    function getId()
+    function &getHandler($id)
     {
-        return $this->id;
+        $name = preg_replace('/\-(.)/e', "strtoupper('\$1')", ucfirst($id));
+        $handler =& $this->plugin->getPlugin('handle', $name);
+        if (Ethna::isError($handler)) {
+            return $handler;
+        }
+
+        return $handler;
     }
 
     /**
-     *  get handler's description
+     *  get an object list of all available handlers
      *
      *  @access public
      */
-    function getDescription()
+    function getHandlerList()
     {
-        return "description of " . $this->id;
+        $handler_list = $this->plugin->getPluginList('handle');
+        usort($handler_list, array($this, "_handler_sort_callback"));
+
+        return $handler_list;
     }
 
     /**
-     *  set arguments
-     *
-     *  @access public
+     *  sort callback method
      */
-    function setArgList($arg_list)
+    function _handler_sort_callback($a, $b)
     {
-        $this->arg_list = $arg_list;
-    }
-
-    /**
-     *  just perform
-     *
-     *  @access public
-     */
-    function perform()
-    {
-    }
-
-    /**
-     *  show usage
-     *
-     *  @access public
-     */
-    function usage()
-    {
+        return strcmp($a->getId(), $b->getId());
     }
 }
 // }}}

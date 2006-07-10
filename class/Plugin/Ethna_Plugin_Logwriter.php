@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_LogWriter.php
+ *	Ethna_Plugin_Logwriter.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,7 +9,7 @@
  *	@version	$Id$
  */
 
-// {{{ Ethna_LogWriter
+// {{{ Ethna_Plugin_Logwriter
 /**
  *	ログ出力基底クラス
  *
@@ -17,7 +17,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_LogWriter
+class Ethna_Plugin_Logwriter
 {
 	/**#@+
 	 *	@access	private
@@ -31,9 +31,6 @@ class Ethna_LogWriter
 
 	/**	@var	int		ログオプション */
 	var	$option;
-
-	/**	@var	string	ログファイル */
-	var	$file;
 
 	/**	@var	bool	バックトレースが取得可能かどうか */
 	var	$have_backtrace;
@@ -53,7 +50,7 @@ class Ethna_LogWriter
 	/**#@-*/
 
 	/**
-	 *	Ethna_LogWriterクラスのコンストラクタ
+	 *	Ethna_Plugin_Logwriterクラスのコンストラクタ
 	 *
 	 *	@access	public
 	 *	@param	string	$log_ident		ログアイデンティティ文字列(プロセス名等)
@@ -61,12 +58,21 @@ class Ethna_LogWriter
 	 *	@param	string	$log_file		ログ出力先ファイル名(LOG_FILEオプションが指定されている場合のみ)
 	 *	@param	int		$log_option		ログオプション(LOG_FILE,LOG_FUNCTION...)
 	 */
-	function Ethna_LogWriter($log_ident, $log_facility, $log_file, $log_option)
+	function Ethna_Plugin_Logwriter()
 	{
-		$this->ident = $log_ident;
-		$this->facility = $log_facility;
-		$this->option = $log_option;
-		$this->file = $log_file;
+	}
+
+	/**
+	 *	ログオプションを設定する
+	 *
+	 *	@access	public
+	 *	@param	int		$option     ログオプション(LOG_FILE,LOG_FUNCTION...)
+	 */
+	function setOption($option)
+	{
+		$this->ident = $option['ident'];
+		$this->facility = $option['facility'];
+		$this->option = $option;
 		$this->have_backtrace = function_exists('debug_backtrace');
 	}
 
@@ -138,7 +144,7 @@ class Ethna_LogWriter
 			array(null, 'raiseerror'),
 			array(null, 'handleerror'),
 			array('ethna_logger', null),
-			array('ethna_logwriter*', null),
+			array('ethna_plugin_logwriter*', null),
 			array('ethna_error', null),
 			array('ethna_apperror', null),
 			array('ethna_actionerror', null),

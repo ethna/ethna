@@ -1,23 +1,23 @@
 <?php
+// vim: foldmethod=marker
 /**
- *  Ethna_Handle_AddActionTest.php
+ *	Ethna_Handle_AddTemplate.php
  *
- *  @author     halt feits <halt.feits@gmail.com>
- *  @package    Ethna
- *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *  @version    $Id$
+ *	@author	    nnno <nnno@nnno.jp>	
+ *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *	@package	Ethna
  */
 
+// {{{ Ethna_Plugin_Handle_AddTemplate
 /**
- *  add-action-test handler
+ *  add-template handler
  *
- *  @author     halt feits <halt.feits@gmail.com>
- *  @access     public
- *  @package    Ethna
+ *	@author     nnno <nnno@nnno.jp>
+ *	@access		public
+ *	@package	Ethna
  */
-class Ethna_Handle_AddActionTest extends Ethna_Handle
+class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle
 {
-    
     /**
      *  get handler's description
      *
@@ -25,11 +25,11 @@ class Ethna_Handle_AddActionTest extends Ethna_Handle
      */
     function getDescription()
     {
-        return "add new action test to project:\n    {$this->id} [action] ([project-base-dir])\n";
+        return "add new template to project:\n    {$this->id} [template] ([project-base-dir])\n";
     }
 
     /**
-     *  add action test
+     *  add template 
      *
      *  @access public
      */
@@ -39,10 +39,10 @@ class Ethna_Handle_AddActionTest extends Ethna_Handle
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($action_name, $app_dir) = $r;
+        list($template, $app_dir) = $r;
 
         $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateActionTestSkelton($action_name, $app_dir);
+        $r = $sg->generateTemplateSkelton($template, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
@@ -58,7 +58,7 @@ class Ethna_Handle_AddActionTest extends Ethna_Handle
      */
     function usage()
     {
-        printf("usage:\nethna %s [action] ([project-base-dir])\n\n", $this->id);
+        printf("usage:\nethna %s [template] ([project-base-dir])\n", $this->id);
     }
 
     /**
@@ -80,16 +80,13 @@ class Ethna_Handle_AddActionTest extends Ethna_Handle
             $arg_list = $this->arg_list;
         }
 
-        $r = Ethna_Controller::checkActionName($arg_list[0]);
-        if (Ethna::isError($r)) {
-            return $r;
-        }
+        // TODO: check action name(?) - how it would be easy and pluggable
         if (is_dir($arg_list[1]) == false) {
             return Ethna::raiseError("no such directory [{$arg_list[1]}]");
         }
 
         return $arg_list;
     }
-    
 }
+// }}}
 ?>

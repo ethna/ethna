@@ -16,26 +16,33 @@
  */
 class {$project_id}_Form_Index extends Ethna_ActionForm
 {
-	/**
-	 *	@access	private
-	 *	@var	array	フォーム値定義
-	 */
+    /** @var    bool    バリデータにプラグインを使うフラグ */
+    var $use_validator_plugin = false;
+
+    /**
+     *	@access	private
+     *	@var	array	フォーム値定義
+     */
 	var	$form = array(
 		/*
-		 *	TODO: このアクションが使用するフォーム値定義を記述してください
+		 *	TODO: このアクションが使用するフォームを記述してください
 		 *
 		 *	記述例(typeを除く全ての要素は省略可能)：
 		 *
 		 *	'sample' => array(
+         *      // フォームの定義
+		 *		'type'          => VAR_TYPE_INT,	// 入力値型
+		 *		'form_type'     => FORM_TYPE_TEXT,	// フォーム型
 		 *		'name'			=> 'サンプル',		// 表示名
+         *
+         *      // バリデータ(記述順にバリデータが実行されます)
 		 *		'required'      => true,			// 必須オプション(true/false)
 		 *		'min'           => null,			// 最小値
 		 *		'max'           => null,			// 最大値
 		 *		'regexp'        => null,			// 文字種指定(正規表現)
-		 *		'custom'        => null,			// メソッドによるチェック
+         *
+         *      // フィルタ
 		 *		'filter'        => null,			// 入力値変換フィルタオプション
-		 *		'form_type'     => FORM_TYPE_TEXT,	// フォーム型
-		 *		'type'          => VAR_TYPE_INT,	// 入力値型
 		 *	),
 		 */
 	);

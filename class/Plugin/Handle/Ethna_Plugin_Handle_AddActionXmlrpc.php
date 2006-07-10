@@ -10,7 +10,7 @@
  */
 include_once(ETHNA_BASE . '/class/Handle/Ethna_Handle_AddAction.php');
 
-// {{{ Ethna_Handle_AddActionXmlrpc
+// {{{ Ethna_Plugin_Handle_AddActionXmlrpc
 /**
  *  add-action handler
  *
@@ -18,7 +18,7 @@ include_once(ETHNA_BASE . '/class/Handle/Ethna_Handle_AddAction.php');
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_Handle_AddActionXmlrpc extends Ethna_Handle_AddAction
+class Ethna_Plugin_Handle_AddActionXmlrpc extends Ethna_Plugin_Handle
 {
     /**
      *  get handler's description

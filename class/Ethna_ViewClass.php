@@ -120,9 +120,9 @@ class Ethna_ViewClass
 	 */
 	function forward()
 	{
-		$smarty =& $this->_getTemplateEngine();
-		$this->_setDefault($smarty);
-		$smarty->display($this->forward_path);
+		$engine =& $this->_getTemplateEngine();
+		$this->_setDefault($engine);
+		$engine->perform($this->forward_path);
 	}
 
     /**
@@ -406,33 +406,33 @@ class Ethna_ViewClass
 	function &_getTemplateEngine()
 	{
 		$c =& $this->backend->getController();
-		$smarty =& $c->getTemplateEngine();
+		$renderer =& $c->getTemplateEngine();
 
 		$form_array =& $this->af->getArray();
 		$app_array =& $this->af->getAppArray();
 		$app_ne_array =& $this->af->getAppNEArray();
-		$smarty->assign_by_ref('form', $form_array);
-		$smarty->assign_by_ref('app', $app_array);
-		$smarty->assign_by_ref('app_ne', $app_ne_array);
+		$renderer->setPropByRef('form', $form_array);
+		$renderer->setPropByRef('app', $app_array);
+		$renderer->setPropByRef('app_ne', $app_ne_array);
 		$message_list = Ethna_Util::escapeHtml($this->ae->getMessageList());
-		$smarty->assign_by_ref('errors', $message_list);
+		$renderer->setPropByRef('errors', $message_list);
 		if (isset($_SESSION)) {
 			$tmp_session = Ethna_Util::escapeHtml($_SESSION);
-			$smarty->assign_by_ref('session', $tmp_session);
+			$renderer->setPropByRef('session', $tmp_session);
 		}
-		$smarty->assign('script', basename($_SERVER['PHP_SELF']));
-		$smarty->assign('request_uri', htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES));
+		$renderer->setProp('script', basename($_SERVER['PHP_SELF']));
+		$renderer->setProp('request_uri', htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES));
 
-		return $smarty;
+		return $renderer;
 	}
 
 	/**
 	 *	共通値を設定する
 	 *
 	 *	@access	protected
-	 *	@param	object	Smarty	Smartyオブジェクト
+	 *	@param	object	テンプレートエンジン
 	 */
-	function _setDefault(&$smarty)
+	function _setDefault(&$engine)
 	{
 	}
 }

@@ -4,6 +4,18 @@
 
 *** features
 
+- [breaking B.C.] Ethna_Loggerリファクタリング
+-- Ethna_LogWriterのプラグイン化
+-- カンマ区切りでの複数ファシリティサポート
+-- _getLogWriter()クラスをオーバーライドしている方に影響があります(2.3.0以降はPlugin/Logwriter以下にLogwriterクラスを置いて、ファシリティでその名前を指定すれば任意のLogwriterを追加可能です)
+- Ethna_Renderer追加
+-- 激しく実験中@preview1
+- プラグインシステム追加(w/ Ethna_Pluginクラス)
+-- Ethna_Handle, Ethna_CacheManager, Ethna_LogWriterをプラグインシステムに移行
+-- Ethna_ActionFormのバリデータをプラグインシステムに移行(Ethna_ActionForm::use_validator_pluginがtrueのときのみ)
+-- see also
+--- http://ethna.jp/ethna-document-dev_guide-plugin.html
+--- http://ethna.jp/ethna-document-dev_guide-form-validate_with_plugin.html
 - ethnaコマンドにアクション名、ビュー名のチェック処理を追加(Ethna_Controller::checkActionName(), Ethna_Controller::checkViewName()を追加)
 - Ethna_CacheManager_Memcache(キャッシュマネージャのmemcacheサポート)追加
 

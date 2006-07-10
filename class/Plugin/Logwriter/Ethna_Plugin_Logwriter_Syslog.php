@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_LogWriter_Syslog.php
+ *	Ethna_Plugin_Logwriter_Syslog.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,7 +9,7 @@
  *	@version	$Id$
  */
 
-// {{{ Ethna_LogWriter_Syslog
+// {{{ Ethna_Plugin_Logwriter_Syslog
 /**
  *	ログ出力クラス(Syslog)
  *
@@ -17,7 +17,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_LogWriter_Syslog extends Ethna_LogWriter
+class Ethna_Plugin_Logwriter_Syslog extends Ethna_Plugin_Logwriter
 {
 	/**
 	 *	ログ出力を開始する
@@ -27,8 +27,9 @@ class Ethna_LogWriter_Syslog extends Ethna_LogWriter
 	function begin()
 	{
 		// syslog用オプションのみを指定
-		$option = $this->option & (LOG_PID);
-
+        if (array_key_exists("pid", $this->option)) {
+            $option = $this->option & (LOG_PID);
+        }
 		openlog($this->ident, $option, $this->facility);
 	}
 
@@ -42,13 +43,14 @@ class Ethna_LogWriter_Syslog extends Ethna_LogWriter
 	function log($level, $message)
 	{
 		$prefix = sprintf('%s: ', $this->_getLogLevelName($level));
-		if ($this->option & (LOG_FUNCTION | LOG_POS)) {
+        if (array_key_exists("function", $this->option) ||
+            array_key_exists("pos", $this->option)) {
 			$tmp = "";
 			$bt = $this->_getBacktrace();
-			if ($bt && ($this->option & LOG_FUNCTION) && $bt['function']) {
+			if ($bt && array_key_exists("function", $this->option) && $bt['function']) {
 				$tmp .= $bt['function'];
 			}
-			if ($bt && ($this->option & LOG_POS) && $bt['pos']) {
+			if ($bt && array_key_exists("pos", $this->option) && $bt['pos']) {
 				$tmp .= $tmp ? sprintf('(%s)', $bt['pos']) : $bt['pos'];
 			}
 			if ($tmp) {

@@ -57,8 +57,17 @@ class Ethna_ActionForm
     /** @var    object  Ethna_Logger    ログオブジェクト */
     var $logger;
 
+    /** @var    object  Ethna_Plugin    プラグインオブジェクト */
+    var $plugin;
+
     /** @var    array   フォーム定義要素 */
     var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'filter', 'form_type', 'type');
+
+    /** @var    array   フォーム定義のうち非プラグイン要素とみなすprefix */
+    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter');
+
+    /** @var    bool    バリデータにプラグインを使うフラグ */
+    var $use_validator_plugin = false;
 
     /** @var    bool    追加検証強制フラグ */
     var $force_validate_plus = false;
@@ -77,6 +86,7 @@ class Ethna_ActionForm
         $this->ae =& $this->action_error;
         $this->i18n =& $controller->getI18N();
         $this->logger =& $controller->getLogger();
+        $this->plugin =& $controller->getPlugin();
 
         if (isset($_SERVER['REQUEST_METHOD']) == false) {
             return;
@@ -202,10 +212,18 @@ class Ethna_ActionForm
                         $files[$key]['type'] = $_FILES[$name]['type'][$key];
                         $files[$key]['size'] = $_FILES[$name]['size'][$key];
                         $files[$key]['tmp_name'] = $_FILES[$name]['tmp_name'][$key];
-                        $files[$key]['error'] = $_FILES[$name]['error'][$key];
+                        if (isset($_FILES[$name]['error']) == false) {
+                            // PHP 4.2.0 以前
+                            $files[$key]['error'] = 0;
+                        } else {
+                            $files[$key]['error'] = $_FILES[$name]['error'][$key];
+                        }
                     }
                 } else {
                     $files = $_FILES[$name];
+                    if (isset($files['error']) == false) {
+                        $files['error'] = 0;
+                    }
                 }
 
                 // 値のインポート
@@ -429,6 +447,15 @@ class Ethna_ActionForm
     function validate()
     {
         foreach ($this->form as $name => $def) {
+            // プラグインを使う場合の hook
+            if ((isset($def['plugin']) && $def['plugin'])
+                || (isset($def['plugin']) == false
+                    && isset($this->use_validator_plugin)
+                    && $this->use_validator_plugin == true)) {
+                $this->_validateWithPlugin($name);
+                continue;
+            }
+
             // 配列でラップする
             unset($form_vars);
             if (is_null($this->form_vars[$name])) {
@@ -440,10 +467,12 @@ class Ethna_ActionForm
             }
 
             // ファイルの場合は配列で1つvalidならrequired条件をクリアする
-            // TODO: この数を指定できるようにする
             $type = is_array($def['type']) ? $def['type'][0] : $def['type'];
             $valid_keys = array();
             $required_num = max(1, $type == VAR_TYPE_FILE ? 1 : count($form_vars));
+            if (isset($def['required_num'])) {
+                $required_num = intval($def['required_num']);
+            }
 
             foreach (array_keys($form_vars) as $key) {
                 // filter
@@ -479,7 +508,6 @@ class Ethna_ActionForm
             }
 
             // カスタムメソッドの実行
-            // TODO: 配列とスカラーでの仕様を明確にする
             if ($def['custom'] != null && is_array($def['type'])) {
                 $this->_validateCustom($def['custom'], $name);
             }
@@ -491,6 +519,122 @@ class Ethna_ActionForm
         }
 
         return $this->ae->count();
+    }
+
+    /**
+     *  プラグインを使ったフォーム値検証メソッド
+     *
+     *  @access private
+     *  @param  string  $form_name  フォームの名前
+     */
+    function _validateWithPlugin($form_name)
+    {
+        // (pre) filter
+        // TODO: validate() の中に移動
+        if ($this->form[$form_name]['type'] != VAR_TYPE_FILE) {
+            if (is_array($this->form[$form_name]['type']) == false) {
+                $this->form_vars[$form_name]
+                    = $this->_filter($this->form_vars[$form_name],
+                                     $this->form[$form_name]['filter']);
+            } else if ($this->form_vars[$form_name] != null) {
+                foreach (array_keys($this->form_vars[$form_name]) as $key) {
+                    $this->form_vars[$form_name][$key]
+                        = $this->_filter($this->form_vars[$form_name][$key],
+                                         $this->form[$form_name]['filter']);
+                }
+            }
+        }
+
+        $form_vars = $this->form_vars[$form_name];
+        $plugin = $this->_getPluginDef($form_name);
+
+        // type のチェックを処理の最初に追加
+        $plugin = array_merge(array('type' => array()), $plugin);
+        if (is_array($this->form[$form_name]['type'])) {
+            $plugin['type']['type'] = $this->form[$form_name]['type'][0];
+        } else {
+            $plugin['type']['type'] = $this->form[$form_name]['type'];
+        }
+        if (isset($this->form[$form_name]['type_error'])) {
+            $plugin['type']['error'] = $this->form[$form_name]['type_error'];
+        }
+
+        // スカラーの場合
+        if (is_array($this->form[$form_name]['type']) == false) {
+            foreach (array_keys($plugin) as $name) {
+                // break: 明示されていなければ，エラーが起きたらvalidateを継続しない
+                $break = isset($plugin[$name]['break']) == false || $plugin[$name]['break'];
+
+                // プラグイン取得
+                unset($v);
+                $v =& $this->plugin->getPlugin('validator', ucfirst($name));
+                if (Ethna::isError($v)) {
+                    continue;
+                }
+
+                // バリデーション実行
+                unset($r);
+                $r =& $v->validate($form_name, $form_vars, $plugin[$name]);
+
+                // エラー処理
+                if (Ethna::isError($r)) {
+                    $this->ae->addObject($form_name, $r);
+                    if ($break) {
+                        break;
+                    }
+                }
+            }
+            return;
+        }
+
+        // 配列の場合
+
+        // break 指示用の key list
+        $valid_keys = is_array($form_vars) ? array_keys($form_vars) : array();
+
+        foreach (array_keys($plugin) as $name) {
+            // break: 明示されていなければ，エラーが起きたらvalidateを継続しない
+            $break = isset($plugin[$name]['break']) == false || $plugin[$name]['break'];
+
+            // プラグイン取得
+            unset($v);
+            $v =& $this->plugin->getPlugin('validator', ucfirst($name));
+            if (Ethna::isError($v)) {
+                continue;
+            }
+
+            // 配列全体を受け取るプラグインの場合
+            if (isset($v->accept_array) && $v->accept_array == true) {
+                // バリデーション実行
+                unset($r);
+                $r =& $v->validate($form_name, $form_vars, $plugin[$name]);
+
+                // エラー処理
+                if (Ethna::isError($r)) {
+                    $this->ae->addObject($form_name, $r);
+                    if ($break) {
+                        break;
+                    }
+                }
+                continue;
+            }
+
+            // 配列の各要素に対して実行
+            foreach ($valid_keys as $key) {
+                // バリデーション実行
+                unset($r);
+                $r =& $v->validate($form_name, $form_vars[$key], $plugin[$name]);
+
+                // エラー処理
+                if (Ethna::isError($r)) {
+                    // TODO: ae 側に $key を与えられるようにする
+                    $this->ae->addObject($form_name, $r);
+                    if ($break) {
+                        unset($valid_keys[$key]);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -1106,6 +1250,70 @@ class Ethna_ActionForm
             }
         }
     }
+
+    /**
+     *  フォーム値定義からプラグインの定義リストを分離する
+     *
+     *  @access protected
+     *  @param  string  $form_name   プラグインの定義リストを取得するフォームの名前
+     */
+    function _getPluginDef($form_name)
+    {
+        //  $def = array(
+        //               'name'         => 'number',
+        //               'max'          => 10,
+        //               'max_error'    => 'too large!',
+        //               'min'          => 5,
+        //               'min_error'    => 'too small!',
+        //              );
+        //
+        // as plugin parameters:
+        //
+        //  $plugin_def = array(
+        //                      'max' => array('max' => 10, 'error' => 'too large!'),
+        //                      'min' => array('min' => 5, 'error' => 'too small!'),
+        //                     );
+
+        $def = $this->getDef($form_name);
+        $plugin = array();
+        foreach (array_keys($def) as $key) {
+            // 未定義要素をスキップ
+            if ($def[$key] === null) {
+                continue;
+            }
+
+            // プラグイン名とパラメータ名に分割
+            $snippet = explode('_', $key, 2);
+            $name = $snippet[0];
+
+            // 非プラグイン要素をスキップ
+            if (in_array($name, $this->def_noplugin)) {
+                continue;
+            }
+
+            if (count($snippet) == 1) {
+                // プラグイン名だけだった場合
+                if (is_array($def[$key])) {
+                    // プラグインパラメータがあらかじめ配列で指定されている(とみなす)
+                    $tmp = $def[$key];
+                } else {
+                    $tmp = array($name => $def[$key]);
+                }
+            } else {
+                // plugin_param の場合
+                $tmp = array($snippet[1] => $def[$key]);
+            }
+
+            // merge
+            if (isset($plugin[$name]) == false) {
+                $plugin[$name] = array();
+            }
+            $plugin[$name] = array_merge($plugin[$name], $tmp);
+        }
+
+        return $plugin;
+    }
+
 }
 // }}}
 ?>

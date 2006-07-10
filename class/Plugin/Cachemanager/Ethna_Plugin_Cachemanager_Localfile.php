@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker tabstop=4 shiftwidth=4 autoindent
 /**
- *	Ethna_CacheManager_Localfile.php
+ *	Ethna_Plugin_Cachemanager_Localfile.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -16,7 +16,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_CacheManager_Localfile extends Ethna_CacheManager
+class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
 {
 	/**#@+	@access	private	*/
 

@@ -35,6 +35,9 @@ class Ethna_SkeltonGenerator
             array("app/action_cli", 0755),
             array("app/action_xmlrpc", 0755),
             array("app/filter", 0755),
+            array("app/plugin", 0755),
+            array("app/plugin/Filter", 0755),
+            array("app/plugin/Validator", 0755),
             array("app/view", 0755),
             array("bin", 0755),
             array("etc", 0755),
@@ -118,7 +121,7 @@ class Ethna_SkeltonGenerator
             $this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_Controller.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.error.php", sprintf("$basedir/app/%s_Error.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.action.default.php", "$basedir/app/action/Index.php", $macro) == false ||
-            $this->_generateFile("app.filter.default.php", sprintf("$basedir/app/filter/%s_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
+            $this->_generateFile("app.plugin.filter.default.php", sprintf("$basedir/app/plugin/Filter/%s_Plugin_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||
             $this->_generateFile("app.unittest.php", sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||

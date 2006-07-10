@@ -1,23 +1,22 @@
 <?php
-// vim: foldmethod=marker
 /**
- *	Ethna_Handle_AddAppObject.php
+ *	Ethna_Handle_AddAppManager.php
  *
- *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@author		nozzzzz <nozzzzz@gmail.com>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
  *	@package	Ethna
  *	@version	$Id$
  */
 
-// {{{ Ethna_Handle_AddAppObject
+// {{{ Ethna_Plugin_Handle_AddAppManager
 /**
- *  add-app-object handler
+ *  add-app-manager handler
  *
- *	@author		Masaki Fujimoto <fujimoto@php.net>
+ *	@author		nozzzzz <nozzzzz@gmail.com>
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_Handle_AddAppObject extends Ethna_Handle
+class Ethna_Plugin_Handle_AddAppManager extends Ethna_Plugin_Handle
 {
     /**
      *  get handler's description
@@ -26,11 +25,11 @@ class Ethna_Handle_AddAppObject extends Ethna_Handle
      */
     function getDescription()
     {
-        return "add new app-object to project:\n    {$this->id} [table name] ([project-base-dir])\n";
+        return "add new app-manager to project:\n    {$this->id} [app-manager name] ([project-base-dir])\n";
     }
 
     /**
-     *  add app-object
+     *  add app-manager
      *
      *  @access public
      */
@@ -40,10 +39,10 @@ class Ethna_Handle_AddAppObject extends Ethna_Handle
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($table_name, $app_dir) = $r;
+        list($app_manager_name, $app_dir) = $r;
 
         $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateAppObjectSkelton($table_name, $app_dir);
+        $r = $sg->generateAppManagerSkelton($app_manager_name, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
@@ -59,7 +58,7 @@ class Ethna_Handle_AddAppObject extends Ethna_Handle
      */
     function usage()
     {
-        printf("usage:\nethna %s [table name] ([project-base-dir])\n\n", $this->id);
+        printf("usage:\nethna %s [app-manager name] ([project-base-dir])\n\n", $this->id);
     }
 
     /**

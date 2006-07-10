@@ -19,6 +19,7 @@
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@access		public
  *	@package	Ethna
+ *  @obsolete
  */
 class Ethna_Filter
 {

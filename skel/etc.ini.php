@@ -6,6 +6,7 @@
  */
 $config = array(
     // debug
+    // (to enable ethna_info and ethna_unittest, turn this true)
     'debug'	=> false,
 
     // db
@@ -24,13 +25,21 @@ $config = array(
     // ),
 
     // log
-    'log_facility'  => 'echo',
-    'log_level' => 'warning',
-    'log_option' => 'pid,function,pos',
-    'log_alert_level' => 'crit',
+    // sample-1: sigile facility
+    'log_facility'          => 'echo',
+    'log_level'             => 'warning',
+    'log_option'            => 'pid,function,pos',
+    'log_alert_level'       => 'crit',
     'log_alert_mailaddress' => '',
-    'log_filter_do' => '',
-    'log_filter_ignore' => 'Undefined index.*%%.*tpl',
+    'log_filter_do'         => '',
+    'log_filter_ignore'     => 'Undefined index.*%%.*tpl',
+    // sample-2: mulitple facility
+    // 'log_facility'    => 'echo,file',
+    // 'log_level'       => 'warning',
+    // 'log_level_echo'  => 'notice',
+    // 'log_option'      => 'pid,function,pos',
+    // 'log_option_file' => 'dir:/tmp',
+    // ...
 
     // memcache
     // sample-1: single (or default) memcache

@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker tabstop=4 shiftwidth=4 autoindent
 /**
- *	Ethna_CacheManager_Memcache.php
+ *	Ethna_Plugin_Cachemanager_Memcache.php
  *
  *	- Point Cutしたいと思った！
  *	- キャッシュキーには250文字までしか使用できないので注意して下さい
@@ -21,7 +21,7 @@
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_CacheManager_Memcache extends Ethna_CacheManager
+class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
 {
 	/**#@+	@access	private	*/
 
@@ -34,13 +34,13 @@ class Ethna_CacheManager_Memcache extends Ethna_CacheManager
 	/**#@-*/
 
 	/**
-	 *	Ethna_CacheManager_Memcacheクラスのコンストラクタ
+	 *	Ethna_Plugin_Cachemanager_Memcacheクラスのコンストラクタ
 	 *
 	 *	@access	public
 	 */
-	function Ethna_CacheManager_Memcache()
+	function Ethna_Plugin_Cachemanager_Memcache()
 	{
-        parent::Ethna_CacheManager();
+        parent::Ethna_Plugin_Cachemanager();
 		$this->memcache_pool = array();
 	}
 
