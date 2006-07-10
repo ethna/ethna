@@ -800,12 +800,19 @@ class Ethna_ActionForm
             }
 
             $form_value = $this->form_vars[$key];
-            if (is_array($form_value) == false) {
+            if (is_array($value['type'])) {
                 $form_value = array($form_value);
-                $form_array = is_array($value['type']);
-            } else {
                 $form_array = true;
+            } else {
+                $form_value = array($form_value);
+                $form_array = false;
             }
+
+            if (is_null($this->form_vars[$key])) {
+                // フォーム値が送られていない場合はそもそもhiddenタグを出力しない
+                continue;
+            }
+
             foreach ($form_value as $k => $v) {
                 if ($form_array) {
                     $form_name = "$key" . "[$k]";

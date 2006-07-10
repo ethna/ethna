@@ -184,12 +184,22 @@ class Ethna_Renderer
     }
 
     /**
-     * テンプレート変数に参照を割り当てる
+     *  テンプレート変数を割り当てる(後方互換)
+     *
+     *  @access public
+     */
+    function assign($name, $value)
+    {
+        $this->setProp($name, $value);
+    }
+
+    /**
+     *  テンプレート変数に参照を割り当てる
      * 
-     * @param string $name 変数名
-     * @param mixed $value 値
+     *  @param string $name 変数名
+     *  @param mixed $value 値
      * 
-     * @access public
+     *  @access public
      */
     function setPropByRef($name, &$value)
     {
@@ -197,11 +207,21 @@ class Ethna_Renderer
     }
 
     /**
-     * テンプレートを割り当てる
+     *  テンプレート変数に参照を割り当てる(後方互換)
+     *
+     *  @access public
+     */
+    function assign_by_ref($name, &$value)
+    {
+        $this->setPropByRef($name, $value);
+    }
+
+    /**
+     *  テンプレートを割り当てる
      * 
-     * @param string $template テンプレート名
+     *  @param string $template テンプレート名
      * 
-     * @access public
+     *  @access public
      */
     function setTemplate($template)
     {
@@ -209,11 +229,11 @@ class Ethna_Renderer
     }
 
     /**
-     * テンプレートディレクトリを割り当てる
+     *  テンプレートディレクトリを割り当てる
      * 
-     * @param string $dir ディレクトリ名
+     *  @param string $dir ディレクトリ名
      * 
-     * @access public
+     *  @access public
      */
     function setTemplateDir($dir)
     {
