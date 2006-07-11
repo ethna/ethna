@@ -201,10 +201,17 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     function setPlugin($name, $type, $plugin) 
     {
         //プラグイン関数の有無をチェック
-        if (! function_exists($plugin)) {
-            return Ethna::raiseWarning('Does not exists.');
+        // is_callableでもいいが...少しパフォーマンスが悪いらしいので
+        if (is_array($plugin) === false) {
+            if ( function_exists($plugin) === false ) {
+                return Ethna::raiseWarning('Does not exists.');
+            }
+        } else {
+            if ( method_exists($plugin[0], $plugin[1]) === false ) {
+                return Ethna::raiseWarning('Does not exists.');
+            }        
         }
-    
+
         //プラグインの種類をチェック
         $register_method = 'register_' . $type;
         if (!method_exists($this->engine, $register_method)) {
@@ -222,7 +229,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         if ($name == '') {
             return Ethna::raiseWarning('Please set plugin name');
         }
-        
+       
         // プラグインを登録する
         parent::setPlugin($name,$type,$plugin);
         $this->engine->$register_method($name,$plugin);
