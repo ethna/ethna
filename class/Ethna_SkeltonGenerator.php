@@ -260,7 +260,6 @@ class Ethna_SkeltonGenerator
         $c =& new $controller_class;
         $c->setGateway(GATEWAY_CLI);
 
-        $action_dir = $c->getActiondir($gateway);
         $app_dir = $c->getDirectory('app');
         $bin_dir = $c->getDirectory('bin');
         $cli_file = sprintf("%s/%s.%s", $bin_dir, $action_name, $c->getExt('php'));
