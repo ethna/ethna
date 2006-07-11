@@ -111,6 +111,10 @@ class Ethna_SkeltonGenerator
         $macro['view_name'] = '{$view_name}';
         $macro['view_path'] = '{$view_path}';
 
+        $user_macro = $this->_getUserMacro();
+        $default_macro = $macro;
+        $macro = array_merge($macro, $user_macro);
+
         // the longest if? :)
         if ($this->_generateFile("www.index.php", "$basedir/www/index.php", $macro) == false ||
             $this->_generateFile("www.info.php", "$basedir/www/info.php", $macro) == false ||
@@ -125,15 +129,15 @@ class Ethna_SkeltonGenerator
             $this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||
             $this->_generateFile("app.unittest.php", sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||
-            $this->_generateFile("skel.action.php", sprintf("$basedir/skel/skel.action.php"), $macro) == false ||
-            $this->_generateFile("skel.action_cli.php", sprintf("$basedir/skel/skel.action_cli.php"), $macro) == false ||
-            $this->_generateFile("skel.action_test.php", sprintf("$basedir/skel/skel.action_test.php"), $macro) == false ||
-            $this->_generateFile("skel.app_object.php", sprintf("$basedir/skel/skel.app_object.php"), $macro) == false ||
-            $this->_generateFile("skel.cli.php", sprintf("$basedir/skel/skel.cli.php"), $macro) == false ||
-            $this->_generateFile("skel.view.php", sprintf("$basedir/skel/skel.view.php"), $macro) == false ||
-            $this->_generateFile("skel.template.tpl", sprintf("$basedir/skel/skel.template.tpl"), $macro) == false ||
-            $this->_generateFile("skel.view_test.php", sprintf("$basedir/skel/skel.view_test.php"), $macro) == false ||
-            $this->_generateFile("template.index.tpl", sprintf("$basedir/template/ja/index.tpl"), $macro) == false) {
+            $this->_generateFile("skel.action.php", sprintf("$basedir/skel/skel.action.php"), $default_macro) == false ||
+            $this->_generateFile("skel.action_cli.php", sprintf("$basedir/skel/skel.action_cli.php"), $default_macro) == false ||
+            $this->_generateFile("skel.action_test.php", sprintf("$basedir/skel/skel.action_test.php"), $default_macro) == false ||
+            $this->_generateFile("skel.app_object.php", sprintf("$basedir/skel/skel.app_object.php"), $default_macro) == false ||
+            $this->_generateFile("skel.cli.php", sprintf("$basedir/skel/skel.cli.php"), $default_macro) == false ||
+            $this->_generateFile("skel.view.php", sprintf("$basedir/skel/skel.view.php"), $default_macro) == false ||
+            $this->_generateFile("skel.template.tpl", sprintf("$basedir/skel/skel.template.tpl"), $default_macro) == false ||
+            $this->_generateFile("skel.view_test.php", sprintf("$basedir/skel/skel.view_test.php"), $default_macro) == false ||
+            $this->_generateFile("template.index.tpl", sprintf("$basedir/template/ja/index.tpl"), $default_macro) == false) {
             return Ethna::raiseError('generating files failed');
         }
 
