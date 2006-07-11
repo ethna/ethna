@@ -8,7 +8,7 @@
  *	@package	Ethna
  *	@version	$Id$
  */
-include_once(ETHNA_BASE . '/class/Handle/Ethna_Handle_AddAction.php');
+include_once(ETHNA_BASE . '/class/Plugin/Handle/Ethna_Plugin_Handle_AddAction.php');
 
 // {{{ Ethna_Plugin_Handle_AddActionXmlrpc
 /**
