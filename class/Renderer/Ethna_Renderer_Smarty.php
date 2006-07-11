@@ -203,11 +203,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         //プラグイン関数の有無をチェック
         // is_callableでもいいが...少しパフォーマンスが悪いらしいので
         if (is_array($plugin) === false) {
-            if ( function_exists($plugin) === false ) {
+            if (function_exists($plugin) === false) {
                 return Ethna::raiseWarning('Does not exists.');
             }
         } else {
-            if ( method_exists($plugin[0], $plugin[1]) === false ) {
+            if (method_exists($plugin[0], $plugin[1]) === false) {
                 return Ethna::raiseWarning('Does not exists.');
             }        
         }
