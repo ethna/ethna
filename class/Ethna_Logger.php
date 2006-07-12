@@ -290,6 +290,18 @@ class Ethna_Logger extends Ethna_AppManager
         }
         
         $this->is_begin = true;
+
+        // begin()以前のlog()を処理
+        if (count($this->log_stack) > 0) {
+            // copy and clear for recursive calls
+            $tmp_stack = $this->log_stack;
+            $this->log_stack = array();
+
+            while (count($tmp_stack) > 0) {
+                $log = array_shift($tmp_stack);
+                $this->log($log[0], $log[1]);
+            }
+        }
 	}
 
 	/**
@@ -309,16 +321,6 @@ class Ethna_Logger extends Ethna_AppManager
             }
             $this->log_stack[] = array($level, $message);
             return;
-        }
-        if (count($this->log_stack) > 0) {
-            // copy and clear for recursive calls
-            $tmp_stack = $this->log_stack;
-            $this->log_stack = array();
-
-            while (count($tmp_stack) > 0) {
-                $log = array_shift($tmp_stack);
-                $this->log($log[0], $log[1]);
-            }
         }
 
         foreach ($this->writer as $f => $writer) {

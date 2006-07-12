@@ -85,6 +85,9 @@ class Ethna_Plugin
 
         $this->_searchAllPluginSrc($type);
         foreach ($this->src_registry[$type] as $name => $value) {
+            if (is_null($value)) {
+                continue;
+            }
             $plugin_list[$name] =& $this->getPlugin($type, $name);
         }
         return $plugin_list;
