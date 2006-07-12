@@ -30,7 +30,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      */
     function Ethna_Renderer_Smarty(&$controller)
     {
-        parent::Ethna_Renderer(&$controller);
+        parent::Ethna_Renderer($controller);
         
         $this->engine =& new Smarty;
         

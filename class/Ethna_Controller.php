@@ -1537,7 +1537,7 @@ class Ethna_Controller
         }
         
         $class_name = $this->class_factory->getObjectName('renderer');
-        $this->renderer = & new $class_name(&$this);
+        $this->renderer = & new $class_name($this);
        
         // {{{ for B.C.
         // user defined modifiers
@@ -1597,7 +1597,7 @@ class Ethna_Controller
         }
 
         //テンプレートエンジンのデフォルトの設定
-        $this->_setDefaultTemplateEngine(&$this->renderer);
+        $this->_setDefaultTemplateEngine($this->renderer);
         // }}}
 
         return $this->renderer;
