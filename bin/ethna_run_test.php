@@ -34,30 +34,47 @@ $file_list = getFileList($test_dir);
 
 // テストケースを登録
 foreach ($file_list as $file) {
-	$test->addTestFile($file);
+    $test->addTestFile($file);
 }
 
 // 結果をコマンドラインに出力
 $test->run(new TextReporter());
 
-function getFileList($dir_path) {
-	$file_list = array();
-    if ($dir = opendir($dir_path)) {
-        while($file_path = readdir($dir)) {
-            $full_path = $dir_path . '/'. $file_path;
-            if (is_file($full_path)){
-            	// テストケースのファイルのみ読み込む
-                if (preg_match('/^(Ethna_)(.*)(_Test.php)$/',$file_path,$matches)) {
-                    $file_list[] = $full_path;
-                }
-            // サブディレクトリがある場合は，再帰的に読み込む．
-            // "."で始まるディレクトリは読み込まない.
-            } else if (is_dir($full_path) && !preg_match('/^\./',$file_path,$matches)) {
-                $file_list = array_merge($file_list,getFileList($full_path));
-            }
-        }
-        closedir($dir);
+/**
+ * getFileList
+ *
+ * @param string $dir_path
+ */
+function getFileList($dir_path)
+{
+    $file_list = array();
+
+    $dir = opendir($dir_path);
+
+    if ($dir == false) {
+        return false;
     }
+
+    while($file_path = readdir($dir)) {
+
+        $full_path = $dir_path . '/'. $file_path;
+
+        if (is_file($full_path)){
+
+            // テストケースのファイルのみ読み込む
+            if (preg_match('/^(Ethna_)(.*)(_Test.php)$/',$file_path,$matches)) {
+                $file_list[] = $full_path;
+            }
+
+        // サブディレクトリがある場合は，再帰的に読み込む．
+        // "."で始まるディレクトリは読み込まない.
+        } else if (is_dir($full_path) && !preg_match('/^\./',$file_path,$matches)) {
+
+            $file_list = array_merge($file_list,getFileList($full_path));
+        }
+    }
+
+    closedir($dir);
     return $file_list;
 }
 ?>
