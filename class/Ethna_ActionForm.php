@@ -801,7 +801,6 @@ class Ethna_ActionForm
 
             $form_value = $this->form_vars[$key];
             if (is_array($value['type'])) {
-                $form_value = array($form_value);
                 $form_array = true;
             } else {
                 $form_value = array($form_value);
