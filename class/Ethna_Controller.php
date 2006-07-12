@@ -178,7 +178,7 @@ class Ethna_Controller
     function Ethna_Controller($gateway = GATEWAY_WWW)
     {
         $GLOBALS['_Ethna_controller'] =& $this;
-        if ($this->base == "") {
+        if ($this->base === "") {
             $this->base = BASE;
         }
 

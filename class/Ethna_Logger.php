@@ -239,7 +239,7 @@ class Ethna_Logger extends Ethna_AppManager
             if (count($this->facility) == 0) {
                 return null;
             } else if (count($this->facility) == 1) {
-                return $this->facility[1];
+                return $this->facility[0];
             }
         }
 		return $this->facility;
