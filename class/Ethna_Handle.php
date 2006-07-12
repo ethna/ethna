@@ -71,7 +71,6 @@ class Ethna_Handle
     function getHandlerList()
     {
         $handler_list = $this->plugin->getPluginList('handle');
-        var_dump($handler_list);
         usort($handler_list, array($this, "_handler_sort_callback"));
 
         return $handler_list;
