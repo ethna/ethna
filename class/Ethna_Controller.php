@@ -179,7 +179,10 @@ class Ethna_Controller
     {
         $GLOBALS['_Ethna_controller'] =& $this;
         if ($this->base === "") {
-            $this->base = BASE;
+            // EthnaコマンドなどでBASEが定義されていない場合がある
+            if (defined('BASE')) {
+                $this->base = BASE;
+            }
         }
 
         $this->gateway = $gateway;
