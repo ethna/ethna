@@ -4,6 +4,7 @@
 
 *** features
 
+- test runnerの追加
 - [breaking B.C.] Ethna_Loggerリファクタリング
 -- Ethna_LogWriterのプラグイン化
 -- カンマ区切りでの複数ファシリティサポート
