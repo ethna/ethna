@@ -76,7 +76,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
     }
 
 	if ($has_echo == false && ini_get('display_errors') && (error_reporting() & $errno)) {
-		if ($c->getGateway() != GATEAY_WWW) {
+		if ($c->getGateway() != GATEWAY_WWW) {
 			$format = "%s: %s in %s on line %d\n";
 		} else {
 			$format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
