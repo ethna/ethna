@@ -332,6 +332,7 @@ class Ethna_ViewClass
         $r = array();
         $r['type'] = "submit";
         $r['name'] = $name;
+        $r['value'] = $def['name'];
 
         return $this->_getFormInput_Html("input", $r, $params);
     }
