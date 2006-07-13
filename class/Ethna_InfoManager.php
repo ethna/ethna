@@ -660,7 +660,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 		$elts['アクション'] = $this->ctl->getActiondir();
 		$elts['ビュー'] = $this->ctl->getViewdir();
 		$elts['フィルタ'] = $this->ctl->getDirectory('filter');
-		$elts['プラグイン'] = $this->ctl->getDirectory('app_plugin');
+		$elts['プラグイン'] = $this->ctl->getDirectory('plugin');
 		$elts['テンプレート'] = $this->ctl->getTemplatedir();
 		$elts['テンプレートキャッシュ'] = $this->ctl->getDirectory('template_c');
 		$elts['Smartyプラグイン'] = implode(',', $this->ctl->getDirectory('plugins'));

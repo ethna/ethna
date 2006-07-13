@@ -43,7 +43,7 @@ class Ethna_Controller
         'action_cli'    => 'app/action_cli',
         'action_xmlrpc' => 'app/action_xmlrpc',
         'app'           => 'app',
-        'app_plugin'    => 'app/plugin',
+        'plugin'        => 'app/plugin',
         'bin'           => 'bin',
         'etc'           => 'etc',
         'filter'        => 'app/filter',

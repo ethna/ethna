@@ -223,7 +223,7 @@ class Ethna_Plugin
             $dir = ETHNA_BASE . "/class/Plugin/{$_type}";
         } else {
             $ext = $this->controller->getExt('php');
-            $dir = $this->controller->getDirectory('app_plugin') . "/{$_type}";
+            $dir = $this->controller->getDirectory('plugin') . "/{$_type}";
         }
 
         $class = "{$appid}_Plugin_{$_type}_{$name}";
@@ -303,6 +303,57 @@ class Ethna_Plugin
         foreach (array_keys($name_list) as $name) {
             // 冗長だがもう一度探しなおす
             $this->_searchPluginSrc($type, $name);
+        }
+    }
+
+    /**
+     *  Ethna 本体付属のプラグインのソースを include する
+     *
+     *  @access public
+     *  @param  string  $type   プラグインの種類
+     *  @param  string  $name   プラグインの名前
+     *  @static
+     */
+    function includeEthnaPlugin($type, $name)
+    {
+        Ethna_Plugin::includePlugin($type, $name, 'Ethna');
+    }
+
+    /**
+     *  プラグインのソースを include する
+     *
+     *  @access public
+     *  @param  string  $type   プラグインの種類
+     *  @param  string  $name   プラグインの名前
+     *  @param  string  $appid  アプリケーションID
+     *  @static
+     */
+    function includePlugin($type, $name, $appid = null)
+    {
+        $ctl =& Ethna_Controller::getInstance();
+        if ($appid == null) {
+            $appid = $ctl->getAppId();
+        }
+        $plugin =& $ctl->getPlugin();
+        $plugin->includePluginSrc($type, $name, $appid);
+    }
+
+    /**
+     *  レジストリには関係なく，プラグインのソースを include_once する
+     *
+     *  @access public
+     *  @param  string  $type   プラグインの種類
+     *  @param  string  $name   プラグインの名前
+     *  @param  string  $appid  アプリケーションID
+     */
+    function includePluginSrc($type, $name, $appid = 'Ethna')
+    {
+        list($class, $dir, $file) = $this->_getPluginClassFile($type, $name, $appid);
+        if (file_exists("{$dir}/{$file}")) {
+            $this->logger->log(LOG_DEBUG, 'plugin file found, included: %s', "{$dir}/{$file}");
+            include_once "{$dir}/{$file}";
+        } else {
+            $this->logger->log(LOG_WARNING, 'plugin file not found: %s', "{$dir}/{$file}");
         }
     }
     // }}}
