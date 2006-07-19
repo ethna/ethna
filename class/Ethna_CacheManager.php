@@ -30,7 +30,7 @@ class Ethna_CacheManager
         $controller =& Ethna_Controller::getInstance();
         $plugin =& $controller->getPlugin();
 
-        $cache_manager =& $plugin->getPlugin('cachemanager', ucfirst($type));
+        $cache_manager =& $plugin->getPlugin('Cachemanager', ucfirst($type));
 
         return $cache_manager;
 	}

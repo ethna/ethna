@@ -1199,7 +1199,7 @@ class Ethna_Controller
                     $this->filter_chain[] =& new $filter($this);
                 }
             } else {  //プラグインから探す．
-                $filter_plugin =& $this->plugin->getPlugin('filter',$filter);
+                $filter_plugin =& $this->plugin->getPlugin('Filter', $filter);
                 if (Ethna::isError($filter_plugin)) {
                     continue;
                 }

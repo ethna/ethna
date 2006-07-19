@@ -55,7 +55,7 @@ class Ethna_Handle
     function &getHandler($id)
     {
         $name = preg_replace('/\-(.)/e', "strtoupper('\$1')", ucfirst($id));
-        $handler =& $this->plugin->getPlugin('handle', $name);
+        $handler =& $this->plugin->getPlugin('Handle', $name);
         if (Ethna::isError($handler)) {
             return $handler;
         }
@@ -70,7 +70,7 @@ class Ethna_Handle
      */
     function getHandlerList()
     {
-        $handler_list = $this->plugin->getPluginList('handle');
+        $handler_list = $this->plugin->getPluginList('Handle');
         usort($handler_list, array($this, "_handler_sort_callback"));
 
         return $handler_list;

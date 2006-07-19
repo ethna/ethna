@@ -689,7 +689,14 @@ class Ethna_InfoManager extends Ethna_AppManager
 		$r['フィルタ'] = $elts;
 
 		// plugin
-        $plugin_type_list = array('validator', 'filter');
+        // XXX: 手書きをなんとかする
+        $plugin_type_list = array(
+                'Cachemanager',
+                'Filter',
+                'Handle',
+                'Logwriter',
+                'Validator'
+                );
         foreach ($plugin_type_list as $type) {
             $elts = array();
             $plugin = $this->ctl->getPlugin();

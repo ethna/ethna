@@ -567,7 +567,7 @@ class Ethna_ActionForm
 
                 // プラグイン取得
                 unset($v);
-                $v =& $this->plugin->getPlugin('validator', ucfirst($name));
+                $v =& $this->plugin->getPlugin('Validator', ucfirst(strtolower($name)));
                 if (Ethna::isError($v)) {
                     continue;
                 }
@@ -598,7 +598,7 @@ class Ethna_ActionForm
 
             // プラグイン取得
             unset($v);
-            $v =& $this->plugin->getPlugin('validator', ucfirst($name));
+            $v =& $this->plugin->getPlugin('Validator', ucfirst(strtolower($name)));
             if (Ethna::isError($v)) {
                 continue;
             }

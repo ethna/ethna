@@ -400,7 +400,7 @@ class Ethna_Logger extends Ethna_AppManager
 		}
 
         $plugin_manager =& $this->controller->getPlugin();
-        $plugin_object = $plugin_manager->getPlugin("Logwriter", ucfirst(strtolower($plugin)));
+        $plugin_object = $plugin_manager->getPlugin('Logwriter', ucfirst(strtolower($plugin)));
         if (Ethna::isError($plugin_object)) {
             return $plugin_object;
         }
