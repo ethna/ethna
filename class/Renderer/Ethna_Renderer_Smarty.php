@@ -101,8 +101,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         }
         $this->template = $template;
 
-        if (is_readable($this->template_dir . $this->template)) {
-            $this->engine->display($this->template);
+        if ((is_absolute_path($this->template) && is_readable($this->template))
+            || is_readable($this->template_dir . $this->template)) {
+                $this->engine->display($this->template);
         } else {
             return Ethna::raiseWarning('template not found ' . $this->template);
         }
