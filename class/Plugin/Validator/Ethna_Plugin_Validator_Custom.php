@@ -41,9 +41,14 @@ class Ethna_Plugin_Validator_Custom extends Ethna_Plugin_Validator
 
         foreach ($method_list as $method) {
             if (method_exists($this->af, $method)) {
-                $this->af->$method($name);
+                $ret =& $this->af->$method($name);
+                if (Ethna::isError($ret)) {
+                   return $ret;
+                }
             }
         }
+
+        return $true;
     }
 }
 // }}}

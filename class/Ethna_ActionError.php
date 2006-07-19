@@ -51,8 +51,9 @@ class Ethna_ActionError
      *  @param  string  $name       エラーの発生したフォーム項目名(不要ならnull)
      *  @param  string  $message    エラーメッセージ
      *  @param  int     $code       エラーコード
+     *  @return Ethna_Error エラーオブジェクト
      */
-    function add($name, $message, $code = null)
+    function &add($name, $message, $code = null)
     {
         if (func_num_args() > 3) {
             $userinfo = array_slice(func_get_args(), 3);
@@ -61,6 +62,7 @@ class Ethna_ActionError
             $error =& Ethna::raiseNotice($message, $code);
         }
         $this->addObject($name, $error);
+        return $error;
     }
 
     /**
