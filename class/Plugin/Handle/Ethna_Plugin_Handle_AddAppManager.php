@@ -1,6 +1,6 @@
 <?php
 /**
- *	Ethna_Handle_AddAppManager.php
+ *	Ethna_Plugin_Handle_AddAppManager.php
  *
  *	@author		nozzzzz <nozzzzz@gmail.com>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License

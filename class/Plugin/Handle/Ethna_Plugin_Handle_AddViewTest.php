@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Handle_AddViewTest.php
+ *  Ethna_Plugin_Handle_AddViewTest.php
  *
  *  @author     halt feits <halt.feits@gmail.com>
  *  @package    Ethna

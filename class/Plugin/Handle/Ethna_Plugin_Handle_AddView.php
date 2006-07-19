@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Handle_AddView.php
+ *	Ethna_Plugin_Handle_AddView.php
  *
  *	@author		Masaki Fujimoto <fujimoto@php.net>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
