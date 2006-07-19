@@ -1,12 +1,12 @@
 <?php
 /**
- *	ethna_make_package.php
+ *  ethna_make_package.php
  *
  *  package.xml generator for Ethna
  *
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 include_once('PEAR.php');
 include_once('Console/Getopt.php');

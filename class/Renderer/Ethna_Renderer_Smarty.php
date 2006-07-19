@@ -84,7 +84,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->setPlugin('form_input','function','smarty_function_form_input');
         
         // default blocks
-        $this->setPlugin('form','block','smarty_block_form');    	
+        $this->setPlugin('form','block','smarty_block_form');       
     }
 
     /**
@@ -221,7 +221,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
         // フィルタは名前なしで登録
         if ($type == 'prefilter' || $type == 'postfilter' || $type == 'outputfilter') {
-        	parent::setPlugin($name,$type,$plugin);
+            parent::setPlugin($name,$type,$plugin);
             $this->engine->$register_method($plugin);
             return;
         }

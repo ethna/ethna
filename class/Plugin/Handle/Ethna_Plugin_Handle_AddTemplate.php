@@ -1,20 +1,20 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Handle_AddTemplate.php
+ *  Ethna_Plugin_Handle_AddTemplate.php
  *
- *	@author	    nnno <nnno@nnno.jp>	
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
+ *  @author     nnno <nnno@nnno.jp> 
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
  */
 
 // {{{ Ethna_Plugin_Handle_AddTemplate
 /**
  *  add-template handler
  *
- *	@author     nnno <nnno@nnno.jp>
- *	@access		public
- *	@package	Ethna
+ *  @author     nnno <nnno@nnno.jp>
+ *  @access     public
+ *  @package    Ethna
  */
 class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle
 {

@@ -4,6 +4,7 @@
 
 *** features
 
+- ハードタブ -> ソフトタブ
 - test runnerの追加
 - [breaking B.C.] Ethna_Loggerリファクタリング
 -- Ethna_LogWriterのプラグイン化

@@ -1,12 +1,12 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Validator_File.php
+ *  Ethna_Plugin_Validator_File.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 // UPLOAD_ERR_* が未定義の場合
@@ -34,7 +34,7 @@ if (defined('UPLOAD_ERR_CANT_WRITE') == false) { // PHP 5.1.0
 
 // {{{ Ethna_Plugin_Validator_File
 /**
- *	ファイルチェックプラグイン
+ *  ファイルチェックプラグイン
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -54,8 +54,8 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-	function &validate($name, $var, $params)
-	{
+    function &validate($name, $var, $params)
+    {
         $true = true;
         if ($this->getFormType($name) != VAR_TYPE_FILE) {
             return $true;

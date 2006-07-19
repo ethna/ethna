@@ -30,8 +30,8 @@ class Ethna_Plugin_Validator_Regexp extends Ethna_Plugin_Validator
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-	function &validate($name, $var, $params)
-	{
+    function &validate($name, $var, $params)
+    {
         $true = true;
         $type = $this->getFormType($name);
         if (isset($params['regex']) == false

@@ -1,21 +1,21 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Handle_AddAction.php
+ *  Ethna_Plugin_Handle_AddAction.php
  *
- *	@author		Masaki Fujimoto <fujimoto@php.net>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @author     Masaki Fujimoto <fujimoto@php.net>
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 // {{{ Ethna_Plugin_Handle_AddAction
 /**
  *  add-action handler
  *
- *	@author		Masaki Fujimoto <fujimoto@php.net>
- *	@access		public
- *	@package	Ethna
+ *  @author     Masaki Fujimoto <fujimoto@php.net>
+ *  @access     public
+ *  @package    Ethna
  */
 class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
 {

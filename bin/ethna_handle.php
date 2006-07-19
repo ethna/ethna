@@ -1,13 +1,13 @@
 <?php
 /**
- *	ethna_handle.php
+ *  ethna_handle.php
  *
  *  Ethna Handle Gateway
  *
- *	@author		Masaki Fujimoto <fujimoto@php.net>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @author     Masaki Fujimoto <fujimoto@php.net>
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 while (ob_get_level()) {
     ob_end_clean();
@@ -18,13 +18,13 @@ include_once('Console/Getopt.php');
 
 // setup path seprator
 if (!defined('PATH_SEPARATOR')) {
-	if (OS_WINDOWS) {
-		/** include_path separator(Windows) */
-		define('PATH_SEPARATOR', ';');
-	} else {
-		/** include_path separator(Unix) */
-		define('PATH_SEPARATOR', ':');
-	}
+    if (OS_WINDOWS) {
+        /** include_path separator(Windows) */
+        define('PATH_SEPARATOR', ';');
+    } else {
+        /** include_path separator(Unix) */
+        define('PATH_SEPARATOR', ':');
+    }
 }
 $base = dirname(dirname(dirname(__FILE__)));
 ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . "$base");

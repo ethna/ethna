@@ -1,17 +1,17 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Validator_Max.php
+ *  Ethna_Plugin_Validator_Max.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 // {{{ Ethna_Plugin_Validator_Max
 /**
- *	最大値チェックプラグイン
+ *  最大値チェックプラグイン
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -30,8 +30,8 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-	function &validate($name, $var, $params)
-	{
+    function &validate($name, $var, $params)
+    {
         $true = true;
         $type = $this->getFormType($name);
         if (isset($params['max']) == false || $this->isEmpty($var, $type)) {

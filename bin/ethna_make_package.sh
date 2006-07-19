@@ -1,21 +1,21 @@
 #!/bin/sh
 #
-#	ethna_make_package.sh
+#   ethna_make_package.sh
 #
-#	...:(
+#   ...:(
 #
-#	$Id$
+#   $Id$
 #
 tmpdir="/tmp/ethna"
 
 if [ ! -d $tmpdir ]
 then
-	mkdir -p $tmpdir
+    mkdir -p $tmpdir
 fi
 
 if [ "$1" = "-b" ]
 then
-	beta=$1
+    beta=$1
 fi
 
 # chdir to basedir

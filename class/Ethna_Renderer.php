@@ -1,21 +1,21 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Renderer.php
+ *  Ethna_Renderer.php
  *
- *	@author		Kazuhiro Hosoi <hosoi@gree.co.jp>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 // {{{ Ethna_Renderer
 /**
- *	レンダラクラス（Mojaviのまね）
+ *  レンダラクラス（Mojaviのまね）
  *
- *	@author		Kazuhiro Hosoi <hosoi@gree.co.jp>
- *	@access		public
- *	@package	Ethna
+ *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
+ *  @access     public
+ *  @package    Ethna
  */
 class Ethna_Renderer
 {
@@ -271,7 +271,7 @@ class Ethna_Renderer
      */
     function setPlugin($name, $type, $plugin)
     {
-    	$this->plugin_registry[$type][$name] = $plugin;
+        $this->plugin_registry[$type][$name] = $plugin;
     }
 }
 // }}}

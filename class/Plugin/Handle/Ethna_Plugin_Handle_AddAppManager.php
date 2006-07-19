@@ -1,20 +1,20 @@
 <?php
 /**
- *	Ethna_Plugin_Handle_AddAppManager.php
+ *  Ethna_Plugin_Handle_AddAppManager.php
  *
- *	@author		nozzzzz <nozzzzz@gmail.com>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @author     nozzzzz <nozzzzz@gmail.com>
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 // {{{ Ethna_Plugin_Handle_AddAppManager
 /**
  *  add-app-manager handler
  *
- *	@author		nozzzzz <nozzzzz@gmail.com>
- *	@access		public
- *	@package	Ethna
+ *  @author     nozzzzz <nozzzzz@gmail.com>
+ *  @access     public
+ *  @package    Ethna
  */
 class Ethna_Plugin_Handle_AddAppManager extends Ethna_Plugin_Handle
 {
