@@ -421,7 +421,7 @@ class Ethna_ViewClass
             $tmp_session = Ethna_Util::escapeHtml($_SESSION);
             $renderer->setPropByRef('session', $tmp_session);
         }
-        $renderer->setProp('script', basename($_SERVER['PHP_SELF']));
+        $renderer->setProp('script', htmlspecialchars(basename($_SERVER['PHP_SELF']), ENT_QUOTES));
         $renderer->setProp('request_uri', htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES));
 
         return $renderer;
