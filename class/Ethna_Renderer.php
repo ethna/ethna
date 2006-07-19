@@ -184,16 +184,6 @@ class Ethna_Renderer
     }
 
     /**
-     *  テンプレート変数を割り当てる(後方互換)
-     *
-     *  @access public
-     */
-    function assign($name, $value)
-    {
-        $this->setProp($name, $value);
-    }
-
-    /**
      *  テンプレート変数に参照を割り当てる
      * 
      *  @param string $name 変数名
@@ -204,16 +194,6 @@ class Ethna_Renderer
     function setPropByRef($name, &$value)
     {
         $this->prop[$name] =& $value;
-    }
-
-    /**
-     *  テンプレート変数に参照を割り当てる(後方互換)
-     *
-     *  @access public
-     */
-    function assign_by_ref($name, &$value)
-    {
-        $this->setPropByRef($name, $value);
     }
 
     /**
@@ -273,6 +253,29 @@ class Ethna_Renderer
     {
         $this->plugin_registry[$type][$name] = $plugin;
     }
+
+    // {{{ proxy methods (for B.C.)
+    /**
+     *  テンプレート変数を割り当てる(後方互換)
+     *
+     *  @access public
+     */
+    function assign($name, $value)
+    {
+        $this->setProp($name, $value);
+    }
+
+    /**
+     *  テンプレート変数に参照を割り当てる(後方互換)
+     *
+     *  @access public
+     */
+    function assign_by_ref($name, &$value)
+    {
+        $this->setPropByRef($name, $value);
+    }
+
+    // }}}
 }
 // }}}
 ?>
