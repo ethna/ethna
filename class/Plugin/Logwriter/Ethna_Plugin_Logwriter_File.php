@@ -26,6 +26,9 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     /** @var    int     ログファイルハンドル */
     var $fp;
 
+    /** @var    int     ログファイルパーミッション
+    var $mode = 0666;
+
     /**#@-*/
 
     /**
@@ -53,6 +56,10 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
         } else {
             $this->file = $this->_getLogFile();
         }
+
+        if (isset($option['mode'])) {
+            $this->mode = $option['mode'];
+        }
     }
 
     /**
@@ -63,6 +70,10 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     function begin()
     {
         $this->fp = fopen($this->file, 'a');
+        $st = fstat($this->fp);
+        if (function_exists("posix_getuid") && posix_getuid() == $st[4]) {
+            chmod($this->file, intval($this->mode, 8));
+        }
     }
 
     /**

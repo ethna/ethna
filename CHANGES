@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_Plugin_Logwriter_File::begin()でログファイルのパーミッションを設定するように変更
 - ハードタブ -> ソフトタブ
 - test runnerの追加
 - [breaking B.C.] Ethna_Loggerリファクタリング
