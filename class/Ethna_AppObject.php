@@ -116,12 +116,6 @@ class Ethna_AppObject
             }
         }
 
-        // Ethna_AppManagerオブジェクトの設定
-        $manager_list = $ctl->getManagerList();
-        foreach ($manager_list as $k => $v) {
-            $this->$k =& $backend->getManager($v);
-        }
-
         // オブジェクトのプライマリキー定義構築
         foreach ($this->prop_def as $k => $v) {
             if ($v['primary'] == false) {

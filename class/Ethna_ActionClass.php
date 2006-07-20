@@ -69,12 +69,6 @@ class Ethna_ActionClass
         $this->af =& $this->action_form;
 
         $this->session =& $this->backend->getSession();
-
-        // Ethna_AppManagerオブジェクトの設定
-        $manager_list = $c->getManagerList();
-        foreach ($manager_list as $k => $v) {
-            $this->$k =& $backend->getManager($v);
-        }
     }
 
     /**

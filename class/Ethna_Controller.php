@@ -603,6 +603,7 @@ class Ethna_Controller
      *
      *  @access public
      *  @return array   マネージャ一覧
+     *  @obsolete
      */
     function getManagerList()
     {
@@ -1528,10 +1529,23 @@ class Ethna_Controller
     }
 
     /**
+     *  レンダラを取得する(getTemplateEngine()はそのうち廃止されgetRenderer()に統合される予定)
+     *
+     *  @access public
+     *  @return object  Ethna_Renderer  レンダラオブジェクト
+     */
+    function &getRenderer()
+    {
+        $_ret_object =& $this->getTemplateEngine();
+        return $_ret_object;
+    }
+
+    /**
      *  テンプレートエンジン取得する
      *
      *  @access public
-     *  @return object  Smarty  テンプレートエンジンオブジェクト
+     *  @return object  Ethna_Renderer  レンダラオブジェクト
+     *  @obsolete
      */
     function &getTemplateEngine()
     {
@@ -1539,63 +1553,64 @@ class Ethna_Controller
             return $this->renderer;
         }
         
-        $class_name = $this->class_factory->getObjectName('renderer');
-        $this->renderer = & new $class_name($this);
+        $this->renderer =& $this->class_factory->getObject('renderer');
        
         // {{{ for B.C.
-        // user defined modifiers
-        foreach ($this->smarty_modifier_plugin as $modifier) {
-            $name = str_replace('smarty_modifier_', '', $modifier);
-            $this->renderer->setPlugin($name,'modifier', $modifier);
-        }
-
-        // user defined functions
-        foreach ($this->smarty_function_plugin as $function) {
-            if (!is_array($function)) {
-                $name = str_replace('smarty_function_', '', $function);
-                $this->renderer->setPlugin($name, 'function', $function);
-            } else {
-                $this->renderer->setPlugin($function[1], 'function', $function);
+        if (strtolower(get_class($this->renderer)) == "ethna_renderer_smarty") {
+            // user defined modifiers
+            foreach ($this->smarty_modifier_plugin as $modifier) {
+                $name = str_replace('smarty_modifier_', '', $modifier);
+                $this->renderer->setPlugin($name,'modifier', $modifier);
             }
-        }
 
-        // user defined blocks
-        foreach ($this->smarty_block_plugin as $block) {
-            if (!is_array($block)) {
-                $name = str_replace('smarty_block_', '', $block);
-                $this->renderer->setPlugin($name,'block', $block);
-            } else {
-                $this->renderer->setPlugin($block[1],'block', $block);
+            // user defined functions
+            foreach ($this->smarty_function_plugin as $function) {
+                if (!is_array($function)) {
+                    $name = str_replace('smarty_function_', '', $function);
+                    $this->renderer->setPlugin($name, 'function', $function);
+                } else {
+                    $this->renderer->setPlugin($function[1], 'function', $function);
+                }
             }
-        }
 
-        // user defined prefilters
-        foreach ($this->smarty_prefilter_plugin as $prefilter) {
-            if (!is_array($prefilter)) {
-                $name = str_replace('smarty_prefilter_', '', $prefilter);
-                $this->renderer->setPlugin($name,'prefilter', $prefilter);
-            } else {
-                $this->renderer->setPlugin($prefilter[1],'prefilter', $prefilter);
+            // user defined blocks
+            foreach ($this->smarty_block_plugin as $block) {
+                if (!is_array($block)) {
+                    $name = str_replace('smarty_block_', '', $block);
+                    $this->renderer->setPlugin($name,'block', $block);
+                } else {
+                    $this->renderer->setPlugin($block[1],'block', $block);
+                }
             }
-        }
 
-        // user defined postfilters
-        foreach ($this->smarty_postfilter_plugin as $postfilter) {
-            if (!is_array($postfilter)) {
-                $name = str_replace('smarty_postfilter_', '', $postfilter);
-                $this->renderer->setPlugin($name,'postfilter', $postfilter);
-            } else {
-                $this->renderer->setPlugin($postfilter[1],'postfilter', $postfilter);
+            // user defined prefilters
+            foreach ($this->smarty_prefilter_plugin as $prefilter) {
+                if (!is_array($prefilter)) {
+                    $name = str_replace('smarty_prefilter_', '', $prefilter);
+                    $this->renderer->setPlugin($name,'prefilter', $prefilter);
+                } else {
+                    $this->renderer->setPlugin($prefilter[1],'prefilter', $prefilter);
+                }
             }
-        }
 
-        // user defined outputfilters
-        foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
-            if (!is_array($postfilter)) {
-                $name = str_replace('smarty_outputfilter_', '', $outputfilter);
-                $this->renderer->setPlugin($name,'outputfilter', $outputfilter);
-            } else {
-                $this->renderer->setPlugin($outputfilter[1],'outputfilter', $outputfilter);
+            // user defined postfilters
+            foreach ($this->smarty_postfilter_plugin as $postfilter) {
+                if (!is_array($postfilter)) {
+                    $name = str_replace('smarty_postfilter_', '', $postfilter);
+                    $this->renderer->setPlugin($name,'postfilter', $postfilter);
+                } else {
+                    $this->renderer->setPlugin($postfilter[1],'postfilter', $postfilter);
+                }
+            }
+
+            // user defined outputfilters
+            foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
+                if (!is_array($postfilter)) {
+                    $name = str_replace('smarty_outputfilter_', '', $outputfilter);
+                    $this->renderer->setPlugin($name,'outputfilter', $outputfilter);
+                } else {
+                    $this->renderer->setPlugin($outputfilter[1],'outputfilter', $outputfilter);
+                }
             }
         }
 
@@ -1610,7 +1625,8 @@ class Ethna_Controller
      *  テンプレートエンジンのデフォルト状態を設定する
      *
      *  @access protected
-     *  @param  object  Smarty  $smarty テンプレートエンジンオブジェクト
+     *  @param  object  Ethna_Renderer  レンダラオブジェクト
+     *  @obsolete
      */
     function _setDefaultTemplateEngine(&$renderer)
     {

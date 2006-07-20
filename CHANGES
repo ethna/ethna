@@ -4,6 +4,28 @@
 
 *** features
 
+- [breaking B.C.] Ethna_ClassFactoryのリファクタリング
+-- Ethna_Backend::getObject()メソッドを追加しました
+-- これにより、Ethna_Controllerの$classメンバに
+ $class = array(
+   // ...
+   'user' => 'Some_Foo_Bar',
+ ),
+と記述することで
+ $user =& $this->backend->getObject('user');
+としてSome_Foo_Barクラスのオブジェクトを取得することが出来ます
+-- クラス定義が見つからない場合は下記の順でファイルを探しに行きます(include_path)
++++ Some_Foo_Bar.php
++++ Some/Foo/Bar.php
++++ Some/Foo/Some_Foo_Bar.php
+-- アプリケーションマネージャの生成もEthna_ClassFactoryで行われます(Ethna_ClassFactory::getManager()が追加されています)
+-- これに伴い、〜2.1.xではコントローラクラスに
+ $manager = array(
+   'um' => 'User',
+ );
+のように記述されていると、Ethna_ActionClass、Ethna_ViewClass、Ethna_AppObject、Ethna_*Managerで
+ $this->um
+としてマネージャオブジェクトにアクセスできていたのですが、この機能が廃止されています(不評なら戻します@preview2)
 - Ethna_Plugin_Logwriter_File::begin()でログファイルのパーミッションを設定するように変更
 - ハードタブ -> ソフトタブ
 - test runnerの追加
@@ -11,8 +33,16 @@
 -- Ethna_LogWriterのプラグイン化
 -- カンマ区切りでの複数ファシリティサポート
 -- _getLogWriter()クラスをオーバーライドしている方に影響があります(2.3.0以降はPlugin/Logwriter以下にLogwriterクラスを置いて、ファシリティでその名前を指定すれば任意のLogwriterを追加可能です)
-- Ethna_Renderer追加
--- 激しく実験中@preview1
+- [breaking B.C.] Ethna_Renderer追加
+-- 〜2.1.xでは直接扱っいてたテンプレートエンジンオブジェクトをEthna_Rendererクラスでwrapしました
+-- Ethna_Controller::getTemplateEngine()はobsoleteとなりますので今後はEthna_Controller::getRenderer()をご利用ください
+-- Ethna_Controller::_setDefaultTemplateEngine(), Ethna_View::_setDefault(), Ethna_Controller::getTemplateEngine()の引数、戻り値は2.1.xまでのSmartyオブジェクトではなくEthna_Rendererオブジェクトとなります
+-- これに伴い、Ethna_Controller::_setDefaultTemplateEngine(), Ethna_Controller::getTemplateEngine()を利用しているアプリケーションではアップデート時にEthna_Renderer::getEngine()を利用して後方互換性を維持するように変更が必要となります
+ e.g.
+ $smarty =& $this->controller->getTemplateEngine();
+ →
+ $renderer =& $this->controller->getTemplateEngine();
+ $smarty =& $renderer->getEngine();
 - プラグインシステム追加(w/ Ethna_Pluginクラス)
 -- Ethna_Handle, Ethna_CacheManager, Ethna_LogWriterをプラグインシステムに移行
 -- Ethna_ActionFormのバリデータをプラグインシステムに移行(Ethna_ActionForm::use_validator_pluginがtrueのときのみ)

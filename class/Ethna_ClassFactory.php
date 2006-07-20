@@ -39,6 +39,12 @@ class Ethna_ClassFactory
     /** @var    array   生成済みオブジェクトキャッシュ */
     var $object = array();
 
+    /** @var    array   生成済みアプリケーションマネージャオブジェクトキャッシュ */
+    var $manager = array();
+
+    /** @var    array   メソッド一覧キャッシュ */
+    var $method_list = array();
+
     /**#@-*/
 
 
@@ -57,6 +63,50 @@ class Ethna_ClassFactory
     }
 
     /**
+     *  typeに対応するアプリケーションマネージャオブジェクトを返す
+     *
+     *  @access public
+     *  @return object  Ethna_AppManager    マネージャオブジェクト
+     */
+    function &getManager($type, $weak = false)
+    {
+        $class_name = $this->controller->getManagerClassName($type);
+
+        // try to include if not defined
+        if (class_exists($class_name) == false) {
+            $this->_include($class_name);
+        }
+
+        if (isset($this->method_list[$class_name]) == false) {
+            $this->method_list[$class_name] = get_class_methods($class_name);
+            for ($i = 0; $i < count($this->method_list[$class_name]); $i++) {
+                $this->method_list[$class_name][$i] = strtolower($this->method_list[$class_name][$i]);
+            }
+        }
+
+        // see if this should be singlton or not
+        if ($this->_isCacheAvailable($class_name, $this->method_list[$class_name], $weak)) {
+            if (isset($this->manager[$type]) && is_object($this->manager[$type])) {
+                return $this->manager[$type];
+            }
+        }
+
+        // see if we have helper methods
+        if (in_array("getinstance", $this->method_list[$class_name])) {
+            $obj =& call_user_func(array($class_name, 'getInstance'));
+        } else {
+            $backend =& $this->controller->getBackend();
+            $obj =& new $class_name($backend);
+        }
+
+        if (isset($this->manager[$type]) == false || is_object($this->manager[$type]) == false) {
+            $this->manager[$type] =& $obj;
+        }
+
+        return $obj;
+    }
+
+    /**
      *  クラスキーに対応するオブジェクトを返す
      *
      *  @access public
@@ -70,17 +120,39 @@ class Ethna_ClassFactory
             return null;
         }
         $class_name = $this->class[$key];
-        if (isset($this->object[$key]) && is_object($this->object[$key])) {
-            return $this->object[$key];
+
+        // try to include if not defined
+        if (class_exists($class_name) == false) {
+            $this->_include($class_name);
         }
 
+        if (isset($this->method_list[$class_name]) == false) {
+            $this->method_list[$class_name] = get_class_methods($class_name);
+            for ($i = 0; $i < count($this->method_list[$class_name]); $i++) {
+                $this->method_list[$class_name][$i] = strtolower($this->method_list[$class_name][$i]);
+            }
+        }
+
+        // see if this should be singlton or not
+        if ($this->_isCacheAvailable($class_name, $this->method_list[$class_name], $weak)) {
+            if (isset($this->object[$key]) && is_object($this->object[$key])) {
+                return $this->object[$key];
+            }
+        }
+
+        // see if we have helper methods
         $method = sprintf('_getObject_%s', ucfirst($key));
         if (method_exists($this, $method)) {
             $obj =& $this->$method($class_name);
+        } else if (in_array("getinstance", $this->method_list[$class_name])) {
+            $obj =& call_user_func(array($class_name, 'getInstance'));
         } else {
             $obj =& new $class_name();
         }
-        $this->object[$key] =& $obj;
+
+        if (isset($this->object[$key]) == false || is_object($this->object[$key]) == false) {
+            $this->object[$key] =& $obj;
+        }
 
         return $obj;
     }
@@ -167,6 +239,19 @@ class Ethna_ClassFactory
     }
 
     /**
+     *  オブジェクト生成メソッド(renderer)
+     *
+     *  @access protected
+     *  @param  string  $class_name     クラス名
+     *  @return object  生成されたオブジェクト(エラーならnull)
+     */
+    function &_getObject_Renderer($class_name)
+    {
+        $_ret_object =& new $class_name($this->ctl);
+        return $_ret_object;
+    }
+
+    /**
      *  オブジェクト生成メソッド(session)
      *
      *  @access protected
@@ -190,6 +275,55 @@ class Ethna_ClassFactory
     {
         $_ret_object =& new $class_name($this->ctl);
         return $_ret_object;
+    }
+
+    /**
+     *  指定されたクラスから想定されるファイルをincludeする
+     *
+     *  @access protected
+     */
+    function _include($class_name)
+    {
+        $file = sprintf("%s.%s", $class_name, $this->controller->getExt('php'));
+        if (file_exists_ex($file)) {
+            include_once($file);
+            return true;
+        }
+
+        if (preg_match('/^(\w+?)_(.*)/', $class_name, $match)) {
+            // try pear style
+            $file = sprintf('%s.%s', str_replace('_', DIRECTORY_SEPARATOR, $match[2]), $this->controller->getExt('php'));
+            if (file_exists_ex($file)) {
+                include_once($file);
+                return true;
+            }
+
+            // try ethna style
+            $tmp = explode("_", $match[2]);
+            $tmp[count($tmp)-1] = $class_name;
+            $file = sprintf('%s.%s', implode(DIRECTORY_SEPARATOR, $tmp), $this->controller->getExt('php'));
+            if (file_exists_ex($file)) {
+                include_once($file);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *  指定されたクラスがキャッシュを利用可能かどうかをチェックする
+     *
+     *  @access protected
+     */
+    function _isCacheAvailable($class_name, $method_list, $weak)
+    {
+        // if we have getInstance(), use this anyway
+        if (in_array('getinstance', $method_list)) {
+            return false;
+        }
+
+        // if not, see if weak or not
+        return $weak ? false : true;
     }
 }
 // }}}

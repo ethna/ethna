@@ -29,6 +29,9 @@ class Ethna_Backend
     /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
     var $ctl;
 
+    /** @var    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
+    var $class_factory;
+
     /** @var    object  Ethna_Config        設定オブジェクト */
     var $config;
 
@@ -62,9 +65,6 @@ class Ethna_Backend
     /** @var    object  Ethna_Logger        ログオブジェクト */
     var $logger;
 
-    /** @var    array   マネージャオブジェクトキャッシュ */
-    var $manager = array();
-
     /**#@-*/
 
 
@@ -80,6 +80,8 @@ class Ethna_Backend
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
 
+        $this->class_factory =& $controller->getClassFactory();
+
         $this->config =& $controller->getConfig();
         $this->i18n =& $controller->getI18N();
 
@@ -93,23 +95,6 @@ class Ethna_Backend
         $this->session =& $this->controller->getSession();
         $this->db_list = array();
         $this->logger =& $this->controller->getLogger();
-
-        // マネージャオブジェクトの生成(TODO: create on demand)
-        $manager_list = $controller->getManagerList();
-        foreach ($manager_list as $key => $value) {
-            $class_name = $this->controller->getManagerClassName($value);
-            $this->manager[$value] =& new $class_name($this);
-        }
-
-        foreach ($manager_list as $key => $value) {
-            foreach ($manager_list as $k => $v) {
-                if ($v == $value) {
-                    /* skip myself */
-                    continue;
-                }
-                $this->manager[$value]->$k =& $this->manager[$v];
-            }
-        }
     }
 
     /**
@@ -239,12 +224,22 @@ class Ethna_Backend
      *  @access public
      *  @return object  Ethna_AppManager    マネージャオブジェクト
      */
-    function &getManager($type)
+    function &getManager($type, $weak = false)
     {
-        if (isset($this->manager[$type])) {
-            return $this->manager[$type];
-        }
-        return null;
+        $_ret_object = $this->class_factory->getManager($type, $weak);
+        return $_ret_object;
+    }
+
+    /**
+     *  オブジェクトへのアクセサ(R)
+     *
+     *  @access public
+     *  @return mixed   $keyに対応するオブジェクト(or null)
+     */
+    function &getObject($key, $weak = false)
+    {
+        $_ret_object = $this->class_factory->getObject($key, $weak);
+        return $_ret_object;
     }
 
     /**

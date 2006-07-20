@@ -81,12 +81,6 @@ class Ethna_ViewClass
 
         $this->session =& $this->backend->getSession();
 
-        // Ethna_AppManagerオブジェクトの設定
-        $manager_list = $c->getManagerList();
-        foreach ($manager_list as $k => $v) {
-            $this->$k =& $backend->getManager($v);
-        }
-
         $this->forward_name = $forward_name;
         $this->forward_path = $forward_path;
 
@@ -120,9 +114,9 @@ class Ethna_ViewClass
      */
     function forward()
     {
-        $engine =& $this->_getTemplateEngine();
-        $this->_setDefault($engine);
-        $engine->perform($this->forward_path);
+        $renderer =& $this->_getRenderer();
+        $this->_setDefault($renderer);
+        $renderer->perform($this->forward_path);
     }
 
     /**
@@ -399,15 +393,28 @@ class Ethna_ViewClass
     }
 
     /**
-     *  Smartyオブジェクトを取得する
+     *  レンダラオブジェクトを取得する
      *
      *  @access protected
-     *  @return object  Smarty  Smartyオブジェクト
+     *  @return object  Ethna_Renderer  レンダラオブジェクト
+     */
+    function &_getRenderer()
+    {
+        $_ret_object =& $this->_getTemplateEngine();
+        return $_ret_object;
+    }
+
+    /**
+     *  レンダラオブジェクトを取得する(そのうち_getRenderer()に統合される予定)
+     *
+     *  @access protected
+     *  @return object  Ethna_Renderer  レンダラオブジェクト
+     *  @obsolete
      */
     function &_getTemplateEngine()
     {
         $c =& $this->backend->getController();
-        $renderer =& $c->getTemplateEngine();
+        $renderer =& $c->getRenderer();
 
         $form_array =& $this->af->getArray();
         $app_array =& $this->af->getAppArray();
@@ -431,9 +438,9 @@ class Ethna_ViewClass
      *  共通値を設定する
      *
      *  @access protected
-     *  @param  object  テンプレートエンジン
+     *  @param  object  Ethna_Renderer  レンダラオブジェクト
      */
-    function _setDefault(&$engine)
+    function _setDefault(&$renderer)
     {
     }
 }
