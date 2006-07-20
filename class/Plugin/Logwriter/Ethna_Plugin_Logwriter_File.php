@@ -26,7 +26,7 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     /** @var    int     ログファイルハンドル */
     var $fp;
 
-    /** @var    int     ログファイルパーミッション
+    /** @var    int     ログファイルパーミッション */
     var $mode = 0666;
 
     /**#@-*/
