@@ -116,8 +116,10 @@ class Ethna_ClassFactory
      */
     function &getObject($key, $weak = false)
     {
+        $obj = null;
+
         if (isset($this->class[$key]) == false) {
-            return null;
+            return $obj;
         }
         $class_name = $this->class[$key];
 
