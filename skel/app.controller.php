@@ -239,24 +239,12 @@ class {$project_id}_Controller extends Ethna_Controller
 	 *	遷移時のデフォルトマクロを設定する
 	 *
 	 *	@access	protected
-	 *	@param	object	Smarty	$smarty	テンプレートエンジンオブジェクト
+	 *	@param	object	Ethna_Renderer  レンダラオブジェクト
+     *  @obsolete
 	 */
-	function _setDefaultTemplateEngine(&$smarty)
+	function _setDefaultTemplateEngine(&$renderer)
 	{
-		/*
-		 *	TODO: ここでテンプレートエンジンの初期設定や
-		 *  全てのビューに共通なテンプレート変数を設定します
-		 *
-		 *	記述例：
-		 * $smarty->assign_by_ref('session_name', session_name());
-		 * $smarty->assign_by_ref('session_id', session_id());
-		 *
-		 * // ログインフラグ(true/false)
-		 * $session =& $this->getClassFactory('session');
-		 * if ($session && $this->session->isStart()) {
-		 * 	$smarty->assign_by_ref('login', $session->isStart());
-		 * }
-		 */
+        // 可能であればビューの基底クラスを利用してください
 	}
 }
 ?>
