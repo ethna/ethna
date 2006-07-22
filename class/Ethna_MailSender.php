@@ -85,12 +85,12 @@ class Ethna_MailSender
     {
         // コンテンツ作成
         if ($type !== MAILSENDER_TYPE_DIRECT) {
-            $smarty =& $this->getTemplateEngine();
+            $renderer =& $this->getTemplateEngine();
 
             // 基本情報設定
-            $smarty->assign("env_datetime", strftime('%Y年%m月%d日 %H時%M分%S秒'));
-            $smarty->assign("env_useragent", $_SERVER["HTTP_USER_AGENT"]);
-            $smarty->assign("env_remoteaddr", $_SERVER["REMOTE_ADDR"]);
+            $renderer->setProp("env_datetime", strftime('%Y年%m月%d日 %H時%M分%S秒'));
+            $renderer->setProp("env_useragent", $_SERVER["HTTP_USER_AGENT"]);
+            $renderer->setProp("env_remoteaddr", $_SERVER["REMOTE_ADDR"]);
 
             // デフォルトマクロ設定
             $macro = $this->_setDefaultMacro($macro);
@@ -98,13 +98,13 @@ class Ethna_MailSender
             // ユーザ定義情報設定
             if (is_array($macro)) {
                 foreach ($macro as $key => $value) {
-                    $smarty->assign($key, $value);
+                    $renderer->setProp($key, $value);
                 }
             }
 
             $template = $this->def[$type];
             ob_start();
-            $smarty->display(sprintf('%s/%s', $this->mail_dir, $template));
+            $renderer->display(sprintf('%s/%s', $this->mail_dir, $template));
             $mail = ob_get_contents();
             ob_end_clean();
         } else {
@@ -216,15 +216,28 @@ class Ethna_MailSender
     }
 
     /**
-     *  メール用テンプレートエンジン取得する
+     *  メールフォーマット用レンダラオブジェクト取得する
      *
      *  @access public
-     *  @return object  Smarty  テンプレートエンジンオブジェクト
+     *  @return object  Ethna_Renderer  レンダラオブジェクト
+     */
+    function &getRenderer()
+    {
+        $_ret_object =& $this->getTemplateEngine();
+        return $_ret_object;
+    }
+
+    /**
+     *  メールフォーマット用レンダラオブジェクト取得する
+     *
+     *  @access public
+     *  @return object  Ethna_Renderer  レンダラオブジェクト
      */
     function &getTemplateEngine()
     {
-        $ctl =& $this->backend->getController();
-        return $ctl->getTemplateEngine();
+        $c =& $this->backend->getController();
+        $renderer =& $c->getRenderer();
+        return $renderer;
     }
 }
 // }}}

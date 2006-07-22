@@ -94,12 +94,15 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function perform($template)
+    function perform($template = null)
     {
-        if ($template == NULL) {
-            return Ethna::raiseWarning('error test.');
+        if ($template == null && $this->template == null) {
+            return Ethna::raiseWarning('template is not defined');
         }
-        $this->template = $template;
+
+        if ($template != null) {
+            $this->template = $template;
+        }
 
         if ((is_absolute_path($this->template) && is_readable($this->template))
             || is_readable($this->template_dir . $this->template)) {

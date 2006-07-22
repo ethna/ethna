@@ -275,6 +275,15 @@ class Ethna_Renderer
         $this->setPropByRef($name, $value);
     }
 
+    /**
+     *  ビューを出力する
+     *
+     *  @access public
+     */
+    function display($template = null)
+    {
+        return $this->perform($template);
+    }
     // }}}
 }
 // }}}
