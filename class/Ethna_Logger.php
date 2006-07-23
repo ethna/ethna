@@ -285,8 +285,8 @@ class Ethna_Logger extends Ethna_AppManager
             }
         }
 
-        foreach ($this->writer as $writer) {
-            $writer->begin();
+        foreach (array_keys($this->writer) as $key) {
+            $this->writer[$key]->begin();
         }
         
         $this->is_begin = true;
@@ -323,18 +323,18 @@ class Ethna_Logger extends Ethna_AppManager
             return;
         }
 
-        foreach ($this->writer as $f => $writer) {
+        foreach (array_keys($this->writer) as $key) {
             // ログメッセージフィルタ(レベルフィルタに優先する)
-            $r = $this->_evalMessageMask($this->message_filter_do[$f], $message);
+            $r = $this->_evalMessageMask($this->message_filter_do[$key], $message);
             if (is_null($r)) {
-                $r = $this->_evalMessageMask($this->message_filter_ignore[$f], $message);
+                $r = $this->_evalMessageMask($this->message_filter_ignore[$key], $message);
                 if ($r) {
                     continue;
                 }
             }
 
             // ログレベルフィルタ
-            if ($this->_evalLevelMask($this->level[$f], $level)) {
+            if ($this->_evalLevelMask($this->level[$key], $level)) {
                 continue;
             }
 
@@ -344,7 +344,7 @@ class Ethna_Logger extends Ethna_AppManager
                 array_splice($args, 0, 2);
                 $message = vsprintf($message, $args);
             }
-            $output = $writer->log($level, $message);
+            $output = $this->writer[$key]->log($level, $message);
         }
 
         // アラート処理
@@ -362,8 +362,8 @@ class Ethna_Logger extends Ethna_AppManager
      */
     function end()
     {
-        foreach ($this->writer as $writer) {
-            $writer->end();
+        foreach (array_keys($this->writer) as $key) {
+            $this->writer[$key]->end();
         }
 
         $this->is_begin = false;
