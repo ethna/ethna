@@ -59,6 +59,9 @@ class Ethna_Backend
     /** @var    object  Ethna_Session       セッションオブジェクト */
     var $session;
 
+    /** @var    object  Ethna_Plugin        プラグインオブジェクト */
+    var $plugin;
+
     /** @var    array   Ethna_DBオブジェクトを格納した配列 */
     var $db_list;
 
@@ -93,6 +96,7 @@ class Ethna_Backend
         $this->ac =& $this->action_class;
 
         $this->session =& $this->controller->getSession();
+        $this->plugin =& $this->controller->getPlugin();
         $this->db_list = array();
         $this->logger =& $this->controller->getLogger();
     }
@@ -216,6 +220,17 @@ class Ethna_Backend
     function &getSession()
     {
         return $this->session;
+    }
+
+    /**
+     *  プラグインオブジェクトのアクセサ(R)
+     *
+     *  @access public
+     *  @return object  Ethna_Plugin    プラグインオブジェクト
+     */
+    function &getPlugin()
+    {
+        return $this->plugin;
     }
 
     /**

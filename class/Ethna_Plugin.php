@@ -109,7 +109,7 @@ class Ethna_Plugin
 
             // プラグインの親クラスを(存在すれば)読み込み
             list($class, $dir, $file) = $this->_getPluginNaming($type, null, 'Ethna');
-            $this->_includePluginSrc($class, $dir, $file);
+            $this->_includePluginSrc($class, $dir, $file, false);
         }
 
         // key がないときはプラグインをロードする
@@ -236,9 +236,10 @@ class Ethna_Plugin
      *  @param  string  $type   プラグインの種類
      *  @param  string  $name   プラグインの名前
      *  @param  string  $appid  アプリケーションID
+     *  @param  bool    $strict エラー抑制フラグ
      *  @return true|Ethna_Error
      */
-    function &_includePluginSrc($class, $dir, $file)
+    function &_includePluginSrc($class, $dir, $file, $strict = true)
     {
         $true = true;
         if (file_exists("{$dir}/{$file}")) {
@@ -250,8 +251,11 @@ class Ethna_Plugin
                 return Ethna::raiseWarning('plugin class [%s] is not defined', E_PLUGIN_NOTFOUND, $class);
             }
         } else {
-            return Ethna::raiseWarning('plugin file is not found: [%s]', E_PLUGIN_NOTFOUND, "{$dir}/{$file}");
+            if ($strict == true) {
+                return Ethna::raiseWarning('plugin file is not found: [%s]', E_PLUGIN_NOTFOUND, "{$dir}/{$file}");
+            }
         }
+        return $true;
     }
 
     /**

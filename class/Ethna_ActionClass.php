@@ -47,6 +47,9 @@ class Ethna_ActionClass
     /** @var    object  Ethna_Session       セッションオブジェクト */
     var $session;
 
+    /** @var    object  Ethna_Plugin        プラグインオブジェクト */
+    var $plugin;
+
     /**#@-*/
 
     /**
@@ -69,6 +72,7 @@ class Ethna_ActionClass
         $this->af =& $this->action_form;
 
         $this->session =& $this->backend->getSession();
+        $this->plugin =& $this->backend->getPlugin();
     }
 
     /**
