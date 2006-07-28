@@ -154,7 +154,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
     }
     //}}}
 
-    //{{{ query()
+    //{{{ query
     /**
      *  クエリを発行する
      *
@@ -178,7 +178,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      */
     function &_query($query, $inputarr = false)
     {
-        $this->logger->log(LOG_DEBUG, "$query");
+        $this->logger->log(LOG_DEBUG, $query);
         $r =& $this->db->execute($query, $inputarr);
 
         if ($r === false) {
@@ -188,6 +188,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
             return $error;
 
         }
+
         return $r;
     }
     //}}}
@@ -219,7 +220,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
     }
     //}}}
 
-    //{{{ autoExecute()
+    //{{{ autoExecute
     function autoExecute($table, $fields, $mode, $where = false, $forceUpdate = true, $magicq = false)
     {
         return $this->db->AutoExecute($table, $fields, $mode, $where, $forceUpdate, $magicq);

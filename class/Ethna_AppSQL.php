@@ -103,7 +103,7 @@ class Ethna_AppSQL
      *
      *  @access public
      *  @param  string  $field      ¸¡º÷ÂÐ¾Ý¤Î¥Õ¥£¡¼¥ë¥É
-     *  @param  string  $value      ¸¡º÷ÃÍ
+     *  @param  mixed   $value      ¸¡º÷ÃÍ
      *  @param  int     $condition  ¸¡º÷¾ò·ï(OBJECT_CONDITION_NE,...)
      *  @return string  ¸¡º÷¾ò·ïÊ¸
      *  @static
