@@ -109,7 +109,7 @@ class Ethna_Plugin
 
             // プラグインの親クラスを(存在すれば)読み込み
             list($class, $dir, $file) = $this->_getPluginNaming($type, null, 'Ethna');
-            $this->_includePluginSrc($class, $dir, $file, false);
+            $this->_includePluginSrc($class, $dir, $file, true);
         }
 
         // key がないときはプラグインをロードする
@@ -233,27 +233,36 @@ class Ethna_Plugin
      *  プラグインのソースを include_once する
      *
      *  @access private
-     *  @param  string  $type   プラグインの種類
-     *  @param  string  $name   プラグインの名前
-     *  @param  string  $appid  アプリケーションID
-     *  @param  bool    $strict エラー抑制フラグ
+     *  @param  string  $class  クラス名
+     *  @param  string  $dir    ディレクトリ名
+     *  @param  string  $file   ファイル名
+     *  @param  bool    $parent 親クラスかどうかのフラグ
      *  @return true|Ethna_Error
      */
-    function &_includePluginSrc($class, $dir, $file, $strict = true)
+    function &_includePluginSrc($class, $dir, $file, $parent = false)
     {
         $true = true;
-        if (file_exists("{$dir}/{$file}")) {
-            include_once "{$dir}/{$file}";
-            if (class_exists($class)) {
-                $this->logger->log(LOG_DEBUG, 'plugin class [%s] is defined', $class);
-                return $true;
-            } else {
-                return Ethna::raiseWarning('plugin class [%s] is not defined', E_PLUGIN_NOTFOUND, $class);
-            }
-        } else {
-            if ($strict == true) {
+
+        if (file_exists("{$dir}/{$file}") === false) {
+            if ($parent === false) {
                 return Ethna::raiseWarning('plugin file is not found: [%s]', E_PLUGIN_NOTFOUND, "{$dir}/{$file}");
+            } else {
+                return $true;
             }
+        }
+
+        include_once "{$dir}/{$file}";
+
+        if (class_exists($class) === false) {
+            if ($parent === false) {
+                return Ethna::raiseWarning('plugin class [%s] is not defined', E_PLUGIN_NOTFOUND, $class);
+            } else {
+                return $true;
+            }
+        }
+
+        if ($parent === false) {
+            $this->logger->log(LOG_DEBUG, 'plugin class [%s] is defined', $class);
         }
         return $true;
     }
