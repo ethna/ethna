@@ -84,6 +84,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
         printf($format, $php_errno, $errstr, $errfile, $errline);
     }
 }
+set_error_handler("ethna_error_handler");
 // }}}
 
 // {{{ Ethna_Logger
@@ -223,8 +224,6 @@ class Ethna_Logger extends Ethna_AppManager
         // アラートオプション
         $this->alert_level = $this->_parseLogLevel($config->get('log_alert_level'));
         $this->alert_mailaddress = preg_split('/\s*,\s*/', $config->get('log_alert_mailaddress'));
-
-        set_error_handler("ethna_error_handler");
     }
 
     /**

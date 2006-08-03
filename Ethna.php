@@ -382,6 +382,17 @@ class Ethna extends PEAR
     }
 
     /**
+     *  エラー発生時の(フレームワークとしての)コールバック関数をクリアする
+     *
+     *  @access public
+     *  @static
+     */
+    function clearErrorCallback()
+    {
+        $GLOBALS['_Ethna_error_callback_list'] = array();
+    }
+
+    /**
      *  エラー発生時の処理を行う(コールバック関数/メソッドを呼び出す)
      *  
      *  @access public
