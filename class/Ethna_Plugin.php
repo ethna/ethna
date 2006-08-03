@@ -108,7 +108,7 @@ class Ethna_Plugin
             $this->obj_registry[$type] = array();
 
             // プラグインの親クラスを(存在すれば)読み込み
-            list($class, $dir, $file) = $this->_getPluginNaming($type, null, 'Ethna');
+            list($class, $dir, $file) = $this->getPluginNaming($type, null, 'Ethna');
             $this->_includePluginSrc($class, $dir, $file, true);
         }
 
@@ -203,13 +203,13 @@ class Ethna_Plugin
     /**
      *  プラグインのクラス名、ディレクトリ、ファイル名を決定
      *
-     *  @access private
+     *  @access public
      *  @param  string  $type   プラグインの種類
      *  @param  string  $name   プラグインの名前 (nullのときは親クラス)
      *  @param  string  $appid  アプリケーションID
      *  @return array   プラグインのクラス名、ディレクトリ、ファイル名の配列
      */
-    function _getPluginNaming($type, $name, $appid)
+    function getPluginNaming($type, $name, $appid)
     {
         if ($name == null) {
             $ext = 'php';
@@ -280,7 +280,7 @@ class Ethna_Plugin
         $appid_list = array($this->controller->getAppId(), 'Ethna');
 
         foreach ($appid_list as $appid) {
-            list($class, $dir, $file) = $this->_getPluginNaming($type, $name, $appid);
+            list($class, $dir, $file) = $this->getPluginNaming($type, $name, $appid);
             if (file_exists("{$dir}/{$file}")) {
                 $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s]', "{$dir}/{$file}");
                 $this->src_registry[$type][$name] = array($class, $dir, $file);
@@ -311,7 +311,7 @@ class Ethna_Plugin
         $name_list = array();
 
         foreach ($appid_list as $appid) {
-            list($class_regexp, $dir, $file_regexp) = $this->_getPluginNaming($type, '([^_]+)', $appid);
+            list($class_regexp, $dir, $file_regexp) = $this->getPluginNaming($type, '([^_]+)', $appid);
 
             //ディレクトリの存在のチェック
             if (is_dir($dir) == false) {
@@ -378,7 +378,7 @@ class Ethna_Plugin
         if ($appid == null) {
             $appid = $ctl->getAppId();
         }
-        list($class, $dir, $file) = $plugin->_getPluginNaming($type, $name, $appid);
+        list($class, $dir, $file) = $plugin->getPluginNaming($type, $name, $appid);
         $plugin->_includePluginSrc($class, $dir, $file);
     }
     // }}}
