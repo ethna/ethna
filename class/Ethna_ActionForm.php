@@ -577,8 +577,10 @@ class Ethna_ActionForm
                 $r =& $v->validate($form_name, $form_vars, $plugin[$name]);
 
                 // エラー処理
-                if (Ethna::isError($r)) {
-                    $this->ae->addObject($form_name, $r);
+                if ($r !== true) {
+                    if (Ethna::isError($r)) {
+                        $this->ae->addObject($form_name, $r);
+                    }
                     if ($break) {
                         break;
                     }

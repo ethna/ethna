@@ -33,6 +33,7 @@ class Ethna_Plugin_Validator_Custom extends Ethna_Plugin_Validator
     function &validate($name, $var, $params)
     {
         $true = true;
+        $false = false;
 
         $method_list = preg_split('/\s*,\s*/', $params['custom'], -1, PREG_SPLIT_NO_EMPTY);
         if (is_array($method_list) == false) {
@@ -43,7 +44,9 @@ class Ethna_Plugin_Validator_Custom extends Ethna_Plugin_Validator
             if (method_exists($this->af, $method)) {
                 $ret =& $this->af->$method($name);
                 if (Ethna::isError($ret)) {
-                   return $ret;
+                    // このエラーはすでに af::checkSomething() で ae::add()
+                    // してある
+                    return $false;
                 }
             }
         }
