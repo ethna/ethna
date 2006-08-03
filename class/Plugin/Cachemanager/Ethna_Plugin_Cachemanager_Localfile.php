@@ -43,8 +43,8 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
 
         // ライフタイムチェック
         clearstatcache();
-        $st = @stat($cache_file);
-        if ($st == false) {
+        if (is_readable($cache_file) === false
+            || ($st = stat($cache_file)) === false) {
             return PEAR::raiseError('fopen failed', E_CACHE_NO_VALUE);
         }
         if (is_null($lifetime) == false) {
@@ -75,7 +75,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         $n = 0;
         while ($st[7] == 0) {
             clearstatcache();
-            $st = @stat($cache_file);
+            $st = stat($cache_file);
             usleep(1000*1);
             $n++;
             if ($n > 5) {
@@ -107,8 +107,8 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         $cache_file = $this->_getCacheFile($namespace, $key);
 
         clearstatcache();
-        $st = @stat($cache_file);
-        if ($st == false) {
+        if (is_readable($cache_file) === false
+            || ($st = stat($cache_file)) === false) {
             return PEAR::raiseError('fopen failed', E_CACHE_NO_VALUE);
         }
         return $st[9];
@@ -129,8 +129,8 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
 
         // ライフタイムチェック
         clearstatcache();
-        $st = @stat($cache_file);
-        if ($st == false) {
+        if (is_readable($cache_file) === false
+            || ($st = stat($cache_file)) === false) {
             return false;
         }
         if (is_null($lifetime) == false) {
@@ -164,7 +164,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
             $tmp = dirname($tmp);
         }
         foreach ($dir_list as $tmp) {
-            $r = @mkdir($tmp);
+            $r = mkdir($tmp);
             if ($r == false && is_dir($tmp) == false) {
                 $message = sprintf('mkdir(%s) failed', $tmp);
                 trigger_error($message, E_USER_WARNING);

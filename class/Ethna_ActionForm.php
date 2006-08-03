@@ -1018,7 +1018,7 @@ class Ethna_ActionForm
             }
         } else if ($type == VAR_TYPE_FILE) {
             if (!is_null($def['min'])) {
-                $st = @stat($var['tmp_name']);
+                $st = stat($var['tmp_name']);
                 if ($st[7] < $def['min'] * 1024) {
                     if ($test == false) {
                         $this->handleError($name, E_FORM_MIN_FILE);
@@ -1063,7 +1063,7 @@ class Ethna_ActionForm
             }
         } else if ($type == VAR_TYPE_FILE) {
             if (!is_null($def['max'])) {
-                $st = @stat($var['tmp_name']);
+                $st = stat($var['tmp_name']);
                 if ($st[7] > $def['max'] * 1024) {
                     if ($test == false) {
                         $this->handleError($name, E_FORM_MAX_FILE);

@@ -605,7 +605,7 @@ class Ethna_Util
             while (($file = readdir($dh)) !== false) {
                 if (strncmp($file, $prefix, strlen($prefix)) == 0) {
                     $f = $c->getDirectory('tmp') . "/" . $file;
-                    $st = @stat($f);
+                    $st = stat($f);
                     if ($st[9] + $timeout < time()) {
                         unlink($f);
                     }
@@ -626,7 +626,10 @@ class Ethna_Util
      */
     function lockFile($file, $mode, $timeout = 0)
     {
-        $lh = @fopen($file, 'r');
+        if (is_readable($file) === false) {
+            return false;
+        }
+        $lh = fopen($file, 'r');
         if ($lh == null) {
             return false;
         }

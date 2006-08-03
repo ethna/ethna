@@ -75,7 +75,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                 break;
 
             case VAR_TYPE_FILE:
-                $st = @stat($var['tmp_name']);
+                $st = stat($var['tmp_name']);
                 if ($st[7] < $params['min'] * 1024) {
                     if (isset($params['error'])) {
                         $msg = $params['error'];

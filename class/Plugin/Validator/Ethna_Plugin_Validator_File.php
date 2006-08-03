@@ -110,7 +110,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
 
         // size ¤Î¸¡ºº
         if (isset($params['size_max'])) {
-            $st = @stat($var['tmp_name']);
+            $st = stat($var['tmp_name']);
             if ($st[7] > $this->_getSizeAsBytes($params['size_max'])) {
                 if (isset($params['error'])) {
                     $msg = $params['error'];
@@ -121,7 +121,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
             }
         }
         if (isset($params['size_min'])) {
-            $st = @stat($var['tmp_name']);
+            $st = stat($var['tmp_name']);
             if ($st[7] < $this->_getSizeAsBytes($params['size_min'])) {
                 if (isset($params['error'])) {
                     $msg = $params['error'];
