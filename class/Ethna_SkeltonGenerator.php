@@ -155,14 +155,11 @@ class Ethna_SkeltonGenerator
      */
     function generateActionSkelton($action_name, $app_dir, $gateway = GATEWAY_WWW)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $action_dir = $c->getActiondir($gateway);
         $action_class = $c->getDefaultActionClass($action_name, $gateway);
@@ -179,7 +176,7 @@ class Ethna_SkeltonGenerator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        $this->_mkdir(dirname("$action_dir$action_path"), 0755);
+        Ethna_Handle::mkdir(dirname("$action_dir$action_path"), 0755);
 
         switch ($gateway) {
         case GATEWAY_WWW:
@@ -212,14 +209,11 @@ class Ethna_SkeltonGenerator
      */
     function generateViewSkelton($forward_name, $app_dir)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $view_dir = $c->getViewdir();
         $view_class = $c->getDefaultViewClass($forward_name, false);
@@ -234,7 +228,7 @@ class Ethna_SkeltonGenerator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        $this->_mkdir(dirname("$view_dir/$view_path"), 0755);
+        Ethna_Handle::mkdir(dirname("$view_dir/$view_path"), 0755);
 
         if (file_exists("$view_dir$view_path")) {
             printf("file [%s] already exists -> skip\n", "$view_dir$view_path");
@@ -255,14 +249,11 @@ class Ethna_SkeltonGenerator
      */
     function generateCliSkelton($action_name, $app_dir)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $app_dir = $c->getDirectory('app');
         $bin_dir = $c->getDirectory('bin');
@@ -296,14 +287,11 @@ class Ethna_SkeltonGenerator
      */
     function generateTemplateSkelton($forward_name, $app_dir)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $tpl_dir = $c->getTemplatedir();
         if ($tpl_dir{strlen($tpl_dir)-1} != '/') {
@@ -315,7 +303,7 @@ class Ethna_SkeltonGenerator
         // add '_' for tpl and no user macro for tpl
         $macro['_project_id'] = $c->getAppId();
 
-        $this->_mkdir(dirname("$tpl_dir/$tpl_path"), 0755);
+        Ethna_Handle::mkdir(dirname("$tpl_dir/$tpl_path"), 0755);
 
         if (file_exists("$tpl_dir$tpl_path")) {
             printf("file [%s] already exists -> skip\n", "$tpl_dir$tpl_path");
@@ -336,14 +324,11 @@ class Ethna_SkeltonGenerator
      */
     function generateAppObjectSkelton($table_name, $app_dir)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $table_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($table_name));
 
@@ -359,7 +344,7 @@ class Ethna_SkeltonGenerator
         $macro = array_merge($macro, $user_macro);
 
         $path = "$app_dir/$app_path";
-        $this->_mkdir(dirname($path), 0755);
+        Ethna_Handle::mkdir(dirname($path), 0755);
         if (file_exists($path)) {
             printf("file [%s] already exists -> skip\n", $path);
         } else if ($this->_generateFile("skel.app_object.php", $path, $macro) == false) {
@@ -379,14 +364,11 @@ class Ethna_SkeltonGenerator
      */
     function generateAppManagerSkelton($manager_name, $app_dir)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $manager_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($manager_name));
 
@@ -402,7 +384,7 @@ class Ethna_SkeltonGenerator
         $macro = array_merge($macro, $user_macro);
 
         $path = "$app_dir/$app_path";
-        $this->_mkdir(dirname($path), 0755);
+        Ethna_Handle::mkdir(dirname($path), 0755);
         if (file_exists($path)) {
             printf("file [%s] already exists -> skip\n", $path);
         } else if ($this->_generateFile("skel.app_manager.php", $path, $macro) == false) {
@@ -422,14 +404,11 @@ class Ethna_SkeltonGenerator
      */
     function generateActionTestSkelton($action_name, $app_dir, $gateway = GATEWAY_WWW)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $action_dir = $c->getActiondir($gateway);
         $action_class = $c->getDefaultActionClass($action_name, false);
@@ -446,7 +425,7 @@ class Ethna_SkeltonGenerator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        $this->_mkdir(dirname("$action_dir$action_path"), 0755);
+        Ethna_Handle::mkdir(dirname("$action_dir$action_path"), 0755);
 
         if (file_exists("$action_dir$action_path")) {
             printf("file [%s] aleady exists -> skip\n", "$action_dir$action_path");
@@ -466,14 +445,11 @@ class Ethna_SkeltonGenerator
      */
     function generateViewTestSkelton($forward_name, $app_dir)
     {
-        // discover controller
-        $controller_class = $this->_discoverController($app_dir);
-        if (Ethna::isError($controller_class)) {
-            return $controller_class;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
-
-        $c =& new $controller_class;
-        $c->setGateway(GATEWAY_CLI);
 
         $view_dir = $c->getViewdir();
         $view_class = $c->getDefaultViewClass($forward_name, false);
@@ -488,7 +464,7 @@ class Ethna_SkeltonGenerator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        $this->_mkdir(dirname("$view_dir/$view_path"), 0755);
+        Ethna_Handle::mkdir(dirname("$view_dir/$view_path"), 0755);
 
         if (file_exists("$view_dir$view_path")) {
             printf("file [%s] aleady exists -> skip\n", "$view_dir$view_path");
@@ -500,28 +476,73 @@ class Ethna_SkeltonGenerator
     }
 
     /**
-     *  mkdir -p
+     *  プラグインを生成する
      *
-     *  @access private
-     *  @param  string  $dir    作成するディレクトリ
-     *  @param  int     $mode   パーミッション
+     *  @access public
+     *  @param  string  $type       プラグインの$type
+     *  @param  string  $name       プラグインの$name
      *  @return bool    true:成功 false:失敗
      */
-    function _mkdir($dir, $mode)
+    function generatePlugin($type, $name, $app_dir)
     {
-        if (@is_dir($dir)) {
-            return true;
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
         }
+        $appid = $c->getAppId();
+        $plugin =& $c->getPlugin();
 
-        $parent = dirname($dir);
-        if ($dir == $parent) {
-            return true;
-        }
-        if (is_dir($parent) == false) {
-            $this->_mkdir($parent, $mode);
-        }
+        list($class, $plugin_dir, $plugin_path) = $plugin->getPluginNaming($type, $name, $appid);
 
-        return mkdir($dir, $mode);
+        $macro = array();
+        $macro['project_id'] = $appid;
+        $user_macro = $this->_getUserMacro();
+        $macro = array_merge($macro, $user_macro);
+
+        Ethna_Handle::mkdir(dirname("$plugin_dir/$plugin_path"), 0755);
+
+        if (file_exists("$plugin_dir/$plugin_path")) {
+            printf("file [%s] already exists -> skip\n", "$plugin_dir/$plugin_path");
+        } else if ($this->_generateFile("skel.plugin.{$type}_{$name}.php", "$plugin_dir/$plugin_path", $macro) == false) {
+            printf("[warning] file creation failed [%s]\n", "$plugin_dir/$plugin_path");
+        } else {
+            printf("plugin script(s) successfully created [%s]\n", "$plugin_dir/$plugin_path");
+        }
+    }
+
+    /**
+     *  プラグインを消す
+     *  TODO: もっといい方針を考える
+     *
+     *  @access public
+     *  @param  string  $type       プラグインの$type
+     *  @param  string  $name       プラグインの$name
+     *  @return bool    true:成功 false:失敗
+     */
+    function deletePlugin($type, $name, $app_dir)
+    {
+        // get application controller
+        $c =& Ethna_Handle::getAppController($app_dir);
+        if (Ethna::isError($c)) {
+            return $c;
+        }
+        $appid = $c->getAppId();
+        $plugin =& $c->getPlugin();
+
+        list($class, $plugin_dir, $plugin_path) = $plugin->getPluginNaming($type, $name, $appid);
+
+        $macro = array();
+        $macro['project_id'] = $appid;
+        $user_macro = $this->_getUserMacro();
+        $macro = array_merge($macro, $user_macro);
+
+        if (file_exists("$plugin_dir/$plugin_path")) {
+            unlink("$plugin_dir/$plugin_path");
+            printf("file [%s] successfully unlinked\n", "$plugin_dir/$plugin_path");
+        } else {
+            printf("file [%s] not found\n", "$plugin_dir/$plugin_path");
+        }
     }
 
     /**
@@ -609,46 +630,6 @@ class Ethna_SkeltonGenerator
 
         $user_macro = parse_ini_file("$home/.ethna");
         return $user_macro;
-    }
-
-    /**
-     *  コントローラファイル/クラスを検索する
-     *
-     *  @access private
-     */
-    function _discoverController($app_dir)
-    {
-        $ini_file = null;
-        while (is_dir($app_dir) && $app_dir != "/") {
-            if (is_file("$app_dir/.ethna")) {
-                $ini_file = "$app_dir/.ethna";
-                break;
-            }
-            $app_dir = dirname($app_dir);
-        }
-
-        if ($ini_file === null) {
-            return Ethna::raiseError('no .ethna file found');
-        }
-        
-        $macro = parse_ini_file($ini_file);
-        if (isset($macro['controller_file']) == false || isset($macro['controller_class']) == false) {
-            return Ethna::raiseError('invalid .ethna file');
-        }
-        $file = $macro['controller_file'];
-        $class = $macro['controller_class'];
-
-        $controller_file = "$app_dir/$file";
-        if (is_file($controller_file) == false) {
-            return Ethna::raiseError("no such file $controller_file");
-        }
-
-        include_once($controller_file);
-        if (class_exists($class) == false) {
-            return Ethna::raiseError("no such class $class");
-        }
-
-        return $class;
     }
 }
 // }}}

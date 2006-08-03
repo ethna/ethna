@@ -4,6 +4,16 @@
 
 *** features
 
+- Ethnaのパッケージシステムを追加
+-- ethna用のpear channelからプラグインのパッケージをインストールできるようになります
+-- Ethna_PearWrapper, Ethna_Plugin_Handle_{Install,Info,List,Uninstall}_Plugin_{Master,Local}を追加
+-- local: アプリケーション(プロジェクト)のディレクトリ、master: Ethna本体のあるディレクトリのイメージです
+-- PearWrapperはethnaコマンド(Handle)から呼び出されることが前提
+-- Ethna_SkeltonGeneratorにあったメソッドをEthna_Handleに移動、少し追加
+
+- エラーハンドリング方針を多少変更
+-- @演算子を使ったエラー抑制を廃止
+
 - [breaking B.C.] Ethna_ClassFactoryのリファクタリング
 -- Ethna_Backend::getObject()メソッドを追加しました
 -- これにより、Ethna_Controllerの$classメンバに
@@ -52,8 +62,13 @@
 - ethnaコマンドにアクション名、ビュー名のチェック処理を追加(Ethna_Controller::checkActionName(), Ethna_Controller::checkViewName()を追加)
 - Ethna_CacheManager_Memcache(キャッシュマネージャのmemcacheサポート)追加
 
+
 *** bug fixes
 
+- コントローラが複数あるときにset_error_handler()が何度も実行されるのを回避
+- CacheManager_Localfileの@statでのWARNINGを回避
+- Ethna_Plugin_Validator_Customでエラーが2重登録されていたのを修正
+- プラグインの親クラスがないときにエラーになっていたのを修正
 - Ethna_DB_PEAR, Ethna_AppObjectのWARNINGを回避([ethna-users:0383])
 - Windowsでホームディレクトリの.ethnaファイルが参照されない問題を修正
 - session_startしていないとrestoreメソッドがうまく動かない問題を修正
