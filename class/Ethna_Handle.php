@@ -83,6 +83,102 @@ class Ethna_Handle
     {
         return strcmp($a->getId(), $b->getId());
     }
+
+    /**
+     *  アプリケーションのコントローラファイル/クラスを検索する
+     *
+     *  @access public
+     */
+    function &getAppController($app_dir)
+    {
+        static $app_controller = null;
+
+        if ($app_controller !== null) {
+            return $app_controller;
+        }
+
+        $ini_file = null;
+        while (is_dir($app_dir) && $app_dir != "/") {
+            if (is_file("$app_dir/.ethna")) {
+                $ini_file = "$app_dir/.ethna";
+                break;
+            }
+            $app_dir = dirname($app_dir);
+        }
+
+        if ($ini_file === null) {
+            return Ethna::raiseError('no .ethna file found');
+        }
+        
+        $macro = parse_ini_file($ini_file);
+        if (isset($macro['controller_file']) == false || isset($macro['controller_class']) == false) {
+            return Ethna::raiseError('invalid .ethna file');
+        }
+        $file = $macro['controller_file'];
+        $class = $macro['controller_class'];
+
+        $controller_file = "$app_dir/$file";
+        if (is_file($controller_file) == false) {
+            return Ethna::raiseError("no such file $controller_file");
+        }
+
+        include_once($controller_file);
+        if (class_exists($class) == false) {
+            return Ethna::raiseError("no such class $class");
+        }
+
+        $app_controller =& new $class(GATEWAY_CLI);
+        return $app_controller;
+    }
+
+    /**
+     *  Ethna 本体の設定を取得する (ethnaコマンド用)
+     *
+     *  @param  $section    ini ファイルの section
+     *  @access public
+     */
+    function &getMasterSetting($section = null)
+    {
+        $ini_file = ETHNA_BASE . "/.ethna";
+        if (is_file($ini_file) == false || is_readable($ini_file) == false) {
+            return array();
+        }
+
+        $setting = parse_ini_file($ini_file, true);
+        if ($section === null) {
+            return $setting;
+        } else if (array_key_exists($section, $setting)) {
+            return $setting[$section];
+        } else {
+            return array();
+        }
+    }
+
+    /**
+     *  mkdir -p
+     *
+     *  @access public
+     *  @param  string  $dir    作成するディレクトリ
+     *  @param  int     $mode   パーミッション
+     *  @return bool    true:成功 false:失敗
+     *  @static
+     */
+    function mkdir($dir, $mode)
+    {
+        if (is_dir($dir)) {
+            return true;
+        }
+
+        $parent = dirname($dir);
+        if ($dir == $parent) {
+            return true;
+        }
+        if (is_dir($parent) == false) {
+            Ethna_Handle::mkdir($parent, $mode);
+        }
+
+        return mkdir($dir, $mode);
+    }
 }
 // }}}
 ?>
