@@ -34,7 +34,7 @@ class Ethna_Plugin_Validator_Regexp extends Ethna_Plugin_Validator
     {
         $true = true;
         $type = $this->getFormType($name);
-        if (isset($params['regex']) == false
+        if (isset($params['regexp']) == false
             || $type == VAR_TYPE_FILE || $this->isEmpty($var, $type)) {
             return $true;
         }
