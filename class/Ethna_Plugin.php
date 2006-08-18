@@ -40,6 +40,9 @@ class Ethna_Plugin
     /** @var    array   プラグインのクラス名、ソースファイル名を保存する配列 */
     var $src_registry = array();
 
+    /** @var    array       検索対象となるプラグインのアプリケーションIDのリスト */
+    var $appid_list;
+
     /**#@-*/
 
     // {{{ コンストラクタ
@@ -54,6 +57,12 @@ class Ethna_Plugin
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
         $this->logger =& $controller->getLogger();
+        if (isset($this->controller->plugin_search_appids)
+            && is_array($this->controller->plugin_search_appids)) {
+            $this->appid_list =& $this->controller->plugin_search_appids;
+        } else {
+            $this->appid_list = array($this->controller->getAppId(), 'Ethna');
+        }
     }
     // }}}
 
@@ -108,8 +117,10 @@ class Ethna_Plugin
             $this->obj_registry[$type] = array();
 
             // プラグインの親クラスを(存在すれば)読み込み
-            list($class, $dir, $file) = $this->getPluginNaming($type, null, 'Ethna');
-            $this->_includePluginSrc($class, $dir, $file, true);
+            foreach ($this->appid_list as $appid) {
+                list($class, $dir, $file) = $this->getPluginNaming($type, null, $appid);
+                $this->_includePluginSrc($class, $dir, $file, true);
+            }
         }
 
         // key がないときはプラグインをロードする
@@ -211,18 +222,26 @@ class Ethna_Plugin
      */
     function getPluginNaming($type, $name, $appid)
     {
-        if ($name == null) {
-            $ext = 'php';
-            $dir = ETHNA_BASE . "/class/Plugin";
-            $class = "Ethna_Plugin_{$type}";
-        } else if ($appid == 'Ethna') {
-            $ext = 'php';
-            $dir = ETHNA_BASE . "/class/Plugin/{$type}";
-            $class = "Ethna_Plugin_{$type}_{$name}";
+        if ($appid == 'Ethna') {
+            if ($name == null) {
+                $ext = 'php';
+                $dir = ETHNA_BASE . "/class/Plugin";
+                $class = "Ethna_Plugin_{$type}";
+            } else {
+                $ext = 'php';
+                $dir = ETHNA_BASE . "/class/Plugin/{$type}";
+                $class = "Ethna_Plugin_{$type}_{$name}";
+            }
         } else {
-            $ext = $this->controller->getExt('php');
-            $dir = $this->controller->getDirectory('plugin') . "/{$type}";
-            $class = "{$appid}_Plugin_{$type}_{$name}";
+            if ($name == null) {
+                $ext = $this->controller->getExt('php');
+                $dir = $this->controller->getDirectory('plugin');
+                $class = "{$appid}_Plugin_{$type}";
+            } else {
+                $ext = $this->controller->getExt('php');
+                $dir = $this->controller->getDirectory('plugin') . "/{$type}";
+                $class = "{$appid}_Plugin_{$type}_{$name}";
+            }
         }
 
         $file  = "{$class}.{$ext}";
@@ -276,10 +295,8 @@ class Ethna_Plugin
      */
     function _searchPluginSrc($type, $name)
     {
-        // さきにアプリケーションをさがし、見つかったらreturn
-        $appid_list = array($this->controller->getAppId(), 'Ethna');
-
-        foreach ($appid_list as $appid) {
+        // コントローラで指定されたアプリケーションIDの順に検索
+        foreach ($this->appid_list as $appid) {
             list($class, $dir, $file) = $this->getPluginNaming($type, $name, $appid);
             if (file_exists("{$dir}/{$file}")) {
                 $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s]', "{$dir}/{$file}");
@@ -306,11 +323,9 @@ class Ethna_Plugin
             $this->src_registry[$type] = array();
         }
 
-        // さきにEthna本体を調べてからアプリケーションで上書きする
-        $appid_list = array('Ethna', $this->controller->getAppId());
+        // 後で見付かったもので上書きするので $this->appid_list の逆順とする
         $name_list = array();
-
-        foreach ($appid_list as $appid) {
+        foreach (array_reverse($this->appid_list) as $appid) {
             list($class_regexp, $dir, $file_regexp) = $this->getPluginNaming($type, '([^_]+)', $appid);
 
             //ディレクトリの存在のチェック

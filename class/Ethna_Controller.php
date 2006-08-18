@@ -38,7 +38,10 @@ class Ethna_Controller
     var $dsn;
 
     /** @var    array       アプリケーションディレクトリ */
-    var $directory = array(
+    var $directory = array();
+
+    /** @var    array       アプリケーションディレクトリ(デフォルト) */
+    var $directory_default = array(
         'action'        => 'app/action',
         'action_cli'    => 'app/action_cli',
         'action_xmlrpc' => 'app/action_xmlrpc',
@@ -86,6 +89,9 @@ class Ethna_Controller
         'sql'           => 'Ethna_AppSQL',
         'view'          => 'Ethna_ViewClass',
     );
+
+    /** @var    array       検索対象となるプラグインのアプリケーションIDのリスト */
+    var $plugin_search_appids;
 
     /** @var    array       フィルタ設定 */
     var $filter = array(
@@ -191,6 +197,13 @@ class Ethna_Controller
         foreach ($this->class_default as $key => $val) {
             if (isset($this->class[$key]) == false) {
                 $this->class[$key] = $val;
+            }
+        }
+
+        // ディレクトリ設定の未定義値を補完
+        foreach ($this->directory_default as $key => $val) {
+            if (isset($this->directory[$key]) == false) {
+                $this->directory[$key] = $val;
             }
         }
 
