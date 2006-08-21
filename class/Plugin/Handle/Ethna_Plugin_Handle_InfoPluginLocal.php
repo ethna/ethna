@@ -78,9 +78,9 @@ class Ethna_Plugin_Handle_InfoPluginLocal extends Ethna_Plugin_Handle
     {
         $arg_list = array();
         if (count($this->arg_list) < 2) {
-            return Ethna::raiseError('too few argments', 'usage');
+            return Ethna::raiseError('too few arguments', 'usage');
         } else if (count($this->arg_list) > 3) {
-            return Ethna::raiseError('too many argments', 'usage');
+            return Ethna::raiseError('too many arguments', 'usage');
         } else if (count($this->arg_list) == 2) {
             $arg_list[] = $this->arg_list[0];
             $arg_list[] = $this->arg_list[1];

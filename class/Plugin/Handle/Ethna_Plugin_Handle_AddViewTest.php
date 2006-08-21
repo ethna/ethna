@@ -70,9 +70,9 @@ class Ethna_Plugin_Handle_AddViewTest extends Ethna_Plugin_Handle
     {
         $arg_list = array();
         if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few argments', 'usage');
+            return Ethna::raiseError('too few arguments', 'usage');
         } else if (count($this->arg_list) > 2) {
-            return Ethna::raiseError('too many argments', 'usage');
+            return Ethna::raiseError('too many arguments', 'usage');
         } else if (count($this->arg_list) == 1) {
             $arg_list[] = $this->arg_list[0];
             $arg_list[] = getcwd();
