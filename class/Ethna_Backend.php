@@ -241,7 +241,7 @@ class Ethna_Backend
      */
     function &getManager($type, $weak = false)
     {
-        $_ret_object = $this->class_factory->getManager($type, $weak);
+        $_ret_object =& $this->class_factory->getManager($type, $weak);
         return $_ret_object;
     }
 
@@ -251,9 +251,11 @@ class Ethna_Backend
      *  @access public
      *  @return mixed   $keyに対応するオブジェクト(or null)
      */
-    function &getObject($key, $weak = false)
+    function &getObject($key)
     {
-        $_ret_object = $this->class_factory->getObject($key, $weak);
+        $arg_list = func_get_args();
+        array_shift($arg_list);
+        $_ret_object =& $this->class_factory->getObject($key, $ext);
         return $_ret_object;
     }
 

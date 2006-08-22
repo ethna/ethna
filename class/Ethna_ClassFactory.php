@@ -107,25 +107,41 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  クラスキーに対応するオブジェクトを返す
+     *  クラスキーに対応するオブジェクトを返す/クラスキーが未定義の場合はAppObjectを探す
      *
      *  @access public
      *  @param  string  $key    クラスキー
      *  @param  bool    $weak   オブジェクトが未生成の場合の強制生成フラグ(default: false)
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &getObject($key, $weak = false)
+    function &getObject($key, $ext = false)
     {
-        $obj = null;
+        $object = null;
 
+        $ext = to_array($ext);
         if (isset($this->class[$key]) == false) {
-            return $obj;
+            // app object
+            $class_name = $this->controller->getObjectClassName($key);
+            $ext = array_pad($ext, 3, null);
+            list($key_type, $key_value, $prop) = $ext;
+        } else {
+            $class_name = $this->class[$key];
+            $ext = array_pad($ext, 1, null);
+            list($weak) = $ext;
         }
-        $class_name = $this->class[$key];
 
         // try to include if not defined
         if (class_exists($class_name) == false) {
-            $this->_include($class_name);
+            if ($this->_include($class_name) == false) {
+                return $object;
+            }
+        }
+
+        // handle app object first
+        if (isset($this->class[$key]) == false) {
+            $backend =& $this->controller->getBackend();
+            $object =& new $class_name($backend, $key_type, $key_value, $prop);
+            return $object;
         }
 
         if (isset($this->method_list[$class_name]) == false) {
@@ -145,18 +161,18 @@ class Ethna_ClassFactory
         // see if we have helper methods
         $method = sprintf('_getObject_%s', ucfirst($key));
         if (method_exists($this, $method)) {
-            $obj =& $this->$method($class_name);
+            $object =& $this->$method($class_name);
         } else if (in_array("getinstance", $this->method_list[$class_name])) {
-            $obj =& call_user_func(array($class_name, 'getInstance'));
+            $object =& call_user_func(array($class_name, 'getInstance'));
         } else {
-            $obj =& new $class_name();
+            $object =& new $class_name();
         }
 
         if (isset($this->object[$key]) == false || is_object($this->object[$key]) == false) {
-            $this->object[$key] =& $obj;
+            $this->object[$key] =& $object;
         }
 
-        return $obj;
+        return $object;
     }
 
     /**

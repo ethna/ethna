@@ -1722,12 +1722,24 @@ class Ethna_Controller
      *  マネージャクラス名を取得する
      *
      *  @access public
-     *  @param  string  $name   マネージャ名
+     *  @param  string  $name   マネージャキー
      *  @return string  マネージャクラス名
      */
     function getManagerClassName($name)
     {
         return sprintf('%s_%sManager', $this->getAppId(), ucfirst($name));
+    }
+
+    /**
+     *  アプリケーションオブジェクトクラス名を取得する
+     *
+     *  @access public
+     *  @param  string  $name   アプリケーションオブジェクトキー
+     *  @return string  マネージャクラス名
+     */
+    function getObjectClassName($name)
+    {
+        return sprintf('%s_%s', $this->getAppId(), ucfirst($name));
     }
 
     /**

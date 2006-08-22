@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_ClassFactory::getObject()でクラス定義に無いキーが渡された場合はEthna_AppObject()のキーであると仮定してオブジェクト生成
 - アプリケーションスケルトン生成時にアプリケーション固有のActionClass, ActionForm, ViewClassも生成するように変更
 - Ethna_SkeltonGeneratorクラスをEthna_Generatorクラスに名称変更
 - Ethna_SkeltonGeneratorクラスの各メソッドをプラグイン化
