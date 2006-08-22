@@ -18,7 +18,7 @@ include_once(ETHNA_BASE . '/class/Plugin/Handle/Ethna_Plugin_Handle_AddAction.ph
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Handle_AddActionXmlrpc extends Ethna_Plugin_Handle
+class Ethna_Plugin_Handle_AddActionXmlrpc extends Ethna_Plugin_Handle_AddAction
 {
     /**
      *  get handler's description
@@ -43,8 +43,8 @@ class Ethna_Plugin_Handle_AddActionXmlrpc extends Ethna_Plugin_Handle
         }
         list($action_name, $app_dir) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateActionSkelton($action_name, $app_dir, GATEWAY_XMLRPC);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('Action', $action_name, $app_dir, GATEWAY_XMLRPC);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;

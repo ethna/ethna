@@ -42,8 +42,8 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
         }
         list($app_id, $app_dir) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateProjectSkelton($app_dir, $app_id);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('Project', $app_id, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also error messages given above\n\n");
             return $r;

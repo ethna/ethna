@@ -67,8 +67,8 @@ class Ethna_Plugin_Handle_InstallPluginLocal extends Ethna_Plugin_Handle
         // generate plugin by skelton
         $ok = $pear->confirmDialog('generate a plugin from skelton? (could overwrite files already exist)');
         if ($ok) {
-            $sg =& new Ethna_SkeltonGenerator();
-            $r = $sg->generatePlugin($ctype, $cname, $app_dir);
+            $generator =& new Ethna_Generator();
+            $r = $generator->generate('Plugin', $ctype, $cname, $app_dir);
             if (Ethna::isError($r)) {
                 printf("error occurred while generating plugin. please see also following error message(s)\n\n");
                 return $r;

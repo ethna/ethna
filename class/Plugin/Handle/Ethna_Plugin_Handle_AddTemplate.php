@@ -41,8 +41,8 @@ class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle
         }
         list($template, $app_dir) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateTemplateSkelton($template, $app_dir);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('Template', $template, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;

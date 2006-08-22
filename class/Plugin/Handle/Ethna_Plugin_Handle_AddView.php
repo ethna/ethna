@@ -42,15 +42,15 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle
         }
         list($view, $app_dir, $template) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateViewSkelton($view, $app_dir);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('View', $view, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
         if ($template) {
-            $r = $sg->generateTemplateSkelton($view, $app_dir);
+            $r = $generator->generate('Template', $view, $app_dir);
             if (Ethna::isError($r)) {
                 printf("error occurred while generating skelton. please see also following error message(s)\n\n");
                 return $r;

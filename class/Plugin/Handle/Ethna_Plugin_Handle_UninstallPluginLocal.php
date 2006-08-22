@@ -68,8 +68,8 @@ class Ethna_Plugin_Handle_UninstallPluginLocal extends Ethna_Plugin_Handle
         // delete generated plugin
         $ok = $pear->confirmDialog('delete plugin generated from skelton? (could delete locally modified files)');
         if ($ok) {
-            $sg =& new Ethna_SkeltonGenerator();
-            $r = $sg->deletePlugin($ctype, $cname, $app_dir);
+            $generator =& new Ethna_Generator();
+            $r = $generator->remove('Plugin', $ctype, $cname, $app_dir);
             if (Ethna::isError($r)) {
                 printf("error occurred while deleting plugin. please see also following error message(s)\n\n");
                 return $r;

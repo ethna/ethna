@@ -57,7 +57,7 @@ include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
 include_once(ETHNA_BASE . '/class/Ethna_Logger.php');
 include_once(ETHNA_BASE . '/class/Ethna_MailSender.php');
 include_once(ETHNA_BASE . '/class/Ethna_Session.php');
-include_once(ETHNA_BASE . '/class/Ethna_SkeltonGenerator.php');
+include_once(ETHNA_BASE . '/class/Ethna_Generator.php');
 include_once(ETHNA_BASE . '/class/Ethna_SmartyPlugin.php');
 include_once(ETHNA_BASE . '/class/Ethna_Util.php');
 include_once(ETHNA_BASE . '/class/Ethna_ViewClass.php');

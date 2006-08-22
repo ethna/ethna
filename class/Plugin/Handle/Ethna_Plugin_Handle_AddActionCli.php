@@ -43,15 +43,15 @@ class Ethna_Plugin_Handle_AddActionCli extends Ethna_Plugin_Handle
         }
         list($action_name, $app_dir, $entry_point) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateActionSkelton($action_name, $app_dir, GATEWAY_CLI);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('Action', $action_name, $app_dir, GATEWAY_CLI);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
         if ($entry_point) {
-            $r = $sg->generateCliSkelton($action_name, $app_dir);
+            $r = $generator->generate('Cli', $action_name, $app_dir);
             if (Ethna::isError($r)) {
                 printf("error occurred while generating skelton. please see also following error message(s)\n\n");
                 return $r;

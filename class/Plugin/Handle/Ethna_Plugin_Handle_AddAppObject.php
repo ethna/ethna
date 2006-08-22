@@ -42,8 +42,8 @@ class Ethna_Plugin_Handle_AddAppObject extends Ethna_Plugin_Handle
         }
         list($table_name, $app_dir) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateAppObjectSkelton($table_name, $app_dir);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('AppObject', $table_name, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;

@@ -41,8 +41,8 @@ class Ethna_Plugin_Handle_AddAppManager extends Ethna_Plugin_Handle
         }
         list($app_manager_name, $app_dir) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateAppManagerSkelton($app_manager_name, $app_dir);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('AppManager', $app_manager_name, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;

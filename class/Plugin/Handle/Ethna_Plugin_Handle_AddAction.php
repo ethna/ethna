@@ -42,8 +42,8 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
         }
         list($action_name, $app_dir) = $r;
 
-        $sg =& new Ethna_SkeltonGenerator();
-        $r = $sg->generateActionSkelton($action_name, $app_dir);
+        $generator =& new Ethna_Generator();
+        $r = $generator->generate('Action', $action_name, $app_dir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
