@@ -60,8 +60,11 @@ class Ethna_Config
      *  @param  string  $key    設定項目名
      *  @return string  設定値
      */
-    function get($key)
+    function get($key = null)
     {
+        if (is_null($key)) {
+            return $this->config;
+        }
         if (isset($this->config[$key]) == false) {
             return null;
         }
