@@ -124,6 +124,9 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             $this->_generateFile("dot.ethna", "$basedir/.ethna", $macro) == false ||
             $this->_generateFile("app.controller.php", sprintf("$basedir/app/%s_Controller.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.error.php", sprintf("$basedir/app/%s_Error.php", $macro['project_id']), $macro) == false ||
+            $this->_generateFile("app.actionclass.php", sprintf("$basedir/app/%s_ActionClass.php", $macro['project_id']), $macro) == false ||
+            $this->_generateFile("app.actionform.php", sprintf("$basedir/app/%s_ActionForm.php", $macro['project_id']), $macro) == false ||
+            $this->_generateFile("app.viewclass.php", sprintf("$basedir/app/%s_ViewClass.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.action.default.php", "$basedir/app/action/Index.php", $macro) == false ||
             $this->_generateFile("app.plugin.filter.default.php", sprintf("$basedir/app/plugin/Filter/%s_Plugin_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||

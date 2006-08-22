@@ -14,7 +14,7 @@
  *	@access		public
  *	@package	{$project_id}
  */
-class {$project_id}_Form_Index extends Ethna_ActionForm
+class {$project_id}_Form_Index extends {$project_id}_ActionForm
 {
     /** @var    bool    バリデータにプラグインを使うフラグ */
     var $use_validator_plugin = false;
@@ -55,7 +55,7 @@ class {$project_id}_Form_Index extends Ethna_ActionForm
  *	@access		public
  *	@package	{$project_id}
  */
-class {$project_id}_Action_Index extends Ethna_ActionClass
+class {$project_id}_Action_Index extends {$project_id}_ActionClass
 {
 	/**
 	 *	indexアクションの前処理

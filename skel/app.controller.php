@@ -19,6 +19,9 @@ ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . implode(PATH_
 /** アプリケーションライブラリのインクルード */
 include_once('Ethna/Ethna.php');
 include_once('{$project_id}_Error.php');
+include_once('{$project_id}_ActionClass.php');
+include_once('{$project_id}_ActionForm.php');
+include_once('{$project_id}_ViewClass.php');
 
 /**
  *  {$project_id}アプリケーションのコントローラ定義
@@ -128,13 +131,13 @@ class {$project_id}_Controller extends Ethna_Controller
         'config'        => 'Ethna_Config',
         'db'            => 'Ethna_DB_PEAR',
         'error'         => 'Ethna_ActionError',
-        'form'          => 'Ethna_ActionForm',
+        'form'          => '{$project_id}_ActionForm',
         'i18n'          => 'Ethna_I18N',
         'logger'        => 'Ethna_Logger',
         'plugin'        => 'Ethna_Plugin',
         'session'       => 'Ethna_Session',
         'sql'           => 'Ethna_AppSQL',
-        'view'          => 'Ethna_ViewClass',
+        'view'          => '{$project_id}_ViewClass',
         'renderer'      => 'Ethna_Renderer_Smarty',
     );
 

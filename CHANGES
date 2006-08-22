@@ -4,6 +4,7 @@
 
 *** features
 
+- アプリケーションスケルトン生成時にアプリケーション固有のActionClass, ActionForm, ViewClassも生成するように変更
 - Ethna_SkeltonGeneratorクラスをEthna_Generatorクラスに名称変更
 - Ethna_SkeltonGeneratorクラスの各メソッドをプラグイン化
 - Ethna_Config::get()で引数を指定しないと全設定を格納した配列を返すように変更
