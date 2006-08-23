@@ -71,6 +71,7 @@
 
 *** bug fixes
 
+- アクション定義のform_pathが正しく動作していなかった問題を修正
 - コントローラが複数あるときにset_error_handler()が何度も実行されるのを回避
 - CacheManager_Localfileの@statでのWARNINGを回避
 - Ethna_Plugin_Validator_Customでエラーが2重登録されていたのを修正

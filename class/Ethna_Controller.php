@@ -834,12 +834,13 @@ class Ethna_Controller
         $this->_setLanguage($this->language, $this->system_encoding, $this->client_encoding);
 
         // オブジェクト生成
+        $backend =& $this->getBackend();
+
         $form_name = $this->getActionFormName($action_name);
         $this->action_form =& new $form_name($this);
         $this->action_form->setFormVars();
 
         // バックエンド処理実行
-        $backend =& $this->getBackend();
         $backend->setActionForm($this->action_form);
 
         $session =& $this->getSession();
@@ -1793,7 +1794,7 @@ class Ethna_Controller
         // form_path属性チェック
         if (isset($action_obj['form_path'])) {
             // フルパス指定サポート
-            $tmp_path = $action_obj['class_path'];
+            $tmp_path = $action_obj['form_path'];
             if (Ethna_Util::isAbsolute($tmp_path) == false) {
                 $tmp_path = $action_dir . $tmp_path;
             }
