@@ -88,6 +88,7 @@ class Ethna_Controller
         'session'       => 'Ethna_Session',
         'sql'           => 'Ethna_AppSQL',
         'view'          => 'Ethna_ViewClass',
+        'url_handler'   => 'Ethna_UrlHandler',
     );
 
     /** @var    array       検索対象となるプラグインのアプリケーションIDのリスト */
@@ -612,6 +613,17 @@ class Ethna_Controller
     }
 
     /**
+     *  URLハンドラオブジェクトのアクセサ
+     *
+     *  @access public
+     *  @return object  Ethna_UrlHandler    URLハンドラオブジェクト
+     */
+    function &getUrlHandler()
+    {
+        return $this->class_factory->getObject('url_handler');
+    }
+
+    /**
      *  マネージャ一覧を返す
      *
      *  @access public
@@ -1061,6 +1073,26 @@ class Ethna_Controller
     {
         if (isset($_SERVER['REQUEST_METHOD']) == false) {
             return null;
+        }
+
+        $url_handler =& $this->class_factory->getObject('url_handler');
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            $tmp_vars = $_GET;
+        } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $tmp_vars = $_POST;
+        }
+
+        if (empty($_SERVER['URL_HANDLER']) == false) {
+            $tmp_vars['__url_handler__'] = $_SERVER['URL_HANDLER'];
+            $tmp_vars['__url_info__'] = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : null;
+            $tmp_vars = $url_handler->requestToAction($tmp_vars);
+
+            if ($_SERVER['REQUEST_METHOD'] == "GET") {
+                $_GET = array_merge($_GET, $tmp_vars);
+            } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                $_POST = array_merge($_POST, $tmp_vars);
+            }
+            $_REQUEST = array_merge($_REQUEST, $tmp_vars);
         }
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {

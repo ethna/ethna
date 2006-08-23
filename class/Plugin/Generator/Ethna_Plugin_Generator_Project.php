@@ -131,6 +131,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             $this->_generateFile("app.plugin.filter.default.php", sprintf("$basedir/app/plugin/Filter/%s_Plugin_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||
             $this->_generateFile("app.unittest.php", sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']), $macro) == false ||
+            $this->_generateFile("app.url_handler.php", sprintf("$basedir/app/%s_UrlHandler.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||
             $this->_generateFile("skel.action.php", sprintf("$basedir/skel/skel.action.php"), $default_macro) == false ||
             $this->_generateFile("skel.action_cli.php", sprintf("$basedir/skel/skel.action_cli.php"), $default_macro) == false ||

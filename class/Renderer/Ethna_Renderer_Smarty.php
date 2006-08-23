@@ -82,6 +82,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->setPlugin('checkbox_list','function','smarty_function_checkbox_list');
         $this->setPlugin('form_name','function','smarty_function_form_name');
         $this->setPlugin('form_input','function','smarty_function_form_input');
+        $this->setPlugin('url','function','smarty_function_url');
         
         // default blocks
         $this->setPlugin('form','block','smarty_block_form');       

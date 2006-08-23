@@ -45,6 +45,9 @@ class Ethna_ActionForm
     /** @var    array   アプリケーション設定値(自動エスケープなし) */
     var $app_ne_vars = array();
 
+    /** @var    object  Ethna_Backend       バックエンドオブジェクト */
+    var $backend;
+
     /** @var    object  Ethna_ActionError   アクションエラーオブジェクト */
     var $action_error;
 
@@ -72,6 +75,9 @@ class Ethna_ActionForm
     /** @var    bool    追加検証強制フラグ */
     var $force_validate_plus = false;
 
+    /** @var    array   アプリケーションオブジェクト(helper) */
+    var $helper_app_object = array();
+
     /**#@-*/
 
     /**
@@ -82,6 +88,7 @@ class Ethna_ActionForm
      */
     function Ethna_ActionForm(&$controller)
     {
+        $this->backend =& $controller->getBackend();
         $this->action_error =& $controller->getActionError();
         $this->ae =& $this->action_error;
         $this->i18n =& $controller->getI18N();
@@ -95,7 +102,16 @@ class Ethna_ActionForm
         // フォーム値テンプレートの更新
         $this->form_template = $this->_setFormTemplate($this->form_template);
 
+        // アプリケーションオブジェクト(helper)の生成
+        foreach ($this->helper_app_object as $key => $value) {
+            if (is_object($value)) {
+                continue;
+            }
+            $this->helper_app_object[$key] =& $this->_getHelperAppObject($key);
+        }
+
         // フォーム値定義の設定
+        $this->_setFormDef_Helper();
         $this->_setFormDef();
 
         // 省略値補正
@@ -1242,6 +1258,35 @@ class Ethna_ActionForm
     }
 
     /**
+     *  ヘルパオブジェクト経由でのフォーム値定義を設定する
+     *
+     *  @access protected
+     */
+    function _setFormDef_Helper()
+    {
+        foreach (array_keys($this->helper_app_object) as $key) {
+            $object =& $this->helper_app_object[$key];
+            $prop_def = $object->getDef();
+
+            foreach ($prop_def as $key => $value) {
+                $form_key = isset($value['form_name']) ? $value['form_name'] : $key;
+                if (isset($this->form[$form_key]) == false) {
+                    $this->form[$form_key] = array();
+                }
+
+                $this->form[$form_key]['type'] = $value['type'];
+                if (isset($value['required'])) {
+                    $this->form[$form_key]['required'] = $value['required'];
+                }
+
+                if ($value['type'] == VAR_TYPE_STRING && isset($value['length'])) {
+                    $this->form[$form_key]['max'] = $value['length'];
+                }
+            }
+        }
+    }
+
+    /**
      *  フォーム値定義を設定する
      *
      *  @access protected
@@ -1322,6 +1367,16 @@ class Ethna_ActionForm
         return $plugin;
     }
 
+    /**
+     *  アプリケーションオブジェクト(helper)を生成する
+     *
+     *  @access protected
+     */
+    function &_getHelperAppObject($key)
+    {
+        $app_object =& $this->backend->getObject($key);
+        return $app_object;
+    }
 }
 // }}}
 ?>

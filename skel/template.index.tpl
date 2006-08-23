@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-JP" />
-<link rel="stylesheet" href="css/ethna.css" type="text/css" />
+<link rel="stylesheet" href="{$config.url}css/ethna.css" type="text/css" />
 </head>
 <body>
 

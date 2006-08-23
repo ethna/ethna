@@ -5,6 +5,9 @@
  * update:
  */
 $config = array(
+    // site
+    'url' => '',
+
     // debug
     // (to enable ethna_info and ethna_unittest, turn this true)
     'debug'	=> false,

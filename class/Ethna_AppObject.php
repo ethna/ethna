@@ -1387,10 +1387,10 @@ class Ethna_AppObject
 
         $prop_def = array();
         foreach ($r as $i => $field_def) {
-            $primary = (strpos($field_def['flags'], "primary_key") === false) ? false : true;
-
             // TODO: db independent
+            $primary = (strpos($field_def['flags'], "primary_key") === false) ? false : true;
             $seq = (strpos($field_def['flags'], "auto_increment") === false) ? false : true;
+            $required = (strpos($field_def['flags'], "not_null") === false) ? false : true;
 
             $key = (strpos($field_def['flags'], "key") === false) ? false : true;
             switch ($field_def['type']) {
@@ -1411,6 +1411,8 @@ class Ethna_AppObject
                 'seq'       => $seq,
                 'key'       => $key,
                 'type'      => $type,
+                'required'  => $required,
+                'length'    => $field_def['len'],
                 'form_name' => $this->_fieldNameToFormName($field_def),
             );
         }

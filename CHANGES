@@ -4,6 +4,10 @@
 
 *** features
 
+- Ethna_UrlHandlerクラスを追加(ステキurl対応)
+- Smartyプラグイン関数smarty_function_url追加
+- Ethna_AppObjectからのフォーム定義生成サポート追加
+-- [2006/08/23] 激しくα
 - Ethna_ClassFactory::getObject()でクラス定義に無いキーが渡された場合はEthna_AppObject()のキーであると仮定してオブジェクト生成
 - アプリケーションスケルトン生成時にアプリケーション固有のActionClass, ActionForm, ViewClassも生成するように変更
 - Ethna_SkeltonGeneratorクラスをEthna_Generatorクラスに名称変更
