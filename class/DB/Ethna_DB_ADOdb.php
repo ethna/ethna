@@ -213,6 +213,13 @@ class Ethna_DB_ADOdb extends Ethna_DB
     }
     //}}}
 
+    //{{{ getCol
+    function getCol($query, $inputarr = false)
+    {
+        return $this->db->GetCol($query, $inputarr);
+    }
+    //}}}
+
     //{{{ replace
     function replace($table, $arrFields, $keyCols,$autoQuote=false)
     {
