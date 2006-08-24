@@ -220,6 +220,13 @@ class Ethna_DB_ADOdb extends Ethna_DB
     }
     //}}}
 
+    //{{{ execute
+    function execute($query, $inputarr = false)
+    {
+        return $this->db->Execute($query, $inputarr);
+    }
+    //}}}
+
     //{{{ replace
     function replace($table, $arrFields, $keyCols,$autoQuote=false)
     {
