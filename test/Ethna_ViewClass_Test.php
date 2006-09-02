@@ -2,6 +2,7 @@
 /**
  *  Ethna_ViewClass_Test.php
  *
+ *  @package Ethna
  *  @author halt feits <halt.feits@gmail.com>
  */
 
@@ -10,6 +11,8 @@
 /**
  *  Ethna_ViewClassクラスのテストケース
  *
+ *  @package Ethna
+ *  @author halt feits <halt.feits@gmail.com>
  *  @access public
  */
 class Ethna_ViewClass_Test extends UnitTestCase
@@ -37,6 +40,15 @@ class Ethna_ViewClass_Test extends UnitTestCase
      */
     var $viewclass;
 
+    function Ethna_ViewClass_Test()
+    {
+        $this->ctl =& new Ethna_Controller();
+        $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
+
+        $this->backend =& $this->ctl->getBackend();
+        $this->viewclass =& new Ethna_ViewClass($this->backend, '', '');
+    }
+
     /**
      * setUp
      *
@@ -47,11 +59,6 @@ class Ethna_ViewClass_Test extends UnitTestCase
      */
     function setUp()
     {
-        $this->ctl =& new Ethna_Controller();
-        $this->ctl->action_form =& new Ethna_ActionForm($this->ctl);
-
-        $this->backend =& $this->ctl->getBackend();
-        $this->viewclass =& new Ethna_ViewClass($this->backend, '', '');
     }
 
     /**
@@ -93,7 +100,7 @@ class Ethna_ViewClass_Test extends UnitTestCase
             ),                    
         );
 
-        $this->viewclass->af->form = $test_form;
+        $this->viewclass->af->setDef(null, $test_form);
 
         $result = $this->viewclass->_getFormInput_Text($name, $def, $params);
         //var_dump($result);
