@@ -178,15 +178,14 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
     function _getSizeAsBytes($size)
     {
         $unit = 1;
-        $size = 0;
         if (preg_match('/^([0-9]+)([mk])?(b(ytes?)?)?$/i', trim($size), $matches)) {
             if (isset($matches[1])) {
                 $size = $matches[1];
             }
             if (isset($matches[2])) {
-                if ($matches[2] == 'm') {
+                if (strtolower($matches[2]) === 'm') {
                     $unit = 1048576;
-                } else if ($matches[2] == 'k') {
+                } else if (strtolower($matches[2]) === 'k') {
                     $unit = 1024;
                 }
             }
