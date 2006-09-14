@@ -18,11 +18,12 @@ $app = BASE . "/app";
 $lib = BASE . "/lib";
 
 /** Ethna関連クラスのインクルード */
-include_once('Ethna/Ethna.php');
+require_once('Ethna/Ethna.php');
 
 /** SimpleTestのインクルード */
-include_once('simpletest/unit_tester.php');
-include_once('simpletest/reporter.php');
+require_once('simpletest/unit_tester.php');
+require_once('simpletest/reporter.php');
+require_once 'Ethna/test/TextDetailReporter.php';
 
 /** テストケースがあるディレクトリ */
 $test_dir = ETHNA_BASE . '/test';
@@ -38,8 +39,10 @@ foreach ($file_list as $file) {
 }
 
 // 結果をコマンドラインに出力
-$test->run(new TextReporter());
+//$test->run(new TextReporter());
+$test->run(new TextDetailReporter());
 
+//{{{ getFileList
 /**
  * getFileList
  *
@@ -77,4 +80,5 @@ function getFileList($dir_path)
     closedir($dir);
     return $file_list;
 }
+//}}}
 ?>
