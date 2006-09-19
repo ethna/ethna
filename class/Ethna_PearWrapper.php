@@ -12,6 +12,7 @@
 include_once('PEAR.php');
 include_once('PEAR/Config.php');
 include_once('PEAR/Command.php');
+include_once('PEAR/PackageFile.php');
 
 // {{{ Ethna_PearWrapper
 /**
@@ -64,7 +65,7 @@ class Ethna_PearWrapper
      *  @return true|Ethna_Error
      *  @access private
      */
-    function &init($target = 'master', $app_dir = null)
+    function &init($target = 'master', $app_dir = null, $channel = null)
     {
         $true = true;
 
@@ -73,12 +74,14 @@ class Ethna_PearWrapper
         $this->ui =& PEAR_Command::getFrontendObject();
 
         // PEAR's error handling rule
-        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$this->ui, 'displayError'));
+        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$this->ui, 'displayFatalError'));
         set_error_handler('ethna_error_handler_skip_pear');
 
         // set channel
         $master_setting = Ethna_Handle::getMasterSetting('repositry');
-        if (isset($master_setting["channel_{$target}"])) {
+        if ($channel !== null) {
+            $this->channel = $channel;
+        } else if (isset($master_setting["channel_{$target}"])) {
             $this->channel = $master_setting["channel_{$target}"];
         } else {
             $this->channel = 'pear.ethna.jp';
@@ -170,10 +173,12 @@ class Ethna_PearWrapper
             }
         }
 
-        // return if local .pearrc exists.
         $pearrc = "{$base}/skel/.pearrc";
         $this->config =& PEAR_Config::singleton($pearrc);
+
+        // return if local .pearrc exists.
         if (is_file($pearrc) && is_readable($pearrc)) {
+            $this->config->readConfigFile($pearrc);
             return $true;
         }
 
@@ -297,6 +302,29 @@ class Ethna_PearWrapper
     }
     // }}}
 
+    // {{{ doInstallFromTgz
+    /**
+     *  do install from local tgz file
+     *
+     *  @param  string  $pkg_file   local package filename
+     *  @param  string  $pkg_name   package name.
+     *  @return true|Ethna_Error
+     *  @access private 
+     */
+    function &doInstallFromTgz($pkg_file, $pkg_name)
+    {
+        $true = true;
+        $r =& $this->_run('install', array(), array($pkg_file));
+        if (PEAR::isError($r)) {
+            return $r;
+        }
+        if ($this->isInstalled($pkg_name) == false) {
+            return Ethna::raiseError("install failed (check permission etc): {$pkg_name}");
+        }
+        return $true;
+    }
+    // }}}
+
     // {{{ isInstalled
     /**
      *  check package installed
@@ -333,6 +361,26 @@ class Ethna_PearWrapper
             return Ethna::raiseNotice("uninstall failed: {$this->channel}/{$package}");
         }
         return $true;
+    }
+    // }}}
+
+    // {{{ getPackageNameFromTgz
+    /**
+     *  get package info from tar/tgz file.
+     *
+     *  @param  string  $filename   package file name.
+     *  @return string  package name
+     *  @access public
+     */
+    function &getPackageNameFromTgz($filename)
+    {
+        $packagefile =& new PEAR_PackageFile($this->config);
+        $info =& $packagefile->fromTgzFile($filename, PEAR_VALIDATE_NORMAL);
+        if (Ethna::isError($info)) {
+            return $info;
+        }
+        $info_array =& $info->toArray();
+        return $info_array['name'];
     }
     // }}}
 

@@ -688,25 +688,6 @@ class Ethna_InfoManager extends Ethna_AppManager
         }
         $r['フィルタ'] = $elts;
 
-        // plugin
-        // XXX: 手書きをなんとかする
-        $plugin_type_list = array(
-                'Cachemanager',
-                'Filter',
-                'Handle',
-                'Logwriter',
-                'Validator'
-                );
-        foreach ($plugin_type_list as $type) {
-            $elts = array();
-            $plugin = $this->ctl->getPlugin();
-            $plugin->_searchAllPluginSrc($type);
-            foreach (array_keys($plugin->src_registry[$type]) as $name) {
-                $elts[$name] = $plugin->src_registry[$type][$name][1];
-            }
-            $r["プラグイン ({$type})"] = $elts;
-        }
-
         // manager
         $elts = array();
         foreach ($this->ctl->getManagerList() as $key => $manager) {
@@ -715,6 +696,32 @@ class Ethna_InfoManager extends Ethna_AppManager
         }
         $r['アプリケーションマネージャ'] = $elts;
 
+        return $r;
+    }
+
+    /**
+     *  プラグインの一覧を取得する
+     *
+     *  @access public
+     *  @return array   設定一覧を格納した配列
+     *  @todo   respect access controll
+     */
+    function getPluginList()
+    {
+        $r = array();
+        $plugin = $this->ctl->getPlugin();
+        foreach ($plugin->searchAllPluginType() as $type) {
+            $plugin->searchAllPluginSrc($type);
+            if (isset($plugin->src_registry[$type])) {
+                $elts = array();
+                foreach ($plugin->src_registry[$type] as $name => $src) {
+                    $elts[$name] = $src[2];
+                }
+                ksort($elts);
+                $r[$type] = $elts;
+            }
+        }
+        ksort($r);
         return $r;
     }
 }

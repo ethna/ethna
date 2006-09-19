@@ -4,6 +4,11 @@
 
 *** features
 
+- Ethna_Plugin_Handle_{Install,Uninstall,Info,List}Plugin
+-- master, localのハンドラを分けていたのを統合
+-- ダウンロード済みの tgz に対応
+-- Console_GetOpt で --channel, --basedir, --local, --master のオプションを追加
+-- new PEAR_Error() 時の error handler を callback($ui, 'displayFatalError') に変更
 - Ethna_UrlHandlerクラスを追加(ステキurl対応)
 - Smartyプラグイン関数smarty_function_url追加
 - Ethna_AppObjectからのフォーム定義生成サポート追加

@@ -47,6 +47,9 @@ class Ethna_View_Info extends Ethna_ViewClass
 
         // configuration
         $this->af->setApp('configuration', $em->getConfiguration());
+
+        // plugins
+        $this->af->setApp('plugin_list', $em->getPluginList());
     }
 }
 // }}}

@@ -9,6 +9,8 @@
  *  @version    $Id$
  */
 
+require_once 'Console/Getopt.php';
+
 // {{{ Ethna_Plugin_Handle
 /**
  *  コマンドラインハンドラプラグインの基底クラス
@@ -59,6 +61,16 @@ class Ethna_Plugin_Handle
     }
 
     /**
+     *  get handler's usage
+     *
+     *  @access public
+     */
+    function getUsage()
+    {
+        return "usage of " . $this->id;
+    }
+
+    /**
      *  set arguments
      *
      *  @access public
@@ -66,6 +78,30 @@ class Ethna_Plugin_Handle
     function setArgList($arg_list)
     {
         $this->arg_list = $arg_list;
+    }
+
+    /**
+     * easy getopt :)
+     * 
+     * @param   array   $long_options 
+     * @access  protected
+     * @return  array   list($opts, $args)
+     */
+    function _getopt($long_options = array())
+    {
+        $long_options = to_array($long_options);
+        $short_options = '';
+        foreach ($long_options as $lopt) {
+            $short_options .= $lopt{0};
+            if ($lopt{strlen($lopt) - 1} == '=') {
+                $short_options .= ':';
+            }
+            if ($lopt{strlen($lopt) - 2} == '=') {
+                $short_options .= ':';
+            }
+        }
+        $getopt =& new Console_Getopt();
+        return $getopt->getopt2($this->arg_list, $short_options, $long_options);
     }
 
     /**
@@ -84,6 +120,8 @@ class Ethna_Plugin_Handle
      */
     function usage()
     {
+        echo "usage:\n";
+        echo $this->getUsage() . "\n\n";
     }
 }
 // }}}

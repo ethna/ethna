@@ -66,6 +66,12 @@
                                 {/foreach}
                                 </ol>
                             <li><a href="#configuration">Configuration</a></li>
+                            <li><a href="#plugins">Plugins</a></li>
+                                <ol>
+                                {foreach from=$app.plugin_list key=plugin_type item=plugin}
+                                    <li><a href="#plugin_{$plugin_type}">{$plugin_type}</a></li>
+                                {/foreach}
+                                </ol>
                         </ul>
                     </td>
                 </tr>
@@ -227,6 +233,27 @@
             {/foreach}
             </table>
 
+            <br />
+
+            <a name="plugins"></a>
+            <h1>Plugins</h1>
+
+            <table border="0" cellpadding="3" width="600">
+                {foreach from=$app.plugin_list key=plugin_type item=plugin}
+                <tr class="h">
+                    <th colspan="2">
+                        <a name="plugin_{$plugin_type}"></a>
+                        {$plugin_type}
+                    </th>
+                </tr>
+                    {foreach from=$plugin key=plugin_name item=plugin_class}
+                    <tr>
+                        <td class="e">{$plugin_name}</td>
+                        <td class="v">{$plugin_class}</td>
+                    </tr>
+                    {/foreach}
+                {/foreach}
+            </table>
             <br />
 
             <hr />

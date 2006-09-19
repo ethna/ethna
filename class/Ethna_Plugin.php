@@ -81,17 +81,20 @@ class Ethna_Plugin
     }
 
     /**
-     *  ある種類 ($type) のプラグイン名 ($name) の全リストを取得
+     *  ある種類 ($type) のプラグイン ($name) の全リストを取得
      *
      *  @access public
      *  @param  string  $type   プラグインの種類
-     *  @return array   プラグインの名前 ($name) の配列
+     *  @return array   プラグインオブジェクトの配列
      */
     function getPluginList($type)
     {
         $plugin_list = array();
 
-        $this->_searchAllPluginSrc($type);
+        $this->searchAllPluginSrc($type);
+        if (isset($this->src_registry[$type]) == false) {
+            return $plugin_list;
+        }
         foreach ($this->src_registry[$type] as $name => $value) {
             if (is_null($value)) {
                 continue;
@@ -300,6 +303,9 @@ class Ethna_Plugin
             list($class, $dir, $file) = $this->getPluginNaming($type, $name, $appid);
             if (file_exists("{$dir}/{$file}")) {
                 $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s]', "{$dir}/{$file}");
+                if (isset($this->src_registry[$type]) == false) {
+                    $this->src_registry[$type] = array();
+                }
                 $this->src_registry[$type][$name] = array($class, $dir, $file);
                 return;
             }
@@ -311,18 +317,41 @@ class Ethna_Plugin
     }
 
     /**
+     *  プラグインの種類 ($type) をすべて検索する
+     *
+     *  @access public
+     *  @return array
+     */
+    function searchAllPluginType()
+    {
+        $type_list = array();
+        foreach (array_reverse($this->appid_list) as $appid) {
+            list(, $dir, ) = $this->getPluginNaming('', null, $appid);
+            if (is_dir($dir) == false) {
+                continue;
+            }
+            $dh = opendir($dir);
+            if (is_resource($dh) == false) {
+                continue;
+            }
+            while (($type_dir = readdir($dh)) !== false) {
+                if ($type_dir{0} != '.' && is_dir("{$dir}/{$type_dir}")) {
+                    $type_list[$type_dir] = 0;
+                }
+            }
+            closedir($dh);
+        }
+        return array_keys($type_list);
+    }
+
+    /**
      *  指定された $type のプラグイン (のソース) をすべて検索する
      *
-     *  @todo   InfoManager から呼び出すだけだが、public にすべき
-     *  @access private
+     *  @access public
      *  @param  string  $type   プラグインの種類
      */
-    function _searchAllPluginSrc($type)
+    function searchAllPluginSrc($type)
     {
-        if (isset($this->src_registry[$type]) == false) {
-            $this->src_registry[$type] = array();
-        }
-
         // 後で見付かったもので上書きするので $this->appid_list の逆順とする
         $name_list = array();
         foreach (array_reverse($this->appid_list) as $appid) {

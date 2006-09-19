@@ -57,7 +57,6 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
 
     /**
      *  プラグインを消す
-     *  TODO: もっといい方針を考える
      *
      *  @access public
      *  @param  string  $type       プラグインの$type
