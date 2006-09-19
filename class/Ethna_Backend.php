@@ -255,7 +255,7 @@ class Ethna_Backend
     {
         $arg_list = func_get_args();
         array_shift($arg_list);
-        $_ret_object =& $this->class_factory->getObject($key, $ext);
+        $_ret_object =& $this->class_factory->getObject($key, $arg_list);
         return $_ret_object;
     }
 
