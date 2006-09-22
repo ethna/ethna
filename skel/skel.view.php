@@ -14,7 +14,7 @@
  *	@access		public
  *	@package	{$project_id}
  */
-class {$view_class} extends Ethna_ViewClass
+class {$view_class} extends {$project_id}_ViewClass
 {
 	/**
 	 *	遷移前処理
