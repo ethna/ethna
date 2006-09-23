@@ -240,8 +240,12 @@ class Ethna_Controller
         $this->dsn = $this->_prepareDSN();
         $this->url = $this->config->get('url');
 
+        // プラグインオブジェクトの用意
+        $this->plugin = $this->getPlugin();
+
         // ログ出力開始
         $this->logger =& $this->getLogger();
+        $this->plugin->setLogger($this->logger);
         $this->logger->begin();
 
         // Ethnaマネージャ設定
@@ -1234,8 +1238,6 @@ class Ethna_Controller
      */
     function _createFilterChain()
     {
-        $this->plugin = $this->getPlugin();
-
         $this->filter_chain = array();
         foreach ($this->filter as $filter) {
             //バージョン0.2.0以前のフィルタ群から探す

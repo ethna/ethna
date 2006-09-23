@@ -56,12 +56,28 @@ class Ethna_Plugin
     {
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
-        $this->logger =& $controller->getLogger();
+        $this->logger = null;
         if (isset($this->controller->plugin_search_appids)
             && is_array($this->controller->plugin_search_appids)) {
             $this->appid_list =& $this->controller->plugin_search_appids;
         } else {
             $this->appid_list = array($this->controller->getAppId(), 'Ethna');
+        }
+    }
+
+    /**
+     *  loggerをsetする。
+     *
+     *  LogWriterはpluginなので、pluginインスタンス作成時点では
+     *  loggerに依存しないようにする。
+     *
+     *  @access public
+     *  @param  object  Ethna_Logger    $logger ログオブジェクト
+     */
+    function setLogger(&$logger)
+    {
+        if ($this->logger === null && is_object($logger)) {
+            $this->logger =& $logger;
         }
     }
     // }}}
@@ -360,7 +376,6 @@ class Ethna_Plugin
             //ディレクトリの存在のチェック
             if (is_dir($dir) == false) {
                 // アプリ側で見付からないのは正常
-                // $this->logger->log(LOG_DEBUG, 'plugin directory not found: [%s]', $dir);
                 continue;
             }
 
@@ -370,7 +385,6 @@ class Ethna_Plugin
                 $this->logger->log(LOG_DEBUG, 'cannot open plugin directory: [%s]', $dir);
                 continue;
             }
-
             $this->logger->log(LOG_DEBUG, 'plugin directory opened: [%s]', $dir);
 
             // 条件にあう $name をリストに追加
