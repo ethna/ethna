@@ -715,6 +715,9 @@ class Ethna_InfoManager extends Ethna_AppManager
             if (isset($plugin->src_registry[$type])) {
                 $elts = array();
                 foreach ($plugin->src_registry[$type] as $name => $src) {
+                    if (empty($src)) {
+                        continue;
+                    }
                     $elts[$name] = $src[2];
                 }
                 ksort($elts);

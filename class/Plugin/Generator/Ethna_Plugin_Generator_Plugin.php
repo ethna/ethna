@@ -25,9 +25,10 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
      *  @access public
      *  @param  string  $type       プラグインの$type
      *  @param  string  $name       プラグインの$name
+     *  @param  bool    $overwrite  上書きオプション
      *  @return bool    true:成功 false:失敗
      */
-    function generate($type, $name, $app_dir)
+    function generate($type, $name, $app_dir, $overwrite = false)
     {
         // get application controller
         $c =& Ethna_Handle::getAppController($app_dir);
@@ -46,9 +47,7 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
 
         Ethna_Handle::mkdir(dirname("$plugin_dir/$plugin_path"), 0755);
 
-        if (file_exists("$plugin_dir/$plugin_path")) {
-            printf("file [%s] already exists -> skip\n", "$plugin_dir/$plugin_path");
-        } else if ($this->_generateFile("skel.plugin.{$type}_{$name}.php", "$plugin_dir/$plugin_path", $macro) == false) {
+        if ($this->_generateFile("skel.plugin.{$type}_{$name}.php", "$plugin_dir/$plugin_path", $macro, $overwrite) == false) {
             printf("[warning] file creation failed [%s]\n", "$plugin_dir/$plugin_path");
         } else {
             printf("plugin script(s) successfully created [%s]\n", "$plugin_dir/$plugin_path");

@@ -24,12 +24,19 @@ include_once('PEAR/PackageFile.php');
  */
 class Ethna_PearWrapper
 {
+    // {{{ properties
     /**#@+
      *  @access     private
      */
 
     /** @var    string  channel url of ethna repositry */
     var $channel;
+
+    /** @var    string  target, 'master' or 'local' */
+    var $target;
+
+    /** @var    object  controller object collesponding to the target */
+    var $target_ctl;
 
     /** @var    object  PEAR_Config     PEAR_Config object */
     var $config;
@@ -41,6 +48,7 @@ class Ethna_PearWrapper
     var $ui;
 
     /**#@-*/
+    // }}}
 
     // {{{ constructor, initializer
     /**
@@ -50,30 +58,38 @@ class Ethna_PearWrapper
      */
     function Ethna_PearWrapper()
     {
-        $this->channel = '';
+        $this->channel = null;
         $this->config = null;
         $this->registry = null;
         $this->ui = null;
+        $this->target = null;
+        $this->target_ctl = null;
     }
 
     /**
      *  setup PEAR_Config and so on.
      *
      *  @param  string      $target     whether 'master' or 'local'
-     *  @param  string|null $app_dir    if $target == 'local', specify the local
-     *                                  application directory.
+     *  @param  string|null $app_dir    local application directory.
+     *  @param  string|null $channel    channel for the package repository.
      *  @return true|Ethna_Error
-     *  @access private
      */
-    function &init($target = 'master', $app_dir = null, $channel = null)
+    function &init($target, $app_dir = null, $channel = null)
     {
         $true = true;
+        if ($target == 'master') {
+            $this->target = 'master';
+        } else {
+            // default target is 'local'.
+            $this->target = 'local';
+        }
 
         // setup PEAR_Frontend
         PEAR_Command::setFrontendType('CLI');
         $this->ui =& PEAR_Command::getFrontendObject();
 
         // PEAR's error handling rule
+        // TODO: if PEAR/Command/Install.php is newer than 1.117, displayError goes well.
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$this->ui, 'displayFatalError'));
         set_error_handler('ethna_error_handler_skip_pear');
 
@@ -87,11 +103,21 @@ class Ethna_PearWrapper
             $this->channel = 'pear.ethna.jp';
         }
 
+        // set target controller
+        if ($target == 'master') {
+            $this->target_ctl =& Ethna_Handle::getEthnaController();
+        } else {
+            $this->target_ctl =& Ethna_Handle::getAppController($app_dir);
+        }
+        if (Ethna::isError($this->target_ctl)) {
+            return $this->target_ctl;
+        }
+
         // setup PEAR_Config
         if ($target == 'master') {
             $ret =& $this->_setMasterConfig();
         } else {
-            $ret =& $this->_setLocalConfig($app_dir);
+            $ret =& $this->_setLocalConfig();
         }
         if (Ethna::isError($ret)) {
             return $ret;
@@ -136,24 +162,17 @@ class Ethna_PearWrapper
     /**
      *  config for local.
      *
-     *  @param  string|null $app_dir    local application directory.
      *  @return true|Ethna_Error
      *  @access private 
      */
-    function &_setLocalConfig($app_dir)
+    function &_setLocalConfig()
     {
         $true = true;
 
-        // get application controller
-        $app_ctl =& Ethna_Handle::getAppController($app_dir);
-        if (Ethna::isError($app_ctl)) {
-            return $app_ctl;
-        }
-
         // determine dirs
-        $base = $app_ctl->getBaseDir();
-        $bin  = $app_ctl->getDirectory('bin');
-        $tmp  = $app_ctl->getDirectory('tmp');
+        $base = $this->target_ctl->getBaseDir();
+        $bin  = $this->target_ctl->getDirectory('bin');
+        $tmp  = $this->target_ctl->getDirectory('tmp');
         $dirs = array(
                 'php_dir'       => "{$base}/skel",
                 'bin_dir'       => "{$bin}",
@@ -209,7 +228,6 @@ class Ethna_PearWrapper
      *  do clear-cache (for local) 
      *
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doClearCache()
     {
@@ -227,7 +245,6 @@ class Ethna_PearWrapper
      *  do channel-discover (for local) 
      *
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doChannelDiscover()
     {
@@ -245,7 +262,6 @@ class Ethna_PearWrapper
      *  whether channel discovered or not
      *
      *  @return bool
-     *  @access private 
      */
     function isChannelExists()
     {
@@ -258,7 +274,6 @@ class Ethna_PearWrapper
      *  do channel-update (for local) 
      *
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doChannelUpdate()
     {
@@ -277,28 +292,37 @@ class Ethna_PearWrapper
     }
     // }}}
 
+    // {{{ _doInstallOrUpgrade
+    /**
+     *  do install
+     *
+     *  @param  string  $command    'install' or 'upgrade'
+     *  @param  string  $package    package string
+     *  @return true|Ethna_Error
+     *  @access private 
+     */
+    function &_doInstallOrUpgrade($command, $package)
+    {
+        $true = true;
+        $r =& $this->_run($command, array(), array($package));
+        if (PEAR::isError($r)) {
+            return $r;
+        }
+        return $true;
+    }
+    // }}}
+        
     // {{{ doInstall
     /**
      *  do install
      *
      *  @param  string  $package    package name.
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doInstall($package)
     {
-        $true = true;
-        if ($this->isInstalled($package)) {
-            return Ethna::raiseNotice("{$this->channel}/{$package} already installed.");
-        }
-        $r =& $this->_run('install', array(), array("{$this->channel}/{$package}"));
-        if (PEAR::isError($r)) {
-            return $r;
-        }
-        if ($this->isInstalled($package) == false) {
-            return Ethna::raiseError("install failed (check permission etc): {$this->channel}/{$package}");
-        }
-        return $true;
+        $r =& $this->_doInstallOrUpgrade('install', "{$this->channel}/{$package}"); 
+        return $r;
     }
     // }}}
 
@@ -309,19 +333,40 @@ class Ethna_PearWrapper
      *  @param  string  $pkg_file   local package filename
      *  @param  string  $pkg_name   package name.
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doInstallFromTgz($pkg_file, $pkg_name)
     {
-        $true = true;
-        $r =& $this->_run('install', array(), array($pkg_file));
-        if (PEAR::isError($r)) {
-            return $r;
-        }
-        if ($this->isInstalled($pkg_name) == false) {
-            return Ethna::raiseError("install failed (check permission etc): {$pkg_name}");
-        }
-        return $true;
+        $r =& $this->_doInstallOrUpgrade('install', $pkg_file); 
+        return $r;
+    }
+    // }}}
+
+    // {{{ doUpgrade
+    /**
+     *  do upgrade
+     *
+     *  @param  string  $package    package name.
+     *  @return true|Ethna_Error
+     */
+    function &doUpgrade($package)
+    {
+        $r =& $this->_doInstallOrUpgrade('upgrade', "{$this->channel}/{$package}"); 
+        return $r;
+    }
+    // }}}
+
+    // {{{ doUpgradeFromTgz
+    /**
+     *  do upgrade from local tgz file
+     *
+     *  @param  string  $pkg_file   local package filename
+     *  @param  string  $pkg_name   package name.
+     *  @return true|Ethna_Error
+     */
+    function &doUpgradeFromTgz($pkg_file, $pkg_name)
+    {
+        $r =& $this->_doInstallOrUpgrade('upgrade', $pkg_file); 
+        return $r;
     }
     // }}}
 
@@ -331,7 +376,6 @@ class Ethna_PearWrapper
      *
      *  @param  string  $package package name
      *  @return bool
-     *  @access private 
      */
     function isInstalled($package)
     {
@@ -339,13 +383,25 @@ class Ethna_PearWrapper
     }
     // }}}
 
+    // {{{ getVersion
+    /**
+     *  get package version
+     *
+     *  @param  string  $package package name
+     *  @return string  version string
+     */
+    function getVersion($package)
+    {
+        $pobj =& $this->registry->getPackage($package, $this->channel);
+        return $pobj->getVersion();
+    }
+    // }}}
+
     // {{{ doUninstall
     /**
      *  do uninstall (packages installed with ethna command)
      *
-     *  @param  string|null $app_dir    local application directory.
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doUninstall($package)
     {
@@ -371,10 +427,12 @@ class Ethna_PearWrapper
      *  @param  string  $filename   package file name.
      *  @return string  package name
      *  @access public
+     *  @static
      */
     function &getPackageNameFromTgz($filename)
     {
-        $packagefile =& new PEAR_PackageFile($this->config);
+        $config =& PEAR_Config::singleton();
+        $packagefile =& new PEAR_PackageFile($config);
         $info =& $packagefile->fromTgzFile($filename, PEAR_VALIDATE_NORMAL);
         if (Ethna::isError($info)) {
             return $info;
@@ -403,17 +461,20 @@ class Ethna_PearWrapper
     }
     // }}}
 
-    // {{{ doUpgrade
+    // {{{ getInstalledPackageList
     /**
-     *  do upgrade (packages installed with ethna command)
+     *  get installed package list
      *
-     *  @param  string  $package    package name.
-     *  @return true|Ethna_Error
-     *  @access private 
+     *  @return array   installed package list
+     *  @access public
      */
-    function &doUpgrade($package)
+    function &getInstalledPackageList()
     {
-        return $this->_run('upgrade', array(), array("{$this->channel}/{$package}"));
+        $ret = array();
+        foreach ($this->registry->listPackages($this->channel) as $pkg) {
+            $ret[] = $this->getCanonicalPackageName($pkg);
+        }
+        return $ret;
     }
     // }}}
 
@@ -423,7 +484,6 @@ class Ethna_PearWrapper
      *
      *  @param  string  $package    package name.
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doInfo($package)
     {
@@ -437,7 +497,6 @@ class Ethna_PearWrapper
      *
      *  @param  string  $package    package name.
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doRemoteInfo($package)
     {
@@ -450,7 +509,6 @@ class Ethna_PearWrapper
      *  do upgrade-all
      *
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doUpgradeAll()
     {
@@ -463,7 +521,6 @@ class Ethna_PearWrapper
      *  do list (packages installed with ethna command)
      *
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doList()
     {
@@ -475,9 +532,7 @@ class Ethna_PearWrapper
     /**
      *  do remote-list (packages installable with ethna command)
      *
-     *  @param  string|null $app_dir    local application directory.
      *  @return true|Ethna_Error
-     *  @access private 
      */
     function &doRemoteList()
     {
@@ -527,8 +582,28 @@ class Ethna_PearWrapper
         $ret = $this->ui->userConfirm($message);
         return $ret;
     }
-    // }}}
 
+    /**
+     *  provide table layout
+     *
+     *  @param  array   $headline   headline
+     *  @param  array   $rows       rows which have the same size as headline's.
+     *  @access public
+     */
+    function displayTable($caption, $headline, $rows)
+    {
+        // spacing
+        foreach (array_keys($headline) as $k) {
+            $headline[$k] = sprintf('% -8s', $headline[$k]);
+        }
+
+        $data = array('caption'  => $caption,
+                      'border'   => true,
+                      'headline' => $headline,
+                      'data'     => $rows);
+        $this->ui->outputData($data);
+    }
+    // }}}
 }
 // }}}
 

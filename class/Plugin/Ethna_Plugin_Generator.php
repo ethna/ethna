@@ -29,13 +29,14 @@ class Ethna_Plugin_Generator
      *  @param  string  $skel       スケルトンファイル
      *  @param  string  $entity     生成ファイル名
      *  @param  array   $macro      置換マクロ
+     *  @param  bool    $overwrite  上書きフラグ
      *  @return bool    true:正常終了 false:エラー
      */
-    function _generateFile($skel, $entity, $macro)
+    function _generateFile($skel, $entity, $macro, $overwrite = false)
     {
         $base = null;
 
-        if (file_exists($entity)) {
+        if ($overwrite === false && file_exists($entity)) {
             printf("file [%s] already exists -> skip\n", $entity);
             return true;
         }

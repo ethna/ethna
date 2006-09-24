@@ -80,7 +80,7 @@ class Ethna_Plugin_Handle_UninstallPlugin extends Ethna_Plugin_Handle
 
         if (isset($args['type']) && isset($args['name'])) {
             // install from repository.
-            $target = isset($args['target']) ? $args['target'] : 'master';
+            $target = isset($args['target']) ? $args['target'] : null;
             $channel = isset($args['channel']) ? $args['channel'] : null;
             $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
             if ($target == 'master') {
@@ -106,11 +106,12 @@ class Ethna_Plugin_Handle_UninstallPlugin extends Ethna_Plugin_Handle
             return Ethna::raiseError('invalid number of arguments', 'usage');
         }
 
-        if ($target == 'local') {
+        if ($target != 'master') {
             list(,, $ctype, $cname) = explode('_', $pkg_name, 4);
             $ok = $pear->confirmDialog('delete plugin generated from skelton? (could delete locally modified files)');
             if ($ok) {
                 $generator =& new Ethna_Generator();
+                // TODO: deal with the package including some plugins.
                 $r = $generator->remove('Plugin', $ctype, $cname, $basedir);
                 if (Ethna::isError($r)) {
                     return $r;
@@ -129,7 +130,7 @@ class Ethna_Plugin_Handle_UninstallPlugin extends Ethna_Plugin_Handle
     function getDescription()
     {
         return <<<EOS
-install plugin to project directory:
+uninstall plugin:
     {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [-l|--local] [-m|--master] [type name]
 
 EOS;

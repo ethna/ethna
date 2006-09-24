@@ -34,6 +34,7 @@ class Ethna_Handle
 
     /**#@-*/
 
+    // {{{ constructor
     /**
      *  Ethna_Handle constructor (stub for php4)
      *
@@ -41,12 +42,13 @@ class Ethna_Handle
      */
     function Ethna_Handle()
     {
-        $this->controller =& new Ethna_Controller();
-        $this->controller->setGateway(GATEWAY_CLI);
+        $this->controller =& new Ethna_Controller(GATEWAY_CLI);
         $this->ctl =& $this->controller;
         $this->plugin =& $this->controller->getPlugin();
     }
+    // }}}
 
+    // {{{ getHandler
     /**
      *  get handler object
      *
@@ -62,7 +64,9 @@ class Ethna_Handle
 
         return $handler;
     }
+    // }}}
 
+    // {{{ getHandlerList
     /**
      *  get an object list of all available handlers
      *
@@ -83,11 +87,28 @@ class Ethna_Handle
     {
         return strcmp($a->getId(), $b->getId());
     }
+    // }}}
 
+    // {{{ getEthnaController
+    /**
+     *  Ethna_Controllerのインスタンスを取得する
+     *  (Ethna_Handlerの文脈で呼び出されることが前提)
+     *
+     *  @access public
+     *  @static
+     */
+    function &getEthnaController()
+    {
+        return $GLOBALS['_Ethna_controller'];
+    }
+    // }}}
+
+    // {{{ getAppController
     /**
      *  アプリケーションのコントローラファイル/クラスを検索する
      *
      *  @access public
+     *  @static
      */
     function &getAppController($app_dir)
     {
@@ -111,7 +132,8 @@ class Ethna_Handle
         }
         
         $macro = parse_ini_file($ini_file);
-        if (isset($macro['controller_file']) == false || isset($macro['controller_class']) == false) {
+        if (isset($macro['controller_file']) == false
+            || isset($macro['controller_class']) == false) {
             return Ethna::raiseError('invalid .ethna file');
         }
         $file = $macro['controller_file'];
@@ -130,7 +152,9 @@ class Ethna_Handle
         $app_controller =& new $class(GATEWAY_CLI);
         return $app_controller;
     }
+    // }}}
 
+    // {{{ getMasterSetting
     /**
      *  Ethna 本体の設定を取得する (ethnaコマンド用)
      *
@@ -153,7 +177,9 @@ class Ethna_Handle
             return array();
         }
     }
+    // }}}
 
+    // {{{ mkdir
     /**
      *  mkdir -p
      *
@@ -179,6 +205,7 @@ class Ethna_Handle
 
         return mkdir($dir, $mode);
     }
+    // }}}
 }
 // }}}
 ?>

@@ -4,6 +4,13 @@
 
 *** features
 
+- Ethna_Plugin_Handle_ListPlugin
+-- パッケージ管理に係わらずプラグインの一覧を表示
+-- パッケージ管理下にあるときはパッケージ名とバージョンを表示
+- Ethna_Plugin_Handle_UpgradePlugin, Ethna_Plugin_Handle_ChannelUpdate
+-- プラグインパッケージのupgrade, pear channelのupdateに対応
+-- http://pear.server/get/Package-1.2.3.tgz のようなinstall, upgradeに対応
+- PearWrapper, Ethna_Handleでのデフォルトターゲット(localかmasterか)をlocalに変更、統一
 - Ethna_Plugin_Handle_{Install,Uninstall,Info,List}Plugin
 -- master, localのハンドラを分けていたのを統合
 -- ダウンロード済みの tgz に対応

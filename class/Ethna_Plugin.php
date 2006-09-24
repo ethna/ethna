@@ -241,8 +241,9 @@ class Ethna_Plugin
      */
     function getPluginNaming($type, $name, $appid)
     {
+        // TODO: $target で区別するべきかも
         if ($appid == 'Ethna') {
-            if ($name == null) {
+            if ($name === null) {
                 $ext = 'php';
                 $dir = ETHNA_BASE . "/class/Plugin";
                 $class = "Ethna_Plugin_{$type}";
@@ -252,7 +253,7 @@ class Ethna_Plugin
                 $class = "Ethna_Plugin_{$type}_{$name}";
             }
         } else {
-            if ($name == null) {
+            if ($name === null) {
                 $ext = $this->controller->getExt('php');
                 $dir = $this->controller->getDirectory('plugin');
                 $class = "{$appid}_Plugin_{$type}";
@@ -327,7 +328,7 @@ class Ethna_Plugin
             }
         }
 
-        // 見つからなかった
+        // 見つからなかった場合 (nullで記憶しておく)
         $this->logger->log(LOG_WARNING, 'plugin file for [type=%s, name=%s] is not found in search', $type, $name);
         $this->src_registry[$type][$name] = null;
     }
@@ -390,7 +391,7 @@ class Ethna_Plugin
             // 条件にあう $name をリストに追加
             while (($file = readdir($dh)) !== false) {
                 if (preg_match('#^'.$file_regexp.'$#', $file, $matches)
-                        && file_exists("{$dir}/{$file}")) {
+                    && file_exists("{$dir}/{$file}")) {
                     $name_list[$matches[1]] = true;
                 }
             }
@@ -433,7 +434,7 @@ class Ethna_Plugin
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
 
-        if ($appid == null) {
+        if ($appid === null) {
             $appid = $ctl->getAppId();
         }
         list($class, $dir, $file) = $plugin->getPluginNaming($type, $name, $appid);

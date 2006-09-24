@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Handle_InstallPlugin.php
+ *	Ethna_Plugin_Handle_UpgradePlugin.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -11,7 +11,7 @@
 
 include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
 
-// {{{ Ethna_Plugin_Handle_InstallPlugin
+// {{{ Ethna_Plugin_Handle_UpgradePlugin
 /**
  *  install-plugin handler
  *
@@ -19,7 +19,7 @@ include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
  *	@access		public
  *	@package	Ethna
  */
-class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
+class Ethna_Plugin_Handle_UpgradePlugin extends Ethna_Plugin_Handle
 {
     // {{{ _parseArgList()
     /**
@@ -96,7 +96,7 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
             if (Ethna::isError($r)) {
                 return $r;
             }
-            $r =& $pear->doInstallFromTgz($pkg_file_or_url, $pkg_name);
+            $r =& $pear->doUpgradeFromTgz($pkg_file_or_url, $pkg_name);
             if (Ethna::isError($r)) {
                 return $r;
             }
@@ -116,7 +116,7 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
             if (Ethna::isError($r)) {
                 return $r;
             }
-            $r =& $pear->doInstall($pkg_name);
+            $r =& $pear->doUpgrade($pkg_name);
             if (Ethna::isError($r)) {
                 return $r;
             }
@@ -154,7 +154,7 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
     function getDescription()
     {
         return <<<EOS
-install plugin:
+upgrade plugin:
     {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [-l|--local] [-m|--master] [type name|packagefile|packageurl]
 
 EOS;
