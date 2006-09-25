@@ -241,7 +241,7 @@ class Ethna_Controller
         $this->url = $this->config->get('url');
 
         // プラグインオブジェクトの用意
-        $this->plugin = $this->getPlugin();
+        $this->plugin =& $this->getPlugin();
 
         // ログ出力開始
         $this->logger =& $this->getLogger();

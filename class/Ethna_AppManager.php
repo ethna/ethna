@@ -75,7 +75,7 @@ class Ethna_AppManager
     {
         // 基本オブジェクトの設定
         $this->backend =& $backend;
-        $this->config = $backend->getConfig();
+        $this->config =& $backend->getConfig();
         $this->i18n =& $backend->getI18N();
         $this->action_form =& $backend->getActionForm();
         $this->af =& $this->action_form;
