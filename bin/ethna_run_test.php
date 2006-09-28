@@ -17,6 +17,9 @@ define('BASE', dirname(dirname(__FILE__)));
 $app = BASE . "/app";
 $lib = BASE . "/lib";
 
+// tmp
+ini_set('include_path', '/home/nao:' . ini_get('include_path'));
+
 /** Ethna関連クラスのインクルード */
 require_once('Ethna/Ethna.php');
 
