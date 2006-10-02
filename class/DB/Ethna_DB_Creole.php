@@ -128,7 +128,8 @@ class Ethna_DB_Creole extends Ethna_DB
      * @return  Object
      * @access  public
      */
-    function prepareStatement($sql){
+    function prepareStatement($sql)
+    {
         return $this->db->prepareStatement($sql);
     }
 }

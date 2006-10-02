@@ -72,12 +72,11 @@ class Ethna_DB_ADOdb extends Ethna_DB
         } else {
             $this->db = ADONewConnection($this->dsn);
         }
-        
 
-        if ( $this->db ){
+        if ( $this->db ) {
             $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
             return true;
-        } else {    
+        } else {
             return false;
         }    
     }
@@ -183,7 +182,11 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
         if ($r === false) {
 
-            $error = Ethna::raiseError('エラー SQL[%s] CODE[%d] MESSAGE[%s]', E_DB_QUERY, $query, $this->db->ErrorNo(), $this->db->ErrorMsg());
+            $error = Ethna::raiseError('エラー SQL[%s] CODE[%d] MESSAGE[%s]',
+                E_DB_QUERY,
+                $query,
+                $this->db->ErrorNo(),
+                $this->db->ErrorMsg());
 
             return $error;
 
@@ -203,6 +206,13 @@ class Ethna_DB_ADOdb extends Ethna_DB
     {
         $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
         return $this->db->getAll($query, $inputarr);
+    }
+    //}}}
+
+    //{{{ getOne
+    function getOne($query, $inputarr = false)
+    {
+        return $this->db->GetOne($query, $inputarr);
     }
     //}}}
 
@@ -228,9 +238,9 @@ class Ethna_DB_ADOdb extends Ethna_DB
     //}}}
 
     //{{{ replace
-    function replace($table, $arrFields, $keyCols,$autoQuote=false)
+    function replace($table, $arrFields, $keyCols, $autoQuote = false)
     {
-        return $this->db->Replace($table, $arrFields, $keyCols,$autoQuote=false);
+        return $this->db->Replace($table, $arrFields, $keyCols, $autoQuote);
     }
     //}}}
 
@@ -339,7 +349,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
         // Get (if found): username and password
         // $dsn => username:password@protocol+hostspec/database
-        if (($at = strrpos($dsn,'@')) !== false) {
+        if (($at = strrpos($dsn, '@')) !== false) {
             $str = substr($dsn, 0, $at);
             $dsn = substr($dsn, $at + 1);
             if (($pos = strpos($str, ':')) !== false) {
@@ -351,13 +361,11 @@ class Ethna_DB_ADOdb extends Ethna_DB
         }
 
         // Find protocol and hostspec
-
         if (preg_match('|^([^(]+)\((.*?)\)/?(.*?)$|', $dsn, $match)) {
             // $dsn => proto(proto_opts)/database
-            $proto       = $match[1];
-            $proto_opts  = $match[2] ? $match[2] : false;
-            $dsn         = $match[3];
-
+            $proto      = $match[1];
+            $proto_opts = $match[2] ? $match[2] : false;
+            $dsn        = $match[3];
         } else {
             // $dsn => protocol+hostspec/database (old format)
             if (strpos($dsn, '+') !== false) {
@@ -367,17 +375,16 @@ class Ethna_DB_ADOdb extends Ethna_DB
                 list($proto_opts, $dsn) = explode('/', $dsn, 2);
             } else {
                 $proto_opts = $dsn;
-                $dsn = null;
+                $dsn        = null;
             }
         }
 
         // process the different protocol options
         $parsed['protocol'] = (!empty($proto)) ? $proto : 'tcp';
-        $proto_opts = rawurldecode($proto_opts);
+        $proto_opts         = rawurldecode($proto_opts);
         if ($parsed['protocol'] == 'tcp') {
             if (strpos($proto_opts, ':') !== false) {
-                list($parsed['hostspec'],
-                     $parsed['port']) = explode(':', $proto_opts);
+                list($parsed['hostspec'], $parsed['port']) = explode(':', $proto_opts);
             } else {
                 $parsed['hostspec'] = $proto_opts;
             }
@@ -394,7 +401,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
             } else {
                 // /database?param1=value1&param2=value2
                 $parsed['database'] = rawurldecode(substr($dsn, 0, $pos));
-                $dsn = substr($dsn, $pos + 1);
+                $dsn                = substr($dsn, $pos + 1);
                 if (strpos($dsn, '&') !== false) {
                     $opts = explode('&', $dsn);
                 } else { // database?param1=value1
