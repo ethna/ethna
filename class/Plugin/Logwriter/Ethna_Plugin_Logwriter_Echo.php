@@ -58,7 +58,8 @@ class Ethna_Plugin_Logwriter_Echo extends Ethna_Plugin_Logwriter
             }
         }
 
-        printf($prefix . $message . "%s\n", $c->getGateway() != GATEWAY_WWW ? "" : "<br />");
+        $br = $c->getGateway() != GATEWAY_WWW ? "" : "<br />";
+        echo($prefix . $message . $br . "\n");
 
         return $prefix . $message;
     }

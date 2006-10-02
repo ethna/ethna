@@ -87,6 +87,7 @@
 
 *** bug fixes
 
+- [[#9009>http://sourceforge.jp/tracker/index.php?func=detail&aid=9009&group_id=1343&atid=5092]](%s等があるSQLをEchoLoggerでDebugするとWarning)
 - アクション定義のform_pathが正しく動作していなかった問題を修正
 - コントローラが複数あるときにset_error_handler()が何度も実行されるのを回避
 - CacheManager_Localfileの@statでのWARNINGを回避
