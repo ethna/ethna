@@ -43,6 +43,9 @@ class Ethna_Handle
     function Ethna_Handle()
     {
         $this->controller =& new Ethna_Controller(GATEWAY_CLI);
+        Ethna::clearErrorCallback();
+        Ethna::setErrorCallback(array('Ethna_Handle', 'handleError'));
+
         $this->ctl =& $this->controller;
         $this->plugin =& $this->controller->getPlugin();
     }
@@ -99,7 +102,7 @@ class Ethna_Handle
      */
     function &getEthnaController()
     {
-        return $GLOBALS['_Ethna_controller'];
+        return Ethna_Controller::getInstance();
     }
     // }}}
 
@@ -149,7 +152,12 @@ class Ethna_Handle
             return Ethna::raiseError("no such class $class");
         }
 
+        $global_controller =& $GLOBALS['_Ethna_controller'];
         $app_controller =& new $class(GATEWAY_CLI);
+        $GLOBALS['_Ethna_controller'] =& $global_controller;
+        Ethna::clearErrorCallback();
+        Ethna::setErrorCallback(array('Ethna_Handle', 'handleError'));
+
         return $app_controller;
     }
     // }}}
@@ -163,12 +171,15 @@ class Ethna_Handle
      */
     function &getMasterSetting($section = null)
     {
-        $ini_file = ETHNA_BASE . "/.ethna";
-        if (is_file($ini_file) == false || is_readable($ini_file) == false) {
-            return array();
+        static $setting = null;
+        if ($setting === null) {
+            $ini_file = ETHNA_BASE . "/.ethna";
+            if (is_file($ini_file) == false || is_readable($ini_file) == false) {
+                $setting = array();
+            }
+            $setting = parse_ini_file($ini_file, true);
         }
 
-        $setting = parse_ini_file($ini_file, true);
         if ($section === null) {
             return $setting;
         } else if (array_key_exists($section, $setting)) {
@@ -179,31 +190,13 @@ class Ethna_Handle
     }
     // }}}
 
-    // {{{ mkdir
+    // {{{ handleError
     /**
-     *  mkdir -p
-     *
-     *  @access public
-     *  @param  string  $dir    作成するディレクトリ
-     *  @param  int     $mode   パーミッション
-     *  @return bool    true:成功 false:失敗
-     *  @static
+     *  Ethna コマンドでのエラーハンドリング
      */
-    function mkdir($dir, $mode)
+    function handleError(&$eobj)
     {
-        if (is_dir($dir)) {
-            return true;
-        }
-
-        $parent = dirname($dir);
-        if ($dir == $parent) {
-            return true;
-        }
-        if (is_dir($parent) == false) {
-            Ethna_Handle::mkdir($parent, $mode);
-        }
-
-        return mkdir($dir, $mode);
+        // do nothing.
     }
     // }}}
 }

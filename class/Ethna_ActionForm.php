@@ -186,7 +186,9 @@ class Ethna_ActionForm
      */
     function setFormVars()
     {
-        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
+        if (isset($_SERVER['REQUEST_METHOD']) == false) {
+            return;
+        } else if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
             $http_vars =& $_POST;
         } else {
             $http_vars =& $_GET;

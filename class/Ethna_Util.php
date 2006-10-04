@@ -108,6 +108,7 @@ function is_absolute_path($path)
  */
 class Ethna_Util
 {
+    // {{{ isDuplicatePost
     /**
      *  POSTのユニークチェックを行う
      *
@@ -130,7 +131,10 @@ class Ethna_Util
         // purge old files
         Ethna_Util::purgeTmp("uniqid_", 60*60*1);
 
-        $filename = sprintf("%s/uniqid_%s_%s", $c->getDirectory('tmp'), $_SERVER['REMOTE_ADDR'], $uniqid);
+        $filename = sprintf("%s/uniqid_%s_%s",
+                            $c->getDirectory('tmp'),
+                            $_SERVER['REMOTE_ADDR'],
+                            $uniqid);
         if (file_exists($filename) == false) {
             touch($filename);
             return false;
@@ -144,7 +148,9 @@ class Ethna_Util
 
         return true;
     }
+    // }}}
 
+    // {{{ clearDuplicatePost
     /**
      *  POSTのユニークチェックフラグをクリアする
      *
@@ -162,7 +168,10 @@ class Ethna_Util
             return 0;
         }
 
-        $filename = sprintf("%s/uniqid_%s_%s", $c->getDirectory('tmp'), $_SERVER['REMOTE_ADDR'], $uniqid);
+        $filename = sprintf("%s/uniqid_%s_%s",
+                            $c->getDirectory('tmp'),
+                            $_SERVER['REMOTE_ADDR'],
+                            $uniqid);
         if (file_exists($filename)) {
             if (unlink($filename) == false) {
                 return Ethna::raiseWarning(E_APP_WRITE, $filename);
@@ -171,7 +180,9 @@ class Ethna_Util
 
         return 0;
     }
+    // }}}
 
+    // {{{ checkMailAddress
     /**
      *  メールアドレスが正しいかどうかをチェックする
      *
@@ -181,12 +192,15 @@ class Ethna_Util
      */
     function checkMailAddress($mailaddress)
     {
-        if (preg_match('/^([a-z0-9_]|\-|\.|\+)+@(([a-z0-9_]|\-)+\.)+[a-z]{2,6}$/i', $mailaddress)) {
+        if (preg_match('/^([a-z0-9_]|\-|\.|\+)+@(([a-z0-9_]|\-)+\.)+[a-z]{2,6}$/i',
+                       $mailaddress)) {
             return true;
         }
         return false;
     }
+    // }}}
 
+    // {{{ explodeCSV
     /**
      *  CSV形式の文字列を配列に分割する
      *
@@ -280,7 +294,9 @@ class Ethna_Util
 
         return $retval;
     }
+    // }}}
 
+    // {{{ escapeCSV
     /**
      *  CSVエスケープ処理を行う
      *
@@ -302,7 +318,9 @@ class Ethna_Util
 
         return $csv;
     }
+    // }}}
 
+    // {{{ escapeHtml
     /**
      *  配列の要素を全てHTMLエスケープして返す
      *
@@ -335,7 +353,9 @@ class Ethna_Util
             }
         }
     }
+    // }}}
 
+    // {{{ encode_MIME
     /**
      *  文字列をMIMEエンコードする
      *
@@ -356,7 +376,9 @@ class Ethna_Util
         }
         return $_string;
     }
+    // }}}
 
+    // {{{ getDirectLinkList
     /**
      *  Google風リンクリストを返す
      *
@@ -418,7 +440,9 @@ class Ethna_Util
 
         return array_splice($r, $backward_count, 10);
     }
+    // }}}
 
+    // {{{ getEra
     /**
      *  元号制での年を返す
      *
@@ -439,7 +463,9 @@ class Ethna_Util
 
         return null;
     }
+    // }}}
 
+    // {{{ getImageExtName
     /**
      *  getimagesize()の返すイメージタイプに対応する拡張子を返す
      *
@@ -470,7 +496,9 @@ class Ethna_Util
 
         return @$ext_list[$type];
     }
+    // }}}
 
+    // {{{ getRandom
     /**
      *  ランダムなハッシュ値を生成する
      *
@@ -526,7 +554,9 @@ class Ethna_Util
         }
         return $value;
     }
+    // }}}
 
+    // {{{ get2dArray
     /**
      *  1次元配列をm x nに再構成する
      *
@@ -564,7 +594,9 @@ class Ethna_Util
 
         return $r;
     }
+    // }}}
 
+    // {{{ isAbsolute
     /**
      *  パス名が絶対パスかどうかを返す
      *
@@ -580,7 +612,8 @@ class Ethna_Util
             return false;
         }
 
-        if (DIRECTORY_SEPARATOR == '/' && (substr($path, 0, 1) == '/' OR substr($path, 0, 1) == '~')) {
+        if (DIRECTORY_SEPARATOR == '/'
+            && (substr($path, 0, 1) == '/' || substr($path, 0, 1) == '~')) {
             return true;
         } else if (DIRECTORY_SEPARATOR == '\\' && preg_match('/^[a-z]:\\\/i', $path)) {
             return true;
@@ -588,7 +621,94 @@ class Ethna_Util
 
         return false;
     }
+    // }}}
 
+    // {{{ mkdir
+    /**
+     *  mkdir -p
+     *
+     *  @access public
+     *  @param  string  $dir    作成するディレクトリ
+     *  @param  int     $mode   パーミッション
+     *  @return bool    true:成功 false:失敗
+     *  @static
+     */
+    function mkdir($dir, $mode)
+    {
+        if (file_exists($dir)) {
+            return is_dir($dir);
+        }
+
+        $parent = dirname($dir);
+        if ($dir === $parent) {
+            return true;
+        }
+
+        if (is_dir($parent) === false) {
+            if (Ethna_Util::mkdir($parent, $mode) === false) {
+                return false;
+            }
+        }
+
+        return mkdir($dir, $mode) && Ethna_Util::chmod($dir, $mode);
+    }
+    // }}}
+
+    // {{{ chmod
+    /**
+     *  ファイルのパーミッションを変更する
+     */
+    function chmod($file, $mode)
+    {
+        $st = stat($file);
+        if (($st[2] & 0777) == $mode) {
+            return true;
+        }
+        return chmod($file, $mode);
+    }
+    // }}}
+
+
+    // {{{ purgeDir
+    /**
+     *  ディレクトリを再帰的に削除する
+     *  (途中で失敗しても中断せず、削除できるものはすべて消す)
+     *
+     *  @access public
+     *  @param  string  $file   削除するファイルまたはディレクトリ
+     *  @return bool    true:成功 false:失敗
+     *  @static
+     */
+    function purgeDir($dir)
+    {
+        if (file_exists($dir) === false) {
+            return false;
+        }
+        if (is_dir($dir) === false) {
+            return unlink($dir);
+        }
+
+        $dh = opendir($dir);
+        if ($dh === false) {
+            return false;
+        }
+        $ret = true;
+        while (($entry = readdir($dh)) !== false) {
+            if ($entry === '.' || $entry === '..') {
+                continue;
+            }
+            $ret = $ret && Ethna_Util::purgeDir("{$dir}/{$entry}");
+        }
+        closedir($dh);
+        if ($ret) {
+            return rmdir($dir);
+        } else {
+            return false;
+        }
+    }
+    // }}}
+
+    // {{{ purgeTmp
     /**
      *  テンポラリディレクトリのファイルを削除する
      *
@@ -603,7 +723,11 @@ class Ethna_Util
         $dh = opendir($c->getDirectory('tmp'));
         if ($dh) {
             while (($file = readdir($dh)) !== false) {
-                if (strncmp($file, $prefix, strlen($prefix)) == 0) {
+                if ($file == '.' || $file == '..') {
+                    continue;
+                } else if (is_dir($c->getDirectory('tmp') . '/' . $file)) {
+                    continue;
+                } else if (strncmp($file, $prefix, strlen($prefix)) == 0) {
                     $f = $c->getDirectory('tmp') . "/" . $file;
                     $st = stat($f);
                     if ($st[9] + $timeout < time()) {
@@ -614,7 +738,9 @@ class Ethna_Util
             closedir($dh);
         }
     }
+    // }}}
 
+    // {{{ lockFile
     /**
      *  ファイルをロックする
      *
@@ -650,7 +776,9 @@ class Ethna_Util
  
         return $lh;
     }
+    // }}}
 
+    // {{{ unlockFile
     /**
      *  ファイルのロックを解除する
      *
@@ -661,7 +789,9 @@ class Ethna_Util
     {
         fclose($lh);
     }
+    // }}}
 
+    // {{{ formatBacktrace
     /**
      *  バックトレースをフォーマットして返す
      *
@@ -674,7 +804,11 @@ class Ethna_Util
         $r = "";
         $i = 0;
         foreach ($bt as $elt) {
-            $r .= sprintf("[%02d] %s:%d:%s.%s\n", $i, $elt['file'], $elt['line'], isset($elt['class']) ? $elt['class'] : 'global', $elt['function']);
+            $r .= sprintf("[%02d] %s:%d:%s.%s\n", $i,
+                          $elt['file'],
+                          $elt['line'],
+                          isset($elt['class']) ? $elt['class'] : 'global',
+                          $elt['function']);
             $i++;
 
             if (isset($elt['args']) == false || is_array($elt['args']) == false) {
@@ -722,6 +856,7 @@ class Ethna_Util
 
         return $r;
     }
+    // }}}
 }
 // }}}
 ?>

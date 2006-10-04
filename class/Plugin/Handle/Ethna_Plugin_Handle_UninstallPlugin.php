@@ -107,15 +107,12 @@ class Ethna_Plugin_Handle_UninstallPlugin extends Ethna_Plugin_Handle
         }
 
         if ($target != 'master') {
+            // TODO: deal with the package including some plugins.
             list(,, $ctype, $cname) = explode('_', $pkg_name, 4);
-            $ok = $pear->confirmDialog('delete plugin generated from skelton? (could delete locally modified files)');
-            if ($ok) {
-                $generator =& new Ethna_Generator();
-                // TODO: deal with the package including some plugins.
-                $r = $generator->remove('Plugin', $ctype, $cname, $basedir);
-                if (Ethna::isError($r)) {
-                    return $r;
-                }
+            $generator =& new Ethna_Generator();
+            $r = $generator->remove('Plugin', $ctype, $cname, $basedir);
+            if (Ethna::isError($r)) {
+                return $r;
             }
         }
 

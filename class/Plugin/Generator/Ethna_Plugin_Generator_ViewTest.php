@@ -47,7 +47,7 @@ class Ethna_Plugin_Generator_ViewTest extends Ethna_Plugin_Generator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        Ethna_Handle::mkdir(dirname("$view_dir/$view_path"), 0755);
+        Ethna_Util::mkdir(dirname("$view_dir/$view_path"), 0755);
 
         if (file_exists("$view_dir$view_path")) {
             printf("file [%s] aleady exists -> skip\n", "$view_dir$view_path");

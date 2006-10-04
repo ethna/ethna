@@ -45,7 +45,7 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        Ethna_Handle::mkdir(dirname("$plugin_dir/$plugin_path"), 0755);
+        Ethna_Util::mkdir(dirname("$plugin_dir/$plugin_path"), 0755);
 
         if ($this->_generateFile("skel.plugin.{$type}_{$name}.php", "$plugin_dir/$plugin_path", $macro, $overwrite) == false) {
             printf("[warning] file creation failed [%s]\n", "$plugin_dir/$plugin_path");

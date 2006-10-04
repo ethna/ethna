@@ -19,74 +19,6 @@ define('LOG_FILE', 1 << 16);
  */
 define('LOG_ECHO', 1 << 17);
 
-
-// {{{ ethna_error_handler
-/**
- *  エラーコールバック関数
- *
- *  @param  int     $errno      エラーレベル
- *  @param  string  $errstr     エラーメッセージ
- *  @param  string  $errfile    エラー発生箇所のファイル名
- *  @param  string  $errline    エラー発生箇所の行番号
- */
-function ethna_error_handler($errno, $errstr, $errfile, $errline)
-{
-    if ($errno == E_STRICT) {
-        // E_STRICTは表示しない
-        return E_STRICT;
-    }
-
-    list($level, $name) = Ethna_Logger::errorLevelToLogLevel($errno);
-    switch ($errno) {
-    case E_ERROR:
-    case E_CORE_ERROR:
-    case E_COMPILE_ERROR:
-    case E_USER_ERROR:
-        $php_errno = 'Fatal error'; break;
-    case E_WARNING:
-    case E_CORE_WARNING:
-    case E_COMPILE_WARNING:
-    case E_USER_WARNING:
-        $php_errno = 'Warning'; break;
-    case E_PARSE:
-        $php_errno = 'Parse error'; break;
-    case E_NOTICE:
-    case E_USER_NOTICE:
-        $php_errno = 'Notice'; break;
-    default:
-        $php_errno = 'Unknown error'; break;
-    }
-
-    $php_errstr = sprintf('PHP %s: %s in %s on line %d', $php_errno, $errstr, $errfile, $errline);
-    if (ini_get('log_errors') && (error_reporting() & $errno)) {
-        $locale = setlocale(LC_TIME, 0);
-        setlocale(LC_TIME, 'C');
-        error_log($php_errstr, 0);
-        setlocale(LC_TIME, $locale);
-    }
-
-    $c =& Ethna_Controller::getInstance();
-    $logger =& $c->getLogger();
-    $logger->log($level, sprintf("[PHP] %s: %s in %s on line %d", $name, $errstr, $errfile, $errline));
-
-    $facility = $logger->getLogFacility();
-    $has_echo = false;
-    if ((is_array($facility) && in_array(LOG_ECHO, $facility)) || (is_array($facility) == false && $facility == LOG_ECHO)) {
-        $has_echo = true;
-    }
-
-    if ($has_echo == false && ini_get('display_errors') && (error_reporting() & $errno)) {
-        if ($c->getGateway() != GATEWAY_WWW) {
-            $format = "%s: %s in %s on line %d\n";
-        } else {
-            $format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
-        }
-        printf($format, $php_errno, $errstr, $errfile, $errline);
-    }
-}
-set_error_handler("ethna_error_handler");
-// }}}
-
 // {{{ Ethna_Logger
 /**
  *  ログ管理クラス
@@ -157,7 +89,7 @@ class Ethna_Logger extends Ethna_AppManager
     var $alert_mailaddress;
 
     /** @var    array   Ethna_LogWriter ログ出力オブジェクト */
-    var $writer;
+    var $writer = array();
 
     /** @var    bool    ログ出力開始フラグ */
     var $is_begin = false;
@@ -538,12 +470,7 @@ class Ethna_Logger extends Ethna_AppManager
      */
     function _parseLogFacility($facility)
     {
-        $facility_list = preg_split('/\s*,\s*/', $facility);
-        if (is_array($facility_list) == false) {
-            // no way
-            return array();
-        }
-
+        $facility_list = preg_split('/\s*,\s*/', $facility, -1, PREG_SPLIT_NO_EMPTY);
         return $facility_list;
     }
 

@@ -4,6 +4,17 @@
 
 *** features
 
+- Ethna_Plugin_Handle_ClearCache 追加
+-- 現状 smarty, pear, cachemanager_localfile, tmp以下問答無用で削除、のみの対応
+- ethna_error_handler() の print 条件を変更
+-- Logwriter プラグイン化に伴う $has_echo 条件のバグを修正
+-- $has_echo に加えて $config->get('debug') を見るようにした
+- Ethna_Handle で Ethna_Controller と App_Controller が共存する場合の扱いが混乱していたのを整理
+- Ethna_Hanlde に mkdir(), chmod(), purgeDir() を追加
+- Cachemanager プラグイン中の PEAR::raiseError() を Ethna::raiseError() に変更
+- Ethna_Logger で Ethna_Config オブジェクトの取得に失敗したときの処理を修正
+- ethna {install,uninstall,upgrade}-plugin で skel から generate されるファイルの上書き確認を廃止
+
 - Ethna_Plugin_Handle_ListPlugin
 -- パッケージ管理に係わらずプラグインの一覧を表示
 -- パッケージ管理下にあるときはパッケージ名とバージョンを表示
@@ -16,6 +27,7 @@
 -- ダウンロード済みの tgz に対応
 -- Console_GetOpt で --channel, --basedir, --local, --master のオプションを追加
 -- new PEAR_Error() 時の error handler を callback($ui, 'displayFatalError') に変更
+
 - Ethna_UrlHandlerクラスを追加(ステキurl対応)
 - Smartyプラグイン関数smarty_function_url追加
 - Ethna_AppObjectからのフォーム定義生成サポート追加

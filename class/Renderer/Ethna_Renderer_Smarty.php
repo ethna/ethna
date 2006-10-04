@@ -45,7 +45,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
         // 一応がんばってみる
         if (is_dir($this->engine->compile_dir) == false) {
-            mkdir($this->engine->compile_dir, 0755);
+            Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
 
         $this->engine->plugins_dir = $controller->getDirectory('plugins');

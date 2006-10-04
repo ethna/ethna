@@ -51,7 +51,7 @@ class Ethna_Plugin_Generator_Action extends Ethna_Plugin_Generator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        Ethna_Handle::mkdir(dirname("$action_dir$action_path"), 0755);
+        Ethna_Util::mkdir(dirname("$action_dir$action_path"), 0755);
 
         switch ($gateway) {
         case GATEWAY_WWW:

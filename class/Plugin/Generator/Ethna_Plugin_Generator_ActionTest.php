@@ -50,7 +50,7 @@ class Ethna_Plugin_Generator_ActionTest extends Ethna_Plugin_Generator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        Ethna_Handle::mkdir(dirname("$action_dir$action_path"), 0755);
+        Ethna_Util::mkdir(dirname("$action_dir$action_path"), 0755);
 
         if (file_exists("$action_dir$action_path")) {
             printf("file [%s] aleady exists -> skip\n", "$action_dir$action_path");

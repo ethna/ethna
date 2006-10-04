@@ -17,6 +17,7 @@ include_once('PEAR/PackageFile.php');
 // {{{ Ethna_PearWrapper
 /**
  *  wrapper class for PEAR_Command
+ *  This class should be instantiated in ethna handler.
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -88,10 +89,9 @@ class Ethna_PearWrapper
         PEAR_Command::setFrontendType('CLI');
         $this->ui =& PEAR_Command::getFrontendObject();
 
-        // PEAR's error handling rule
+        // set PEAR's error handling
         // TODO: if PEAR/Command/Install.php is newer than 1.117, displayError goes well.
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$this->ui, 'displayFatalError'));
-        set_error_handler('ethna_error_handler_skip_pear');
 
         // set channel
         $master_setting = Ethna_Handle::getMasterSetting('repositry');
@@ -126,10 +126,6 @@ class Ethna_PearWrapper
 
         // setup PEAR_Registry
         $this->registry =& $this->config->getRegistry();
-
-        // Ethna's error handling rule
-        Ethna::clearErrorCallback();
-        set_error_handler('ethna_error_handler_skip_pear');
 
         return $true;
     }
@@ -188,7 +184,7 @@ class Ethna_PearWrapper
         // mkdir
         foreach ($dirs as $key => $dir) {
             if (is_dir($dir) == false) {
-                Ethna_Handle::mkdir($dir, 0755);
+                Ethna_Util::mkdir($dir, 0755);
             }
         }
 
@@ -604,20 +600,6 @@ class Ethna_PearWrapper
         $this->ui->outputData($data);
     }
     // }}}
-}
-// }}}
-
-// {{{ ethna_error_handler_skip_pear
-/**
- *  skip error messages raised with '@expr' in PEAR codes.
- */
-function ethna_error_handler_skip_pear($errno, $errstr, $errfile, $errline)
-{
-    if (defined('PEAR_CONFIG_DEFAULT_PHP_DIR') === false
-        || strpos($errfile, PEAR_CONFIG_DEFAULT_PHP_DIR . '/PEAR')   !== 0
-        && strpos($errfile, PEAR_CONFIG_DEFAULT_PHP_DIR . '/System') !== 0) {
-        ethna_error_handler($errno, $errstr, $errfile, $errline);
-    }
 }
 // }}}
 

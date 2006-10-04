@@ -45,7 +45,7 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
         // add '_' for tpl and no user macro for tpl
         $macro['_project_id'] = $c->getAppId();
 
-        Ethna_Handle::mkdir(dirname("$tpl_dir/$tpl_path"), 0755);
+        Ethna_Util::mkdir(dirname("$tpl_dir/$tpl_path"), 0755);
 
         if (file_exists("$tpl_dir$tpl_path")) {
             printf("file [%s] already exists -> skip\n", "$tpl_dir$tpl_path");

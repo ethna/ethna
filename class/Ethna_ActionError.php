@@ -9,8 +9,6 @@
  *  @version    $Id$
  */
 
-include_once(ETHNA_BASE . '/class/Ethna_Error.php');
-
 // {{{ Ethna_ActionError
 /**
  *  アプリケーションエラー管理クラス

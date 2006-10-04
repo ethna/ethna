@@ -133,13 +133,10 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
         if ($target != 'master') {
             // TODO: deal with the package including some plugins.
             list(,, $ctype, $cname) = explode('_', $pkg_name, 4);
-            $ok = $pear->confirmDialog('generate a plugin from skelton? (could overwrite files already exist)');
-            if ($ok) {
-                $generator =& new Ethna_Generator();
-                $r = $generator->generate('Plugin', $ctype, $cname, $basedir, true);
-                if (Ethna::isError($r)) {
-                    return $r;
-                }
+            $generator =& new Ethna_Generator();
+            $r = $generator->generate('Plugin', $ctype, $cname, $basedir, true);
+            if (Ethna::isError($r)) {
+                return $r;
             }
         }
 

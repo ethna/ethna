@@ -70,7 +70,8 @@ class Ethna_Session
         } else {
             $http_vars =& $_GET;
         }
-        if (array_key_exists($this->session_name, $http_vars) && $http_vars[$this->session_name] != null) {
+        if (array_key_exists($this->session_name, $http_vars)
+            && $http_vars[$this->session_name] != null) {
             $_COOKIE[$this->session_name] = $http_vars[$this->session_name];
         }
     }
@@ -118,7 +119,9 @@ class Ethna_Session
         }
 
         // check remote address
-        if (!isset($_SESSION['REMOTE_ADDR']) || $this->_validateRemoteAddr($_SESSION['REMOTE_ADDR'], $_SERVER['REMOTE_ADDR']) == false) {
+        if (!isset($_SESSION['REMOTE_ADDR'])
+            || $this->_validateRemoteAddr($_SESSION['REMOTE_ADDR'],
+                                          $_SERVER['REMOTE_ADDR']) == false) {
             // we do not allow this
             setcookie($this->session_name, "", 0, "/");
             session_destroy();
@@ -269,7 +272,8 @@ class Ethna_Session
     }
 
     /**
-     *  セッションに保存されたIPアドレスとアクセス元のIPアドレスが同一ネットワーク範囲かどうかを判別する(16bit mask)
+     *  セッションに保存されたIPアドレスとアクセス元のIPアドレスが
+     *  同一ネットワーク範囲かどうかを判別する(16bit mask)
      *
      *  @access private
      *  @param  string  $src_ip     セッション開始時のアクセス元IPアドレス
@@ -284,7 +288,8 @@ class Ethna_Session
         if (($src & 0xffff0000) == ($dst & 0xffff0000)) {
             return true;
         } else {
-            $this->logger->log(LOG_NOTICE, "session IP validation failed [%s] - [%s]", $src_ip, $dst_ip);
+            $this->logger->log(LOG_NOTICE, "session IP validation failed [%s] - [%s]",
+                               $src_ip, $dst_ip);
             return false;
         }
     }

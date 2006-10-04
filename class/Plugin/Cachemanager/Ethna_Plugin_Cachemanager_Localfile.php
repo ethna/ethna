@@ -45,17 +45,17 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
-            return PEAR::raiseError('fopen failed', E_CACHE_NO_VALUE);
+            return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
         }
         if (is_null($lifetime) == false) {
             if (($st[9]+$lifetime) < time()) {
-                return PEAR::raiseError('fopen failed', E_CACHE_EXPIRED);
+                return Ethna::raiseError('fopen failed', E_CACHE_EXPIRED);
             }
         }
 
         $fp = fopen($cache_file, "r");
         if ($fp == false) {
-            return PEAR::raiseError('fopen failed', E_CACHE_NO_VALUE);
+            return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
         }
         // ロック
         $timeout = 3;
@@ -69,7 +69,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         }
         if ($timeout <= 0) {
             fclose($fp);
-            return PEAR::raiseError('fopen failed', E_CACHE_GENERAL);
+            return Ethna::raiseError('fopen failed', E_CACHE_GENERAL);
         }
 
         $n = 0;
@@ -85,7 +85,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
 
         if ($st == false || $n > 5) {
             fclose($fp);
-            return PEAR::raiseError('stat failed', E_CACHE_NO_VALUE);
+            return Ethna::raiseError('stat failed', E_CACHE_NO_VALUE);
         }
         $value = fread($fp, $st[7]);
         fclose($fp);
@@ -109,7 +109,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
-            return PEAR::raiseError('fopen failed', E_CACHE_NO_VALUE);
+            return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
         }
         return $st[9];
     }
@@ -157,25 +157,15 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         $dir = $this->_getCacheDir($namespace, $key);
 
         // キャッシュディレクトリチェック
-        $dir_list = array();
-        $tmp = $dir;
-        while (is_dir($tmp) == false) {
-            array_unshift($dir_list, $tmp);
-            $tmp = dirname($tmp);
-        }
-        foreach ($dir_list as $tmp) {
-            $r = mkdir($tmp);
-            if ($r == false && is_dir($tmp) == false) {
-                $message = sprintf('mkdir(%s) failed', $tmp);
-                trigger_error($message, E_USER_WARNING);
-            }
-            $this->_chmod($tmp, 0777);
+        $r = Ethna_Util::mkdir($dir, 0777);
+        if ($r == false && is_dir($dir) == false) {
+            return Ethna::raiseError('mkdir(%s) failed', E_USER_WARNING, $dir);
         }
 
         $cache_file = $this->_getCacheFile($namespace, $key);
         $fp = fopen($cache_file, "a+");
         if ($fp == false) {
-            return PEAR::raiseError('fopen failed', E_CACHE_GENERAL);
+            return Ethna::raiseError('fopen failed', E_CACHE_GENERAL);
         }
 
         // ロック
@@ -190,13 +180,13 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         }
         if ($timeout <= 0) {
             fclose($fp);
-            return PEAR::raiseError('fopen failed', E_CACHE_GENERAL);
+            return Ethna::raiseError('fopen failed', E_CACHE_GENERAL);
         }
         rewind($fp);
         ftruncate($fp, 0);
         fwrite($fp, serialize($value));
         fclose($fp);
-        $this->_chmod($cache_file, 0666);
+        Ethna_Util::chmod($cache_file, 0666);
 
         if (is_null($timestamp)) {
             // this could suppress warning
@@ -278,20 +268,6 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     function _escape($string)
     {
         return preg_replace('/([^0-9A-Za-z_])/e', "sprintf('%%%02X', ord('\$1'))", $string);
-    }
-
-    /**
-     *  ファイルのパーミッションを変更する
-     *
-     *  @access private
-     */
-    function _chmod($file, $mode)
-    {
-        $st = stat($file);
-        if (($st[2] & 0777) == $mode) {
-            return true;
-        }
-        return chmod($file, $mode);
     }
 }
 ?>

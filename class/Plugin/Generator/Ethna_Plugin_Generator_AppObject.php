@@ -49,7 +49,7 @@ class Ethna_Plugin_Generator_AppObject extends Ethna_Plugin_Generator
         $macro = array_merge($macro, $user_macro);
 
         $path = "$app_dir/$app_path";
-        Ethna_Handle::mkdir(dirname($path), 0755);
+        Ethna_Util::mkdir(dirname($path), 0755);
         if (file_exists($path)) {
             printf("file [%s] already exists -> skip\n", $path);
         } else if ($this->_generateFile("skel.app_object.php", $path, $macro) == false) {

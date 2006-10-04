@@ -207,7 +207,7 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
     }
     // }}}
 
-    // {{{
+    // {{{ _sort
     /**
      *  sort callback method
      */

@@ -9,6 +9,78 @@
  *  @version    $Id$
  */
 
+// {{{ ethna_error_handler
+/**
+ *  エラーコールバック関数
+ *
+ *  @param  int     $errno      エラーレベル
+ *  @param  string  $errstr     エラーメッセージ
+ *  @param  string  $errfile    エラー発生箇所のファイル名
+ *  @param  string  $errline    エラー発生箇所の行番号
+ */
+function ethna_error_handler($errno, $errstr, $errfile, $errline)
+{
+    if ($errno === E_STRICT || ($errno & error_reporting()) === 0) {
+        return;
+    }
+
+    list($level, $name) = Ethna_Logger::errorLevelToLogLevel($errno);
+    switch ($errno) {
+    case E_ERROR:
+    case E_CORE_ERROR:
+    case E_COMPILE_ERROR:
+    case E_USER_ERROR:
+        $php_errno = 'Fatal error'; break;
+    case E_WARNING:
+    case E_CORE_WARNING:
+    case E_COMPILE_WARNING:
+    case E_USER_WARNING:
+        $php_errno = 'Warning'; break;
+    case E_PARSE:
+        $php_errno = 'Parse error'; break;
+    case E_NOTICE:
+    case E_USER_NOTICE:
+        $php_errno = 'Notice'; break;
+    default:
+        $php_errno = 'Unknown error'; break;
+    }
+    $php_errstr = sprintf('PHP %s: %s in %s on line %d',
+                          $php_errno, $errstr, $errfile, $errline);
+
+    // error_log()
+    if (ini_get('log_errors')) {
+        $locale = setlocale(LC_TIME, 0);
+        setlocale(LC_TIME, 'C');
+        error_log($php_errstr, 0);
+        setlocale(LC_TIME, $locale);
+    }
+
+    // $logger->log()
+    $c =& Ethna_Controller::getInstance();
+    $logger =& $c->getLogger();
+    $logger->log($level, sprintf("[PHP] %s: %s in %s on line %d",
+                                 $name, $errstr, $errfile, $errline));
+
+    // printf()
+    if (ini_get('display_errors')) {
+        $config =& $c->getConfig();
+        $is_debug = $config->get('debug');
+        $facility = $logger->getLogFacility();
+        $has_echo = is_array($facility)
+                    ? in_array('echo', $facility) : $facility === 'echo';
+        if ($is_debug == false && $has_echo === false) {
+            if ($c->getGateway() != GATEWAY_WWW) {
+                $format = "%s: %s in %s on line %d\n";
+            } else {
+                $format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
+            }
+            printf($format, $php_errno, $errstr, $errfile, $errline);
+        }
+    }
+}
+set_error_handler("ethna_error_handler");
+// }}}
+
 // {{{ Ethna_Error
 /**
  *  エラークラス
