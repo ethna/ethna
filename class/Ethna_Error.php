@@ -57,28 +57,34 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
 
     // $logger->log()
     $c =& Ethna_Controller::getInstance();
-    $logger =& $c->getLogger();
-    $logger->log($level, sprintf("[PHP] %s: %s in %s on line %d",
-                                 $name, $errstr, $errfile, $errline));
+    if ($c !== null) {
+        $logger =& $c->getLogger();
+        $logger->log($level, sprintf("[PHP] %s: %s in %s on line %d",
+                                     $name, $errstr, $errfile, $errline));
+    }
 
     // printf()
     if (ini_get('display_errors')) {
-        $config =& $c->getConfig();
-        $is_debug = $config->get('debug');
-        $facility = $logger->getLogFacility();
-        $has_echo = is_array($facility)
-                    ? in_array('echo', $facility) : $facility === 'echo';
-        if ($is_debug == false && $has_echo === false) {
-            if ($c->getGateway() != GATEWAY_WWW) {
-                $format = "%s: %s in %s on line %d\n";
-            } else {
+        $is_debug = true;
+        $has_echo = false;
+        if ($c !== null) {
+            $config =& $c->getConfig();
+            $is_debug = $config->get('debug');
+            $facility = $logger->getLogFacility();
+            $has_echo = is_array($facility)
+                        ? in_array('echo', $facility) : $facility === 'echo';
+        }
+        if ($is_debug == true && $has_echo === false) {
+            if ($c !== null && $c->getGateway() === GATEWAY_WWW) {
                 $format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
+            } else {
+                $format = "%s: %s in %s on line %d\n";
             }
             printf($format, $php_errno, $errstr, $errfile, $errline);
         }
     }
 }
-set_error_handler("ethna_error_handler");
+set_error_handler('ethna_error_handler');
 // }}}
 
 // {{{ Ethna_Error
