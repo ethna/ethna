@@ -4,6 +4,9 @@
 
 *** features
 
+- Ethna_Plugin_Handle_{Install,Upgrade}Plugin に --state オプションを追加
+- local のプラグインの prefix を App に変更(app_idの予約語扱い)
+
 - Ethna_Plugin_Handle_ClearCache 追加
 -- 現状 smarty, pear, cachemanager_localfile, tmp以下問答無用で削除、のみの対応
 - ethna_error_handler() の print 条件を変更

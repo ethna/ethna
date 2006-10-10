@@ -27,7 +27,8 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
      */
     function &_parseArgList()
     {
-        $r =& $this->_getopt(array('local', 'master', 'basedir=', 'channel=', 'type='));
+        $r =& $this->_getopt(array('local', 'master',  'type=',
+                                   'basedir=', 'channel=', 'verbose'));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -49,6 +50,9 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
                     break;
                 case ($opt[0] == 't' || $opt[0] == '--type'):
                     $ret['type'] = $opt[1];
+                    break;
+                case ($opt[0] == 'v' || $opt[0] == '--verbose'):
+                    $ret['verbose'] = true;
                     break;
             }
         }
@@ -72,6 +76,7 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
         $target = isset($args['target']) ? $args['target'] : null;
         $channel = isset($args['channel']) ? $args['channel'] : null;
         $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
+        $verbose = isset($args['verbose']);
         $r =& $pear->init($target, $basedir, $channel);
         if (Ethna::isError($r)) {
             return $r;
@@ -94,7 +99,7 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
         sort($class_list);
         $class_list = array_unique($class_list);
         foreach ($class_list as $class_name) {
-            $tmp = array(null, null, null, null, null);
+            $tmp = array();
 
             // check found plugin.
             if (isset($plugins_found[$class_name])) {
@@ -103,34 +108,50 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
                 $tmp[1] = $name;
                 $tmp[2] = $class_name;
                 $tmp[3] = '-';
-                $tmp[4] = '-';
+                if ($verbose) {
+                    $tmp[4] = '-';
+                    $tmp[5] = '-';
+                }
             }
 
             // check installed plugin.
             if (isset($plugins_installed[$class_name])) {
-                list($type, $name, $pkg_name, $pkg_version) = $plugins_installed[$class_name];
-                if ($tmp[0] === null) {
+                list($type, $name, $pkg_name, $pkg_version, $pkg_state)
+                    = $plugins_installed[$class_name];
+                if (isset($tmp[0])) {
+                    $tmp[3] = $pkg_name;
+                    if ($verbose) {
+                        $tmp[4] = $pkg_version;
+                        $tmp[5] = $pkg_state;
+                    }
+                } else {
                     // this plugin is only in skelton
                     $tmp[0] = $type;
                     $tmp[1] = $name;
                     $tmp[2] = '-';
                     $tmp[3] = $pkg_name;
-                    $tmp[4] = $pkg_version;
-                } else {
-                    $tmp[3] = $pkg_name;
-                    $tmp[4] = $pkg_version;
+                    if ($verbose) {
+                        $tmp[4] = $pkg_version;
+                        $tmp[5] = $pkg_state;
+                    }
                 }
             }
 
-            if ($tmp[0] !== null) {
+            if (isset($tmp[0])) {
                 $data[] = $tmp;
             }
         }
 
         usort($data, array(&$this, '_sort'));
-        $pear->displayTable('installed plugins',
-                            array('type', 'name', 'class', 'package', 'version'),
-                            $data);
+        if ($verbose) {
+            $pear->displayTable('installed plugins',
+                array('type', 'name', 'class', 'package', 'version', 'state'),
+                $data);
+        } else {
+            $pear->displayTable('installed plugins',
+                array('type', 'name', 'class', 'package'),
+                $data);
+        }
         return true;
     }
     // }}}
@@ -156,14 +177,16 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
 
         $plugin =& $pear->target_ctl->getPlugin();
         $appid = $pear->target_ctl->getAppId();
-        $test_prefix = $pear->target == 'master' ? 'Ethna' : 'Skel';
+        $test_prefix = $pear->target == 'master' ? 'Ethna' : 'App';
 
         foreach ($pkg_list as $pkg_name) {
             list($prefix,, $type, $name) = explode('_', $pkg_name, 4);
             if (($_type === null || $_type == $type) && $prefix == $test_prefix) {
                 list($class_name,,) = $plugin->getPluginNaming($type, $name, $appid);
                 $pkg_version = $pear->getVersion($pkg_name);
-                $ret[$class_name] = array($type, $name, $pkg_name, $pkg_version);
+                $pkg_state = $pear->getState($pkg_name);
+                $ret[$class_name] = array($type, $name, $pkg_name,
+                                          $pkg_version, $pkg_state);
             }
         }
         return $ret;
@@ -233,7 +256,7 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
     {
         return <<<EOS
 list local or master plugins. if type (case sensitive) not specified, list all plugins:
-    {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [-l|--local] [-m|--master] [-t|--type=type]
+    {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [-l|--local] [-m|--master] [-t|--type=type] [-v|--verbose]
 
 EOS;
     }
@@ -246,7 +269,7 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [-l|--local] [-m|--master] [-t|--type=type]
+ethna {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [-l|--local] [-m|--master] [-t|--type=type] [-v|--verbose]
 EOS;
     }
     // }}}

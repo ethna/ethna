@@ -191,10 +191,9 @@ class Ethna_PearWrapper
         $pearrc = "{$base}/skel/.pearrc";
         $this->config =& PEAR_Config::singleton($pearrc);
 
-        // return if local .pearrc exists.
+        // read local .pearrc if exists.
         if (is_file($pearrc) && is_readable($pearrc)) {
             $this->config->readConfigFile($pearrc);
-            return $true;
         }
 
         // set dirs to config
@@ -221,7 +220,7 @@ class Ethna_PearWrapper
 
     // {{{ doClearCache
     /**
-     *  do clear-cache (for local) 
+     *  do clear-cache
      *
      *  @return true|Ethna_Error
      */
@@ -238,7 +237,7 @@ class Ethna_PearWrapper
 
     // {{{ doChannelDiscover
     /**
-     *  do channel-discover (for local) 
+     *  do channel-discover
      *
      *  @return true|Ethna_Error
      */
@@ -267,7 +266,7 @@ class Ethna_PearWrapper
 
     // {{{ doChannelUpdate
     /**
-     *  do channel-update (for local) 
+     *  do channel-update
      *
      *  @return true|Ethna_Error
      */
@@ -390,6 +389,20 @@ class Ethna_PearWrapper
     {
         $pobj =& $this->registry->getPackage($package, $this->channel);
         return $pobj->getVersion();
+    }
+    // }}}
+
+    // {{{ getState
+    /**
+     *  get package version
+     *
+     *  @param  string  $package package name
+     *  @return string  version string
+     */
+    function getState($package)
+    {
+        $pobj =& $this->registry->getPackage($package, $this->channel);
+        return $pobj->getState();
     }
     // }}}
 

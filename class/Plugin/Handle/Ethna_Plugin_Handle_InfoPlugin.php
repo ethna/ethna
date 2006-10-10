@@ -85,7 +85,7 @@ class Ethna_Plugin_Handle_InfoPlugin extends Ethna_Plugin_Handle
             if ($target == 'master') {
                 $pkg_name = sprintf('Ethna_Plugin_%s_%s', $args['type'], $args['name']);
             } else {
-                $pkg_name = sprintf('Skel_Plugin_%s_%s', $args['type'], $args['name']);
+                $pkg_name = sprintf('App_Plugin_%s_%s', $args['type'], $args['name']);
             }
 
             $r =& $pear->init($target, $basedir, $channel);

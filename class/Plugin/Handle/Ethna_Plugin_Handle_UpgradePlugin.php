@@ -27,31 +27,30 @@ class Ethna_Plugin_Handle_UpgradePlugin extends Ethna_Plugin_Handle
      */
     function &_parseArgList()
     {
-        $r =& $this->_getopt(array('local', 'master', 'basedir=', 'channel='));
+        $r =& $this->_getopt(array('local', 'master', 'state=',
+                                   'basedir=', 'channel='));
         if (Ethna::isError($r)) {
             return $r;
         }
         list($opt_list, $arg_list) = $r;
 
         $ret = array();
-
-        // options
         foreach ($opt_list as $opt) {
             switch (true) {
                 case ($opt[0] == 'l' || $opt[0] == '--local'):
                     $ret['target'] = 'local';
                     break;
-
                 case ($opt[0] == 'm' || $opt[0] == '--master'):
                     $ret['target'] = 'master';
                     break;
-
                 case ($opt[0] == 'b' || $opt[0] == '--basedir'):
                     $ret['basedir'] = $opt[1];
                     break;
-
                 case ($opt[0] == 'c' || $opt[0] == '--channel'):
                     $ret['channel'] = $opt[1];
+                    break;
+                case ($opt[0] == 's' || $opt[0] == '--state'):
+                    $ret['state'] = $opt[1];
                     break;
             }
         }
@@ -106,10 +105,14 @@ class Ethna_Plugin_Handle_UpgradePlugin extends Ethna_Plugin_Handle
             $target = isset($args['target']) ? $args['target'] : null;
             $channel = isset($args['channel']) ? $args['channel'] : null;
             $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
+            $state = isset($args['state']) ? $args['state'] : null;
             if ($target == 'master') {
                 $pkg_name = sprintf('Ethna_Plugin_%s_%s', $args['type'], $args['name']);
             } else {
-                $pkg_name = sprintf('Skel_Plugin_%s_%s', $args['type'], $args['name']);
+                $pkg_name = sprintf('App_Plugin_%s_%s', $args['type'], $args['name']);
+            }
+            if ($state !== null) {
+                $pkg_name = "{$package}-{$state}";
             }
 
             $r =& $pear->init($target, $basedir, $channel);

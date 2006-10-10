@@ -289,7 +289,7 @@ class Ethna_Controller
      */
     function checkAppId($id)
     {
-        if (strcasecmp($id, 'ethna') == 0) {
+        if (strcasecmp($id, 'ethna') == 0 || strcasecmp($id, 'app') == 0) {
             return Ethna::raiseError(sprintf("Application Id [%s] is reserved\n", $id));
         }
         if (preg_match('/^[0-9a-zA-Z]+$/', $id) == 0) {
