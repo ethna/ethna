@@ -112,7 +112,7 @@ class Ethna_Plugin_Handle_UpgradePlugin extends Ethna_Plugin_Handle
                 $pkg_name = sprintf('App_Plugin_%s_%s', $args['type'], $args['name']);
             }
             if ($state !== null) {
-                $pkg_name = "{$package}-{$state}";
+                $pkg_name = "{$pkg_name}-{$state}";
             }
 
             $r =& $pear->init($target, $basedir, $channel);
