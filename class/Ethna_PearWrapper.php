@@ -311,12 +311,17 @@ class Ethna_PearWrapper
     /**
      *  do install
      *
-     *  @param  string  $package    package name.
+     *  @param  string  $pkg_name   package name.
+     *  @param  string  $state      package state.
      *  @return true|Ethna_Error
      */
-    function &doInstall($package)
+    function &doInstall($pkg_name, $state = null)
     {
-        $r =& $this->_doInstallOrUpgrade('install', "{$this->channel}/{$package}"); 
+        $pkg = "{$this->channel}/{$pkg_name}";
+        if ($state !== null) {
+            $pkg = "{$pkg}-{$state}";
+        }
+        $r =& $this->_doInstallOrUpgrade('install', $pkg); 
         return $r;
     }
     // }}}
@@ -325,11 +330,10 @@ class Ethna_PearWrapper
     /**
      *  do install from local tgz file
      *
-     *  @param  string  $pkg_file   local package filename
-     *  @param  string  $pkg_name   package name.
+     *  @param  string  $pkg_file   package filename
      *  @return true|Ethna_Error
      */
-    function &doInstallFromTgz($pkg_file, $pkg_name)
+    function &doInstallFromTgz($pkg_file)
     {
         $r =& $this->_doInstallOrUpgrade('install', $pkg_file); 
         return $r;
@@ -340,12 +344,17 @@ class Ethna_PearWrapper
     /**
      *  do upgrade
      *
-     *  @param  string  $package    package name.
+     *  @param  string  $pkg_name   package name.
+     *  @param  string  $state      package state.
      *  @return true|Ethna_Error
      */
-    function &doUpgrade($package)
+    function &doUpgrade($pkg_name, $state = null)
     {
-        $r =& $this->_doInstallOrUpgrade('upgrade', "{$this->channel}/{$package}"); 
+        $pkg = "{$this->channel}/{$pkg_name}";
+        if ($state !== null) {
+            $pkg = "{$pkg}-{$state}";
+        }
+        $r =& $this->_doInstallOrUpgrade('upgrade', $pkg);
         return $r;
     }
     // }}}
@@ -354,11 +363,10 @@ class Ethna_PearWrapper
     /**
      *  do upgrade from local tgz file
      *
-     *  @param  string  $pkg_file   local package filename
-     *  @param  string  $pkg_name   package name.
+     *  @param  string  $pkg_file   package filename
      *  @return true|Ethna_Error
      */
-    function &doUpgradeFromTgz($pkg_file, $pkg_name)
+    function &doUpgradeFromTgz($pkg_file)
     {
         $r =& $this->_doInstallOrUpgrade('upgrade', $pkg_file); 
         return $r;

@@ -120,15 +120,12 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
             } else {
                 $pkg_name = sprintf('App_Plugin_%s_%s', $args['type'], $args['name']);
             }
-            if ($state !== null) {
-                $pkg_name = "{$pkg_name}-{$state}";
-            }
 
             $r =& $pear->init($target, $basedir, $channel);
             if (Ethna::isError($r)) {
                 return $r;
             }
-            $r =& $pear->doInstall($pkg_name);
+            $r =& $pear->doInstall($pkg_name, $state);
             if (Ethna::isError($r)) {
                 return $r;
             }
