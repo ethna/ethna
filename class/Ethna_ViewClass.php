@@ -126,7 +126,8 @@ class Ethna_ViewClass
      */
     function addActionFormHelper($action)
     {
-        if (is_object($this->helper_action_form[$action])) {
+        if (isset($this->helper_action_form[$action])
+            && is_object($this->helper_action_form[$action])) {
             return;
         }
         $this->helper_action_form[$action] =& $this->_getHelperActionForm($action);
