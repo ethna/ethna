@@ -217,6 +217,19 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
+     *  @var    array   smarty block定義
+     */
+    var $smarty_block_plugin = array(
+        /*
+         *  TODO: ここにユーザ定義のsmarty block一覧を記述してください
+         *
+         *  記述例：
+         *
+         *  'smarty_block_foo_bar',
+         */
+    );
+
+    /**
      *  @var    array   smarty prefilter定義
      */
     var $smarty_prefilter_plugin = array(
