@@ -121,7 +121,7 @@ class Ethna_ViewClass_Test extends UnitTestCase
 
         $this->viewclass->af->form = $test_form;
 
-        $result = $this->viewclass->getFormName('test_text', $params);
+        $result = $this->viewclass->getFormName('test_text', null, $params);
         $this->assertEqual($result, $test_word);
      }
 

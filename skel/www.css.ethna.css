@@ -49,3 +49,7 @@ div#main a:link {
 div#main a:visited {
     color: #f29578;
 }
+
+span.ethna-error {
+    color: #ff0000;
+}

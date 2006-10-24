@@ -8,6 +8,7 @@
  *  @version    $Id$
  */
 
+// {{{ smarty_modifier_number_format
 /**
  *  smarty modifier:number_format()
  *
@@ -31,7 +32,9 @@ function smarty_modifier_number_format($string)
     }
     return number_format($string);
 }
+// }}}
 
+// {{{ smarty_modifier_strftime
 /**
  *  smarty modifier:strftime()
  *
@@ -56,7 +59,9 @@ function smarty_modifier_strftime($string, $format)
     }
     return strftime($format, strtotime($string));
 }
+// }}}
 
+// {{{ smarty_modifier_count
 /**
  *  smarty modifier:count()
  *
@@ -79,7 +84,9 @@ function smarty_modifier_count($array)
 {
     return count($array);
 }
+// }}}
 
+// {{{ smarty_modifier_join
 /**
  *  smarty modifier:join()
  *
@@ -106,7 +113,9 @@ function smarty_modifier_join($array, $glue)
     }
     return implode($glue, $array);
 }
+// }}}
 
+// {{{ smarty_modifier_filter
 /**
  *  smarty modifier:filter()
  *
@@ -144,7 +153,9 @@ function smarty_modifier_filter($array, $key)
     }
     return $tmp;
 }
+// }}}
 
+// {{{ smarty_modifier_unique
 /**
  *  smarty modifier:unique()
  *
@@ -192,7 +203,9 @@ function smarty_modifier_unique($array, $key = null)
         return array_unique($array);
     }
 }
+// }}}
 
+// {{{ smarty_modifier_wordwrap_i18n
 /**
  *  smarty modifier:文字列のwordwrap処理
  *
@@ -251,7 +264,9 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
 
     return $r;
 }
+// }}}
 
+// {{{ smarty_modifier_truncate_i18n
 /**
  *  smarty modifier:文字列切り詰め処理(i18n対応)
  *
@@ -270,7 +285,9 @@ function smarty_modifier_truncate_i18n($string, $len = 80, $postfix = "...")
 {
     return mb_strimwidth($string, 0, $len, $postfix);
 }
+// }}}
 
+// {{{ smarty_modifier_i18n
 /**
  *  smarty modifier:i18nフィルタ
  *
@@ -293,7 +310,9 @@ function smarty_modifier_i18n($string)
 
     return $i18n->get($string);
 }
+// }}}
 
+// {{{ smarty_modifier_checkbox
 /**
  *  smarty modifier:チェックボックス用フィルタ
  *
@@ -316,7 +335,9 @@ function smarty_modifier_checkbox($string)
         return "checked";
     }
 }
+// }}}
 
+// {{{ smarty_modifier_select
 /**
  *  smarty modifier:セレクトボックス用フィルタ
  *
@@ -342,10 +363,12 @@ function smarty_modifier_checkbox($string)
 function smarty_modifier_select($string, $value)
 {
     if ($string == $value) {
-        print 'selected="true"';
+        return 'selected="true"';
     }
 }
+// }}}
 
+// {{{ smarty_modifier_form_value
 /**
  *  smarty modifier:フォーム値出力フィルタ
  *
@@ -377,30 +400,24 @@ function smarty_modifier_form_value($string)
 
     return htmlspecialchars($r, ENT_QUOTES);
 }
+// }}}
 
+// {{{ smarty_function_is_error
 /**
  *  smarty function:指定されたフォーム項目でエラーが発生しているかどうかを返す
- *
- *  sample:
- *  <code>
- *  {if is_error('name')}
- *  エラー
- *  {/if}
- *  </code>
+ *  NOTE: {if is_error('name')} は Ethna_Util.php の is_error() であって、
+ *        smarty_function_is_error() ではないことに注意
  *
  *  @param  string  $name   フォーム項目名
  */
 function smarty_function_is_error($params, &$smarty)
 {
-    $c =& Ethna_Controller::getInstance();
-
-    extract($params);
-
-    $action_error =& $c->getActionError();
-
-    return $action_error->isError($name);
+    $name = isset($params['name']) ? $params['name'] : null;
+    return is_error($name);
 }
+// }}}
 
+// {{{ smarty_function_message
 /**
  *  smarty function:指定されたフォーム項目に対応するエラーメッセージを出力する
  *
@@ -416,15 +433,27 @@ function smarty_function_is_error($params, &$smarty)
  */
 function smarty_function_message($params, &$smarty)
 {
+    if (isset($params['name']) === false) {
+        return '';
+    }
+
     $c =& Ethna_Controller::getInstance();
-
-    extract($params);
-
     $action_error =& $c->getActionError();
 
-    print htmlspecialchars($action_error->getMessage($name));
-}
+    $message = $action_error->getMessage($params['name']);
+    if ($message === null) {
+        return '';
+    }
 
+    $id = isset($params['id']) ? $params['id']
+        : str_replace("_", "-", "ethna-error-" . $params['name']);
+    $class = isset($params['class']) ? $params['class'] : "ethna-error";
+    return sprintf('<span class="%s" id="%s">%s</span>',
+        $class, $id, htmlspecialchars($message));
+}
+// }}}
+
+// {{{ smarty_function_uniqid
 /**
  *  smarty function:ユニークIDを生成する(double postチェック用)
  *
@@ -441,16 +470,16 @@ function smarty_function_message($params, &$smarty)
  */
 function smarty_function_uniqid($params, &$smarty)
 {
-    extract($params);
-
     $uniqid = Ethna_Util::getRandom();
-    if (isset($type) && $type == 'get') {
-        print "uniqid=$uniqid";
+    if (isset($params['type']) && $params['type'] == 'get') {
+        return "uniqid=$uniqid";
     } else {
-        print "<input type=\"hidden\" name=\"uniqid\" value=\"$uniqid\" />\n";
+        return "<input type=\"hidden\" name=\"uniqid\" value=\"$uniqid\" />\n";
     }
 }
+// }}}
 
+// {{{ smarty_function_select
 /**
  *  smarty function:セレクトフィールド生成
  *
@@ -458,6 +487,7 @@ function smarty_function_uniqid($params, &$smarty)
  *  @param  string  $name   フォーム項目名
  *  @param  string  $value  セレクトボックスに渡されたフォーム値
  *  @param  string  $empty  空エントリ(「---選択して下さい---」等)
+ *  @deprecated
  */
 function smarty_function_select($params, &$smarty)
 {
@@ -472,13 +502,16 @@ function smarty_function_select($params, &$smarty)
     }
     print "</select>\n";
 }
+// }}}
 
+// {{{ smarty_function_checkbox_list
 /**
  *  smarty function:チェックボックスフィルタ関数(配列対応)
  *
  *  @param  string  $form   チェックボックスに渡されたフォーム値
  *  @param  string  $key    評価対象の配列インデックス
  *  @param  string  $value  評価値
+ *  @deprecated
  */
 function smarty_function_checkbox_list($params, &$smarty)
 {
@@ -516,7 +549,9 @@ function smarty_function_checkbox_list($params, &$smarty)
         }
     }
 }
+// }}}
 
+// {{{ smarty_function_url
 /**
  *  smarty function:url生成
  */
@@ -565,7 +600,9 @@ function smarty_function_url($params, &$smarty)
 
     return $url;
 }
+// }}}
 
+// {{{ smarty_function_form_name
 /**
  *  smarty function:フォーム表示名生成
  *
@@ -573,20 +610,64 @@ function smarty_function_url($params, &$smarty)
  */
 function smarty_function_form_name($params, &$smarty)
 {
+    // name
     if (isset($params['name']) == false) {
         return null;
     }
     $name = $params['name'];
     unset($params['name']);
 
+    // action
+    $action = null;
+    if (isset($params['action'])) {
+        $action = $params['action'];
+        unset($params['action']);
+    } else {
+        for ($i = count($smarty->_tag_stack); $i >= 0; --$i) {
+            if ($smarty->_tag_stack[$i][0] === 'form') {
+                if (isset($smarty->_tag_stack[$i][1]['ethna_action'])) {
+                    $action = $smarty->_tag_stack[$i][1]['ethna_action'];
+                }
+                break;
+            }
+        }
+    }
+
     $c =& Ethna_Controller::getInstance();
     $view =& $c->getView();
     if ($view === null) {
         return null;
     }
-    print $view->getFormName($name, $params);
+    $view->addActionFormHelper($action);
+    return $view->getFormName($name, $action, $params);
 }
+// }}}
 
+// {{{ smarty_function_form_submit
+/**
+ *  smarty function:フォームのsubmitボタン生成
+ *
+ *  @param  string  $submit   フォーム項目名
+ */
+function smarty_function_form_submit($params, &$smarty)
+{
+    if (isset($params['name'])) {
+        $name = $params['name'];
+        unset($params['name']);
+    } else {
+        $name = 'submit';
+    }
+
+    $c =& Ethna_Controller::getInstance();
+    $view =& $c->getView();
+    if ($view === null) {
+        return null;
+    }
+    return $view->getFormSubmit($name, $params);
+}
+// }}}
+
+// {{{ smarty_function_form_input
 /**
  *  smarty function:フォームタグ生成
  *
@@ -594,73 +675,95 @@ function smarty_function_form_name($params, &$smarty)
  */
 function smarty_function_form_input($params, &$smarty)
 {
-    if (isset($params['name']) == false) {
+    // name
+    if (isset($params['name'])) {
+        $name = $params['name'];
+        unset($params['name']);
+    } else {
         return null;
     }
-    $name = $params['name'];
-    unset($params['name']);
+
+    // 現在の{form_input}を囲むform blockがあればパラメータを取得しておく
+    // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
+    $block_params = null;
+    for ($i = count($smarty->_tag_stack); $i >= 0; --$i) {
+        if ($smarty->_tag_stack[$i][0] === 'form') {
+            $block_params = $smarty->_tag_stack[$i][1];
+            break;
+        }
+    }
+
+    // action
+    $action = null;
+    if (isset($params['action'])) {
+        $action = $params['action'];
+        unset($params['action']);
+    } else if (isset($block_params['ethna_action'])) {
+        $action = $block_params['ethna_action'];
+    }
+
+    // default
+    if (isset($params['default']) === false) {
+        // {form_input default="foo"} の指定がないときは
+        // 外側のブロックからdefault値を取得
+        if (isset($block_params['default'][$name])) {
+            $params['default'] = $block_params['default'][$name];
+        }
+    }
 
     $c =& Ethna_Controller::getInstance();
     $view =& $c->getView();
     if ($view === null) {
         return null;
     }
-    print $view->getFormInput($name, $params);
+    $view->addActionFormHelper($action);
+    return $view->getFormInput($name, $action, $params);
 }
+// }}}
 
+// {{{ smarty_block_form
 /**
  *  smarty block:フォームタグ出力プラグイン
  */
 function smarty_block_form($params, $content, &$smarty, &$repeat)
 {
-    extract($params);
-
-    $s = "";
     if ($repeat) {
-        $s = "<form";
-
-        // fundamentals
-        if ($action !== false) {
-            if (isset($action) == false) {
-                $action = basename($_SERVER['PHP_SELF']);
-            }
-            $s .= sprintf(' action="%s"', htmlspecialchars($action, ENT_QUOTES));
-        }
-        if ($method !== false) {
-            if (isset($method) == false) {
-                $method = "post";
-            }
-            $s .= sprintf(' method="%s"', htmlspecialchars($method, ENT_QUOTES));
-        }
-
-        // enctypeはdefault off(-> "!=")
-        // + 値がめんどいので略称対応("file"とか...うぅむ?)
-        if ($enctype != "") {
-            if ($enctype == "file" || $enctype == "multipart") {
-                $enctype = "multipart/form-data";
-            } else if ($enctype == "url") {
-                $enctype = "application/x-www-form-urlencoded";
-            }
-            $s .= sprintf(' enctype="%s"', htmlspecialchars($enctype, ENT_QUOTES));
-        }
-
-        // additionals
-        foreach (array('accept', 'accept-charset', 'autocomplete', 'class', 'id', 'lang', 'name', 'style', 'target', 'title', 'urn') as $key) {
-            if (${$key} != "") {
-                $s .= sprintf(' %s="%s"', $key, htmlspecialchars(${$key}, ENT_QUOTES));
-            }
-        }
-
-        $s .= ">";
-
-        if ($ethna_action != "") {
-            $c =& Ethna_Controller::getInstance();
-            $s .= $c->getActionRequest($ethna_action, "hidden");
-        }
+        return '';
     } else {
-        print $content;
-        $s = "</form>";
+        $c =& Ethna_Controller::getInstance();
+        $view =& $c->getView();
+        if ($view === null) {
+            return null;
+        }
+
+        // ethna_action
+        if (isset($params['ethna_action'])) {
+            $ethna_action = $params['ethna_action'];
+            unset($params['ethna_action']);
+
+            $view->addActionFormHelper($ethna_action);
+            $hidden = $c->getActionRequest($ethna_action, 'hidden');
+            $content = $hidden . $content;
+        }
+
+        // enctype の略称対応
+        if (isset($params['enctype'])) {
+            if ($params['enctype'] == 'file'
+                || $params['enctype'] == 'multipart') {
+                $params['enctype'] = 'multipart/form-data';
+            } else if ($params['enctype'] == 'url') {
+                $params['enctype'] = 'application/x-www-form-urlencoded';
+            }
+        }
+
+        // このdefaultはblock内のform_inputでのみ使う
+        // ($smarty->_tag_stackが保持)
+        if (isset($params['default'])) {
+            unset($params['default']);
+        }
+
+        return $view->getFormBlock($content, $params);
     }
-    print $s;
 }
+// }}}
 ?>
