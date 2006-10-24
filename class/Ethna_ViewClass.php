@@ -606,7 +606,10 @@ class Ethna_ViewClass
         $attr = array();
         $attr['type'] = "submit";
         $attr['name'] = $name;
-        $attr['value'] = $def['name'];
+        if (isset($params['value'])) {
+            $attr['value'] = $params['value'];
+            unset($params['value']);
+        }
 
         return $this->_getFormInput_Html("input", $attr, $params);
     }
