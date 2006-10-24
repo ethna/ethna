@@ -33,13 +33,15 @@ function to_array($v)
  *  @param  string  $name   フォーム項目名
  *  @return bool    true:エラー有り false:エラー無し
  */
-function is_error($name)
+function is_error($name = null)
 {
     $c =& Ethna_Controller::getInstance();
-
     $action_error =& $c->getActionError();
-
-    return $action_error->isError($name);
+    if ($name === null) {
+        return $action_error->isError($name);
+    } else {
+        return $action_error->count() > 0;
+    }
 }
 // }}}
 

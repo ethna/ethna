@@ -1774,7 +1774,8 @@ class Ethna_Controller
      */
     function getObjectClassName($name)
     {
-        return sprintf('%s_%s', $this->getAppId(), ucfirst($name));
+        $name = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($name));
+        return sprintf('%s_%s', $this->getAppId(), $name);
     }
 
     /**

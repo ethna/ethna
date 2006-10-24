@@ -64,10 +64,11 @@ class Ethna_ActionForm
     var $plugin;
 
     /** @var    array   フォーム定義要素 */
-    var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom', 'filter', 'form_type', 'type');
+    var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom',
+                     'filter', 'form_type', 'type');
 
     /** @var    array   フォーム定義のうち非プラグイン要素とみなすprefix */
-    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter');
+    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter', 'source');
 
     /** @var    bool    バリデータにプラグインを使うフラグ */
     var $use_validator_plugin = false;
@@ -429,16 +430,17 @@ class Ethna_ActionForm
                 $retval[$name] = array();
                 $this->_getArray($vars[$name], $retval[$name], $escape);
             } else {
-                $retval[$name] = $escape ? htmlspecialchars($vars[$name], ENT_QUOTES) : $vars[$name];
+                $retval[$name] = $escape
+                    ? htmlspecialchars($vars[$name], ENT_QUOTES) : $vars[$name];
             }
         }
     }
 
     /**
      *  追加検証強制フラグを取得する
-     *
+     *  (通常検証でエラーが発生した場合でも_validatePlus()が呼び出される)
      *  @access public
-     *  @return bool    true:追加検証強制(通常検証でエラーが発生した場合でも_validatePlus()が呼び出される) false:追加検証非強制
+     *  @return bool    true:追加検証強制 false:追加検証非強制
      */
     function isForceValidatePlus()
     {
@@ -702,7 +704,8 @@ class Ethna_ActionForm
                 $i += 2;
             } else if ($c == 0xad || ($c >= 0xf9 && $c <= 0xfc)) {
                 /* IBM拡張文字 / NEC選定IBM拡張文字 */
-                return $this->ae->add($name, '{form}に機種依存文字が入力されています', E_FORM_INVALIDCHAR);
+                return $this->ae->add($name,
+                    '{form}に機種依存文字が入力されています', E_FORM_INVALIDCHAR);
             } else {
                 $i++;
             }
@@ -732,7 +735,8 @@ class Ethna_ActionForm
                 continue;
             }
             if ($v != "0" && $v != "1") {
-                return $this->ae->add($name, '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
+                return $this->ae->add($name,
+                    '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
             }
         }
 
@@ -760,7 +764,8 @@ class Ethna_ActionForm
                 continue;
             }
             if (Ethna_Util::checkMailaddress($v) == false) {
-                return $this->ae->add($name, '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
+                return $this->ae->add($name,
+                    '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
             }
         }
 
@@ -788,7 +793,8 @@ class Ethna_ActionForm
                 continue;
             }
             if (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/)/', $v) == 0) {
-                return $this->ae->add($name, '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
+                return $this->ae->add($name,
+                    '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
             }
         }
 
@@ -913,34 +919,54 @@ class Ethna_ActionForm
         } else if ($code == E_FORM_WRONGTYPE_BOOLEAN) {
             $message = "{form}には1または0のみ入力できます";
         } else if ($code == E_FORM_MIN_INT) {
-            $this->ae->add($name, "{form}には%d以上の数字(整数)を入力して下さい", $code, $def['min']);
+            $this->ae->add($name,
+                "{form}には%d以上の数字(整数)を入力して下さい",
+                $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_FLOAT) {
-            $this->ae->add($name, "{form}には%f以上の数字(小数)を入力して下さい", $code, $def['min']);
+            $this->ae->add($name,
+                "{form}には%f以上の数字(小数)を入力して下さい",
+                $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_DATETIME) {
-            $this->ae->add($name, "{form}には%s以降の日付を入力して下さい", $code, $def['min']);
+            $this->ae->add($name,
+                "{form}には%s以降の日付を入力して下さい",
+                $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_FILE) {
-            $this->ae->add($name, "{form}には%dKB以上のファイルを指定して下さい", $code, $def['min']);
+            $this->ae->add($name,
+                "{form}には%dKB以上のファイルを指定して下さい",
+                $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_STRING) {
-            $this->ae->add($name, "{form}には全角%d文字以上(半角%d文字以上)入力して下さい", $code, intval($def['min']/2), $def['min']);
+            $this->ae->add($name,
+                "{form}には全角%d文字以上(半角%d文字以上)入力して下さい",
+                $code, intval($def['min']/2), $def['min']);
             return;
         } else if ($code == E_FORM_MAX_INT) {
-            $this->ae->add($name, "{form}には%d以下の数字(整数)を入力して下さい", $code, $def['max']);
+            $this->ae->add($name,
+                "{form}には%d以下の数字(整数)を入力して下さい",
+                $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_FLOAT) {
-            $this->ae->add($name, "{form}には%f以下の数字(小数)を入力して下さい", $code, $def['max']);
+            $this->ae->add($name,
+                "{form}には%f以下の数字(小数)を入力して下さい",
+                $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_DATETIME) {
-            $this->ae->add($name, "{form}には%s以前の日付を入力して下さい", $code, $def['max']);
+            $this->ae->add($name,
+                "{form}には%s以前の日付を入力して下さい",
+                $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_FILE) {
-            $this->ae->add($name, "{form}には%dKB以下のファイルを指定して下さい", $code, $def['max']);
+            $this->ae->add($name,
+                "{form}には%dKB以下のファイルを指定して下さい",
+                $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_STRING) {
-            $this->ae->add($name, "{form}は全角%d文字以下(半角%d文字以下)で入力して下さい", $code, intval($def['max']/2), $def['max']);
+            $this->ae->add($name,
+                "{form}は全角%d文字以下(半角%d文字以下)で入力して下さい",
+                $code, intval($def['max']/2), $def['max']);
             return;
         } else if ($code == E_FORM_REGEXP) {
             $message = "{form}を正しく入力してください";
@@ -1109,7 +1135,8 @@ class Ethna_ActionForm
 
         // custom (TODO: respect $test flag)
         if ($def['custom'] != null) {
-            if (isset($this->form[$name]['type']) && is_array($this->form[$name]['type']) == false) {
+            if (isset($this->form[$name]['type'])
+                && is_array($this->form[$name]['type']) == false) {
                 $this->_validateCustom($def['custom'], $name);
             } else {
                 // 配列指定の場合は全要素一括でカスタムメソッドを実行するためスキップ
@@ -1154,7 +1181,8 @@ class Ethna_ActionForm
         foreach (preg_split('/\s*,\s*/', $filter) as $f) {
             $method = sprintf('_filter_%s', $f);
             if (method_exists($this, $method) == false) {
-                $this->logger->log(LOG_WARNING, 'filter method is not defined [%s]', $method);
+                $this->logger->log(LOG_WARNING,
+                    'filter method is not defined [%s]', $method);
                 continue;
             }
             $value = $this->$method($value);
@@ -1296,7 +1324,8 @@ class Ethna_ActionForm
     function _setFormDef()
     {
         foreach ($this->form as $key => $value) {
-            if (array_key_exists($key, $this->form_template) && is_array($this->form_template)) {
+            if (array_key_exists($key, $this->form_template)
+                && is_array($this->form_template)) {
                 foreach ($this->form_template[$key] as $def_key => $def_value) {
                     if (array_key_exists($def_key, $value) == false) {
                         $this->form[$key][$def_key] = $def_value;
