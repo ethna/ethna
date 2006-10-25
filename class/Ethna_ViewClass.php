@@ -551,7 +551,7 @@ class Ethna_ViewClass
         if (isset($def['source'])) {
             $source = $def['source'];
         } else if (isset($params['actionform'])) {
-            $method = sprintf('list%s', str_replace('_', '', $params['action_form']));
+            $method = sprintf('list%s', str_replace('_', '', $params['actionform']));
             $source = $this->af->$method();
             unset($params['actionform']);
         } else if (isset($params['manager']) && is_array($params['manager'])) {
