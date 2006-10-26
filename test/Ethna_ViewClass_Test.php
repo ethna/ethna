@@ -103,7 +103,29 @@ class Ethna_ViewClass_Test extends UnitTestCase
         $this->viewclass->af->setDef(null, $test_form);
 
         $result = $this->viewclass->_getFormInput_Text($name, $def, $params);
-        //var_dump($result);
+    }
+
+    function test_getFormInput_Textarea()
+    {
+        $name = "testarea";
+        $def = array(
+            'max' => 20,
+        );
+        $params = array();
+
+        $test_form = array(
+            'testarea' => array(
+                'name' => 'TestTestText',
+                'form_type' => FORM_TYPE_TEXTAREA,
+                'type' => VAR_TYPE_STRING,
+            ),                    
+        );
+
+        $this->viewclass->af->setDef(null, $test_form);
+
+        $result = $this->viewclass->_getFormInput_Textarea($name, $def, $params);
+
+        $this->assertTrue(strpos($result, '</textarea>'), "can't find textarea endtag [{$result}]");
     }
 
     function testGetFormName()
