@@ -107,23 +107,24 @@ class Ethna_Plugin_Validator_Type_Test extends UnitTestCase
 							   );
 		$vld->af->setDef('namae_datetime', $form_datetime);
 
- 		$pear_error = $vld->validate('namae_datetime', 0, $form_datetime);
+        // 正常な日付
+ 		$pear_error = $vld->validate('namae_datetime', "July 1, 2000 00:00:00 UTC", $form_datetime);
 		$this->assertFalse(is_a($pear_error, 'PEAR_Error'));
-
  		$pear_error = $vld->validate('namae_datetime', "+89 day", $form_datetime);
 		$this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
+        // empty は required でやるので type ではチェックしない
  		$pear_error = $vld->validate('namae_datetime', "", $form_datetime);
 		$this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
 		// 日付に変換できない文字列が入力された
- 		$pear_error = $vld->validate('namae_datetime', "aa", $form_datetime);
+ 		$pear_error = $vld->validate('namae_datetime', "monkey", $form_datetime);
 		$this->assertTrue(is_a($pear_error, 'PEAR_Error'));
 		$this->assertEqual(E_FORM_WRONGTYPE_DATETIME, $pear_error->getCode());
 		$this->assertEqual($form_datetime['error'], $pear_error->getMessage());
 
 		// 日付に変換できない文字列が入力された
- 		$pear_error = $vld->validate('namae_datetime', "+8", $form_datetime);
+ 		$pear_error = $vld->validate('namae_datetime', "--1", $form_datetime);
 		$this->assertTrue(is_a($pear_error, 'PEAR_Error'));
 		$this->assertEqual(E_FORM_WRONGTYPE_DATETIME, $pear_error->getCode());
 		$this->assertEqual($form_datetime['error'], $pear_error->getMessage());

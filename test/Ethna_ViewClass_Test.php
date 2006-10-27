@@ -69,12 +69,12 @@ class Ethna_ViewClass_Test extends UnitTestCase
      */
     function test_getFormInput_Html()
     {
-        $actual = '<input type="text" name="test" value="1" />';
+        $actual = '<input type="text" name="test" value="&lt;&amp;&gt;" />';
 
         $test_attr = array(
             'type' => 'text',
             'name' => 'test',
-            'value' => '1',
+            'value' => '<&>',
         );
 
         $user_attr = array();
@@ -135,7 +135,7 @@ class Ethna_ViewClass_Test extends UnitTestCase
         $test_form = array(
             'test_text' => array(
                 'name' => $test_word,
-                'form_type' => FORM_TYPE_TEXT,
+                'form_type' => array(FORM_TYPE_TEXT),
                 'type' => VAR_TYPE_STRING,
             ),                    
         );
