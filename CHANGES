@@ -4,6 +4,11 @@
 
 *** features
 
+- {form_input}ヘルパー
+-- select, radio, checkboxに対応
+-- 選択肢をフォーム定義で指定できるようにした(afのmethod, property, managerなど)
+-- 外側の{form}ブロックからaction名, default値を取得できるようにした
+
 - Ethna_Plugin_Handle_{Install,Upgrade}Plugin に --state オプションを追加
 - local のプラグインの prefix を App に変更(app_idの予約語扱い)
 

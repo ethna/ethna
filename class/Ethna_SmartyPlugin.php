@@ -638,7 +638,9 @@ function smarty_function_form_name($params, &$smarty)
     if ($view === null) {
         return null;
     }
-    $view->addActionFormHelper($action);
+    if ($action !== null) {
+        $view->addActionFormHelper($action);
+    }
     return $view->getFormName($name, $action, $params);
 }
 // }}}
@@ -684,7 +686,6 @@ function smarty_function_form_input($params, &$smarty)
     }
 
     // 現在の{form_input}を囲むform blockがあればパラメータを取得しておく
-    // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
     $block_params = null;
     for ($i = count($smarty->_tag_stack); $i >= 0; --$i) {
         if ($smarty->_tag_stack[$i][0] === 'form') {
@@ -716,7 +717,9 @@ function smarty_function_form_input($params, &$smarty)
     if ($view === null) {
         return null;
     }
-    $view->addActionFormHelper($action);
+    if ($action !== null) {
+        $view->addActionFormHelper($action);
+    }
     return $view->getFormInput($name, $action, $params);
 }
 // }}}
@@ -728,8 +731,23 @@ function smarty_function_form_input($params, &$smarty)
 function smarty_block_form($params, $content, &$smarty, &$repeat)
 {
     if ($repeat) {
+        // {form}: ブロック内部に進む前の処理
+
+        // default
+        if (isset($params['default']) === false) {
+            // 指定なしのときは $form を使う
+            // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
+            $c =& Ethna_Controller::getInstance();
+            $af =& $c->getActionForm();
+            $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['default']
+                =& $af->getArray();
+        }
+
         return '';
+
     } else {
+        // {/form}: ブロック全体を出力
+
         $c =& Ethna_Controller::getInstance();
         $view =& $c->getView();
         if ($view === null) {
@@ -756,8 +774,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             }
         }
 
-        // このdefaultはblock内のform_inputでのみ使う
-        // ($smarty->_tag_stackが保持)
+        // defaultはもう不要
         if (isset($params['default'])) {
             unset($params['default']);
         }

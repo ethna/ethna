@@ -89,11 +89,8 @@ class Ethna_ViewClass
         $this->forward_name = $forward_name;
         $this->forward_path = $forward_path;
 
-        foreach ($this->helper_action_form as $key => $value) {
-            if (is_object($value)) {
-                continue;
-            }
-            $this->helper_action_form[$key] =& $this->_getHelperActionForm($key);
+        foreach (array_keys($this->helper_action_form) as $action) {
+            $this->addActionFormHelper($action);
         }
     }
     // }}}
@@ -141,7 +138,21 @@ class Ethna_ViewClass
             && is_object($this->helper_action_form[$action])) {
             return;
         }
-        $this->helper_action_form[$action] =& $this->_getHelperActionForm($action);
+
+        $ctl =& Ethna_Controller::getInstance();
+        if ($action === $ctl->getCurrentActionName()) {
+            $this->helper_action_form[$action] =& $this->af;
+            return;
+        }
+
+        $form_name = $ctl->getActionFormName($action);
+        if ($form_name == null) {
+            $this->logger->log(LOG_WARNING,
+                'action form for the action [%s] not found.', $action);
+            return;
+        }
+
+        $this->helper_action_form[$action] =& new $form_name($ctl);
     }
     // }}}
 
@@ -157,6 +168,57 @@ class Ethna_ViewClass
     }
     // }}}
 
+    // {{{ _getHelperActionForm
+    /**
+     *  アクションフォームオブジェクト(helper)を取得する
+     *  $action == null で $name が指定されているときは、$nameの定義を
+     *  含むものを探す
+     *
+     *  @access protected
+     *  @param  string  action  取得するアクション名
+     *  @param  string  name    定義されていることを期待するフォーム名
+     *  @return object  Ethna_ActionFormまたは継承オブジェクト
+     */
+    function &_getHelperActionForm($action = null, $name = null)
+    {
+        // $action が指定されている場合
+        if ($action !== null) {
+            if (isset($this->helper_action_form[$action])
+                && is_object($this->helper_action_form[$action])) {
+                return $this->helper_action_form[$action];
+            } else {
+                $this->logger->log(LOG_WARNING,
+                    'helper action form for action [%s] not found',
+                    $action);
+                return null;
+            }
+        }
+
+        // 最初に $this->af を調べる
+        $def = $this->af->getDef($name);
+        if ($def !== null) {
+            return $this->af;
+        }
+
+        // $this->helper_action_form を順に調べる
+        foreach (array_keys($this->helper_action_form) as $action) {
+            if (is_object($this->helper_action_form[$action]) === false) {
+                continue;
+            }
+            $af =& $this->helper_action_form[$action];
+            $def = $af->getDef($name);
+            if (is_null($def) === false) {
+                return $af;
+            }
+        }
+
+        // 見付からなかった
+        $this->logger->log(LOG_WARNING,
+            'action form defining form [%s] not found', $name);
+        return null;
+    }
+    // }}}
+
     // {{{ getFormName
     /**
      *  指定されたフォーム項目に対応するフォーム名(w/ レンダリング)を取得する
@@ -165,15 +227,17 @@ class Ethna_ViewClass
      */
     function getFormName($name, $action, $params)
     {
-        $def = $this->_getHelperActionFormDef($name, $action);
-        $form_name = null;
-        if (is_null($def) || isset($def['name']) == false) {
-            $form_name = $name;
-        } else {
-            $form_name = $def['name'];
+        $af =& $this->_getHelperActionForm($action, $name);
+        if ($af === null) {
+            return $name;
         }
 
-        return $form_name;
+        $def = $af->getDef($name);
+        if ($def === null || isset($def['name']) === false) {
+            return $name;
+        }
+
+        return $def['name'];
     }
     // }}}
 
@@ -196,54 +260,65 @@ class Ethna_ViewClass
     /**
      *  指定されたフォーム項目に対応するフォームタグを取得する
      *
-     *  experimental(というかとりあえず-細かい実装は別クラスに行きそうです)
-     *
      *  @access public
-     *  @todo   form_type各種対応/JavaScript対応...
+     *  @todo   JavaScript対応
      */
     function getFormInput($name, $action, $params)
     {
-        $def = $this->_getHelperActionFormDef($name, $action);
-        if (is_null($def)) {
-            return "";
+        $af =& $this->_getHelperActionForm($action, $name);
+        if ($af === null) {
+            return '';
+        }
+
+        $def = $af->getDef($name);
+        if ($def === null) {
+            return '';
         }
 
         if (isset($def['form_type']) == false) {
             $def['form_type'] = FORM_TYPE_TEXT;
         }
 
-        if (is_array($def['type'])) {
-            $name .= '[]';
-        }
-        
         switch ($def['form_type']) {
         case FORM_TYPE_BUTTON:
             $input = $this->_getFormInput_Button($name, $def, $params);
             break;
+
         case FORM_TYPE_CHECKBOX:
+            $def['option'] = $this->_getSelectorOptions($af, $def, $params);
             $input = $this->_getFormInput_Checkbox($name, $def, $params);
             break;
+
         case FORM_TYPE_FILE:
             $input = $this->_getFormInput_File($name, $def, $params);
             break;
+
         case FORM_TYPE_HIDDEN:
             $input = $this->_getFormInput_Hidden($name, $def, $params);
             break;
+
         case FORM_TYPE_PASSWORD:
             $input = $this->_getFormInput_Password($name, $def, $params);
             break;
+
         case FORM_TYPE_RADIO:
+            $def['option'] = $this->_getSelectorOptions($af, $def, $params);
             $input = $this->_getFormInput_Radio($name, $def, $params);
             break;
+
         case FORM_TYPE_SELECT:
+            $def['option'] = $this->_getSelectorOptions($af, $def, $params);
             $input = $this->_getFormInput_Select($name, $def, $params);
             break;
+
         case FORM_TYPE_SUBMIT:
             $input = $this->_getFormInput_Submit($name, $def, $params);
             break;
+
         case FORM_TYPE_TEXTAREA:
             $input = $this->_getFormInput_Textarea($name, $def, $params);
             break;
+
         case FORM_TYPE_TEXT:
         default:
             $input = $this->_getFormInput_Text($name, $def, $params);
@@ -290,62 +365,56 @@ class Ethna_ViewClass
     }
     // }}}
 
-    // {{{ _getHelperActionForm
+    // {{{ _getSelectorOptions
     /**
-     *  アクションフォームオブジェクト(helper)を生成する
+     *  select, radio, checkbox の選択肢を取得する
+     *  ($def, $paramsを書き換えることに注意)
      *
      *  @access protected
      */
-    function &_getHelperActionForm($action)
+    function _getSelectorOptions(&$af, &$def, &$params)
     {
-        $af = null;
-        $ctl =& Ethna_Controller::getInstance();
-        $form_name = $ctl->getActionFormName($action);
-        if ($form_name == null) {
-            $this->logger->log(LOG_WARNING,
-                'action form for the action [%s] not found.', $action);
-            return null;
+        // $params, $def の順で調べる
+        $source = null;
+        if (isset($params['option'])) {
+            $source = $params['option'];
+            unset($params['option']);
+        } else if (isset($def['option'])) {
+            $source = $def['option'];
         }
-        $af =& new $form_name($ctl);
 
-        return $af;
-    }
-    // }}}
-
-    // {{{ _getHelperActionFormDef
-    /**
-     *  フォーム項目に対応するフォーム定義を取得する
-     *
-     *  @access protected
-     */
-    function _getHelperActionFormDef($name, $action = null)
-    {
-        $def = null;
-        if (is_null($action)) {
-            $def = $this->af->getDef($name);
-            if (is_null($def)) {
-                foreach ($this->helper_action_form as $key => $value) {
-                    if (is_object($value) == false) {
-                        continue;
-                    }
-                    $def = $value->getDef($name);
-                    if (is_null($def) == false) {
-                        break;
-                    }
-                }
+        // 未定義 or 定義済みの場合はそのまま
+        if ($source === null) {
+            return null;
+        } else if (is_array($source)) {
+            return $source;
+        }
+        
+        // 選択肢を取得
+        $options = null;
+        $split = preg_split('/%s*,%s*/', $source, 2, PREG_SPLIT_NO_EMPTY);
+        if (count($split) == 1) {
+            // アクションフォームから取得
+            $method_or_property = $split[0];
+            if (method_exists($af, $method_or_property)) {
+                $options = $af->$method_or_property();
+            } else {
+                $options = $af->$method_or_property;
             }
         } else {
-            if (isset($this->helper_action_form[$action])
-                && is_object($this->helper_action_form[$action])) {
-                $af =& $this->helper_action_form[$action];
-                $def = $af->getDef($name);
-            }
+            // マネージャから取得
+            $mgr =& $this->backend->getManager($split[0]);
+            $options = $mgr->getAttrList($split[1]);
         }
-        if (is_null($def)) {
+
+        if (is_array($options) === false) {
             $this->logger->log(LOG_WARNING,
-                'form definition [%s] not found in action [%s]', $name, $action);
+                'selector option is not valid. [actionform=%s, option=%s]',
+                get_class($af), $source);
+            return null;
         }
-        return $def;
+
+        return $options;
     }
     // }}}
 
@@ -359,7 +428,7 @@ class Ethna_ViewClass
     {
         $attr = array();
         $attr['type'] = "button";
-        $attr['name'] = $name;
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
 
         return $this->_getFormInput_Html("input", $attr, $params);
     }
@@ -373,13 +442,12 @@ class Ethna_ViewClass
      */
     function _getFormInput_Checkbox($name, $def, $params)
     {
-        $source = array();
-
         // オプションの一覧(alist)を取得
-        // XXX: experimental
-        if (isset($def['source'])) {
-            $source = $def['source'];
+        if (isset($def['option']) === false
+            || is_array($def['option']) === false) {
+            return '';
         }
+        $options = $def['option'];
 
         // default値の設定
         if (isset($params['default'])) {
@@ -398,14 +466,16 @@ class Ethna_ViewClass
 
         $ret = array();
         $i = 1;
-        foreach ($source as $key => $value) {
-            $attr = array();
-            $attr['type'] = 'checkbox';
-            $attr['name'] = $name;
+        $attr = array();
+        $attr['type'] = 'checkbox';
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
+        foreach ($options as $key => $value) {
             $attr['value'] = $key;
             $attr['id'] = $name . '_' . $i++;
             if (in_array((string) $key, $current_value)) {
                 $attr['checked'] = 'checked';
+            } else {
+                unset($attr['checked']);
             }
 
             // <input type="checkbox" />
@@ -430,7 +500,7 @@ class Ethna_ViewClass
     {
         $attr = array();
         $attr['type'] = "file";
-        $attr['name'] = $name;
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
         $attr['value'] = "";
 
         return $this->_getFormInput_Html("input", $attr, $params);
@@ -447,7 +517,7 @@ class Ethna_ViewClass
     {
         $attr = array();
         $attr['type'] = "hidden";
-        $attr['name'] = $name;
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
         if (isset($params['default'])) {
             $attr['value'] = $params['default'];
             unset($params['default']);
@@ -470,7 +540,7 @@ class Ethna_ViewClass
     {
         $attr = array();
         $attr['type'] = "password";
-        $attr['name'] = $name;
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
         if (isset($params['default'])) {
             $attr['value'] = $params['default'];
             unset($params['default']);
@@ -491,13 +561,12 @@ class Ethna_ViewClass
      */
     function _getFormInput_Radio($name, $def, $params)
     {
-        $source = array();
-
         // オプションの一覧(alist)を取得
-        // XXX: experimental
-        if (isset($def['source'])) {
-            $source = $def['source'];
+        if (isset($def['option']) === false
+            || is_array($def['option']) === false) {
+            return '';
         }
+        $options = $def['option'];
 
         // default値の設定
         if (isset($params['default'])) {
@@ -515,14 +584,16 @@ class Ethna_ViewClass
 
         $ret = array();
         $i = 1;
-        foreach ($source as $key => $value) {
-            $attr = array();
-            $attr['type'] = 'radio';
-            $attr['name'] = $name;
+        $attr = array();
+        $attr['type'] = 'radio';
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
+        foreach ($options as $key => $value) {
             $attr['value'] = $key;
             $attr['id'] = $name . '_' . $i++;
             if ($current_value === (string) $key) {
                 $attr['checked'] = 'checked';
+            } else {
+                unset($attr['checked']);
             }
 
             // <input type="radio" />
@@ -545,24 +616,12 @@ class Ethna_ViewClass
      */
     function _getFormInput_Select($name, $def, $params)
     {
-        $source = array();
-
         // オプションの一覧(alist)を取得
-        if (isset($def['source'])) {
-            $source = $def['source'];
-        } else if (isset($params['actionform'])) {
-            $method = sprintf('list%s', str_replace('_', '', $params['actionform']));
-            $source = $this->af->$method();
-            unset($params['actionform']);
-        } else if (isset($params['manager']) && is_array($params['manager'])) {
-            list($manager_key, $manager_attr) = $params['manager'];
-            $manager =& $this->backend->getManager($manager_key);
-            $source = $manager->getAttrList($manager_attr);
-            unset($params['manager']);
-        } else if (isset($params['callback']) && is_callable($params['callback'])) {
-            $source = call_user_func($params['callback']);
-            unset($params['callback']);
+        if (isset($def['option']) === false
+            || is_array($def['option']) === false) {
+            return '';
         }
+        $options = $def['option'];
 
         // default値の設定
         if (isset($params['default'])) {
@@ -580,11 +639,13 @@ class Ethna_ViewClass
 
         // selectタグの中身を作る
         $contents = array();
-        foreach ($source as $key => $value) {
+        $attr = array();
+        foreach ($options as $key => $value) {
+            $attr['value'] = $key;
             if ($current_value === (string) $key) {
-                $attr = array('value' => $key, 'selected' => null);
+                $attr['selected'] = 'selected';
             } else {
-                $attr = array('value' => $key);
+                unset($attr['selected']);
             }
             $contents[] = $this->_getFormInput_Html('option', $attr, $params, $value);
         }
@@ -605,7 +666,7 @@ class Ethna_ViewClass
     {
         $attr = array();
         $attr['type'] = "submit";
-        $attr['name'] = $name;
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
         if (isset($params['value'])) {
             $attr['value'] = $params['value'];
             unset($params['value']);
@@ -624,7 +685,8 @@ class Ethna_ViewClass
     function _getFormInput_Textarea($name, $def, $params)
     {
         $attr = array();
-        $attr['name'] = $name;
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
+        $element = '';
         if (isset($params['default'])) {
             $element = $params['default'];
             unset($params['default']);
@@ -647,7 +709,7 @@ class Ethna_ViewClass
     {
         $attr = array();
         $attr['type'] = "text";
-        $attr['name'] = $name;
+        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
         if (isset($params['default'])) {
             $attr['value'] = $params['default'];
             unset($params['default']);

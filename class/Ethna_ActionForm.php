@@ -68,7 +68,7 @@ class Ethna_ActionForm
                      'filter', 'form_type', 'type');
 
     /** @var    array   フォーム定義のうち非プラグイン要素とみなすprefix */
-    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter', 'source');
+    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter', 'option');
 
     /** @var    bool    バリデータにプラグインを使うフラグ */
     var $use_validator_plugin = false;
@@ -144,7 +144,7 @@ class Ethna_ActionForm
      *  フォーム値定義を取得する
      *
      *  @access public
-     *  @param  string  $name   取得するフォーム名(省略可:nullなら全ての定義を取得する)
+     *  @param  string  $name   取得するフォーム名(nullなら全ての定義を取得)
      *  @return array   フォーム値定義
      */
     function getDef($name = null)
@@ -172,7 +172,8 @@ class Ethna_ActionForm
         if (isset($this->form[$name]) == false) {
             return null;
         }
-        if (isset($this->form[$name]['name']) && $this->form[$name]['name'] != null) {
+        if (isset($this->form[$name]['name'])
+            && $this->form[$name]['name'] != null) {
             return $this->form[$name]['name'];
         }
 
@@ -252,9 +253,11 @@ class Ethna_ActionForm
                 // ファイル以外の場合
 
                 // 値の有無の検査
-                if (isset($http_vars[$name]) == false || is_null($http_vars[$name])) {
+                if (isset($http_vars[$name]) == false
+                    || is_null($http_vars[$name])) {
                     $this->form_vars[$name] = null;
-                    if (isset($http_vars["{$name}_x"]) && isset($http_vars["{$name}_y"])) {
+                    if (isset($http_vars["{$name}_x"])
+                        && isset($http_vars["{$name}_y"])) {
                         // 以前の仕様に合わせる
                         $this->form_vars[$name] = $http_vars["{$name}_x"];
                     }
@@ -300,7 +303,7 @@ class Ethna_ActionForm
      *  フォーム値定義を設定する
      *
      *  @access public
-     *  @param  string  $name   設定するフォーム名(省略可:nullなら全ての定義を設定する)
+     *  @param  string  $name   設定するフォーム名(nullなら全ての定義を設定)
      *  @param  array   $value  設定するフォーム値定義
      *  @return array   フォーム値定義
      */
@@ -583,11 +586,13 @@ class Ethna_ActionForm
         if (is_array($this->form[$form_name]['type']) == false) {
             foreach (array_keys($plugin) as $name) {
                 // break: 明示されていなければ，エラーが起きたらvalidateを継続しない
-                $break = isset($plugin[$name]['break']) == false || $plugin[$name]['break'];
+                $break = isset($plugin[$name]['break']) == false
+                               || $plugin[$name]['break'];
 
                 // プラグイン取得
                 unset($v);
-                $v =& $this->plugin->getPlugin('Validator', ucfirst(strtolower($name)));
+                $v =& $this->plugin->getPlugin('Validator',
+                                               ucfirst(strtolower($name)));
                 if (Ethna::isError($v)) {
                     continue;
                 }
@@ -616,7 +621,8 @@ class Ethna_ActionForm
 
         foreach (array_keys($plugin) as $name) {
             // break: 明示されていなければ，エラーが起きたらvalidateを継続しない
-            $break = isset($plugin[$name]['break']) == false || $plugin[$name]['break'];
+            $break = isset($plugin[$name]['break']) == false
+                           || $plugin[$name]['break'];
 
             // プラグイン取得
             unset($v);
@@ -813,10 +819,12 @@ class Ethna_ActionForm
     {
         $hidden_vars = "";
         foreach ($this->form as $key => $value) {
-            if (is_array($include_list) == true && in_array($key, $include_list) == false) {
+            if (is_array($include_list) == true
+                && in_array($key, $include_list) == false) {
                 continue;
             }
-            if (is_array($exclude_list) == true && in_array($key, $exclude_list) == true) {
+            if (is_array($exclude_list) == true
+                && in_array($key, $exclude_list) == true) {
                 continue;
             }
             
@@ -844,7 +852,8 @@ class Ethna_ActionForm
                 } else {
                     $form_name = $key;
                 }
-                $hidden_vars .= sprintf("<input type=\"hidden\" name=\"%s\" value=\"%s\" />\n",
+                $hidden_vars .=
+                    sprintf("<input type=\"hidden\" name=\"%s\" value=\"%s\" />\n",
                     $form_name, htmlspecialchars($v, ENT_QUOTES));
             }
         }
@@ -1007,7 +1016,8 @@ class Ethna_ActionForm
                 return false;
             }
         } else if ($type == VAR_TYPE_FLOAT) {
-            if (!preg_match('/^-?\d+$/', $var) && !preg_match('/^-?\d+\.\d+$/', $var)) {
+            if (!preg_match('/^-?\d+$/', $var)
+                && !preg_match('/^-?\d+\.\d+$/', $var)) {
                 if ($test == false) {
                     $this->handleError($name, E_FORM_WRONGTYPE_FLOAT);
                 }
@@ -1155,7 +1165,8 @@ class Ethna_ActionForm
      */
     function _validateCustom($method_list, $name)
     {
-        $method_list = preg_split('/\s*,\s*/', $method_list, -1, PREG_SPLIT_NO_EMPTY);
+        $method_list = preg_split('/\s*,\s*/', $method_list,
+                                  -1, PREG_SPLIT_NO_EMPTY);
         if (is_array($method_list) == false) {
             return;
         }
