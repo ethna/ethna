@@ -341,7 +341,7 @@ class Ethna_ViewClass
 
         // action
         if (isset($params['action'])) {
-            $attr['action'] = htmlspecialchars($params['action'], ENT_QUOTES);
+            $attr['action'] = $params['action'];
             unset($params['action']);
         } else {
             $action = basename($_SERVER['PHP_SELF']);
@@ -349,7 +349,7 @@ class Ethna_ViewClass
 
         // method
         if (isset($params['method'])) {
-            $attr['method'] = htmlspecialchars($params['method'], ENT_QUOTES);
+            $attr['method'] = $params['method'];
             unset($params['method']);
         } else {
             $attr['method'] = 'post';
@@ -357,7 +357,7 @@ class Ethna_ViewClass
 
         // enctype
         if (isset($params['enctype'])) {
-            $attr['enctype'] = htmlspecialchars($params['enctype'], ENT_QUOTES);
+            $attr['enctype'] = $params['enctype'];
             unset($params['enctype']);
         }
 
@@ -732,7 +732,7 @@ class Ethna_ViewClass
      *  @access protected
      */
     function _getFormInput_Html($tag, $attr, $user_attr,
-                                $element = null, $escape_elemet = true)
+                                $element = null, $escape_element = true)
     {
         // user defs
         foreach ($user_attr as $key => $value) {
@@ -753,11 +753,12 @@ class Ethna_ViewClass
             }
         }
 
-        if (is_null($element)) {
+        if ($element === null) {
             $r .= " />";
+        } else if ($escape_element) {
+            $r .= sprintf('>%s</%s>', htmlspecialchars($element, ENT_QUOTES), $tag);
         } else {
-            $r .= sprintf('>%s</%s>', $escape_elemet
-                ? htmlspecialchars($element, ENT_QUOTES) : $element, $tag);
+            $r .= sprintf('>%s</%s>', $element, $tag);
         }
 
         return $r;

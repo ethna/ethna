@@ -611,11 +611,19 @@ function smarty_function_url($params, &$smarty)
 function smarty_function_form_name($params, &$smarty)
 {
     // name
-    if (isset($params['name']) == false) {
+    if (isset($params['name'])) {
+        $name = $params['name'];
+        unset($params['name']);
+    } else {
         return null;
     }
-    $name = $params['name'];
-    unset($params['name']);
+
+    // view object
+    $c =& Ethna_Controller::getInstance();
+    $view =& $c->getView();
+    if ($view === null) {
+        return null;
+    }
 
     // action
     $action = null;
@@ -632,15 +640,10 @@ function smarty_function_form_name($params, &$smarty)
             }
         }
     }
-
-    $c =& Ethna_Controller::getInstance();
-    $view =& $c->getView();
-    if ($view === null) {
-        return null;
-    }
     if ($action !== null) {
         $view->addActionFormHelper($action);
     }
+
     return $view->getFormName($name, $action, $params);
 }
 // }}}
@@ -685,6 +688,13 @@ function smarty_function_form_input($params, &$smarty)
         return null;
     }
 
+    // view object
+    $c =& Ethna_Controller::getInstance();
+    $view =& $c->getView();
+    if ($view === null) {
+        return null;
+    }
+
     // 現在の{form_input}を囲むform blockがあればパラメータを取得しておく
     $block_params = null;
     for ($i = count($smarty->_tag_stack); $i >= 0; --$i) {
@@ -702,24 +712,23 @@ function smarty_function_form_input($params, &$smarty)
     } else if (isset($block_params['ethna_action'])) {
         $action = $block_params['ethna_action'];
     }
-
-    // default
-    if (isset($params['default']) === false) {
-        // {form_input default="foo"} の指定がないときは
-        // 外側のブロックからdefault値を取得
-        if (isset($block_params['default'][$name])) {
-            $params['default'] = $block_params['default'][$name];
-        }
-    }
-
-    $c =& Ethna_Controller::getInstance();
-    $view =& $c->getView();
-    if ($view === null) {
-        return null;
-    }
     if ($action !== null) {
         $view->addActionFormHelper($action);
     }
+
+    // default
+    if (isset($params['default']) === false) {
+        // {form_input default="foo"} の指定がないとき
+        if (isset($block_params['default'][$name])) {
+            // 外側のブロックから取得
+            $params['default'] = $block_params['default'][$name];
+        } else {
+            // 現在のアクションフォームから取得
+            $af =& $c->getActionForm();
+            $params['default'] = $af->get($name);
+        }
+    }
+
     return $view->getFormInput($name, $action, $params);
 }
 // }}}
@@ -740,7 +749,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             $c =& Ethna_Controller::getInstance();
             $af =& $c->getActionForm();
             $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['default']
-                =& $af->getArray();
+                =& $af->getArray(false);
         }
 
         return '';
