@@ -309,17 +309,33 @@ class Ethna_ClassFactory
         }
 
         if (preg_match('/^(\w+?)_(.*)/', $class_name, $match)) {
-            // try pear style
-            $file = sprintf('%s.%s', str_replace('_', DIRECTORY_SEPARATOR, $class_name), $this->controller->getExt('php'));
+            // try ethna style
+            $tmp = explode("_", $match[2]);
+            $tmp[count($tmp)-1] = $class_name;
+            $file = sprintf('%s.%s',
+                            implode(DIRECTORY_SEPARATOR, $tmp),
+                            $this->controller->getExt('php'));
+            var_dump($file);
             if (file_exists_ex($file)) {
                 include_once($file);
                 return true;
             }
 
-            // try ethna style
-            $tmp = explode("_", $match[2]);
-            $tmp[count($tmp)-1] = $class_name;
-            $file = sprintf('%s.%s', implode(DIRECTORY_SEPARATOR, $tmp), $this->controller->getExt('php'));
+            // try ethna & pear mixed style
+            $file = sprintf('%s.%s',
+                            str_replace('_', DIRECTORY_SEPARATOR, $match[2]),
+                            $this->controller->getExt('php'));
+            var_dump($file);
+            if (file_exists_ex($file)) {
+                include_once($file);
+                return true;
+            }
+
+            // try pear style
+            $file = sprintf('%s.%s',
+                            str_replace('_', DIRECTORY_SEPARATOR, $class_name),
+                            $this->controller->getExt('php'));
+            var_dump($file);
             if (file_exists_ex($file)) {
                 include_once($file);
                 return true;

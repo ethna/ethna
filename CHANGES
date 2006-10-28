@@ -67,9 +67,10 @@
  $user =& $this->backend->getObject('user');
 としてSome_Foo_Barクラスのオブジェクトを取得することが出来ます
 -- クラス定義が見つからない場合は下記の順でファイルを探しに行きます(include_path)
-+++ Some_Foo_Bar.php
-+++ Some/Foo/Bar.php
-+++ Some/Foo/Some_Foo_Bar.php
++++ Some_Foo_Bar.php (そのまま)
++++ Foo/Some_Foo_Bar.php (Ethna style)
++++ Foo/Bar.php (Ethna & PEAR style)
++++ Some/Foo/Bar.php (PEAR style)
 -- アプリケーションマネージャの生成もEthna_ClassFactoryで行われます(Ethna_ClassFactory::getManager()が追加されています)
 -- これに伴い、〜2.1.xではコントローラクラスに
  $manager = array(
