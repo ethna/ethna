@@ -315,7 +315,6 @@ class Ethna_ClassFactory
             $file = sprintf('%s.%s',
                             implode(DIRECTORY_SEPARATOR, $tmp),
                             $this->controller->getExt('php'));
-            var_dump($file);
             if (file_exists_ex($file)) {
                 include_once($file);
                 return true;
@@ -325,7 +324,6 @@ class Ethna_ClassFactory
             $file = sprintf('%s.%s',
                             str_replace('_', DIRECTORY_SEPARATOR, $match[2]),
                             $this->controller->getExt('php'));
-            var_dump($file);
             if (file_exists_ex($file)) {
                 include_once($file);
                 return true;
@@ -335,7 +333,6 @@ class Ethna_ClassFactory
             $file = sprintf('%s.%s',
                             str_replace('_', DIRECTORY_SEPARATOR, $class_name),
                             $this->controller->getExt('php'));
-            var_dump($file);
             if (file_exists_ex($file)) {
                 include_once($file);
                 return true;
