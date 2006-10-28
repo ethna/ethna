@@ -310,7 +310,7 @@ class Ethna_ClassFactory
 
         if (preg_match('/^(\w+?)_(.*)/', $class_name, $match)) {
             // try pear style
-            $file = sprintf('%s.%s', str_replace('_', DIRECTORY_SEPARATOR, $match[2]), $this->controller->getExt('php'));
+            $file = sprintf('%s.%s', str_replace('_', DIRECTORY_SEPARATOR, $class_name), $this->controller->getExt('php'));
             if (file_exists_ex($file)) {
                 include_once($file);
                 return true;
