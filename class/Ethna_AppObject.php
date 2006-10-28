@@ -410,7 +410,9 @@ class Ethna_AppObject
             $this->id = $this->prop[$this->id_def];
         }
 
+        // バックアップ/キャッシュ更新
         $this->prop_backup = $this->prop;
+        $this->_clearPropCache();
 
         return 0;
     }
@@ -1374,10 +1376,13 @@ class Ethna_AppObject
         $cache_key = $this->my_db_ro->getDSN();
         $cache_key = preg_replace('|[:/@+]|', '', $cache_key);
         $cache_key = "$cache_key-$table_name";
+        $cache_key = md5($cache_key);
 
-        $prop_def = $cache_manager->get($cache_key, $this->prop_def_cache_lifetime);
-        if (PEAR::isError($prop_def) == false) {
-            return $prop_def;
+        if ($cache_manager->isCached($cache_key, $this->prop_def_cache_lifetime)) {
+            $prop_def = $cache_manager->get($cache_key, $this->prop_def_cache_lifetime);
+            if (Ethna::isError($prop_def) == false) {
+                return $prop_def;
+            }
         }
 
         $r = $this->my_db_ro->getMetaData($table_name);
