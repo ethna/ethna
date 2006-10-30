@@ -68,10 +68,14 @@ class Ethna_DB_ADOdb_Test extends UnitTestCase
         $this->db_path = dirname(__FILE__) . "/tmp/test.db";
         $this->dsn = "sqlite:///" . $this->db_path;
 
-        $this->ctl =& new Ethna_Controller();
-        $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
+        $this->ctl =& Ethna_Controller::getInstance();
+        if (is_null($ctl)) {
+            $this->ctl =& new Ethna_Controller();
+            $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
+        }
 
         $this->backend =& $this->ctl->getBackend();
+
     }
 
     /**
@@ -86,8 +90,10 @@ class Ethna_DB_ADOdb_Test extends UnitTestCase
 
     function tearDown()
     {
-        if (file_exists($this->db_path)) {
-            unlink($this->db_path);
+        if ($this->db_type == 'sqlite') {
+            if (file_exists($this->db_path)) {
+                unlink($this->db_path);
+            }
         }
     }
 
@@ -98,7 +104,10 @@ class Ethna_DB_ADOdb_Test extends UnitTestCase
 
     function testMakeInstance()
     {
-        $this->assertTrue(extension_loaded('sqlite'), "this php not installed sqlite");
+        if ($this->db_type == 'sqlite') {
+            $this->assertTrue(extension_loaded('sqlite'), "this php not installed sqlite");
+        }
+
         $this->db = new Ethna_DB_ADOdb($this->ctl, $this->dsn, false);
         $this->assertTrue(is_object($this->db), "this->db is not object");
         $this->assertEqual(get_class($this->db), "Ethna_DB_ADOdb", "this->db is not Ethna_DB_ADOdb");
