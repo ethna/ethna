@@ -110,23 +110,21 @@ class Ethna_ViewClass_Test extends UnitTestCase
 
     function test_getFormInput_Textarea()
     {
-        $name = "testarea";
-        $def = array(
-            'max' => 20,
-        );
+        $name = "content";
         $params = array();
 
         $test_form = array(
-            'testarea' => array(
+            $name => array(
                 'name' => 'TestTestText',
                 'form_type' => FORM_TYPE_TEXTAREA,
                 'type' => VAR_TYPE_STRING,
+                'required' => true,
             ),                    
         );
 
         $this->viewclass->af->setDef(null, $test_form);
 
-        $result = $this->viewclass->_getFormInput_Textarea($name, $def, $params);
+        $result = $this->viewclass->getFormInput($name, null, $params);
 
         $this->assertTrue(strpos($result, '</textarea>'), "can't find textarea endtag [{$result}]");
     }
@@ -150,6 +148,29 @@ class Ethna_ViewClass_Test extends UnitTestCase
         $result = $this->viewclass->getFormInput($name, null, $params);
 
         $this->assertTrue(!empty($result), "selectbox make error");
+    }
+
+    function test_getFormInput_Checkbox()
+    {
+        $this->assertTrue(defined('FORM_TYPE_CHECKBOX'), 'undefined FORM_TYPE_SUBMIT');
+
+        $name = "check";
+        $params = array();
+
+        $test_form = array(
+            $name => array(
+                'name' => 'TestTestText',
+                'form_type' => FORM_TYPE_CHECKBOX,
+                'type' => array(VAR_TYPE_INT),
+                'option' => array('a', 'b', 'c'),
+            ),
+        );
+
+        $this->viewclass->af->setDef($name, $test_form);
+
+        $result = $this->viewclass->getFormInput($name, null, $params);
+
+        $this->assertTrue(!empty($result), "checkbox make error");
     }
 
     function test_getFormInput_Submit()
