@@ -670,6 +670,9 @@ class Ethna_ViewClass
         if (isset($params['value'])) {
             $attr['value'] = $params['value'];
             unset($params['value']);
+        } else {
+            $attr['value'] = $def['name'];
+            unset($params['value']);
         }
 
         return $this->_getFormInput_Html("input", $attr, $params);
@@ -739,6 +742,9 @@ class Ethna_ViewClass
             if ($key == "type" || $key == "name"
                 || preg_match('/^[a-z0-9]+$/i', $key) == 0) {
                 continue;
+            }
+            if ($key == "default" && empty($user_attr['value']) && (!empty($value))) {
+                $attr['value'] = $value; 
             }
             $attr[$key] = $value;
         }
