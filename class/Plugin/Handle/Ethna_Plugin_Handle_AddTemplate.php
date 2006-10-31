@@ -19,36 +19,73 @@
 class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle
 {
     /**
-     *  get handler's description
-     *
-     *  @access public
-     */
-    function getDescription()
-    {
-        return "add new template to project:\n    {$this->id} [template] ([project-base-dir])\n";
-    }
-
-    /**
      *  add template 
      *
      *  @access public
      */
     function perform()
     {
-        $r = $this->_validateArgList();
-        if (Ethna::isError($r)) {
-            return $r;
+        $args =& $this->_parseArgList();
+        if (Ethna::isError($args)) {
+            return $args;
         }
-        list($template, $app_dir) = $r;
+
+        if (isset($args['template']) === false) {
+            return Ethna::raiseError('invalid number of arguments', 'usage');
+        }
+        $template = $args['template'];
+        $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
+        $skelfile = isset($args['skelfile']) ? $args['skelfile'] : null;
 
         $generator =& new Ethna_Generator();
-        $r = $generator->generate('Template', $template, $app_dir);
+        $r = $generator->generate('Template', $template, $basedir, $skelfile);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
         return true;
+    }
+
+    // {{{ _parseArgList()
+    /**
+     * @access private
+     */
+    function &_parseArgList()
+    {
+        $r =& $this->_getopt(array('basedir=', 'skelfile='));
+        if (Ethna::isError($r)) {
+            return $r;
+        }
+        list($opt_list, $arg_list) = $r;
+
+        $ret = array();
+        foreach ($opt_list as $opt) {
+            switch (true) {
+                case ($opt[0] == 'b' || $opt[0] == '--basedir'):
+                    $ret['basedir'] = $opt[1];
+                    break;
+                case ($opt[0] == 's' || $opt[0] == '--skelfile'):
+                    $ret['skelfile'] = $opt[1];
+                    break;
+            }
+        }
+        if (count($arg_list) == 1) {
+            $ret['template'] = $arg_list[0];
+        }
+
+        return $ret;
+    }
+    // }}}
+
+    /**
+     *  get handler's description
+     *
+     *  @access public
+     */
+    function getDescription()
+    {
+        return "add new template to project:\n    {$this->id} [--basedir=dir] [--skelfile=file] [template]\n";
     }
 
     /**
@@ -58,34 +95,7 @@ class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle
      */
     function usage()
     {
-        printf("usage:\nethna %s [template] ([project-base-dir])\n", $this->id);
-    }
-
-    /**
-     *  check arguments
-     *
-     *  @access private
-     */
-    function _validateArgList()
-    {
-        $arg_list = array();
-        if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($this->arg_list) > 2) {
-            return Ethna::raiseError('too many arguments', 'usage');
-        } else if (count($this->arg_list) == 1) {
-            $arg_list[] = $this->arg_list[0];
-            $arg_list[] = getcwd();
-        } else {
-            $arg_list = $this->arg_list;
-        }
-
-        // TODO: check action name(?) - how it would be easy and pluggable
-        if (is_dir($arg_list[1]) == false) {
-            return Ethna::raiseError("no such directory [{$arg_list[1]}]");
-        }
-
-        return $arg_list;
+        printf("usage:\nethna %s [--basedir=dir] [--skelfile=file] [template]\n", $this->id);
     }
 }
 // }}}
