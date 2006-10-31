@@ -108,6 +108,9 @@
 --- http://ethna.jp/ethna-document-dev_guide-form-validate_with_plugin.html
 - ethnaコマンドにアクション名、ビュー名のチェック処理を追加(Ethna_Controller::checkActionName(), Ethna_Controller::checkViewName()を追加)
 - Ethna_CacheManager_Memcache(キャッシュマネージャのmemcacheサポート)追加
+- Ethna_Sessionにregenerate_idメソッドの追加
+- Ethna_Plugin_Csrf(CSRF対策コード)追加
+
 
 
 *** bug fixes

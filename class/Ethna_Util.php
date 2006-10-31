@@ -156,7 +156,7 @@ class Ethna_Util
     /**
      *  POSTのユニークチェックフラグをクリアする
      *
-     *  @access public
+     *  @acccess public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
     function clearDuplicatePost()
@@ -181,6 +181,51 @@ class Ethna_Util
         }
 
         return 0;
+    }
+    // }}}
+
+
+    // {{{ isRequestValid
+    /**
+     *  CSRFをチェックする
+     *
+     *  @access public
+     *  @return bool    true:正常なPOST false:不正なPOST
+     */
+    function isRequestValid()
+    {
+        $c =& Ethna_Controller::getInstance();
+        $name = $c->config->get('csrf');
+        
+        if (is_null($name)) {
+            $name = 'Session';
+        }
+        
+        $plugin =& $c->getPlugin('Csrf', $name);
+        $csrf =& $plugin->getPlugin('Csrf', $name);
+        return $csrf->Valid();
+    }
+    // }}}
+
+    // {{{ isRequestValid
+    /**
+     *  CSRFをチェックする
+     *
+     *  @access public
+     *  @return bool    true:成功
+     */
+    function setCsrfID()
+    {
+        $c =& Ethna_Controller::getInstance();
+        $name = $c->config->get('csrf');
+        
+        if (is_null($name)) {
+            $name = 'Session';
+        }
+        
+        $plugin =& $c->getPlugin('Csrf', $name);
+        $csrf =& $plugin->getPlugin('Csrf', $name);
+        return $csrf->set();
     }
     // }}}
 

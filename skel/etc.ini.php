@@ -65,5 +65,9 @@ $config = array(
     //         ),
     //     ),
     // ),
+
+    // csrf
+    // 'csrf' => 'Session',
+
 );
 ?>

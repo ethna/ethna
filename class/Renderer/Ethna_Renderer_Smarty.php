@@ -84,8 +84,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->setPlugin('form_input','function','smarty_function_form_input');
         $this->setPlugin('form_submit','function','smarty_function_form_submit');
         $this->setPlugin('url','function','smarty_function_url');
-        
-        // default blocks
+        $this->setPlugin('csrfid','function','smarty_function_csrfid');
+
+	// default blocks
         $this->setPlugin('form','block','smarty_block_form');       
     }
 
