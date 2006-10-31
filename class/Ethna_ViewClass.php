@@ -375,7 +375,7 @@ class Ethna_ViewClass
         
         // 選択肢を取得
         $options = null;
-        $split = preg_split('/%s*,%s*/', $source, 2, PREG_SPLIT_NO_EMPTY);
+        $split = array_map("trim", explode(',', $source));
         if (count($split) === 1) {
             // アクションフォームから取得
             $method_or_property = $split[0];
