@@ -656,19 +656,12 @@ function smarty_function_form_name($params, &$smarty)
  */
 function smarty_function_form_submit($params, &$smarty)
 {
-    if (isset($params['name'])) {
-        $name = $params['name'];
-        unset($params['name']);
-    } else {
-        $name = 'submit';
-    }
-
     $c =& Ethna_Controller::getInstance();
     $view =& $c->getView();
     if ($view === null) {
         return null;
     }
-    return $view->getFormSubmit($name, $params);
+    return $view->getFormSubmit($params);
 }
 // }}}
 
@@ -717,15 +710,20 @@ function smarty_function_form_input($params, &$smarty)
     }
 
     // default
-    if (isset($params['default']) === false) {
-        // {form_input default="foo"} の指定がないとき
+    if (isset($params['default'])) {
+        // {form_input default=...}が指定されていればそのまま
+
+    } else if (isset($block_params['default'])) {
+        // 外側の {form default=...} ブロック
         if (isset($block_params['default'][$name])) {
-            // 外側のブロックから取得
             $params['default'] = $block_params['default'][$name];
-        } else {
-            // 現在のアクションフォームから取得
-            $af =& $c->getActionForm();
-            $params['default'] = $af->get($name);
+        }
+    } else {
+        // 現在のアクションで受け取ったフォーム値
+        $af =& $c->getActionForm();
+        $val = $af->get($name);
+        if ($val !== null) {
+            $params['default'] = $val;
         }
     }
 
@@ -745,13 +743,15 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
         // default
         if (isset($params['default']) === false) {
             // 指定なしのときは $form を使う
-            // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
             $c =& Ethna_Controller::getInstance();
             $af =& $c->getActionForm();
+
+            // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
             $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['default']
                 =& $af->getArray(false);
         }
 
+        // ここで返す値は出力されない
         return '';
 
     } else {
@@ -788,6 +788,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             unset($params['default']);
         }
 
+        // $contentを囲む<form>ブロック全体を出力
         return $view->getFormBlock($content, $params);
     }
 }

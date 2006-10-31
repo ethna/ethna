@@ -50,6 +50,9 @@ class Ethna_ViewClass
     /** @var    array   アクションフォームオブジェクト(helper) */
     var $helper_action_form = array();
 
+    /** @var    array   helperでhtmlのattributeにはしなパラメータの一覧 */
+    var $helper_parameter_keys = array('default', 'option', 'separator');
+
     /** @var    object  Ethna_Session       セッションオブジェクト */
     var $session;
 
@@ -146,7 +149,7 @@ class Ethna_ViewClass
         }
 
         $form_name = $ctl->getActionFormName($action);
-        if ($form_name == null) {
+        if ($form_name === null) {
             $this->logger->log(LOG_WARNING,
                 'action form for the action [%s] not found.', $action);
             return;
@@ -171,7 +174,7 @@ class Ethna_ViewClass
     // {{{ _getHelperActionForm
     /**
      *  アクションフォームオブジェクト(helper)を取得する
-     *  $action == null で $name が指定されているときは、$nameの定義を
+     *  $action === null で $name が指定されているときは、$nameの定義を
      *  含むものを探す
      *
      *  @access protected
@@ -248,11 +251,12 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function getFormSubmit($name, $params)
+    function getFormSubmit($params)
     {
-        $def = array('form_type' => FORM_TYPE_SUBMIT);
-        $input = $this->_getFormInput_Submit($name, $def, $params);
-        return $input;
+        if (isset($params['type']) === false) {
+            $params['type'] = 'submit';
+        }
+        return $this->_getFormInput_Html('input', $params);
     }
     // }}}
 
@@ -275,7 +279,7 @@ class Ethna_ViewClass
             return '';
         }
 
-        if (isset($def['form_type']) == false) {
+        if (isset($def['form_type']) === false) {
             $def['form_type'] = FORM_TYPE_TEXT;
         }
 
@@ -337,48 +341,27 @@ class Ethna_ViewClass
      */
     function getFormBlock($content, $params)
     {
-        $attr = array();
-
-        // action
-        if (isset($params['action'])) {
-            $attr['action'] = $params['action'];
-            unset($params['action']);
-        } else {
-            $action = basename($_SERVER['PHP_SELF']);
-        }
-
         // method
-        if (isset($params['method'])) {
-            $attr['method'] = $params['method'];
-            unset($params['method']);
-        } else {
-            $attr['method'] = 'post';
+        if (isset($params['method']) === false) {
+            $params['method'] = 'post';
         }
 
-        // enctype
-        if (isset($params['enctype'])) {
-            $attr['enctype'] = $params['enctype'];
-            unset($params['enctype']);
-        }
-
-        return $this->_getFormInput_Html('form', $attr, $params, $content, false);
+        return $this->_getFormInput_Html('form', $params, $content, false);
     }
     // }}}
 
     // {{{ _getSelectorOptions
     /**
      *  select, radio, checkbox の選択肢を取得する
-     *  ($def, $paramsを書き換えることに注意)
      *
      *  @access protected
      */
-    function _getSelectorOptions(&$af, &$def, &$params)
+    function _getSelectorOptions(&$af, $def, $params)
     {
         // $params, $def の順で調べる
         $source = null;
         if (isset($params['option'])) {
             $source = $params['option'];
-            unset($params['option']);
         } else if (isset($def['option'])) {
             $source = $def['option'];
         }
@@ -393,7 +376,7 @@ class Ethna_ViewClass
         // 選択肢を取得
         $options = null;
         $split = preg_split('/%s*,%s*/', $source, 2, PREG_SPLIT_NO_EMPTY);
-        if (count($split) == 1) {
+        if (count($split) === 1) {
             // アクションフォームから取得
             $method_or_property = $split[0];
             if (method_exists($af, $method_or_property)) {
@@ -426,11 +409,15 @@ class Ethna_ViewClass
      */
     function _getFormInput_Button($name, $def, $params)
     {
-        $attr = array();
-        $attr['type'] = "button";
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
+        $params['type'] = 'button';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($params['value']) === false) {
+            if (isset($def['name'])) {
+                $params['value'] = $def['name'];
+            }
+        }
 
-        return $this->_getFormInput_Html("input", $attr, $params);
+        return $this->_getFormInput_Html('input', $params);
     }
     // }}}
 
@@ -442,48 +429,52 @@ class Ethna_ViewClass
      */
     function _getFormInput_Checkbox($name, $def, $params)
     {
+        $params['type'] = 'checkbox';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+
         // オプションの一覧(alist)を取得
-        if (isset($def['option']) === false
-            || is_array($def['option']) === false) {
-            return '';
+        if (isset($def['option']) && is_array($def['option'])) {
+            $options = $def['option'];
+        } else {
+            $options = array();
         }
-        $options = $def['option'];
 
         // default値の設定
         if (isset($params['default'])) {
             $current_value = $params['default'];
-            unset($params['default']);
+        } else if (isset($def['default'])) {
+            $current_value = $def['default'];
+        } else {
+            $current_value = array();
         }
-        $current_value = to_array($current_value);
+        $current_value = array_map('strval', to_array($current_value));
 
         // タグのセパレータ
         if (isset($params['separator'])) {
             $separator = $params['separator'];
-            unset($params['separator']);
         } else {
             $separator = '';
         }
 
         $ret = array();
         $i = 1;
-        $attr = array();
-        $attr['type'] = 'checkbox';
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
         foreach ($options as $key => $value) {
-            $attr['value'] = $key;
-            $attr['id'] = $name . '_' . $i++;
-            if (in_array((string) $key, $current_value)) {
-                $attr['checked'] = 'checked';
+            $params['value'] = $key;
+            $params['id'] = $name . '_' . $i++;
+
+            // checked
+            if (in_array((string) $key, $current_value, true)) {
+                $params['checked'] = 'checked';
             } else {
-                unset($attr['checked']);
+                unset($params['checked']);
             }
 
             // <input type="checkbox" />
-            $input_tag = $this->_getFormInput_Html('input', $attr, $params, $value);
+            $input_tag = $this->_getFormInput_Html('input', $params);
 
             // <label for="id">..</label>
-            $ret[] = $this->_getFormInput_Html('label', array('id' => $attr['id']),
-                                               $params, $input_tag, false);
+            $ret[] = $this->_getFormInput_Html('label', array('id' => $params['id']),
+                                               $input_tag . $value, false);
         }
 
         return implode($separator, $ret);
@@ -498,12 +489,11 @@ class Ethna_ViewClass
      */
     function _getFormInput_File($name, $def, $params)
     {
-        $attr = array();
-        $attr['type'] = "file";
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
-        $attr['value'] = "";
+        $params['type'] = 'file';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        $params['value'] = '';
 
-        return $this->_getFormInput_Html("input", $attr, $params);
+        return $this->_getFormInput_Html('input', $params);
     }
     // }}}
 
@@ -515,18 +505,21 @@ class Ethna_ViewClass
      */
     function _getFormInput_Hidden($name, $def, $params)
     {
-        $attr = array();
-        $attr['type'] = "hidden";
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
-        if (isset($params['default'])) {
-            $attr['value'] = $params['default'];
-            unset($params['default']);
-        } else if (isset($params['value'])) {
-            $attr['value'] = $params['value'];
-            unset($params['value']);
+        $params['type'] = 'hidden';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+
+        // value
+        if (isset($params['value']) === false) {
+            if (isset($params['default'])) {
+                $params['value'] = $params['default'];
+            } else if (isset($def['default'])) {
+                $params['value'] = $def['default'];
+            } else {
+                $params['value'] = '';
+            }
         }
 
-        return $this->_getFormInput_Html("input", $attr, $params);
+        return $this->_getFormInput_Html('input', $params);
     }
     // }}}
 
@@ -538,18 +531,26 @@ class Ethna_ViewClass
      */
     function _getFormInput_Password($name, $def, $params)
     {
-        $attr = array();
-        $attr['type'] = "password";
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
-        if (isset($params['default'])) {
-            $attr['value'] = $params['default'];
-            unset($params['default']);
-        } else if (isset($params['value'])) {
-            $attr['value'] = $params['value'];
-            unset($params['value']);
+        $params['type'] = 'password';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+
+        // value
+        if (isset($params['value']) === false) {
+            if (isset($params['default'])) {
+                $params['value'] = $params['default'];
+            } else if (isset($def['default'])) {
+                $params['value'] = $def['default'];
+            } else {
+                $params['value'] = '';
+            }
         }
 
-        return $this->_getFormInput_Html("input", $attr, $params);
+        // maxlength
+        if (isset($def['max']) && $def['max']) {
+            $params['maxlength'] = $def['max'];
+        }
+
+        return $this->_getFormInput_Html('input', $params);
     }
     // }}}
 
@@ -561,47 +562,51 @@ class Ethna_ViewClass
      */
     function _getFormInput_Radio($name, $def, $params)
     {
+        $params['type'] = 'radio';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+
         // オプションの一覧(alist)を取得
-        if (isset($def['option']) === false
-            || is_array($def['option']) === false) {
-            return '';
+        if (isset($def['option']) && is_array($def['option'])) {
+            $options = $def['option'];
+        } else {
+            $options = array();
         }
-        $options = $def['option'];
 
         // default値の設定
         if (isset($params['default'])) {
             $current_value = $params['default'];
-            unset($params['default']);
+        } else if (isset($def['default'])) {
+            $current_value = $def['default'];
+        } else {
+            $current_value = null;
         }
 
         // タグのセパレータ
         if (isset($params['separator'])) {
             $separator = $params['separator'];
-            unset($params['separator']);
         } else {
             $separator = '';
         }
 
         $ret = array();
         $i = 1;
-        $attr = array();
-        $attr['type'] = 'radio';
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
         foreach ($options as $key => $value) {
-            $attr['value'] = $key;
-            $attr['id'] = $name . '_' . $i++;
-            if ($current_value === (string) $key) {
-                $attr['checked'] = 'checked';
+            $params['value'] = $key;
+            $params['id'] = $name . '_' . $i++;
+
+            // checked
+            if (strcmp($current_value, $key) === 0) {
+                $params['checked'] = 'checked';
             } else {
-                unset($attr['checked']);
+                unset($params['checked']);
             }
 
             // <input type="radio" />
-            $input_tag = $this->_getFormInput_Html('input', $attr, $params, $value);
+            $input_tag = $this->_getFormInput_Html('input', $params);
 
             // <label for="id">..</label>
-            $ret[] = $this->_getFormInput_Html('label', array('id' => $attr['id']),
-                                               $params, $input_tag, false);
+            $ret[] = $this->_getFormInput_Html('label', array('id' => $params['id']),
+                                               $input_tag . $value, false);
         }
 
         return implode($separator, $ret);
@@ -616,43 +621,43 @@ class Ethna_ViewClass
      */
     function _getFormInput_Select($name, $def, $params)
     {
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+
         // オプションの一覧(alist)を取得
-        if (isset($def['option']) === false
-            || is_array($def['option']) === false) {
-            return '';
+        if (isset($def['option']) && is_array($def['option'])) {
+            $options = $def['option'];
+        } else {
+            $options = array();
         }
-        $options = $def['option'];
 
         // default値の設定
         if (isset($params['default'])) {
             $current_value = $params['default'];
-            unset($params['default']);
+        } else if (isset($def['default'])) {
+            $current_value = $def['default'];
+        } else {
+            $current_value = null;
         }
 
         // タグのセパレータ
         if (isset($params['separator'])) {
             $separator = $params['separator'];
-            unset($params['separator']);
         } else {
             $separator = '';
         }
 
         // selectタグの中身を作る
         $contents = array();
-        $attr = array();
         foreach ($options as $key => $value) {
-            $attr['value'] = $key;
-            if ($current_value === (string) $key) {
+            $attr = array('value' => $key);
+            if (strcmp($current_value, $key) === 0) {
                 $attr['selected'] = 'selected';
-            } else {
-                unset($attr['selected']);
             }
-            $contents[] = $this->_getFormInput_Html('option', $attr, $params, $value);
+            $contents[] = $this->_getFormInput_Html('option', $attr, $value);
         }
 
-        $attr = array('name' => $name);
         $element = $separator . implode($separator, $contents) . $separator;
-        return $this->_getFormInput_Html('select', $attr, $params, $element, false);
+        return $this->_getFormInput_Html('select', $params, $element, false);
     }
     // }}}
 
@@ -664,18 +669,15 @@ class Ethna_ViewClass
      */
     function _getFormInput_Submit($name, $def, $params)
     {
-        $attr = array();
-        $attr['type'] = "submit";
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
-        if (isset($params['value'])) {
-            $attr['value'] = $params['value'];
-            unset($params['value']);
-        } else {
-            $attr['value'] = $def['name'];
-            unset($params['value']);
+        $params['type'] = 'submit';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($params['value']) === false) {
+            if (isset($def['name'])) {
+                $params['value'] = $def['name'];
+            }
         }
 
-        return $this->_getFormInput_Html("input", $attr, $params);
+        return $this->_getFormInput_Html('input', $params);
     }
     // }}}
 
@@ -687,18 +689,23 @@ class Ethna_ViewClass
      */
     function _getFormInput_Textarea($name, $def, $params)
     {
-        $attr = array();
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
-        $element = '';
-        if (isset($params['default'])) {
-            $element = $params['default'];
-            unset($params['default']);
-        } else if (isset($params['value'])) {
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+
+        // element
+        if (isset($params['value'])) {
             $element = $params['value'];
             unset($params['value']);
+        } else {
+            if (isset($params['default'])) {
+                $element = $params['default'];
+            } else if (isset($def['default'])) {
+                $element = $def['default'];
+            } else {
+                $element = '';
+            }
         }
 
-        return $this->_getFormInput_Html("textarea", $attr, $params, $element);
+        return $this->_getFormInput_Html('textarea', $params, $element);
     }
     // }}}
 
@@ -710,21 +717,26 @@ class Ethna_ViewClass
      */
     function _getFormInput_Text($name, $def, $params)
     {
-        $attr = array();
-        $attr['type'] = "text";
-        $attr['name'] = is_array($def['type']) ? $name .'[]' : $name;
-        if (isset($params['default'])) {
-            $attr['value'] = $params['default'];
-            unset($params['default']);
-        } else if (isset($params['value'])) {
-            $attr['value'] = $params['value'];
-            unset($params['value']);
-        }
-        if (isset($def['max']) && $def['max']) {
-            $attr['maxlength'] = $def['max'];
+        $params['type'] = 'text';
+        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+
+        // value
+        if (isset($params['value']) === false) {
+            if (isset($params['default'])) {
+                $params['value'] = $params['default'];
+            } else if (isset($def['default'])) {
+                $params['value'] = $def['default'];
+            } else {
+                $params['value'] = '';
+            }
         }
 
-        return $this->_getFormInput_Html("input", $attr, $params);
+        // maxlength
+        if (isset($def['max']) && $def['max']) {
+            $params['maxlength'] = $def['max'];
+        }
+
+        return $this->_getFormInput_Html('input', $params);
     }
     // }}}
 
@@ -734,25 +746,17 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Html($tag, $attr, $user_attr,
-                                $element = null, $escape_element = true)
+    function _getFormInput_Html($tag, $attr, $element = null, $escape_element = true)
     {
-        // user defs
-        foreach ($user_attr as $key => $value) {
-            if ($key == "type" || $key == "name"
-                || preg_match('/^[a-z0-9]+$/i', $key) == 0) {
-                continue;
-            }
-            if ($key == "default" && empty($user_attr['value']) && (!empty($value))) {
-                $attr['value'] = $value; 
-            }
-            $attr[$key] = $value;
+        // 不要なパラメータは消す
+        foreach ($this->helper_parameter_keys as $key) {
+            unset($attr[$key]);
         }
 
         $r = "<$tag";
 
         foreach ($attr as $key => $value) {
-            if (is_null($value)) {
+            if ($value === null) {
                 $r .= sprintf(' %s', $key);
             } else {
                 $r .= sprintf(' %s="%s"', $key, htmlspecialchars($value, ENT_QUOTES));
@@ -760,7 +764,7 @@ class Ethna_ViewClass
         }
 
         if ($element === null) {
-            $r .= " />";
+            $r .= ' />';
         } else if ($escape_element) {
             $r .= sprintf('>%s</%s>', htmlspecialchars($element, ENT_QUOTES), $tag);
         } else {

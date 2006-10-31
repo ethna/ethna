@@ -80,9 +80,7 @@ class Ethna_ViewClass_Test extends UnitTestCase
             'value' => '<&>',
         );
 
-        $user_attr = array();
-
-        $result = $this->viewclass->_getFormInput_Html('input', $test_attr, $user_attr);
+        $result = $this->viewclass->_getFormInput_Html('input', $test_attr);
 
         $this->assertEqual($result, $actual);
     }
@@ -152,7 +150,7 @@ class Ethna_ViewClass_Test extends UnitTestCase
 
     function test_getFormInput_Checkbox()
     {
-        $this->assertTrue(defined('FORM_TYPE_CHECKBOX'), 'undefined FORM_TYPE_SUBMIT');
+        $this->assertTrue(defined('FORM_TYPE_CHECKBOX'), 'undefined FORM_TYPE_CHECKBOX');
 
         $name = "check";
         $params = array();
@@ -213,7 +211,100 @@ class Ethna_ViewClass_Test extends UnitTestCase
 
         $result = $this->viewclass->getFormName('test_text', null, $params);
         $this->assertEqual($result, $test_word);
-     }
+    }
 
+    function test_getFormInput_Button()
+    {
+        $name = 'btn';
+        $def = array(
+            'form_type' => FORM_TYPE_BUTTON,
+            );
+        $params = array();
+
+        // valueなし
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('btn', null, $params);
+        $this->assertTrue(strpos($result, 'value') === false);
+
+        // defaultは指定しても無意味
+        $params['default'] = 'hoge';
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('btn', null, $params);
+        $this->assertTrue(strpos($result, 'value') === false);
+
+        // valueを指定
+        $params['value'] = 'fuga';
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('btn', null, $params);
+        $this->assertTrue(strpos($result, 'value="fuga"'));
+    }
+
+    function test_getFormInput_Checkbox2()
+    {
+        $name = 'chkbx';
+        $def = array(
+            'form_type' => FORM_TYPE_CHECKBOX,
+            'type' => array(VAR_TYPE_STRING),
+            'option' => array(1=>1, 2=>2),
+            'default' => 2,
+            );
+        $params = array('separator' => "\n");
+
+        $expected =<<<EOS
+<label id="chkbx_1"><input type="checkbox" name="chkbx[]" value="1" id="chkbx_1" />1</label>
+<label id="chkbx_2"><input type="checkbox" name="chkbx[]" value="2" id="chkbx_2" checked="checked" />2</label>
+EOS;
+
+        // def の default 指定で int(2) に check
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('chkbx', null, $params);
+        $this->assertEqual($result, $expected);
+
+        // params の default 指定で int(2) に check
+        $def['default'] = 1;
+        $params['default'] = 2; // paramsが優先
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('chkbx', null, $params);
+        $this->assertEqual($result, $expected);
+
+        // params の default 指定で string(1) "2" に check
+        $params['default'] = '2';
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('chkbx', null, $params);
+        $this->assertEqual($result, $expected);
+    }
+
+    function test_default_value()
+    {
+        $name = 'testform';
+        $def = array();
+        $params = array();
+
+        // defaultもvalueもないとき
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('testform', null, $params);
+        $this->assertTrue(strpos($result, 'value=""'));
+
+        // defaultがあるとき
+        $params['default'] = 'hoge';
+        unset($params['value']);
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('testform', null, $params);
+        $this->assertTrue(strpos($result, 'value="hoge"'));
+
+        // valueがあるとき
+        unset($params['default']);
+        $params['value'] = 'fuga';
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('testform', null, $params);
+        $this->assertTrue(strpos($result, 'value="fuga"'));
+
+        // default, value両方があるとき: valueが優先
+        $params['default'] = 'hogefuga';
+        $params['value'] = 'foobar';
+        $this->viewclass->af->setDef($name, $def);
+        $result = $this->viewclass->getFormInput('testform', null, $params);
+        $this->assertTrue(strpos($result, 'value="foobar"'));
+    }
 }
 ?>
