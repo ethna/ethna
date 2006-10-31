@@ -35,6 +35,7 @@ class Ethna_Plugin_Generator_Action extends Ethna_Plugin_Generator
         if (Ethna::isError($c)) {
             return $c;
         }
+        $this->ctl =& $c;
 
         $action_dir = $c->getActiondir($gateway);
         $action_class = $c->getDefaultActionClass($action_name, $gateway);

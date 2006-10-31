@@ -34,6 +34,7 @@ class Ethna_Plugin_Generator_Cli extends Ethna_Plugin_Generator
         if (Ethna::isError($c)) {
             return $c;
         }
+        $this->ctl =& $c;
 
         $app_dir = $c->getDirectory('app');
         $bin_dir = $c->getDirectory('bin');

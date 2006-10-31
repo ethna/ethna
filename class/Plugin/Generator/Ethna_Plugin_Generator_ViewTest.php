@@ -33,6 +33,7 @@ class Ethna_Plugin_Generator_ViewTest extends Ethna_Plugin_Generator
         if (Ethna::isError($c)) {
             return $c;
         }
+        $this->ctl =& $c;
 
         $view_dir = $c->getViewdir();
         $view_class = $c->getDefaultViewClass($forward_name, false);

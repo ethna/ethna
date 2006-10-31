@@ -113,12 +113,14 @@ class Ethna_Handle
      *  @access public
      *  @static
      */
-    function &getAppController($app_dir)
+    function &getAppController($app_dir = null)
     {
         static $app_controller = null;
 
         if ($app_controller !== null) {
             return $app_controller;
+        } else if ($app_dir === null) {
+            return Ethna::raiseError('$app_dir not specified.');
         }
 
         $ini_file = null;

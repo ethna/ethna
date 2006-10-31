@@ -34,6 +34,7 @@ class Ethna_Plugin_Generator_AppManager extends Ethna_Plugin_Generator
         if (Ethna::isError($c)) {
             return $c;
         }
+        $this->ctl =& $c;
 
         $manager_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($manager_name));
 

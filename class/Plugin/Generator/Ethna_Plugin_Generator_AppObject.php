@@ -34,6 +34,7 @@ class Ethna_Plugin_Generator_AppObject extends Ethna_Plugin_Generator
         if (Ethna::isError($c)) {
             return $c;
         }
+        $this->ctl =& $c;
 
         $table_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($table_name));
 

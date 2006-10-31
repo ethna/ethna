@@ -35,6 +35,8 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
         if (Ethna::isError($c)) {
             return $c;
         }
+        $this->ctl =& $c;
+
         $appid = $c->getAppId();
         $plugin =& $c->getPlugin();
 

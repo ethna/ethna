@@ -19,6 +19,9 @@
  */
 class Ethna_Plugin_Generator
 {
+    /** @var    object  Ethna_Controller    スケルトン生成に使うコントローラ */
+    var $ctl;
+
     /**
      *  スケルトンファイルにマクロを適用してファイルを生成する
      *
@@ -40,9 +43,8 @@ class Ethna_Plugin_Generator
             printf("file [%s] already exists -> skip\n", $entity);
             return true;
         }
-        $c =& Ethna_Controller::getInstance();
-        if (is_object($c)) {
-            $base = $c->getBasedir();
+        if (is_object($this->ctl)) {
+            $base = $this->ctl->getBasedir();
             if (file_exists("$base/skel/$skel") == false) {
                 $base = null;
             }

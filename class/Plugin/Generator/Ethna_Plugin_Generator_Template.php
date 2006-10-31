@@ -27,19 +27,25 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
      *  @param  string  $app_dir        プロジェクトディレクトリ
      *  @return bool    true:成功 false:失敗
      */
-    function generate($forward_name, $app_dir)
+    function generate($forward_name, $app_dir, $skel_file = null)
     {
         // get application controller
         $c =& Ethna_Handle::getAppController($app_dir);
         if (Ethna::isError($c)) {
             return $c;
         }
+        $this->ctl =& $c;
 
         $tpl_dir = $c->getTemplatedir();
         if ($tpl_dir{strlen($tpl_dir)-1} != '/') {
             $tpl_dir .= '/';
         }
         $tpl_path = $c->getDefaultForwardPath($forward_name);
+
+        // skel_file
+        if ($skel_file === null) {
+            $skel_file = "skel.template.tpl";
+        }
 
         $macro = array();
         // add '_' for tpl and no user macro for tpl
@@ -49,7 +55,7 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
 
         if (file_exists("$tpl_dir$tpl_path")) {
             printf("file [%s] already exists -> skip\n", "$tpl_dir$tpl_path");
-        } else if ($this->_generateFile("skel.template.tpl", "$tpl_dir$tpl_path", $macro) == false) {
+        } else if ($this->_generateFile($skel_file, "$tpl_dir$tpl_path", $macro) == false) {
             printf("[warning] file creation failed [%s]\n", "$tpl_dir$tpl_path");
         } else {
             printf("template file(s) successfully created [%s]\n", "$tpl_dir$tpl_path");
