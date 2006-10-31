@@ -184,6 +184,32 @@ class Ethna_Session
     }
 
     /**
+     *  セッションIDを再生成する
+     *
+     *  @access public
+     *  @return bool    true:正常終了 false:エラー
+     */
+    function regenerate_id($lifetime = 0, $anonymous = false)
+    {
+        if (! $this->session_start) {
+            return false;
+        }
+       
+        $tmp = $_SESSION;
+
+        $this->destroy();
+        $this->start($lifetime, $anonymous);
+        
+        unset($tmp['REMOTE_ADDR']);
+        unset($tmp['__anonymous__']);
+        foreach ($tmp as $key => $value) {
+            $_SESSION[$key] = $value;
+        }
+
+        return true;
+    }
+
+    /**
      *  セッション値へのアクセサ(R)
      *
      *  @access public
