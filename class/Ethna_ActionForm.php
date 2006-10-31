@@ -68,7 +68,8 @@ class Ethna_ActionForm
                      'filter', 'form_type', 'type');
 
     /** @var    array   フォーム定義のうち非プラグイン要素とみなすprefix */
-    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter', 'option');
+    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter',
+                              'option', 'default');
 
     /** @var    bool    バリデータにプラグインを使うフラグ */
     var $use_validator_plugin = false;
@@ -285,6 +286,16 @@ class Ethna_ActionForm
                 $this->form_vars[$name] = $http_vars[$name];
             }
         }
+    }
+
+    /**
+     *  ユーザから送信されたフォーム値をクリアする
+     *
+     *  @access public
+     */
+    function clearFormVars()
+    {
+        $this->form_vars = array();
     }
 
     /**

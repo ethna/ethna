@@ -74,7 +74,10 @@ class Ethna_ClassFactory
 
         // try to include if not defined
         if (class_exists($class_name) == false) {
-            $this->_include($class_name);
+            if ($this->_include($class_name) === false) {
+                $null = null;
+                return $null;
+            }
         }
 
         if (isset($this->method_list[$class_name]) == false) {
