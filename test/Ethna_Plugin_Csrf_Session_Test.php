@@ -10,28 +10,46 @@
  */
 class Ethna_Plugin_Csrf_Session_Test extends UnitTestCase
 {
+    /**
+     * Description of the Variable
+     * @var     Ethna_Plugin_Csrf_Session
+     * @access  private
+     */
+    var $csrf;
+
+    function testMakeInstance()
+    {
+        $ctl =& Ethna_Controller::getInstance();
+        $plugin =& $ctl->getPlugin();
+        $this->csrf =& $plugin->getPlugin('Csrf', 'Session');
+        $this->assertTrue(is_object($this->csrf), 'getPlugin failed');
+        $this->csrf->session =& new Ethna_Session_Dummy($ctl->appid, '',  $ctl->getLogger());
+    }
+
+    function testGetName()
+    {
+        $this->assertTrue(strlen($this->csrf->getName()), 'token name not found');
+    }
+
     function testCheckCsrfSession()
     {
-		$ctl =& Ethna_Controller::getInstance();
-		$plugin =& $ctl->getPlugin();
-		$csrf =& $plugin->getPlugin('Csrf', 'Session');
-        $csrf->session =& new Ethna_Session_Dummy($ctl->appid, '',  $ctl->getLogger());
-        $this->assertTrue($csrf->set());
-        $csrfid = $csrf->get();
+        $this->assertTrue($this->csrf->set());
+        $this->csrfid = $this->csrf->get();
         $_SERVER['REQUEST_METHOD'] = "post";
-        $_POST[$csrf->getName()] = "";
-		$this->assertFalse($csrf->Valid());
+        $_POST[$this->csrf->getName()] = "";
+        $this->assertFalse($this->csrf->Valid());
 
-        $_POST[$csrf->getName()] = $csrfid;
-		$this->assertTrue($csrf->Valid());
+        $_POST[$this->csrf->getName()] = $this->csrfid;
+        $this->assertTrue($this->csrf->Valid());
 
         $_SERVER['REQUEST_METHOD'] = "get";
-        $_GET[$csrf->getName()] = "";
-		$this->assertFalse($csrf->Valid());
+        $_GET[$this->csrf->getName()] = "";
+        $this->assertFalse($this->csrf->Valid());
 
-        $_GET[$csrf->getName()] = $csrfid;
-		$this->assertTrue($csrf->Valid());
-	}
+        $_GET[$this->csrf->getName()] = $this->csrfid;
+        $this->assertTrue($this->csrf->Valid());
+    }
+
 }
 
 
