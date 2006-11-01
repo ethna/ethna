@@ -410,7 +410,12 @@ class Ethna_ViewClass
     function _getFormInput_Button($name, $def, $params)
     {
         $params['type'] = 'button';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
         if (isset($params['value']) === false) {
             if (isset($def['name'])) {
                 $params['value'] = $def['name'];
@@ -430,7 +435,11 @@ class Ethna_ViewClass
     function _getFormInput_Checkbox($name, $def, $params)
     {
         $params['type'] = 'checkbox';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
 
         // オプションの一覧(alist)を取得
         if (isset($def['option']) && is_array($def['option'])) {
@@ -490,7 +499,11 @@ class Ethna_ViewClass
     function _getFormInput_File($name, $def, $params)
     {
         $params['type'] = 'file';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
         $params['value'] = '';
 
         return $this->_getFormInput_Html('input', $params);
@@ -506,7 +519,11 @@ class Ethna_ViewClass
     function _getFormInput_Hidden($name, $def, $params)
     {
         $params['type'] = 'hidden';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
 
         // value
         if (isset($params['value']) === false) {
@@ -532,7 +549,11 @@ class Ethna_ViewClass
     function _getFormInput_Password($name, $def, $params)
     {
         $params['type'] = 'password';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
 
         // value
         if (isset($params['value']) === false) {
@@ -563,7 +584,11 @@ class Ethna_ViewClass
     function _getFormInput_Radio($name, $def, $params)
     {
         $params['type'] = 'radio';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
 
         // オプションの一覧(alist)を取得
         if (isset($def['option']) && is_array($def['option'])) {
@@ -621,7 +646,11 @@ class Ethna_ViewClass
      */
     function _getFormInput_Select($name, $def, $params)
     {
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
 
         // オプションの一覧(alist)を取得
         if (isset($def['option']) && is_array($def['option'])) {
@@ -670,7 +699,11 @@ class Ethna_ViewClass
     function _getFormInput_Submit($name, $def, $params)
     {
         $params['type'] = 'submit';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
         if (isset($params['value']) === false) {
             if (isset($def['name'])) {
                 $params['value'] = $def['name'];
@@ -689,7 +722,11 @@ class Ethna_ViewClass
      */
     function _getFormInput_Textarea($name, $def, $params)
     {
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
 
         // element
         if (isset($params['value'])) {
@@ -718,7 +755,11 @@ class Ethna_ViewClass
     function _getFormInput_Text($name, $def, $params)
     {
         $params['type'] = 'text';
-        $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        if (isset($def['type'])) {
+            $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
+        } else {
+            $params['name'] = $name;
+        }
 
         // value
         if (isset($params['value']) === false) {

@@ -203,7 +203,7 @@ class Ethna_Util
         
         $plugin =& $c->getPlugin('Csrf', $name);
         $csrf =& $plugin->getPlugin('Csrf', $name);
-        return $csrf->Valid();
+        return $csrf->isValid();
     }
     // }}}
 

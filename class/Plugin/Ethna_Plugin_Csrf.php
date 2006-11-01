@@ -108,7 +108,7 @@ class Ethna_Plugin_Csrf
      *  @access public
      *  @return mixed  正常の場合はtrue, 不正の場合はfalse
      */
-    function Valid()
+    function isValid()
     {
         $token = $this->_get_token();
 

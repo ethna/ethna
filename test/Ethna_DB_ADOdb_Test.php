@@ -69,7 +69,7 @@ class Ethna_DB_ADOdb_Test extends UnitTestCase
         $this->dsn = "sqlite:///" . $this->db_path;
 
         $this->ctl =& Ethna_Controller::getInstance();
-        if (is_null($ctl)) {
+        if (is_null($this->ctl)) {
             $this->ctl =& new Ethna_Controller();
             $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
         }

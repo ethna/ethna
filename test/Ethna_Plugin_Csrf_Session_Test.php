@@ -41,20 +41,20 @@ class Ethna_Plugin_Csrf_Session_Test extends UnitTestCase
     {
         $_SERVER['REQUEST_METHOD'] = "post";
         $_POST[$this->csrf->getName()] = "";
-        $this->assertFalse($this->csrf->Valid());
+        $this->assertFalse($this->csrf->isValid());
 
         $_POST[$this->csrf->getName()] = $this->csrfid;
-        $this->assertTrue($this->csrf->Valid());
+        $this->assertTrue($this->csrf->isValid());
     }
 
     function testGetRequest()
     {
         $_SERVER['REQUEST_METHOD'] = "get";
         $_GET[$this->csrf->getName()] = "";
-        $this->assertFalse($this->csrf->Valid());
+        $this->assertFalse($this->csrf->isValid());
 
         $_GET[$this->csrf->getName()] = $this->csrfid;
-        $this->assertTrue($this->csrf->Valid());
+        $this->assertTrue($this->csrf->isValid());
     }
 
 }
