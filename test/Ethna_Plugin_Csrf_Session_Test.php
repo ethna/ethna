@@ -35,13 +35,20 @@ class Ethna_Plugin_Csrf_Session_Test extends UnitTestCase
     {
         $this->assertTrue($this->csrf->set());
         $this->csrfid = $this->csrf->get();
+    }
+
+    function testPostRequest()
+    {
         $_SERVER['REQUEST_METHOD'] = "post";
         $_POST[$this->csrf->getName()] = "";
         $this->assertFalse($this->csrf->Valid());
 
         $_POST[$this->csrf->getName()] = $this->csrfid;
         $this->assertTrue($this->csrf->Valid());
+    }
 
+    function testGetRequest()
+    {
         $_SERVER['REQUEST_METHOD'] = "get";
         $_GET[$this->csrf->getName()] = "";
         $this->assertFalse($this->csrf->Valid());
@@ -51,7 +58,6 @@ class Ethna_Plugin_Csrf_Session_Test extends UnitTestCase
     }
 
 }
-
 
 /**
  *  SessionClass¤Î_Dummy
