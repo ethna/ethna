@@ -184,7 +184,6 @@ class Ethna_Util
     }
     // }}}
 
-
     // {{{ isRequestValid
     /**
      *  CSRFをチェックする
@@ -207,7 +206,7 @@ class Ethna_Util
     }
     // }}}
 
-    // {{{ isRequestValid
+    // {{{ setCsrfID
     /**
      *  CSRFをチェックする
      *
@@ -714,7 +713,6 @@ class Ethna_Util
         return chmod($file, $mode);
     }
     // }}}
-
 
     // {{{ purgeDir
     /**
