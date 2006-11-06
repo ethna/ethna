@@ -10,7 +10,7 @@ $config = array(
 
     // debug
     // (to enable ethna_info and ethna_unittest, turn this true)
-    'debug'	=> false,
+    'debug' => false,
 
     // db
     // sample-1: single db

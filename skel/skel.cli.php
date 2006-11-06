@@ -1,10 +1,10 @@
 <?php
 /**
- *	{$action_name}.php
+ *  {$action_name}.php
  *
- *	@author		{$author}
- *	@package	{$project_id}
- *	@version	$Id$
+ *  @author     {$author}
+ *  @package    {$project_id}
+ *  @version    $Id$
  */
 chdir(dirname(__FILE__));
 include_once('{$dir_app}/{$project_id}_Controller.php');
