@@ -42,7 +42,10 @@ class Ethna_Plugin_Generator_Project_Test extends UnitTestCase
 			$this->rm($basedir);
 		}
 		mkdir($basedir, 0775);
-		$this->assertTrue($gen->generate($id, $basedir));
+        ob_start();
+        $ret = $gen->generate($id, $basedir);
+        $ob = ob_get_clean();
+		$this->assertTrue($ret);
 
 		$this->assertTrue(Ethna_Controller::checkAppId($id));
 		$this->assertTrue(is_dir("$basedir/$id"));
@@ -139,7 +142,9 @@ class Ethna_Plugin_Generator_Project_Test extends UnitTestCase
 		$this->rm($basedir);
 
 		// ディレクトリ作成の質問に'y'以外で答えた場合
+        ob_start();
 		$error = $gen->generate($id, $basedir);
+        $ob = ob_get_clean();
 		$this->assertTrue(is_a($error, 'Ethna_Error'));
 		$this->assertEqual($error->getMessage(),
 						   'aborted by user');
