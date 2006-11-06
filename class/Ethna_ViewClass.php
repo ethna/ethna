@@ -387,7 +387,12 @@ class Ethna_ViewClass
         } else {
             // マネージャから取得
             $mgr =& $this->backend->getManager($split[0]);
-            $options = $mgr->getAttrList($split[1]);
+            $attr_list = $mgr->getAttrList($split[1]);
+            if (is_array($attr_list)) {
+                foreach ($attr_list as $key => $val) {
+                    $options[$key] = $val['name'];
+                }
+            }
         }
 
         if (is_array($options) === false) {
@@ -620,7 +625,7 @@ class Ethna_ViewClass
             $params['id'] = $name . '_' . $i++;
 
             // checked
-            if (strcmp($current_value, $key) === 0) {
+            if ($current_value === $key) {
                 $params['checked'] = 'checked';
             } else {
                 unset($params['checked']);
@@ -677,12 +682,19 @@ class Ethna_ViewClass
 
         // selectタグの中身を作る
         $contents = array();
+        $selected = false;
         foreach ($options as $key => $value) {
             $attr = array('value' => $key);
-            if (strcmp($current_value, $key) === 0) {
+            if ($selected === false && $current_value === $key) {
                 $attr['selected'] = 'selected';
+                $selected = true;
             }
             $contents[] = $this->_getFormInput_Html('option', $attr, $value);
+        }
+        if ($selected === false) {
+            // default がどの選択肢とも一致しない場合は空エントリとみなす
+            array_unshift($contents, $this->_getFormInput_Html('option',
+                array('value' => '', 'selected' => 'selected'), $current_value));
         }
 
         $element = $separator . implode($separator, $contents) . $separator;
