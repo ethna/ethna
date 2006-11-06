@@ -145,7 +145,7 @@ class Ethna_Plugin_Csrf
     function _get_token()
     {
         $token_name = $this->getName();
-        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
+        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {
             return isset($_POST[$token_name]) ? $_POST[$token_name] : null;
         } else {
             return isset($_GET[$token_name]) ? $_GET[$token_name] : null;

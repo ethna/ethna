@@ -37,7 +37,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
      */
-    function Ethna_Plugin_Csrf_session(&$controller)
+    function Ethna_Plugin_Csrf_Session(&$controller)
     {
         parent::Ethna_Plugin_Csrf($controller);
 
