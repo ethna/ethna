@@ -1079,7 +1079,7 @@ class Ethna_Controller
             return null;
         }
 
-        $url_handler =& $this->class_factory->getObject('url_handler');
+        $url_handler =& $this->getUrlHandler();
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $tmp_vars = $_GET;
         } else if ($_SERVER['REQUEST_METHOD'] == "POST") {

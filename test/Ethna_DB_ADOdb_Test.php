@@ -63,6 +63,8 @@ class Ethna_DB_ADOdb_Test extends UnitTestCase
 
     function Ethna_DB_ADOdb_Test()
     {
+        parent::UnitTestCase();
+
         //for sqlite
         $this->db_type = 'sqlite';
         $this->db_path = dirname(__FILE__) . "/tmp/test.db";

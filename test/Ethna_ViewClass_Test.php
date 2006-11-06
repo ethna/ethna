@@ -42,6 +42,7 @@ class Ethna_ViewClass_Test extends UnitTestCase
 
     function Ethna_ViewClass_Test()
     {
+        parent::UnitTestCase();
         $this->ctl =& Ethna_Controller::getInstance();
         if (is_null($this->ctl)) {
             $this->ctl =& new Ethna_Controller();
