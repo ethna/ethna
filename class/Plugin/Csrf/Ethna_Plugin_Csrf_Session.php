@@ -57,7 +57,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
 
         $token = $this->session->get($this->token_name);
         if ($token === null) {
-            $token = array();
+            return true;
         }
 
         $key = $this->_generateKey();
