@@ -144,7 +144,7 @@ class Ethna_Error extends PEAR_Error
             // $codeからメッセージを取得する
             $message = $controller->getErrorMessage($code);
             if (is_null($message)) {
-                $message = 'unkown error';
+                $message = 'unknown error';
             }
         }
 
