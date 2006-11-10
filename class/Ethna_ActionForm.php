@@ -80,6 +80,9 @@ class Ethna_ActionForm
     /** @var    array   アプリケーションオブジェクト(helper) */
     var $helper_app_object = array();
 
+    /** @var    array   アプリケーションオブジェクト(helper)で利用しないフォーム名 */
+    var $helper_skip_form = array();
+
     /**#@-*/
 
     /**
@@ -1321,18 +1324,27 @@ class Ethna_ActionForm
             $prop_def = $object->getDef();
 
             foreach ($prop_def as $key => $value) {
+                // 1. override form_template
                 $form_key = isset($value['form_name']) ? $value['form_name'] : $key;
-                if (isset($this->form[$form_key]) == false) {
-                    $this->form[$form_key] = array();
+
+                if (isset($this->form_template[$form_key]) == false) {
+                    $this->form_template[$form_key] = array();
                 }
 
-                $this->form[$form_key]['type'] = $value['type'];
+                $this->form_template[$form_key]['type'] = $value['type'];
                 if (isset($value['required'])) {
-                    $this->form[$form_key]['required'] = $value['required'];
+                    $this->form_template[$form_key]['required'] = $value['required'];
                 }
 
                 if ($value['type'] == VAR_TYPE_STRING && isset($value['length'])) {
-                    $this->form[$form_key]['max'] = $value['length'];
+                    $this->form_template[$form_key]['max'] = $value['length'];
+                }
+
+                // 2. then activate form
+                if (in_array($key, $this->helper_skip_form) == false) {
+                    if (isset($this->form[$key]) == false) {
+                        $this->form[$key] = array();
+                    }
                 }
             }
         }
