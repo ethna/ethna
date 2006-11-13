@@ -98,6 +98,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
         }
 
         // スケルトンファイル作成
+        $macro['ethna_version'] = ETHNA_VERSION;
         $macro['application_id'] = strtoupper($id);
         $macro['project_id'] = ucfirst($id);
         $macro['project_prefix'] = strtolower($id);
