@@ -16,7 +16,7 @@
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
  *  @package    Ethna
- *  @todo       複数テーブルのJOIN対応
+ *  @todo       複数テーブルの対応
  */
 class Ethna_AppObject
 {
@@ -93,10 +93,13 @@ class Ethna_AppObject
         if (Ethna::isError($db_list)) {
             return $db_list;
         } else if (is_null($db_list['rw'])) {
-            return Ethna::raiseError("Ethna_AppObjectを利用するにはデータベース設定が必要です", E_DB_NODSN);
+            return Ethna::raiseError(
+                "Ethna_AppObjectを利用するにはデータベース設定が必要です",
+                E_DB_NODSN);
         }
         $this->my_db_rw =& $db_list['rw'];
         $this->my_db_ro =& $db_list['ro'];
+        $this->my_db_type = $this->my_db_rw->getType();
 
         // プロパティ定義自動取得
         if (is_null($this->table_def)) {
@@ -370,9 +373,11 @@ class Ethna_AppObject
                     if (Ethna::isError($duplicate_key_list)) {
                         return $duplicate_key_list;
                     }
-                    if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
+                    if (is_array($duplicate_key_list)
+                        && count($duplicate_key_list) > 0) {
                         foreach ($duplicate_key_list as $k) {
-                            return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
+                            return Ethna::raiseNotice('重複エラー[%s]',
+                                                      E_APP_DUPENT, $k);
                         }
                     }
                 } else {
@@ -389,11 +394,12 @@ class Ethna_AppObject
 
         $this->prop_backup = $this->prop;
 
-        // IDの取得(MySQLのみ対応)
-        if ($this->my_db_rw->getType() == 'mysql') {
-            // MySQLのAUTO_INCREMENTはテーブルに1カラムで且つPRIMARY KEY
+        // IDの取得(MySQL, sqliteのみ対応)
+        if ($this->my_db_type == 'mysql' || $this->my_db_type == 'sqlite') {
+            // MySQL, sqliteのAUTO_INCREMENTはテーブルに1カラムで且つPRIMARY KEY
             foreach (to_array($this->id_def) as $id_def) {
-                if (isset($this->prop_def[$id_def]['seq']) && $this->prop_def[$id_def]['seq']) {
+                if (isset($this->prop_def[$id_def]['seq'])
+                    && $this->prop_def[$id_def]['seq']) {
                     $this->prop[$id_def] = $this->my_db_rw->getInsertId();
                     break;
                 }
@@ -435,9 +441,11 @@ class Ethna_AppObject
                     if (Ethna::isError($duplicate_key_list)) {
                         return $duplicate_key_list;
                     }
-                    if (is_array($duplicate_key_list) && count($duplicate_key_list) > 0) {
+                    if (is_array($duplicate_key_list)
+                        && count($duplicate_key_list) > 0) {
                         foreach ($duplicate_key_list as $k) {
-                            return Ethna::raiseNotice('重複エラー[%s]', E_APP_DUPENT, $k);
+                            return Ethna::raiseNotice('重複エラー[%s]',
+                                                      E_APP_DUPENT, $k);
                         }
                     }
                 } else {
@@ -529,7 +537,9 @@ class Ethna_AppObject
      *  @param  array   $order      検索結果ソート条件
      *  @param  int     $offset     検索結果取得オフセット
      *  @param  int     $count      検索結果取得数
-     *  @return mixed   array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトID一覧) Ethna_Error:エラー
+     *  @return mixed   array(0 => 検索条件にマッチした件数,
+     *                  1 => $offset, $countにより指定された件数のオブジェクトID一覧)
+     *                  Ethna_Error:エラー
      */
     function searchId($filter = null, $order = null, $offset = null, $count = null)
     {
@@ -577,9 +587,12 @@ class Ethna_AppObject
      *  @param  array   $order      検索結果ソート条件
      *  @param  int     $offset     検索結果取得オフセット
      *  @param  int     $count      検索結果取得数
-     *  @return mixed   array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトプロパティ一覧) Ethna_Error:エラー
+     *  @return mixed   array(0 => 検索条件にマッチした件数,
+     *                  1 => $offset, $countにより指定された件数のオブジェクトプロパティ一覧)
+     *                  Ethna_Error:エラー
      */
-    function searchProp($keys = null, $filter = null, $order = null, $offset = null, $count = null)
+    function searchProp($keys = null, $filter = null, $order = null,
+                        $offset = null, $count = null)
     {
         if (is_null($filter) == false) {
             $sql = $this->_getSQL_SearchLength($filter);
@@ -602,6 +615,12 @@ class Ethna_AppObject
         $n = $r->numRows();
         for ($i = 0; $i < $n; $i++) {
             $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+            if ($this->my_db_type === 'sqlite') {
+                foreach ($row as $k => $v) {
+                    unset($row[$k]);
+                    $row[substr(strstr($k, '.'), 1)] = $v;
+                }
+            }
             $prop_list[] = $row;
         }
         if (is_null($length)) {
@@ -641,7 +660,8 @@ class Ethna_AppObject
         $key_type = to_array($key_type);
         $key = to_array($key);
         if (count($key_type) != count($key)) {
-            trigger_error(sprintf("Unmatched key_type & key length [%d-%d]", count($key_type), count($key)), E_USER_ERROR);
+            trigger_error(sprintf("Unmatched key_type & key length [%d-%d]",
+                          count($key_type), count($key)), E_USER_ERROR);
             return;
         }
         foreach ($key_type as $elt) {
@@ -653,7 +673,8 @@ class Ethna_AppObject
 
         // キャッシュチェック
         $class_name = strtolower(get_class($this));
-        if (is_array($_ETHNA_APP_OBJECT_CACHE) == false || array_key_exists($class_name, $_ETHNA_APP_OBJECT_CACHE) == false) {
+        if (is_array($_ETHNA_APP_OBJECT_CACHE) == false
+            || array_key_exists($class_name, $_ETHNA_APP_OBJECT_CACHE) == false) {
             $_ETHNA_APP_OBJECT_CACHE[$class_name] = array();
         }
         $cache_key = serialize(array($key_type, $key));
@@ -745,7 +766,8 @@ class Ethna_AppObject
             if (Ethna::isError($r)) {
                 return $r;
             } else if ($r->numRows() > 0) {
-                $duplicate_key_list = to_array($this->id_def); // we can overwrite $key_list here
+                // we can overwrite $key_list here
+                $duplicate_key_list = to_array($this->id_def);
             }
         }
 
@@ -792,7 +814,7 @@ class Ethna_AppObject
         }
 
         // SQLエスケープ
-        Ethna_AppSQL::escapeSQL($key);
+        Ethna_AppSQL::escapeSQL($key, $this->my_db_type);
 
         $tables = implode(',', array_keys($this->table_def));
         $columns = implode(',', array_keys($this->prop_def));
@@ -823,21 +845,22 @@ class Ethna_AppObject
     {
         $tables = implode(',', array_keys($this->table_def));
 
-        // SET句構築
-        $set_list = "";
+        $key_list = array();
+        $set_list = array();
         $prop_arg_list = $this->prop;
-        Ethna_AppSQL::escapeSQL($prop_arg_list);
+
+        Ethna_AppSQL::escapeSQL($prop_arg_list, $this->my_db_type);
         foreach ($this->prop_def as $k => $v) {
             if (isset($prop_arg_list[$k]) == false) {
                 continue;
             }
-            if ($set_list != "") {
-                $set_list .= ",";
-            }
-            $set_list .= sprintf("%s=%s", $k, $prop_arg_list[$k]);
+            $key_list[] = $k;
+            $set_list[] = $prop_arg_list[$k];
         }
 
-        $sql = "INSERT INTO $tables SET $set_list";
+        $key_list = implode(', ', $key_list);
+        $set_list = implode(', ', $set_list);
+        $sql = "INSERT INTO $tables ($key_list) VALUES ($set_list)";
 
         return $sql;
     }
@@ -855,7 +878,7 @@ class Ethna_AppObject
         // SET句構築
         $set_list = "";
         $prop_arg_list = $this->prop;
-        Ethna_AppSQL::escapeSQL($prop_arg_list);
+        Ethna_AppSQL::escapeSQL($prop_arg_list, $this->my_db_type);
         foreach ($this->prop_def as $k => $v) {
             if ($set_list != "") {
                 $set_list .= ",";
@@ -872,7 +895,7 @@ class Ethna_AppObject
                 $condition .= " AND ";
             }
             $v = $this->prop_backup[$k];    // equals to $this->id
-            Ethna_AppSQL::escapeSQL($v);
+            Ethna_AppSQL::escapeSQL($v, $this->my_db_type);
             $condition .= Ethna_AppSQL::getCondition($k, $v);
         }
 
@@ -900,7 +923,7 @@ class Ethna_AppObject
                 $condition .= " AND ";
             }
             $v = $this->prop_backup[$k];    // equals to $this->id
-            Ethna_AppSQL::escapeSQL($v);
+            Ethna_AppSQL::escapeSQL($v, $this->my_db_type);
             $condition .= Ethna_AppSQL::getCondition($k, $v);
         }
         if (is_null($condition)) {
@@ -923,7 +946,7 @@ class Ethna_AppObject
     function _getSQL_Duplicate($key)
     {
         $tables = implode(',', array_keys($this->table_def));
-        $columns = implode(',', array_keys($this->prop_def));   // any column will do
+        $columns = implode(',', array_keys($this->prop_def)); // any column will do
 
         $condition = null;
         // 検索条件(現在設定されているプライマリキーは検索対象から除く)
@@ -937,8 +960,10 @@ class Ethna_AppObject
                     $condition .= " AND ";
                 }
                 $value = $primary_value[$n];
-                Ethna_AppSQL::escapeSQL($value);
-                $condition .= Ethna_AppSQL::getCondition($k, $value, OBJECT_CONDITION_NE);
+                Ethna_AppSQL::escapeSQL($value, $this->my_db_type);
+                $condition .= Ethna_AppSQL::getCondition($k,
+                                                         $value,
+                                                         OBJECT_CONDITION_NE);
                 $n++;
             }
         }
@@ -950,7 +975,7 @@ class Ethna_AppObject
                 $condition .= " AND ";
             }
             $v = $this->prop[$k];
-            Ethna_AppSQL::escapeSQL($v);
+            Ethna_AppSQL::escapeSQL($v, $this->my_db_type);
             $condition .= Ethna_AppSQL::getCondition($k, $v);
         }
 
@@ -975,10 +1000,17 @@ class Ethna_AppObject
         }
 
         $id_def = to_array($this->id_def);
-        $column_id = $this->_getPrimaryTable() . "." . $id_def[0];  // any id columns will do
+        // any id columns will do
+        $column_id = $this->_getPrimaryTable() . "." . $id_def[0];
 
         $condition = $this->_getSQL_SearchCondition($filter);
-        $sql = "SELECT COUNT(DISTINCT $column_id) AS id_count FROM $tables $condition";
+        if ($this->my_db_type === 'sqlite') {
+            $sql = "SELECT COUNT(DISTINCT $column_id) AS id_count"
+                . "FROM $tables $condition";
+        } else {
+            $sql = "SELECT DISTINCT COUNT($column_id) AS id_count"
+                . "FROM $tables $condition";
+        }
 
         return $sql;
     }
@@ -997,7 +1029,8 @@ class Ethna_AppObject
     {
         // テーブル
         $tables = implode(',', array_keys($this->table_def));
-        if ($this->_isAdditionalField($filter) || $this->_isAdditionalField($order)) {
+        if ($this->_isAdditionalField($filter)
+            || $this->_isAdditionalField($order)) {
             $tables .= " " . $this->_SQLPlugin_SearchTable();
         }
 
@@ -1018,17 +1051,17 @@ class Ethna_AppObject
                 } else {
                     $sort .= ", ";
                 }
-                $sort .= sprintf("%s %s", $k, $v == OBJECT_SORT_ASC ? "ASC" : "DESC");
+                $sort .= sprintf("%s %s",
+                                 $k, $v == OBJECT_SORT_ASC ? "ASC" : "DESC");
             }
         }
 
         $limit = "";
         if (is_null($count) == false) {
-            $limit = "LIMIT ";
+            $limit = sprintf("LIMIT %d", $count);
             if (is_null($offset) == false) {
-                $limit .= sprintf("%d,", $offset);
+                $limit .= sprintf(" OFFSET %d", $offset);
             }
-            $limit .= sprintf("%d", $count);
         }
 
         $sql = "SELECT DISTINCT $column_id FROM $tables $condition $sort $limit";
@@ -1051,13 +1084,15 @@ class Ethna_AppObject
     {
         // テーブル
         $tables = implode(',', array_keys($this->table_def));
-        if ($this->_isAdditionalField($filter) || $this->_isAdditionalField($order)) {
+        if ($this->_isAdditionalField($filter)
+            || $this->_isAdditionalField($order)) {
             $tables .= " " . $this->_SQLPlugin_SearchTable();
         }
         $p_table = $this->_getPrimaryTable();
 
         // 検索用追加プロパティ
-        if ($this->_isAdditionalField($filter) || $this->_isAdditionalField($order)) {
+        if ($this->_isAdditionalField($filter)
+            || $this->_isAdditionalField($order)) {
             $search_prop_def = $this->_SQLPlugin_SearchPropDef();
         } else {
             $search_prop_def = array();
@@ -1066,11 +1101,8 @@ class Ethna_AppObject
 
         // カラム
         $column = "";
-        $group_by = "";
-        if (is_null($keys)) {
-            $keys = array_keys($def);
-        }
-        foreach (to_array($keys) as $key) {
+        $keys = $keys === null ? array_keys($def) : to_array($key);
+        foreach ($keys as $key) {
             if (isset($def[$key]) == false) {
                 continue;
             }
@@ -1079,23 +1111,12 @@ class Ethna_AppObject
             }
             $t = isset($def[$key]['table']) ? $def[$key]['table'] : $p_table;
             $column .= sprintf("%s.%s", $t, $key);
-
-            // フィールドがプライマリーキーならGROUP BYする
-            if ((isset($def[$key]['table']) && $def[$key]['table'] == $p_table) ||
-                isset($def[$key]['table']) == false) {
-                if ($def[$key]['primary']) {
-                    if ($group_by != "") {
-                        $group_by .= ",";
-                    } else {
-                        $group_by .= "GROUP BY";
-                    }
-                    $group_by .= " $column";
-                }
-            }
         }
 
+        // WHERE の条件
         $condition = $this->_getSQL_SearchCondition($filter);
 
+        // ORDER BY
         $sort = "";
         if (is_array($order)) {
             foreach ($order as $k => $v) {
@@ -1104,20 +1125,21 @@ class Ethna_AppObject
                 } else {
                     $sort .= ", ";
                 }
-                $sort .= sprintf("%s %s", $k, $v == OBJECT_SORT_ASC ? "ASC" : "DESC");
+                $sort .= sprintf("%s %s",
+                                 $k, $v == OBJECT_SORT_ASC ? "ASC" : "DESC");
             }
         }
 
+        // LIMIT, OFFSET
         $limit = "";
         if (is_null($count) == false) {
-            $limit = "LIMIT ";
+            $limit = sprintf("LIMIT %d", $count);
             if (is_null($offset) == false) {
-                $limit .= sprintf("%d,", $offset);
+                $limit .= sprintf(" OFFSET %d", $offset);
             }
-            $limit .= sprintf("%d", $count);
         }
 
-        $sql = "SELECT $column FROM $tables $condition $group_by $sort $limit";
+        $sql = "SELECT $column FROM $tables $condition $sort $limit";
 
         return $sql;
     }
@@ -1175,12 +1197,14 @@ class Ethna_AppObject
                 }
             } else if ($prop_def[$k]['type'] == VAR_TYPE_STRING) {
                 // 省略形(文字列)
-                Ethna_AppSQL::escapeSQL($v);
-                $condition .= Ethna_AppSQL::getCondition("$t.$k", $v, OBJECT_CONDITION_LIKE);
+                Ethna_AppSQL::escapeSQL($v, $this->my_db_type);
+                $condition .= Ethna_AppSQL::getCondition("$t.$k",
+                                                         $v, OBJECT_CONDITION_LIKE);
             } else {
                 // 省略形(数値)
-                Ethna_AppSQL::escapeSQL($v);
-                $condition .= Ethna_AppSQL::getCondition("$t.$k", $v, OBJECT_CONDITION_EQ);
+                Ethna_AppSQL::escapeSQL($v, $this->my_db_type);
+                $condition .= Ethna_AppSQL::getCondition("$t.$k",
+                                                         $v, OBJECT_CONDITION_EQ);
             }
         }
 
@@ -1282,8 +1306,12 @@ class Ethna_AppObject
     function _clearPropCache()
     {
         $class_name = strtolower(get_class($this));
-        foreach (array('_ETHNA_APP_OBJECT_CACHE', '_ETHNA_APP_MANAGER_OL_CACHE', '_ETHNA_APP_MANAGER_OPL_CACHE', '_ETHNA_APP_MANAGER_OP_CACHE') as $key) {
-            if (array_key_exists($key, $GLOBALS) && array_key_exists($class_name, $GLOBALS[$key])) {
+        foreach (array('_ETHNA_APP_OBJECT_CACHE',
+                       '_ETHNA_APP_MANAGER_OL_CACHE',
+                       '_ETHNA_APP_MANAGER_OPL_CACHE',
+                       '_ETHNA_APP_MANAGER_OP_CACHE') as $key) {
+            if (array_key_exists($key, $GLOBALS)
+                && array_key_exists($class_name, $GLOBALS[$key])) {
                 unset($GLOBALS[$key][$class_name]);
             }
         }
@@ -1307,7 +1335,9 @@ class Ethna_AppObject
             if ($this->db_prefix) {
                 // 特定のプレフィクスが指定されたDB接続を利用
                 // (テーブルごとにDBが異なる場合など)
-                if (strncmp($this->db_prefix, $elt['key'], strlen($this->db_prefix)) != 0) {
+                if (strncmp($this->db_prefix,
+                            $elt['key'],
+                            strlen($this->db_prefix)) != 0) {
                     continue;
                 }
             }
@@ -1372,14 +1402,11 @@ class Ethna_AppObject
 
         $cache_manager =& Ethna_CacheManager::getInstance('localfile');
         $cache_manager->setNamespace('ethna_app_object');
-
-        $cache_key = $this->my_db_ro->getDSN();
-        $cache_key = preg_replace('|[:/@+]|', '', $cache_key);
-        $cache_key = "$cache_key-$table_name";
-        $cache_key = md5($cache_key);
+        $cache_key = md5($this->my_db_ro->getDSN() . '-' . $table_name);
 
         if ($cache_manager->isCached($cache_key, $this->prop_def_cache_lifetime)) {
-            $prop_def = $cache_manager->get($cache_key, $this->prop_def_cache_lifetime);
+            $prop_def = $cache_manager->get($cache_key,
+                                            $this->prop_def_cache_lifetime);
             if (Ethna::isError($prop_def) == false) {
                 return $prop_def;
             }
@@ -1393,11 +1420,11 @@ class Ethna_AppObject
         $prop_def = array();
         foreach ($r as $i => $field_def) {
             // TODO: db independent
-            $primary = (strpos($field_def['flags'], "primary_key") === false) ? false : true;
-            $seq = (strpos($field_def['flags'], "auto_increment") === false) ? false : true;
-            $required = (strpos($field_def['flags'], "not_null") === false) ? false : true;
+            $primary  = false !== strpos($field_def['flags'], "primary_key");
+            $seq      = false !== strpos($field_def['flags'], "auto_increment");
+            $required = false !== strpos($field_def['flags'], "not_null");
+            $key      = false !== strpos($field_def['flags'], "key");
 
-            $key = (strpos($field_def['flags'], "key") === false) ? false : true;
             switch ($field_def['type']) {
             case 'int':
                 $type = VAR_TYPE_INT;

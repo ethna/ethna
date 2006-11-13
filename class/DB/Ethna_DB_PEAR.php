@@ -232,7 +232,8 @@ class Ethna_DB_PEAR extends Ethna_DB
     /**
      *  直近のINSERTによるIDを取得する
      *
-     *  接続中のDBがmysqlならmysql_insert_id()の値を返す
+     *  接続中のDBがmysqlならmysql_insert_id(),
+     *  sqliteならsqlite_last_insert_rowidの値を返す
      *
      *  @access public
      *  @return mixed   int:直近のINSERTにより生成されたID null:未サポート
@@ -243,6 +244,8 @@ class Ethna_DB_PEAR extends Ethna_DB
             return null;
         } else if ($this->type == 'mysql') {
             return mysql_insert_id($this->db->connection);
+        } else if ($this->type == 'sqlite') {
+            return sqlite_last_insert_rowid($this->db->connection);
         }
 
         return null;

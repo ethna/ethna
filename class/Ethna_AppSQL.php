@@ -61,18 +61,22 @@ class Ethna_AppSQL
      *  @param  mixed   &$var   エスケープする値
      *  @static
      */
-    function escapeSQL(&$var)
+    function escapeSQL(&$var, $type = null)
     {
         if (!is_array($var)) {
             if (is_null($var)) {
                 $var = 'NULL';
             } else {
-                $var ='\'' . addslashes($var) . '\'';
+                if ($type === 'sqlite') {
+                    $var = "'" . sqlite_escape_string($var) . "'";
+                } else {
+                    $var = "'" . addslashes($var) . "'";
+                }
             }
             return;
         }
         foreach (array_keys($var) as $key) {
-            Ethna_AppSQL::escapeSQL($var[$key]);
+            Ethna_AppSQL::escapeSQL($var[$key], $type);
         }
     }
 
@@ -83,7 +87,7 @@ class Ethna_AppSQL
      *  @param  mixed   &$var   エスケープを復帰する値
      *  @static
      */
-    function unescapeSQL(&$var)
+    function unescapeSQL(&$var, $type = null)
     {
         if (!is_array($var)) {
             if ($var == 'NULL') {
@@ -94,7 +98,7 @@ class Ethna_AppSQL
             return;
         }
         foreach (array_keys($var) as $key) {
-            Ethna_AppSQL::unescapeSQL($var[$key]);
+            Ethna_AppSQL::unescapeSQL($var[$key], $type);
         }
     }
 
