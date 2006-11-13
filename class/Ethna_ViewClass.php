@@ -798,6 +798,7 @@ class Ethna_ViewClass
      *  HTMLタグを取得する
      *
      *  @access protected
+     *  @todo   <input type="text" name="foo[]" /> などの配列対応
      */
     function _getFormInput_Html($tag, $attr, $element = null, $escape_element = true)
     {
@@ -812,6 +813,8 @@ class Ethna_ViewClass
             if ($value === null) {
                 $r .= sprintf(' %s', $key);
             } else {
+                // XXX: とりあえず warning 回避
+                $value = (string) $value;
                 $r .= sprintf(' %s="%s"', $key, htmlspecialchars($value, ENT_QUOTES));
             }
         }
