@@ -4,6 +4,10 @@
 
 *** features
 
+- Ethna_AppObjectをpostgres, sqliteに簡易対応
+-- 1テーブルの1レコードが1オブジェクトに対応するような単純なモデルのみ対応
+-- まだdb typeごとに調整が必要になることがあります。
+
 - add-* ハンドル機能追加
 -- add-template: --skelfile オプションで生成元のスケルトンファイルを指定できるようにした
 
@@ -129,6 +133,7 @@
 - キャッシュマネージャのエラーコードが256以上(アプリケーション用)になっていた問題を修正
 - ethna add-action-testしたときにファイルがapp/action_cliに生成されてしまう問題を修正
 - Ethna_SkeltonGeneratorクラスのtypoを修正(proejct -> project)
+- Ethna_ActionFormでプラグインを使わないときにフィルタが機能しないバグを修正
 
 
 ** [2006/06/07] 2.1.2
