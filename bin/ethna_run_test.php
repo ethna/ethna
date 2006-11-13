@@ -31,7 +31,15 @@ $test_dir = ETHNA_BASE . '/test';
 $test = &new GroupTest('Ethna All tests');
 
 // テストケースのファイルリストを取得
-$file_list = getFileList($test_dir);
+require_once 'Console/Getopt.php';
+$args = Console_Getopt::readPHPArgv();
+list($args, $opts) = Console_Getopt::getopt2($args, '', array());
+array_shift($opts);
+if (count($opts) > 0) {
+    $file_list = $opts;
+} else {
+    $file_list = getFileList($test_dir);
+}
 
 // テストケースを登録
 foreach ($file_list as $file) {
