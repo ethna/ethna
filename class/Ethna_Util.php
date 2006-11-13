@@ -37,7 +37,7 @@ function is_error($name = null)
 {
     $c =& Ethna_Controller::getInstance();
     $action_error =& $c->getActionError();
-    if ($name === null) {
+    if ($name !== null) {
         return $action_error->isError($name);
     } else {
         return $action_error->count() > 0;
