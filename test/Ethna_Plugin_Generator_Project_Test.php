@@ -8,7 +8,7 @@
  *
  *  @access public
  */
-class Ethna_Plugin_Generator_Project_Test extends UnitTestCase
+class Ethna_Plugin_Generator_Project_Test extends Ethna_UnitTestBase
 {
 	function rm($path){
 		if (is_dir($path)) {

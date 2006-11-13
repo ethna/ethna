@@ -8,7 +8,7 @@
  *
  *  @access public
  */
-class Ethna_Plugin_Csrf_Session_Test extends UnitTestCase
+class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
 {
     /**
      * Description of the Variable

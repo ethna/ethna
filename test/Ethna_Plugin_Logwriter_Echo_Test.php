@@ -8,15 +8,13 @@
  *
  *  @access public
  */
-class Ethna_Plugin_Logwriter_Echo_Test extends UnitTestCase
+class Ethna_Plugin_Logwriter_Echo_Test extends Ethna_UnitTestBase
 {
-    var $ctl;
     var $plugin;
     var $lw;
 
-    function Ethna_Plugin_Logwriter_Echo_Test($label = false)
+    function setUp()
     {
-        $this->ctl =& Ethna_Controller::getInstance();
         $this->plugin =& $this->ctl->getPlugin();
         $this->lw = $this->plugin->getPlugin('Logwriter', 'Echo');
 
@@ -25,8 +23,6 @@ class Ethna_Plugin_Logwriter_Echo_Test extends UnitTestCase
                         'facility' => 'mail',
                         );
         $this->lw->setOption($option);
- 
-        parent::UnitTestCase($label);
     }
 
     function testLogwriterEcho()

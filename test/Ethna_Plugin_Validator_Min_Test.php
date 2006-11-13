@@ -8,7 +8,7 @@
  *
  *  @access public
  */
-class Ethna_Plugin_Validator_Min_Test extends UnitTestCase
+class Ethna_Plugin_Validator_Min_Test extends Ethna_UnitTestBase
 {
     function testCheckValidatorMin()
     {

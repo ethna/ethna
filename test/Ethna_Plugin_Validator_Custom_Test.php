@@ -8,7 +8,7 @@
  *
  *  @access public
  */
-class Ethna_Plugin_Validator_Custom_Test extends UnitTestCase
+class Ethna_Plugin_Validator_Custom_Test extends Ethna_UnitTestBase
 {
     function testCheckValidatorCustom()
     {

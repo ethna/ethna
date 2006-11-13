@@ -15,43 +15,14 @@
  *  @author halt feits <halt.feits@gmail.com>
  *  @access public
  */
-class Ethna_ViewClass_Test extends UnitTestCase
+class Ethna_ViewClass_Test extends Ethna_UnitTestBase
 {
-    /**
-     * Ethna_Controller
-     *
-     * @var     Ethna_Controller
-     * @access  protected
-     */
-    var $ctl;
-
-    /**
-     * Ethna_Backend
-     *
-     * @var     Ethna_Backend
-     * @access  protected
-     */
-    var $backend;
-
     /**
      * Ethna_ViewClass
      * @var     Ethna_ViewClass
      * @access  protected
      */
     var $viewclass;
-
-    function Ethna_ViewClass_Test()
-    {
-        parent::UnitTestCase();
-        $this->ctl =& Ethna_Controller::getInstance();
-        if (is_null($this->ctl)) {
-            $this->ctl =& new Ethna_Controller();
-            $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
-        }
-
-        $this->backend =& $this->ctl->getBackend();
-        $this->viewclass =& new Ethna_ViewClass($this->backend, '', '');
-    }
 
     /**
      * setUp
@@ -63,6 +34,7 @@ class Ethna_ViewClass_Test extends UnitTestCase
      */
     function setUp()
     {
+        $this->viewclass =& $this->ctl->getView();
     }
 
     /**

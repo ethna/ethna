@@ -8,7 +8,7 @@
  *
  *  @access public
  */
-class Ethna_Plugin_Logwriter_File_Test extends UnitTestCase
+class Ethna_Plugin_Logwriter_File_Test extends Ethna_UnitTestBase
 {
     function testLogwriterFile()
     {

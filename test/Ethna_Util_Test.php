@@ -8,7 +8,7 @@
  *
  *  @access public
  */
-class Ethna_Util_Test extends UnitTestCase
+class Ethna_Util_Test extends Ethna_UnitTestBase
 {
     function testCheckMailAddress()
     {

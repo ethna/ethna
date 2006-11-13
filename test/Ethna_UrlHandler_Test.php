@@ -8,11 +8,11 @@
  *
  *  @access public
  */
-class Ethna_UrlHandler_Test extends UnitTestCase
+class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
 {
     var $url_handler;
 
-    function setup()
+    function setUp()
     {
         $this->url_handler =& new Test_UrlHandler($this);
     }

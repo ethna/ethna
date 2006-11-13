@@ -15,24 +15,8 @@
  *  @author halt feits <halt.feits@gmail.com>
  *  @access public
  */
-class Ethna_DB_ADOdb_Test extends UnitTestCase
+class Ethna_DB_ADOdb_Test extends Ethna_UnitTestBase
 {
-    /**
-     * Ethna_Controller
-     *
-     * @var     Ethna_Controller
-     * @access  protected
-     */
-    var $ctl;
-
-    /**
-     * Ethna_Backend
-     *
-     * @var     Ethna_Backend
-     * @access  protected
-     */
-    var $backend;
-
     /**
      * ADOdb Object
      * @var     Ethna_DB_ADOdb
@@ -61,33 +45,12 @@ class Ethna_DB_ADOdb_Test extends UnitTestCase
      */
     var $db_type;
 
-    function Ethna_DB_ADOdb_Test()
+    function setUp()
     {
-        parent::UnitTestCase();
-
         //for sqlite
         $this->db_type = 'sqlite';
         $this->db_path = dirname(__FILE__) . "/tmp/test.db";
         $this->dsn = "sqlite:///" . $this->db_path;
-
-        $this->ctl =& Ethna_Controller::getInstance();
-        if (is_null($this->ctl)) {
-            $this->ctl =& new Ethna_Controller();
-            $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
-        }
-
-        $this->backend =& $this->ctl->getBackend();
-
-    }
-
-    /**
-     * setUp
-     *
-     * @access public
-     * @param void
-     */
-    function setUp()
-    {
     }
 
     function tearDown()
