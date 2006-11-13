@@ -493,18 +493,37 @@ class Ethna_ActionForm
                 continue;
             }
 
+            // type を決定
+            $type = is_array($def['type']) ? $def['type'][0] : $def['type'];
+
+            // filterを先に通す (定義よりも送られてきた値の構造を優先)
+            if ($type != VAR_TYPE_FILE) {
+                if (is_array($this->form_vars[$name])) {
+                    foreach (array_keys($this->form_vars[$name]) as $k) {
+                        $this->form_vars[$name][$k]
+                            = $this->_filter($this->form_vars[$name][$k], $def['filter']);
+                    }
+                } else {
+                    $this->form_vars[$name]
+                        = $this->_filter($this->form_vars[$name], $def['filter']);
+                }
+            }
+
             // 配列でラップする
-            unset($form_vars);
             if (is_null($this->form_vars[$name])) {
                 $form_vars = array();
             } else if (is_array($def['type'])) {
-                $form_vars =& $this->form_vars[$name];
+                if (is_array($this->form_vars[$name])) {
+                    $form_vars = $this->form_vars[$name];
+                } else {
+                    // 配列フォームで null が filter によって値を持ったとき
+                    $form_vars = array($this->form_vars[$name]);
+                }
             } else {
-                $form_vars = array(& $this->form_vars[$name]);
+                $form_vars = array($this->form_vars[$name]);
             }
 
             // ファイルの場合は配列で1つvalidならrequired条件をクリアする
-            $type = is_array($def['type']) ? $def['type'][0] : $def['type'];
             $valid_keys = array();
             $required_num = max(1, $type == VAR_TYPE_FILE ? 1 : count($form_vars));
             if (isset($def['required_num'])) {
@@ -512,12 +531,6 @@ class Ethna_ActionForm
             }
 
             foreach (array_keys($form_vars) as $key) {
-                // filter
-                if ($type != VAR_TYPE_FILE) {
-                    $form_vars[$key] =
-                        $this->_filter($form_vars[$key], $def['filter']);
-                }
-
                 // 値が空かチェック
                 if ($type == VAR_TYPE_FILE) {
                     if ($form_vars[$key]['size'] == 0
