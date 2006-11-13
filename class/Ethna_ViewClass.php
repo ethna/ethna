@@ -283,6 +283,18 @@ class Ethna_ViewClass
             $def['form_type'] = FORM_TYPE_TEXT;
         }
 
+        // 配列フォームが何回呼ばれたかを保存するカウンタ
+        if (is_array($def['type'])) {
+            static $form_counter = array();
+            if (isset($form_counter[$action]) === false) {
+                $form_counter[$action] = array();
+            }
+            if (isset($form_counter[$action][$name]) === false) {
+                $form_counter[$action][$name] = 0;
+            }
+            $def['_form_counter'] = $form_counter[$action][$name]++;
+        }
+
         switch ($def['form_type']) {
         case FORM_TYPE_BUTTON:
             $input = $this->_getFormInput_Button($name, $def, $params);
@@ -426,6 +438,9 @@ class Ethna_ViewClass
                 $params['value'] = $def['name'];
             }
         }
+        if (is_array($params['value'])) {
+            $params['value'] = $params['value'][0];
+        }
 
         return $this->_getFormInput_Html('input', $params);
     }
@@ -531,14 +546,22 @@ class Ethna_ViewClass
         }
 
         // value
-        if (isset($params['value']) === false) {
-            if (isset($params['default'])) {
-                $params['value'] = $params['default'];
-            } else if (isset($def['default'])) {
-                $params['value'] = $def['default'];
+        $value = '';
+        if (isset($params['value'])) {
+            $value = $params['value'];
+        } else if (isset($params['default'])) {
+            $value = $params['default'];
+        } else if (isset($def['default'])) {
+            $value = $def['default'];
+        }
+        if (is_array($value)) {
+            if ($def['_form_counter'] < count($value)) {
+                $params['value'] = $value[$def['_form_counter']];
             } else {
                 $params['value'] = '';
             }
+        } else {
+            $params['value'] = $value;
         }
 
         return $this->_getFormInput_Html('input', $params);
@@ -561,14 +584,22 @@ class Ethna_ViewClass
         }
 
         // value
-        if (isset($params['value']) === false) {
-            if (isset($params['default'])) {
-                $params['value'] = $params['default'];
-            } else if (isset($def['default'])) {
-                $params['value'] = $def['default'];
+        $value = '';
+        if (isset($params['value'])) {
+            $value = $params['value'];
+        } else if (isset($params['default'])) {
+            $value = $params['default'];
+        } else if (isset($def['default'])) {
+            $value = $def['default'];
+        }
+        if (is_array($value)) {
+            if ($def['_form_counter'] < count($value)) {
+                $params['value'] = $value[$def['_form_counter']];
             } else {
                 $params['value'] = '';
             }
+        } else {
+            $params['value'] = $value;
         }
 
         // maxlength
@@ -721,6 +752,9 @@ class Ethna_ViewClass
                 $params['value'] = $def['name'];
             }
         }
+        if (is_array($params['value'])) {
+            $params['value'] = $params['value'][0];
+        }
 
         return $this->_getFormInput_Html('input', $params);
     }
@@ -741,17 +775,23 @@ class Ethna_ViewClass
         }
 
         // element
+        $element = '';
         if (isset($params['value'])) {
             $element = $params['value'];
             unset($params['value']);
-        } else {
-            if (isset($params['default'])) {
-                $element = $params['default'];
-            } else if (isset($def['default'])) {
-                $element = $def['default'];
+        } else if (isset($params['default'])) {
+            $element = $params['default'];
+        } else if (isset($def['default'])) {
+            $element = $def['default'];
+        }
+        if (is_array($element)) {
+            if ($def['_form_counter'] < count($element)) {
+                $element = $element[$def['_form_counter']];
             } else {
                 $element = '';
             }
+        } else {
+            $params['value'] = $element;
         }
 
         return $this->_getFormInput_Html('textarea', $params, $element);
@@ -766,7 +806,10 @@ class Ethna_ViewClass
      */
     function _getFormInput_Text($name, $def, $params)
     {
+        // type
         $params['type'] = 'text';
+
+        // name
         if (isset($def['type'])) {
             $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
         } else {
@@ -774,14 +817,22 @@ class Ethna_ViewClass
         }
 
         // value
-        if (isset($params['value']) === false) {
-            if (isset($params['default'])) {
-                $params['value'] = $params['default'];
-            } else if (isset($def['default'])) {
-                $params['value'] = $def['default'];
+        $value = '';
+        if (isset($params['value'])) {
+            $value = $params['value'];
+        } else if (isset($params['default'])) {
+            $value = $params['default'];
+        } else if (isset($def['default'])) {
+            $value = $def['default'];
+        }
+        if (is_array($value)) {
+            if ($def['_form_counter'] < count($value)) {
+                $params['value'] = $value[$def['_form_counter']];
             } else {
                 $params['value'] = '';
             }
+        } else {
+            $params['value'] = $value;
         }
 
         // maxlength
@@ -798,7 +849,6 @@ class Ethna_ViewClass
      *  HTMLタグを取得する
      *
      *  @access protected
-     *  @todo   <input type="text" name="foo[]" /> などの配列対応
      */
     function _getFormInput_Html($tag, $attr, $element = null, $escape_element = true)
     {
@@ -813,8 +863,6 @@ class Ethna_ViewClass
             if ($value === null) {
                 $r .= sprintf(' %s', $key);
             } else {
-                // XXX: とりあえず warning 回避
-                $value = (string) $value;
                 $r .= sprintf(' %s="%s"', $key, htmlspecialchars($value, ENT_QUOTES));
             }
         }
