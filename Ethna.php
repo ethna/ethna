@@ -51,7 +51,6 @@ include_once(ETHNA_BASE . '/class/Ethna_Controller.php');
 include_once(ETHNA_BASE . '/class/Ethna_ClassFactory.php');
 include_once(ETHNA_BASE . '/class/Ethna_DB.php');
 include_once(ETHNA_BASE . '/class/Ethna_Error.php');
-include_once(ETHNA_BASE . '/class/DB/Ethna_DB_PEAR.php');
 include_once(ETHNA_BASE . '/class/Ethna_Filter.php');
 include_once(ETHNA_BASE . '/class/Ethna_Handle.php');
 include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
@@ -59,14 +58,12 @@ include_once(ETHNA_BASE . '/class/Ethna_Logger.php');
 include_once(ETHNA_BASE . '/class/Ethna_MailSender.php');
 include_once(ETHNA_BASE . '/class/Ethna_Session.php');
 include_once(ETHNA_BASE . '/class/Ethna_Generator.php');
-include_once(ETHNA_BASE . '/class/Ethna_SmartyPlugin.php');
 include_once(ETHNA_BASE . '/class/Ethna_UrlHandler.php');
 include_once(ETHNA_BASE . '/class/Ethna_Util.php');
 include_once(ETHNA_BASE . '/class/Ethna_ViewClass.php');
 include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
 include_once(ETHNA_BASE . '/class/Ethna_Plugin.php');
 include_once(ETHNA_BASE . '/class/Ethna_Renderer.php');
-include_once(ETHNA_BASE . '/class/Renderer/Ethna_Renderer_Smarty.php');
 include_once(ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php');
 
 if (extension_loaded('soap')) {

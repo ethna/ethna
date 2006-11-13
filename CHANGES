@@ -4,6 +4,9 @@
 
 *** features
 
+- Smarty, PEAR_DBのincludeのタイミングを変更
+-- 必要時に Ethna_ClassFactory::_include() を使うようにした。
+
 - Ethna_AppObjectをpostgres, sqliteに簡易対応
 -- 1テーブルの1レコードが1オブジェクトに対応するような単純なモデルのみ対応
 -- まだdb typeごとに調整が必要になることがあります。

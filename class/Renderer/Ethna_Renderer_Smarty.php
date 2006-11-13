@@ -8,7 +8,8 @@
  *  @package    Ethna
  *  @version    $Id$
  */
-include_once('Smarty/Smarty.class.php');
+require_once 'Smarty/Smarty.class.php';
+require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
 
 // {{{ Ethna_Renderer_Smarty
 /**
@@ -48,7 +49,8 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
 
-        $this->engine->plugins_dir = $controller->getDirectory('plugins');
+        $this->engine->plugins_dir = array_merge(array(SMARTY_DIR . 'plugins'),
+                                                 $controller->getDirectory('plugins'));
 
         $this->_setDefaultPlugin();
     }

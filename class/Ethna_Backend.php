@@ -402,6 +402,10 @@ class Ethna_Backend
         if ($db_class_name == 'Ethna_DB') {
             $db_class_name = 'Ethna_DB_PEAR';
         }
+        if (class_exists($db_class_name) === false) {
+            // todo: 下の new も含めて class factory へ移動
+            $class_factory->_include($db_class_name);
+        }
 
         $this->db_list[$db_varname] =& new $db_class_name($this->controller, $dsn, $dsn_persistent);
         $r = $this->db_list[$db_varname]->connect();
