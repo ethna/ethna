@@ -219,7 +219,7 @@ class Ethna_Controller
         foreach ($this->directory as $key => $value) {
             if ($key == 'plugins') {
                 // Smartyプラグインディレクトリは配列で指定する
-                $tmp = array(SMARTY_DIR . 'plugins');
+                $tmp = array();
                 foreach (to_array($value) as $elt) {
                     if (Ethna_Util::isAbsolute($elt) == false) {
                         $tmp[] = $this->base . (empty($this->base) ? '' : '/') . $elt;
@@ -242,6 +242,11 @@ class Ethna_Controller
 
         // プラグインオブジェクトの用意
         $this->plugin =& $this->getPlugin();
+
+        //// assert (experimental)
+        //if ($this->config->get('debug') === false) {
+        //    ini_set('assert.active', 0);
+        //}
 
         // ログ出力開始
         $this->logger =& $this->getLogger();
@@ -1653,7 +1658,7 @@ class Ethna_Controller
 
             // user defined outputfilters
             foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
-                if (!is_array($postfilter)) {
+                if (!is_array($outputfilter)) {
                     $name = str_replace('smarty_outputfilter_', '', $outputfilter);
                     $this->renderer->setPlugin($name,'outputfilter', $outputfilter);
                 } else {
