@@ -20,6 +20,7 @@ require_once 'DB.php';
  */
 class Ethna_DB_PEAR extends Ethna_DB
 {
+    // {{{ properties
     /**#@+
      *  @access private
      */
@@ -50,9 +51,10 @@ class Ethna_DB_PEAR extends Ethna_DB
     var $persistent;
 
     /**#@-*/
-
+    // }}}
 
     // {{{ Ethna_DBクラスの実装
+    // {{{ Ethna_DB_PEAR
     /**
      *  Ethna_DB_PEARクラスのコンストラクタ
      *
@@ -73,7 +75,9 @@ class Ethna_DB_PEAR extends Ethna_DB
         $this->dsninfo['new_link'] = true;
         $this->type = $this->dsninfo['phptype'];
     }
+    // }}}
 
+    // {{{ connect
     /**
      *  DBに接続する
      *
@@ -94,7 +98,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return 0;
     }
+    // }}}
 
+    // {{{ disconnect
     /**
      *  DB接続を切断する
      *
@@ -107,7 +113,9 @@ class Ethna_DB_PEAR extends Ethna_DB
         }
         $this->db->disconnect();
     }
+    // }}}
 
+    // {{{ isValid
     /**
      *  DB接続状態を返す
      *
@@ -123,7 +131,9 @@ class Ethna_DB_PEAR extends Ethna_DB
             return true;
         }
     }
+    // }}}
 
+    // {{{ begin
     /**
      *  DBトランザクションを開始する
      *
@@ -145,7 +155,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return 0;
     }
+    // }}}
 
+    // {{{ rollback
     /**
      *  DBトランザクションを中断する
      *
@@ -167,7 +179,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return 0;
     }
+    // }}}
 
+    // {{{ commit
     /**
      *  DBトランザクションを終了する
      *
@@ -191,7 +205,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return 0;
     }
+    // }}}
 
+    // {{{ getMetaData
     /**
      *  テーブル定義情報を取得する
      *
@@ -199,13 +215,72 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $table  テーブル名
      *  @return mixed   array: PEAR::DBに準じたメタデータ Ethna_Error::エラー
      */
-    function getMetaData($table)
+    function &getMetaData($table)
     {
-        return $this->db->tableInfo($table);
+        $def =& $this->db->tableInfo($table);
+        if (is_array($def) === false) {
+            return $def;
+        }
+
+        foreach (array_keys($def) as $k) {
+            $def[$k] = array_map('strtolower', $def[$k]);
+
+            // type
+            $type_map = array(
+                'int'       => array(
+                    'int', 'integer', '^int\(?[0-9]\+', '^serial', '[a-z]+int$',
+                ),
+                'boolean'   => array(
+                    'bit', 'bool', 'boolean',
+                ),
+                'datetime'  => array(
+                    'timestamp', 'datetime',
+                ),
+            );
+            foreach ($type_map as $convert_to => $regex) {
+                foreach ($regex as $r) {
+                    if (preg_match('/'.$r.'/', $def[$k]['type'])) {
+                        $def[$k]['type'] = $convert_to;
+                        break 2;
+                    }
+                }
+            }
+
+            // flags
+            $def[$k]['flags'] = explode(' ', $def[$k]['flags']);
+            switch ($this->type) {
+            case 'mysql':
+                // auto_increment があれば sequence
+                if (in_array('auto_increment', $def[$k]['flags'])) {
+                    $def[$k]['flags'][] = 'sequence';
+                }
+                break;
+            case 'pgsql':
+                // nextval があれば sequence
+                foreach ($def[$k]['flags'] as $f) {
+                    if (strpos($f, 'nextval') !== false) {
+                        $def[$k]['flags'][] = 'sequence';
+                        break;
+                    }
+                }
+                break;
+            case 'sqlite':
+                // integer, primary key ならば auto_increment を追加
+                if ($def[$k]['type'] == 'int'
+                    && in_array('primary_key', $def[$k]['flags'])) {
+                    $def[$k]['flags'][] = 'sequence';
+                }
+                break;
+            }
+        }
+
+        return $def;
     }
+    // }}}
     // }}}
 
     // {{{ Ethna_AppObject連携のための実装
+    // {{{ getType
     /**
      *  DBタイプを返す
      *
@@ -216,7 +291,9 @@ class Ethna_DB_PEAR extends Ethna_DB
     {
         return $this->type;
     }
+    // }}}
 
+    // {{{ query
     /**
      *  クエリを発行する
      *
@@ -228,12 +305,34 @@ class Ethna_DB_PEAR extends Ethna_DB
     {
         return $this->_query($query);
     }
+    // }}}
 
+    // {{{ getNextId
     /**
-     *  直近のINSERTによるIDを取得する
+     *  直後のINSERTに使うIDを取得する
+     *  (pgsqlのみ対応)
      *
-     *  接続中のDBがmysqlならmysql_insert_id(),
-     *  sqliteならsqlite_last_insert_rowidの値を返す
+     *  @access public
+     *  @return mixed   int
+     */
+    function getNextId($table_name, $field_name)
+    {
+        if ($this->isValid() == false) {
+            return null;
+        } else if ($this->type == 'pgsql') {
+            $seq_name = sprintf('%s_%s', $table_name, $field_name);
+            $ret = $this->db->nextId($seq_name);
+            return $ret;
+        }
+
+        return null;
+    }
+    // }}}
+
+    // {{{ getInsertId
+    /**
+     *  直前のINSERTによるIDを取得する
+     *  (mysql, sqliteのみ対応)
      *
      *  @access public
      *  @return mixed   int:直近のINSERTにより生成されたID null:未サポート
@@ -250,7 +349,41 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return null;
     }
+    // }}}
 
+    // {{{ fetchRow
+    /**
+     *  DB_Result::fetchRow()の結果を整形して返す
+     *
+     *  @access public
+     *  @return int     更新行数
+     */
+    function &fetchRow(&$res, $fetchmode = DB_FETCHMODE_DEFAULT, $rownum = null)
+    {
+        $row =& $res->fetchRow($fetchmode, $rownum);
+        if (is_array($row) === false) {
+            return $row;
+        }
+
+        if ($this->type === 'sqlite') {
+            // "table"."column" -> column
+            foreach ($row as $k => $v) {
+                unset($row[$k]);
+                if (($f = strstr($k, '.')) !== false) {
+                    $k = substr($f, 1);
+                }
+                if ($k{0} === '"' && $k{strlen($k)-1} === '"') {
+                    $k = substr($k, 1, -1);
+                }
+                $row[$k] = $v;
+            }
+        }
+
+        return $row;
+    }
+    // }}}
+
+    // {{{ affectedRows
     /**
      *  直近のクエリによる更新行数を取得する
      *
@@ -263,7 +396,40 @@ class Ethna_DB_PEAR extends Ethna_DB
     }
     // }}}
 
+    // {{{ quoteIdentifier
+    /**
+     *  dbのtypeに応じて識別子をquoteする
+     *  (配列の場合は各要素をquote)
+     *
+     *  @access protected
+     *  @param  mixed   $identifier array or string
+     */
+    function quoteIdentifier($identifier)
+    {
+        if (is_array($identifier)) {
+            foreach (array_keys($identifier) as $key) {
+                $identifier[$key] = $this->quoteIdentifier($identifier[$key]);
+            }
+            return $identifier;
+        }
+            
+        switch ($this->type) {
+        case 'mysql':
+            $ret = '`' . $identifier . '`';
+            break;
+        case 'pgsql':
+        case 'sqlite':
+        default:
+            $ret = '"' . $identifier . '"';
+            break;
+        }
+        return $ret;
+    }
+    // }}}
+    // }}}
+
     // {{{ Ethna_DB_PEAR独自の実装
+    // {{{ sqlquery
     /**
      *  SQL文指定クエリを発行する
      *
@@ -279,7 +445,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return $this->_query($query);
     }
+    // }}}
 
+    // {{{ sql
     /**
      *  SQL文を取得する
      *  
@@ -295,7 +463,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return $query;
     }
+    // }}}
 
+    // {{{ lock
     /**
      *  テーブルをロックする
      *
@@ -317,7 +487,9 @@ class Ethna_DB_PEAR extends Ethna_DB
 
         return $this->query("LOCK TABLES $sql");
     }
+    // }}}
 
+    // {{{ unlock
     /**
      *  テーブルのロックを解放する
      *
@@ -329,7 +501,9 @@ class Ethna_DB_PEAR extends Ethna_DB
         $this->message = null;
         return $this->query("UNLOCK TABLES");
     }
+    // }}}
 
+    // {{{ _query
     /**
      *  クエリを発行する
      *
@@ -359,6 +533,7 @@ class Ethna_DB_PEAR extends Ethna_DB
         }
         return $r;
     }
+    // }}}
     // }}}
 }
 // }}}

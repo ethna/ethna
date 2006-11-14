@@ -10,6 +10,8 @@
 - Ethna_AppObjectをpostgres, sqliteに簡易対応
 -- 1テーブルの1レコードが1オブジェクトに対応するような単純なモデルのみ対応
 -- まだdb typeごとに調整が必要になることがあります。
+-- pgsqlでsequenceに対応
+-- テーブル名、カラム名の自動quoteに対応
 
 - add-* ハンドル機能追加
 -- add-template: --skelfile オプションで生成元のスケルトンファイルを指定できるようにした
