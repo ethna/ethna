@@ -70,14 +70,20 @@ class Ethna_ClassFactory
      */
     function &getManager($type, $weak = false)
     {
-        $class_name = $this->controller->getManagerClassName($type);
+        $obj = null;
 
-        // try to include if not defined
-        if (class_exists($class_name) == false) {
-            if ($this->_include($class_name) === false) {
-                $null = null;
-                return $null;
-            }
+        // check if object class exists
+        $obj_class_name = $this->controller->getObjectClassName($type);
+        if (class_exists($obj_class_name) === false
+            && $this->_include($obj_class_name) === false) {
+            return $obj;
+        }
+
+        // check if manager class exists
+        $class_name = $this->controller->getManagerClassName($type);
+        if (class_exists($class_name) === false
+            && $this->_include($class_name) === false) {
+            return $obj;
         }
 
         if (isset($this->method_list[$class_name]) == false) {
@@ -128,6 +134,7 @@ class Ethna_ClassFactory
             $ext = array_pad($ext, 3, null);
             list($key_type, $key_value, $prop) = $ext;
         } else {
+            // ethna classes
             $class_name = $this->class[$key];
             $ext = array_pad($ext, 1, null);
             list($weak) = $ext;
