@@ -184,14 +184,14 @@ class Ethna_Util
     }
     // }}}
 
-    // {{{ isRequestValid
+    // {{{ isCsrfSafeValid
     /**
      *  CSRFをチェックする
      *
      *  @access public
      *  @return bool    true:正常なPOST false:不正なPOST
      */
-    function isRequestValid()
+    function isCsrfSafe()
     {
         $c =& Ethna_Controller::getInstance();
         $name = $c->config->get('csrf');
