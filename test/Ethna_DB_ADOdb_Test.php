@@ -49,7 +49,7 @@ class Ethna_DB_ADOdb_Test extends Ethna_UnitTestBase
     {
         //for sqlite
         $this->db_type = 'sqlite';
-        $this->db_path = dirname(__FILE__) . "/tmp/test.db";
+        $this->db_path = dirname(__FILE__) . "/test.db";
         $this->dsn = "sqlite:///" . $this->db_path;
     }
 
