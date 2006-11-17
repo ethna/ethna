@@ -193,6 +193,12 @@ define('E_APP_NOMETHOD', 35);
 /** エラーコード: ロックエラー */
 define('E_APP_LOCK', 36);
 
+/** エラーコード: 読み込みエラー */
+define('E_APP_READ', 37);
+
+/** エラーコード: 書き込みエラー */
+define('E_APP_WRITE', 38);
+
 /** エラーコード: CSV分割エラー(行継続) */
 define('E_UTIL_CSV_CONTINUE', 64);
 

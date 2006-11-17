@@ -797,12 +797,12 @@ class Ethna_Util
      */
     function lockFile($file, $mode, $timeout = 0)
     {
-        if (is_readable($file) === false) {
-            return false;
+        if (file_exists($file) === false) {
+            touch($file);
         }
         $lh = fopen($file, 'r');
         if ($lh == null) {
-            return false;
+            return Ethna::raiseError(E_APP_READ, "ファイル読み込みエラー[%s]", $file);
         }
 
         $lock_mode = $mode == 'r' ? LOCK_SH : LOCK_EX;
@@ -816,7 +816,7 @@ class Ethna_Util
         }
         if ($timeout > 0 && $i == $timeout) {
             // timed out
-            return false;
+            return Ethna::raiseError(E_APP_LOCK, "ファイルロック取得エラー[%s]", $file);
         }
  
         return $lh;

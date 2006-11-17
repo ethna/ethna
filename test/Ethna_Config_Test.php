@@ -8,87 +8,56 @@
  *
  *  @access public
  */
-class Ethna_Config_Test extends UnitTestCase
+class Ethna_Config_Test extends Ethna_UnitTestBase
 {
-    /**
-     *  設定値へのアクセサ(R)のテスト
-     *
-     *  @access public
-     *  @param  string  $key    設定項目名
-     *  @return string  設定値
-     */
-    function testGet($key = null)
+    function setUp()
     {
-        $this->ctl =& new Ethna_Controller();
-        $eConfig = new Ethna_Config($this->ctl);
-        $actual = 1;
-        $key = "key";
-        $eConfig->set($key,$actual);
-        $result = $eConfig->get($key);
+        // etcディレクトリを上書き
+        $this->ctl->directory['etc'] = dirname(__FILE__);
+        $this->config = $this->ctl->getConfig();
+        $this->filename = dirname(__FILE__) . '/ethna-ini.php';
+    }
 
-        $this->assertEqual($result, $actual);
-    }
-    
-    function testSet()
+    function tearDown()
     {
-        $this->ctl =& new Ethna_Controller();
-        $eConfig = new Ethna_Config($this->ctl);
-         
-         $key = "key";
-         $value = "value";
-         $eConfig->set($key,$value);
-         
-         $result = $eConfig->get($key);
-         
-         $this->assertEqual($result,$value);
+        if (file_exists($this->filename)) {
+            unlink($this->filename);
+        }
     }
-    
-    function testUpdate()
-    {
-        $this->ctl =& new Ethna_Controller();
-        $eConfig = new Ethna_Config($this->ctl);
 
-        $result = $eConfig->update();
-    }
     function test_getConfigFile()
     {
-         $this->ctl =& new Ethna_Controller();
-        $eConfig = new Ethna_Config($this->ctl);
-
-        $result = $eConfig->_getConfigFile(); 
-
-        $file = $this->ctl->getDirectory('etc') . '/' . strtolower($this->ctl->getAppId()) . '-ini.php';
-
-        $this->assertEqual($result,$file);
+        $result = $this->config->_getConfigFile(); 
+        $this->assertEqual($result, $this->filename);
     }
-    
-    function test_getConfig()
+
+    function test_update()
     {
-        $this->ctl =& new Ethna_Controller();
-        $eConfig = new Ethna_Config($this->ctl);
- 
-         $eConfig->_getConfig();
+        // この時点ではまだ ethna-ini.php は存在しない
+        $result = $this->config->get('foo');
+        $this->assertEqual($result, null);
+
+        // Ethna_Configオブジェクト内の値
+        $this->config->set('foo', 'bar');
+        $result = $this->config->get('foo');
+        $this->assertEqual($result, 'bar');
+
+        // ethna-ini.php が自動生成される
+        $this->config->update();
+
+        // ethna-ini.php を読み込み直す
+        $this->config->_getConfig();
+        $result = $this->config->get('foo');
+        $this->assertEqual($result, 'bar');
+
+        // 値を上書き
+        $this->config->set('foo', 'baz');
+        $this->config->update();
+
+        // もう一度読み込み直す
+        $this->config->_getConfig();
+        $result = $this->config->get('foo');
+        $this->assertEqual($result, 'baz');
     }
-    
-    function test_setConfig()
-    {
-        $this->ctl =& new Ethna_Controller();
-        $eConfig = new Ethna_Config($this->ctl);
- 
-         $eConfig->_setConfig();
-    }
-    
-    function test_setConfigValue()
-    {
-        $this->ctl =& new Ethna_Controller();
-        $eConfig = new Ethna_Config($this->ctl);
-        
-        $file = $eConfig->_getConfigFile();
-        $fp = fopen($file, 'w');
-        $key = "key";
-        $value = "value";
-        $level = "1";
-        $eConfig->_setConfigValue($fp, $key, $value, $level);
-    }   
 }
 ?>
