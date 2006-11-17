@@ -74,9 +74,9 @@ class Ethna_ClassFactory
 
         // check if object class exists
         $obj_class_name = $this->controller->getObjectClassName($type);
-        if (class_exists($obj_class_name) === false
-            && $this->_include($obj_class_name) === false) {
-            return $obj;
+        if (class_exists($obj_class_name) === false) {
+            // try include.
+            $this->_include($obj_class_name);
         }
 
         // check if manager class exists
