@@ -189,7 +189,7 @@ class Ethna_Session
      *  @access public
      *  @return bool    true:正常終了 false:エラー
      */
-    function regenerate_id($lifetime = 0, $anonymous = false)
+    function regenerateId($lifetime = 0, $anonymous = false)
     {
         if (! $this->session_start) {
             return false;
