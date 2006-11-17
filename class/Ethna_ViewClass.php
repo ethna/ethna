@@ -722,10 +722,16 @@ class Ethna_ViewClass
             }
             $contents[] = $this->_getFormInput_Html('option', $attr, $value);
         }
-        if ($selected === false) {
-            // default がどの選択肢とも一致しない場合は空エントリとみなす
-            array_unshift($contents, $this->_getFormInput_Html('option',
-                array('value' => '', 'selected' => 'selected'), $current_value));
+
+        // 空エントリ
+        if (isset($params['emptyoption'])) {
+            $attr = array('value' => '');
+            if ($selected === false) {
+                $attr['selected'] = 'selected';
+            }
+            array_unshift($contents, $this->_getFormInput_Html('option', $attr,
+                                                               $params['emptyoption']));
+            unset($params['emptyoption']);
         }
 
         $element = $separator . implode($separator, $contents) . $separator;
