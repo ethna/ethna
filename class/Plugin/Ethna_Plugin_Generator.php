@@ -23,10 +23,49 @@ class Ethna_Plugin_Generator
     var $ctl;
 
     /**
-     *  スケルトンファイルにマクロを適用してファイルを生成する
+     *  コンストラクタ
      *
-     *  ethnaライブラリのディレクトリ構造が変更されていないことが前提
-     *  となっている点に注意
+     *  @access public
+     */
+    function Ethna_Plugin_Generator(&$controller, $type, $name)
+    {
+        // Ethna_Generatorでpluginを取得するときに使ったコントローラ
+        // ex, add-projectではEthna_Controller, app-actionではApp_Controller
+        $this->ctl =& $controller;
+    }
+
+    /**
+     *  スケルトンファイルの絶対パスを解決する
+     *
+     *  @access private
+     *  @param  string  $skel   スケルトンファイル
+     */
+    function _resolveSkelfile($skel)
+    {
+        $file = realpath($skel);
+        if (file_exists($file)) {
+            return $file;
+        }
+
+        // アプリの skel ディレクトリ
+        $base = $this->ctl->getBasedir();
+        $file = "$base/skel/$skel";
+        if (file_exists($file)) {
+            return $file;
+        }
+
+        // Ethna本体の skel ディレクトリ
+        $base = dirname(dirname(dirname(__FILE__)));
+        $file = "$base/skel/$skel";
+        if (file_exists($file)) {
+            return $file;
+        }
+
+        return false;
+    }
+
+    /**
+     *  スケルトンファイルにマクロを適用してファイルを生成する
      *
      *  @access private
      *  @param  string  $skel       スケルトンファイル
@@ -37,23 +76,24 @@ class Ethna_Plugin_Generator
      */
     function _generateFile($skel, $entity, $macro, $overwrite = false)
     {
-        $base = null;
-
-        if ($overwrite === false && file_exists($entity)) {
-            printf("file [%s] already exists -> skip\n", $entity);
-            return true;
-        }
-        if (is_object($this->ctl)) {
-            $base = $this->ctl->getBasedir();
-            if (file_exists("$base/skel/$skel") == false) {
-                $base = null;
+        if (file_exists($entity)) {
+            if ($overwrite === false) {
+                printf("file [%s] already exists -> skip\n", $entity);
+                return true;
+            } else {
+                printf("file [%s] already exists, to be overwriten.\n", $entity);
             }
         }
-        if (is_null($base)) {
-            $base = dirname(dirname(dirname(__FILE__)));
+
+        $resolved = $this->_resolveSkelfile($skel);
+        if ($resolved === false) {
+            printf("skelton file [%s] not found.\n", $skel);
+            return false;
+        } else {
+            $skel = $resolved;
         }
 
-        $rfp = fopen("$base/skel/$skel", "r");
+        $rfp = fopen($skel, "r");
         if ($rfp == null) {
             return false;
         }
@@ -78,7 +118,7 @@ class Ethna_Plugin_Generator
         fclose($wfp);
         fclose($rfp);
 
-        $st = stat("$base/skel/$skel");
+        $st = stat($skel);
         if (chmod($entity, $st[2]) == false) {
             return false;
         }

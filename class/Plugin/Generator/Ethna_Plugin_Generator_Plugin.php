@@ -30,15 +30,8 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
      */
     function generate($type, $name, $app_dir, $overwrite = false)
     {
-        // get application controller
-        $c =& Ethna_Handle::getAppController($app_dir);
-        if (Ethna::isError($c)) {
-            return $c;
-        }
-        $this->ctl =& $c;
-
-        $appid = $c->getAppId();
-        $plugin =& $c->getPlugin();
+        $appid = $this->ctl->getAppId();
+        $plugin =& $this->ctl->getPlugin();
 
         list($class, $plugin_dir, $plugin_path) = $plugin->getPluginNaming($type, $name, $appid);
 
@@ -66,13 +59,8 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
      */
     function remove($type, $name, $app_dir)
     {
-        // get application controller
-        $c =& Ethna_Handle::getAppController($app_dir);
-        if (Ethna::isError($c)) {
-            return $c;
-        }
-        $appid = $c->getAppId();
-        $plugin =& $c->getPlugin();
+        $appid = $this->ctl->getAppId();
+        $plugin =& $this->ctl->getPlugin();
 
         list($class, $plugin_dir, $plugin_path) = $plugin->getPluginNaming($type, $name, $appid);
 

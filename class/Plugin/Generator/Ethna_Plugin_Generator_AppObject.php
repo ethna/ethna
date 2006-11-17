@@ -24,27 +24,19 @@ class Ethna_Plugin_Generator_AppObject extends Ethna_Plugin_Generator
      *
      *  @access public
      *  @param  string  $table_name     テーブル名
-     *  @param  string  $app_dir        プロジェクトディレクトリ
      *  @return bool    true:成功 false:失敗
      */
-    function generate($table_name, $app_dir)
+    function generate($table_name)
     {
-        // get application controller
-        $c =& Ethna_Handle::getAppController($app_dir);
-        if (Ethna::isError($c)) {
-            return $c;
-        }
-        $this->ctl =& $c;
-
         $table_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($table_name));
 
-        $app_dir = $c->getDirectory('app');
-        $app_path = ucfirst($c->getAppId()) . '_' . $table_id .'.php';
+        $app_dir = $this->ctl->getDirectory('app');
+        $app_path = ucfirst($this->ctl->getAppId()) . '_' . $table_id .'.php';
 
         $macro = array();
-        $macro['project_id'] = $c->getAppId();
+        $macro['project_id'] = $this->ctl->getAppId();
         $macro['app_path'] = $app_path;
-        $macro['app_object'] = ucfirst($c->getAppId()) . '_' . $table_id;
+        $macro['app_object'] = ucfirst($this->ctl->getAppId()) . '_' . $table_id;
 
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);

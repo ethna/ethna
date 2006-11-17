@@ -9,6 +9,8 @@
  *  @version    $Id$
  */
 
+require_once ETHNA_BASE . '/class/Plugin/Handle/Ethna_Plugin_Handle_AddAction.php';
+
 // {{{ Ethna_Plugin_Handle_AddView
 /**
  *  add-view handler
@@ -17,18 +19,8 @@
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle
+class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
 {
-    /**
-     *  get handler's description
-     *
-     *  @access public
-     */
-    function getDescription()
-    {
-        return "add new view (and template) to project:\n    {$this->id} (-t) [view] ([project-base-dir])\n";
-    }
-
     /**
      *  add view
      *
@@ -36,24 +28,30 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r = $this->_validateArgList();
+        $r =& $this->_getopt(array('basedir=', 'skelfile=', 'template'));
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($view, $app_dir, $template) = $r;
+        list($opt_list, $arg_list) = $r;
 
-        $generator =& new Ethna_Generator();
-        $r = $generator->generate('View', $view, $app_dir);
+        // view_name
+        $view_name = array_shift($arg_list);
+        $r =& Ethna_Controller::checkViewName($view_name);
         if (Ethna::isError($r)) {
-            printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
-        if ($template) {
-            $r = $generator->generate('Template', $view, $app_dir);
-            if (Ethna::isError($r)) {
-                printf("error occurred while generating skelton. please see also following error message(s)\n\n");
-                return $r;
+        // add view
+        $ret =& $this->_perform('View', $view_name, $opt_list);
+        if (Ethna::isError($ret) || $ret === false) { 
+            return $ret;
+        }
+
+        // add template
+        if (isset($opt_list['template'])) {
+            $ret =& $this->_perform('Template', $view_name, $opt_list);
+            if (Ethna::isError($ret) || $ret === false) { 
+                return $ret;
             }
         }
 
@@ -61,62 +59,27 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle
     }
 
     /**
-     *  show usage
+     *  get handler's description
      *
      *  @access public
      */
-    function usage()
+    function getDescription()
     {
-        printf("usage:\nethna %s (-t) [view] ([project-base-dir])\n  -t: add template, too\n", $this->id);
+        return <<<EOS
+add new view to project:
+    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [view]
+
+EOS;
     }
 
     /**
-     *  check arguments
-     *
-     *  @access private
+     *  @access public
      */
-    function _validateArgList()
+    function getUsage()
     {
-        $arg_list = array();
-        if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($this->arg_list) > 3) {
-            return Ethna::raiseError('too many arguments', 'usage');
-        }
-
-        $getopt =& new Console_Getopt();
-        $arg_list = $this->arg_list;
-        array_unshift($arg_list, "dummy");
-        $r = $getopt->getopt($arg_list, "t", array("template"));
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-
-        $template = false;
-        foreach ($r[0] as $opt) {
-            if ($opt[0] == "t" || $opt[0] == "--template") {
-                $template = true;
-            }
-        }
-        if (count($r[1]) < 0) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($r[1]) == 1) {
-            $view = $r[1][0];
-            $app_dir = getcwd();
-        } else {
-            $view = $r[1][0];
-            $app_dir = $r[1][1];
-        }
-
-        $r = Ethna_Controller::checkViewName($view);
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        if (is_dir($app_dir) == false) {
-            return Ethna::raiseError("no such directory [$app_dir]");
-        }
-
-        return array($view, $app_dir, $template);
+        return <<<EOS
+ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [view]
+EOS;
     }
 }
 // }}}

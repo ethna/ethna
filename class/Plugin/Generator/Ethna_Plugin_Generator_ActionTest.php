@@ -21,45 +21,54 @@ class Ethna_Plugin_Generator_ActionTest extends Ethna_Plugin_Generator
 {
     /**
      *  アクション用テストのスケルトンを生成する
+     *  (現在のところ GATEWAY_WWW のみ対応)
      *
      *  @access public
      *  @param  string  $action_name    アクション名
-     *  @param  string  $app_dir        プロジェクトディレクトリ
-     *  @return bool    true:成功 false:失敗
+     *  @param  string  $skelton        スケルトンファイル名
+     *  @param  int     $gateway        ゲートウェイ
+     *  @return true|Ethna_Error        true:成功 Ethna_Error:失敗
      */
-    function generate($action_name, $app_dir, $gateway = GATEWAY_WWW)
+    function &generate($action_name, $skelton = null, $gateway = GATEWAY_WWW)
     {
-        // get application controller
-        $c =& Ethna_Handle::getAppController($app_dir);
-        if (Ethna::isError($c)) {
-            return $c;
+        $action_dir = $this->ctl->getActiondir($gateway);
+        $action_class = $this->ctl->getDefaultActionClass($action_name, $gateway);
+        $action_form = $this->ctl->getDefaultFormClass($action_name, $gateway);
+        $action_path = $this->ctl->getDefaultActionPath($action_name . 'Test');
+
+        // entity
+        $entity = $action_dir . $action_path;
+        Ethna_Util::mkdir(dirname($entity), 0755);
+
+        // skelton
+        if ($skelton === null) {
+            $skelton = 'skel.action_test.php';
         }
-        $this->ctl =& $c;
 
-        $action_dir = $c->getActiondir($gateway);
-        $action_class = $c->getDefaultActionClass($action_name, false);
-        $action_form = $c->getDefaultFormClass($action_name, false);
-        $action_path = $c->getDefaultActionPath($action_name . "Test", false);
-
+        // macro
         $macro = array();
-        $macro['project_id'] = $c->getAppId();
+        $macro['project_id'] = $this->ctl->getAppId();
         $macro['action_name'] = $action_name;
         $macro['action_class'] = $action_class;
         $macro['action_form'] = $action_form;
         $macro['action_path'] = $action_path;
 
+        // user macro
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
-        Ethna_Util::mkdir(dirname("$action_dir$action_path"), 0755);
 
-        if (file_exists("$action_dir$action_path")) {
-            printf("file [%s] aleady exists -> skip\n", "$action_dir$action_path");
-        } else if ($this->_generateFile("skel.action_test.php", "$action_dir$action_path", $macro) == false) {
-            printf("[warning] file creation failed [%s]\n", "$action_dir$action_path");
+        // generate
+        if (file_exists($entity)) {
+            printf("file [%s] already exists -> skip\n", $entity);
+        } else if ($this->_generateFile($skelton, $entity, $macro) == false) {
+            printf("[warning] file creation failed [%s]\n", $entity);
         } else {
-            printf("action test(s) successfully created [%s]\n", "$action_dir$action_path");
+            printf("action test(s) successfully created [%s]\n", $entity);
         }
+
+        $true = true;
+        return $true;
     }
 }
 // }}}

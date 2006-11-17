@@ -57,6 +57,7 @@ class Ethna_Controller
         'template_c'    => 'tmp',
         'tmp'           => 'tmp',
         'view'          => 'app/view',
+        'www'           => 'www',
     );
 
     /** @var    array       DBアクセス定義 */

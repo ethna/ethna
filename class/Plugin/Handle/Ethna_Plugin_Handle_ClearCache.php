@@ -28,47 +28,59 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $args =& $this->_parseArgList();
-        if (Ethna::isError($args)) {
-            return $args;
+        $r =& $this->_getopt(array('basedir=', 
+                                   'any-tmp-files', 'smarty', 'pear', 'cachemanager'));
+        if (Ethna::isError($r)) {
+            return $r;
         }
-        $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
-        $target  = $args['target'];
-        if (count($target) == 0) {
-            return Ethna::raiseError('give a target to be cleared', 'usage');
-        }
+        list($args,) = $r;
 
+        $basedir = isset($args['basedir']) ? realpath(end($args['basedir'])) : getcwd();
         $controller =& Ethna_Handle::getAppController($basedir);
+        if (Ethna::isError($controller)) {
+            return $controller;
+        }
         $tmp_dir = $controller->getDirectory('tmp');
 
-        if (in_array('smarty', $target) || in_array('any-tmp-files', $target)) {
+        if (isset($args['smarty']) || isset($args['any-tmp-files'])) {
+            echo "cleaning smarty caches, compiled templates...";
             $renderer =& $controller->getRenderer();
             // TODO: implement Ethna_Renderer::clear_cache();
             if (strtolower(get_class($renderer)) == "ethna_renderer_smarty") {
                 $renderer->engine->clear_all_cache();
                 $renderer->engine->clear_compiled_tpl();
             }
+            echo " done\n";
         }
 
-        if (in_array('cachemanager', $target) || in_array('any-tmp-files', $target)) {
+        if (isset($args['cachemanager']) || isset($args['any-tmp-files'])) {
+            echo "cleaning Ethna_Plugin_Cachemanager caches...";
             // TODO: implement Ethna_Plugin_Cachemanager::clear_cache();
             $cache_dir = sprintf("%s/cache", $tmp_dir);
             Ethna_Util::purgeDir($cache_dir);
+            echo " done\n";
         }
 
-        if (in_array('pear', $target) || in_array('any-tmp-files', $target)) {
+        if (isset($args['pear']) || isset($args['any-tmp-files'])) {
+            echo "cleaning pear caches...";
+            ob_start();
             $pear =& new Ethna_PearWrapper();
             $r =& $pear->init($target, $basedir, $channel);
             if (Ethna::isError($r)) {
+                echo ob_get_clean();
                 return $r;
             }
             $r =& $pear->doClearCache();
             if (Ethna::isError($r)) {
+                echo ob_get_clean();
                 return $r;
             }
+            ob_get_clean();
+            echo " done\n";
         }
 
-        if (in_array('any-tmp-files', $target)) {
+        if (isset($args['any-tmp-files'])) {
+            echo "cleaning tmp dirs...";
             // purge only entries in tmp.
             if ($dh = opendir($tmp_dir)) {
                 while (($entry = readdir($dh)) !== false) {
@@ -79,46 +91,11 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
                 }
                 closedir($dh);
             }
+            echo " done\n";
         }
 
         return true;
     }
-
-    // {{{ _parseArgList()
-    /**
-     * @access private
-     */
-    function &_parseArgList()
-    {
-        $r =& $this->_getopt(array('basedir=', 'any-tmp-files', 'smarty', 'pear', 'cachemanager'));
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        list($opt_list, $arg_list) = $r;
-
-        $ret = array('target' => array());
-        foreach ($opt_list as $opt) {
-            switch (true) {
-                case ($opt[0] == 'b' || $opt[0] == '--basedir'):
-                    $ret['basedir'] = $opt[1];
-                    break;
-                case ($opt[0] == 'a' || $opt[0] == '--any-tmp-files'):
-                    $ret['target'][] = 'any-tmp-files';
-                    break;
-                case ($opt[0] == 's' || $opt[0] == '--smarty'):
-                    $ret['target'][] = 'smarty';
-                    break;
-                case ($opt[0] == 'p' || $opt[0] == '--pear'):
-                    $ret['target'][] = 'pear';
-                    break;
-                case ($opt[0] == 'c' || $opt[0] == '--cachemanager'):
-                    $ret['target'][] = 'cachemanager';
-                    break;
-            }
-        }
-        return $ret;
-    }
-    // }}}
 
     // {{{ getDescription()
     /**

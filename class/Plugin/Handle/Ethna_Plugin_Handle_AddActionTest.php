@@ -8,6 +8,9 @@
  *  @version    $Id$
  */
 
+require_once ETHNA_BASE . '/class/Plugin/Handle/Ethna_Plugin_Handle_AddAction.php';
+
+// {{{ Ethna_Plugin_Handle_AddActionTest
 /**
  *  add-action-test handler
  *
@@ -15,19 +18,8 @@
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Handle_AddActionTest extends Ethna_Plugin_Handle
+class Ethna_Plugin_Handle_AddActionTest extends Ethna_Plugin_Handle_AddAction
 {
-    
-    /**
-     *  get handler's description
-     *
-     *  @access public
-     */
-    function getDescription()
-    {
-        return "add new action test to project:\n    {$this->id} [action] ([project-base-dir])\n";
-    }
-
     /**
      *  add action test
      *
@@ -35,61 +27,46 @@ class Ethna_Plugin_Handle_AddActionTest extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r = $this->_validateArgList();
+        $r =& $this->_getopt(array('basedir=', 'skelfile='));
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($action_name, $app_dir) = $r;
+        list($opt_list, $arg_list) = $r;
 
-        $generator =& new Ethna_Generator();
-        $r = $generator->generate('ActionTest', $action_name, $app_dir);
+        // action_name
+        $action_name = array_shift($arg_list);
+        $r =& Ethna_Controller::checkActionName($action_name);
         if (Ethna::isError($r)) {
-            printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
-        return true;
+        $ret =& $this->_perform('ActionTest', $action_name, $opt_list);
+        return $ret;
     }
 
     /**
-     *  show usage
+     *  get handler's description
      *
      *  @access public
      */
-    function usage()
+    function getDescription()
     {
-        printf("usage:\nethna %s [action] ([project-base-dir])\n\n", $this->id);
+        return <<<EOS
+add new action test to project:
+    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [action]
+
+EOS;
     }
 
     /**
-     *  check arguments
-     *
-     *  @access private
+     *  @access public
      */
-    function _validateArgList()
+    function getUsage()
     {
-        $arg_list = array();
-        if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($this->arg_list) > 2) {
-            return Ethna::raiseError('too many arguments', 'usage');
-        } else if (count($this->arg_list) == 1) {
-            $arg_list[] = $this->arg_list[0];
-            $arg_list[] = getcwd();
-        } else {
-            $arg_list = $this->arg_list;
-        }
-
-        $r = Ethna_Controller::checkActionName($arg_list[0]);
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        if (is_dir($arg_list[1]) == false) {
-            return Ethna::raiseError("no such directory [{$arg_list[1]}]");
-        }
-
-        return $arg_list;
+        return <<<EOS
+ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [action]
+EOS;
     }
-    
 }
+// }}}
 ?>

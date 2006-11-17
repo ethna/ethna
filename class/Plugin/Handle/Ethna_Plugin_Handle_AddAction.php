@@ -20,76 +20,93 @@
 class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
 {
     /**
-     *  get handler's description
-     *
-     *  @access public
-     */
-    function getDescription()
-    {
-        return "add new action to project:\n    {$this->id} [action] ([project-base-dir])\n";
-    }
-
-    /**
      *  add action
      *
      *  @access public
      */
     function perform()
     {
-        $r = $this->_validateArgList();
+        $r =& $this->_getopt(array('basedir=', 'skelfile=', 'gateway='));
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($action_name, $app_dir) = $r;
+        list($opt_list, $arg_list) = $r;
 
-        $generator =& new Ethna_Generator();
-        $r = $generator->generate('Action', $action_name, $app_dir);
+        // action_name
+        $action_name = array_shift($arg_list);
+        $r =& Ethna_Controller::checkActionName($action_name);
+        if (Ethna::isError($r)) {
+            return $r;
+        }
+
+        $ret =& $this->_perform('Action', $action_name, $opt_list);
+        return $ret;
+    }
+
+    /**
+     *  @access protected
+     */
+    function &_perform($target, $target_name, $opt_list)
+    {
+        // basedir
+        if (isset($opt_list['basedir'])) {
+            $basedir = realpath(end($opt_list['basedir']));
+        } else {
+            $basedir = getcwd();
+        }
+
+        // skelfile
+        if (isset($opt_list['skelfile'])) {
+            $skelfile = end($opt_list['skelfile']);
+        } else {
+            $skelfile = null;
+        }
+        
+        // gateway
+        if (isset($opt_list['gateway'])) {
+            $gateway = 'GATEWAY_' . strtoupper(end($opt_list['gateway']));
+            if (defined($gateway)) {
+                $gateway = constant($gateway);
+            } else {
+                return Ethna::raiseError('unknown gateway', 'usage');
+            }
+        } else {
+            $gateway = GATEWAY_WWW;
+        }
+        
+        $r =& Ethna_Generator::generate($target, $basedir,
+                                        $target_name, $skelfile, $gateway);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
         }
 
-        return true;
+        $true = true;
+        return $true;
     }
 
     /**
-     *  show usage
+     *  get handler's description
      *
      *  @access public
      */
-    function usage()
+    function getDescription()
     {
-        printf("usage:\nethna %s [action] ([project-base-dir])\n\n", $this->id);
+        return <<<EOS
+add new action to project:
+    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-g|--gateway=www|cli|xmlrpc] [action]
+
+EOS;
     }
 
     /**
-     *  check arguments
-     *
-     *  @access private
+     *  @access public
      */
-    function _validateArgList()
+    function getUsage()
     {
-        $arg_list = array();
-        if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($this->arg_list) > 2) {
-            return Ethna::raiseError('too many arguments', 'usage');
-        } else if (count($this->arg_list) == 1) {
-            $arg_list[] = $this->arg_list[0];
-            $arg_list[] = getcwd();
-        } else {
-            $arg_list = $this->arg_list;
-        }
-
-        $r = Ethna_Controller::checkActionName($arg_list[0]);
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        if (is_dir($arg_list[1]) == false) {
-            return Ethna::raiseError("no such directory [{$arg_list[1]}]");
-        }
-
-        return $arg_list;
+        return <<<EOS
+ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-g|--gateway=www|cli|xmlrpc] [action]
+EOS;
     }
 }
 // }}}

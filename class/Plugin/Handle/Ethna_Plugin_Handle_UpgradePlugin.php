@@ -28,31 +28,23 @@ class Ethna_Plugin_Handle_UpgradePlugin extends Ethna_Plugin_Handle
     function &_parseArgList()
     {
         $r =& $this->_getopt(array('local', 'master', 'state=',
-                                   'basedir=', 'channel='));
+                                   'basedir=', 'channel=', 'pearopt='));
         if (Ethna::isError($r)) {
             return $r;
         }
         list($opt_list, $arg_list) = $r;
-
         $ret = array();
-        foreach ($opt_list as $opt) {
-            switch (true) {
-                case ($opt[0] == 'l' || $opt[0] == '--local'):
-                    $ret['target'] = 'local';
-                    break;
-                case ($opt[0] == 'm' || $opt[0] == '--master'):
-                    $ret['target'] = 'master';
-                    break;
-                case ($opt[0] == 'b' || $opt[0] == '--basedir'):
-                    $ret['basedir'] = $opt[1];
-                    break;
-                case ($opt[0] == 'c' || $opt[0] == '--channel'):
-                    $ret['channel'] = $opt[1];
-                    break;
-                case ($opt[0] == 's' || $opt[0] == '--state'):
-                    $ret['state'] = $opt[1];
-                    break;
-            }
+
+        // options
+        $ret['target'] = isset($opt_list['master']) ? 'master' : 'local';
+        if (isset($opt_list['basedir'])) {
+            $ret['basedir'] = end($opt_list['basedir']);
+        }
+        if (isset($opt_list['channel'])) {
+            $ret['channel'] = end($opt_list['channel']);
+        }
+        if (isset($opt_list['state'])) {
+            $ret['state'] = end($opt_list['state']);
         }
 
         // arguments
@@ -77,7 +69,11 @@ class Ethna_Plugin_Handle_UpgradePlugin extends Ethna_Plugin_Handle
         if (Ethna::isError($args)) {
             return $args;
         }
+
         $pear =& new Ethna_PearWrapper();
+        if (isset($args['pearopt'])) {
+            $pear->setPearOpt($args['pearopt']);
+        }
 
         if (isset($args['pkg_file_or_url'])) {
             // install from local tgz.

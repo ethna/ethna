@@ -20,77 +20,66 @@
 class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
 {
     /**
-     *  get handler's description
-     *
-     *  @access public
-     */
-    function getDescription()
-    {
-        return "add new project:\n    {$this->id} [project-id] ([project-base-dir])\n";
-    }
-
-    /**
      *  add project:)
      *
      *  @access public
      */
     function perform()
     {
-        $r = $this->_validateArgList();
+        $r = $this->_getopt(array('basedir='));
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($app_id, $app_dir) = $r;
+        list($opt_list, $arg_list) = $r;
 
-        $generator =& new Ethna_Generator();
-        $r = $generator->generate('Project', $app_id, $app_dir);
+        // app_id
+        $app_id = array_shift($arg_list);
+        $r = Ethna_Controller::checkAppId($app_id);
+        if (Ethna::isError($r)) {
+            return $r;
+        }
+
+        // basedir
+        if (isset($opt_list['basedir'])) {
+            $basedir = realpath(end($opt_list['basedir']));
+        } else {
+            $basedir = getcwd();
+        }
+
+        $r = Ethna_Generator::generate('Project', null, $app_id, $basedir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also error messages given above\n\n");
             return $r;
         }
 
-        printf("\nproject skelton for [%s] is successfully generated at [%s]\n\n", $app_id, $app_dir);
+        printf("\nproject skelton for [%s] is successfully generated at [%s]\n\n", $app_id, $basedir);
         return true;
     }
 
     /**
-     *  show usage
+     *  get handler's description
      *
      *  @access public
      */
-    function usage()
+    function getDescription()
     {
-        printf("usage:\nethna %s [project-id] ([project-base-dir])\n\n", $this->id);
+        return <<<EOS
+add new project:
+    {$this->id} [-b|--basedir=dir] [project-id]
+
+EOS;
     }
 
     /**
-     *  check arguments
+     *  get usage
      *
-     *  @access private
+     *  @access public
      */
-    function _validateArgList()
+    function getUsage()
     {
-        $arg_list = array();
-        if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($this->arg_list) > 2) {
-            return Ethna::raiseError('too many arguments', 'usage');
-        } else if (count($this->arg_list) == 1) {
-            $arg_list[] = $this->arg_list[0];
-            $arg_list[] = getcwd();
-        } else {
-            $arg_list = $this->arg_list;
-        }
-
-        $r = Ethna_Controller::checkAppId($arg_list[0]);
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        if (is_dir($arg_list[1]) == false) {
-            return Ethna::raiseError("no such directory [{$arg_list[1]}]");
-        }
-
-        return $arg_list;
+        return <<<EOS
+ethna {$this->id} [-b|--basedir=dir] [project-id]
+EOS;
     }
 }
 // }}}

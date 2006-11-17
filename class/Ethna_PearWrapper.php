@@ -48,6 +48,9 @@ class Ethna_PearWrapper
     /** @var    object  PEAR_Frontend   PEAR_Frontend(_CLI) object */
     var $ui;
 
+    /** @var    array   options for pearcmd */
+    var $_pearopt;
+
     /**#@-*/
     // }}}
 
@@ -580,6 +583,13 @@ class Ethna_PearWrapper
         if (PEAR::isError($cmd)) {
             return $cmd;
         }
+
+        // pear command options
+        if (is_array($this->_pearopt) && count($this->_pearopt) > 0) {
+            $pearopts = $this->_getPearOpt($cmd, $command, $this->_pearopt);
+            $options = array_merge($pearopts, $options);
+        }
+
         $ret =& $cmd->run($command, $options, $params);
         if (PEAR::isError($ret)) {
             return $ret;
@@ -620,6 +630,45 @@ class Ethna_PearWrapper
                       'data'     => $rows);
         $this->ui->outputData($data);
     }
+
+    /**
+     *  (experimental)
+     *  @access public
+     */
+    function setPearOpt($pearopt)
+    {
+        $this->_pearopt = $pearopt;
+    }
+
+    /**
+     *  (experimental)
+     *  @return array
+     */
+    function _getPearOpt(&$cmd_obj, $cmd_str, $opt_array)
+    {
+        $short_args = $long_args = null;
+        PEAR_Command::getGetOptArgs($cmd_str, $short_args, $long_args);
+        $opt_arg =& Console_GetOpt::getOpt2($opt_array, $short_args, $long_args);
+        if (PEAR::isError($opt_arg)) return array();
+        $opts = array();
+        foreach ($opt_arg[0] as $tmp) {
+            list($opt, $val) = $tmp;
+            if ($val === null) $val = true;
+            if (strlen($opt) == 1) {
+                $cmd_opts = $cmd_obj->getOptions($cmd_str);
+                foreach ($cmd_opts as $o => $d) {
+                    if (isset($d['shortopt']) && $d['shortopt'] == $opt) {
+                        $opts[$o] = $value;
+                    }
+                }
+            } else {
+                if (substr($opt, 0, 2) == '--') $opts[substr($opt, 2)] = $value;
+            }
+        }
+        return $opts;
+    }
+                
+
     // }}}
 }
 // }}}

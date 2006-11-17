@@ -8,6 +8,8 @@
  *  @version    $Id$
  */
 
+require_once ETHNA_BASE . '/class/Plugin/Handle/Ethna_Plugin_Handle_AddAppObject.php';
+
 // {{{ Ethna_Plugin_Handle_AddAppManager
 /**
  *  add-app-manager handler
@@ -16,18 +18,8 @@
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Handle_AddAppManager extends Ethna_Plugin_Handle
+class Ethna_Plugin_Handle_AddAppManager extends Ethna_Plugin_Handle_AddAppObject
 {
-    /**
-     *  get handler's description
-     *
-     *  @access public
-     */
-    function getDescription()
-    {
-        return "add new app-manager to project:\n    {$this->id} [app-manager name] ([project-base-dir])\n";
-    }
-
     /**
      *  add app-manager
      *
@@ -35,56 +27,33 @@ class Ethna_Plugin_Handle_AddAppManager extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r = $this->_validateArgList();
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        list($app_manager_name, $app_dir) = $r;
-
-        $generator =& new Ethna_Generator();
-        $r = $generator->generate('AppManager', $app_manager_name, $app_dir);
-        if (Ethna::isError($r)) {
-            printf("error occurred while generating skelton. please see also following error message(s)\n\n");
-            return $r;
-        }
-
-        return true;
+        return $this->_perform('AppManager');
     }
 
     /**
-     *  show usage
+     *  get handler's description
      *
      *  @access public
      */
-    function usage()
+    function getDescription()
     {
-        printf("usage:\nethna %s [app-manager name] ([project-base-dir])\n\n", $this->id);
+        return <<<EOS
+add new app-manager to project:
+    {$this->id} [-b|--basedir=dir] [app-manager name]
+
+EOS;
     }
 
     /**
-     *  check arguments
+     *  get usage
      *
-     *  @access private
+     *  @access public
      */
-    function _validateArgList()
+    function getUsage()
     {
-        $arg_list = array();
-        if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($this->arg_list) > 2) {
-            return Ethna::raiseError('too many arguments', 'usage');
-        } else if (count($this->arg_list) == 1) {
-            $arg_list[] = $this->arg_list[0];
-            $arg_list[] = getcwd();
-        } else {
-            $arg_list = $this->arg_list;
-        }
-
-        if (is_dir($arg_list[1]) == false) {
-            return Ethna::raiseError("no such directory [{$arg_list[1]}]");
-        }
-
-        return $arg_list;
+        return <<<EOS
+ethna {$this->id} [-b|--basedir=dir] [app-manager name]
+EOS;
     }
 }
 // }}}

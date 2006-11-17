@@ -101,6 +101,7 @@ class {$project_id}_Controller extends Ethna_Controller
         'template_c'    => 'tmp',
         'tmp'           => 'tmp',
         'view'          => 'app/view',
+        'www'           => 'www',
     );
 
     /**

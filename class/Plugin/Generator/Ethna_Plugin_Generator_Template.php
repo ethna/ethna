@@ -23,43 +23,44 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
      *  テンプレートのスケルトンを生成する
      *
      *  @access public
-     *  @param  string  $forward_name   アクション名
-     *  @param  string  $app_dir        プロジェクトディレクトリ
-     *  @return bool    true:成功 false:失敗
+     *  @param  string  $forward_name   テンプレート名
+     *  @param  string  $skelton        スケルトンファイル名
+     *  @return true|Ethna_Error        true:成功 Ethna_Error:失敗
      */
-    function generate($forward_name, $app_dir, $skel_file = null)
+    function &generate($forward_name, $skelton = null)
     {
-        // get application controller
-        $c =& Ethna_Handle::getAppController($app_dir);
-        if (Ethna::isError($c)) {
-            return $c;
-        }
-        $this->ctl =& $c;
-
-        $tpl_dir = $c->getTemplatedir();
+        $tpl_dir = $this->ctl->getTemplatedir();
         if ($tpl_dir{strlen($tpl_dir)-1} != '/') {
             $tpl_dir .= '/';
         }
-        $tpl_path = $c->getDefaultForwardPath($forward_name);
+        $tpl_path = $this->ctl->getDefaultForwardPath($forward_name);
 
-        // skel_file
-        if ($skel_file === null) {
-            $skel_file = "skel.template.tpl";
+        // entity
+        $entity = $tpl_dir . $tpl_path;
+        Ethna_Util::mkdir(dirname($entity), 0755);
+
+        // skelton
+        if ($skelton === null) {
+            $skelton = 'skel.template.tpl';
         }
 
+        // macro
         $macro = array();
         // add '_' for tpl and no user macro for tpl
-        $macro['_project_id'] = $c->getAppId();
+        $macro['_project_id'] = $this->ctl->getAppId();
 
-        Ethna_Util::mkdir(dirname("$tpl_dir/$tpl_path"), 0755);
 
-        if (file_exists("$tpl_dir$tpl_path")) {
-            printf("file [%s] already exists -> skip\n", "$tpl_dir$tpl_path");
-        } else if ($this->_generateFile($skel_file, "$tpl_dir$tpl_path", $macro) == false) {
-            printf("[warning] file creation failed [%s]\n", "$tpl_dir$tpl_path");
+        // generate
+        if (file_exists($entity)) {
+            printf("file [%s] already exists -> skip\n", $entity);
+        } else if ($this->_generateFile($skelton, $entity, $macro) == false) {
+            printf("[warning] file creation failed [%s]\n", $entity);
         } else {
-            printf("template file(s) successfully created [%s]\n", "$tpl_dir$tpl_path");
+            printf("template file(s) successfully created [%s]\n", $entity);
         }
+
+        $true = true;
+        return $true;
     }
 }
 // }}}

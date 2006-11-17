@@ -20,30 +20,37 @@
 class Ethna_Plugin_Handle_AddAppObject extends Ethna_Plugin_Handle
 {
     /**
-     *  get handler's description
-     *
-     *  @access public
-     */
-    function getDescription()
-    {
-        return "add new app-object to project:\n    {$this->id} [table name] ([project-base-dir])\n";
-    }
-
-    /**
      *  add app-object
      *
      *  @access public
      */
     function perform()
     {
-        $r = $this->_validateArgList();
+        return $this->_perform('AppObject');
+    }
+
+    /**
+     *  @access protected
+     */
+    function _perform($target)
+    {
+        $r =& $this->_getopt(array('basedir='));
         if (Ethna::isError($r)) {
             return $r;
         }
-        list($table_name, $app_dir) = $r;
+        list($opt_list, $arg_list) = $r;
 
-        $generator =& new Ethna_Generator();
-        $r = $generator->generate('AppObject', $table_name, $app_dir);
+        // table_name
+        $table_name = array_shift($arg_list);
+
+        // basedir
+        if (isset($opt_list['basedir'])) {
+            $basedir = realpath(end($opt_list['basedir']));
+        } else {
+            $basedir = getcwd();
+        }
+
+        $r =& Ethna_Generator::generate($target, $basedir, $table_name);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $r;
@@ -53,39 +60,29 @@ class Ethna_Plugin_Handle_AddAppObject extends Ethna_Plugin_Handle
     }
 
     /**
-     *  show usage
+     *  get handler's description
      *
      *  @access public
      */
-    function usage()
+    function getDescription()
     {
-        printf("usage:\nethna %s [table name] ([project-base-dir])\n\n", $this->id);
+        return <<<EOS
+add new app-object to project:
+    {$this->id} [-b|--basedir=dir] [table name]
+
+EOS;
     }
 
     /**
-     *  check arguments
+     *  get usage
      *
-     *  @access private
+     *  @access public
      */
-    function _validateArgList()
+    function getUsage()
     {
-        $arg_list = array();
-        if (count($this->arg_list) < 1) {
-            return Ethna::raiseError('too few arguments', 'usage');
-        } else if (count($this->arg_list) > 2) {
-            return Ethna::raiseError('too many arguments', 'usage');
-        } else if (count($this->arg_list) == 1) {
-            $arg_list[] = $this->arg_list[0];
-            $arg_list[] = getcwd();
-        } else {
-            $arg_list = $this->arg_list;
-        }
-
-        if (is_dir($arg_list[1]) == false) {
-            return Ethna::raiseError("no such directory [{$arg_list[1]}]");
-        }
-
-        return $arg_list;
+        return <<<EOS
+ethna {$this->id} [-b|--basedir=dir] [table name]
+EOS;
     }
 }
 // }}}

@@ -83,25 +83,49 @@ class Ethna_Plugin_Handle
     /**
      * easy getopt :)
      * 
-     * @param   array   $long_options 
+     * @param   array   $lopts  long options
      * @access  protected
      * @return  array   list($opts, $args)
      */
-    function _getopt($long_options = array())
+    function &_getopt($lopts = array())
     {
-        $long_options = to_array($long_options);
-        $short_options = '';
-        foreach ($long_options as $lopt) {
-            $short_options .= $lopt{0};
-            if ($lopt{strlen($lopt) - 1} == '=') {
-                $short_options .= ':';
-            }
-            if ($lopt{strlen($lopt) - 2} == '=') {
-                $short_options .= ':';
+        // create opts
+        $lopts = to_array($lopts);
+        $sopts = '';
+        $opt_def = array();
+        foreach ($lopts as $lopt) {
+            if ($lopt{strlen($lopt) - 2} === '=') {
+                $opt_def[$lopt{0}] = substr($lopt, 0, strlen($lopt) - 2);
+                $sopts .= $lopt{0} . '::';
+            } else if ($lopt{strlen($lopt) - 1} === '=') {
+                $opt_def[$lopt{0}] = substr($lopt, 0, strlen($lopt) - 1);
+                $sopts .= $lopt{0} . ':';
+            } else {
+                $opt_def[$lopt{0}] = $lopt;
+                $sopts .= $lopt{0};
             }
         }
-        $getopt =& new Console_Getopt();
-        return $getopt->getopt2($this->arg_list, $short_options, $long_options);
+
+        // do getopt
+        $opts_args =& Console_Getopt::getopt2($this->arg_list, $sopts, $lopts);
+        if (Ethna::isError($opts_args)) {
+            return $opts_args;
+        }
+
+        // parse opts
+        $opts = array();
+        foreach ($opts_args[0] as $opt) {
+            $opt[0] = $opt[0]{0} === '-' ? $opt_def[$opt[0]{2}] : $opt_def[$opt[0]{0}];
+            $opt[1] = $opt[1] === null ? true : $opt[1];
+            if (isset($opts[$opt[0]]) === false) {
+                $opts[$opt[0]] = array($opt[1]);
+            } else {
+                $opts[$opt[0]][] = $opt[1];
+            }
+        }
+        $opts_args[0] = $opts;
+
+        return $opts_args;
     }
 
     /**

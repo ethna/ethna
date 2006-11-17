@@ -21,69 +21,33 @@ include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
  */
 class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
 {
-    // {{{ _parseArgList()
-    /**
-     * @access private
-     */
-    function &_parseArgList()
-    {
-        $r =& $this->_getopt(array('local', 'master',  'type=',
-                                   'basedir=', 'channel=', 'verbose'));
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        list($opt_list, $arg_list) = $r;
-        $ret = array();
-        foreach ($opt_list as $opt) {
-            switch (true) {
-                case ($opt[0] == 'l' || $opt[0] == '--local'):
-                    $ret['target'] = 'local';
-                    break;
-                case ($opt[0] == 'm' || $opt[0] == '--master'):
-                    $ret['target'] = 'master';
-                    break;
-                case ($opt[0] == 'b' || $opt[0] == '--basedir'):
-                    $ret['basedir'] = $opt[1];
-                    break;
-                case ($opt[0] == 'c' || $opt[0] == '--channel'):
-                    $ret['channel'] = $opt[1];
-                    break;
-                case ($opt[0] == 't' || $opt[0] == '--type'):
-                    $ret['type'] = $opt[1];
-                    break;
-                case ($opt[0] == 'v' || $opt[0] == '--verbose'):
-                    $ret['verbose'] = true;
-                    break;
-            }
-        }
-        return $ret;
-    }
-    // }}}
-
     // {{{ perform()
     /**
      *  @access public
      */
     function perform()
     {
-        $args =& $this->_parseArgList();
-        if (Ethna::isError($args)) {
-            return $args;
+        $r =& $this->_getopt(array('local', 'master',  'type=',
+                                   'basedir=', 'channel=', 'verbose'));
+        if (Ethna::isError($r)) {
+            return $r;
         }
+        list($args,) = $r;
+
+        $target = isset($args['master']) ? 'master' : 'local';
+        $channel = isset($args['channel']) ? end($args['channel']) : null;
+        $basedir = isset($args['basedir']) ? realpath(end($args['basedir'])) : getcwd();
+        $verbose = isset($args['verbose']);
+        $type = isset($args['type']) ? end($args['type']) : null;
 
         // prepare PearWrapper object.
         $pear =& new Ethna_PearWrapper();
-        $target = isset($args['target']) ? $args['target'] : null;
-        $channel = isset($args['channel']) ? $args['channel'] : null;
-        $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
-        $verbose = isset($args['verbose']);
         $r =& $pear->init($target, $basedir, $channel);
         if (Ethna::isError($r)) {
             return $r;
         }
 
         // get plugin list.
-        $type = isset($args['type']) ? $args['type'] : null;
         $plugins_found = $this->_getFoundPluginList($pear, $type);
         if (Ethna::isError($plugins_found)) {
             return $plugins_found;

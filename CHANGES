@@ -4,6 +4,22 @@
 
 *** features
 
+- ethnaコマンドのハンドラ再編
+-- 全般的にgetopt化
+--- "--basedir" で対象アプリの場所を指定
+--- "--skelfile" で生成元のスケルトンファイルを指定
+-- 全てのgeneratorで "アプリ -> Ethna本体" の順にスケルトンファイルを探すように変更
+-- add-action-cli, add-action-xmlrpcを廃止、add-actionに "--gateway=www|cli|xmlrpc" を追加
+-- add-entry-point追加
+--- ethna add-entry-point --gateway=cli foo で bin/foo.php, app/action/Foo.php を生成
+-- pearコマンドを使うハンドラに "--pearopt" を追加(experimental)
+--- ethna install-plugin -p--alldeps -p--force foo bar のように指定する
+-- Ethna_Handle::_getopt()の出力を変更
+
+- misc追加
+-- plugin packagerのサンプル
+-- おまけ: _ethna (zshの補完関数)
+
 - Smarty, PEAR_DBのincludeのタイミングを変更
 -- 必要時に Ethna_ClassFactory::_include() を使うようにした。
 

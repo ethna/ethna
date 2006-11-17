@@ -56,6 +56,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             array("www/js", 0755),
         );
 
+        // double check.
         $r = Ethna_Controller::checkAppId($id);
         if (Ethna::isError($r)) {
             return $r;
@@ -138,7 +139,8 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             $this->_generateFile("skel.action_cli.php", sprintf("$basedir/skel/skel.action_cli.php"), $default_macro) == false ||
             $this->_generateFile("skel.action_test.php", sprintf("$basedir/skel/skel.action_test.php"), $default_macro) == false ||
             $this->_generateFile("skel.app_object.php", sprintf("$basedir/skel/skel.app_object.php"), $default_macro) == false ||
-            $this->_generateFile("skel.cli.php", sprintf("$basedir/skel/skel.cli.php"), $default_macro) == false ||
+            $this->_generateFile("skel.entry_www.php", sprintf("$basedir/skel/skel.entry_www.php"), $default_macro) == false ||
+            $this->_generateFile("skel.entry_cli.php", sprintf("$basedir/skel/skel.entry_cli.php"), $default_macro) == false ||
             $this->_generateFile("skel.view.php", sprintf("$basedir/skel/skel.view.php"), $default_macro) == false ||
             $this->_generateFile("skel.template.tpl", sprintf("$basedir/skel/skel.template.tpl"), $default_macro) == false ||
             $this->_generateFile("skel.view_test.php", sprintf("$basedir/skel/skel.view_test.php"), $default_macro) == false ||
