@@ -96,7 +96,7 @@ class Ethna_SOAP_WsdlGenerator
      */
     function _getHeader()
     {
-        $header = <<< EOD
+        $header =<<<EOD
 <?xml version="1.0" encoding="utf-8"?>
 <definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
@@ -123,7 +123,7 @@ EOD;
         $types = sprintf(" <types>\n  <s:schema targetNamespace=\"%s\">\n", $this->namespace);
 
         // ´ğËÜ·¿
-        $types .= <<< EOD
+        $types .=<<<EOD
    <s:complexType name="ArrayOfInt">
     <s:complexContent mixed="false">
      <s:restriction base="soapenc:Array">

@@ -372,6 +372,7 @@ class Ethna_Backend
      *  @access public
      *  @param  string  $db_key DBキー
      *  @return mixed   Ethna_DB:DBオブジェクト null:DSN設定なし Ethna_Error:エラー
+     *  @todo   この中でnewしないでclass factoryを利用する
      */
     function &getDB($db_key = "")
     {
@@ -403,7 +404,6 @@ class Ethna_Backend
             $db_class_name = 'Ethna_DB_PEAR';
         }
         if (class_exists($db_class_name) === false) {
-            // todo: 下の new も含めて class factory へ移動
             $class_factory->_include($db_class_name);
         }
 

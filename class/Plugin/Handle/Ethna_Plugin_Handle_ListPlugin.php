@@ -1,12 +1,12 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Handle_ListPlugin.php
+ *  Ethna_Plugin_Handle_ListPlugin.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
@@ -16,8 +16,8 @@ include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
  *  list-plugin handler
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@access		public
- *	@package	Ethna
+ *  @access     public
+ *  @package    Ethna
  */
 class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
 {
@@ -128,10 +128,10 @@ class Ethna_Plugin_Handle_ListPlugin extends Ethna_Plugin_Handle
      *  @param  string  $_type   plugin type
      *  @return array   package list
      *  @access private
+     *  @todo   deal with the package including some plugins.
      */
     function &_getInstalledPluginList(&$pear, $_type = null)
     {
-        // TODO: deal with a package with more than one plugin.
         $pkg_list =& $pear->getInstalledPackageList();
         if (Ethna::isError($pkg_list)) {
             return $pkg_list;

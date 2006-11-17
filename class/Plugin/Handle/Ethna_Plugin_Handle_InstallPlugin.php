@@ -1,12 +1,12 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Handle_InstallPlugin.php
+ *  Ethna_Plugin_Handle_InstallPlugin.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
@@ -16,8 +16,8 @@ include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
  *  install-plugin handler
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@access		public
- *	@package	Ethna
+ *  @access     public
+ *  @package    Ethna
  */
 class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
 {
@@ -65,6 +65,7 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
     // {{{ perform()
     /**
      *  @access public
+     *  @todo   deal with the package including some plugins.
      */
     function perform()
     {
@@ -139,7 +140,6 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
         }
 
         if ($target != 'master') {
-            // TODO: deal with the package including some plugins.
             list(,, $ctype, $cname) = explode('_', $pkg_name, 4);
             $generator =& new Ethna_Generator();
             $r = $generator->generate('Plugin', $ctype, $cname, $basedir, true);

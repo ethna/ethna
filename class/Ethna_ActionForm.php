@@ -189,6 +189,7 @@ class Ethna_ActionForm
      *  ユーザから送信されたフォーム値をフォーム値定義に従ってインポートする
      *
      *  @access public
+     *  @todo   多次元の配列への対応
      */
     function setFormVars()
     {
@@ -272,7 +273,6 @@ class Ethna_ActionForm
                 if (is_array($def['type'])) {
                     if (is_array($http_vars[$name]) == false) {
                         // 厳密には、この配列の各要素はスカラーであるべき
-                        // TODO: 多次元の配列にも対応する
                         $this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
                         $this->form_vars[$name] = null;
                         continue;
@@ -576,11 +576,12 @@ class Ethna_ActionForm
      *
      *  @access private
      *  @param  string  $form_name  フォームの名前
+     *  @todo   validateはpluginだけにしたい
+     *  @todo   ae 側に $key を与えられるようにする
      */
     function _validateWithPlugin($form_name)
     {
         // (pre) filter
-        // TODO: validate() の中に移動
         if ($this->form[$form_name]['type'] != VAR_TYPE_FILE) {
             if (is_array($this->form[$form_name]['type']) == false) {
                 $this->form_vars[$form_name]
@@ -682,7 +683,6 @@ class Ethna_ActionForm
 
                 // エラー処理
                 if (Ethna::isError($r)) {
-                    // TODO: ae 側に $key を与えられるようにする
                     $this->ae->addObject($form_name, $r);
                     if ($break) {
                         unset($valid_keys[$key]);

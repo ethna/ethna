@@ -1,12 +1,12 @@
 <?php
 // vim: foldmethod=marker
 /**
- *	Ethna_Plugin_Handle_InfoPlugin.php
+ *  Ethna_Plugin_Handle_InfoPlugin.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@license	http://www.opensource.org/licenses/bsd-license.php The BSD License
- *	@package	Ethna
- *	@version	$Id$
+ *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @package    Ethna
+ *  @version    $Id$
  */
 
 include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
@@ -16,8 +16,8 @@ include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
  *  info-plugin handler
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *	@access		public
- *	@package	Ethna
+ *  @access     public
+ *  @package    Ethna
  */
 class Ethna_Plugin_Handle_InfoPlugin extends Ethna_Plugin_Handle
 {

@@ -16,6 +16,7 @@
  *  @access     public
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @package    Ethna
+ *  @todo   配列フォームを扱えるようにする
  */
 class Ethna_ActionError
 {

@@ -25,6 +25,9 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
      *  clear cache files.
      *
      *  @access public
+     *  @todo   implement Ethna_Renderer::clear_cache();
+     *  @todo   implement Ethna_Plugin_Cachemanager::clear_cache();
+     *  @todo   avoid echo, printf
      */
     function perform()
     {
@@ -45,7 +48,6 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
         if (isset($args['smarty']) || isset($args['any-tmp-files'])) {
             echo "cleaning smarty caches, compiled templates...";
             $renderer =& $controller->getRenderer();
-            // TODO: implement Ethna_Renderer::clear_cache();
             if (strtolower(get_class($renderer)) == "ethna_renderer_smarty") {
                 $renderer->engine->clear_all_cache();
                 $renderer->engine->clear_compiled_tpl();
@@ -55,7 +57,6 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
 
         if (isset($args['cachemanager']) || isset($args['any-tmp-files'])) {
             echo "cleaning Ethna_Plugin_Cachemanager caches...";
-            // TODO: implement Ethna_Plugin_Cachemanager::clear_cache();
             $cache_dir = sprintf("%s/cache", $tmp_dir);
             Ethna_Util::purgeDir($cache_dir);
             echo " done\n";

@@ -238,10 +238,10 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前 (nullのときは親クラス)
      *  @param  string  $appid  アプリケーションID
      *  @return array   プラグインのクラス名、ディレクトリ、ファイル名の配列
+     *  @todo   class factoryのnaming ruleと整合させる
      */
     function getPluginNaming($type, $name, $appid)
     {
-        // TODO: $target で区別するべきかも
         if ($appid == 'Ethna') {
             if ($name === null) {
                 $ext = 'php';

@@ -6,8 +6,7 @@
  *  - Point Cutしたいと思った！
  *  - キャッシュキーには250文字までしか使用できないので注意して下さい
  *
- *  TODO:
- *  - ネームスペース/キャッシュキー長のエラーハンドリング
+ *  @todo   ネームスペース/キャッシュキー長のエラーハンドリング
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @package    Ethna
@@ -94,6 +93,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  memcache接続情報を取得する
      *
      *  @access protected
+     *  @todo   $cache_keyから$indexを決める方法を変更できるようにする
      */
     function _getMemcacheInfo($cache_key, $namespace)
     {
@@ -115,7 +115,6 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         // namespace/cache_keyで接続先を決定
         $n = count($memcache_info[$namespace]);
 
-        // TODO: make this pluggable
         $index = $cache_key % $n;
         return array(
             isset($memcache_info[$namespace][$index]['memcache_host']) ?
