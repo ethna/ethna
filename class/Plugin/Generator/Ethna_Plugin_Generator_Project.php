@@ -57,12 +57,13 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
         );
 
         // double check.
+        $id = strtolower($id);
         $r = Ethna_Controller::checkAppId($id);
         if (Ethna::isError($r)) {
             return $r;
         }
 
-        $basedir = sprintf("%s/%s", $basedir, strtolower($id));
+        $basedir = sprintf("%s/%s", $basedir, $id);
 
         // ディレクトリ作成
         if (is_dir($basedir) == false) {
@@ -102,7 +103,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
         $macro['ethna_version'] = ETHNA_VERSION;
         $macro['application_id'] = strtoupper($id);
         $macro['project_id'] = ucfirst($id);
-        $macro['project_prefix'] = strtolower($id);
+        $macro['project_prefix'] = $id;
         $macro['basedir'] = realpath($basedir);
 
         $macro['action_class'] = '{$action_class}';
