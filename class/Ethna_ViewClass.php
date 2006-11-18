@@ -656,7 +656,7 @@ class Ethna_ViewClass
             $params['id'] = $name . '_' . $i++;
 
             // checked
-            if ($current_value === $key) {
+            if (strcmp($current_value,$key) === 0) {
                 $params['checked'] = 'checked';
             } else {
                 unset($params['checked']);
@@ -716,7 +716,7 @@ class Ethna_ViewClass
         $selected = false;
         foreach ($options as $key => $value) {
             $attr = array('value' => $key);
-            if ($selected === false && $current_value === $key) {
+            if ($selected === false && strcmp($current_value, $key) === 0) {
                 $attr['selected'] = 'selected';
                 $selected = true;
             }
