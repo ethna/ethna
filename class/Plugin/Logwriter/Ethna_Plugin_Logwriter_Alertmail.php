@@ -104,6 +104,12 @@ class Ethna_Plugin_Logwriter_Alertmail extends Ethna_Plugin_Logwriter
         $subject = sprintf("[%s] alert (%s%s)\n", $appid,
                            substr($message, 0, 12),
                            strlen($message) > 12 ? "..." : "");
+
+        $message = sprintf("--- [log message] ---\n%s\n\n", $message);
+        if (function_exists("debug_backtrace")) {
+            $bt = debug_backtrace();
+            $message .= sprintf("--- [backtrace] ---\n%s\n", Ethna_Util::FormatBacktrace($bt));
+        }
         
         foreach ($this->mailaddress as $address) {
             mail($address,

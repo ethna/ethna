@@ -850,8 +850,8 @@ class Ethna_Util
         $i = 0;
         foreach ($bt as $elt) {
             $r .= sprintf("[%02d] %s:%d:%s.%s\n", $i,
-                          $elt['file'],
-                          $elt['line'],
+                          isset($elt['file']) ? $elt['file'] : 'unknown file',
+                          isset($elt['line']) ? $elt['line'] : 'unknown line',
                           isset($elt['class']) ? $elt['class'] : 'global',
                           $elt['function']);
             $i++;
