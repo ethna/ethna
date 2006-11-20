@@ -13,9 +13,6 @@
  */
 
 require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
-require_once 'PEAR/PackageFileManager.php';
-require_once 'PEAR/PackageFileManager2.php';
-require_once 'PEAR/PackageFileManager/File.php';
 
 // {{{ Ethna_Plugin_Handle_MakePluginPackage
 /**
@@ -33,6 +30,15 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
      */
     function perform()
     {
+        include_once 'PEAR/PackageFileManager.php';
+        include_once 'PEAR/PackageFileaManager2.php';
+        include_once 'PEAR/PackageFailManager/File.php';
+        if (class_exists('PEAR_PackageFileManager2') === false) {
+            return Ethna::raiseError(
+                'make-plugin-package requires PEAR_PackageFileManager, please install.'
+            );
+        }
+
         // °ú¿ô¤ÎÉ¾²Á
         $args =& $this->_parseArgList();
         if (Ethna::isError($args)) {
