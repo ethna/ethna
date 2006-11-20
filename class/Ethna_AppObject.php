@@ -1074,6 +1074,7 @@ class Ethna_AppObject
      *  @access private
      *  @param  array   $filter     検索条件
      *  @return string  検索総数を取得するためのSELECT文
+     *  @todo   my_db_typeの参照を廃止
      */
     function _getSQL_SearchLength($filter)
     {
@@ -1085,16 +1086,16 @@ class Ethna_AppObject
         }
 
         $id_def = to_array($this->id_def);
-        // any id columns will do
         $column_id = $this->my_db_ro->quoteIdentifier($this->_getPrimaryTable())
             . "." . $this->my_db_ro->quoteIdentifier($id_def[0]);
-
+        $id_count = $this->my_db_ro->quoteIdentifier('id_count');
         $condition = $this->_getSQL_SearchCondition($filter);
+
         if ($this->my_db_type === 'sqlite') {
-            $sql = "SELECT COUNT(DISTINCT $column_id) AS `id_count` "
-                . "FROM $tables $condition";
+            $sql = "SELECT COUNT(*) AS $id_count FROM "
+                . " (SELECT DISTINCT $column_id FROM $tables $condition)";
         } else {
-            $sql = "SELECT DISTINCT COUNT($column_id) AS `id_count` "
+            $sql = "SELECT COUNT(DISTINCT $column_id) AS $id_count "
                 . "FROM $tables $condition";
         }
 
@@ -1194,7 +1195,7 @@ class Ethna_AppObject
 
         // カラム
         $column = "";
-        $keys = $keys === null ? array_keys($def) : to_array($key);
+        $keys = $keys === null ? array_keys($def) : to_array($keys);
         foreach ($keys as $key) {
             if (isset($def[$key]) == false) {
                 continue;
@@ -1356,6 +1357,7 @@ class Ethna_AppObject
      */
     function _SQLPlugin_SearchPropDef()
     {
+        return array();
     }
     // }}}
 

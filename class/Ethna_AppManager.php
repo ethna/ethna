@@ -158,7 +158,8 @@ class Ethna_AppManager
      *  @return mixed   array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のオブジェクトID一覧) Ethna_Error:エラー
      *  @todo   パフォーマンス対策(1オブジェクトの占有メモリが多い場合)
      */
-    function getObjectList($class, $filter = null, $order = null, $offset = null, $count = null)
+    function getObjectList($class, $filter = null,
+                           $order = null, $offset = null, $count = null)
     {
         global $_ETHNA_APP_MANAGER_OL_CACHE;
 
@@ -167,17 +168,21 @@ class Ethna_AppManager
 
         // キャッシュチェック
         $cache_class = strtolower($class_name);
-        if (is_array($_ETHNA_APP_MANAGER_OL_CACHE) == false || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OL_CACHE) == false) {
+        if (is_array($_ETHNA_APP_MANAGER_OL_CACHE) == false
+            || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OL_CACHE) == false) {
             $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class] = array();
         }
         $cache_key = serialize(array($filter, $order, $offset, $count));
         if (array_key_exists($cache_key, $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class])) {
-            list($length, $prop_list) = $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key];
+            list($length, $prop_list)
+                = $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key];
         } else {
             // キャッシュ更新
             $tmp =& new $class_name($this->backend);
-            list($length, $prop_list) = $tmp->searchProp(null, $filter, $order, $offset, $count);
-            $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key] = array($length, $prop_list);
+            list($length, $prop_list)
+                = $tmp->searchProp(null, $filter, $order, $offset, $count);
+            $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key]
+                = array($length, $prop_list);
         }
 
         foreach ($prop_list as $prop) {
@@ -202,9 +207,12 @@ class Ethna_AppManager
      *  @param  array   $order      検索結果ソート条件
      *  @param  int     $offset     検索結果取得オフセット
      *  @param  int     $count      検索結果取得数
-     *  @return mixed   array(0 => 検索条件にマッチした件数, 1 => $offset, $countにより指定された件数のプロパティ一覧) Ethna_Error:エラー
+     *  @return mixed   array(0 => 検索条件にマッチした件数,
+     *                        1 => $offset, $countにより指定された件数のプロパティ一覧)
+     *                  Ethna_Error:エラー
      */
-    function getObjectPropList($class, $keys = null, $filter = null, $order = null, $offset = null, $count = null)
+    function getObjectPropList($class, $keys = null, $filter = null,
+                               $order = null, $offset = null, $count = null)
     {
         global $_ETHNA_APP_MANAGER_OPL_CACHE;
 
@@ -213,7 +221,8 @@ class Ethna_AppManager
 
         // キャッシュチェック
         $cache_class = strtolower($class_name);
-        if (is_array($_ETHNA_APP_MANAGER_OPL_CACHE) == false || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OPL_CACHE) == false) {
+        if (is_array($_ETHNA_APP_MANAGER_OPL_CACHE) == false
+            || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OPL_CACHE) == false) {
             $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class] = array();
         }
         $cache_key = serialize(array($filter, $order, $offset, $count));
@@ -222,7 +231,8 @@ class Ethna_AppManager
         } else {
             // キャッシュ更新
             $tmp =& new $class_name($this->backend);
-            $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class][$cache_key] = $tmp->searchProp($keys, $filter, $order, $offset, $count);
+            $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class][$cache_key]
+                = $tmp->searchProp($keys, $filter, $order, $offset, $count);
         }
 
         return $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class][$cache_key];
@@ -249,7 +259,8 @@ class Ethna_AppManager
 
         // キャッシュチェック
         $cache_class = strtolower($class_name);
-        if (is_array($_ETHNA_APP_MANAGER_OP_CACHE) == false || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OP_CACHE) == false) {
+        if (is_array($_ETHNA_APP_MANAGER_OP_CACHE) == false
+            || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OP_CACHE) == false) {
             $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class] = array();
         }
         $cache_key = serialize(array($filter));
@@ -259,7 +270,8 @@ class Ethna_AppManager
             // キャッシュ更新
             $tmp =& new $class_name($this->backend);
             list(, $prop) = $tmp->searchProp($keys, $filter);
-            $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class][$cache_key] = count($prop) > 0 ? $prop[0] : null;
+            $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class][$cache_key]
+                = count($prop) > 0 ? $prop[0] : null;
         }
 
         return $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class][$cache_key];

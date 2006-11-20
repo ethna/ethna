@@ -82,14 +82,15 @@ class Ethna_Plugin_Handle
 
     /**
      * easy getopt :)
-     * 
+     *
      * @param   array   $lopts  long options
-     * @access  protected
      * @return  array   list($opts, $args)
+     * @access  protected
      */
     function &_getopt($lopts = array())
     {
         // create opts
+        // ex: $lopts = array('foo', 'bar=');
         $lopts = to_array($lopts);
         $sopts = '';
         $opt_def = array();
@@ -107,12 +108,16 @@ class Ethna_Plugin_Handle
         }
 
         // do getopt
+        // ex: $sopts = 'fb:';
         $opts_args =& Console_Getopt::getopt2($this->arg_list, $sopts, $lopts);
         if (Ethna::isError($opts_args)) {
             return $opts_args;
         }
 
         // parse opts
+        // ex: "-ff --bar=baz" gets
+        //      $opts = array('foo' => array(true, true),
+        //                    'bar' => array('baz'));
         $opts = array();
         foreach ($opts_args[0] as $opt) {
             $opt[0] = $opt[0]{0} === '-' ? $opt_def[$opt[0]{2}] : $opt_def[$opt[0]{0}];
