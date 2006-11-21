@@ -92,6 +92,7 @@ $packagexml->setPearinstallerDep('1.3.5');
 $packagexml->addMaintainer('lead', 'fujimoto' , 'Masaki Fujimoto', 'fujimoto@php.net');
 $packagexml->addMaintainer('lead', 'halt' , 'halt feits', 'halt.hde@gmail.com');
 $packagexml->addMaintainer('lead', 'cocoitiban', 'Keita Arai', 'cocoiti@comio.info');
+$packagexml->addMaintainer('lead', 'ichii386', 'ICHII Takashi', 'ichii386@schweetheart.jp');
 
 $packagexml->setLicense('The BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
 
