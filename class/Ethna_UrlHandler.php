@@ -159,8 +159,8 @@ class Ethna_UrlHandler
                     }
                 }
 
-                // urlencode (url (pre|suf)fixes need not to be encoded.)
-                $ext_param = urlencode($ext_param);
+                // rawurlencode (url (pre|suf)fixes need not to be encoded.)
+                $ext_param = rawurlencode($ext_param);
 
                 // add url (pre|suf)fix
                 if (isset($value['url_prefix']) && $value['url_prefix'] != "") {
@@ -347,7 +347,7 @@ class Ethna_UrlHandler
             return $http_vars;
         }
         $key = sprintf('action_%s', $action);
-        $http_vars[$key] = true;
+        $http_vars[$key] = 'true';
         return $http_vars;
     }
 
