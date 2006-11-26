@@ -177,13 +177,13 @@ class Ethna_Config
      */
     function _setConfigValue($fp, $key, $value, $level)
     {
-        fputs($fp, sprintf("%s'%s' => ", str_repeat("\t", $level+1), $key));
+        fputs($fp, sprintf("%s'%s' => ", str_repeat("    ", $level+1), $key));
         if (is_array($value)) {
             fputs($fp, sprintf("array(\n"));
             foreach ($value as $k => $v) {
                 $this->_setConfigValue($fp, $k, $v, $level+1);
             }
-            fputs($fp, sprintf("%s),\n", str_repeat("\t", $level+1)));
+            fputs($fp, sprintf("%s),\n", str_repeat("    ", $level+1)));
         } else {
             fputs($fp, sprintf("'%s',\n", $value));
         }
