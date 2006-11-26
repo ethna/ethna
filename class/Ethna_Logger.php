@@ -29,6 +29,7 @@ define('LOG_ECHO', 1 << 17);
  */
 class Ethna_Logger extends Ethna_AppManager
 {
+    // {{{ properties
     /**#@+
      *  @access private
      */
@@ -98,7 +99,9 @@ class Ethna_Logger extends Ethna_AppManager
     var $log_stack = array();
 
     /**#@-*/
+    // }}}
     
+    // {{{ Ethna_Logger
     /**
      *  Ethna_Loggerクラスのコンストラクタ
      *
@@ -118,51 +121,84 @@ class Ethna_Logger extends Ethna_AppManager
             }
         }
 
+        $config_log = $config->get('log');
+
         // ログファシリティ
-        $this->facility = $this->_parseLogFacility($config->get('log_facility'));
+        if (is_array($config_log)) {
+            $this->facility = array_keys($config_log);
+        } else {
+            $this->facility = $this->_parseLogFacility($config->get('log_facility'));
+        }
 
         foreach ($this->facility as $f) {
             // ログレベル
-            $level = $this->_parseLogLevel($config->get("log_level_$f"));
-            if (is_null($level)) {
-                $level = $this->_parseLogLevel($config->get("log_level"));
+            if (isset($config_log[$f]['level'])) {
+                $this->level[$f] = $this->_parseLogLevel($config_log[$f]['level']);
+            } else if (($level = $config->get("log_level_$f")) !== null) {
+                $this->level[$f] = $this->_parseLogLevel($level);
+            } else if (($level = $config->get("log_level")) !== null) {
+                $this->level[$f] = $this->_parseLogLevel($level);
+            } else {
+                $this->level[$f] = LOG_WARNING;
             }
-            if (is_null($level)) {
-                $level = LOG_WARNING;
-            }
-            $this->level[$f] = $level;
 
-            // ログオプション
-            $option = $this->_parseLogOption($config->get("log_option_$f"));
-            if (is_null($option)) {
-                $option = $this->_parseLogOption($config->get("log_option"));
+            // メッセージフィルタ(filter_do)
+            if (isset($config_log[$f]['filter_do'])) {
+                $this->message_filter_do[$f] = $config_log[$f]['filter_do'];
+            } else if (($filter = $config->get("log_filter_do_$f")) !== null) {
+                $this->message_filter_do[$f] = $filter;
+            } else if (($filter = $config->get("log_filter_do")) !== null) {
+                $this->message_filter_do[$f] = $filter;
+            } else {
+                $this->message_filter_do[$f] = '';
             }
-            $this->option[$f] = $option;
 
-            // メッセージフィルタ
-            $message_filter_do = $config->get("log_filter_do_$f");
-            if (is_null($message_filter_do)) {
-                $message_filter_do = $config->get("log_filter_do");
+            // メッセージフィルタ(filter_ignore)
+            if (isset($config_log[$f]['filter_ignore'])) {
+                $this->message_filter_ignore[$f] = $config_log[$f]['filter_ignore'];
+            } else if (($filter = $config->get("log_filter_ignore_$f")) !== null) {
+                $this->message_filter_ignore[$f] = $filter;
+            } else if (($filter = $config->get("log_filter_ignore")) !== null) {
+                $this->message_filter_ignore[$f] = $filter;
+            } else {
+                $this->message_filter_ignore[$f] = '';
             }
-            $this->message_filter_do[$f] = $message_filter_do;
 
-            $message_filter_ignore = $config->get("log_filter_ignore_$f");
-            if (is_null($message_filter_ignore)) {
-                $message_filter_ignore = $config->get("log_filter_ignore");
+            // そのたオプション (unsetはせずにそのまま渡す)
+            if (isset($config_log[$f])) {
+                $this->option[$f] = $config_log[$f];
+            } else {
+                $this->option[$f] = array();
             }
-            $this->message_filter_ignore[$f] = $message_filter_ignore;
+
+            // 'option' によるオプション指定 (for B.C.)
+            if (isset($config_log[$f]['option'])) {
+                $option = $this->_parseLogOption($config_log[$f]['option']);
+            } else if (($option = $config->get("log_option_$f")) !== null) {
+                $option = $this->_parseLogOption($option);
+            } else if (($option = $config->get("log_option")) !== null) {
+                $option = $this->_parseLogOption($option);
+            }
+            if ($option !== null) {
+                $this->option[$f] = array_merge($this->option[$f], $option);
+            }
         }
 
         // アラートオプション
-        $this->alert_level = $this->_parseLogLevel($config->get('log_alert_level'));
-        $this->alert_mailaddress = preg_split('/\s*,\s*/', $config->get('log_alert_mailaddress'));
+        $this->alert_level =
+            $this->_parseLogLevel($config->get('log_alert_level'));
+        $this->alert_mailaddress
+            = preg_split('/\s*,\s*/', $config->get('log_alert_mailaddress'));
     }
+    // }}}
 
+    // {{{ getLogFacility
     /**
      *  ログファシリティを取得する
      *
      *  @access public
-     *  @return mixed   ログファシリティ(ファシリティが1つ以下ならscalar、2つ以上なら配列を返す for B.C.)
+     *  @return mixed   ログファシリティ(ファシリティが1つ以下ならscalar、
+     *                  2つ以上なら配列を返す for B.C.)
      */
     function getLogFacility()
     {
@@ -175,7 +211,9 @@ class Ethna_Logger extends Ethna_AppManager
         }
         return $this->facility;
     }
+    // }}}
 
+    // {{{ errorLevelToLogLevel
     /**
      *  PHPエラーレベルをログレベルに変換する
      *
@@ -199,7 +237,9 @@ class Ethna_Logger extends Ethna_AppManager
         }
         return array($level, $code);
     }
+    // }}}
 
+    // {{{ begin
     /**
      *  ログ出力を開始する
      *
@@ -212,7 +252,8 @@ class Ethna_Logger extends Ethna_AppManager
             $this->writer[$f] =& $this->_getLogWriter($this->option[$f], $f);
             if (Ethna::isError($this->writer[$f])) {
                 // use default
-                $this->writer[$f] =& $this->_getLogWriter($this->option[$f], "default");
+                $this->writer[$f] =& $this->_getLogWriter($this->option[$f],
+                                                          "default");
             }
         }
 
@@ -234,7 +275,9 @@ class Ethna_Logger extends Ethna_AppManager
             }
         }
     }
+    // }}}
 
+    // {{{ log
     /**
      *  ログを出力する
      *
@@ -258,7 +301,8 @@ class Ethna_Logger extends Ethna_AppManager
             // ログメッセージフィルタ(レベルフィルタに優先する)
             $r = $this->_evalMessageMask($this->message_filter_do[$key], $message);
             if (is_null($r)) {
-                $r = $this->_evalMessageMask($this->message_filter_ignore[$key], $message);
+                $r = $this->_evalMessageMask($this->message_filter_ignore[$key],
+                                             $message);
                 if ($r) {
                     continue;
                 }
@@ -285,7 +329,9 @@ class Ethna_Logger extends Ethna_AppManager
             }
         }
     }
+    // }}}
 
+    // {{{ end
     /**
      *  ログ出力を終了する
      *
@@ -299,7 +345,9 @@ class Ethna_Logger extends Ethna_AppManager
 
         $this->is_begin = false;
     }
+    // }}}
 
+    // {{{ _getLogWriter
     /**
      *  LogWriterオブジェクトを取得する
      *
@@ -331,7 +379,8 @@ class Ethna_Logger extends Ethna_AppManager
         }
 
         $plugin_manager =& $this->controller->getPlugin();
-        $plugin_object = $plugin_manager->getPlugin('Logwriter', ucfirst(strtolower($plugin)));
+        $plugin_object = $plugin_manager->getPlugin('Logwriter',
+                                                    ucfirst(strtolower($plugin)));
         if (Ethna::isError($plugin_object)) {
             return $plugin_object;
         }
@@ -346,39 +395,16 @@ class Ethna_Logger extends Ethna_AppManager
 
         return $plugin_object;
     }
+    // }}}
 
-    /**
-     *  ログオプション(設定ファイル値)を解析する
-     *
-     *  @access private
-     *  @param  string  $string ログオプション(設定ファイル値)
-     *  @return array   解析された設定ファイル値(アラート通知メールアドレス, アラート対象ログレベル, ログオプション)
-     */
-    function _parseLogOption($string)
-    {
-        if (is_null($string)) {
-            return null;
-        }
-
-        $option = array();
-        $elts = preg_split('/\s*,\s*/', $string);
-        foreach ($elts as $elt) {
-            if (preg_match('/^(.*?)\s*:\s*(.*)/', $elt, $match)) {
-                $option[$match[1]] = $match[2];
-            } else {
-                $option[$elt] = true;
-            }
-        }
-
-        return $option;
-    }
-
+    // {{{ _alert
     /**
      *  アラートメールを送信する
      *
      *  @access protected
      *  @param  string  $message    ログメッセージ
      *  @return int     0:正常終了
+     *  @deprecated
      */
     function _alert($message)
     {
@@ -388,24 +414,33 @@ class Ethna_Logger extends Ethna_AppManager
         $header = "Mime-Version: 1.0\n";
         $header .= "Content-Type: text/plain; charset=ISO-2022-JP\n";
         $header .= "X-Alert: " . $this->controller->getAppId();
-        $subject = sprintf("[%s] alert (%s%s)\n", $this->controller->getAppId(), substr($message, 0, 12), strlen($message) > 12 ? "..." : "");
+        $subject = sprintf("[%s] alert (%s%s)\n",
+                           $this->controller->getAppId(),
+                           substr($message, 0, 12),
+                           strlen($message) > 12 ? "..." : "");
         
         // 本文
         $mail = sprintf("--- [log message] ---\n%s\n\n", $message);
         if (function_exists("debug_backtrace")) {
             $bt = debug_backtrace();
-            $mail .= sprintf("--- [backtrace] ---\n%s\n", Ethna_Util::FormatBacktrace($bt));
+            $mail .= sprintf("--- [backtrace] ---\n%s\n",
+                             Ethna_Util::FormatBacktrace($bt));
         }
 
         foreach ($this->alert_mailaddress as $mailaddress) {
-            mail($mailaddress, $subject, mb_convert_encoding($mail, "ISO-2022-JP"), $header);
+            mail($mailaddress,
+                 $subject,
+                 mb_convert_encoding($mail, "ISO-2022-JP"),
+                 $header);
         }
 
         set_error_handler("ethna_error_handler");
 
         return 0;
     }
+    // }}}
 
+    // {{{ _evalMessageMask
     /**
      *  ログメッセージのマスクチェックを行う
      *
@@ -424,7 +459,9 @@ class Ethna_Logger extends Ethna_AppManager
 
         return null;
     }
+    // }}}
 
+    // {{{ _evalLevelMask
     /**
      *  ログレベルのマスクチェックを行う
      *
@@ -450,7 +487,8 @@ class Ethna_Logger extends Ethna_AppManager
         }
 
         // 知らないレベルなら出力しない
-        if (isset($log_level_table[$src]) == false || isset($log_level_table[$dst]) == false) {
+        if (isset($log_level_table[$src]) == false
+            || isset($log_level_table[$dst]) == false) {
             return true;
         }
 
@@ -460,7 +498,40 @@ class Ethna_Logger extends Ethna_AppManager
 
         return true;
     }
+    // }}}
 
+    // {{{ _parseLogOption
+    /**
+     *  ログオプション(設定ファイル値)を解析する
+     *
+     *  @access private
+     *  @param  mixed   $option ログオプション(設定ファイル値)
+     *  @return array   解析された設定ファイル値(アラート通知メールアドレス,
+     *                  アラート対象ログレベル, ログオプション)
+     */
+    function _parseLogOption($option)
+    {
+        if (is_null($option)) {
+            return null;
+        } else if (is_array($option)) {
+            return $option;
+        }
+
+        $ret = array();
+        $elts = preg_split('/\s*,\s*/', $option);
+        foreach ($elts as $elt) {
+            if (preg_match('/^(.*?)\s*:\s*(.*)/', $elt, $match)) {
+                $ret[$match[1]] = $match[2];
+            } else {
+                $ret[$elt] = true;
+            }
+        }
+
+        return $ret;
+    }
+    // }}}
+
+    // {{{ _parseLogFacility
     /**
      *  ログファシリティ(設定ファイル値)を解析する
      *
@@ -473,7 +544,9 @@ class Ethna_Logger extends Ethna_AppManager
         $facility_list = preg_split('/\s*,\s*/', $facility, -1, PREG_SPLIT_NO_EMPTY);
         return $facility_list;
     }
+    // }}}
 
+    // {{{ _parseLogLevel
     /**
      *  ログレベル(設定ファイル値)を解析する
      *
@@ -490,6 +563,7 @@ class Ethna_Logger extends Ethna_AppManager
 
         return constant($constant_name);
     }
+    // }}}
 }
 // }}}
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Util_Test.php
+ *  Ethna_Config_Test.php
  */
 
 /**

@@ -32,17 +32,26 @@ $config = array(
     'log_facility'          => 'echo',
     'log_level'             => 'warning',
     'log_option'            => 'pid,function,pos',
-    'log_alert_level'       => 'crit',
-    'log_alert_mailaddress' => '',
     'log_filter_do'         => '',
     'log_filter_ignore'     => 'Undefined index.*%%.*tpl',
     // sample-2: mulitple facility
-    // 'log_facility'    => 'echo,file',
-    // 'log_level'       => 'warning',
-    // 'log_level_echo'  => 'notice',
-    // 'log_option'      => 'pid,function,pos',
-    // 'log_option_file' => 'dir:/tmp',
-    // ...
+    //'log' => array(
+    //    'echo'  => array(
+    //        'level'         => 'warning',
+    //    ),
+    //    'file'  => array(
+    //        'level'         => 'notice',
+    //        'file'          => '/var/log/{$project_prefix}.log',
+    //        'mode'          => 0666,
+    //    ),
+    //    'alertmail'  => array(
+    //        'level'         => 'err',
+    //        'mailaddress'   => 'alert@ml.example.jp',
+    //    ),
+    //),
+    //'log_option'            => 'pid,function,pos',
+    //'log_filter_do'         => '',
+    //'log_filter_ignore'     => 'Undefined index.*%%.*tpl',
 
     // memcache
     // sample-1: single (or default) memcache
