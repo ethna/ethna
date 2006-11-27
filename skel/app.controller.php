@@ -178,20 +178,6 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
-     *  @var    array   マネージャ一覧
-     */
-    var $manager = array(
-        /*
-         *  TODO: ここにアプリケーションのマネージャオブジェクト一覧を
-         *  記述してください
-         *
-         *  記述例：
-         *
-         *  'um'    => 'User',
-         */
-    );
-
-    /**
      *  @var    array   smarty modifier定義
      */
     var $smarty_modifier_plugin = array(
@@ -270,17 +256,5 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**#@-*/
-
-    /**
-     *  遷移時のデフォルトマクロを設定する
-     *
-     *  @access protected
-     *  @param  object  Ethna_Renderer  レンダラオブジェクト
-     *  @obsolete
-     */
-    function _setDefaultTemplateEngine(&$renderer)
-    {
-        // 可能であればビューの基底クラスを利用してください
-    }
 }
 ?>
