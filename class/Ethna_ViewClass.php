@@ -83,7 +83,7 @@ class Ethna_ViewClass
         $this->config =& $this->backend->getConfig();
         $this->i18n =& $this->backend->getI18N();
         $this->logger =& $this->backend->getLogger();
-        $this->plugin =& $controller->getPlugin();
+        $this->plugin =& $this->backend->getPlugin();
 
         $this->action_error =& $this->backend->getActionError();
         $this->ae =& $this->action_error;
