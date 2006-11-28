@@ -8,10 +8,10 @@
  *  @package    Ethna
  *  @version    $Id$
  */
-include_once('PEAR.php');
-include_once('Console/Getopt.php');
-include_once('PEAR/PackageFileManager2.php');
-include_once('PEAR/PackageFileManager/File.php');   // avoid bugs
+require_once 'PEAR.php';
+require_once 'Console/Getopt.php';
+require_once 'PEAR/PackageFileManager2.php';
+require_once 'PEAR/PackageFileManager/File.php';   // avoid bugs
 
 // args
 $getopt =& new Console_Getopt();

@@ -18,11 +18,11 @@ $app = BASE . "/app";
 $lib = BASE . "/lib";
 
 /** Ethna関連クラスのインクルード */
-require_once('Ethna/Ethna.php');
+require_once 'Ethna/Ethna.php';
 
 /** SimpleTestのインクルード */
-require_once('simpletest/unit_tester.php');
-require_once('simpletest/reporter.php');
+require_once 'simpletest/unit_tester.php';
+require_once 'simpletest/reporter.php';
 require_once 'Ethna/test/TextDetailReporter.php';
 require_once 'Ethna/test/Ethna_UnitTestBase.php';
 

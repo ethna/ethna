@@ -64,7 +64,7 @@ class Ethna_DB_ADOdb_Test extends Ethna_UnitTestBase
 
     function testRequire()
     {
-        include_once 'Ethna/class/DB/Ethna_DB_ADOdb.php';
+        require_once 'Ethna/class/DB/Ethna_DB_ADOdb.php';
     }
 
     function testMakeInstance()

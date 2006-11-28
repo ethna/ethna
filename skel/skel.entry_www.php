@@ -6,7 +6,7 @@
  *  @package    {$project_id}
  *  @version    $Id$
  */
-include_once('{$dir_app}/{$project_id}_Controller.php');
+require_once '{$dir_app}/{$project_id}_Controller.php';
 
 {$project_id}_Controller::main('{$project_id}_Controller', '{$action_name}');
 ?>

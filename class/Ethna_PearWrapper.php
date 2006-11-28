@@ -9,10 +9,10 @@
  *  @version    $Id$
  */
 
-include_once('PEAR.php');
-include_once('PEAR/Config.php');
-include_once('PEAR/Command.php');
-include_once('PEAR/PackageFile.php');
+require_once 'PEAR.php';
+require_once 'PEAR/Config.php';
+require_once 'PEAR/Command.php';
+require_once 'PEAR/PackageFile.php';
 
 // {{{ Ethna_PearWrapper
 /**

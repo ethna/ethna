@@ -149,7 +149,7 @@ class Ethna_Handle
             return Ethna::raiseError("no such file $controller_file");
         }
 
-        include_once($controller_file);
+        include_once $controller_file;
         if (class_exists($class) == false) {
             return Ethna::raiseError("no such class $class");
         }

@@ -10,7 +10,7 @@
  */
 
 /** Ethna depends on PEAR */
-include_once('PEAR.php');
+require_once 'PEAR.php';
 
 if (!defined('PATH_SEPARATOR')) {
     if (OS_WINDOWS) {
@@ -37,41 +37,41 @@ define('ETHNA_VERSION', '2.3.0-dev');
 /** Ethnaベースディレクトリ定義 */
 define('ETHNA_BASE', dirname(__FILE__));
 
-include_once(ETHNA_BASE . '/class/Ethna_ActionClass.php');
-include_once(ETHNA_BASE . '/class/Ethna_ActionError.php');
-include_once(ETHNA_BASE . '/class/Ethna_ActionForm.php');
-include_once(ETHNA_BASE . '/class/Ethna_AppManager.php');
-include_once(ETHNA_BASE . '/class/Ethna_AppObject.php');
-include_once(ETHNA_BASE . '/class/Ethna_AppSQL.php');
-include_once(ETHNA_BASE . '/class/Ethna_AppSearchObject.php');
-include_once(ETHNA_BASE . '/class/Ethna_Backend.php');
-include_once(ETHNA_BASE . '/class/Ethna_CacheManager.php');
-include_once(ETHNA_BASE . '/class/Ethna_Config.php');
-include_once(ETHNA_BASE . '/class/Ethna_Controller.php');
-include_once(ETHNA_BASE . '/class/Ethna_ClassFactory.php');
-include_once(ETHNA_BASE . '/class/Ethna_DB.php');
-include_once(ETHNA_BASE . '/class/Ethna_Error.php');
-include_once(ETHNA_BASE . '/class/Ethna_Filter.php');
-include_once(ETHNA_BASE . '/class/Ethna_Handle.php');
-include_once(ETHNA_BASE . '/class/Ethna_I18N.php');
-include_once(ETHNA_BASE . '/class/Ethna_Logger.php');
-include_once(ETHNA_BASE . '/class/Ethna_MailSender.php');
-include_once(ETHNA_BASE . '/class/Ethna_Session.php');
-include_once(ETHNA_BASE . '/class/Ethna_Generator.php');
-include_once(ETHNA_BASE . '/class/Ethna_UrlHandler.php');
-include_once(ETHNA_BASE . '/class/Ethna_Util.php');
-include_once(ETHNA_BASE . '/class/Ethna_ViewClass.php');
-include_once(ETHNA_BASE . '/class/View/Ethna_View_List.php');
-include_once(ETHNA_BASE . '/class/Ethna_Plugin.php');
-include_once(ETHNA_BASE . '/class/Ethna_Renderer.php');
-include_once(ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php');
+require_once ETHNA_BASE . '/class/Ethna_ActionClass.php';
+require_once ETHNA_BASE . '/class/Ethna_ActionError.php';
+require_once ETHNA_BASE . '/class/Ethna_ActionForm.php';
+require_once ETHNA_BASE . '/class/Ethna_AppManager.php';
+require_once ETHNA_BASE . '/class/Ethna_AppObject.php';
+require_once ETHNA_BASE . '/class/Ethna_AppSQL.php';
+require_once ETHNA_BASE . '/class/Ethna_AppSearchObject.php';
+require_once ETHNA_BASE . '/class/Ethna_Backend.php';
+require_once ETHNA_BASE . '/class/Ethna_CacheManager.php';
+require_once ETHNA_BASE . '/class/Ethna_Config.php';
+require_once ETHNA_BASE . '/class/Ethna_Controller.php';
+require_once ETHNA_BASE . '/class/Ethna_ClassFactory.php';
+require_once ETHNA_BASE . '/class/Ethna_DB.php';
+require_once ETHNA_BASE . '/class/Ethna_Error.php';
+require_once ETHNA_BASE . '/class/Ethna_Filter.php';
+require_once ETHNA_BASE . '/class/Ethna_Handle.php';
+require_once ETHNA_BASE . '/class/Ethna_I18N.php';
+require_once ETHNA_BASE . '/class/Ethna_Logger.php';
+require_once ETHNA_BASE . '/class/Ethna_MailSender.php';
+require_once ETHNA_BASE . '/class/Ethna_Session.php';
+require_once ETHNA_BASE . '/class/Ethna_Generator.php';
+require_once ETHNA_BASE . '/class/Ethna_UrlHandler.php';
+require_once ETHNA_BASE . '/class/Ethna_Util.php';
+require_once ETHNA_BASE . '/class/Ethna_ViewClass.php';
+require_once ETHNA_BASE . '/class/View/Ethna_View_List.php';
+require_once ETHNA_BASE . '/class/Ethna_Plugin.php';
+require_once ETHNA_BASE . '/class/Ethna_Renderer.php';
+require_once ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php';
 
 if (extension_loaded('soap')) {
-    include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_ActionForm.php');
-    include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Gateway.php');
-    include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_GatewayGenerator.php');
-    include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Util.php');
-    include_once(ETHNA_BASE . '/class/SOAP/Ethna_SOAP_WsdlGenerator.php');
+    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_ActionForm.php';
+    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Gateway.php';
+    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_GatewayGenerator.php';
+    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Util.php';
+    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_WsdlGenerator.php';
 }
 
 /** クライアント言語定義: 英語 */

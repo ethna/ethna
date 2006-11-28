@@ -314,7 +314,7 @@ class Ethna_ClassFactory
     {
         $file = sprintf("%s.%s", $class_name, $this->controller->getExt('php'));
         if (file_exists_ex($file)) {
-            include_once($file);
+            include_once $file;
             return true;
         }
 
@@ -327,7 +327,7 @@ class Ethna_ClassFactory
                             implode(DIRECTORY_SEPARATOR, $tmp),
                             $this->controller->getExt('php'));
             if (file_exists_ex($file)) {
-                include_once($file);
+                include_once $file;
                 return true;
             }
 
@@ -337,7 +337,7 @@ class Ethna_ClassFactory
                             str_replace('_', DIRECTORY_SEPARATOR, $match[2]),
                             $this->controller->getExt('php'));
             if (file_exists_ex($file)) {
-                include_once($file);
+                include_once $file;
                 return true;
             }
 
@@ -348,7 +348,7 @@ class Ethna_ClassFactory
                             implode(DIRECTORY_SEPARATOR, $tmp),
                             $this->controller->getExt('php'));
             if (file_exists_ex($file)) {
-                include_once($file);
+                include_once $file;
                 return true;
             }
 
@@ -358,7 +358,7 @@ class Ethna_ClassFactory
                             str_replace('_', DIRECTORY_SEPARATOR, $class_name),
                             $this->controller->getExt('php'));
             if (file_exists_ex($file)) {
-                include_once($file);
+                include_once $file;
                 return true;
             }
         }

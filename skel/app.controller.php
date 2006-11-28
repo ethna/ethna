@@ -17,11 +17,11 @@ ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . implode(PATH_
 
 
 /** アプリケーションライブラリのインクルード */
-include_once('Ethna/Ethna.php');
-include_once('{$project_id}_Error.php');
-include_once('{$project_id}_ActionClass.php');
-include_once('{$project_id}_ActionForm.php');
-include_once('{$project_id}_ViewClass.php');
+require_once 'Ethna/Ethna.php';
+require_once '{$project_id}_Error.php';
+require_once '{$project_id}_ActionClass.php';
+require_once '{$project_id}_ActionForm.php';
+require_once '{$project_id}_ViewClass.php';
 
 /**
  *  {$project_id}アプリケーションのコントローラ定義

@@ -79,7 +79,7 @@ class Ethna_Renderer
 
         // テンプレートの有無のチェック
         if (is_readable($this->template_dir . $this->template)) {
-            require_once($this->template_dir . $this->template);
+            include_once $this->template_dir . $this->template;
         } else {
             return Ethna::raiseWarning("template is not found: " . $this->template);
         }

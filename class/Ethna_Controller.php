@@ -1249,7 +1249,7 @@ class Ethna_Controller
             //バージョン0.2.0以前のフィルタ群から探す
             $file = sprintf("%s/%s.%s", $this->getDirectory('filter'), $filter,$this->getExt('php'));
             if (file_exists($file)) {
-                include_once($file);
+                include_once $file;
                 if (class_exists($filter)) {
                     $this->filter_chain[] =& new $filter($this);
                 }
@@ -1810,7 +1810,7 @@ class Ethna_Controller
             if (file_exists($tmp_path) == false) {
                 $this->logger->log(LOG_WARNING, 'class_path file not found [%s] -> try default', $tmp_path);
             } else {
-                include_once($tmp_path);
+                include_once $tmp_path;
                 $class_path = $tmp_path;
             }
         }
@@ -1819,7 +1819,7 @@ class Ethna_Controller
         if (is_null($class_path)) {
             $class_path = $this->getDefaultActionPath($action_name);
             if (file_exists($action_dir . $class_path)) {
-                include_once($action_dir . $class_path);
+                include_once $action_dir . $class_path;
             } else {
                 $this->logger->log(LOG_DEBUG, 'default action file not found [%s] -> try all files', $class_path);
                 $class_path = null;
@@ -1846,7 +1846,7 @@ class Ethna_Controller
             if (file_exists($tmp_path) == false) {
                 $this->logger->log(LOG_WARNING, 'form_path file not found [%s] -> try default', $tmp_path);
             } else {
-                include_once($tmp_path);
+                include_once $tmp_path;
                 $form_path = $tmp_path;
             }
         }
@@ -1858,7 +1858,7 @@ class Ethna_Controller
                 return;
             }
             if (file_exists($action_dir . $form_path)) {
-                include_once($action_dir . $form_path);
+                include_once $action_dir . $form_path;
             } else {
                 $this->logger->log(LOG_DEBUG, 'default form file not found [%s] -> maybe falling back to default form class', $form_path);
             }
@@ -1889,7 +1889,7 @@ class Ethna_Controller
             if (file_exists($tmp_path) == false) {
                 $this->logger->log(LOG_WARNING, 'view_path file not found [%s] -> try default', $tmp_path);
             } else {
-                include_once($tmp_path);
+                include_once $tmp_path;
                 return;
             }
         }
@@ -1897,7 +1897,7 @@ class Ethna_Controller
         // デフォルトチェック
         $view_path = $this->getDefaultViewPath($forward_name);
         if (file_exists($view_dir . $view_path)) {
-            include_once($view_dir . $view_path);
+            include_once $view_dir . $view_path;
             return;
         } else {
             $this->logger->log(LOG_DEBUG, 'default view file not found [%s]', $view_path);
@@ -1928,7 +1928,7 @@ class Ethna_Controller
                 if (substr($file, -$ext_len, $ext_len) != $ext) {
                     continue;
                 }
-                include_once("$dir/$file");
+                include_once $dir . '/' . $file;
             }
         }
         closedir($dh);
@@ -1998,11 +1998,11 @@ class Ethna_Controller
             return;
         }
 
-        include_once(ETHNA_BASE . '/class/Ethna_InfoManager.php');
+        require_once ETHNA_BASE . '/class/Ethna_InfoManager.php';
         
         // see if we have simpletest
         if (file_exists_ex('simpletest/unit_tester.php', true)) {
-            include_once(ETHNA_BASE . '/class/Ethna_UnitTestManager.php');
+            require_once ETHNA_BASE . '/class/Ethna_UnitTestManager.php';
         }
 
         // action設定

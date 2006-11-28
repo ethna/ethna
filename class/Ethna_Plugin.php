@@ -269,7 +269,7 @@ class Ethna_Plugin
     }
 
     /**
-     *  プラグインのソースを include_once する
+     *  プラグインのソースを include する
      *
      *  @access private
      *  @param  string  $class  クラス名
@@ -281,16 +281,18 @@ class Ethna_Plugin
     function &_includePluginSrc($class, $dir, $file, $parent = false)
     {
         $true = true;
+        $file = $dir . '/' . $file;
 
-        if (file_exists("{$dir}/{$file}") === false) {
+        if (file_exists($file) === false) {
             if ($parent === false) {
-                return Ethna::raiseWarning('plugin file is not found: [%s]', E_PLUGIN_NOTFOUND, "{$dir}/{$file}");
+                return Ethna::raiseWarning('plugin file is not found: [%s]',
+                                           E_PLUGIN_NOTFOUND, $file);
             } else {
                 return $true;
             }
         }
 
-        include_once "{$dir}/{$file}";
+        include_once $file;
 
         if (class_exists($class) === false) {
             if ($parent === false) {
@@ -319,7 +321,8 @@ class Ethna_Plugin
         foreach ($this->appid_list as $appid) {
             list($class, $dir, $file) = $this->getPluginNaming($type, $name, $appid);
             if (file_exists("{$dir}/{$file}")) {
-                $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s]', "{$dir}/{$file}");
+                $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s]',
+                                   "{$dir}/{$file}");
                 if (isset($this->src_registry[$type]) == false) {
                     $this->src_registry[$type] = array();
                 }

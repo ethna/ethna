@@ -60,7 +60,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
                 unset($action_class_list[$key]);
                 continue;
             }
-            @include_once "$action_dir$action_path";
+            include_once $action_dir . $action_path;
             $action_class = $this->ctl->getDefaultActionClass($action_name, false).'_TestCase';
             if (!class_exists($action_class)) {
                 unset($action_class_list[$key]);
@@ -90,7 +90,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
                 unset($view_class_list[$key]);
                 continue;
             }
-            @include_once "$view_dir$view_path";
+            include_once $view_dir . $view_path;
             $view_class = $this->ctl->getDefaultViewClass($view_name, false).'_TestCase';
             if (!class_exists($view_class)) {
                 unset($view_class_list[$key]);
@@ -132,7 +132,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
         // °ìÈÌ
         foreach ($this->testcase as $class_name => $file_name) {
             $dir = $this->ctl->getBasedir().'/';
-            @include_once "$dir$file_name";
+            include_once $dir . $file_name;
             $testcase_name = $class_name.'_TestCase';
             $test->addTestCase(new $testcase_name($this->ctl));
         }

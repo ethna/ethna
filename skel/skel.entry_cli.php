@@ -7,7 +7,7 @@
  *  @version    $Id$
  */
 chdir(dirname(__FILE__));
-include_once('{$dir_app}/{$project_id}_Controller.php');
+require_once '{$dir_app}/{$project_id}_Controller.php';
 
 ini_set('max_execution_time', 0);
 

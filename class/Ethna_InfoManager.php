@@ -185,7 +185,7 @@ class Ethna_InfoManager extends Ethna_AppManager
             $key = substr($file, $prefix_len);
             
             // キャッシュチェック
-            include_once($file);
+            include_once $file;
             if ($this->cache_class_list[$key]['.mtime'] >= filemtime($file)) {
                 $class_list = $this->cache_class_list[$key];
             } else {

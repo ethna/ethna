@@ -44,10 +44,10 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
         $this->af->setApp('ethna_version', ETHNA_VERSION);
 
         // include
-        $inc = sprintf("%s/%s_UnitTestManager.php",
+        $file = sprintf("%s/%s_UnitTestManager.php",
             $ctl->getDirectory('app'),
             $ctl->getAppId());
-        @include_once "{$inc}";
+        include_once $file;
 
         // run
         $r = sprintf("%s_UnitTestManager", $ctl->getAppId());

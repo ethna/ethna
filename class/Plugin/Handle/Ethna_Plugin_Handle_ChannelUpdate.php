@@ -9,7 +9,7 @@
  *  @version    $Id$
  */
 
-include_once(ETHNA_BASE . '/class/Ethna_PearWrapper.php');
+require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
 
 // {{{ Ethna_Plugin_Handle_ChannelUpdate
 /**

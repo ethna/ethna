@@ -30,14 +30,9 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        include_once 'PEAR/PackageFileManager.php';
-        include_once 'PEAR/PackageFileaManager2.php';
-        include_once 'PEAR/PackageFailManager/File.php';
-        if (class_exists('PEAR_PackageFileManager2') === false) {
-            return Ethna::raiseError(
-                'make-plugin-package requires PEAR_PackageFileManager, please install.'
-            );
-        }
+        require_once 'PEAR/PackageFileManager.php';
+        require_once 'PEAR/PackageFileManager2.php';
+        require_once 'PEAR/PackageFileManager/File.php';
 
         // °ú¿ô¤ÎÉ¾²Á
         $args =& $this->_parseArgList();

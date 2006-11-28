@@ -13,8 +13,8 @@ while (ob_get_level()) {
     ob_end_clean();
 }
 
-include_once('PEAR.php');
-include_once('Console/Getopt.php');
+require_once 'PEAR.php';
+require_once 'Console/Getopt.php';
 
 // setup path seprator
 if (!defined('PATH_SEPARATOR')) {
@@ -29,7 +29,7 @@ if (!defined('PATH_SEPARATOR')) {
 $base = dirname(dirname(dirname(__FILE__)));
 ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . "$base");
 
-include_once('Ethna/Ethna.php');
+require_once 'Ethna/Ethna.php';
 
 // fetch arguments
 $getopt =& new Console_Getopt();
