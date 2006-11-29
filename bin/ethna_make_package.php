@@ -41,7 +41,7 @@ $package = 'Ethna';
 
 // x.0.y -> beta
 // x.1.y -> stable
-$major_version = "2.2";
+$major_version = "2.3";
 $minor_version = "0";
 
 if ($state == 'alpha' || $state == 'beta') {
