@@ -124,9 +124,8 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
 
         // 任意に $packagexml->doSomething() するための callback
         $setting['master']['callback'] = array(
-            // TODO: 2.3.0リリース
-            //'addPackageDepWithChannel'
-            //    => array('optional', 'ethna', 'pear.ethna.jp', '2.3.0'),
+            'addPackageDepWithChannel'
+                => array('optional', 'ethna', 'pear.ethna.jp', '2.3.0'),
             );
         $setting['local']['callback'] = array(
             // local 用のパッケージを master にインストールさせないための conflict
