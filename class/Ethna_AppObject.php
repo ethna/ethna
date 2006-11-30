@@ -1546,7 +1546,9 @@ class Ethna_AppObject
             $primary  = in_array('primary_key', $field_def['flags']);
             $seq      = in_array('sequence',    $field_def['flags']);
             $required = in_array('not_null',    $field_def['flags']);
-            $key      = in_array('key',         $field_def['flags']);
+            $key      = in_array('primary_key', $field_def['flags'])
+                        || in_array('multiple_key', $field_def['flags'])
+                        || in_array('unique_key', $field_def['flags']);
 
             switch ($field_def['type']) {
             case 'int':
