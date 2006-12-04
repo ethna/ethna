@@ -506,7 +506,7 @@ class Ethna_ViewClass
             $input_tag = $this->_getFormInput_Html('input', $params);
 
             // <label for="id">..</label>
-            $ret[] = $this->_getFormInput_Html('label', array('id' => $params['id']),
+            $ret[] = $this->_getFormInput_Html('label', array('for' => $params['id']),
                                                $input_tag . $value, false);
         }
 
@@ -670,7 +670,7 @@ class Ethna_ViewClass
             $input_tag = $this->_getFormInput_Html('input', $params);
 
             // <label for="id">..</label>
-            $ret[] = $this->_getFormInput_Html('label', array('id' => $params['id']),
+            $ret[] = $this->_getFormInput_Html('label', array('for' => $params['id']),
                                                $input_tag . $value, false);
         }
 

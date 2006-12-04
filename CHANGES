@@ -1,6 +1,15 @@
 * 変更点一覧
 
-** [current] 2.3.0
+** [current] 2.3.1-dev
+
+*** features
+
+*** bug fixes
+
+- Ethna_AppObjectで'key'の条件にunique_key, multiple_keyが漏れていたのを修正
+- Ethna_ViewClassで<label id="foo">となっていたのを<label for="foo">に修正
+
+** 2.3.0
 
 *** features
 

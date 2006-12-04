@@ -224,8 +224,8 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
         $params = array('separator' => "\n");
 
         $expected =<<<EOS
-<label id="chkbx_1"><input type="checkbox" name="chkbx[]" value="1" id="chkbx_1" />1</label>
-<label id="chkbx_2"><input type="checkbox" name="chkbx[]" value="2" id="chkbx_2" checked="checked" />2</label>
+<label for="chkbx_1"><input type="checkbox" name="chkbx[]" value="1" id="chkbx_1" />1</label>
+<label for="chkbx_2"><input type="checkbox" name="chkbx[]" value="2" id="chkbx_2" checked="checked" />2</label>
 EOS;
 
         // def の default 指定で int(2) に check
