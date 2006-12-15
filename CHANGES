@@ -6,6 +6,7 @@
 
 *** bug fixes
 
+- ethna.shでPHPのパスが指定されていなかったのを修正(ethna-users:0508)
 - Ethna_AppObjectで'key'の条件にunique_key, multiple_keyが漏れていたのを修正
 - Ethna_ViewClassで<label id="foo">となっていたのを<label for="foo">に修正
 

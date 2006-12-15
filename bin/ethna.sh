@@ -14,7 +14,7 @@ fi
 
 if (test -z "$PHP_COMMAND");
 then
-    export PHP_COMMAND=php
+    export PHP_COMMAND="@PHP-BIN@/php"
 fi
 
 if (test -z "$PHP_CLASSPATH");
