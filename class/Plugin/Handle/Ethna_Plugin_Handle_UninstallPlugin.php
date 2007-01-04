@@ -101,8 +101,7 @@ class Ethna_Plugin_Handle_UninstallPlugin extends Ethna_Plugin_Handle
 
         if ($target != 'master') {
             list(,, $ctype, $cname) = explode('_', $pkg_name, 4);
-            $generator =& new Ethna_Generator();
-            $r = $generator->remove('Plugin', $ctype, $cname, $basedir);
+            $r = Ethna_Generator::remove('Plugin', $basedir, $ctype, $cname);
             if (Ethna::isError($r)) {
                 return $r;
             }

@@ -141,8 +141,7 @@ class Ethna_Plugin_Handle_InstallPlugin extends Ethna_Plugin_Handle
 
         if ($target != 'master') {
             list(,, $ctype, $cname) = explode('_', $pkg_name, 4);
-            $generator =& new Ethna_Generator();
-            $r = $generator->generate('Plugin', $ctype, $cname, $basedir, true);
+            $r = Ethna_Generator::generate('Plugin', $basedir, $ctype, $cname, true);
             if (Ethna::isError($r)) {
                 return $r;
             }

@@ -28,7 +28,7 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
      *  @param  bool    $overwrite  上書きオプション
      *  @return bool    true:成功 false:失敗
      */
-    function generate($type, $name, $app_dir, $overwrite = false)
+    function generate($type, $name, $overwrite = false)
     {
         $appid = $this->ctl->getAppId();
         $plugin =& $this->ctl->getPlugin();
@@ -57,7 +57,7 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
      *  @param  string  $name       プラグインの$name
      *  @return bool    true:成功 false:失敗
      */
-    function remove($type, $name, $app_dir)
+    function remove($type, $name)
     {
         $appid = $this->ctl->getAppId();
         $plugin =& $this->ctl->getPlugin();

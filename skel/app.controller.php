@@ -10,7 +10,7 @@
 /** アプリケーションベースディレクトリ */
 define('BASE', dirname(dirname(__FILE__)));
 
-// include_pathの設定(アプリケーションディレクトリを追加)
+/** include_pathの設定(アプリケーションディレクトリを追加) */
 $app = BASE . "/app";
 $lib = BASE . "/lib";
 ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . implode(PATH_SEPARATOR, array($app, $lib)));

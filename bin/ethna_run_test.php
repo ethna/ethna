@@ -13,9 +13,8 @@
 /** アプリケーションベースディレクトリ */
 define('BASE', dirname(dirname(__FILE__)));
 
-// include_pathの設定(アプリケーションディレクトリを追加)
-$app = BASE . "/app";
-$lib = BASE . "/lib";
+/** include_pathの設定(このtest runnerがあるディレクトリを追加) */
+ini_set('include_path', dirname(BASE) . PATH_SEPARATOR . ini_get('include_path'));
 
 /** Ethna関連クラスのインクルード */
 require_once 'Ethna/Ethna.php';
