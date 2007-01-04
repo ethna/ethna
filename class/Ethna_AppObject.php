@@ -597,7 +597,7 @@ class Ethna_AppObject
      */
     function searchId($filter = null, $order = null, $offset = null, $count = null)
     {
-        if (is_null($filter) == false) {
+        if (is_null($offset) == false || is_null($count) == false) {
             $sql = $this->_getSQL_SearchLength($filter);
             $r =& $this->my_db_ro->query($sql);
             if (Ethna::isError($r)) {
@@ -650,7 +650,7 @@ class Ethna_AppObject
     function searchProp($keys = null, $filter = null, $order = null,
                         $offset = null, $count = null)
     {
-        if (is_null($filter) == false) {
+        if (is_null($offset) == false || is_null($count) == false) {
             $sql = $this->_getSQL_SearchLength($filter);
             $r =& $this->my_db_ro->query($sql);
             if (Ethna::isError($r)) {
