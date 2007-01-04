@@ -45,7 +45,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->engine->compile_id = md5($this->template_dir);
 
         // 一応がんばってみる
-        if (is_dir($this->engine->compile_dir) == false) {
+        if (is_dir($this->engine->compile_dir) === false) {
             Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
 
@@ -101,11 +101,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      */
     function perform($template = null)
     {
-        if ($template == null && $this->template == null) {
+        if ($template === null && $this->template === null) {
             return Ethna::raiseWarning('template is not defined');
         }
 
-        if ($template != null) {
+        if ($template !== null) {
             $this->template = $template;
         }
 
@@ -130,10 +130,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     {
         $property =& $this->engine->get_template_vars($name);
 
-        if ($property != NULL) {
+        if ($property !== null) {
             return $property;
         }
-        return NULL;
+        return null;
     }
 
     /**
@@ -203,45 +203,38 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      * 
      *  @param string $name　プラグイン名
      *  @param string $type プラグインタイプ
-     *  @param string $plugin プラグイン本体
+     *  @param mixed $plugin プラグイン本体
      * 
      *  @access public
      */
     function setPlugin($name, $type, $plugin) 
     {
         //プラグイン関数の有無をチェック
-        // is_callableでもいいが...少しパフォーマンスが悪いらしいので
-        if (is_array($plugin) === false) {
-            if (function_exists($plugin) === false) {
-                return Ethna::raiseWarning('Does not exists.');
-            }
-        } else {
-            if (method_exists($plugin[0], $plugin[1]) === false) {
-                return Ethna::raiseWarning('Does not exists.');
-            }        
+        if (is_callable($plugin) === false) {
+            return Ethna::raiseWarning('Does not exists.');
         }
 
         //プラグインの種類をチェック
         $register_method = 'register_' . $type;
-        if (!method_exists($this->engine, $register_method)) {
+        if (method_exists($this->engine, $register_method) === false) {
             return Ethna::raiseWarning('This plugin type does not exist');
         }
 
         // フィルタは名前なしで登録
-        if ($type == 'prefilter' || $type == 'postfilter' || $type == 'outputfilter') {
-            parent::setPlugin($name,$type,$plugin);
+        if ($type === 'prefilter' || $type === 'postfilter' || $type === 'outputfilter') {
+            parent::setPlugin($name, $type, $plugin);
             $this->engine->$register_method($plugin);
             return;
         }
         
         // プラグインの名前をチェック
-        if ($name == '') {
+        if ($name === '') {
             return Ethna::raiseWarning('Please set plugin name');
         }
        
         // プラグインを登録する
-        parent::setPlugin($name,$type,$plugin);
-        $this->engine->$register_method($name,$plugin);
+        parent::setPlugin($name, $type, $plugin);
+        $this->engine->$register_method($name, $plugin);
     }
 }
 // }}}
