@@ -91,7 +91,7 @@ class Ethna_AppObject
         $ctl =& $backend->getController();
 
         // DBオブジェクトの設定
-        $db_list =& $this->_getDBList();
+        $db_list = $this->_getDBList();
         if (Ethna::isError($db_list)) {
             return $db_list;
         } else if (is_null($db_list['rw'])) {
