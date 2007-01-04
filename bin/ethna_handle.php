@@ -27,7 +27,7 @@ if (!defined('PATH_SEPARATOR')) {
     }
 }
 $base = dirname(dirname(dirname(__FILE__)));
-ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . "$base");
+ini_set('include_path', "$base" . PATH_SEPARATOR . ini_get('include_path'));
 
 require_once 'Ethna/Ethna.php';
 
