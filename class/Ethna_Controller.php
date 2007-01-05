@@ -292,6 +292,7 @@ class Ethna_Controller
      *  @access public
      *  @param  string  $id     アプリケーションID
      *  @return mixed   true:OK Ethna_Error:NG
+     *  @static
      */
     function checkAppId($id)
     {
@@ -311,6 +312,7 @@ class Ethna_Controller
      *  @access public
      *  @param  string  $action_name    アクション名
      *  @return mixed   true:OK Ethna_Error:NG
+     *  @static
      */
     function checkActionName($action_name)
     {
@@ -326,6 +328,7 @@ class Ethna_Controller
      *  @access public
      *  @param  string  $view_name    ビュー名
      *  @return mixed   true:OK Ethna_Error:NG
+     *  @static
      */
     function checkViewName($view_name)
     {

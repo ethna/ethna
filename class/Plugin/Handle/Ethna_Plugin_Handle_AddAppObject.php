@@ -42,6 +42,9 @@ class Ethna_Plugin_Handle_AddAppObject extends Ethna_Plugin_Handle
 
         // table_name
         $table_name = array_shift($arg_list);
+        if ($table_name == null) {
+            return Ethna::raiseError('table name isn\'t set.', 'usage');
+        }
 
         // basedir
         if (isset($opt_list['basedir'])) {

@@ -35,6 +35,9 @@ class Ethna_Plugin_Handle_AddActionTest extends Ethna_Plugin_Handle_AddAction
 
         // action_name
         $action_name = array_shift($arg_list);
+        if ($action_name == null) {
+            return Ethna::raiseError('action name isn\'t set.', 'usage');
+        }
         $r =& Ethna_Controller::checkActionName($action_name);
         if (Ethna::isError($r)) {
             return $r;

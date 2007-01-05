@@ -35,6 +35,9 @@ class Ethna_Plugin_Handle_AddViewTest extends Ethna_Plugin_Handle_AddView
 
         // view_name
         $view_name = array_shift($arg_list);
+        if ($view_name == null) {
+            return Ethna::raiseError('view name isn\'t set.', 'usage');
+        }
         $r =& Ethna_Controller::checkViewName($view_name);
         if (Ethna::isError($r)) {
             return $r;

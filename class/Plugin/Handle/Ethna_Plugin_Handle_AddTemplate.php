@@ -35,6 +35,13 @@ class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle_AddAction
 
         // template
         $template = array_shift($arg_list);
+        if ($template == null) {
+            return Ethna::raiseError('template name isn\'t set.', 'usage');
+        }
+        $r =& Ethna_Controller::checkViewName($view_name); // XXX: use checkViewName().
+        if (Ethna::isError($r)) {
+            return $r;
+        }
 
         // add template
         $ret =& $this->_perform('Template', $template, $opt_list);
