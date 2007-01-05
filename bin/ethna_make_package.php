@@ -42,7 +42,7 @@ $package = 'Ethna';
 // x.0.y -> beta
 // x.1.y -> stable
 $major_version = "2.3";
-$minor_version = "0";
+$minor_version = "1";
 
 if ($state == 'alpha' || $state == 'beta') {
     $version = $major_version . strftime('.%Y%m%d%H');
