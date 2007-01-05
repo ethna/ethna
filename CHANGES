@@ -4,8 +4,15 @@
 
 *** features
 
+- ethnaコマンドで@PHP-BIN@が置換されずに残っている場合(CVS版を使っているときなど)に対応
+- デフォルトテンプレートにバージョン番号をこっそり追加
+
 *** bug fixes
 
+- Mac/Windowsでpear経由でのインストールに失敗していた問題を解消
+-- すべてのroleをphpにして、ethna.{sh,bat}のみscriptを指定
+- Ethna_ViewClass::setPlugin() で $plugin の検証に is_callable を使用 (ethna-users:0507)
+- install-plugin が正しく動いていなかったのを修正 (#9582)
 - ethna.shでPHPのパスが指定されていなかったのを修正(ethna-users:0508)
 - Ethna_AppObjectで'key'の条件にunique_key, multiple_keyが漏れていたのを修正
 - Ethna_ViewClassで<label id="foo">となっていたのを<label for="foo">に修正

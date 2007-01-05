@@ -63,6 +63,7 @@ $config = array(
     'changelogoldtonew' => false,
     'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc'),
     'description' => $description,
+    'exceptions' => array('bin/ethna.sh' => 'script', 'bin/ethna.bat' => 'script'),
     'installexceptions' => array('bin/ethna.sh' => '/', 'bin/ethna.bat' => '/'),
     'installas' => array('bin/ethna.sh' => 'ethna', 'bin/ethna.bat' => 'ethna.bat'),
 );
@@ -80,11 +81,7 @@ $packagexml->setAPIStability($state);
 $packagexml->setNotes('Ethna PHP Web Application Framework');
 $packagexml->setPackageType('php');
 
-$packagexml->addRole('css', 'php');
-$packagexml->addRole('tpl', 'php');
-$packagexml->addRole('ethna', 'php');
-$packagexml->addRole('sh', 'script');
-$packagexml->addRole('bat', 'script');
+$packagexml->addRole('*', 'php');
 
 $packagexml->setPhpDep('4.1.0');
 $packagexml->setPearinstallerDep('1.3.5');
