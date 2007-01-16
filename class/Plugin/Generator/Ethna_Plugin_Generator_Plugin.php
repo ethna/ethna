@@ -37,6 +37,7 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
 
         $macro = array();
         $macro['project_id'] = $appid;
+        $macro['application_id'] = $appid;
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
