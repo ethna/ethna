@@ -5,12 +5,16 @@
 *** features
 
 - Ethna_ViewClass::_getFormInput_* で $separator のデフォルトを '' から "\n" に変更
+- Ethna_Controller::_trigger_XMLRPC で $GLOBALS['HTTP_RAW_POST_DATA'] を使わずに 'php://input' を使うように変更
+-- php.ini の設定が不要になりました。
 
 *** bug fixes
 
 - プラグインパッケージインストール時に '{$application_id}' が置換されないバグを修正
 - add-template が正しく動作していなかったのを修正
 - Ethna_ViewClass::_getFormInput_Select で multiple を考慮していなかったのを修正
+- Ethna_AppObject::_getSQL_SearchId で救済になってないエラーのスキップを削除
+-- 有効な key がないときに、どちらにしろ SQL エラーになってた
 
 ** 2.3.1
 

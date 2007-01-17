@@ -29,6 +29,8 @@ class Ethna_Plugin_Generator_EntryPoint extends Ethna_Plugin_Generator
      */
     function &generate($action_name, $skelton = null, $gateway = GATEWAY_WWW)
     {
+        $true = true;
+
         // entity
         switch ($gateway) {
         case GATEWAY_WWW:
@@ -56,6 +58,10 @@ class Ethna_Plugin_Generator_EntryPoint extends Ethna_Plugin_Generator
                 break;
             }
         }
+        if (file_exists($entity)) {
+            printf("file [%s] already exists -> skip\n", $entity);
+            return $true;
+        }
 
         // macro
         $macro = array();
@@ -68,15 +74,21 @@ class Ethna_Plugin_Generator_EntryPoint extends Ethna_Plugin_Generator
         $macro = array_merge($macro, $user_macro);
 
         // generate
-        if (file_exists($entity)) {
-            printf("file [%s] already exists -> skip\n", $entity);
-        } else if ($this->_generateFile($skelton, $entity, $macro) == false) {
-            printf("[warning] file creation failed [%s]\n", $entity);
-        } else {
+        $ret = $this->_generateFile($skelton, $entity, $macro);
+        if ($ret) {
             printf("action script(s) successfully created [%s]\n", $entity);
+        } else {
+            printf("[warning] file creation failed [%s]\n", $entity);
+            return $true; // XXX: error handling
         }
 
-        $true = true;
+        // chmod
+        if ($gateway === GATEWAY_CLI) {
+            // is needed?
+            //$ret = Ethna_Util::chmod($entity, 0777);
+        }
+            
+
         return $true;
     }
 }

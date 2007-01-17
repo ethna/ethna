@@ -742,8 +742,6 @@ class Ethna_Controller
     {
         if (extension_loaded('xmlrpc') == false) {
             die("xmlrpc extension is required to enable this gateway");
-        } else if (ini_get('always_populate_raw_post_data') == false) {
-            die("always_populate_raw_post_data ini variable should be true to enable this gateway");
         }
 
         $c =& new $class_name(GATEWAY_XMLRPC);
@@ -915,16 +913,45 @@ class Ethna_Controller
      */
     function _trigger_XMLRPC($action_name = "")
     {
+        // prepare xmlrpc server
         $xmlrpc_gateway_method_name = "_Ethna_XmlrpcGateway";
-
         $xmlrpc_server = xmlrpc_server_create();
+
+        $request = xmlrpc_encode_request(
+            $xmlrpc_gateway_method_name,
+            $param,
+            array(
+                'output_type'   => 'xml',
+                'verbosity'     => 'pretty',
+                'escaping'      => array('markup'),
+                'version'       => 'xmlrpc',
+                'encoding'      => 'utf-8'
+            )
+        ); 
+
+        xmlrpc_server_register_method(
+            $xmlrpc_server,
+            $xmlrpc_gateway_method_name,
+            $xmlrpc_gateway_method_name
+        );
+
+        // send request
         $method = null;
-        $param = xmlrpc_decode_request($GLOBALS['HTTP_RAW_POST_DATA'], $method);
+        $param = xmlrpc_decode_request(file_get_contents('php://input'), $method);
         $this->xmlrpc_method_name = $method;
 
-        $request = xmlrpc_encode_request($xmlrpc_gateway_method_name, $param, array("output_type" => "xml", "verbosity" => "pretty", "escaping" => array('markup'), "version" => "xmlrpc", "encoding" => "utf-8")); 
-        xmlrpc_server_register_method($xmlrpc_server, $xmlrpc_gateway_method_name, $xmlrpc_gateway_method_name);
-        $r = xmlrpc_server_call_method($xmlrpc_server, $request, null, array("output_type" => "xml", "verbosity" => "pretty", "escaping" => array('markup'), "version" => "xmlrpc", "encoding" => "utf-8"));
+        $r = xmlrpc_server_call_method(
+            $xmlrpc_server,
+            $request,
+            null,
+            array(
+                'output_type'   => 'xml',
+                'verbosity'     => 'pretty',
+                'escaping'      => array('markup'),
+                'version'       => 'xmlrpc',
+                'encoding'      => 'utf-8'
+            )
+        );
 
         header('Content-Length: ' . strlen($r));
         header('Content-Type: text/xml; charset=UTF-8');
@@ -945,6 +972,8 @@ class Ethna_Controller
         }
 
         // オブジェクト生成
+        $backend =& $this->getBackend();
+
         $form_name = $this->getActionFormName($method);
         $this->action_form =& new $form_name($this);
         $def = $this->action_form->getDef();
@@ -959,7 +988,8 @@ class Ethna_Controller
         }
 
         // バックエンド処理実行
-        $backend =& $this->getBackend();
+        $backend->setActionForm($this->action_form);
+
         $session =& $this->getSession();
         $session->restore();
         $r = $backend->perform($method);
