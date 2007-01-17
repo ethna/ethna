@@ -486,7 +486,7 @@ class Ethna_ViewClass
         if (isset($params['separator'])) {
             $separator = $params['separator'];
         } else {
-            $separator = '';
+            $separator = "\n";
         }
 
         $ret = array();
@@ -650,7 +650,7 @@ class Ethna_ViewClass
         if (isset($params['separator'])) {
             $separator = $params['separator'];
         } else {
-            $separator = '';
+            $separator = "\n";
         }
 
         $ret = array();
@@ -705,14 +705,15 @@ class Ethna_ViewClass
         } else if (isset($def['default'])) {
             $current_value = $def['default'];
         } else {
-            $current_value = null;
+            $current_value = array();
         }
+        $current_value = array_map('strval', to_array($current_value));
 
         // タグのセパレータ
         if (isset($params['separator'])) {
             $separator = $params['separator'];
         } else {
-            $separator = '';
+            $separator = "\n";
         }
 
         // selectタグの中身を作る
@@ -720,7 +721,7 @@ class Ethna_ViewClass
         $selected = false;
         foreach ($options as $key => $value) {
             $attr = array('value' => $key);
-            if ($selected === false && strcmp($current_value, $key) === 0) {
+            if (in_array((string) $key, $current_value, true)) {
                 $attr['selected'] = 'selected';
                 $selected = true;
             }
@@ -733,8 +734,10 @@ class Ethna_ViewClass
             if ($selected === false) {
                 $attr['selected'] = 'selected';
             }
-            array_unshift($contents, $this->_getFormInput_Html('option', $attr,
-                                                               $params['emptyoption']));
+            array_unshift($contents,
+                          $this->_getFormInput_Html('option',
+                                                    $attr,
+                                                    $params['emptyoption']));
             unset($params['emptyoption']);
         }
 

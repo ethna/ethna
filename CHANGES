@@ -4,9 +4,13 @@
 
 *** features
 
+- Ethna_ViewClass::_getFormInput_* で $separator のデフォルトを '' から "\n" に変更
+
 *** bug fixes
 
 - プラグインパッケージインストール時に '{$application_id}' が置換されないバグを修正
+- add-template が正しく動作していなかったのを修正
+- Ethna_ViewClass::_getFormInput_Select で multiple を考慮していなかったのを修正
 
 ** 2.3.1
 
