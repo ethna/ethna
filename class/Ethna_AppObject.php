@@ -1197,9 +1197,6 @@ class Ethna_AppObject
         $column = "";
         $keys = $keys === null ? array_keys($def) : to_array($keys);
         foreach ($keys as $key) {
-            if (isset($def[$key]) == false) {
-                continue;
-            }
             if ($column != "") {
                 $column .= ", ";
             }
