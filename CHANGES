@@ -7,6 +7,14 @@
 - Ethna_ViewClass::_getFormInput_* で $separator のデフォルトを '' から "\n" に変更
 - Ethna_Controller::_trigger_XMLRPC で $GLOBALS['HTTP_RAW_POST_DATA'] を使わずに 'php://input' を使うように変更
 -- php.ini の設定が不要になりました。
+- Ethna_MailSender
+-- $type 引数を $template と rename して、より積極的にテンプレート名と解釈するようにした。
+--- $def を特に指定しなければ ViewClass の forward_name と同様に template/ja/mail/ 以下からテンプレートを探します。
+-- multipart: 2 つ以上の添付、ファイル名を指定した添付に対応しました。
+--- ただしデフォルトの content-type は application/octet-stream でごまかしているのと、日本語ファイル名がてきとうです。
+- Ethna_Renderer, Ethna_Renderer_Smarty
+-- perform() の第2引数に $capture フラグを追加
+-- true のときは Smarty 的に display でなく fetch になります。
 
 *** bug fixes
 

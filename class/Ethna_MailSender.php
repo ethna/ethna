@@ -74,17 +74,31 @@ class Ethna_MailSender
     /**
      *  メールを送信する
      *
+     *  $attach の指定方法:
+     *  - 既存のファイルを添付するとき
+     *  <code>
+     *  array('filename' => '/tmp/hoge.xls', 'content-type' => 'application/vnd.ms-excel')
+     *  </code>
+     *  - 文字列に名前を付けて添付するとき
+     *  <code>
+     *  array('name' => 'foo.txt', 'content' => 'this is foo.')
+     *  </code>
+     *  'content-type' 省略時は 'application/octet-stream' となる。
+     *  複数添付するときは上の配列を添字0から始まるふつうの配列に入れる。
+     *
      *  @access public
-     *  @param  string  $to     メール送信先アドレス
-     *  @param  string  $type   メールテンプレートタイプ
-     *  @param  array   $macro  テンプレートマクロ($typeがMAILSENDER_TYPE_DIRECTの場合はメール送信内容)
-     *  @param  array   $attach 添付ファイル(array('content-type' => ..., 'content' => ...))
-     *  @return string  $toがnullの場合テンプレートマクロ適用後のメール内容
+     *  @param  string  $to         メール送信先アドレス (nullのときは送信せずに内容を return する)
+     *  @param  string  $template   メールテンプレート名 or タイプ
+     *  @param  array   $macro      テンプレートマクロ or $templateがMAILSENDER_TYPE_DIRECTのときはメール送信内容)
+     *  @param  array   $attach     添付ファイル
+     *  @return bool|string  mail() 関数の戻り値 or メール内容
      */
-    function send($to, $type, $macro, $attach = null)
+    function send($to, $template, $macro, $attach = null)
     {
-        // コンテンツ作成
-        if ($type !== MAILSENDER_TYPE_DIRECT) {
+        // メール内容を作成
+        if ($template === MAILSENDER_TYPE_DIRECT) {
+            $mail = $macro;
+        } else {
             $renderer =& $this->getTemplateEngine();
 
             // 基本情報設定
@@ -102,74 +116,100 @@ class Ethna_MailSender
                 }
             }
 
-            $template = $this->def[$type];
-            ob_start();
-            $renderer->display(sprintf('%s/%s', $this->mail_dir, $template));
-            $mail = ob_get_contents();
-            ob_end_clean();
-        } else {
-            $mail = $macro;
+            if (isset($this->def[$template])) {
+                $renderer->setTemplate($this->def[$template]);
+            } else {
+                // テンプレート名が直接渡されたとみなす
+                $renderer->setTemplate($template);
+            }
+            $mail = $renderer->perform(sprintf('%s/%s', $this->mail_dir, $template), true);
+        }
+        if ($to === null) {
+            return $mail;
         }
 
-        if (is_null($to)) {
-            return $mail;
+        // メール内容をヘッダと本文に分離
+        $mail = str_replace("\r\n", "\n", $mail);
+        list($header, $body) = $this->_parse($mail);
+
+        // 添付ファイル (multipart)
+        if ($attach !== null) {
+            $attach = isset($attach[0]) ? $attach : array($attach);
+            $boundary = Ethna_Util::getRandom(); 
+            $body = "This is a multi-part message in MIME format.\n\n" .
+                "--$boundary\n" .
+                "Content-Type: text/plain; charset=iso-2022-jp\n" .
+                "Content-Transfer-Encoding: 7bit\n\n" .
+                "$body\n";
+            foreach ($attach as $part) {
+                if (isset($part['content']) === false
+                    && isset($part['filename']) && is_readable($part['filename'])) {
+                    $part['content'] = file_get_contents($part['filename']);
+                    $part['filename'] = basename($part['filename']);
+                }
+                if (isset($part['content']) === false) {
+                    continue;
+                }
+                if (isset($part['content-type']) === false) {
+                    $part['content-type'] = 'application/octet-stream';
+                }
+                if (isset($part['name']) === false) {
+                    $part['name'] = $part['filename'];
+                }
+                if (isset($part['filename']) === false) {
+                    $part['filename'] = $part['name'];
+                }
+                $part['name'] = preg_replace('/([^\x00-\x7f]+)/e',
+                    "Ethna_Util::encode_MIME('$1')", $part['name']); // XXX: rfc2231
+                $part['filename'] = preg_replace('/([^\x00-\x7f]+)/e',
+                    "Ethna_Util::encode_MIME('$1')", $part['filename']);
+
+                $body .=
+                    "--$boundary\n" .
+                    "Content-Type: " . $part['content-type'] . ";\n" .
+                        "\tname=\"" . $part['name'] . "\"\n" .
+                    "Content-Transfer-Encoding: base64\n" . 
+                    "Content-Disposition: attachment;\n" .
+                        "\tfilename=\"" . $part['filename'] . "\"\n\n";
+                $body .= chunk_split(base64_encode($part['content']));
+            }
+            $body .= "--$boundary--";
+        }
+
+        // ヘッダ
+        if (isset($header['mime-version']) === false) {
+            $header['mime-version'] = array('Mime-Version', '1.0');
+        }
+        if (isset($header['subject']) === false) {
+            $header['subject'] = array('Subject', 'no subject in original');
+        }
+        if (isset($header['content-type']) === false) {
+            $header['content-type'] = array(
+                'Content-Type',
+                $attach === null ? 'text/plain; charset=iso-2022-jp'
+                                 : "multipart/mixed; \n\tboundary=\"$boundary\"",
+            );
+        }
+
+        $header_line = "";
+        foreach ($header as $key => $value) {
+            if ($key == 'subject') {
+                // should be added by mail()
+                continue;
+            }
+            if ($header_line != "") {
+                $header_line .= "\n";
+            }
+            $header_line .= $value[0] . ": " . $value[1];
         }
 
         // 送信
         foreach (to_array($to) as $rcpt) {
-            list($header, $body) = $this->_parse($mail);
-
-            // multipart対応
-            if ($attach != null) {
-                $boundary = Ethna_Util::getRandom(); 
-
-                $body = "This is a multi-part message in MIME format.\n\n" .
-                    "--$boundary\n" .
-                    "Content-Type: text/plain; charset=ISO-2022-JP\n\n" .
-                    "$body\n" .
-                    "--$boundary\n" .
-                    "Content-Type: " . $attach['content-type'] . "; name=\"" . $attach['name'] . "\"\n" .
-                    "Content-Transfer-Encoding: base64\n" . 
-                    "Content-Disposition: attachment; filename=\"" . $attach['name'] . "\"\n\n";
-                $body .= chunk_split(base64_encode($attach['content']));
-                $body .= "--$boundary--";
-            }
-
-            $body = str_replace("\r\n", "\n", $body);
-
-            // 最低限必要なヘッダを追加
-            if (array_key_exists('mime-version', $header) == false) {
-                $header['mime-version'] = array('Mime-Version', '1.0');
-            }
-            if (array_key_exists('subject', $header) == false) {
-                $header['subject'] = array('Subject', 'no subject in original');
-            }
-            if (array_key_exists('content-type', $header) == false) {
-                if ($attach == null) {
-                    $header['content-type'] = array('Content-Type', 'text/plain; charset=ISO-2022-JP');
-                } else {
-                    $header['content-type'] = array('Content-Type', "multipart/mixed; boundary=\"$boundary\"");
-                }
-            }
-
-            $header_line = "";
-            foreach ($header as $key => $value) {
-                if ($key == 'subject') {
-                    // should be added by mail()
-                    continue;
-                }
-                if ($header_line != "") {
-                    $header_line = "$header_line\n";
-                }
-                $header_line .= $value[0] . ": " . $value[1];
-            }
-
             if (is_string($this->option)) {
                 mail($rcpt, $header['subject'][1], $body, $header_line, $this->option);
             } else {
                 mail($rcpt, $header['subject'][1], $body, $header_line);
             }
-
         }
     }
 

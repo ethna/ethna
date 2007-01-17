@@ -95,11 +95,12 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     /**
      *  ビューを出力する
      *
-     *  @param  string   $template  テンプレート名
+     *  @param  string  $template   テンプレート名
+     *  @param  bool    $capture    true ならば出力を表示せずに返す
      *
      *  @access public
      */
-    function perform($template = null)
+    function perform($template = null, $capture = false)
     {
         if ($template === null && $this->template === null) {
             return Ethna::raiseWarning('template is not defined');
@@ -111,7 +112,12 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
         if ((is_absolute_path($this->template) && is_readable($this->template))
             || is_readable($this->template_dir . $this->template)) {
-                $this->engine->display($this->template);
+                if ($capture === true) {
+                    $captured = $this->engine->fetch($this->template);
+                    return $captured;
+                } else {
+                    $this->engine->display($this->template);
+                }
         } else {
             return Ethna::raiseWarning('template not found ' . $this->template);
         }

@@ -64,10 +64,11 @@ class Ethna_Renderer
      *  ビューを出力する
      *
      *  @param string   $template   テンプレート
+     *  @param  bool    $capture    true ならば出力を表示せずに返す
      *
      *  @access public
      */
-    function perform($template = null)
+    function perform($template = null, $capture = false)
     {
         if ($template == null && $this->template == null) {
             return Ethna::raiseWarning('template is not defined');
@@ -78,10 +79,19 @@ class Ethna_Renderer
         }
 
         // テンプレートの有無のチェック
-        if (is_readable($this->template_dir . $this->template)) {
-            include_once $this->template_dir . $this->template;
-        } else {
+        if (is_readable($this->template_dir . $this->template) === false) {
             return Ethna::raiseWarning("template is not found: " . $this->template);
+        }
+
+        if ($capture === true) {
+            ob_start();
+            include_once $this->template_dir . $this->template;
+            $captured = ob_get_contents();
+            ob_end_clean();
+            return $captured;
+        } else {
+            include_once $this->template_dir . $this->template;
+            return true;
         }
     }
 
