@@ -115,10 +115,10 @@ class Ethna_Handle
      */
     function &getAppController($app_dir = null)
     {
-        static $app_controller = null;
+        static $app_controller = array();
 
-        if ($app_controller !== null) {
-            return $app_controller;
+        if (isset($app_controller[$app_dir])) {
+            return $app_controller[$app_dir];
         } else if ($app_dir === null) {
             return Ethna::raiseError('$app_dir not specified.');
         }
@@ -155,12 +155,12 @@ class Ethna_Handle
         }
 
         $global_controller =& $GLOBALS['_Ethna_controller'];
-        $app_controller =& new $class(GATEWAY_CLI);
+        $app_controller[$app_dir] =& new $class(GATEWAY_CLI);
         $GLOBALS['_Ethna_controller'] =& $global_controller;
         Ethna::clearErrorCallback();
         Ethna::setErrorCallback(array('Ethna_Handle', 'handleError'));
 
-        return $app_controller;
+        return $app_controller[$app_dir];
     }
     // }}}
 
