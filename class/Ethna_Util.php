@@ -669,6 +669,27 @@ class Ethna_Util
     }
     // }}}
 
+    // {{{ isRootDir
+    /**
+     *  パス名がルートディレクトリかどうかを返す
+     *
+     *  @access public
+     *  @param  string  $path
+     *  @static
+     */
+    function isRootDir($path)
+    {
+        if ($path === DIRECTORY_SEPARATOR) {
+            // avoid stat().
+            return true;
+        }
+        if (is_dir($path) === false) {
+            return false;
+        }
+        return $path === basename($path);
+    }
+    // }}}
+
     // {{{ mkdir
     /**
      *  mkdir -p

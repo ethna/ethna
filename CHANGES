@@ -15,6 +15,7 @@
 - Ethna_Renderer, Ethna_Renderer_Smarty
 -- perform() の第2引数に $capture フラグを追加
 -- true のときは Smarty 的に display でなく fetch になります。
+- Ethna_Util::isRootDir() 追加
 
 *** bug fixes
 
@@ -23,6 +24,10 @@
 - Ethna_ViewClass::_getFormInput_Select で multiple を考慮していなかったのを修正
 - Ethna_AppObject::_getSQL_SearchId で救済になってないエラーのスキップを削除
 -- 有効な key がないときに、どちらにしろ SQL エラーになってた
+- OS_WINDOWSでgetAppController()が無限ループになっていたのを修正
+-- ルートディレクトリ判定に失敗していた
+- Console_Getoptなどのアップグレードに対応
+-- php4対応のreference返しがなくなっていたのに伴って発生していたnoticeを回避
 
 ** 2.3.1
 

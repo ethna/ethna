@@ -457,7 +457,7 @@ class Ethna_PearWrapper
         if (Ethna::isError($info)) {
             return $info;
         }
-        $info_array =& $info->toArray();
+        $info_array = $info->toArray();
         return $info_array['name'];
     }
     // }}}
@@ -590,7 +590,7 @@ class Ethna_PearWrapper
             $options = array_merge($pearopts, $options);
         }
 
-        $ret =& $cmd->run($command, $options, $params);
+        $ret = $cmd->run($command, $options, $params);
         if (PEAR::isError($ret)) {
             return $ret;
         }
@@ -648,7 +648,7 @@ class Ethna_PearWrapper
     {
         $short_args = $long_args = null;
         PEAR_Command::getGetOptArgs($cmd_str, $short_args, $long_args);
-        $opt_arg =& Console_GetOpt::getOpt2($opt_array, $short_args, $long_args);
+        $opt_arg = Console_GetOpt::getOpt2($opt_array, $short_args, $long_args);
         if (PEAR::isError($opt_arg)) return array();
         $opts = array();
         foreach ($opt_arg[0] as $tmp) {

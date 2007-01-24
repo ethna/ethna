@@ -14,13 +14,12 @@ require_once 'PEAR/PackageFileManager2.php';
 require_once 'PEAR/PackageFileManager/File.php';   // avoid bugs
 
 // args
-$getopt =& new Console_Getopt();
-$arg_list = $getopt->readPHPArgv();
+$arg_list = Console_Getopt::readPHPArgv();
 $state = "stable";
 $is_old_package = false;
 $get_version = false;
 
-$r = $getopt->getopt($arg_list, "abov", array("alpha", "beta", "old-package", "version"));
+$r = Console_Getopt::getopt($arg_list, "abov", array("alpha", "beta", "old-package", "version"));
 foreach ($r[0] as $opt) {
     if ($opt[0] == "a" || $opt[0] == "--alpha") {
         $state = "alpha";

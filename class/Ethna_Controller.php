@@ -294,16 +294,19 @@ class Ethna_Controller
      *  @return mixed   true:OK Ethna_Error:NG
      *  @static
      */
-    function checkAppId($id)
+    function &checkAppId($id)
     {
-        if (strcasecmp($id, 'ethna') == 0 || strcasecmp($id, 'app') == 0) {
-            return Ethna::raiseError(sprintf("Application Id [%s] is reserved\n", $id));
+        $true = true;
+        if (strcasecmp($id, 'ethna') === 0
+            || strcasecmp($id, 'app') === 0) {
+            return Ethna::raiseError("Application Id [$id] is reserved\n");
         }
-        if (preg_match('/^[0-9a-zA-Z]+$/', $id) == 0) {
-            return Ethna::raiseError(sprintf("Only Numeric(0-9) and Alphabetical(A-Z) is allowed for Application Id\n"));
+        if (preg_match('/^[0-9a-zA-Z]+$/', $id) === 0) {
+            return Ethna::raiseError(
+                "Only Numeric(0-9) and Alphabetical(A-Z) is allowed for Application Id\n"
+            );
         }
-
-        return true;
+        return $true;
     }
 
     /**
@@ -314,12 +317,14 @@ class Ethna_Controller
      *  @return mixed   true:OK Ethna_Error:NG
      *  @static
      */
-    function checkActionName($action_name)
+    function &checkActionName($action_name)
     {
-        if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $action_name) == 0) {
-            return Ethna::raiseError(sprintf("invalid action name [$action_name]"));
+        $true = true;
+        if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',
+                       $action_name) === 0) {
+            return Ethna::raiseError("invalid action name [$action_name]");
         }
-        return true;
+        return $true;
     }
 
     /**
@@ -330,12 +335,14 @@ class Ethna_Controller
      *  @return mixed   true:OK Ethna_Error:NG
      *  @static
      */
-    function checkViewName($view_name)
+    function &checkViewName($view_name)
     {
-        if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $view_name) == 0) {
-            return Ethna::raiseError(sprintf("invalid view name [$view_name]"));
+        $true = true;
+        if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',
+                       $view_name) === 0) {
+            return Ethna::raiseError("invalid view name [$view_name]");
         }
-        return true;
+        return $true;
     }
 
     /**

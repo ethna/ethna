@@ -109,7 +109,7 @@ class Ethna_Plugin_Handle
 
         // do getopt
         // ex: $sopts = 'fb:';
-        $opts_args =& Console_Getopt::getopt2($this->arg_list, $sopts, $lopts);
+        $opts_args = Console_Getopt::getopt2($this->arg_list, $sopts, $lopts);
         if (Ethna::isError($opts_args)) {
             return $opts_args;
         }

@@ -32,14 +32,17 @@ ini_set('include_path', "$base" . PATH_SEPARATOR . ini_get('include_path'));
 require_once 'Ethna/Ethna.php';
 
 // fetch arguments
-$getopt =& new Console_Getopt();
-$arg_list = $getopt->readPHPArgv();
+$arg_list = Console_Getopt::readPHPArgv();
+if (Ethna::isError($arg_list)) {
+    echo $arg_list->getMessage()."\n";
+    exit(2);
+}
 array_shift($arg_list);
 
 $eh =& new Ethna_Handle();
 
 list($my_arg_list, $arg_list) = _Ethna_HandleGateway_SeparateArgList($arg_list);
-$r = $getopt->getopt($my_arg_list, "v", array("version"));
+$r = Console_Getopt::getopt($my_arg_list, "v", array("version"));
 if (Ethna::isError($r)) {
     usage($eh);
     exit(1);

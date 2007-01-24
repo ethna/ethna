@@ -124,12 +124,15 @@ class Ethna_Handle
         }
 
         $ini_file = null;
-        while (is_dir($app_dir) && $app_dir != "/") {
+        while (is_dir($app_dir)) {
             if (is_file("$app_dir/.ethna")) {
                 $ini_file = "$app_dir/.ethna";
                 break;
             }
             $app_dir = dirname($app_dir);
+            if (Ethna_Util::isRootDir($app_dir)) {
+                break;
+            }
         }
 
         if ($ini_file === null) {
@@ -176,10 +179,11 @@ class Ethna_Handle
         static $setting = null;
         if ($setting === null) {
             $ini_file = ETHNA_BASE . "/.ethna";
-            if (is_file($ini_file) == false || is_readable($ini_file) == false) {
+            if (is_file($ini_file) && is_readable($ini_file)) {
+                $setting = parse_ini_file($ini_file, true);
+            } else {
                 $setting = array();
             }
-            $setting = parse_ini_file($ini_file, true);
         }
 
         if ($section === null) {
@@ -187,7 +191,8 @@ class Ethna_Handle
         } else if (array_key_exists($section, $setting)) {
             return $setting[$section];
         } else {
-            return array();
+            $array = array();
+            return $array;
         }
     }
     // }}}
