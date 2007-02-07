@@ -13,9 +13,6 @@ while (ob_get_level()) {
     ob_end_clean();
 }
 
-require_once 'PEAR.php';
-require_once 'Console/Getopt.php';
-
 // setup path seprator
 if (!defined('PATH_SEPARATOR')) {
     if (OS_WINDOWS) {
@@ -27,8 +24,10 @@ if (!defined('PATH_SEPARATOR')) {
     }
 }
 $base = dirname(dirname(dirname(__FILE__)));
-ini_set('include_path', "$base" . PATH_SEPARATOR . ini_get('include_path'));
+ini_set('include_path', $base.PATH_SEPARATOR.ini_get('include_path'));
 
+require_once 'PEAR.php';
+require_once 'Console/Getopt.php';
 require_once 'Ethna/Ethna.php';
 
 // fetch arguments
