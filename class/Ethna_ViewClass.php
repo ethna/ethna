@@ -934,7 +934,9 @@ class Ethna_ViewClass
         $renderer->setProp('script',
             htmlspecialchars(basename($_SERVER['PHP_SELF']), ENT_QUOTES));
         $renderer->setProp('request_uri',
-            htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES));
+            isset($_SERVER['REQUEST_URI'])
+            ? htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES)
+            : '');
         $renderer->setProp('config', $this->config->get());
 
         return $renderer;
