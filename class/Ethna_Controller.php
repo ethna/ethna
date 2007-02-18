@@ -924,6 +924,10 @@ class Ethna_Controller
         $xmlrpc_gateway_method_name = "_Ethna_XmlrpcGateway";
         $xmlrpc_server = xmlrpc_server_create();
 
+        $method = null;
+        $param = xmlrpc_decode_request(file_get_contents('php://input'), $method);
+        $this->xmlrpc_method_name = $method;
+
         $request = xmlrpc_encode_request(
             $xmlrpc_gateway_method_name,
             $param,
@@ -943,10 +947,6 @@ class Ethna_Controller
         );
 
         // send request
-        $method = null;
-        $param = xmlrpc_decode_request(file_get_contents('php://input'), $method);
-        $this->xmlrpc_method_name = $method;
-
         $r = xmlrpc_server_call_method(
             $xmlrpc_server,
             $request,
