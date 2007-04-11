@@ -29,6 +29,8 @@
 - Console_Getoptなどのアップグレードに対応
 -- php4対応のreference返しがなくなっていたのに伴って発生していたnoticeを回避
 - xmlrpcのパラメータがActionFormに渡っていなかったのを修正(#9845)
+- file_type の検査 が機能しない問題を修正
+- MailSenderでテンプレートファイルを指定しない場合の挙動を修正
 
 ** 2.3.1
 

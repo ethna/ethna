@@ -115,12 +115,8 @@ class Ethna_MailSender
                     $renderer->setProp($key, $value);
                 }
             }
-
             if (isset($this->def[$template])) {
-                $renderer->setTemplate($this->def[$template]);
-            } else {
-                // テンプレート名が直接渡されたとみなす
-                $renderer->setTemplate($template);
+                $template = $this->def[$template];
             }
             $mail = $renderer->perform(sprintf('%s/%s', $this->mail_dir, $template), true);
         }

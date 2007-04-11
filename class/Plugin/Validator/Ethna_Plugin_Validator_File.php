@@ -136,17 +136,17 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
         // type ¤Î¸¡ºº
         if (isset($params['type'])) {
             $type_list = to_array($params['type']);
-            $posted_mime = explode($var['type'], '/', 2);
+            $posted_mime = explode('/', $var['type'], 2);
             foreach ($type_list as $type) {
-                $wanted_mime = explode($type, '/', 2);
+                $wanted_mime = explode('/', $type, 2);
                 $test = (count($wanted_mime) == 1)
                         ? (strcasecmp($wanted_mime[0], $posted_mime[0]) == 0)
-                        : (strcasecmp($params['type'], $var['type']) == 0);
+                : (strcasecmp($type, $var['type']) == 0);  
                 if ($test == true) {
                     break;
                 }
             }
-            if ($true == false) {
+            if ($test == false) {
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else {
