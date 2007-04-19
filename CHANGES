@@ -17,6 +17,8 @@
 -- true のときは Smarty 的に display でなく fetch になります。
 - Ethna_Util::isRootDir() 追加
 - ethna_make_packageで.svnに対応
+- Ethna_Plugin_Validator_Mbregexp　追加 (thx: mumumu)
+-- mb_eregを使ったマルチバイト対応正規表現プラグイン
 
 *** bug fixes
 
