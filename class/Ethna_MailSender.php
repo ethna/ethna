@@ -199,6 +199,12 @@ class Ethna_MailSender
             $header_line .= $value[0] . ": " . $value[1];
         }
 
+        // 改行コードを CRLF に
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+            $body = str_replace("\n", "\r\n", $body);
+        }
+        $header_line = str_replace("\n", "\r\n", $header_line);
+
         // 送信
         foreach (to_array($to) as $rcpt) {
             if (is_string($this->option)) {

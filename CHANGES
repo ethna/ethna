@@ -32,6 +32,7 @@
 - xmlrpcのパラメータがActionFormに渡っていなかったのを修正(#9845)
 - file_type の検査 が機能しない問題を修正
 - MailSenderでテンプレートファイルを指定しない場合の挙動を修正
+- MailSenderのBare LFをCRLFに置換(#9898, ethna-users:0588)
 
 ** 2.3.1
 
