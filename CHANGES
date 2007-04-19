@@ -16,6 +16,7 @@
 -- perform() の第2引数に $capture フラグを追加
 -- true のときは Smarty 的に display でなく fetch になります。
 - Ethna_Util::isRootDir() 追加
+- ethna_make_packageで.svnに対応
 
 *** bug fixes
 

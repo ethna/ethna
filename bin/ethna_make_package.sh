@@ -33,7 +33,7 @@ rm -fr $targetdir
 mkdir $targetdir
 cp -a . "$targetdir/"
 
-find $targetdir -name "CVS" | xargs rm -fr
+find $targetdir -name "CVS" -o -name ".svn" | xargs rm -fr
 
 # create package for php 5
 php $basedir/bin/ethna_make_package.php $beta

@@ -58,7 +58,7 @@ $config = array(
     'baseinstalldir' => 'Ethna',
     'packagedirectory' => dirname(dirname(__FILE__)),
     'filelistgenerator' => 'file',
-    'ignore' => array('CVS/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh'),
+    'ignore' => array('CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh'),
     'changelogoldtonew' => false,
     'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc'),
     'description' => $description,
