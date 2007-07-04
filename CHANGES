@@ -4,6 +4,10 @@
 
 *** features
 
+- [breaking B.C.] Ethna_UrlHandler (URLハンドラ) をプラグイン化
+-- Ethna_Plugin_Urlhandler_Default を追加
+-- $action_map を App_Urlhandler から App_Plugin_Urlhandler_Default に移動する必要があります
+- プラグインのクラスが既に存在する場合は特別にファイルの検索をスキップするようにした。
 - Ethna_ViewClass::_getFormInput_* で $separator のデフォルトを '' から "\n" に変更
 - Ethna_Controller::_trigger_XMLRPC で $GLOBALS['HTTP_RAW_POST_DATA'] を使わずに 'php://input' を使うように変更
 -- php.ini の設定が不要になりました。
@@ -22,6 +26,7 @@
 
 *** bug fixes
 
+- raiseError()類の引数が間違っていたのを修正 (thx: sfio)
 - プラグインパッケージインストール時に '{$application_id}' が置換されないバグを修正
 - add-template が正しく動作していなかったのを修正
 - Ethna_ViewClass::_getFormInput_Select で multiple を考慮していなかったのを修正

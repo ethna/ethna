@@ -140,7 +140,6 @@ class {$project_id}_Controller extends Ethna_Controller
         'sql'           => 'Ethna_AppSQL',
         'view'          => '{$project_id}_ViewClass',
         'renderer'      => 'Ethna_Renderer_Smarty',
-        'url_handler'   => '{$project_id}_UrlHandler',
     );
 
     /**

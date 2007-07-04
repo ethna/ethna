@@ -3,6 +3,7 @@
  *  Ethna_UrlHandler_Test.php
  */
 
+// {{{ class Ethna_UrlHandler_Test
 /**
  *  Ethna_UrlHandlerクラスのテストケース
  *
@@ -14,7 +15,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->url_handler =& new Ethna_UrlHandler_TestClass($this);
+        $this->url_handler = &Ethna_UrlHandler::getInstance('TestCase');
     }
 
     // {{{ $_simple_map
@@ -310,8 +311,12 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
     }
     // }}}
 }
+// }}}
 
-class Ethna_UrlHandler_TestClass extends Ethna_UrlHandler
+// {{{ class Ethna_Plugin_Urlhandler_TestCase
+require_once ETHNA_BASE.'/class/Plugin/Ethna_Plugin_Urlhandler.php';
+require_once ETHNA_BASE.'/class/Plugin/Urlhandler/Ethna_Plugin_Urlhandler_Default.php';
+class Ethna_Plugin_Urlhandler_TestCase extends Ethna_Plugin_Urlhandler_Default
 {
     function _getPath_Entrypoint($action, $params)
     {
@@ -333,5 +338,6 @@ class Ethna_UrlHandler_TestClass extends Ethna_UrlHandler
         return strtoupper($output);
     }
 }
+// }}}
 
 ?>
