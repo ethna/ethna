@@ -149,7 +149,8 @@ class Ethna_Plugin
 
         // null のときはロードに失敗している
         if (is_null($this->obj_registry[$type][$name])) {
-            return Ethna::raiseWarning('plugin [type=%s, name=%s] is not found', E_PLUGIN_NOTFOUND, $type, $name);
+            return Ethna::raiseWarning('plugin [type=%s, name=%s] is not found',
+                E_PLUGIN_NOTFOUND, $type, $name);
         }
 
         // プラグインのインスタンスを返す
@@ -281,8 +282,11 @@ class Ethna_Plugin
     function &_includePluginSrc($class, $dir, $file, $parent = false)
     {
         $true = true;
-        $file = $dir . '/' . $file;
+        if (class_exists($class)) {
+            return $true;
+        }
 
+        $file = $dir . '/' . $file;
         if (file_exists($file) === false) {
             if ($parent === false) {
                 return Ethna::raiseWarning('plugin file is not found: [%s]',
@@ -296,7 +300,8 @@ class Ethna_Plugin
 
         if (class_exists($class) === false) {
             if ($parent === false) {
-                return Ethna::raiseWarning('plugin class [%s] is not defined', E_PLUGIN_NOTFOUND, $class);
+                return Ethna::raiseWarning('plugin class [%s] is not defined',
+                    E_PLUGIN_NOTFOUND, $class);
             } else {
                 return $true;
             }
@@ -320,6 +325,14 @@ class Ethna_Plugin
         // コントローラで指定されたアプリケーションIDの順に検索
         foreach ($this->appid_list as $appid) {
             list($class, $dir, $file) = $this->getPluginNaming($type, $name, $appid);
+            if (class_exists($class)) {
+                // すでにクラスが存在する場合は特別にスキップ
+                if (isset($this->src_registry[$type]) == false) {
+                    $this->src_registry[$type] = array();
+                }
+                $this->src_registry[$type][$name] = array($class, null, null);
+                return;
+            }
             if (file_exists("{$dir}/{$file}")) {
                 $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s]',
                                    "{$dir}/{$file}");
