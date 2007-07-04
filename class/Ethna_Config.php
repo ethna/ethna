@@ -154,7 +154,7 @@ class Ethna_Config
 
         $fp = fopen($file, 'w');
         if ($fp == null) {
-            return Ethna::raiseError(E_APP_WRITE, "ファイル書き込みエラー[%s]", $file);
+            return Ethna::raiseError("ファイル書き込みエラー[%s]", E_APP_WRITE, $file);
         }
         fwrite($fp, "<?php\n");
         fwrite($fp, sprintf("/*\n * %s\n *\n * update: %s\n */\n", basename($file), strftime('%Y/%m/%d %H:%M:%S')));

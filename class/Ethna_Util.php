@@ -176,7 +176,7 @@ class Ethna_Util
                             $uniqid);
         if (file_exists($filename)) {
             if (unlink($filename) == false) {
-                return Ethna::raiseWarning(E_APP_WRITE, $filename);
+                return Ethna::raiseWarning("ファイル書き込みエラー[%s]", E_APP_WRITE, $filename);
             }
         }
 
@@ -317,7 +317,7 @@ class Ethna_Util
                             $field .= $line_end;
 
                             // request one more line
-                            return Ethna::raiseNotice(E_UTIL_CSV_CONTINUE);
+                            return Ethna::raiseNotice('CSV分割エラー(行継続)', E_UTIL_CSV_CONTINUE);
                         }
                     }
                 }
@@ -823,7 +823,7 @@ class Ethna_Util
         }
         $lh = fopen($file, 'r');
         if ($lh == null) {
-            return Ethna::raiseError(E_APP_READ, "ファイル読み込みエラー[%s]", $file);
+            return Ethna::raiseError("ファイル読み込みエラー[%s]", E_APP_READ, $file);
         }
 
         $lock_mode = $mode == 'r' ? LOCK_SH : LOCK_EX;
@@ -837,9 +837,9 @@ class Ethna_Util
         }
         if ($timeout > 0 && $i == $timeout) {
             // timed out
-            return Ethna::raiseError(E_APP_LOCK, "ファイルロック取得エラー[%s]", $file);
+            return Ethna::raiseError("ファイルロック取得エラー[%s]", E_APP_LOCK, $file);
         }
- 
+
         return $lh;
     }
     // }}}
