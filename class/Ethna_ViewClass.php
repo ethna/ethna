@@ -288,7 +288,7 @@ class Ethna_ViewClass
         }
 
         // 配列フォームが何回呼ばれたかを保存するカウンタ
-        if (is_array($def['type'])) {
+        if (isset($def['type']) && is_array($def['type'])) {
             static $form_counter = array();
             if (isset($form_counter[$action]) === false) {
                 $form_counter[$action] = array();
@@ -442,7 +442,7 @@ class Ethna_ViewClass
                 $params['value'] = $def['name'];
             }
         }
-        if (is_array($params['value'])) {
+        if (isset($params['value']) && is_array($params['value'])) {
             $params['value'] = $params['value'][0];
         }
 

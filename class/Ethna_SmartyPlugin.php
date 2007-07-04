@@ -794,7 +794,6 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
 }
 // }}}
 
-
 // {{{ smarty_function_csrfid
 /**
  *  smarty function: 正当なポストであることを保証するIDを出力する

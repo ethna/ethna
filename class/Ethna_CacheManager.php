@@ -19,11 +19,11 @@
 class Ethna_CacheManager
 {
     /**
-     *  Ethna_CacheMaangerクラスのインスタンスを取得する
+     *  Cachemaanger プラグインのインスタンスを取得する
      *
-     *  @access public
      *  @param  string  $type   キャッシュタイプ('localfile', 'memcache'...)
-     *  @return object Ethna_CacheMaanger   Ethna_CacheManagerオブジェクト
+     *  @return object  Ethna_Plugin_CacheMaanger   Cachemanager プラグインのインスタンス
+     *  @access public
      */
     function &getInstance($type)
     {

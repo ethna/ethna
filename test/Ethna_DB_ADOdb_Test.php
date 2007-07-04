@@ -75,7 +75,8 @@ class Ethna_DB_ADOdb_Test extends Ethna_UnitTestBase
 
         $this->db = new Ethna_DB_ADOdb($this->ctl, $this->dsn, false);
         $this->assertTrue(is_object($this->db), "this->db is not object");
-        $this->assertEqual(get_class($this->db), "Ethna_DB_ADOdb", "this->db is not Ethna_DB_ADOdb");
+        $this->assertEqual(strtolower(get_class($this->db)),
+            strtolower("Ethna_DB_ADOdb"), "this->db is not Ethna_DB_ADOdb");
     }
 
     function testConnect()

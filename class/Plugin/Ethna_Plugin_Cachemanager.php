@@ -36,9 +36,9 @@ class Ethna_Plugin_Cachemanager
      *
      *  @access public
      */
-    function Ethna_Plugin_Cachemanager()
+    function Ethna_Plugin_Cachemanager(&$controller)
     {
-        $this->controller =& Ethna_Controller::getInstance();
+        $this->controller =& $controller;
         $this->backend =& $this->controller->getBackend();
         $this->config =& $this->controller->getConfig();
     }
