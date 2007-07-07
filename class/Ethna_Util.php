@@ -686,7 +686,7 @@ class Ethna_Util
         if (is_dir($path) === false) {
             return false;
         }
-        return $path === basename($path);
+        return $path === basename($path) . DIRECTORY_SEPARATOR;
     }
     // }}}
 
