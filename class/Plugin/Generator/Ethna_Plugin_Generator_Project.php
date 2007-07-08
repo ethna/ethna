@@ -38,7 +38,6 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             array("app/plugin", 0755),
             array("app/plugin/Filter", 0755),
             array("app/plugin/Validator", 0755),
-            array("app/plugin/Urlhandler", 0755),
             array("app/view", 0755),
             array("bin", 0755),
             array("etc", 0755),
@@ -133,9 +132,9 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             $this->_generateFile("app.viewclass.php", sprintf("$basedir/app/%s_ViewClass.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.action.default.php", "$basedir/app/action/Index.php", $macro) == false ||
             $this->_generateFile("app.plugin.filter.default.php", sprintf("$basedir/app/plugin/Filter/%s_Plugin_Filter_ExecutionTime.php", $macro['project_id']), $macro) == false ||
-            $this->_generateFile("app.plugin.urlhandler.default.php", sprintf("$basedir/app/plugin/Urlhandler/%s_Plugin_Urlhandler_Default.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("app.view.default.php", "$basedir/app/view/Index.php", $macro) == false ||
             $this->_generateFile("app.unittest.php", sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']), $macro) == false ||
+            $this->_generateFile("app.url_handler.php", sprintf("$basedir/app/%s_UrlHandler.php", $macro['project_id']), $macro) == false ||
             $this->_generateFile("etc.ini.php", sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']), $macro) == false ||
             $this->_generateFile("skel.action.php", sprintf("$basedir/skel/skel.action.php"), $default_macro) == false ||
             $this->_generateFile("skel.action_cli.php", sprintf("$basedir/skel/skel.action_cli.php"), $default_macro) == false ||
