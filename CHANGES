@@ -27,6 +27,7 @@
 -- mb_eregを使ったマルチバイト対応正規表現プラグイン
 - Ethna_Plugin_Handle_PearLocal　追加 
 -- PEARパッケージを各プロジェクト毎に管理できるプラグイン
+- View のユニットテストができなくなっていたバグを修正(thx: sfio, ethna-users:0651)
 
 *** bug fixes
 
