@@ -130,7 +130,7 @@ class Ethna_InfoManager extends Ethna_AppManager
         $forward_list = $this->_analyzeForwardList();
 
         // ビュー定義エントリ一覧
-        $manifest_forward_list = $this->_getForwardList_Manifest($forward_list);
+        $manifest_forward_list = $this->_getForwardList_Manifest();
 
         // ビュー定義省略エントリ一覧
         $implicit_forward_list = $this->_getForwardList_Implicit($forward_list, $manifest_forward_list);
