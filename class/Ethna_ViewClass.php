@@ -932,7 +932,7 @@ class Ethna_ViewClass
             $renderer->setPropByRef('session', $tmp_session);
         }
         $renderer->setProp('script',
-            htmlspecialchars(basename($_SERVER['PHP_SELF']), ENT_QUOTES));
+            htmlspecialchars(basename($_SERVER['SCRIPT_NAME']), ENT_QUOTES));
         $renderer->setProp('request_uri',
             isset($_SERVER['REQUEST_URI'])
             ? htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES)

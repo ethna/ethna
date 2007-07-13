@@ -45,6 +45,7 @@
 - file_type の検査 が機能しない問題を修正
 - MailSenderでテンプレートファイルを指定しない場合の挙動を修正
 - MailSenderのBare LFをCRLFに置換(#9898, ethna-users:0588)
+- Smarty の $script 変数の値が、PATH_INFOの値が含まれると潜在的に誤動作するバグを修正(thx: cockok, ethna-users:0687)
 
 ** 2.3.1
 
