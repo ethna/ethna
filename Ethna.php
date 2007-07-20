@@ -288,7 +288,7 @@ define('E_PLUGIN_GENERAL', 197);
 
 if (defined('E_STRICT') == false) {
     /** PHP 5との互換保持定義 */
-    define('E_STRICT', 0);
+    define('E_STRICT', 2048);
 }
 
 /** Ethnaグローバル変数: エラーコールバック関数 */

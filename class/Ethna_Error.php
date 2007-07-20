@@ -40,6 +40,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
         $php_errno = 'Parse error'; break;
     case E_NOTICE:
     case E_USER_NOTICE:
+    case E_STRICT:
         $php_errno = 'Notice'; break;
     default:
         $php_errno = 'Unknown error'; break;

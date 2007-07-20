@@ -232,7 +232,7 @@ class Ethna_Logger extends Ethna_AppManager
         case E_USER_ERROR:      $code = "E_USER_ERROR"; $level = LOG_ERR; break;
         case E_USER_WARNING:    $code = "E_USER_WARNING"; $level = LOG_WARNING; break;
         case E_USER_NOTICE:     $code = "E_USER_NOTICE"; $level = LOG_NOTICE; break;
-        case E_STRICT:          $code = "E_STRING"; $level = LOG_NOTICE; return;
+        case E_STRICT:          $code = "E_STRICT"; $level = LOG_NOTICE; return;
         default:                $code = "E_UNKNOWN"; $level = LOG_DEBUG; break;
         }
         return array($level, $code);
