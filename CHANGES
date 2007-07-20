@@ -1,6 +1,13 @@
 * 変更点一覧
 
-** [current] 2.3.2
+** 2.5.0-dev
+
+*** features
+
+- Ethna_ActionForm の自動検証属性に "default" を追加
+-- default を付けたフォーム値は、エラーの場合に定義された値に置き換えられる。ActionError オブジェクトは生成しない。
+
+** 2.3.2
 
 *** features
 

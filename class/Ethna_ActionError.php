@@ -107,6 +107,22 @@ class Ethna_ActionError
     }
 
     /**
+     *  登録されたエラーオブジェクトを削除する
+     *
+     *  @access public
+     *  @param  string  $name   フォーム項目名
+     */
+    function remove($name)
+    {
+        foreach ($this->error_list as $idx => $obj) {
+            $obj_name = $obj['name'];
+            if (strncasecmp($name, $obj_name, 255) == 0) { 
+                unset($this->error_list[$idx]);
+            }
+        }
+    }
+
+    /**
      *  登録されたエラーオブジェクトを全て削除する
      *
      *  @access public
