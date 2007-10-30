@@ -658,11 +658,11 @@ class Ethna_PearWrapper
                 $cmd_opts = $cmd_obj->getOptions($cmd_str);
                 foreach ($cmd_opts as $o => $d) {
                     if (isset($d['shortopt']) && $d['shortopt'] == $opt) {
-                        $opts[$o] = $value;
+                        $opts[$o] = $val;
                     }
                 }
             } else {
-                if (substr($opt, 0, 2) == '--') $opts[substr($opt, 2)] = $value;
+                if (substr($opt, 0, 2) == '--') $opts[substr($opt, 2)] = $val;
             }
         }
         return $opts;

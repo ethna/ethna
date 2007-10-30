@@ -239,6 +239,7 @@ class Ethna_InfoManager extends Ethna_AppManager
         $token_list = token_get_all($source);
         $state = 'T_OUT';
         $nest = 0;
+        $method_nest = 0;
         $current = null;
         for ($i = 0; $i < count($token_list); $i++) {
             $token = $token_list[$i];

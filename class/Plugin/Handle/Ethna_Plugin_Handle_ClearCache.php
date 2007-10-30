@@ -66,7 +66,7 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
             echo "cleaning pear caches...";
             ob_start();
             $pear =& new Ethna_PearWrapper();
-            $r =& $pear->init($target, $basedir, $channel);
+            $r =& $pear->init('local', $basedir); 
             if (Ethna::isError($r)) {
                 echo ob_get_clean();
                 return $r;

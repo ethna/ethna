@@ -91,7 +91,6 @@ class Ethna_MailSender
      *  @param  string  $template   メールテンプレート名 or タイプ
      *  @param  array   $macro      テンプレートマクロ or $templateがMAILSENDER_TYPE_DIRECTのときはメール送信内容)
      *  @param  array   $attach     添付ファイル
-     *  @return bool|string  mail() 関数の戻り値 or メール内容
      */
     function send($to, $template, $macro, $attach = null)
     {

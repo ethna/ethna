@@ -93,7 +93,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
         if (! $this->session->isStart()) {
             $this->session->start();
         }
-        $this->session->remove($this->token_name, $token);        
+        $this->session->remove($this->token_name);        
     }
 }
 // }}}
