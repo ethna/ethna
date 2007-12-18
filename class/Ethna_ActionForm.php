@@ -568,22 +568,6 @@ class Ethna_ActionForm
             $this->_validatePlus();
         }
 
-        //    default タイプが設定されていれば、
-        //    form値をその値で書き換え、エラーオブジェクトを除去
-        foreach ($this->form as $name => $def) {
-
-            //    FILE TYPE will be ignored.
-            $type = is_array($def['type']) ? $def['type'][0] : $def['type'];
-            if ($type == VAR_TYPE_FILE) {
-                continue;
-            }
-
-            if (isset($def['default'])) {
-                $this->form_vars[$name] = $def['default'];
-                $this->ae->remove($name);
-            }
-        }
-
         return $this->ae->count();
     }
 
