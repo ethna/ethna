@@ -718,13 +718,13 @@ function smarty_function_form_input($params, &$smarty)
         if (isset($block_params['default'][$name])) {
             $params['default'] = $block_params['default'][$name];
         }
-    } else {
-        // 現在のアクションで受け取ったフォーム値
-        $af =& $c->getActionForm();
-        $val = $af->get($name);
-        if ($val !== null) {
-            $params['default'] = $val;
-        }
+    }
+
+    // 現在のアクションで受け取ったフォーム値
+    $af =& $c->getActionForm();
+    $val = $af->get($name);
+    if ($val !== null) {
+        $params['default'] = $val;
     }
 
     return $view->getFormInput($name, $action, $params);
