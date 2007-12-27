@@ -4,6 +4,7 @@
 
 *** features
 
+- Ethna_DB_ADOdbのdebug時のログ出力をEthnaのLoggerに変更(@see http://d.hatena.ne.jp/sotarok/20071224)
 - Ethna_Plugin_Cachemanager_Memcache に引数がなかったためにプラグイン呼び出しに失敗していたバグを修正(thanks sfio, ethna-users:0818)
 - Ethna_PearWrapper、Ethna_Plugin_Csrf_Session, Ethna_InfoManager 等を微調整(thanks sfio, ethna-users:0825)
 - form_input の default 属性が、入力値で上書きできなかったバグを修正(thanks sotarok, ethna-users:0836)
