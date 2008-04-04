@@ -85,21 +85,6 @@ class Ethna_ActionError_Test extends Ethna_UnitTestBase
         $this->assertEqual($this->message1, $error_msg1); 
     }
 
-    function test_remove()
-    {
-        $this->ae->remove($this->error_form_name);
-        
-        $this->assertTrue($this->ae->count() == 1);
-        $this->assertFalse(
-            $this->ae->isError($this->error_form_name)
-        );
-
-        $error_msg = $this->ae->getMessage(
-                         $this->error_form_name
-                     );
-        $this->assertTrue($error_msg == NULL);
-    }
-
     function test_clear()
     {
         $this->ae->clear();
