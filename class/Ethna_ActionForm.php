@@ -593,6 +593,10 @@ class Ethna_ActionForm
                         = $this->_filter($this->form_vars[$form_name][$key],
                                          $this->form[$form_name]['filter']);
                 }
+            } else {  //  配列で値が空の場合
+                $this->form_vars[$form_name]
+                    = $this->_filter($this->form_vars[$form_name],
+                                     $this->form[$form_name]['filter']);
             }
         }
 
