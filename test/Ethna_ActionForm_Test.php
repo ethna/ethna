@@ -495,27 +495,6 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
         $this-> _unsetInputValue($input);
     }
 
-    function _run_default_value_test($type_name, $input, $expected)
-    {
-        //    test with no plugin 
-        $this->_setInputValue($expected);
-        $af = $this->_get_validated_af_default($type_name);
-        $ae = $this->_get_action_error();
-
-        //    finally assert!
-        $this->_assert_default($expected, $af, $ae);
-
-        //    test with plugin 
-        $af = $this->_get_validated_af_default($type_name, true);
-        $ae = $this->_get_action_error();
-
-        //    finally assert!(with plugin)
-        $this->_assert_default($expected, $af, $ae);
-
-        //    unset input value
-        $this-> _unsetInputValue($expected);
-    }
-
     function _setInputValue($input)
     {
         foreach ($input as $key => $value) {
