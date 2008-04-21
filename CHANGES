@@ -6,6 +6,7 @@
 
 - ethna pear-local コマンドで Ethna を [appid]/lib/ にインストールすると、[appid]_Controller.php のinclude_path
   の設定によっては ethnaコマンドが動かなくなるのを回避 (thanks: sotarok)
+-- ethna pear-local コマンドで Ethna を [appid]/lib にインストールしても、[appid]/bin/ethna が使えるようにした。
 - 配列のフォームをvalidateする際、値がnullだとフィルタが適用されないバグを修正
 - Ethna_Renderer_Rhacoを追加(experimental)
 - Ethna_DB_ADOdbのdebug時のログ出力をEthnaのLoggerに変更(@see http://d.hatena.ne.jp/sotarok/20071224)
