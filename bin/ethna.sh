@@ -43,7 +43,7 @@ then
     then
         PHP_COMMAND="php"
     else
-        PHP_COMMAND="@PHP-BIN@/php"
+        PHP_COMMAND="@PHP-BINARY@"
     fi
     export PHP_COMMAND
 fi

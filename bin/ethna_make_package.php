@@ -94,6 +94,7 @@ $packagexml->setLicense('The BSD License', 'http://www.opensource.org/licenses/b
 
 $packagexml->addReplacement('bin/ethna.bat', 'pear-config', '@PEAR-DIR@', 'php_dir');
 $packagexml->addReplacement('bin/ethna.bat', 'pear-config', '@PHP-BIN@', 'bin_dir');
+$packagexml->addReplacement('bin/ethna.sh', 'pear-config', '@PHP-BINARY@', 'php_bin');
 $packagexml->addReplacement('bin/ethna.sh', 'pear-config', '@PEAR-DIR@', 'php_dir');
 $packagexml->addReplacement('bin/ethna.sh', 'pear-config', '@PHP-BIN@', 'bin_dir');
 
