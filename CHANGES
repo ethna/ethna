@@ -4,12 +4,18 @@
 
 *** features
 
+- Ethnaコマンドに一般的なテストケースコマンドとして add-test コマンドを追加(thanks: BoBpp)
+-- ethna add-test -s [skelname] [name] で実行できます
+-- http://blog.as-roma.com/BoBlog/index.php?itemid=1338
+- Ethna_Renderer_Rhacoを追加(experimental)
+- Ethna_DB_ADOdbのdebug時のログ出力をEthnaのLoggerに変更(@see http://d.hatena.ne.jp/sotarok/20071224)
+
+*** bug fixes
+
 - ethna pear-local コマンドで Ethna を [appid]/lib/ にインストールすると、[appid]_Controller.php のinclude_path
   の設定によっては ethnaコマンドが動かなくなるのを回避 (thanks: sotarok)
 -- ethna pear-local コマンドで Ethna を [appid]/lib にインストールしても、[appid]/bin/ethna が使えるようにした。
 - 配列のフォームをvalidateする際、値がnullだとフィルタが適用されないバグを修正
-- Ethna_Renderer_Rhacoを追加(experimental)
-- Ethna_DB_ADOdbのdebug時のログ出力をEthnaのLoggerに変更(@see http://d.hatena.ne.jp/sotarok/20071224)
 - Ethna_Plugin_Cachemanager_Memcache に引数がなかったためにプラグイン呼び出しに失敗していたバグを修正(thanks sfio, ethna-users:0818)
 - Ethna_PearWrapper、Ethna_Plugin_Csrf_Session, Ethna_InfoManager 等を微調整(thanks sfio, ethna-users:0825)
 - form_input の default 属性が、入力値で上書きできなかったバグを修正(thanks sotarok, ethna-users:0836)
