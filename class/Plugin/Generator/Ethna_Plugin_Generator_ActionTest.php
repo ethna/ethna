@@ -57,6 +57,15 @@ class Ethna_Plugin_Generator_ActionTest extends Ethna_Plugin_Generator
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
 
+        // original action script existence check.
+        $original_action_path = $this->ctl->getDefaultActionPath($action_name);
+        $original_action_entity = $action_dir . $original_action_path;
+        if (!file_exists($original_action_entity)) {
+            printf("\n");
+            printf("[!!!!warning!!!!] original action script was not found.\n");
+            printf("[!!!!warning!!!!] You must generate it by the following command :\n");
+            printf("[!!!!warning!!!!] ethna add-action %s\n\n", $action_name);
+        } 
 
         // generate
         if (file_exists($entity)) {
