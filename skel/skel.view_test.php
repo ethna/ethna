@@ -47,16 +47,23 @@ class {$view_class}_TestCase extends Ethna_UnitTestCase
      *
      *  @access public
      */
-    /*
     function test_viewSample()
     {
+        /*
         // フォームの設定
         $this->af->set('id', 1);
 
         // {$forward_name}遷移前処理
         $this->vc->preforward();
         $this->assertNull($this->af->get('data'));
+        */
+
+        /**
+         *  TODO: テストケースを記述して下さい。
+         *  @see http://simpletest.org/en/first_test_tutorial.html
+         *  @see http://simpletest.org/en/unit_test_documentation.html
+         */
+        $this->fail('No Test! write Test!');
     }
-    */
 }
 ?>

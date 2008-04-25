@@ -3,7 +3,7 @@
  * {$file_path}
  * 
  * @author    {$author}
- * @package   {$project_id}.Tests
+ * @package   {$project_id}.Test
  * @version   $Id$
  */
 
@@ -43,12 +43,15 @@ class {$name}_TestCase extends Ethna_UnitTestCase
      * 
      * @access public
      */
-    /*
     function test_{$name}()
     {
-        $this->assertTrue(true);
+        /**
+         *  TODO: テストケースを記述して下さい。
+         *  @see http://simpletest.org/en/first_test_tutorial.html
+         *  @see http://simpletest.org/en/unit_test_documentation.html
+         */
+        $this->fail('No Test! write Test!');
     }
-    */
 }
 
 ?>

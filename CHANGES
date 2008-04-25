@@ -9,6 +9,7 @@
 -- http://blog.as-roma.com/BoBlog/index.php?itemid=1338
 - Ethna_Renderer_Rhacoを追加(experimental)
 - Ethna_DB_ADOdbのdebug時のログ出力をEthnaのLoggerに変更(@see http://d.hatena.ne.jp/sotarok/20071224)
+- Ethna add-[|action|view]-test コマンドで生成されるテストケースがデフォルトでfailするように改善
 
 *** bug fixes
 
