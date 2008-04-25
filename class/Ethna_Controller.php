@@ -2094,18 +2094,30 @@ class Ethna_Controller
     {
         if ($this->config->get('debug') == false
          && ($action_name == '__ethna_info__' || $action_name == '__ethna_unittest__')) {
-            $appid = $this->getAppId();
-            $run_action = ($action_name == '__ethna_info__')
-                        ? ' show Application Info List '
-                        : ' run Unit Test ';
-            echo "Ethna cannot {$run_action} under your application setting.<br>";
-            echo "HINT: You must set {$appid}/etc/{$appid}.ini debug setting 'true'.<br>";
-            echo "<br>";
-            echo "In {$appid}.ini, please set as follows :<br><br>";
-            echo "\$config = array ( 'debug' => true, );";
+            $this->ethnaManagerCheckErrorMsg($action_name);
             exit(0);
         }
     }
+
+    /**
+     *  Ethnaマネージャが実行不能な場合のエラーメッセージを
+     *  表示する。運用上の都合でこのメッセージを出力したくない
+     *  場合は、このメソッドをオーバーライドせよ
+     *
+     *  @access protected
+     */
+     function ethnaManagerCheckErrorMsg($action_name)
+     {
+         $appid = $this->getAppId();
+         $run_action = ($action_name == '__ethna_info__')
+                     ? ' show Application Info List '
+                     : ' run Unit Test ';
+         echo "Ethna cannot {$run_action} under your application setting.<br>";
+         echo "HINT: You must set {$appid}/etc/{$appid}.ini debug setting 'true'.<br>";
+         echo "<br>";
+         echo "In {$appid}.ini, please set as follows :<br><br>";
+         echo "\$config = array ( 'debug' => true, );";
+     } 
 
     /**
      *  CLI実行中フラグを取得する
