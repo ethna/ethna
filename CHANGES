@@ -20,6 +20,7 @@
 - Ethna_PearWrapper、Ethna_Plugin_Csrf_Session, Ethna_InfoManager 等を微調整(thanks sfio, ethna-users:0825)
 - form_input の default 属性が、入力値で上書きできなかったバグを修正(thanks sotarok, ethna-users:0836)
 - call_user_func の戻り値がオブジェクトだった場合に、E_NOTICEが出る問題を回避(PHP 4.4限定) [ethna-users:0910]
+- ActionForm の validate test の結果が、次のテストに引き継がれてしまうバグを修正(thanks: maru_cc)
 
 ** 2.3.2
 
