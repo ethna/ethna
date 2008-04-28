@@ -1,0 +1,43 @@
+- Ethna README
+
+Ethna(えすな)は、PHPを利用したウェブアプリケーションフレームワークで、
+似たようなコードを書かなくてよいことを目標としています。
+
+Webサイトは http://ethna.jp です。
+
+ここでは、Ethna に関する情報源、及びバグ（要望）報告についての情報を提供します。
+
+----
+
+1. Ethna の情報源
+
+- ドキュメント
+-- http://ethna.jp/ethna-document.html
+
+- API ドキュメント
+-- http://ethna.jp/doc/
+
+- メーリングリスト 
+
+-- ユーザ向けメーリングリスト(ethna-users)
+--- http://ethna.jp/mailman/listinfo/users
+
+-- Subversion リポジトリ 更新状況(ethna-cvs)
+--- http://ethna.jp/mailman/listinfo/cvs
+
+- IRC
+
+WIDE系ネットワーク Ethna:*.jp でEthnaの使い方や開発について
+議論しています。コミッタもいますので、バグなどについて文句
+を言うのはここが一番伝わりやすいかもしれません。
+
+2. バグ、要望等を報告する方法
+
+Ethna を使っていて、バグや変な挙動を見つけた場合は、開発者に報告をお願い
+します。報告する手段は以下の通りです。
+
+- ユーザ向けメーリングリスト(ethna-users)にバグについて投稿する
+- sourceforge.jp のバグトラッカ
+-- http://sourceforge.jp/tracker/index.php?group_id=1343&atid=5092&func=add
+- IRCチャンネル(WIDE系ネットワーク Ethna:*.jp)
+
