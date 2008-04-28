@@ -58,6 +58,7 @@ class Ethna_Controller
         'tmp'           => 'tmp',
         'view'          => 'app/view',
         'www'           => 'www',
+        'test'          => 'app/test',
     );
 
     /** @var    array       DBアクセス定義 */
@@ -835,6 +836,9 @@ class Ethna_Controller
     {
         // アクション名の取得
         $action_name = $this->_getActionName($default_action_name, $fallback_action_name);
+
+        // マネージャ実行チェック
+        $this->_ethnaManagerEnabledCheck($action_name);
 
         // アクション定義の取得
         $action_obj =& $this->_getAction($action_name);
@@ -2077,6 +2081,43 @@ class Ethna_Controller
         );
 
     }
+
+    /**
+     *  Ethnaマネージャが実行可能かをチェックする
+     *
+     *  Ethnaマネージャを実行するよう指示されているにも関わらず、
+     *  debug が trueでない場合は実行を停止する。
+     *
+     *  @access private
+     */
+    function _ethnaManagerEnabledCheck($action_name)
+    {
+        if ($this->config->get('debug') == false
+         && ($action_name == '__ethna_info__' || $action_name == '__ethna_unittest__')) {
+            $this->ethnaManagerCheckErrorMsg($action_name);
+            exit(0);
+        }
+    }
+
+    /**
+     *  Ethnaマネージャが実行不能な場合のエラーメッセージを
+     *  表示する。運用上の都合でこのメッセージを出力したくない
+     *  場合は、このメソッドをオーバーライドせよ
+     *
+     *  @access protected
+     */
+     function ethnaManagerCheckErrorMsg($action_name)
+     {
+         $appid = $this->getAppId();
+         $run_action = ($action_name == '__ethna_info__')
+                     ? ' show Application Info List '
+                     : ' run Unit Test ';
+         echo "Ethna cannot {$run_action} under your application setting.<br>";
+         echo "HINT: You must set {$appid}/etc/{$appid}.ini debug setting 'true'.<br>";
+         echo "<br>";
+         echo "In {$appid}.ini, please set as follows :<br><br>";
+         echo "\$config = array ( 'debug' => true, );";
+     } 
 
     /**
      *  CLI実行中フラグを取得する

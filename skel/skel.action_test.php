@@ -46,16 +46,23 @@ class {$action_form}_TestCase extends Ethna_UnitTestCase
      *
      *  @access public
      */
-    /*
     function test_formSample()
     {
+        /*
         // フォームの設定
         $this->af->set('id', 1);
 
         // {$action_name}アクションフォーム値検証
         $this->assertEqual($this->af->validate(), 0);
+        */
+
+        /**
+         *  TODO: テストケースを記述して下さい。
+         *  @see http://simpletest.org/en/first_test_tutorial.html
+         *  @see http://simpletest.org/en/unit_test_documentation.html
+         */
+        $this->fail('No Test! write Test!');
     }
-    */
 }
 
 /**
@@ -101,9 +108,9 @@ class {$action_class}_TestCase extends Ethna_UnitTestCase
      *
      *  @access public
      */
-    /*
     function test_actionSample()
     {
+        /*
         // フォームの設定
         $this->af->set('id', 1);
 
@@ -118,7 +125,14 @@ class {$action_class}_TestCase extends Ethna_UnitTestCase
         // {$action_name}アクションの実装
         $forward_name = $this->ac->perform();
         $this->assertEqual($forward_name, '{$action_name}');
+        */
+
+        /**
+         *  TODO: テストケースを記述して下さい。
+         *  @see http://simpletest.org/en/first_test_tutorial.html
+         *  @see http://simpletest.org/en/unit_test_documentation.html
+         */
+        $this->fail('No Test! write Test!');
     }
-    */
 }
 ?>

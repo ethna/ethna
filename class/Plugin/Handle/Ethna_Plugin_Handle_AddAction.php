@@ -26,7 +26,20 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r =& $this->_getopt(array('basedir=', 'skelfile=', 'gateway='));
+        //
+        //  '-w[with-unittest]' and '-u[unittestskel]' option
+        //  are not intuisive, but I dare to define them because
+        //  -t and -s option are reserved by add-[action|view] handle
+        //  and Console_Getopt cannot interpret two-character option.
+        //
+        $r = $this->_getopt(
+                  array('basedir=',
+                        'skelfile=',
+                        'gateway=',
+                        'with-unittest',
+                        'unittestskel=',
+                  )
+             );
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -84,6 +97,21 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
             return $r;
         }
 
+        //
+        //  if specified, generate corresponding testcase,
+        //  except for template.
+        //
+        if ($target != 'Template' && isset($opt_list['with-unittest'])) {
+            $testskel = (isset($opt_list['unittestskel']))
+                      ? end($opt_list['unittestskel'])
+                      : null;
+            $r =& Ethna_Generator::generate("{$target}Test", $basedir, $target_name, $testskel, $gateway);
+            if (Ethna::isError($r)) {
+                printf("error occurred while generating action test skelton. please see also following error message(s)\n\n");
+                return $r;
+            }
+        }  
+
         $true = true;
         return $true;
     }
@@ -97,7 +125,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
     {
         return <<<EOS
 add new action to project:
-    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-g|--gateway=www|cli|xmlrpc] [action]
+    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-g|--gateway=www|cli|xmlrpc] [-w|--with-unittest] [-u|--unittestskel=file] [action]
 
 EOS;
     }
@@ -108,7 +136,8 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-g|--gateway=www|cli|xmlrpc] [action]
+ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-g|--gateway=www|cli|xmlrpc] [-w|--with-unittest] [-u|--unittestskel=file] [action]
+
 EOS;
     }
 }

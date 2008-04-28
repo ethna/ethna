@@ -102,7 +102,7 @@ class Ethna_ClassFactory
 
         // see if we have helper methods
         if (in_array("getinstance", $this->method_list[$class_name])) {
-            $obj =& call_user_func(array($class_name, 'getInstance'));
+            $obj = call_user_func(array($class_name, 'getInstance'));
         } else {
             $backend =& $this->controller->getBackend();
             $obj =& new $class_name($backend);
@@ -173,7 +173,7 @@ class Ethna_ClassFactory
         if (method_exists($this, $method)) {
             $object =& $this->$method($class_name);
         } else if (in_array("getinstance", $this->method_list[$class_name])) {
-            $object =& call_user_func(array($class_name, 'getInstance'));
+            $object = call_user_func(array($class_name, 'getInstance'));
         } else {
             $object =& new $class_name();
         }

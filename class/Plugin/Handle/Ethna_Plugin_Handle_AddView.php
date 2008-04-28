@@ -28,7 +28,20 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
      */
     function perform()
     {
-        $r =& $this->_getopt(array('basedir=', 'skelfile=', 'template'));
+        //
+        //  '-w[with-unittest]' and '-u[unittestskel]' option
+        //  are not intuisive, but I dare to define them because
+        //  -t and -s option are reserved by add-[action|view] handle
+        //  and Console_Getopt cannot interpret two-character option.
+        //
+        $r =& $this->_getopt(
+                  array('basedir=',
+                        'skelfile=',
+                        'template',
+                        'with-unittest',
+                        'unittestskel=',
+                  )
+              );
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -70,7 +83,8 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
     {
         return <<<EOS
 add new view to project:
-    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [view]
+    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [-w|--with-unittest] [-u|--unittestskel=file] [view]
+    NOTICE: "-w" and "-u" options are ignored when you specify -t option.
 
 EOS;
     }
@@ -81,7 +95,8 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [view]
+ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [-w|--with-unittest] [-u|--unittestskel=file] [view]
+    NOTICE: "-w" and "-u" options are ignored when you specify -t option.
 EOS;
     }
 }
