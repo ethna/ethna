@@ -468,11 +468,22 @@ class Ethna_Controller
      *  ビューディレクトリ名を決定する
      *
      *  @access public
-     *  @return string  アクションディレクトリ
+     *  @return string  ビューディレクトリ
      */
     function getViewdir()
     {
         return (empty($this->directory['view']) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory['view'] . "/"));
+    }
+
+    /**
+     *  (action,view以外の)テストケースを置くディレクトリ名を決定する
+     *
+     *  @access public
+     *  @return string  テストケースを置くディレクトリ
+     */
+    function getTestdir()
+    {
+        return (empty($this->directory['test']) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory['test'] . "/"));
     }
 
     /**
