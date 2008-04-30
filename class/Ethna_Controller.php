@@ -2119,14 +2119,14 @@ class Ethna_Controller
      */
      function ethnaManagerCheckErrorMsg($action_name)
      {
-         $appid = $this->getAppId();
+         $appid = strtolower($this->getAppId());
          $run_action = ($action_name == '__ethna_info__')
                      ? ' show Application Info List '
                      : ' run Unit Test ';
          echo "Ethna cannot {$run_action} under your application setting.<br>";
-         echo "HINT: You must set {$appid}/etc/{$appid}.ini debug setting 'true'.<br>";
+         echo "HINT: You must set {$appid}/etc/{$appid}-ini.php debug setting 'true'.<br>";
          echo "<br>";
-         echo "In {$appid}.ini, please set as follows :<br><br>";
+         echo "In {$appid}-ini.php, please set as follows :<br><br>";
          echo "\$config = array ( 'debug' => true, );";
      } 
 
