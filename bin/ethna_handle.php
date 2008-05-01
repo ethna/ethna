@@ -122,7 +122,7 @@ function _Ethna_HandleGateway_ShowVersion()
     $version = <<<EOD
 Ethna %s
 
-Copyright (c) 2004-2006,
+Copyright (c) 2004-%s,
   Masaki Fujimoto <fujimoto@php.net>
   halt feits <halt.feits@gmail.com>
   Takuya Ookubo <sfio@sakura.ai.to>
@@ -132,6 +132,6 @@ Copyright (c) 2004-2006,
 http://ethna.jp/
 
 EOD;
-    printf($version, ETHNA_VERSION);
+    printf($version, ETHNA_VERSION, date('Y'));
 }
 ?>
