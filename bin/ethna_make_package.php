@@ -41,7 +41,7 @@ $package = 'Ethna';
 // x.0.y -> beta
 // x.1.y -> stable
 $major_version = "2.3";
-$minor_version = "2";
+$minor_version = "5";
 
 if ($state == 'alpha' || $state == 'beta') {
     $version = $major_version . strftime('.%Y%m%d%H');
@@ -58,7 +58,7 @@ $config = array(
     'baseinstalldir' => 'Ethna',
     'packagedirectory' => dirname(dirname(__FILE__)),
     'filelistgenerator' => 'file',
-    'ignore' => array('CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh'),
+    'ignore' => array('CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh', '*optional_package*', ),
     'changelogoldtonew' => false,
     'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc'),
     'description' => $description,
@@ -67,12 +67,13 @@ $config = array(
     'installas' => array('bin/ethna.sh' => 'ethna', 'bin/ethna.bat' => 'ethna.bat'),
 );
  
+$ethna_channel = 'pear.ethna.jp';
 $packagexml = new PEAR_PackageFileManager2();
 $packagexml->setOptions($config);
 $packagexml->setPackage($package);
 $packagexml->setSummary('Ethna PHP Framework Package');
 $packagexml->setDescription($description);
-$packagexml->setChannel('pear.ethna.jp');
+$packagexml->setChannel($ethna_channel);
 $packagexml->setAPIVersion($version);
 $packagexml->setReleaseVersion($version);
 $packagexml->setReleaseStability($state);
@@ -84,6 +85,8 @@ $packagexml->addRole('*', 'php');
 
 $packagexml->setPhpDep('4.1.0');
 $packagexml->setPearinstallerDep('1.3.5');
+$packagexml->addPackageDepWithChannel('optional', 'Smarty', $ethna_channel);
+$packagexml->addPackageDepWithChannel('optional', 'simpletest', $ethna_channel);
 
 $packagexml->addMaintainer('lead', 'fujimoto' , 'Masaki Fujimoto', 'fujimoto@php.net');
 $packagexml->addMaintainer('lead', 'halt' , 'halt feits', 'halt.feits@gmail.com');
