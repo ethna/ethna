@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html;charset=EUC-JP" />
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
         <style type="text/css">
         <!--
         {literal}

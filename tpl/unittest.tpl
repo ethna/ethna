@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+  <meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
   <meta http-equiv="Content-Style-Type" content="text/css">
     <title>{$app.app_id} - Ethna UnitTest</title>
     <style type="text/css">

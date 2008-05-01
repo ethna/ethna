@@ -39,16 +39,17 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
         $base = $this->target_ctl->getBaseDir();
         $bin  = $this->target_ctl->getDirectory('bin');
         $tmp  = $this->target_ctl->getDirectory('tmp');
+        $lib  = "{$base}/lib";
         $dirs = array(
-                'php_dir'       => "{$base}/lib",
+                'php_dir'       => "$lib",
                 'bin_dir'       => "{$base}/bin",
                 'cache_dir'     => "{$tmp}/.pear/cache",
-                'download_dir'  => "{$tmp}/.pear/download",
-                'temp_dir'      => "{$tmp}/.pear/temp",
-                'doc_dir'       => "{$tmp}/.pear/doc",
-                'ext_dir'       => "{$tmp}/.pear/ext",
-                'data_dir'      => "{$tmp}/.pear/data",
-                'test_dir'      => "{$tmp}/.pear/test",
+                'download_dir'  => "{$lib}/.pear/download",
+                'temp_dir'      => "{$lib}/.pear/temp",
+                'doc_dir'       => "{$lib}/.pear/doc",
+                'ext_dir'       => "{$lib}/.pear/ext",
+                'data_dir'      => "{$lib}/.pear/data",
+                'test_dir'      => "{$lib}/.pear/test",
                 );
 
         $default_pearrc = "{$base}"

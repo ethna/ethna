@@ -468,11 +468,22 @@ class Ethna_Controller
      *  ビューディレクトリ名を決定する
      *
      *  @access public
-     *  @return string  アクションディレクトリ
+     *  @return string  ビューディレクトリ
      */
     function getViewdir()
     {
         return (empty($this->directory['view']) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory['view'] . "/"));
+    }
+
+    /**
+     *  (action,view以外の)テストケースを置くディレクトリ名を決定する
+     *
+     *  @access public
+     *  @return string  テストケースを置くディレクトリ
+     */
+    function getTestdir()
+    {
+        return (empty($this->directory['test']) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory['test'] . "/"));
     }
 
     /**
@@ -2108,14 +2119,14 @@ class Ethna_Controller
      */
      function ethnaManagerCheckErrorMsg($action_name)
      {
-         $appid = $this->getAppId();
+         $appid = strtolower($this->getAppId());
          $run_action = ($action_name == '__ethna_info__')
                      ? ' show Application Info List '
                      : ' run Unit Test ';
          echo "Ethna cannot {$run_action} under your application setting.<br>";
-         echo "HINT: You must set {$appid}/etc/{$appid}.ini debug setting 'true'.<br>";
+         echo "HINT: You must set {$appid}/etc/{$appid}-ini.php debug setting 'true'.<br>";
          echo "<br>";
-         echo "In {$appid}.ini, please set as follows :<br><br>";
+         echo "In {$appid}-ini.php, please set as follows :<br><br>";
          echo "\$config = array ( 'debug' => true, );";
      } 
 

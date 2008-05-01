@@ -30,7 +30,7 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      *  @access public
      *  @param  string  $character_set  キャラクタセット
      */
-    function Ethna_UnitTestReporter($character_set = 'EUC-JP')
+    function Ethna_UnitTestReporter($character_set = 'UTF-8')
     {
         $this->SimpleReporter();
         $this->_character_set = $character_set;

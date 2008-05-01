@@ -1,12 +1,17 @@
 * 変更点一覧
 
-** 2.5.0-dev
+** 2.3.5
 
 *** features
 
+- PEAR チャンネルサーバに ethna/simpletest, ethna/Smarty を追加
+-- インストール後のsimpletest, Smartyのパスで悩む罠を軽減することが目的
+-- pear コマンドで Ethna をインストールするときにこれらを Optional に依存するように設定。既存のインストールを考慮して、required にはしていない。
 - Ethnaコマンドに一般的なテストケースコマンドとして add-test コマンドを追加(thanks: BoBpp)
 -- ethna add-test -s [skelname] [name] で実行できます
 -- http://blog.as-roma.com/BoBlog/index.php?itemid=1338
+-- これは自動登録されるため、[appid]_UnitTestManager に定義を追加する必要はありません(thanks: id:okonomi)
+--- http://d.hatena.ne.jp/okonomi/20080408
 - Ethna_Renderer_Rhacoを追加(experimental)
 - Ethna_DB_ADOdbのdebug時のログ出力をEthnaのLoggerに変更(@see http://d.hatena.ne.jp/sotarok/20071224)
 - Ethna add-[|action|view]-test コマンドで生成されるテストケースがデフォルトでfailするように改善

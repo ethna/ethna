@@ -38,6 +38,63 @@ class Ethna_UnitTestManager extends Ethna_AppManager
         parent::Ethna_AppManager($backend);
         $this->ctl =& Ethna_Controller::getInstance();
         $this->class_factory =& $this->ctl->getClassFactory();
+        $this->testcase = array_merge($this->testcase, $this->_getTestCaseList()); 
+    }
+
+    /**
+     *  action, view 以外のテストケースの一覧を取得する
+     *
+     *  @access private
+     *  @param  テストケースが含まれているディレクトリ名
+     */
+    function _getTestCaseList($test_dir = NULL)
+    {
+        $r = array();
+
+        if (is_null($test_dir)) {
+            $test_dir = $this->ctl->getTestdir();
+        }
+        $base = $this->ctl->getBasedir();
+
+        $child_dir_list = array();
+
+        $dh = opendir($test_dir);
+        if ($dh == false) {
+            return;
+        }
+
+        $ext = $this->ctl->getExt('php');
+        while (($file = readdir($dh)) !== false) {
+            if ($file == "." || $file == "..") {
+                continue;
+            }
+            $file = $test_dir . $file;
+
+            if (is_dir($file)) {
+                $child_dir_list[] = $file;
+                continue;
+            }
+
+            if (preg_match("/\.$ext\$/", $file) == 0) {
+                continue;
+            }
+
+            $file = str_replace($this->ctl->getTestdir(), '', $file);
+
+            $key = ereg_replace("^(.*)Test\.$ext", '\1', $file);
+            $key = str_replace('/', '', $key);
+
+            $r[$key] = str_replace($base . '/', '', $this->ctl->getTestdir() . $file);
+        }
+
+        closedir($dh);
+
+        foreach ($child_dir_list as $child_dir) {
+            $tmp = $this->_getTestCaseList($child_dir . "/");
+            $r = array_merge($r, $tmp);
+        }
+
+        return $r;
     }
 
     /**
