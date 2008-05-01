@@ -77,7 +77,7 @@
         {/if} 
       {foreachelse}
           <tr>
-            <td>No Testcase Created.</td>
+            <td>You don't create any Testcase.</td>
           </tr>
           <tr>
             <td>
