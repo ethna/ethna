@@ -39,6 +39,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             array("app/plugin/Filter", 0755),
             array("app/plugin/Validator", 0755),
             array("app/view", 0755),
+            array("app/test", 0755),
             array("bin", 0755),
             array("etc", 0755),
             array("lib", 0755),

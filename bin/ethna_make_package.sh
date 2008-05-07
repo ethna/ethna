@@ -33,6 +33,21 @@ rm -fr $targetdir
 mkdir $targetdir
 cp -a . "$targetdir/"
 
+#  create optional package
+optpkg_dir="$targetdir/misc/optional_package"
+cd $optpkg_dir/Smarty/src
+tar xvfz Smarty*.tar.gz
+cd $optpkg_dir/Smarty/build
+./build
+cp $optpkg_dir/Smarty/release/*.tgz $tmpdir
+cd $optpkg_dir/simpletest/src
+tar xvfz simpletest*.tar.gz
+cd $optpkg_dir/simpletest/build
+./build
+cp $optpkg_dir/simpletest/release/*.tgz $tmpdir
+rm -rf $optpkg_dir
+cd $basedir
+
 find $targetdir -name "CVS" -o -name ".svn" | xargs rm -fr
 
 # create package for php 5

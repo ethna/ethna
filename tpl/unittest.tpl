@@ -75,6 +75,23 @@
             <td colspan="2">{$item.message}</td>
           </tr>
         {/if} 
+      {foreachelse}
+          <tr>
+            <td>You don't create any Testcase.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="header">
+                <p>
+                  you can generate testcase with the following commands.
+                </p>
+                <p>
+                  ethna add-action-test [testcasename]<br>
+                  ethna add-view-test   [testcasename]<br>
+                  ethna add-test        [testcasename]
+                </p>
+              </div>
+          </tr>
       {/foreach}
       </table>
       <h2>Result</h2>
@@ -86,7 +103,7 @@
       </p>
       <br />
       <hr />
-      powered by <a href="http://ethna.jp/">Ethna {$app.ethna_version}</a> (experimental)
+      powered by <a href="http://ethna.jp/">Ethna {$app.ethna_version}</a>
       <hr />
     </div>
   </body>
