@@ -66,7 +66,12 @@ class Ethna_ClassFactory
      *  typeに対応するアプリケーションマネージャオブジェクトを返す
      *
      *  @access public
+     *  @param  string  $type   クラスキー
+     *  @param  bool    $weak   オブジェクトが未生成の場合の強制生成フラグ(default: false)
      *  @return object  Ethna_AppManager    マネージャオブジェクト
+     *
+     *  TODO: 現状の実装では、typeを名前として扱っているのに、
+     *        大文字小文字を区別して違うインスタンスを返しているのを修正する
      */
     function &getManager($type, $weak = false)
     {
@@ -122,6 +127,9 @@ class Ethna_ClassFactory
      *  @param  string  $key    クラスキー
      *  @param  bool    $weak   オブジェクトが未生成の場合の強制生成フラグ(default: false)
      *  @return object  生成されたオブジェクト(エラーならnull)
+     *
+     *  TODO: 現状の実装では、typeを名前として扱っているのに、
+     *        大文字小文字を区別して違うインスタンスを返しているのを修正する
      */
     function &getObject($key, $ext = false)
     {
