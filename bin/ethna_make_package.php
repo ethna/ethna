@@ -85,6 +85,7 @@ $packagexml->addRole('*', 'php');
 
 $packagexml->setPhpDep('4.1.0');
 $packagexml->setPearinstallerDep('1.3.5');
+$packagexml->addPackageDepWithChannel('optional', 'DB', 'pear.php.net');
 $packagexml->addPackageDepWithChannel('optional', 'Smarty', $ethna_channel);
 $packagexml->addPackageDepWithChannel('optional', 'simpletest', $ethna_channel);
 
