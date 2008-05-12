@@ -337,7 +337,7 @@ class Ethna_AppObject
     {
         $method = "_dump_$type";
         if (method_exists($this, $method) == false) {
-            return Ethna::raiseError("メソッド未定義[%s]", E_APP_NOMETHOD, $method);
+            return Ethna::raiseError("Undefined Method [%s]", E_APP_NOMETHOD, $method);
         }
 
         return $this->$method();
@@ -421,7 +421,7 @@ class Ethna_AppObject
                     if (is_array($duplicate_key_list)
                         && count($duplicate_key_list) > 0) {
                         foreach ($duplicate_key_list as $k) {
-                            return Ethna::raiseNotice('重複エラー[%s]',
+                            return Ethna::raiseNotice('Duplicate Key Error [%s]',
                                                       E_APP_DUPENT, $k);
                         }
                     }
@@ -434,7 +434,7 @@ class Ethna_AppObject
         }
         if ($i == 4) {
             // cannot be reached
-            return Ethna::raiseError('重複エラーキー判別エラー', E_GENERAL);
+            return Ethna::raiseError('Cannot detect Duplicate key Error', E_GENERAL);
         }
 
         // last insert idの取得: (mysql, sqliteのみ)
@@ -492,7 +492,7 @@ class Ethna_AppObject
                     if (is_array($duplicate_key_list)
                         && count($duplicate_key_list) > 0) {
                         foreach ($duplicate_key_list as $k) {
-                            return Ethna::raiseNotice('重複エラー[%s]',
+                            return Ethna::raiseNotice('Duplicate Key Error [%s]',
                                                       E_APP_DUPENT, $k);
                         }
                     }
@@ -505,7 +505,7 @@ class Ethna_AppObject
         }
         if ($i == 4) {
             // cannot be reached
-            return Ethna::raiseError('重複エラーキー判別エラー', E_GENERAL);
+            return Ethna::raiseError('Cannot detect Duplicate key Error', E_GENERAL);
         }
 
         $affected_rows = $this->my_db_rw->affectedRows();

@@ -249,7 +249,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
     function _getViewList()
     {
         $im =& new Ethna_InfoManager($this->backend);
-//        $view_class_list = array_keys($im->getForwardList());
+        //$view_class_list = array_keys($im->getForwardList());
 
         $r = array();
 
