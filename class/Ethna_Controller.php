@@ -107,6 +107,7 @@ class Ethna_Controller
     var $system_encoding;
 
     /** @var    string      クライアント側エンコーディング */
+    /**                     ブラウザからのエンコーディングを指す  */
     var $client_encoding;
 
     /** @var    string  現在実行中のアクション名 */
@@ -1763,13 +1764,15 @@ class Ethna_Controller
 
     /**
      *  デフォルト状態での使用言語を取得する
+     *  外部に出力されるメッセージのエンコーディングを切り替えたい場合は、
+     *  このメソッドをオーバーライドする。
      *
      *  @access protected
      *  @return array   使用言語,システムエンコーディング名,クライアントエンコーディング名
      */
     function _getDefaultLanguage()
     {
-        return array(LANG_JA, null, null);
+        return array(LANG_JA, 'UTF-8', 'UTF-8');
     }
 
     /**
