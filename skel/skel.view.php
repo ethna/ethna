@@ -8,7 +8,7 @@
  */
 
 /**
- *  {$forward_name}ビューの実装
+ *  {$forward_name} view implementation.
  *
  *  @author     {$author}
  *  @access     public
@@ -17,7 +17,7 @@
 class {$view_class} extends {$project_id}_ViewClass
 {
     /**
-     *  遷移前処理
+     *  preprocess before forwarding.
      *
      *  @access public
      */
@@ -25,4 +25,5 @@ class {$view_class} extends {$project_id}_ViewClass
     {
     }
 }
+
 ?>

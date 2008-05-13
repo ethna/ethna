@@ -8,7 +8,7 @@
  */
 
 /**
- *  {$action_name}フォームのテストケース
+ *  {$action_name} Form testcase.
  *
  *  @author     {$author}
  *  @access     public
@@ -18,46 +18,46 @@ class {$action_form}_TestCase extends Ethna_UnitTestCase
 {
     /**
      *  @access private
-     *  @var    string  アクション名
+     *  @var    string  Action name.
      */
     var $action_name = '{$action_name}';
 
     /**
-     *    テストの初期化
+     *  initialize test.
      *
-     *    @access public
+     *  @access public
      */
     function setUp()
     {
-        $this->createActionForm();  // アクションフォームの作成
+        $this->createActionForm();  // create ActionForm.
     }
 
     /**
-     *    テストの後始末
+     *  clean up testcase.
      *
-     *    @access public
+     *  @access public
      */
     function tearDown()
     {
     }
 
     /**
-     *  {$action_name}アクションフォームのサンプルテストケース
+     *  {$action_name} ActionForm sample testcase.
      *
      *  @access public
      */
     function test_formSample()
     {
         /*
-        // フォームの設定
+        // setting form input.
         $this->af->set('id', 1);
 
-        // {$action_name}アクションフォーム値検証
+        // {$action_name} ActionForm input validation.
         $this->assertEqual($this->af->validate(), 0);
         */
 
         /**
-         *  TODO: テストケースを記述して下さい。
+         *  TODO: write test case! :)
          *  @see http://simpletest.org/en/first_test_tutorial.html
          *  @see http://simpletest.org/en/unit_test_documentation.html
          */
@@ -66,7 +66,7 @@ class {$action_form}_TestCase extends Ethna_UnitTestCase
 }
 
 /**
- *  {$action_name}アクションのテストケース
+ *  {$action_name} Action testcase.
  *
  *  @author     {$author}
  *  @access     public
@@ -76,63 +76,64 @@ class {$action_class}_TestCase extends Ethna_UnitTestCase
 {
     /**
      *  @access private
-     *  @var    string  アクション名
+     *  @var    string  Action name.
      */
     var $action_name = '{$action_name}';
 
     /**
-     *    テストの初期化
+     * initialize test.
      *
-     *    @access public
+     * @access public
      */
     function setUp()
     {
-        $this->createActionForm();  // アクションフォームの作成
-        $this->createActionClass(); // アクションクラスの作成
+        $this->createActionForm();  // create ActionForm.
+        $this->createActionClass(); // create ActionClass.
 
-        $this->session->start();            // セッションの開始
+        $this->session->start();    // start session.
     }
 
     /**
-     *    テストの後始末
+     *  clean up testcase.
      *
-     *    @access public
+     *  @access public
      */
     function tearDown()
     {
-        $this->session->destroy();      // セッションの破棄
+        $this->session->destroy();   // destroy session.
     }
 
     /**
-     *  {$action_name}アクションクラスのサンプルテストケース
+     *  {$action_name} ActionClass sample testcase.
      *
      *  @access public
      */
     function test_actionSample()
     {
         /*
-        // フォームの設定
+        // setting form input.
         $this->af->set('id', 1);
 
-        // {$action_name}アクション実行前の認証処理
+        // Authentication before processing {$action_name} Action.
         $forward_name = $this->ac->authenticate();
         $this->assertNull($forward_name);
 
-        // {$action_name}アクションの前処理
+        // {$action_name} Action preprocess.
         $forward_name = $this->ac->prepare();
         $this->assertNull($forward_name);
 
-        // {$action_name}アクションの実装
+        // {$action_name} Action implementation.
         $forward_name = $this->ac->perform();
         $this->assertEqual($forward_name, '{$action_name}');
         */
 
         /**
-         *  TODO: テストケースを記述して下さい。
+         *  TODO: write test case! :)
          *  @see http://simpletest.org/en/first_test_tutorial.html
          *  @see http://simpletest.org/en/unit_test_documentation.html
          */
         $this->fail('No Test! write Test!');
     }
 }
+
 ?>

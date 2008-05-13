@@ -7,13 +7,13 @@
  *  $Id$
  */
 
-/*--- アプリケーションエラー定義 ---*/
+/*--- Application Error Definition ---*/
 /*
- *  TODO: ここにアプリケーションのエラー定義を記述してください。
- *  なお、255までのエラーコードはフレームワークで予約されていますので
- *  エラーコードには256以上の整数を使用してください。
+ *  TODO: Write application error definition here.
+ *        Error codes 255 and below are reserved 
+ *        by Ethna, so use over 256 value for error code.
  *
- *  記述例:
+ *  Example:
  *  define('E_LOGIN_INVALID', 256);
  */
 ?>

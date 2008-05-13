@@ -8,7 +8,7 @@
  */
 
 /**
- *  実行時間計測フィルタプラグインの実装
+ *  filter plugin implementation for measuring execution time.
  *
  *  @author     {$author}
  *  @access     public
@@ -21,7 +21,7 @@ class {$project_id}_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
      */
 
     /**
-     *  @var    int     開始時間
+     *  @var    int     Start time.
      */
     var $stime;
 
@@ -29,7 +29,7 @@ class {$project_id}_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
 
 
     /**
-     *  実行前フィルタ
+     *  filter before first processing.
      *
      *  @access public
      */
@@ -41,11 +41,13 @@ class {$project_id}_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
     }
 
     /**
-     *  アクション実行前フィルタ
+     *  filter BEFORE executing action.
      *
      *  @access public
-     *  @param  string  $action_name    実行されるアクション名
-     *  @return string  null:正常終了 (string):実行するアクション名を変更
+     *  @param  string  $action_name  Action name.
+     *  @return string  null: normal.
+     *                string: if you return string, it will be interpreted
+     *                        as Action name which will be executed immediately.
      */
     function preActionFilter($action_name)
     {
@@ -53,12 +55,14 @@ class {$project_id}_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
     }
 
     /**
-     *  アクション実行後フィルタ
+     *  filter AFTER executing action.
      *
      *  @access public
-     *  @param  string  $action_name    実行されたアクション名
-     *  @param  string  $forward_name   実行されたアクションからの戻り値
-     *  @return string  null:正常終了 (string):遷移名を変更
+     *  @param  string  $action_name    executed Action name.
+     *  @param  string  $forward_name   return value from executed Action.
+     *  @return string  null: normal.
+     *                string: if you return string, it will be interpreted
+     *                        as Forward name.
      */
     function postActionFilter($action_name, $forward_name)
     {
@@ -66,7 +70,7 @@ class {$project_id}_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
     }
 
     /**
-     *  実行後フィルタ
+     *  filter which will be executed at the end.
      *
      *  @access public
      */

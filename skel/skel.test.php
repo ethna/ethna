@@ -12,41 +12,40 @@
  * 
  * @author    {$author}
  * @package   {$project_id}.Test
- * @version   1.0
  */
 class {$name}_TestCase extends Ethna_UnitTestCase
 {
     /**
-     * テストの初期化
+     * initialize test.
      * 
      * @access public
      */
     function setUp()
     {
-        // TODO: テストに際しての初期化コードを記述してください
-        // 例: テスト用のデータをDBから読み込む
+        // TODO: write test initialization code.
+        // Example: read test data from database.
     }
     
     /**
-     * テストの後始末
+     *  clean up testcase.
      * 
-     * @access public
+     *  @access public
      */
     function tearDown()
     {
-        // TODO: テスト終了に際してのコードを記述してください
-        // 例: テスト用のデータから開発用のデータに戻す
+        // TODO: write testcase cleanup code.
+        // Example: restore database data for development.
     }
     
     /**
-     * サンプルのテストケース
+     * sample testcase.
      * 
      * @access public
      */
     function test_{$name}()
     {
         /**
-         *  TODO: テストケースを記述して下さい。
+         *  TODO: write test case! :)
          *  @see http://simpletest.org/en/first_test_tutorial.html
          *  @see http://simpletest.org/en/unit_test_documentation.html
          */

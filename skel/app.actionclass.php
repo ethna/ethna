@@ -10,7 +10,7 @@
 
 // {{{ {$project_id}_ActionClass
 /**
- *  action実行クラス
+ *  action execution class
  *
  *  @author     {$author}
  *  @package    {$project_id}
@@ -19,10 +19,11 @@
 class {$project_id}_ActionClass extends Ethna_ActionClass
 {
     /**
-     *  アクション実行前の認証処理を行う
+     *  authenticate before executing action.
      *
      *  @access public
-     *  @return string  遷移名(nullなら正常終了, falseなら処理終了)
+     *  @return string  Forward name.
+     *                  (null if no errors. false if we have something wrong.)
      */
     function authenticate()
     {
@@ -30,10 +31,11 @@ class {$project_id}_ActionClass extends Ethna_ActionClass
     }
 
     /**
-     *  アクション実行前の処理(フォーム値チェック等)を行う
+     *  Preparation for executing action. (Form input check, etc.)
      *
      *  @access public
-     *  @return string  遷移名(nullなら正常終了, falseなら処理終了)
+     *  @return string  Forward name.
+     *                  (null if no errors. false if we have something wrong.)
      */
     function prepare()
     {
@@ -41,10 +43,11 @@ class {$project_id}_ActionClass extends Ethna_ActionClass
     }
 
     /**
-     *  アクション実行
+     *  execute action.
      *
      *  @access public
-     *  @return string  遷移名(nullなら遷移は行わない)
+     *  @return string  Forward name.
+     *                  (we does not forward if returns null.)
      */
     function perform()
     {
@@ -52,4 +55,5 @@ class {$project_id}_ActionClass extends Ethna_ActionClass
     }
 }
 // }}}
+
 ?>

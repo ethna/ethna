@@ -8,7 +8,7 @@
  */
 
 /**
- *  indexビューの実装
+ *  Index view implementation.
  *
  *  @author     {$author}
  *  @access     public
@@ -17,7 +17,7 @@
 class {$project_id}_View_Index extends {$project_id}_ViewClass
 {
     /**
-     *  遷移前処理
+     *  preprocess before forwarding.
      *
      *  @access public
      */
@@ -25,4 +25,5 @@ class {$project_id}_View_Index extends {$project_id}_ViewClass
     {
     }
 }
+
 ?>

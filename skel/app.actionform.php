@@ -10,7 +10,7 @@
 
 // {{{ {$project_id}_ActionForm
 /**
- *  アクションフォームクラス
+ *  ActionForm class.
  *
  *  @author     {$author}
  *  @package    {$project_id}
@@ -22,20 +22,20 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
      *  @access private
      */
 
-    /** @var    array   フォーム値定義(デフォルト) */
+    /** @var    array   form definition (default) */
     var $form_template = array();
 
-    /** @var    bool    バリデータにプラグインを使うフラグ */
+    /** @var    bool    specify if you use validator plugin */
     var $use_validator_plugin = true;
 
     /**#@-*/
 
     /**
-     *  フォーム値検証のエラー処理を行う
+     *  Error handling of form input validation.
      *
      *  @access public
-     *  @param  string      $name   フォーム項目名
-     *  @param  int         $code   エラーコード
+     *  @param  string      $name   form item name.
+     *  @param  int         $code   error code.
      */
     function handleError($name, $code)
     {
@@ -43,11 +43,11 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
     }
 
     /**
-     *  フォーム値定義テンプレートを設定する
+     *  setter method for form template.
      *
      *  @access protected
-     *  @param  array   $form_template  フォーム値テンプレート
-     *  @return array   フォーム値テンプレート
+     *  @param  array   $form_template  form template
+     *  @return array   form template after setting.
      */
     function _setFormTemplate($form_template)
     {
@@ -55,7 +55,7 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
     }
 
     /**
-     *  フォーム値定義を設定する
+     *  setter method for form definition.
      *
      *  @access protected
      */
@@ -66,4 +66,5 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
 
 }
 // }}}
+
 ?>

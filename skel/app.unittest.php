@@ -8,7 +8,7 @@
  */
 
 /**
- *  {$project_id}ユニットテストマネージャクラス
+ *  {$project_id} Unit Test Manager Class.
  *
  *  @author     {$author}
  *  @access     public
@@ -17,13 +17,13 @@
 class {$project_id}_UnitTestManager extends Ethna_UnitTestManager
 {
     /**
-     *  @var    array   一般テストケース定義
+     *  @var    array   General test case definition.
      */
     var $testcase = array(
         /*
-         *  TODO: ここに一般テストケース定義を記述してください
+         *  TODO: Write general test case definition here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'util' => 'app/UtilTest.php',
          */

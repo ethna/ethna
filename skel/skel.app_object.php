@@ -28,7 +28,7 @@ class {$app_object}Manager extends Ethna_AppManager
 class {$app_object} extends Ethna_AppObject
 {
     /**
-     *  プロパティの表示名を取得する
+     *  property display name getter.
      *
      *  @access public
      */
@@ -37,4 +37,5 @@ class {$app_object} extends Ethna_AppObject
         return $this->get($key);
     }
 }
+
 ?>
