@@ -1,5 +1,11 @@
 * 変更点一覧
 
+** 2.3.6
+
+*** features
+
+- レンタルサーバを考慮して、[appid]_Controllerの include_path を、[appid]/lib を優先するように変更
+
 ** 2.3.5
 
 *** features
