@@ -13,7 +13,7 @@ define('BASE', dirname(dirname(__FILE__)));
 /** include_path setting (adding "/app" and "/lib" directory to include_path) */
 $app = BASE . "/app";
 $lib = BASE . "/lib";
-ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . implode(PATH_SEPARATOR, array($app, $lib)));
+ini_set('include_path', implode(PATH_SEPARATOR, array($app, $lib)) . PATH_SEPARATOR . ini_get('include_path'));
 
 
 /** including application library. */
