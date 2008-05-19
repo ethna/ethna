@@ -26,7 +26,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r = $this->_getopt(array('basedir='));
+        $r = $this->_getopt(array('basedir=', 'skeldir='));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -49,7 +49,18 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
             $basedir = getcwd();
         }
 
-        $r = Ethna_Generator::generate('Project', null, $app_id, $basedir);
+        // skeldir
+        if (isset($opt_list['skeldir'])) {
+            $selected_dir = end($opt_list['skeldir']);
+            $skeldir = realpath($selected_dir);
+            if ($skeldir == false || is_dir($skeldir) == false || file_exists($skeldir) == false) {
+                return Ethna::raiseError("You specified skeldir, but invalid : $selected_dir", 'usage');
+            }
+        } else {
+            $skeldir = null;
+        }
+
+        $r = Ethna_Generator::generate('Project', null, $app_id, $basedir, $skeldir);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also error messages given above\n\n");
             return $r;
@@ -68,7 +79,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
     {
         return <<<EOS
 add new project:
-    {$this->id} [-b|--basedir=dir] [project-id]
+    {$this->id} [-b|--basedir=dir] [-s|--skeldir] [project-id]
 
 EOS;
     }
@@ -81,7 +92,7 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [project-id]
+ethna {$this->id} [-b|--basedir=dir] [-s|--skeldir] [project-id]
 EOS;
     }
 }
