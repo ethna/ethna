@@ -74,13 +74,6 @@ if (extension_loaded('soap')) {
     require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_WsdlGenerator.php';
 }
 
-/** クライアント言語定義: 英語 */
-define('LANG_EN', 'en');
-
-/** クライアント言語定義: 日本語 */
-define('LANG_JA', 'ja');
-
-
 /** ゲートウェイ: WWW */
 define('GATEWAY_WWW', 1);
 

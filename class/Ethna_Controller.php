@@ -100,8 +100,8 @@ class Ethna_Controller
     var $filter = array(
     );
 
-    /** @var    string      使用言語設定 */
-    var $language;
+    /** @var    string      使用ロケール設定 */
+    var $locale;
 
     /** @var    string      システム側エンコーディング */
     var $system_encoding;
@@ -237,7 +237,7 @@ class Ethna_Controller
         }
 
         // 初期設定
-        list($this->language, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
+        list($this->locale, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
 
         $this->config =& $this->getConfig();
         $this->dsn = $this->_prepareDSN();
@@ -424,17 +424,20 @@ class Ethna_Controller
 
     /**
      *  クライアントタイプ/言語からテンプレートディレクトリ名を決定する
+     *  デフォルトでは [appid]/template/ja_JP/ (ja_JPはロケール名)
+     *  ロケール名は _getDefaultLanguage で決定される。
      *
      *  @access public
      *  @return string  テンプレートディレクトリ
+     *  @see    Ethna_Controller#_getDefaultLanguage
      */
     function getTemplatedir()
     {
         $template = $this->getDirectory('template');
 
         // 言語別ディレクトリ
-        if (file_exists($template . '/' . $this->language)) {
-            $template .= '/' . $this->language;
+        if (file_exists($template . '/' . $this->locale)) {
+            $template .= '/' . $this->locale;
         }
 
         return $template;
@@ -691,14 +694,18 @@ class Ethna_Controller
     }
 
     /**
-     *  使用言語を取得する
+     *  ロケール設定、使用言語を取得する
      *
      *  @access public
-     *  @return array   使用言語,システムエンコーディング名,クライアントエンコーディング名
+     *  @return array   ロケール名(e.x ja_JP, en_US 等),
+     *                  システムエンコーディング名,
+     *                  クライアントエンコーディング名 の配列
+     *                  (ロケール名は、ll_cc の形式。ll = 言語コード cc = 国コード)
+     *  @see http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html 
      */
     function getLanguage()
     {
-        return array($this->language, $this->system_encoding, $this->client_encoding);
+        return array($this->locale, $this->system_encoding, $this->client_encoding);
     }
 
     /**
@@ -876,8 +883,8 @@ class Ethna_Controller
         }
         $this->action_name = $action_name;
 
-        // 言語設定
-        $this->_setLanguage($this->language, $this->system_encoding, $this->client_encoding);
+        // ロケール/言語設定
+        $this->_setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
 
         // オブジェクト生成
         $backend =& $this->getBackend();
@@ -1743,36 +1750,43 @@ class Ethna_Controller
     }
 
     /**
-     *  使用言語を設定する
-     *
-     *  将来への拡張のためのみに存在しています。現在は特にオーバーライドの必要はありません。
+     *  使用言語、ロケールを設定する
+     *  条件によって使用言語、ロケールを切り替えたい場合は、
+     *  このメソッドをオーバーライドする。
      *
      *  @access protected
-     *  @param  string  $language           言語定義(LANG_JA, LANG_EN...)
+     *  @param  string  $locale             ロケール名(ja_JP, en_US等)
+     *                                      (ll_cc の形式。ll = 言語コード cc = 国コード)
      *  @param  string  $system_encoding    システムエンコーディング名
-     *  @param  string  $client_encoding    クライアントエンコーディング
+     *  @param  string  $client_encoding    クライアントエンコーディング(テンプレートのエンコーディングと考えれば良い)
+     *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html 
+     *  @see    Ethna_Controller#_getDefaultLanguage
      */
-    function _setLanguage($language, $system_encoding = null, $client_encoding = null)
+    function _setLanguage($locale, $system_encoding = null, $client_encoding = null)
     {
-        $this->language = $language;
+        $this->locale = $locale;
         $this->system_encoding = $system_encoding;
         $this->client_encoding = $client_encoding;
 
         $i18n =& $this->getI18N();
-        $i18n->setLanguage($language, $system_encoding, $client_encoding);
+        $i18n->setLanguage($locale, $system_encoding, $client_encoding);
     }
 
     /**
      *  デフォルト状態での使用言語を取得する
-     *  外部に出力されるメッセージのエンコーディングを切り替えたい場合は、
-     *  このメソッドをオーバーライドする。
+     *  外部に出力されるEthnaのエラーメッセージ等のエンコーディングを
+     *  切り替えたい場合は、このメソッドをオーバーライドする。
      *
      *  @access protected
-     *  @return array   使用言語,システムエンコーディング名,クライアントエンコーディング名
+     *  @return array   ロケール名(e.x ja_JP, en_US 等),
+     *                  システムエンコーディング名,
+     *                  クライアントエンコーディング名
+     *                  (= テンプレートのエンコーディングと考えてよい) の配列
+     *                  (ロケール名は ll_cc の形式。ll = 言語コード cc = 国コード)
      */
     function _getDefaultLanguage()
     {
-        return array(LANG_JA, 'UTF-8', 'UTF-8');
+        return array('ja_JP', 'UTF-8', 'UTF-8');
     }
 
     /**
