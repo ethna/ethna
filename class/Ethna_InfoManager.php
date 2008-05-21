@@ -43,26 +43,10 @@ class Ethna_InfoManager extends Ethna_AppManager
     );
 
     /** @var    array   [属性]フォーム型一覧 */
-    var $form_type_list = array(
-        FORM_TYPE_TEXT      => array('name' => 'テキストボックス'),
-        FORM_TYPE_PASSWORD  => array('name' => 'パスワード'),
-        FORM_TYPE_TEXTAREA  => array('name' => 'テキストエリア'),
-        FORM_TYPE_SELECT    => array('name' => 'セレクトボックス'),
-        FORM_TYPE_RADIO     => array('name' => 'ラジオボタン'),
-        FORM_TYPE_CHECKBOX  => array('name' => 'チェックボックス'),
-        FORM_TYPE_SUBMIT    => array('name' => 'フォーム送信ボタン'),
-        FORM_TYPE_FILE      => array('name' => 'ファイル'),
-    );
-
+    var $form_type_list;
+ 
     /** @var    array   [属性]変数型一覧 */
-    var $var_type_list = array(
-        VAR_TYPE_INT        => array('name' => '整数'),
-        VAR_TYPE_FLOAT      => array('name' => '浮動小数点数'),
-        VAR_TYPE_STRING     => array('name' => '文字列'),
-        VAR_TYPE_DATETIME   => array('name' => '日付'),
-        VAR_TYPE_BOOLEAN    => array('name' => '真偽値'),
-        VAR_TYPE_FILE       => array('name' => 'ファイル'),
-    );
+    var $var_type_list;
 
     /**#@-*/
 
@@ -74,13 +58,36 @@ class Ethna_InfoManager extends Ethna_AppManager
      */
     function Ethna_InfoManager(&$backend)
     {
+        $this->form_type_list = array(
+                                    FORM_TYPE_TEXT => array('name' => _et('TextBox')),
+                                    FORM_TYPE_PASSWORD  => array('name' => _et('Password')),
+                                    FORM_TYPE_TEXTAREA  => array('name' => _et('TextArea')),
+                                    FORM_TYPE_SELECT    => array('name' => _et('SelectBox')),
+                                    FORM_TYPE_RADIO     => array('name' => _et('RadioButton')),
+                                    FORM_TYPE_CHECKBOX  => array('name' => _et('CheckBox')),
+                                    FORM_TYPE_SUBMIT    => array('name' => _et('SubmitButton')),
+                                    FORM_TYPE_FILE      => array('name' => _et('File')),
+                                );
+
+        $this->var_type_list = array(
+                                    VAR_TYPE_INT        => array('name' => _et('Integer')),
+                                    VAR_TYPE_FLOAT      => array('name' => _et('Float')),
+                                    VAR_TYPE_STRING     => array('name' => _et('String')),
+                                    VAR_TYPE_DATETIME   => array('name' => _et('Datetime')),
+                                    VAR_TYPE_BOOLEAN    => array('name' => _et('Boolean')),
+                                    VAR_TYPE_FILE       => array('name' => _et('File')),
+                               );
+
         parent::Ethna_AppManager($backend);
         $this->ctl =& Ethna_Controller::getInstance();
         $this->class_factory =& $this->ctl->getClassFactory();
 
         // アクションスクリプト解析結果キャッシュ取得
-        $this->cache_class_list_file = sprintf('%s/ethna_info_class_list', $this->ctl->getDirectory('tmp'));
-        if (file_exists($this->cache_class_list_file) && filesize($this->cache_class_list_file) > 0) {
+        $this->cache_class_list_file = sprintf('%s/ethna_info_class_list',
+                                               $this->ctl->getDirectory('tmp')
+                                       );
+        if (file_exists($this->cache_class_list_file)
+         && filesize($this->cache_class_list_file) > 0) {
             $fp = fopen($this->cache_class_list_file, 'r');
             $s = fread($fp, filesize($this->cache_class_list_file));
             fclose($fp);
@@ -447,7 +454,8 @@ class Ethna_InfoManager extends Ethna_AppManager
                 $form[$name]['filter'] = str_replace(",", "\n", $def['filter']);
                 $form[$name]['form_type'] = $this->getAttrName('form_type', $def['form_type']);
                 $form[$name]['type_is_array'] = is_array($def['type']);
-                $form[$name]['type'] = $this->getAttrName('var_type', is_array($def['type']) ? $def['type'][0] : $def['type']);
+                $form[$name]['type'] = $this->getAttrName('var_type', is_array($def['type'])
+                                     ? $def['type'][0] : $def['type']);
             }
             $action['action_form_info']['form'] = $form;
             $action_list[$action_name] = $action;
@@ -605,27 +613,27 @@ class Ethna_InfoManager extends Ethna_AppManager
 
         // core
         $elts = array();
-        $elts['アプリケーションID'] = $this->ctl->getAppId();
-        $elts['アプリケーションURL'] = $this->ctl->getURL();
-        $elts['Ethnaバージョン'] = ETHNA_VERSION;
-        $elts['Ethnaベースディレクトリ'] = ETHNA_BASE;
+        $elts[_et('Application ID')] = $this->ctl->getAppId();
+        $elts[_et('Application URL')] = $this->ctl->getURL();
+        $elts[_et('Ethna Version')] = ETHNA_VERSION;
+        $elts[_et('Ethna Base Directory')] = ETHNA_BASE;
         $r['Core'] = $elts;
 
         // class
         $elts = array();
-        $elts['バックエンド'] = $this->class_factory->getObjectName('backend');
-        $elts['クラスファクトリ'] = $this->class_factory->getObjectName('class');
-        $elts['設定'] = $this->class_factory->getObjectName('config');
+        $elts[_et('Backend')] = $this->class_factory->getObjectName('backend');
+        $elts[_et('ClassFactory')] = $this->class_factory->getObjectName('class');
+        $elts[_et('Config')] = $this->class_factory->getObjectName('config');
         $elts['DB'] = $this->class_factory->getObjectName('db');
-        $elts['エラー'] = $this->class_factory->getObjectName('error');
-        $elts['フォーム'] = $this->class_factory->getObjectName('form');
-        $elts['ログ'] = $this->class_factory->getObjectName('logger');
+        $elts[_et('Error')] = $this->class_factory->getObjectName('error');
+        $elts[_et('Form')] = $this->class_factory->getObjectName('form');
+        $elts[_et('Log')] = $this->class_factory->getObjectName('logger');
         $elts['i18n'] = $this->class_factory->getObjectName('i18n');
-        $elts['プラグイン'] = $this->class_factory->getObjectName('plugin');
-        $elts['セッション'] = $this->class_factory->getObjectName('session');
+        $elts[_et('Plugin')] = $this->class_factory->getObjectName('plugin');
+        $elts[_et('Session')] = $this->class_factory->getObjectName('session');
         $elts['SQL'] = $this->class_factory->getObjectName('sql');
-        $elts['ビュー'] = $this->class_factory->getObjectName('view');
-        $r['クラス'] = $elts;
+        $elts[_et('View')] = $this->class_factory->getObjectName('view');
+        $r[_et('Class')] = $elts;
 
         // DB
         $elts = array();
@@ -639,7 +647,7 @@ class Ethna_InfoManager extends Ethna_AppManager
             $elts[$tmp] = $this->getAttrName('db_type', $db);
             $db_list[$key] = $tmp;
         }
-        $r['DBタイプ'] = $elts;
+        $r[_et('DB Type')] = $elts;
 
         // DSN
         $elts = array();
@@ -657,37 +665,37 @@ class Ethna_InfoManager extends Ethna_AppManager
 
         // directory
         $elts = array();
-        $elts['アプリケーション'] = $this->ctl->getBasedir();
-        $elts['アクション'] = $this->ctl->getActiondir();
-        $elts['ビュー'] = $this->ctl->getViewdir();
-        $elts['フィルタ'] = $this->ctl->getDirectory('filter');
-        $elts['プラグイン'] = $this->ctl->getDirectory('plugin');
-        $elts['テンプレート'] = $this->ctl->getTemplatedir();
-        $elts['テンプレートキャッシュ'] = $this->ctl->getDirectory('template_c');
-        $elts['Smartyプラグイン'] = implode(',', $this->ctl->getDirectory('plugins'));
-        $elts['設定ファイル'] = $this->ctl->getDirectory('etc');
-        $elts['ロケール'] = $this->ctl->getDirectory('locale');
-        $elts['ログ'] = $this->ctl->getDirectory('log');
-        $elts['一時ファイル'] = $this->ctl->getDirectory('tmp');
-        $r['ディレクトリ'] = $elts;
+        $elts[_et('Application')] = $this->ctl->getBasedir();
+        $elts[_et('Action')] = $this->ctl->getActiondir();
+        $elts[_et('View')] = $this->ctl->getViewdir();
+        $elts[_et('Filter')] = $this->ctl->getDirectory('filter');
+        $elts[_et('Plugin')] = $this->ctl->getDirectory('plugin');
+        $elts[_et('Template')] = $this->ctl->getTemplatedir();
+        $elts[_et('Template Cache')] = $this->ctl->getDirectory('template_c');
+        $elts[_et('Smarty Plugin')] = implode(',', $this->ctl->getDirectory('plugins'));
+        $elts[_et('Configuration File')] = $this->ctl->getDirectory('etc');
+        $elts[_et('Locale')] = $this->ctl->getDirectory('locale');
+        $elts[_et('Logging')] = $this->ctl->getDirectory('log');
+        $elts[_et('Temporary File')] = $this->ctl->getDirectory('tmp');
+        $r[_et('Directory')] = $elts;
 
         // ext
         $elts = array();
-        $elts['テンプレート'] = $this->ctl->getExt('tpl');
-        $elts['PHPスクリプト'] = $this->ctl->getExt('php');
-        $r['拡張子'] = $elts;
+        $elts[_et('Template')] = $this->ctl->getExt('tpl');
+        $elts[_et('PHP Script')] = $this->ctl->getExt('php');
+        $r[_et('File Extention')] = $elts;
 
         // filter
         $elts = array();
         $n = 1;
         foreach ($this->ctl->filter as $filter) {
-            $key = sprintf("フィルタ(%d)", $n);
+            $key = sprintf(_et('Filter(%d)'), $n);
             if (class_exists($filter)) {
                 $elts[$key] = $filter;
                 $n++;
             }
         }
-        $r['フィルタ'] = $elts;
+        $r[_et('Filter')] = $elts;
 
         // manager
         $elts = array();
@@ -695,7 +703,7 @@ class Ethna_InfoManager extends Ethna_AppManager
             $name = sprintf('$%s', $key);
             $elts[$name] = $this->ctl->getManagerClassName($manager);
         }
-        $r['アプリケーションマネージャ'] = $elts;
+        $r[_et('Application Manager')] = $elts;
 
         return $r;
     }
@@ -730,4 +738,5 @@ class Ethna_InfoManager extends Ethna_AppManager
     }
 }
 // }}}
+
 ?>

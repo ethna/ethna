@@ -38,7 +38,7 @@ class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
             if (isset($params['error'])) {
                 $msg = $params['error'];
             } else {
-                $msg = "{form}を正しく入力してください";
+                $msg = _et('Please input {form} properly.');
             }
             return Ethna::raiseNotice($msg, E_FORM_REGEXP);
         }

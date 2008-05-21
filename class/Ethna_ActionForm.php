@@ -64,8 +64,8 @@ class Ethna_ActionForm
     var $plugin;
 
     /** @var    array   フォーム定義要素 */
-    var $def = array('name', 'required', 'max', 'min', 'regexp', 'custom',
-                     'filter', 'form_type', 'type');
+    var $def = array('name', 'required', 'max', 'min', 'regexp', 'mbregexp',
+                     'custom', 'filter', 'form_type', 'type');
 
     /** @var    array   フォーム定義のうち非プラグイン要素とみなすprefix */
     var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter',
@@ -742,7 +742,7 @@ class Ethna_ActionForm
             } else if ($c == 0xad || ($c >= 0xf9 && $c <= 0xfc)) {
                 /* IBM拡張文字 / NEC選定IBM拡張文字 */
                 return $this->ae->add($name,
-                    '{form}に機種依存文字が入力されています', E_FORM_INVALIDCHAR);
+                    _et('{form} contains machine dependent code.'), E_FORM_INVALIDCHAR);
             } else {
                 $i++;
             }
@@ -773,7 +773,7 @@ class Ethna_ActionForm
             }
             if ($v != "0" && $v != "1") {
                 return $this->ae->add($name,
-                    '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
+                    _et('Please input {form} properly.'), E_FORM_INVALIDCHAR);
             }
         }
 
@@ -802,7 +802,7 @@ class Ethna_ActionForm
             }
             if (Ethna_Util::checkMailaddress($v) == false) {
                 return $this->ae->add($name,
-                    '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
+                    _et('Please input {form} properly.'), E_FORM_INVALIDCHAR);
             }
         }
 
@@ -831,7 +831,7 @@ class Ethna_ActionForm
             }
             if (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/)/', $v) == 0) {
                 return $this->ae->add($name,
-                    '{form}を正しく入力してください', E_FORM_INVALIDCHAR);
+                    _et('Please input {form} properly.'), E_FORM_INVALIDCHAR);
             }
         }
 
@@ -934,82 +934,82 @@ class Ethna_ActionForm
             case FORM_TYPE_PASSWORD:
             case FORM_TYPE_TEXTAREA:
             case FORM_TYPE_SUBMIT:
-                $message = "{form}を入力して下さい";
+                $message = _et('Please input {form}.');
                 break;
             case FORM_TYPE_SELECT:
             case FORM_TYPE_RADIO:
             case FORM_TYPE_CHECKBOX:
             case FORM_TYPE_FILE:
-                $message = "{form}を選択して下さい";
+                $message = _et('Please select {form}.');
                 break;
             default:
-                $message = "{form}を入力して下さい";
+                $message = _et('Please input {form}.');
                 break;
             }
         } else if ($code == E_FORM_WRONGTYPE_SCALAR) {
-            $message = "{form}にはスカラー値を入力して下さい";
+            $message = _et('Please input scalar value to {form}.');
         } else if ($code == E_FORM_WRONGTYPE_ARRAY) {
-            $message = "{form}には配列を入力して下さい";
+            $message = _et('Please input array value to {form}.');
         } else if ($code == E_FORM_WRONGTYPE_INT) {
-            $message = "{form}には数字(整数)を入力して下さい";
+            $message = _et('Please input integer value to {form}.');
         } else if ($code == E_FORM_WRONGTYPE_FLOAT) {
-            $message = "{form}には数字(小数)を入力して下さい";
+            $message = _et('Please input float value to {form}.');
         } else if ($code == E_FORM_WRONGTYPE_DATETIME) {
-            $message = "{form}には日付を入力して下さい";
+            $message = _et('Please input valid datetime to {form}.');
         } else if ($code == E_FORM_WRONGTYPE_BOOLEAN) {
-            $message = "{form}には1または0のみ入力できます";
+            $message = _et('You can input 0 or 1 to {form}.');
         } else if ($code == E_FORM_MIN_INT) {
             $this->ae->add($name,
-                "{form}には%d以上の数字(整数)を入力して下さい",
+                _et('Please input more than %d(int) to {form}.'),
                 $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_FLOAT) {
             $this->ae->add($name,
-                "{form}には%f以上の数字(小数)を入力して下さい",
+                _et('Please input more than %f(float) to {form}.'),
                 $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_DATETIME) {
             $this->ae->add($name,
-                "{form}には%s以降の日付を入力して下さい",
+                _et('Please input datetime value %s or later to {form}.'),
                 $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_FILE) {
             $this->ae->add($name,
-                "{form}には%dKB以上のファイルを指定して下さい",
+                _et('Please specify file whose size is more than %d KB.'), 
                 $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_STRING) {
             $this->ae->add($name,
-                "{form}には全角%d文字以上(半角%d文字以上)入力して下さい",
+                _et('Please input more than %d full-size (%d half-size) characters to {form}.'),
                 $code, intval($def['min']/2), $def['min']);
             return;
         } else if ($code == E_FORM_MAX_INT) {
             $this->ae->add($name,
-                "{form}には%d以下の数字(整数)を入力して下さい",
+                _et('Please input less than %d(int) to {form}.'),
                 $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_FLOAT) {
             $this->ae->add($name,
-                "{form}には%f以下の数字(小数)を入力して下さい",
+                _et('Please input less than %f(float) to {form}.'),
                 $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_DATETIME) {
             $this->ae->add($name,
-                "{form}には%s以前の日付を入力して下さい",
+                _et('Please input datetime value before %s to {form}.'),
                 $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_FILE) {
             $this->ae->add($name,
-                "{form}には%dKB以下のファイルを指定して下さい",
+                _et('Please specify file whose size is less than %d KB to {form}.'), 
                 $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_STRING) {
             $this->ae->add($name,
-                "{form}は全角%d文字以下(半角%d文字以下)で入力して下さい",
+                _et('Please input less than %d full-size (%d half-size) characters to {form}.'),
                 $code, intval($def['max']/2), $def['max']);
             return;
         } else if ($code == E_FORM_REGEXP) {
-            $message = "{form}を正しく入力してください";
+            $message = _et('Please input {form} properly.');
         }
 
         $this->ae->add($name, $message, $code);
@@ -1461,4 +1461,5 @@ class Ethna_ActionForm
     }
 }
 // }}}
+
 ?>

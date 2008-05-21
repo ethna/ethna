@@ -59,9 +59,9 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}が選択されていません';
+                    $msg = _et('{form} was not selected.');
                 } else {
-                    $msg = '{form}が入力されていません';
+                    $msg = _et('no input to {form}.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             } else {
@@ -86,9 +86,9 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}の必要な項目が選択されていません';
+                    $msg = _et('Required item of {form} was not selected.');
                 } else {
-                    $msg = '{form}の必要な項目が入力されていません';
+                    $msg = _et('Required item of {form} was not submitted.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             }
@@ -100,9 +100,9 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}が必要な数まで選択されていません';
+                    $msg = _et('Required numbers of {form} was not selected.');
                 } else {
-                    $msg = '{form}が必要な数まで入力されていません';
+                    $msg = _et('Required numbers of {form} was not submitted.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             }
@@ -114,9 +114,9 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}が選択されていません';
+                    $msg = _et('Please select {form}.');
                 } else {
-                    $msg = '{form}が入力されていません';
+                    $msg = _et('Please input {form}.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             }

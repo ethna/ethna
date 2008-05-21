@@ -71,22 +71,22 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
         $msg = '';
         switch ($var['error']) {
         case UPLOAD_ERR_INI_SIZE: 
-            $msg = 'アップロードされたファイルは、php.ini の upload_max_filesize ディレクティブの値を超えています。';
+            $msg = _et("Uploaded file size exceeds php.ini's upload_max_filesize directive.");
             break;
         case UPLOAD_ERR_FORM_SIZE:
-            $msg = 'アップロードされたファイルは、HTML フォームで指定された MAX_FILE_SIZE を超えています。';
+            $msg = _et('Uploaded File size exceeds MAX_FILE_SIZE specified in HTML Form.');
             break;
         case UPLOAD_ERR_PARTIAL:
-            $msg= 'アップロードされたファイルは一部のみしかアップロードされていません。';
+            $msg= _et('File was only uploaded patially.');
             break;
         case UPLOAD_ERR_NO_FILE:
-            $msg = 'ファイルはアップロードされませんでした。';
+            $msg = _et('File was not uploaded.');
             break;
         case UPLOAD_ERR_NO_TMP_DIR:
-            $msg = 'テンポラリフォルダがありません。';
+            $msg = _et('Temporary folder was not found.');
             break;
         case UPLOAD_ERR_CANT_WRITE:
-            $msg= 'ディスクへの書き込みに失敗しました。';
+            $msg= _et('Could not write uploaded file to disk.');
             break;
         }
         if ($msg != '') {
@@ -102,11 +102,10 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
             if (isset($params['error'])) {
                 $msg = $params['error'];
             } else {
-                $msg = 'tmp_name が不正です。';
+                $msg = _et('invalid tmp_name.');
             }
             return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FILE);
         }
-
 
         // size の検査
         if (isset($params['size_max'])) {
@@ -115,7 +114,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else {
-                    $msg = 'ファイルサイズは%s以下にしてください。';
+                    $msg = _et('Uploaded file size must be less than %s.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FILE, array($params['size_max']));
             }
@@ -126,7 +125,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else {
-                    $msg = 'ファイルサイズは%s以上にしてください。';
+                    $msg = _et('Uploaded file size must be more than %s.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FILE, array($params['size_min']));
             }
@@ -150,7 +149,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else {
-                    $msg = 'ファイルタイプが正しくありません。';
+                    $msg = _et('Invalid file type.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FILE);
             }
@@ -165,7 +164,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else {
-                    $msg = 'ファイル名が正しくありません。';
+                    $msg = _et('Invalid file name.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FILE);
             }

@@ -101,7 +101,8 @@ class Ethna_MailSender
             $renderer =& $this->getTemplateEngine();
 
             // 基本情報設定
-            $renderer->setProp("env_datetime", strftime('%Y/%m/%d %H:%M:%S'));
+            $env_datetime = _et('%Y/%m/%d %H:%M:%S');
+            $renderer->setProp("env_datetime", strftime($env_datetime));
             $renderer->setProp("env_useragent", $_SERVER["HTTP_USER_AGENT"]);
             $renderer->setProp("env_remoteaddr", $_SERVER["REMOTE_ADDR"]);
 

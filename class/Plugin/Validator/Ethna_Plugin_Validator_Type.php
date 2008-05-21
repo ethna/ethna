@@ -45,7 +45,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}には数字(整数)を入力して下さい";
+                            $msg = _et('Please input integer value to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_INT);
                     }
@@ -56,7 +56,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}には数字(小数)を入力して下さい";
+                            $msg = _et('Please input float value to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FLOAT);
                     }
@@ -67,7 +67,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}には1または0のみ入力できます";
+                            $msg = _et('You can input 0 or 1 to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_BOOLEAN);
                     }
@@ -79,7 +79,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}には日付を入力して下さい";
+                            $msg = _et('Please input valid datetime to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_DATETIME);
                     }
@@ -91,4 +91,5 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
     }
 }
 // }}}
+
 ?>

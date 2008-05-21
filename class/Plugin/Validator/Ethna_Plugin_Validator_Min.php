@@ -44,7 +44,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}には%d以上の数字(整数)を入力して下さい";
+                        $msg = _et('Please input more than %d(int) to {form}.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_INT, array($params['min']));
                 }
@@ -55,7 +55,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}には%f以上の数字(小数)を入力して下さい";
+                        $msg = _et('Please input more than %f(float) to {form}.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_FLOAT, array($params['min']));
                 }
@@ -68,7 +68,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}には%s以降の日付を入力して下さい";
+                        $msg = _et('Please input datetime value %s or later to {form}.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_DATETIME, array($params['min']));
                 }
@@ -80,7 +80,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}には%dKB以上のファイルを指定して下さい";
+                        $msg = _et('Please specify file whose size is more than %d KB.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_FILE, array($params['min']));
                 }
@@ -91,7 +91,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}は全角%d文字以上(半角%d文字以上)で入力して下さい";
+                        $msg = _et('Please input more than %d full-size (%d half-size) characters to {form}.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_STRING,
                             array(intval($params['min']/2), $params['min']));

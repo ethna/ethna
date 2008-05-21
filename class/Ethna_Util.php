@@ -502,9 +502,11 @@ class Ethna_Util
         $year = $tm['tm_year'] + 1900;
 
         if ($year >= 1989) {
-            return array('平成', $year - 1988);
+            $heisei_str = _et('Heisei');
+            return array($heisei_str, $year - 1988);
         } else if ($year >= 1926) {
-            return array('昭和', $year - 1925);
+            $showa_str = _et('Showa');
+            return array($showa_str, $year - 1925);
         }
 
         return null;
