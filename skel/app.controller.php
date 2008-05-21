@@ -257,6 +257,21 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**#@-*/
+
+    /**
+     *  Get Default language and locale setting.
+     *  If you want to change Ethna's output encoding, override this method.
+     *
+     *  @access protected
+     *  @return array   locale name(e.x ja_JP, en_US .etc),
+     *                  system encoding name,
+     *                  client encoding name(= template encoding)
+     *                  (locale name is "ll_cc" format. ll = language code. cc = country code.)
+     */
+    function _getDefaultLanguage()
+    {
+        return array('{$locale}', 'UTF-8', 'UTF-8');
+    }
 }
 
 ?>

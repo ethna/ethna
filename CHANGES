@@ -13,6 +13,7 @@
 -- [Breaking B.C] gettext を使用する際には [appid]/etc/[appid]-ini.php で 'use_gettext' => true と設定しないと gettext を使わないようにした
 --- 2.3.5 までのコードは、gettext.so がロードされていれば *無条件に* gettext が実行されるようになっているので、Ethna 独自のメッセージカタログとの選択がわかりづらいため。
 --- 2.3.5までのコードで gettext を利用している場合は、設定が明示的に必要です。
+-- "ethna add-project" コマンドに [-l|locale] オプションを追加
 -- スケルトンの日本語コメントをすべてASCIIに変更(好みのエンコーディングで編集できるようにするため)
 - [Breaking B.C] レンタルサーバを考慮して、[appid]_Controllerの include_path を、[appid]/lib を優先するように変更
 -- include_path の順番に依存するコードは少ないとは思いますが、移行の際は注意すべきです。

@@ -111,6 +111,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
         $macro['project_id'] = ucfirst($id);
         $macro['project_prefix'] = $id;
         $macro['basedir'] = realpath($basedir);
+        $macro['locale'] = $locale;
 
         $macro['action_class'] = '{$action_class}';
         $macro['action_form'] = '{$action_form}';
