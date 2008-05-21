@@ -28,9 +28,11 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
      *  @param  string  $skeldir    スケルトンディレクトリ。これが指定されると、そこにある
      *                              ファイルが優先される。また、ETHNA_HOME/skel にないもの
      *                              も追加してコピーする 
-     *  @return bool     true:成功  Ethna_Error:失敗
+     *  @param  string  $locale     ロケール名
+     *                              (ロケール名は、ll_cc の形式。ll = 言語コード cc = 国コード)
+     *  @return bool    true:成功   Ethna_Error:失敗
      */
-    function generate($id, $basedir, $skeldir)
+    function generate($id, $basedir, $skeldir, $locale)
     {
         $dir_list = array(
             array("app", 0755),
@@ -47,13 +49,13 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             array("etc", 0755),
             array("lib", 0755),
             array("locale", 0755),
-            array("locale/ja", 0755),
-            array("locale/ja/LC_MESSAGES", 0755),
+            array("locale/$locale", 0755),
+            array("locale/$locale/LC_MESSAGES", 0755),
             array("log", 0777),
             array("schema", 0755),
             array("skel", 0755),
             array("template", 0755),
-            array("template/ja", 0755),
+            array("template/$locale", 0755),
             array("tmp", 0777),
             array("www", 0755),
             array("www/css", 0755),
@@ -122,7 +124,13 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
         $default_macro = $macro;
         $macro = array_merge($macro, $user_macro);
 
+        //  select locale file.
+        $locale_file = (file_exists(ETHNA_BASE . "/skel/locale/$locale/ethna_sysmsg.ini"))
+                     ? "locale/$locale/ethna_sysmsg.ini"
+                     : 'locale/ethna_sysmsg.default.ini';
+
         $realfile_maps = array(
+            $locale_file    => "$basedir/locale/$locale/LC_MESSAGES/ethna_sysmsg.ini",
             "www.index.php" => "$basedir/www/index.php",
             "www.info.php"  => "$basedir/www/info.php",
             "www.unittest.php" => "$basedir/www/unittest.php",
@@ -152,7 +160,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             "skel.view.php" => sprintf("$basedir/skel/skel.view.php"),
             "skel.template.tpl" => sprintf("$basedir/skel/skel.template.tpl"),
             "skel.view_test.php" => sprintf("$basedir/skel/skel.view_test.php"),
-            "template.index.tpl" => sprintf("$basedir/template/ja/index.tpl"),
+            "template.index.tpl" => sprintf("$basedir/template/$locale/index.tpl"),
         );
 
         //    also copy user defined skel file.

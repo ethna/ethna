@@ -26,7 +26,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r = $this->_getopt(array('basedir=', 'skeldir='));
+        $r = $this->_getopt(array('basedir=', 'skeldir=', 'locale='));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -60,7 +60,17 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
             $skeldir = null;
         }
 
-        $r = Ethna_Generator::generate('Project', null, $app_id, $basedir, $skeldir);
+        // locale
+        if (isset($opt_list['locale'])) {
+            $locale = end($opt_list['locale']);
+            if (!preg_match('/^[A-Za-z_]+$/', $locale)) {
+                return Ethna::raiseError("You specified locale, but invalid : $locale", 'usage');
+            }
+        } else {
+            $locale = 'ja_JP';  //  default locale. 
+        }
+
+        $r = Ethna_Generator::generate('Project', null, $app_id, $basedir, $skeldir, $locale);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also error messages given above\n\n");
             return $r;
@@ -79,7 +89,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
     {
         return <<<EOS
 add new project:
-    {$this->id} [-b|--basedir=dir] [-s|--skeldir] [project-id]
+    {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [project-id]
 
 EOS;
     }
@@ -92,7 +102,7 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-s|--skeldir] [project-id]
+ethna {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [project-id]
 EOS;
     }
 }
