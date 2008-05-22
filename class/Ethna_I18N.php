@@ -218,9 +218,9 @@ class Ethna_I18N
                     continue;
                 }
                 $catalog = array();
-                if (preg_match('/^"(.+?)"\s*=\s*"(.*?)"$/', $line, $catalog)) {
-                    $msgid = $catalog[0];
-                    $msgstr = $catalog[1];
+                if (preg_match('/^"(.+?)"\s*=\s*"(.*?)".*$/', $line, $catalog)) {
+                    $msgid = $catalog[1];
+                    $msgstr = $catalog[2];
                     $ret_messages[$msgid] = $msgstr;
                 } else {
                     $this->logger->log(LOG_WARNING,
