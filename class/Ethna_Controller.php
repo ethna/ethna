@@ -236,15 +236,14 @@ class Ethna_Controller
             }
         }
 
-        //
         // 初期設定
         // フレームワークとしての内部エンコーディングはクライアント
         // エンコーディング（=ブラウザからのエンコーディング)
         //
         // @see Ethna_Controller#_getDefaultLanguage
-        //
         list($this->locale, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
         mb_internal_encoding($this->client_encoding);
+        mb_regex_encoding($this->client_encoding);
 
         $this->config =& $this->getConfig();
         $this->dsn = $this->_prepareDSN();
