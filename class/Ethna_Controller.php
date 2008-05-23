@@ -236,8 +236,15 @@ class Ethna_Controller
             }
         }
 
+        //
         // 初期設定
+        // フレームワークとしての内部エンコーディングはクライアント
+        // エンコーディング（=ブラウザからのエンコーディング)
+        //
+        // @see Ethna_Controller#_getDefaultLanguage
+        //
         list($this->locale, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
+        mb_internal_encoding($this->client_encoding);
 
         $this->config =& $this->getConfig();
         $this->dsn = $this->_prepareDSN();
@@ -1783,6 +1790,10 @@ class Ethna_Controller
      *                  クライアントエンコーディング名
      *                  (= テンプレートのエンコーディングと考えてよい) の配列
      *                  (ロケール名は ll_cc の形式。ll = 言語コード cc = 国コード)
+     *
+     *  CAVEAT!!: クライアントエンコーディング名が、フレームワークの内部エンコーデ
+     *            ィングとして設定されます。つまり、クライアントエンコーディングで
+     *            ブラウザからの入力は入ってくるものと想定しています！
      */
     function _getDefaultLanguage()
     {
