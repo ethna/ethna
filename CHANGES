@@ -22,6 +22,7 @@
 - "ethna add-project" コマンドに [-s|skeldir] オプションを追加
 -- 指定されたスケルトンディレクトリに、ETHNA_HOME/skel と同じファイル名のものが存在する場合はそちら
    を優先した上で、ETHNA_HOME/skel にないファイルは [appid]/skel にコピーする
+- [Breaking B.C] Ethna_ActionForm のバリデータは、プラグインのものしか使用しなくなりました。
 
 ** 2.3.5
 

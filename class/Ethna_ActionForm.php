@@ -484,83 +484,7 @@ class Ethna_ActionForm
     function validate()
     {
         foreach ($this->form as $name => $def) {
-            // プラグインを使う場合の hook
-            if ((isset($def['plugin']) && $def['plugin'])
-                || (isset($def['plugin']) == false
-                    && isset($this->use_validator_plugin)
-                    && $this->use_validator_plugin == true)) {
-                $this->_validateWithPlugin($name);
-                continue;
-            }
-
-            // type を決定
-            $type = is_array($def['type']) ? $def['type'][0] : $def['type'];
-
-            // filterを先に通す (定義よりも送られてきた値の構造を優先)
-            if ($type != VAR_TYPE_FILE) {
-                if (is_array($this->form_vars[$name])) {
-                    foreach (array_keys($this->form_vars[$name]) as $k) {
-                        $this->form_vars[$name][$k]
-                            = $this->_filter($this->form_vars[$name][$k], $def['filter']);
-                    }
-                } else {
-                    $this->form_vars[$name]
-                        = $this->_filter($this->form_vars[$name], $def['filter']);
-                }
-            }
-
-            // 配列でラップする
-            if (is_null($this->form_vars[$name])) {
-                $form_vars = array();
-            } else if (is_array($def['type'])) {
-                if (is_array($this->form_vars[$name])) {
-                    $form_vars = $this->form_vars[$name];
-                } else {
-                    // 配列フォームで null が filter によって値を持ったとき
-                    $form_vars = array($this->form_vars[$name]);
-                }
-            } else {
-                $form_vars = array($this->form_vars[$name]);
-            }
-
-            // ファイルの場合は配列で1つvalidならrequired条件をクリアする
-            $valid_keys = array();
-            $required_num = max(1, $type == VAR_TYPE_FILE ? 1 : count($form_vars));
-            if (isset($def['required_num'])) {
-                $required_num = intval($def['required_num']);
-            }
-
-            foreach (array_keys($form_vars) as $key) {
-                // 値が空かチェック
-                if ($type == VAR_TYPE_FILE) {
-                    if ($form_vars[$key]['size'] == 0
-                        || is_uploaded_file($form_vars[$key]['tmp_name']) == false) {
-                        continue;
-                    }
-                } else {
-                    if (is_scalar($form_vars[$key]) == false
-                        || strlen($form_vars[$key]) == 0) {
-                        continue;
-                    }
-                }
-
-                // valid_keys に追加
-                $valid_keys[] = $key;
-
-                // _validate
-                $this->_validate($name, $form_vars[$key], $def);
-            }
-
-            // required の判定
-            if ($def['required'] && (count($valid_keys) < $required_num)) {
-                $this->handleError($name, E_FORM_REQUIRED);
-                continue;
-            }
-
-            // カスタムメソッドの実行
-            if ($def['custom'] != null && is_array($def['type'])) {
-                $this->_validateCustom($def['custom'], $name);
-            }
+            $this->_validateWithPlugin($name);
         }
 
         if ($this->ae->count() == 0 || $this->isForceValidatePlus()) {
@@ -576,7 +500,6 @@ class Ethna_ActionForm
      *
      *  @access private
      *  @param  string  $form_name  フォームの名前
-     *  @todo   validateはpluginだけにしたい
      *  @todo   ae 側に $key を与えられるようにする
      */
     function _validateWithPlugin($form_name)
