@@ -87,7 +87,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                 break;
 
             case VAR_TYPE_STRING:
-                if (strlen($var) < $params['min']) {
+                if (mb_strlen($var) < $params['min']) {
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
