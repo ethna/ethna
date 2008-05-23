@@ -87,7 +87,7 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
                 break;
 
             case VAR_TYPE_STRING:
-                if (strlen($var) > $params['max']) {
+                if (mb_strlen($var) > $params['max']) {
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
