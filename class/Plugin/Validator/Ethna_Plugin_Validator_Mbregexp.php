@@ -29,9 +29,11 @@ class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
             return $true;
         }
 
+        $ctl =& $this->backend->getController();
+        list($locale, $sys_enc, $cli_enc) = $ctl->_getDefaultLanguage();
         $encoding = (isset($params['encoding']))
                   ? $params['encoding']
-                  : 'UTF-8';
+                  : $cli_enc;
         mb_regex_encoding($encoding);
 
         if (mb_ereg($params['mbregexp'], $var) !== 1) {

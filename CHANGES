@@ -6,10 +6,13 @@
 
 - ソースコード全体をUTF-8化
 -- 但し、日本語のソースコードコメントはそのまま
--- [Breaking B.C] フレームワークで扱う内部エンコーディング(mb_internal_encoding)もUTF-8に変更。但し、これは Ethna_Controller#_getDefaultLanguage
+-- [Breaking B.C] フレームワークで扱う内部エンコーディング(mb_internal_encoding)もデフォルトはUTF-8に変更。但し、これは Ethna_Controller#_getDefaultLanguage
    をオーバーライドし、クライアントエンコーディングの値を変えることで変更可能です。
 -- 内部エンコーディングの変更に伴い、動作しなくなった箇所を修正
 --- Ethna_Plugin_Validator_Min.php
+--- Ethna_Plugin_Validator_Max.php
+-- 内部エンコーディングの変更に伴う動作の変更
+--- Ethna_Plugin_Validator_Mbregexp のデフォルトのエンコーディングは、クライアントエンコーディングが仮定されます。デフォルトはUTF-8です。
 - 国際化 (i18n) のための機能追加および変更
 -- [Breaking B.C] 言語名として解釈していた部分をロケール名に変更
 --- これにより、[appid]template/ja, [appid]/locale/ja の「ja」の部分が ja_JP に置き換わります。よって、古いバージョンから移行する場合はディレクトリ名の変更が必要です。
