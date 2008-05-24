@@ -98,7 +98,13 @@ class Ethna_Plugin_Validator_Min_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_MIN_STRING, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
+        // multibyte string.
+        $pear_error = $vld->validate('namae_string', 'ああ', $form_string);
+        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
+        $pear_error = $vld->validate('namae_string', 'あ', $form_string);
+        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+ 
 
         $form_datetime = array(
                                'type'          => VAR_TYPE_DATETIME,

@@ -99,7 +99,13 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_MAX_STRING, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
-
+        // multibyte string.
+        $pear_error = $vld->validate('namae_string', 'ああ', $form_string);
+        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+ 
+        $pear_error = $vld->validate('namae_string', 'あああ', $form_string);
+        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+ 
 
         $form_datetime = array(
                                'type'          => VAR_TYPE_DATETIME,
