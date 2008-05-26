@@ -79,7 +79,8 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
             }
         }
 
-        // required_key のチェック
+        // 配列の required_key のチェック
+        // 'required_key' => array(xx) に設定された配列の要素値がなければエラー。
         if (isset($params['key'])) {
             $invalid_keys = array_diff(to_array($params['key']), $valid_keys);
             if (count($invalid_keys) > 0) {
@@ -94,7 +95,8 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
             }
         }
 
-        // required_num のチェック
+        // 配列の required_num のチェック
+        // 'required_num' => xx に設定された数より、validな値の数が少なければエラー。
         if (isset($params['num'])) {
             if (count($valid_keys) < intval($params['num'])) {
                 if (isset($params['error'])) {
@@ -108,7 +110,8 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
             }
         }
 
-        // とくに指定がないとき: フォームに与えられた全要素
+        // とくに指定がないとき: フォームに与えられた全要素に
+        // valid な値が入っていなければならない
         if (isset($params['key']) == false && isset($params['num']) == false) {
             if (count($valid_keys) == 0 || count($valid_keys) != count($var)) {
                 if (isset($params['error'])) {
