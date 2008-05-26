@@ -187,6 +187,7 @@ class Ethna_ActionForm_Validator_Required_Test extends Ethna_UnitTestBase
                         );        
             $this->af->setDef('input', $form_def);
             
+            //   Formが全くsubmitすらされていない場合
             $this->af->validate();
             $this->assertTrue($this->ae->isError('input'));
             $this->ae->clear();
@@ -277,6 +278,7 @@ class Ethna_ActionForm_Validator_Required_Test extends Ethna_UnitTestBase
                         );        
             $this->af->setDef('input', $form_def);
             
+            //   Formが全くsubmitすらされていない場合
             $this->af->validate();
             $this->assertTrue($this->ae->isError('input'));
             $this->ae->clear();
@@ -367,6 +369,7 @@ class Ethna_ActionForm_Validator_Required_Test extends Ethna_UnitTestBase
                         );        
             $this->af->setDef('input', $form_def);
             
+            //   Formが全くsubmitすらされていない場合
             $this->af->validate();
             $this->assertTrue($this->ae->isError('input'));
             $this->ae->clear();
@@ -457,6 +460,7 @@ class Ethna_ActionForm_Validator_Required_Test extends Ethna_UnitTestBase
                         );        
             $this->af->setDef('input', $form_def);
             
+            //   Formが全くsubmitすらされていない場合
             $this->af->validate();
             $this->assertTrue($this->ae->isError('input'));
             $this->ae->clear();
