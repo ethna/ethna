@@ -20,6 +20,7 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
         $this->vld = $plugin->getPlugin('Validator', 'Required');
     }
 
+    // {{{ test form type text.
     function test_formtext()
     {
         //    required => false でテキストフォームに文字列を入力する場合
@@ -68,7 +69,9 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
     }
+    // }}}
 
+    // {{{ test form type select 
     function test_formselect()
     {
         $form_select = array(
@@ -118,7 +121,9 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_select['error'], $pear_error->getMessage());
     }
+    //  }}}
 
+    // {{{ test form type radio
     function test_formradio()
     {
         $form_radio = array(
@@ -169,7 +174,9 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_radio['error'], $pear_error->getMessage());
     }
+    //  }}}
 
+    // {{{ test form type checkbox 
     function test_formcheckbox()
     {
         $form_checkbox = array(
@@ -289,6 +296,7 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_checkbox['error'], $pear_error->getMessage());
     }
+    //  }}}
 }
 
 ?>
