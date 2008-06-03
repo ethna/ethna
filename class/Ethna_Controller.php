@@ -715,6 +715,28 @@ class Ethna_Controller
     }
 
     /**
+     *  クライアントエンコーディング名へのアクセサ(R)
+     *
+     *  @access public
+     *  @return string  $client_encoding クライアントエンコーディング名
+     */
+    function getClientEncoding()
+    {
+        return $this->client_encoding;
+    }
+
+    /**
+     *  クライアントエンコーディング名へのアクセサ(W)
+     *
+     *  @access public
+     *  @param  string  $client_encoding クライアントエンコーディング名
+     */
+    function setClientEncoding($client_encoding)
+    {
+        $this->client_encoding = $client_encoding;
+    }
+
+    /**
      *  ゲートウェイを取得する
      *
      *  @access public
