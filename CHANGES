@@ -29,6 +29,10 @@
    を優先した上で、ETHNA_HOME/skel にないファイルは [appid]/skel にコピーする
 - [Breaking B.C] Ethna_ActionForm のバリデータは、プラグインのものしか使用しなくなりました。
 
+*** bug fixes
+
+- tpl/info.tpl のタグミスを修正
+
 ** 2.3.5
 
 *** features
