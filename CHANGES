@@ -32,6 +32,7 @@
 *** bug fixes
 
 - tpl/info.tpl のタグミスを修正
+- smarty_modifier_plugin が配列の場合に、プラグインとして登録されないバグを修正
 
 ** 2.3.5
 

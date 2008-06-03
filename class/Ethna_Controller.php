@@ -1704,8 +1704,12 @@ class Ethna_Controller
         if (strtolower(get_class($this->renderer)) == "ethna_renderer_smarty") {
             // user defined modifiers
             foreach ($this->smarty_modifier_plugin as $modifier) {
-                $name = str_replace('smarty_modifier_', '', $modifier);
-                $this->renderer->setPlugin($name,'modifier', $modifier);
+                if (!is_array($modifier)) {
+                    $name = str_replace('smarty_modifier_', '', $modifier);
+                    $this->renderer->setPlugin($name,'modifier', $modifier);
+                } else {
+                    $this->renderer->setPlugin($modifier[1], 'modifier', $modifier);
+                }
             }
 
             // user defined functions
