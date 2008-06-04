@@ -30,7 +30,7 @@ class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
         }
 
         $ctl =& $this->backend->getController();
-        list($locale, $sys_enc, $cli_enc) = $ctl->getLanguage();
+        $cli_enc = $ctl->getClientEncoding();
         $encoding = (isset($params['encoding']))
                   ? $params['encoding']
                   : $cli_enc;

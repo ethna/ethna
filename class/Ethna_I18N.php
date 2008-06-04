@@ -23,7 +23,7 @@ function _et($message)
 {
     $ctl =& Ethna_Controller::getInstance();
     $i18n =& $ctl->getI18N();
-    list($locale, $system_enc, $client_enc) = $ctl->getLanguage();
+    $client_enc = $ctl->getClientEncoding();
  
     $ret_message = $i18n->get($message);
 

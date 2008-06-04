@@ -352,7 +352,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
         $af =& $this->ctl->getActionForm();
 
         //出力したい形式にあわせて切り替える
-        list($locale, $sys_enc, $cli_enc) = $this->ctl->getLanguage();
+        $cli_enc = $this->ctl->getClientEncoding();
         $reporter = new Ethna_UnitTestReporter($cli_enc);
         $test->run($reporter);
 
