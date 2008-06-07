@@ -11,6 +11,14 @@
 -- 内部エンコーディングの変更に伴い、動作しなくなった箇所を修正
 --- Ethna_Plugin_Validator_Min.php
 --- Ethna_Plugin_Validator_Max.php
+--- VAR_TYPE_STRING の場合の、最大値最小値のプラグインを再編し、
+    マルチバイトのものとそうでないものを分離。互換性確保用途のプラグインも追加
+---- Ethna_Plugin_Validator_MbStrMax.php     (マルチバイト文字列最大値)
+---- Ethna_Plugin_Validator_MbStrMin.php     (マルチバイト文字列最小値)
+---- Ethna_Plugin_Validator_StrMax.php       (シングルバイト文字列最大値)
+---- Ethna_Plugin_Validator_StrMin.php       (シングルバイト文字列最小値)
+---- Ethna_Plugin_Validator_StrMaxCompat.php (2.3.x までの互換性確保用)
+---- Ethna_Plugin_Validator_StrMinCompat.php (2.3.x までの互換性確保用)
 -- 内部エンコーディングの変更に伴う動作の変更
 --- Ethna_Plugin_Validator_Mbregexp のデフォルトのエンコーディングは、クライアントエンコーディングが仮定されます。デフォルトはUTF-8です。
 - 国際化 (i18n) のための機能追加および変更
