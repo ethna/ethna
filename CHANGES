@@ -36,6 +36,7 @@
 -- 指定されたスケルトンディレクトリに、ETHNA_HOME/skel と同じファイル名のものが存在する場合はそちら
    を優先した上で、ETHNA_HOME/skel にないファイルは [appid]/skel にコピーする
 - [Breaking B.C] Ethna_ActionForm のバリデータは、プラグインのものしか使用しなくなりました。
+-- Ethna_ActionForm, [Appid]ActionForm の use_validator_plugin 変数を削除
 
 *** bug fixes
 

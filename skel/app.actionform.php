@@ -25,9 +25,6 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
     /** @var    array   form definition (default) */
     var $form_template = array();
 
-    /** @var    bool    specify if you use validator plugin */
-    var $use_validator_plugin = true;
-
     /**#@-*/
 
     /**

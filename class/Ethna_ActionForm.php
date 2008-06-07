@@ -71,9 +71,6 @@ class Ethna_ActionForm
     var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter',
                               'option', 'default');
 
-    /** @var    bool    バリデータにプラグインを使うフラグ */
-    var $use_validator_plugin = false;
-
     /** @var    bool    追加検証強制フラグ */
     var $force_validate_plus = false;
 
