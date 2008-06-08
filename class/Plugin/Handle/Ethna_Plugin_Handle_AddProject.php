@@ -35,7 +35,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
         // app_id
         $app_id = array_shift($arg_list);
         if ($app_id == null) {
-            return Ethna::raiseError('project id isn\'t set.', 'usage');
+            return Ethna::raiseError('Application id isn\'t set.', 'usage');
         }
         $r = Ethna_Controller::checkAppId($app_id);
         if (Ethna::isError($r)) {
@@ -89,7 +89,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
     {
         return <<<EOS
 add new project:
-    {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [project-id]
+    {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [Application id]
 
 EOS;
     }
@@ -102,7 +102,7 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [project-id]
+ethna {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [Application id]
 EOS;
     }
 }
