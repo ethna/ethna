@@ -18,6 +18,12 @@ then
     beta=$1
 fi
 
+if [ "$1" = "-a" ]
+then
+    alpha=$1
+    beta=$alpha
+fi
+
 # chdir to basedir
 cwd=`dirname $0`
 basedir="$cwd/../"
