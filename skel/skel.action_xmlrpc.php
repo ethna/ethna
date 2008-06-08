@@ -16,9 +16,6 @@
  */
 class {$action_form} extends {$project_id}_ActionForm
 {
-    /** @var    bool    specify if you use validator plugin */
-    var $use_validator_plugin = true;
-
     /**
      *  @access private
      *  @var    array   form definition.
