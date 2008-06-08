@@ -111,7 +111,8 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
     // }}}
 
     // {{{ Validator Min String. 
-    function test_Validate_Min_String()
+    // {{{ Validator Min String(UTF-8)
+    function test_Validate_Min_String_UTF8()
     {
         $form_def = array(
                         'type' => VAR_TYPE_STRING,
@@ -142,6 +143,90 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
     }
+    // }}}
+
+    // {{{ Validator Min String(EUC-JP)
+    function test_Validate_Min_String_EUCJP()
+    {
+        $this->ctl->setClientEncoding('EUC-JP');
+ 
+        $form_def = array(
+                        'type' => VAR_TYPE_STRING,
+                        'form_type' => FORM_TYPE_TEXT,
+                        'required' => true,
+                        'min' => 4,  //  全角2文字、半角4文字
+                    );        
+        $this->af->setDef('input', $form_def);
+        
+        //   in ascii.
+        $this->af->set('input', 'abcd'); 
+        $this->af->validate();
+        $this->assertFalse($this->ae->isError('input'));
+        $this->ae->clear();
+
+        $this->af->set('input', 'abc');
+        $this->af->validate();
+        $this->assertTrue($this->ae->isError('input'));
+        $this->ae->clear();
+
+        $this->af->set('input', 'abcde');
+        $this->af->validate();
+        $this->assertFalse($this->ae->isError('input'));
+        $this->ae->clear();
+
+        //   multibyte.
+        $this->af->set('input', mb_convert_encoding('あい', 'EUC-JP', 'UTF-8'));
+        $this->af->validate();
+        $this->assertFalse($this->ae->isError('input'));
+        $this->ae->clear();
+
+        $this->af->set('input', mb_convert_encoding('あ', 'EUC-JP', 'UTF-8'));
+        $this->af->validate();
+        $this->assertTrue($this->ae->isError('input'));
+        $this->ae->clear();
+
+        $this->af->set('input', mb_convert_encoding('あいう', 'EUC-JP', 'UTF-8'));
+        $this->af->validate();
+        $this->assertFalse($this->ae->isError('input'));
+
+        //   reset client encoding
+        $this->ctl->setClientEncoding('UTF-8');
+    }
+    // }}}
+
+    // {{{ Validator Min String(ASCII)
+    function test_Validate_Min_String_ASCII()
+    {
+        $this->ctl->setClientEncoding('ASCII');
+ 
+        $form_def = array(
+                        'type' => VAR_TYPE_STRING,
+                        'form_type' => FORM_TYPE_TEXT,
+                        'required' => true,
+                        'min' => 4,  //  ascii 4文字 
+                    );        
+        $this->af->setDef('input', $form_def);
+        
+        //   in ascii.
+        $this->af->set('input', 'abcd'); 
+        $this->af->validate();
+        $this->assertFalse($this->ae->isError('input'));
+        $this->ae->clear();
+
+        $this->af->set('input', 'abc');
+        $this->af->validate();
+        $this->assertTrue($this->ae->isError('input'));
+        $this->ae->clear();
+
+        $this->af->set('input', 'abcde');
+        $this->af->validate();
+        $this->assertFalse($this->ae->isError('input'));
+        $this->ae->clear();
+
+        //   reset client encoding
+        $this->ctl->setClientEncoding('UTF-8');
+    }
+    // }}}
     // }}}
 
     // {{{ Validator Min File. 

@@ -87,15 +87,38 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
                 break;
 
             case VAR_TYPE_STRING:
-                if (mb_strlen($var) > $params['max']) {
-                    if (isset($params['error'])) {
-                        $msg = $params['error'];
-                    } else {
-                        $msg = _et('Please input less than %d full-size (%d half-size) characters to {form}.');
-                    }
-                    return Ethna::raiseNotice($msg, E_FORM_MAX_STRING,
-                            array(intval($params['max']/2), $params['max']));
+
+                //
+                //  マルチバイトエンコーディングと、そうでない場合で
+                //  異なるプラグインを呼ぶ。
+                //
+                //  これは Ethna_Controller#client_encoding の値によ
+                //  って動きが決まる
+                //
+
+                $ctl = Ethna_Controller::getInstance();
+                $client_enc = $ctl->getClientEncoding();
+                $plugin = $this->backend->getPlugin();
+
+                //  select Plugin.
+                switch ($client_enc) {
+                    case 'UTF-8':
+                        $plugin_name = 'MbStrMax';
+                        $params['mbstrmax'] = $params['max'];
+                        break;
+                    case 'EUC-JP':
+                        $plugin_name = 'StrMaxCompat';
+                        $params['strmaxcompat'] = $params['max'];
+                        break;
+                    default:
+                        $plugin_name = 'StrMax';
+                        $params['strmax'] = $params['max'];
                 }
+                unset($params['max']);
+
+                $vld = $plugin->getPlugin('Validator', $plugin_name);
+                return $vld->validate($name, $var, $params);
+
                 break;
         }
 
@@ -103,4 +126,5 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
     }
 }
 // }}}
+
 ?>

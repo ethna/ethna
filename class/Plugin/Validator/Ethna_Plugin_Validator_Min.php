@@ -87,15 +87,38 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                 break;
 
             case VAR_TYPE_STRING:
-                if (mb_strlen($var) < $params['min']) {
-                    if (isset($params['error'])) {
-                        $msg = $params['error'];
-                    } else {
-                        $msg = _et('Please input more than %d full-size (%d half-size) characters to {form}.');
-                    }
-                    return Ethna::raiseNotice($msg, E_FORM_MIN_STRING,
-                            array(intval($params['min']/2), $params['min']));
+
+                //
+                //  マルチバイトエンコーディングと、そうでない場合で
+                //  異なるプラグインを呼ぶ。
+                //
+                //  これは Ethna_Controller#client_encoding の値によ
+                //  って動きが決まる
+                //
+
+                $ctl = Ethna_Controller::getInstance();
+                $client_enc = $ctl->getClientEncoding();
+                $plugin = $this->backend->getPlugin();
+
+                //  select Plugin.
+                switch ($client_enc) {
+                    case 'UTF-8':
+                        $plugin_name = 'MbStrMin';
+                        $params['mbstrmin'] = $params['min'];
+                        break;
+                    case 'EUC-JP':
+                        $plugin_name = 'StrMinCompat';
+                        $params['strmincompat'] = $params['min'];
+                        break;
+                    default:
+                        $plugin_name = 'StrMin';
+                        $params['strmin'] = $params['min'];
                 }
+                unset($params['min']);
+
+                $vld = $plugin->getPlugin('Validator', $plugin_name);
+                return $vld->validate($name, $var, $params);
+
                 break;
         }
 
