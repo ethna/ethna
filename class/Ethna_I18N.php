@@ -9,6 +9,13 @@
  *  @version    $Id$
  */
 
+// {{{  mbstring enabled check
+function mb_enabled()
+{
+    return (extension_loaded('mbstring')) ? true : false;
+}
+// }}}
+
 // {{{ I18N shortcut
 /**
  *  メッセージカタログからロケールに適合するメッセージを取得します。

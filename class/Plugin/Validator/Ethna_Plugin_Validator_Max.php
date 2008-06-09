@@ -101,18 +101,17 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
                 $plugin = $this->backend->getPlugin();
 
                 //  select Plugin.
-                switch ($client_enc) {
-                    case 'UTF-8':
-                        $plugin_name = 'MbStrMax';
-                        $params['mbstrmax'] = $params['max'];
-                        break;
-                    case 'EUC-JP':
-                        $plugin_name = 'StrMaxCompat';
-                        $params['strmaxcompat'] = $params['max'];
-                        break;
-                    default:
-                        $plugin_name = 'StrMax';
-                        $params['strmax'] = $params['max'];
+                if (mb_enabled() && strcasecmp('UTF-8', $client_enc) == 0) {
+                    $plugin_name = 'MbStrMax';
+                    $params['mbstrmax'] = $params['max'];
+                } elseif (strcasecmp('EUC-JP', $client_enc == 0)
+                       || strcasecmp('eucJP-win', $client_enc == 0)) {
+                    //  2.3.x compatibility
+                    $plugin_name = 'StrMaxCompat';
+                    $params['strmaxcompat'] = $params['max'];
+                } else {
+                    $plugin_name = 'StrMax';
+                    $params['strmax'] = $params['max'];
                 }
                 unset($params['max']);
 

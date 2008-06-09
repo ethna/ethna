@@ -48,7 +48,9 @@ class Ethna_Plugin_Validator_StrMaxCompat extends Ethna_Plugin_Validator
 
         $ctl = $this->backend->getController();
         $client_enc = $ctl->getClientEncoding();
-        if (extension_loaded('mbstring') && strcasecmp('EUC-JP', $client_enc) !== 0) {
+        if (mb_enabled()
+        && (strcasecmp('EUC-JP', $client_enc) != 0
+         && strcasecmp('eucJP-win', $client_enc) != 0)) {
             $var = mb_convert_encoding($var, 'EUC-JP', $client_enc);
         }
 
