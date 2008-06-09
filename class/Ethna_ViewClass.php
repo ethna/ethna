@@ -721,7 +721,11 @@ class Ethna_ViewClass
         $selected = false;
         foreach ($options as $key => $value) {
             $attr = array('value' => $key);
-            if (in_array((string) $key, $current_value, true)) {
+            $def['_form_counter'] = empty($def['_form_counter']) ? 0 : $def['_form_counter'];
+            if (isset($params['multiple']) &&
+                    in_array((string)$key, $current_value, true) ||
+               !isset($params['multiple']) && $selected === false &&
+                    strcmp($current_value[$def['_form_counter']], $key) === 0) {
                 $attr['selected'] = 'selected';
                 $selected = true;
             }
