@@ -101,7 +101,7 @@ class Ethna_ActionForm_Validator_Type_Test extends Ethna_UnitTestBase
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear();
 
-        $this->af->set('input', '1234-');
+        $this->af->set('input', ';-!#');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear();

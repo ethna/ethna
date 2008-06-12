@@ -406,7 +406,7 @@ class Ethna_ActionForm_Validator_Required_Test extends Ethna_UnitTestBase
             $this->assertFalse($this->ae->isError('input'));
             $this->ae->clear();
     
-            $this->af->set('input', array('2008-01-02', '2009-91-11'));
+            $this->af->set('input', array('2008-01-02', 'abcd'));
             $this->af->validate();
             $this->assertTrue($this->ae->isError('input'));
             $this->ae->clear();
@@ -426,7 +426,7 @@ class Ethna_ActionForm_Validator_Required_Test extends Ethna_UnitTestBase
             $this->assertFalse($this->ae->isError('input'));
             $this->ae->clear();
     
-            $this->af->set('input', array('2008-12-11', '2009-10-1111'));
+            $this->af->set('input', array('2008-12-11', 'abcd'));
             $this->af->validate();
             $this->assertTrue($this->ae->isError('input'));
             $this->ae->clear();
