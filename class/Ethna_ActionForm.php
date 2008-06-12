@@ -503,20 +503,27 @@ class Ethna_ActionForm
     {
         // (pre) filter
         if ($this->form[$form_name]['type'] != VAR_TYPE_FILE) {
+            
+            //    入力値とフィルタ定義を取り出す
+            $form_var = (isset($this->form_vars[$form_name]))
+                      ? $this->form_vars[$form_name]
+                      : null;
+            $filter = (isset($this->form[$form_name]['filter']))
+                    ? $this->form[$form_name]['filter']
+                    : null;
+
+            //    フィルタを適用
             if (is_array($this->form[$form_name]['type']) == false) {
                 $this->form_vars[$form_name]
-                    = $this->_filter($this->form_vars[$form_name],
-                                     $this->form[$form_name]['filter']);
-            } else if ($this->form_vars[$form_name] != null) {
+                    = $this->_filter($form_var, $filter);
+            } else if ($form_var != null) {  //  配列の場合
                 foreach (array_keys($this->form_vars[$form_name]) as $key) {
                     $this->form_vars[$form_name][$key]
-                        = $this->_filter($this->form_vars[$form_name][$key],
-                                         $this->form[$form_name]['filter']);
+                        = $this->_filter($this->form_vars[$form_name][$key], $filter);
                 }
             } else {  //  配列で値が空の場合
                 $this->form_vars[$form_name]
-                    = $this->_filter($this->form_vars[$form_name],
-                                     $this->form[$form_name]['filter']);
+                    = $this->_filter($form_var, $filter);
             }
         }
 
