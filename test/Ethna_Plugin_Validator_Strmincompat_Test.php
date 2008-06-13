@@ -1,15 +1,15 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin_Validator_StrMinCompat_Test.php
+ *  Ethna_Plugin_Validator_Strmincompat_Test.php
  */
 
 /**
- *  Ethna_Plugin_Validator_StrMinCompatクラスのテストケース
+ *  Ethna_Plugin_Validator_Strmincompatクラスのテストケース
  *
  *  @access public
  */
-class Ethna_Plugin_Validator_StrMinCompat_Test extends Ethna_UnitTestBase
+class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
 {
     var $vld;
     var $local_ctl;
@@ -21,7 +21,7 @@ class Ethna_Plugin_Validator_StrMinCompat_Test extends Ethna_UnitTestBase
         $ctl->action_form =& new Ethna_ActionForm($ctl);
         $this->local_ctl =& $ctl;
         $plugin =& $ctl->getPlugin();
-        $this->vld = $plugin->getPlugin('Validator', 'StrMinCompat');
+        $this->vld = $plugin->getPlugin('Validator', 'Strmincompat');
     }
 
     function tearDown()

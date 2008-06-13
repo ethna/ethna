@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin_Validator_MbStrMax.php
+ *  Ethna_Plugin_Validator_Mbstrmax.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -9,7 +9,7 @@
  *  @version    $Id$
  */
 
-// {{{ Ethna_Plugin_Validator_MbStrMax
+// {{{ Ethna_Plugin_Validator_Mbstrmax
 /**
  *  最大値チェックプラグイン (マルチバイト文字列用)
  *
@@ -21,7 +21,7 @@
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Validator_MbStrMax extends Ethna_Plugin_Validator
+class Ethna_Plugin_Validator_Mbstrmax extends Ethna_Plugin_Validator
 {
     /** @var    bool    配列を受け取るかフラグ */
     var $accept_array = false;

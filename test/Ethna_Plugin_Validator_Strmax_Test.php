@@ -1,15 +1,15 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin_Validator_StrMax_Test.php
+ *  Ethna_Plugin_Validator_Strmax_Test.php
  */
 
 /**
- *  Ethna_Plugin_Validator_StrMaxクラスのテストケース
+ *  Ethna_Plugin_Validator_Strmaxクラスのテストケース
  *
  *  @access public
  */
-class Ethna_Plugin_Validator_StrMax_Test extends Ethna_UnitTestBase
+class Ethna_Plugin_Validator_Strmax_Test extends Ethna_UnitTestBase
 {
     var $vld;
 
@@ -17,7 +17,7 @@ class Ethna_Plugin_Validator_StrMax_Test extends Ethna_UnitTestBase
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
-        $this->vld = $plugin->getPlugin('Validator', 'StrMax');
+        $this->vld = $plugin->getPlugin('Validator', 'Strmax');
     }
 
     // {{{ test max str 

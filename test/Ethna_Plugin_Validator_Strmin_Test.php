@@ -1,15 +1,15 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin_Validator_MbStrMin_Test.php
+ *  Ethna_Plugin_Validator_Strmin_Test.php
  */
 
 /**
- *  Ethna_Plugin_Validator_MbStrMinクラスのテストケース
+ *  Ethna_Plugin_Validator_Strminクラスのテストケース
  *
  *  @access public
  */
-class Ethna_Plugin_Validator_MbStrMin_Test extends Ethna_UnitTestBase
+class Ethna_Plugin_Validator_Strmin_Test extends Ethna_UnitTestBase
 {
     var $vld;
 
@@ -17,23 +17,23 @@ class Ethna_Plugin_Validator_MbStrMin_Test extends Ethna_UnitTestBase
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
-        $this->vld = $plugin->getPlugin('Validator', 'MbStrMin');
+        $this->vld = $plugin->getPlugin('Validator', 'Strmin');
     }
 
-    // {{{ test min mbstr 
-    function test_min_mbstr()
+    // {{{ test min str 
+    function test_min_str()
     {
-        $form_mbstr = array(
+        $form_str = array(
                           'type'          => VAR_TYPE_STRING,
                           'required'      => true,
-                          'mbstrmin'      => '3',
+                          'strmin'      => '3',
                           );
-        $this->vld->af->setDef('namae_mbstr', $form_mbstr);
+        $this->vld->af->setDef('namae_str', $form_str);
 
-        $pear_error = $this->vld->validate('namae_mbstr', 'あいう', $form_mbstr);
+        $pear_error = $this->vld->validate('namae_str', 'abc', $form_str);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $this->vld->validate('namae_mbstr', 'あい', $form_mbstr);
+        $pear_error = $this->vld->validate('namae_str', 'ab', $form_str);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
