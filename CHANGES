@@ -43,6 +43,8 @@
 - tpl/info.tpl のタグミスを修正
 - smarty_modifier_plugin が配列の場合に、プラグインとして登録されないバグを修正
 - フォームヘルパでセレクトボックスの配列フォームを作ると値が保持されない点を修正 (ethna-users:0868)
+- smarty_modifier_select の戻り値が、諸々のHTML標準と異なっていたバグを修正(thanks: maru_cc)
+-- selected="true" -> selected="selected"
 
 ** 2.3.5
 
