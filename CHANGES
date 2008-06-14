@@ -45,6 +45,8 @@
 - フォームヘルパでセレクトボックスの配列フォームを作ると値が保持されない点を修正 (ethna-users:0868)
 - smarty_modifier_select の戻り値が、諸々のHTML標準と異なっていたバグを修正(thanks: maru_cc)
 -- selected="true" -> selected="selected"
+- アプリケーションIDの始めの文字に数値を許していたバグを修正
+-- クラス名のprefixになるため、数値を許すと自動生成物がコンパイルエラーを起こす
 
 ** 2.3.5
 
