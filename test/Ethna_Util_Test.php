@@ -1,8 +1,10 @@
 <?php
+// vim: foldmethod=marker
 /**
  *  Ethna_Util_Test.php
  */
 
+error_reporting(E_ALL);
 /**
  *  Ethna_Utilクラスのテストケース(1)
  *
@@ -10,6 +12,7 @@
  */
 class Ethna_Util_Test extends Ethna_UnitTestBase
 {
+    // {{{  testIsRootDir
     function testIsRootDir()
     {
         $this->assertTrue(DIRECTORY_SEPARATOR);
@@ -28,8 +31,9 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
             $this->assertFalse($util->isRootDir("/test.txt"));
         }
     }
+    // }}}
 
-
+    // {{{  testCheckMailAddress
     function testCheckMailAddress()
     {
         $fail_words = array(
@@ -51,7 +55,9 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
         $result = $util->checkMailAddress('hoge@fuga.net');
         $this->assertTrue($result);
     }
+    // }}}
 
+    // {{{  testIsAbsolute
     function testIsAbsolute()
     {
         $absolute_paths = array(
@@ -73,6 +79,21 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
         foreach ($invalid_params as $path) {
             $this->assertFalse(Ethna_Util::isAbsolute($path));
         }
-     }
+    }
+    // }}}
+
+    // {{{  testGetRandom
+    function testGetRandom()
+    {
+        //    いかなる状態であっても
+        //    値が得られなければならない
+        $r = Ethna_Util::getRandom();
+        $this->assertNotNULL($r);
+    }
+    // }}}
+
+
+
 }
+
 ?>

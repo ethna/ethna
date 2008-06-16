@@ -569,9 +569,17 @@ class Ethna_Util
         $value = "";
         for ($i = 0; $i < 2; $i++) {
             // for Linux
-            if (file_exists('/proc/net/dev')) {
+            // open_basedir がオンで、かつ /proc が許可されているか？
+            // open_basedir が空なら許可されていると看做す
+            $devfile = '/proc/net/dev';
+            $open_basedir_conf = ini_get('open_basedir');
+            $devfile_enabled = (empty($open_basedir_conf) 
+                            || (preg_match('#:/proc#', $open_basedir_conf) > 0
+                            ||  preg_match('#^/proc#', $open_basedir_conf) > 0));
+
+            if ($devfile_enabled && file_exists($devfile)) {
                 $rx = $tx = 0;
-                $fp = fopen('/proc/net/dev', 'r');
+                $fp = fopen($devfile, 'r');
                 if ($fp != null) {
                     $header = true;
                     while (feof($fp) === false) {

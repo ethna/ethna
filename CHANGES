@@ -47,6 +47,8 @@
 -- selected="true" -> selected="selected"
 - アプリケーションIDの始めの文字に数値を許していたバグを修正
 -- クラス名のprefixになるため、数値を許すと自動生成物がコンパイルエラーを起こす
+- Ethna_Util#getRandom で open_basedir が有効な場合に、 /proc を開けず警告が出る点を回避(thanks. sotarok)
+-- http://d.hatena.ne.jp/sotarok/20070813/1187055110
 
 ** 2.3.5
 
