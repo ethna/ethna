@@ -20,7 +20,7 @@ class Ethna_I18N_Test extends Ethna_UnitTestBase
     function setUp()
     {
         $ctl =& Ethna_Controller::getInstance();
-        $this->i18n = $ctl->getI18N();
+        $this->i18n =& $ctl->getI18N();
     }
 
     // {{{  test_get_ja_JP
@@ -60,6 +60,20 @@ class Ethna_I18N_Test extends Ethna_UnitTestBase
         //  カタログにないメッセージはそのまま返ってくる 
         $this->assertEqual($this->i18n->get('foo'), 'foo');
         $this->assertEqual($this->i18n->get('www.example.com'), 'www.example.com');
+
+        //    ロケールを再切り替え
+        $this->i18n->setLanguage('ja_JP', 'UTF-8', 'UTF-8');
+
+        $this->assertEqual($this->i18n->get('Heisei'), '平成');
+        $this->assertEqual($this->i18n->get('foo'), 'foo');
+
+        //  ロケール再再切り替え
+        $this->i18n->setLanguage('en_US', 'ASCII', 'ASCII');
+        $this->assertEqual($this->i18n->get('foo'), 'foo');
+        $this->assertEqual($this->i18n->get('Heisei'), 'Heisei');
+
+        //  他のテストもあるので元に戻しておく
+        $this->i18n->setLanguage('ja_JP', 'UTF-8', 'UTF-8');
     }
     // }}}
 }

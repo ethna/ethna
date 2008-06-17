@@ -209,10 +209,6 @@ class Ethna_I18N
      */
     function _makeEthnaMsgCatalog()
     {
-        if ($this->messages !== false) {
-            return; 
-        }
-
         $ret_messages = array();
 
         //    Ethna_I18N#setLanguage を呼び出さず
@@ -231,6 +227,9 @@ class Ethna_I18N
                                "Message directory was not found!! : $msg_dir,"
                              . " Use skelton file Instead"); 
             $msg_dir = sprintf("%s/skel/locale/%s", ETHNA_BASE, $this->locale);
+            if (!file_exists($msg_dir)) {  // last fallback.
+                $msg_dir = sprintf("%s/skel/locale", ETHNA_BASE);
+            }
         }
                      
         $msg_dh = opendir($msg_dir);
