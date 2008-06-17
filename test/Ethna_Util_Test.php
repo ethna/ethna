@@ -4,35 +4,13 @@
  *  Ethna_Util_Test.php
  */
 
-error_reporting(E_ALL);
 /**
- *  Ethna_Utilクラスのテストケース(1)
+ *  Ethna_Utilクラスのテストケース
  *
  *  @access public
  */
 class Ethna_Util_Test extends Ethna_UnitTestBase
 {
-    // {{{  testIsRootDir
-    function testIsRootDir()
-    {
-        $this->assertTrue(DIRECTORY_SEPARATOR);
-
-        $util = new Ethna_Util;
-        if (OS_WINDOWS) {
-            $this->assertTrue($util->isRootDir("C:\\"));
-            $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge\\fuga.txt"));
-            $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge"));
-            $this->assertFalse($util->isRootDir("C:\\hoge\\"));
-            $this->assertFalse($util->isRootDir("C:\\hoge.txt"));
-        } else {
-            $this->assertFalse($util->isRootDir("/home/ethna/test.txt"));
-            $this->assertFalse($util->isRootDir("/home/ethna/"));
-            $this->assertFalse($util->isRootDir("/home/ethna"));
-            $this->assertFalse($util->isRootDir("/test.txt"));
-        }
-    }
-    // }}}
-
     // {{{  testCheckMailAddress
     function testCheckMailAddress()
     {
@@ -92,8 +70,25 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     }
     // }}}
 
+    // {{{ testGetEra
+    function testGetEra()
+    {
+        unset($GLOBALS['_Ethna_controller']);
+        $tmp_ctl =& new Ethna_Controller();
+        
+        //  昭和63年
+        $last_showa_t = mktime(0,0,0,12,31,1988);
+        $r = Ethna_Util::getEra($last_showa_t);
+        $this->assertEqual('昭和', $r[0]);
+        $this->assertEqual(63, $r[1]);
 
-
+        //  平成元年
+        $first_heisei_t = mktime(0,0,0,1,1,1989);
+        $r = Ethna_Util::getEra($first_heisei_t);
+        $this->assertEqual('平成', $r[0]);
+        $this->assertEqual(1, $r[1]);
+    }
+    // }}}
 }
 
 ?>
