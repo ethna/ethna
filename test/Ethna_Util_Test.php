@@ -60,6 +60,27 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     }
     // }}}
 
+    // {{{  testIsRootDir
+    function testIsRootDir()
+    {
+        $this->assertTrue(DIRECTORY_SEPARATOR);
+
+        $util = new Ethna_Util;
+        if (OS_WINDOWS) {
+            $this->assertTrue($util->isRootDir("C:\\"));
+            $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge\\fuga.txt"));
+            $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge"));
+            $this->assertFalse($util->isRootDir("C:\\hoge\\"));
+            $this->assertFalse($util->isRootDir("C:\\hoge.txt"));
+        } else {
+            $this->assertFalse($util->isRootDir("/home/ethna/test.txt"));
+            $this->assertFalse($util->isRootDir("/home/ethna/"));
+            $this->assertFalse($util->isRootDir("/home/ethna"));
+            $this->assertFalse($util->isRootDir("/test.txt"));
+        }
+    }
+    // }}}
+
     // {{{  testGetRandom
     function testGetRandom()
     {
