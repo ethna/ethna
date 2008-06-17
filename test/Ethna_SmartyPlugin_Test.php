@@ -18,6 +18,17 @@ require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
  */
 class Ethna_SmartyPlugin_Test extends Ethna_UnitTestBase
 {
+    // {{{ test_smarty_modifier_select
+    function test_smarty_modifier_select()
+    {
+        $r = smarty_modifier_select('a', 'b');
+        $this->assertNull($r);
+
+        $r = smarty_modifier_select('a', 'a');
+        $this->assertEqual($r, 'selected="selected"');
+    }
+    // }}}
+
     // {{{  test_smarty_modifier_wordwrap_i18n
     function test_smarty_modifier_wordwrap_i18n()
     {
