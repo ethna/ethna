@@ -60,7 +60,7 @@ $config = array(
     'filelistgenerator' => 'file',
     'ignore' => array('CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh', '*optional_package*', ),
     'changelogoldtonew' => false,
-    'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc'),
+    'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc', 'UPGRADE' => 'doc'),
     'description' => $description,
     'exceptions' => array('bin/ethna.sh' => 'script', 'bin/ethna.bat' => 'script'),
     'installexceptions' => array('bin/ethna.sh' => '/', 'bin/ethna.bat' => '/'),
