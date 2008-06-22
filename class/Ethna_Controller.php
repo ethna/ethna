@@ -242,9 +242,10 @@ class Ethna_Controller
         //
         // @see Ethna_Controller#_getDefaultLanguage
         list($this->locale, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
-        mb_internal_encoding($this->client_encoding);
-        mb_regex_encoding($this->client_encoding);
-
+        if (mb_enabled()) {
+            mb_internal_encoding($this->client_encoding);
+            mb_regex_encoding($this->client_encoding);
+        }
         $this->config =& $this->getConfig();
         $this->dsn = $this->_prepareDSN();
         $this->url = $this->config->get('url');
