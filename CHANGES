@@ -52,6 +52,9 @@
 -- クラス名のprefixになるため、数値を許すと自動生成物がコンパイルエラーを起こす
 - Ethna_Util#getRandom で open_basedir が有効な場合に、 /proc を開けず警告が出る点を回避(thanks. sotarok)
 -- http://d.hatena.ne.jp/sotarok/20070813/1187055110
+- Ethna_ClassFactory#getManager の第1引数を、大文字小文字を区別しないように修正。(thanks:maru_cc)
+-- 第1引数はクラス名の一部として扱われており、PHPがクラス名の大文字小文字を区別しないことから、
+   大文字小文字を区別せず同じインスタンスを返すのが妥当と考えられる。
 
 ** 2.3.5
 
