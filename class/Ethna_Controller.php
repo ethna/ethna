@@ -1881,6 +1881,8 @@ class Ethna_Controller
      */
     function getManagerClassName($name)
     {
+        //   アプリケーションIDと、渡された名前のはじめを大文字にして、
+        //   組み合わせたものが返される 
         return sprintf('%s_%sManager', $this->getAppId(), ucfirst($name));
     }
 
@@ -1893,7 +1895,12 @@ class Ethna_Controller
      */
     function getObjectClassName($name)
     {
+        //  引数のはじめの一文字目と、アンダーバー直後の
+        //  1文字を必ず大文字にする。アンダーバーは削除される。
         $name = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($name));
+        
+        //  $name に foo_bar を渡し、AppID が Hogeの場合
+        //  [Appid]_FooBar が返される
         return sprintf('%s_%s', $this->getAppId(), $name);
     }
 

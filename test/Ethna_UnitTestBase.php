@@ -33,7 +33,7 @@ class Ethna_UnitTestBase extends UnitTestCase
         // controller
         $this->ctl =& Ethna_Controller::getInstance();
         if ($this->ctl === null) {
-            $this->ctl =&  new Ethna_Controller();
+            $this->ctl =& new Ethna_Controller();
         }
         $this->controller =& $this->ctl;
 
