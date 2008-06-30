@@ -24,12 +24,13 @@
 - 国際化 (i18n) のための機能追加および変更
 -- [Breaking B.C] 言語名として解釈していた部分をロケール名に変更
 --- これにより、[appid]template/ja, [appid]/locale/ja の「ja」の部分が ja_JP に置き換わります。よって、古いバージョンから移行する場合はディレクトリ名の変更が必要です。
+--- Ethna_ViewClass に、言語切り替え用の _setLanguage メソッドを追加 (protected)
 --- Ethna.php で定義されていた、LANG_JA, LANG_EN はこの変更により使用されないので削除
 -- [Breaking B.C] gettext を使用する際には [appid]/etc/[appid]-ini.php で 'use_gettext' => true と設定しないと gettext を使わないようにした
 --- 2.3.5 までのコードは、gettext.so がロードされていれば *無条件に* gettext が実行されるようになっているので、Ethna 独自のメッセージカタログとの選択がわかりづらいため。
 --- 2.3.5までのコードで gettext を利用している場合は、設定が明示的に必要です。
 -- "ethna add-project" コマンドに [-l|--locale] [-e|--encoding] オプションを追加
--  "ethna add-[view|templete]" コマンドに [-l|--locale] [-e|--encoding] オプションを追加
+-- "ethna add-[view|templete]" コマンドに [-l|--locale] [-e|--encoding] オプションを追加
 -- スケルトンの日本語コメントをすべてASCIIに変更(好みのエンコーディングで編集できるようにするため)
 -- gettextを使わない場合向けに、Ethna独自のメッセージカタログを実装
 --- ini ファイルライクなフォーマットで msgid と翻訳を格納する方式
