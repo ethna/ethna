@@ -26,7 +26,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r = $this->_getopt(array('basedir=', 'skeldir=', 'locale='));
+        $r = $this->_getopt(array('basedir=', 'skeldir=', 'locale=', 'encoding='));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -70,7 +70,20 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
             $locale = 'ja_JP';  //  default locale. 
         }
 
-        $r = Ethna_Generator::generate('Project', null, $app_id, $basedir, $skeldir, $locale);
+        // encoding
+        if (isset($opt_list['encoding'])) {
+            $encoding = end($opt_list['encoding']);
+            if (function_exists('mb_list_encodings')) {
+                $supported_enc = mb_list_encodings();
+                if (!in_array($encoding, $supported_enc)) {
+                    return Ethna::raiseError("Unknown Encoding : $encoding", 'usage');
+                }
+            }
+        } else {
+            $encoding = 'UTF-8';  //  default encoding. 
+        }
+
+        $r = Ethna_Generator::generate('Project', null, $app_id, $basedir, $skeldir, $locale, $encoding);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also error messages given above\n\n");
             return $r;
@@ -89,7 +102,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
     {
         return <<<EOS
 add new project:
-    {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [Application id]
+    {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [-e|--encoding] [Application id]
 
 EOS;
     }
@@ -102,7 +115,7 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [Application id]
+ethna {$this->id} [-b|--basedir=dir] [-s|--skeldir] [-l|--locale] [-e|--encoding] [Application id]
 EOS;
     }
 }

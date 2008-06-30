@@ -270,7 +270,7 @@ class {$project_id}_Controller extends Ethna_Controller
      */
     function _getDefaultLanguage()
     {
-        return array('{$locale}', 'UTF-8', 'UTF-8');
+        return array('{$locale}', 'UTF-8', '{$client_enc}');
     }
 }
 

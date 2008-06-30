@@ -30,9 +30,10 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
      *                              も追加してコピーする 
      *  @param  string  $locale     ロケール名
      *                              (ロケール名は、ll_cc の形式。ll = 言語コード cc = 国コード)
+     *  @param  string  $encoding   プロジェクトで使用するエンコーディング 
      *  @return bool    true:成功   Ethna_Error:失敗
      */
-    function generate($id, $basedir, $skeldir, $locale)
+    function generate($id, $basedir, $skeldir, $locale, $encoding)
     {
         $dir_list = array(
             array("app", 0755),
@@ -112,6 +113,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
         $macro['project_prefix'] = $id;
         $macro['basedir'] = realpath($basedir);
         $macro['locale'] = $locale;
+        $macro['client_enc'] = $encoding;
 
         $macro['action_class'] = '{$action_class}';
         $macro['action_form'] = '{$action_form}';
