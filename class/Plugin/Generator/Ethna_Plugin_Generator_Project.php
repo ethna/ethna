@@ -151,6 +151,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             "app.unittest.php" => sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']),
             "app.url_handler.php" => sprintf("$basedir/app/%s_UrlHandler.php", $macro['project_id']),
             "etc.ini.php" => sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']),
+            "template.index.tpl" => sprintf("$basedir/template/$locale/index.tpl"),
         );
 
         $skelfile_maps = array(
@@ -163,7 +164,6 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             "skel.view.php" => sprintf("$basedir/skel/skel.view.php"),
             "skel.template.tpl" => sprintf("$basedir/skel/skel.template.tpl"),
             "skel.view_test.php" => sprintf("$basedir/skel/skel.view_test.php"),
-            "template.index.tpl" => sprintf("$basedir/template/$locale/index.tpl"),
         );
 
         //    also copy user defined skel file.
@@ -184,6 +184,9 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             return $real_r;
         }
 
+        //  skelファイルにはエンコーディングマクロは適用しない
+        //  skel.template.tpl は、add-[view|template]時に適用させるため。
+        unset($default_macro['client_enc']);
         $skel_r = $this->_generate($skelfile_maps, $default_macro, $skeldir);
         if (Ethna::isError($skel_r)) {
             return $skel_r;

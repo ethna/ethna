@@ -37,9 +37,11 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
         $r =& $this->_getopt(
                   array('basedir=',
                         'skelfile=',
-                        'template',
                         'with-unittest',
                         'unittestskel=',
+                        'template',
+                        'locale=',
+                        'encoding=',
                   )
               );
         if (Ethna::isError($r)) {
@@ -57,7 +59,7 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
             return $r;
         }
 
-        // add view
+        // add view(invoke parent class method)
         $ret =& $this->_perform('View', $view_name, $opt_list);
         if (Ethna::isError($ret) || $ret === false) { 
             return $ret;
@@ -65,13 +67,70 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
 
         // add template
         if (isset($opt_list['template'])) {
-            $ret =& $this->_perform('Template', $view_name, $opt_list);
+            $ret =& $this->_performTemplate($view_name, $opt_list);
             if (Ethna::isError($ret) || $ret === false) { 
                 return $ret;
             }
         }
 
         return true;
+    }
+
+    /**
+     *  Special Function for generating template.
+     *
+     *  @param  string $target_name Template Name
+     *  @param  array  $opt_list    Option List.
+     *  @access protected
+     */
+    function &_performTemplate($target_name, $opt_list)
+    {
+        // basedir
+        if (isset($opt_list['basedir'])) {
+            $basedir = realpath(end($opt_list['basedir']));
+        } else {
+            $basedir = getcwd();
+        }
+
+        // skelfile
+        if (isset($opt_list['skelfile'])) {
+            $skelfile = end($opt_list['skelfile']);
+        } else {
+            $skelfile = null;
+        }
+
+        // locale
+        if (isset($opt_list['locale'])) {
+            $locale = end($opt_list['locale']);
+            if (!preg_match('/^[A-Za-z_]+$/', $locale)) {
+                return Ethna::raiseError("You specified locale, but invalid : $locale", 'usage');
+            }
+        } else {
+            $locale = 'ja_JP';  //  default locale. 
+        }
+
+        // encoding
+        if (isset($opt_list['encoding'])) {
+            $encoding = end($opt_list['encoding']);
+            if (function_exists('mb_list_encodings')) {
+                $supported_enc = mb_list_encodings();
+                if (!in_array($encoding, $supported_enc)) {
+                    return Ethna::raiseError("Unknown Encoding : $encoding", 'usage');
+                }
+            }
+        } else {
+            $encoding = 'UTF-8';  //  default encoding. 
+        }
+
+        $r =& Ethna_Generator::generate('Template', $basedir,
+                                        $target_name, $skelfile, $locale, $encoding);
+        if (Ethna::isError($r)) {
+            printf("error occurred while generating skelton. please see also following error message(s)\n\n");
+            return $r;
+        }
+
+        $true = true;
+        return $true;
     }
 
     /**
@@ -83,8 +142,13 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
     {
         return <<<EOS
 add new view to project:
-    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [-w|--with-unittest] [-u|--unittestskel=file] [view]
+    {$this->id} [options... ] [view name]
+    [options ...] are as follows.
+        [-b|--basedir=dir] [-s|--skelfile=file]
+        [-w|--with-unittest] [-u|--unittestskel=file]
+        [-t|--template] [-l|--locale] [-e|--encoding]
     NOTICE: "-w" and "-u" options are ignored when you specify -t option.
+            "-l" and "-e" options are enabled when you specify -t option.
 
 EOS;
     }
@@ -95,8 +159,13 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-t|--template] [-w|--with-unittest] [-u|--unittestskel=file] [view]
+ethna {$this->id} [options... ] [view name]
+    [options ...] are as follows.
+        [-b|--basedir=dir] [-s|--skelfile=file]
+        [-w|--with-unittest] [-u|--unittestskel=file]
+        [-t|--template] [-l|--locale] [-e|--encoding]
     NOTICE: "-w" and "-u" options are ignored when you specify -t option.
+            "-l" and "-e" options are enabled when you specify -t option.
 EOS;
     }
 }
