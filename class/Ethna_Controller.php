@@ -720,6 +720,32 @@ class Ethna_Controller
     }
 
     /**
+     *  ロケール名へのアクセサ(R)
+     *
+     *  @access public
+     *  @return string  ロケール名(e.x ja_JP, en_US 等),
+     *                  (ロケール名は、ll_cc の形式。ll = 言語コード cc = 国コード)
+     */
+    function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     *  ロケール名へのアクセサ(W)
+     *
+     *  @access public
+     *  @param $locale ロケール名(e.x ja_JP, en_US 等),
+     *                 (ロケール名は、ll_cc の形式。ll = 言語コード cc = 国コード)
+     */
+    function setLocale($locale)
+    {
+        $this->locale = $locale;
+        $i18n =& $this->getI18N();
+        $i18n->setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
+    }
+
+    /**
      *  クライアントエンコーディング名へのアクセサ(R)
      *
      *  @access public
@@ -739,6 +765,8 @@ class Ethna_Controller
     function setClientEncoding($client_encoding)
     {
         $this->client_encoding = $client_encoding;
+        $i18n =& $this->getI18N();
+        $i18n->setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
     }
 
     /**
