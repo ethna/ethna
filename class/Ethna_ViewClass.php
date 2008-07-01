@@ -127,9 +127,9 @@ class Ethna_ViewClass
      */
     function forward()
     {
+        $this->_setLanguage();
         $renderer =& $this->_getRenderer();
         $this->_setDefault($renderer);
-        $this->_setLanguage();
         $renderer->perform($this->forward_path);
     }
     // }}}
