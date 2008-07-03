@@ -140,11 +140,11 @@ class Ethna_Plugin_Logwriter
     function _getBacktrace()
     {
         $skip_method_list = array(
-            array('ethna', 'raise.*'),
+            array('ethna', 'raise'),
             array(null, 'raiseerror'),
             array(null, 'handleerror'),
             array('ethna_logger', null),
-            array('ethna_plugin_logwriter*', null),
+            array('ethna_plugin_logwriter', null),
             array('ethna_error', null),
             array('ethna_apperror', null),
             array('ethna_actionerror', null),
@@ -169,10 +169,10 @@ class Ethna_Plugin_Logwriter
             foreach ($skip_method_list as $method) {
                 $class = $function = true;
                 if ($method[0] != null) {
-                    $class = preg_match("/$method[0]/i", $bt[$i]['class']);
+                    $class = preg_match("/^$method[0]/i", $bt[$i]['class']);
                 }
                 if ($method[1] != null) {
-                    $function = preg_match("/$method[1]/i", $bt[$i]['function']);
+                    $function = preg_match("/^$method[1]/i", $bt[$i]['function']);
                 }
                 if ($class && $function) {
                     $skip = true;
