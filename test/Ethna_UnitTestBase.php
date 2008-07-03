@@ -7,18 +7,24 @@
  */
 
 /**
- *  Ethna¤Î¥Æ¥¹¥È¥±¡¼¥¹¤Î´ðÄì¥¯¥é¥¹
+ *  Ethnaã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã®åŸºåº•ã‚¯ãƒ©ã‚¹
  */
 class Ethna_UnitTestBase extends UnitTestCase
 {
-    /** @var    object  Ethna_Backend       backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend       backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
+
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($action_formã®çœç•¥å½¢) */
+    var $af;
+
+    /** @var    object  Ethna_ActionError    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($action_errorã®çœç•¥å½¢) */
+    var $ae;
 
     function Ethna_UnitTestBase($label = false)
     {
@@ -27,18 +33,20 @@ class Ethna_UnitTestBase extends UnitTestCase
         // controller
         $this->ctl =& Ethna_Controller::getInstance();
         if ($this->ctl === null) {
-            $this->ctl =&  new Ethna_Controller();
+            $this->ctl =& new Ethna_Controller();
         }
         $this->controller =& $this->ctl;
 
         // backend
         $this->backend =& $this->ctl->getBackend();
 
-        // actionform
+        // actionform, actionerror.
         if ($this->ctl->action_form === null) {
             $this->ctl->action_form =& new Ethna_ActionForm($this->ctl);
             $this->backend->setActionForm($this->ctl->action_form);
         }
+        $this->af =& $this->ctl->action_form;
+        $this->ae =& $this->ctl->getActionError();
 
         // viewclass
         if ($this->ctl->view === null) {
@@ -46,4 +54,5 @@ class Ethna_UnitTestBase extends UnitTestCase
         }
     }
 }
+
 ?>

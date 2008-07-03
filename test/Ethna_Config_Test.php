@@ -4,7 +4,7 @@
  */
 
 /**
- *  Ethna_Config¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Configã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
@@ -12,7 +12,7 @@ class Ethna_Config_Test extends Ethna_UnitTestBase
 {
     function setUp()
     {
-        // etc¥Ç¥£¥ì¥¯¥È¥ê¤ò¾å½ñ¤­
+        // etcãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä¸Šæ›¸ã
         $this->ctl->directory['etc'] = dirname(__FILE__);
         $this->config = $this->ctl->getConfig();
         $this->filename = dirname(__FILE__) . '/ethna-ini.php';
@@ -33,28 +33,28 @@ class Ethna_Config_Test extends Ethna_UnitTestBase
 
     function test_update()
     {
-        // ¤³¤Î»þÅÀ¤Ç¤Ï¤Þ¤À ethna-ini.php ¤ÏÂ¸ºß¤·¤Ê¤¤
+        // ã“ã®æ™‚ç‚¹ã§ã¯ã¾ã  ethna-ini.php ã¯å­˜åœ¨ã—ãªã„
         $result = $this->config->get('foo');
         $this->assertEqual($result, null);
 
-        // Ethna_Config¥ª¥Ö¥¸¥§¥¯¥ÈÆâ¤ÎÃÍ
+        // Ethna_Configã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå†…ã®å€¤
         $this->config->set('foo', 'bar');
         $result = $this->config->get('foo');
         $this->assertEqual($result, 'bar');
 
-        // ethna-ini.php ¤¬¼«Æ°À¸À®¤µ¤ì¤ë
+        // ethna-ini.php ãŒè‡ªå‹•ç”Ÿæˆã•ã‚Œã‚‹
         $this->config->update();
 
-        // ethna-ini.php ¤òÆÉ¤ß¹þ¤ßÄ¾¤¹
+        // ethna-ini.php ã‚’èª­ã¿è¾¼ã¿ç›´ã™
         $this->config->_getConfig();
         $result = $this->config->get('foo');
         $this->assertEqual($result, 'bar');
 
-        // ÃÍ¤ò¾å½ñ¤­
+        // å€¤ã‚’ä¸Šæ›¸ã
         $this->config->set('foo', 'baz');
         $this->config->update();
 
-        // ¤â¤¦°ìÅÙÆÉ¤ß¹þ¤ßÄ¾¤¹
+        // ã‚‚ã†ä¸€åº¦èª­ã¿è¾¼ã¿ç›´ã™
         $this->config->_getConfig();
         $result = $this->config->get('foo');
         $this->assertEqual($result, 'baz');

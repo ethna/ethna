@@ -8,7 +8,7 @@
  */
 
 /**
- *  indexフォームの実装
+ *  Index form implementation
  *
  *  @author    {$author}
  *  @access    public
@@ -17,40 +17,57 @@
 
 class {$project_id}_Form_Index extends {$project_id}_ActionForm
 {
-    /** @var    bool    バリデータにプラグインを使うフラグ */
-    var $use_validator_plugin = false;
-
     /**
      *  @access   private
-     *  @var      array   フォーム値定義
+     *  @var      array   form definition.
      */
-     var $form = array(
+    var $form = array(
        /*
-        *  TODO: このアクションが使用するフォームを記述してください
+        *  TODO: Write form definition which this action uses.
+        *  @see http://ethna.jp/ethna-document-dev_guide-form.html
         *
-        *  記述例(typeを除く全ての要素は省略可能)：
+        *  Example(You can omit all elements except for "type" one) :
         *
         *  'sample' => array(
-        *  // フォームの定義
-        *      'type'        => VAR_TYPE_INT,        // 入力値型
-        *      'form_type'   => FORM_TYPE_TEXT,      // フォーム型
-        *      'name'        => 'サンプル',          // 表示名
+        *      // Form definition
+        *      'type'        => VAR_TYPE_INT,    // Input type
+        *      'form_type'   => FORM_TYPE_TEXT,  // Form type
+        *      'name'        => 'Sample',        // Display name
         *  
-        *  // バリデータ(記述順にバリデータが実行されます)
-        *      'required'    => true,                        // 必須オプション(true/false)
-        *      'min'         => null,                        // 最小値
-        *      'max'         => null,                        // 最大値
-        *      'regexp'      => null,                        // 文字種指定(正規表現)
+        *      //  Validator (executes Validator by written order.)
+        *      'required'    => true,            // Required Option(true/false)
+        *      'min'         => null,            // Minimum value
+        *      'max'         => null,            // Maximum value
+        *      'regexp'      => null,            // String by Regexp
+        *      'mbregexp'    => null,            // Multibype string by Regexp
+        *      'mbregexp_encoding' => 'UTF-8',   // Matching encoding when using mbregexp 
         *
-        *  // フィルタ
-        *      'filter'      => null,                        // 入力値変換フィルタオプション
+        *      //  Filter
+        *      'filter'      => 'sample',        // Optional Input filter to convert input
+        *      'custom'      => null,            // Optional method name which
+        *                                        // is defined in this(parent) class.
         *  ),
         */
-      );
+    );
+
+    /**
+     *  Form input value convert filter : sample
+     *
+     *  @access protected
+     *  @param  mixed   $value  Form Input Value
+     *  @return mixed           Converted result.
+     */
+    /*
+    function _filter_sample($value)
+    {
+        //  convert to upper case.
+        return strtoupper($value);
+    }
+    */
 }
 
 /**
- *  indexアクションの実装
+ *  Index action implementation.
  *
  *  @author     {$author}
  *  @access     public
@@ -58,26 +75,33 @@ class {$project_id}_Form_Index extends {$project_id}_ActionForm
  */
 class {$project_id}_Action_Index extends {$project_id}_ActionClass
 {
+    /**
+     *  preprocess Index action.
+     *
+     *  @access    public
+     *  @return    string  Forward name (null if no errors.)
+     */
+    function prepare()
+    {
         /**
-         *  indexアクションの前処理
-         *
-         *  @access    public
-         *  @return    string  Forward先(正常終了ならnull)
-         */
-        function prepare()
-        {
-                return null;
+        if ($this->af->validate() > 0) {
+            return 'error';
         }
+        $sample = $this->af->get('sample');
+        */
+        return null;
+    }
 
-        /**
-         *  indexアクションの実装
-         *
-         *  @access    public
-         *  @return    string  遷移名
-         */
-        function perform()
-        {
-                return 'index';
-        }
+    /**
+     *  Index action implementation.
+     *
+     *  @access    public
+     *  @return    string  Forward Name.
+     */
+    function perform()
+    {
+        return 'index';
+    }
 }
+
 ?>

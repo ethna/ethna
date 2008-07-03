@@ -1,43 +1,50 @@
 <?php
+// vim: foldmethod=marker
 /**
  *  Ethna_Plugin_Validator_Regexp_Test.php
  */
 
 /**
- *  Ethna_Plugin_Validator_Regexp¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Validator_Regexpã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
 class Ethna_Plugin_Validator_Regexp_Test extends Ethna_UnitTestBase
 {
-    function testCheckValidatorRegexp()
+    var $vld;
+
+    function setUp()
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
-        $vld = $plugin->getPlugin('Validator', 'Regexp');
+        $this->vld = $plugin->getPlugin('Validator', 'Regexp');
+    }
 
-
+    // {{{  test regexp string
+    function test_regexp_string()
+    {
         $form_string = array(
                              'type'          => VAR_TYPE_STRING,
                              'required'      => true,
                              'regexp'        => '/^[a-zA-Z]+$/',
-                             'error'         => '{form}¤òÀµ¤·¤¯ÆþÎÏ¤·¤Æ¤¯¤À¤µ¤¤'
+                             'error'         => '{form}ã‚’æ­£ã—ãå…¥åŠ›ã—ã¦ãã ã•ã„'
                              );
-        $vld->af->setDef('namae_string', $form_string);
+        $this->vld->af->setDef('namae_string', $form_string);
 
-        $pear_error = $vld->validate('namae_string', 'fromA', $form_string);
+        $pear_error = $this->vld->validate('namae_string', 'fromA', $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // µö¤µ¤ì¤Æ¤¤¤Ê¤¤Ê¸»úÎó
-        $pear_error = $vld->validate('namae_string', '7.6', $form_string);
+        // è¨±ã•ã‚Œã¦ã„ãªã„æ–‡å­—åˆ—
+        $pear_error = $this->vld->validate('namae_string', '7.6', $form_string);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REGEXP, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_string', '', $form_string);
-        // required¤È¤Î´Ø·¸¾å
+        $pear_error = $this->vld->validate('namae_string', '', $form_string);
+        // requiredã¨ã®é–¢ä¿‚ä¸Š
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
-
     }
+    // }}}
 }
+
 ?>

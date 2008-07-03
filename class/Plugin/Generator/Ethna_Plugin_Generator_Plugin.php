@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Generator_Plugin
 /**
- *  ¥¹¥±¥ë¥È¥óÀ¸À®¥¯¥é¥¹
+ *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ç”Ÿæˆã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,13 +20,13 @@
 class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
 {
     /**
-     *  ¥×¥é¥°¥¤¥ó¤òÀ¸À®¤¹¤ë
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
-     *  @param  string  $type       ¥×¥é¥°¥¤¥ó¤Î$type
-     *  @param  string  $name       ¥×¥é¥°¥¤¥ó¤Î$name
-     *  @param  bool    $overwrite  ¾å½ñ¤­¥ª¥×¥·¥ç¥ó
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $type       ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®$type
+     *  @param  string  $name       ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®$name
+     *  @param  bool    $overwrite  ä¸Šæ›¸ãã‚ªãƒ—ã‚·ãƒ§ãƒ³
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function generate($type, $name, $overwrite = false)
     {
@@ -51,12 +51,12 @@ class Ethna_Plugin_Generator_Plugin extends Ethna_Plugin_Generator
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¤ò¾Ã¤¹
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’æ¶ˆã™
      *
      *  @access public
-     *  @param  string  $type       ¥×¥é¥°¥¤¥ó¤Î$type
-     *  @param  string  $name       ¥×¥é¥°¥¤¥ó¤Î$name
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $type       ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®$type
+     *  @param  string  $name       ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®$name
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function remove($type, $name)
     {

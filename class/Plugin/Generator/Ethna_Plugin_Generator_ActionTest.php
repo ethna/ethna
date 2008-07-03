@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Generator_ActionTest
 /**
- *  ¥¹¥±¥ë¥È¥óÀ¸À®¥¯¥é¥¹
+ *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ç”Ÿæˆã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,14 +20,14 @@
 class Ethna_Plugin_Generator_ActionTest extends Ethna_Plugin_Generator
 {
     /**
-     *  ¥¢¥¯¥·¥ç¥óÍÑ¥Æ¥¹¥È¤Î¥¹¥±¥ë¥È¥ó¤òÀ¸À®¤¹¤ë
-     *  (¸½ºß¤Î¤È¤³¤í GATEWAY_WWW ¤Î¤ßÂĞ±ş)
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç”¨ãƒ†ã‚¹ãƒˆã®ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’ç”Ÿæˆã™ã‚‹
+     *  (ç¾åœ¨ã®ã¨ã“ã‚ GATEWAY_WWW ã®ã¿å¯¾å¿œ)
      *
      *  @access public
-     *  @param  string  $action_name    ¥¢¥¯¥·¥ç¥óÌ¾
-     *  @param  string  $skelton        ¥¹¥±¥ë¥È¥ó¥Õ¥¡¥¤¥ëÌ¾
-     *  @param  int     $gateway        ¥²¡¼¥È¥¦¥§¥¤
-     *  @return true|Ethna_Error        true:À®¸ù Ethna_Error:¼ºÇÔ
+     *  @param  string  $action_name    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å
+     *  @param  string  $skelton        ã‚¹ã‚±ãƒ«ãƒˆãƒ³ãƒ•ã‚¡ã‚¤ãƒ«å
+     *  @param  int     $gateway        ã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤
+     *  @return true|Ethna_Error        true:æˆåŠŸ Ethna_Error:å¤±æ•—
      */
     function &generate($action_name, $skelton = null, $gateway = GATEWAY_WWW)
     {

@@ -11,7 +11,7 @@
 
 // {{{ Ethna_AppSQL
 /**
- *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥óSQL¥Ù¡¼¥¹¥¯¥é¥¹
+ *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³SQLãƒ™ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,16 +23,16 @@ class Ethna_AppSQL
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
     /**#@-*/
 
     /**
-     *  Ethna_AppSQL¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_AppSQLã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    controller¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_AppSQL(&$controller)
     {
@@ -40,12 +40,12 @@ class Ethna_AppSQL
     }
 
     /**
-     *  Å¬ÀÚ¤Ë¥¨¥¹¥±¡¼¥×¤µ¤ì¤¿SQLÊ¸¤òÊÖ¤¹
+     *  é©åˆ‡ã«ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã•ã‚ŒãŸSQLæ–‡ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  string  $sqlfunc    SQLÊ¸¼ïÊÌÌ¾
-     *  @param  array   $args       °ú¿ô°ìÍ÷
-     *  @return string  ¥¨¥¹¥±¡¼¥×¤µ¤ì¤¿SQLÊ¸
+     *  @param  string  $sqlfunc    SQLæ–‡ç¨®åˆ¥å
+     *  @param  array   $args       å¼•æ•°ä¸€è¦§
+     *  @return string  ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã•ã‚ŒãŸSQLæ–‡
      */
     function get($sqlid, $args)
     {
@@ -55,10 +55,10 @@ class Ethna_AppSQL
     }
 
     /**
-     *  SQL°ú¿ô¤ò¥¨¥¹¥±¡¼¥×¤¹¤ë
+     *  SQLå¼•æ•°ã‚’ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã™ã‚‹
      *
      *  @access public
-     *  @param  mixed   &$var   ¥¨¥¹¥±¡¼¥×¤¹¤ëÃÍ
+     *  @param  mixed   &$var   ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã™ã‚‹å€¤
      *  @static
      */
     function escapeSQL(&$var, $type = null)
@@ -81,10 +81,10 @@ class Ethna_AppSQL
     }
 
     /**
-     *  escapeSQL¤Ç¥¨¥¹¥±¡¼¥×¤µ¤ì¤¿Ê¸»úÎó¤òunescape¤¹¤ë
+     *  escapeSQLã§ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’unescapeã™ã‚‹
      *
      *  @access public
-     *  @param  mixed   &$var   ¥¨¥¹¥±¡¼¥×¤òÉüµ¢¤¹¤ëÃÍ
+     *  @param  mixed   &$var   ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã‚’å¾©å¸°ã™ã‚‹å€¤
      *  @static
      */
     function unescapeSQL(&$var, $type = null)
@@ -103,13 +103,13 @@ class Ethna_AppSQL
     }
 
     /**
-     *  WHERE¾ò·ïÊ¸¤òÀ¸À®¤¹¤ë
+     *  WHEREæ¡ä»¶æ–‡ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
-     *  @param  string  $field      ¸¡º÷ÂĞ¾İ¤Î¥Õ¥£¡¼¥ë¥É
-     *  @param  mixed   $value      ¸¡º÷ÃÍ
-     *  @param  int     $condition  ¸¡º÷¾ò·ï(OBJECT_CONDITION_NE,...)
-     *  @return string  ¸¡º÷¾ò·ïÊ¸
+     *  @param  string  $field      æ¤œç´¢å¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+     *  @param  mixed   $value      æ¤œç´¢å€¤
+     *  @param  int     $condition  æ¤œç´¢æ¡ä»¶(OBJECT_CONDITION_NE,...)
+     *  @return string  æ¤œç´¢æ¡ä»¶æ–‡
      *  @static
      */
     function getCondition($field, $value, $condition = OBJECT_CONDITION_EQ)

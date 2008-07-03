@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Logwriter_Syslog
 /**
- *  ¥í¥°½ĞÎÏ¥¯¥é¥¹(Syslog)
+ *  ãƒ­ã‚°å‡ºåŠ›ã‚¯ãƒ©ã‚¹(Syslog)
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,13 +20,13 @@
 class Ethna_Plugin_Logwriter_Syslog extends Ethna_Plugin_Logwriter
 {
     /**
-     *  ¥í¥°½ĞÎÏ¤ò³«»Ï¤¹¤ë
+     *  ãƒ­ã‚°å‡ºåŠ›ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
      */
     function begin()
     {
-        // syslogÍÑ¥ª¥×¥·¥ç¥ó¤Î¤ß¤ò»ØÄê
+        // syslogç”¨ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ã¿ã‚’æŒ‡å®š
         if (array_key_exists("pid", $this->option)) {
             $option = $this->option & (LOG_PID);
         }
@@ -34,11 +34,11 @@ class Ethna_Plugin_Logwriter_Syslog extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $level      ¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸(+°ú¿ô)
+     *  @param  int     $level      ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_DEBUG, LOG_NOTICE...)
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(+å¼•æ•°)
      */
     function log($level, $message)
     {
@@ -63,7 +63,7 @@ class Ethna_Plugin_Logwriter_Syslog extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°½ĞÎÏ¤ò½ªÎ»¤¹¤ë
+     *  ãƒ­ã‚°å‡ºåŠ›ã‚’çµ‚äº†ã™ã‚‹
      *
      *  @access public
      */

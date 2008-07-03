@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Validator_Required
 /**
- *  É¬¿Ü¥Õ¥©¡¼¥à¤Î¸¡¾Ú¥×¥é¥°¥¤¥ó
+ *  å¿…é ˆãƒ•ã‚©ãƒ¼ãƒ ã®æ¤œè¨¼ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -19,19 +19,19 @@
  */
 class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
 {
-    /** @var    bool    ÇÛÎó¤ò¼õ¤±¼è¤ë¤«¥Õ¥é¥° */
+    /** @var    bool    é…åˆ—ã‚’å—ã‘å–ã‚‹ã‹ãƒ•ãƒ©ã‚° */
     var $accept_array = true;
 
     /**
-     *  ¥Õ¥©¡¼¥à¤ËÃÍ¤¬ÆşÎÏ¤µ¤ì¤Æ¤¤¤ë¤«¤ò¸¡¾Ú¤¹¤ë
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã«å€¤ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã‹ã‚’æ¤œè¨¼ã™ã‚‹
      *
-     *  ÇÛÎó¤Î¾ì¹ç¤Ï¡¢ÆşÎÏ¤µ¤ì¤ë¤Ù¤­ key ¤Î¥ê¥¹¥È¡¢
-     *  ¤¢¤ë¤¤¤Ï key ¤Î¿ô¤ò»ØÄê¤Ç¤­¤Ş¤¹
+     *  é…åˆ—ã®å ´åˆã¯ã€å…¥åŠ›ã•ã‚Œã‚‹ã¹ã key ã®ãƒªã‚¹ãƒˆã€
+     *  ã‚ã‚‹ã„ã¯ key ã®æ•°ã‚’æŒ‡å®šã§ãã¾ã™
      *
      *  @access public
-     *  @param  string  $name       ¥Õ¥©¡¼¥à¤ÎÌ¾Á°
-     *  @param  mixed   $var        ¥Õ¥©¡¼¥à¤ÎÃÍ
-     *  @param  array   $params     ¥×¥é¥°¥¤¥ó¤Î¥Ñ¥é¥á¡¼¥¿
+     *  @param  string  $name       ãƒ•ã‚©ãƒ¼ãƒ ã®åå‰
+     *  @param  mixed   $var        ãƒ•ã‚©ãƒ¼ãƒ ã®å€¤
+     *  @param  array   $params     ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     function &validate($name, $var, $params)
     {
@@ -41,7 +41,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
         }
         $form_def = $this->getFormDef($name);
 
-        // ÁªÂò·¿¤Î¥Õ¥©¡¼¥à¤«¤É¤¦¤«
+        // é¸æŠå‹ã®ãƒ•ã‚©ãƒ¼ãƒ ã‹ã©ã†ã‹
         switch ($form_def['form_type']) {
         case FORM_TYPE_SELECT:
         case FORM_TYPE_RADIO:
@@ -53,15 +53,15 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
             $choice = false;
         }
 
-        // ¥¹¥«¥é¡¼¤Î¾ì¹ç
+        // ã‚¹ã‚«ãƒ©ãƒ¼ã®å ´åˆ
         if (is_array($form_def['type']) == false) {
             if ($this->isEmpty($var, $this->getFormType($name))) {
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}¤¬ÁªÂò¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('{form} was not selected.');
                 } else {
-                    $msg = '{form}¤¬ÆşÎÏ¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('no input to {form}.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             } else {
@@ -69,7 +69,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
             }
         }
                 
-        // ÇÛÎó¤Î¾ì¹ç
+        // é…åˆ—ã®å ´åˆ
         $valid_keys = array();
         if ($var != null) {
             foreach (array_keys($var) as $key) {
@@ -79,44 +79,47 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
             }
         }
 
-        // required_key ¤Î¥Á¥§¥Ã¥¯
+        // é…åˆ—ã® required_key ã®ãƒã‚§ãƒƒã‚¯
+        // 'required_key' => array(xx) ã«è¨­å®šã•ã‚ŒãŸé…åˆ—ã®è¦ç´ å€¤ãŒãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
         if (isset($params['key'])) {
             $invalid_keys = array_diff(to_array($params['key']), $valid_keys);
             if (count($invalid_keys) > 0) {
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}¤ÎÉ¬Í×¤Ê¹àÌÜ¤¬ÁªÂò¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('Required item of {form} was not selected.');
                 } else {
-                    $msg = '{form}¤ÎÉ¬Í×¤Ê¹àÌÜ¤¬ÆşÎÏ¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('Required item of {form} was not submitted.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             }
         }
 
-        // required_num ¤Î¥Á¥§¥Ã¥¯
+        // é…åˆ—ã® required_num ã®ãƒã‚§ãƒƒã‚¯
+        // 'required_num' => xx ã«è¨­å®šã•ã‚ŒãŸæ•°ã‚ˆã‚Šã€validãªå€¤ã®æ•°ãŒå°‘ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
         if (isset($params['num'])) {
             if (count($valid_keys) < intval($params['num'])) {
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}¤¬É¬Í×¤Ê¿ô¤Ş¤ÇÁªÂò¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('Required numbers of {form} was not selected.');
                 } else {
-                    $msg = '{form}¤¬É¬Í×¤Ê¿ô¤Ş¤ÇÆşÎÏ¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('Required numbers of {form} was not submitted.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             }
         }
 
-        // ¤È¤¯¤Ë»ØÄê¤¬¤Ê¤¤¤È¤­: ¥Õ¥©¡¼¥à¤ËÍ¿¤¨¤é¤ì¤¿Á´Í×ÁÇ
+        // ã¨ãã«æŒ‡å®šãŒãªã„ã¨ã: ãƒ•ã‚©ãƒ¼ãƒ ã«ä¸ãˆã‚‰ã‚ŒãŸå…¨è¦ç´ ã«
+        // valid ãªå€¤ãŒå…¥ã£ã¦ã„ãªã‘ã‚Œã°ãªã‚‰ãªã„
         if (isset($params['key']) == false && isset($params['num']) == false) {
             if (count($valid_keys) == 0 || count($valid_keys) != count($var)) {
                 if (isset($params['error'])) {
                     $msg = $params['error'];
                 } else if ($choice) {
-                    $msg = '{form}¤¬ÁªÂò¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('Please select {form}.');
                 } else {
-                    $msg = '{form}¤¬ÆşÎÏ¤µ¤ì¤Æ¤¤¤Ş¤»¤ó';
+                    $msg = _et('Please input {form}.');
                 }
                 return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
             }

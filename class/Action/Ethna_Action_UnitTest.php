@@ -9,7 +9,7 @@
  */
 
 /**
- *  __ethna_unittest__¥Õ¥©¡¼¥à¤Î¼ÂÁõ
+ *  __ethna_unittest__ãƒ•ã‚©ãƒ¼ãƒ ã®å®Ÿè£…
  *
  *  @author     Takuya Ookubo <sfio@sakura.ai.to>
  *  @access     public
@@ -19,14 +19,14 @@ class Ethna_Form_UnitTest extends Ethna_ActionForm
 {
     /**
      *  @access private
-     *  @var    array   ¥Õ¥©¡¼¥àÃÍÄêµÁ
+     *  @var    array   ãƒ•ã‚©ãƒ¼ãƒ å€¤å®šç¾©
      */
     var $form = array(
     );
 }
 
 /**
- *  __ethna_unittest__¥¢¥¯¥·¥ç¥ó¤Î¼ÂÁõ
+ *  __ethna_unittest__ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè£…
  *
  *  @author     Takuya Ookubo <sfio@sakura.ai.to>
  *  @access     public
@@ -35,10 +35,10 @@ class Ethna_Form_UnitTest extends Ethna_ActionForm
 class Ethna_Action_UnitTest extends Ethna_ActionClass
 {
     /**
-     *  __ethna_unittest__¥¢¥¯¥·¥ç¥ó¤ÎÁ°½èÍı
+     *  __ethna_unittest__ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å‰å‡¦ç†
      *
      *  @access public
-     *  @return string      ForwardÀè(Àµ¾ï½ªÎ»¤Ê¤énull)
+     *  @return string      Forwardå…ˆ(æ­£å¸¸çµ‚äº†ãªã‚‰null)
      */
     function prepare()
     {
@@ -46,10 +46,10 @@ class Ethna_Action_UnitTest extends Ethna_ActionClass
     }
 
     /**
-     *  __ethna_unittest__¥¢¥¯¥·¥ç¥ó¤Î¼ÂÁõ
+     *  __ethna_unittest__ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè£…
      *
      *  @access public
-     *  @return string  Á«°ÜÌ¾
+     *  @return string  é·ç§»å
      */
     function perform()
     {

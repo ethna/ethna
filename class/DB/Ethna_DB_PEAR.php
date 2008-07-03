@@ -12,7 +12,7 @@ require_once 'DB.php';
 
 // {{{ Ethna_DB_PEAR
 /**
- *  Ethna_DB¥¯¥é¥¹¤Î¼ÂÁõ(PEARÈÇ)
+ *  Ethna_DBã‚¯ãƒ©ã‚¹ã®å®Ÿè£…(PEARç‰ˆ)
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -25,43 +25,43 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @access private
      */
 
-    /** @var    object  DB              PEAR DB¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  DB              PEAR DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $db;
 
-    /** @var    array   ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó´ÉÍı¥¹¥¿¥Ã¥¯ */
+    /** @var    array   ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç®¡ç†ã‚¹ã‚¿ãƒƒã‚¯ */
     var $transaction = array();
 
 
-    /** @var    object  Ethna_Logger    ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger    ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
-    /** @var    object  Ethna_AppSQL    SQL¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_AppSQL    SQLã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $sql;
 
-    /** @var    string  DB¥¿¥¤¥×(mysql, pgsql...) */
+    /** @var    string  DBã‚¿ã‚¤ãƒ—(mysql, pgsql...) */
     var $type;
 
     /** @var    string  DSN */
     var $dsn;
 
-    /** @var    array   DSN (DB::parseDSN()¤ÎÊÖ¤êÃÍ) */
+    /** @var    array   DSN (DB::parseDSN()ã®è¿”ã‚Šå€¤) */
     var $dsninfo;
 
-    /** @var    bool    »ıÂ³ÀÜÂ³¥Õ¥é¥° */
+    /** @var    bool    æŒç¶šæ¥ç¶šãƒ•ãƒ©ã‚° */
     var $persistent;
 
     /**#@-*/
     // }}}
 
-    // {{{ Ethna_DB¥¯¥é¥¹¤Î¼ÂÁõ
+    // {{{ Ethna_DBã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
     // {{{ Ethna_DB_PEAR
     /**
-     *  Ethna_DB_PEAR¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_DB_PEARã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *  @param  string  $dsn                                DSN
-     *  @param  bool    $persistent                         »ıÂ³ÀÜÂ³ÀßÄê
+     *  @param  bool    $persistent                         æŒç¶šæ¥ç¶šè¨­å®š
      */
     function Ethna_DB_PEAR(&$controller, $dsn, $persistent)
     {
@@ -79,16 +79,16 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ connect
     /**
-     *  DB¤ËÀÜÂ³¤¹¤ë
+     *  DBã«æ¥ç¶šã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function connect()
     {
         $this->db =& DB::connect($this->dsninfo, $this->persistent);
         if (DB::isError($this->db)) {
-            $error = Ethna::raiseError('DBÀÜÂ³¥¨¥é¡¼: %s',
+            $error = Ethna::raiseError('DB Connection Error: %s',
                 E_DB_CONNECT,
                 $this->db->getUserInfo());
             $error->addUserInfo($this->db);
@@ -102,7 +102,7 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ disconnect
     /**
-     *  DBÀÜÂ³¤òÀÚÃÇ¤¹¤ë
+     *  DBæ¥ç¶šã‚’åˆ‡æ–­ã™ã‚‹
      *
      *  @access public
      */
@@ -117,10 +117,10 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ isValid
     /**
-     *  DBÀÜÂ³¾õÂÖ¤òÊÖ¤¹
+     *  DBæ¥ç¶šçŠ¶æ…‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @return bool    true:Àµ¾ï false:¥¨¥é¡¼
+     *  @return bool    true:æ­£å¸¸ false:ã‚¨ãƒ©ãƒ¼
      */
     function isValid()
     {
@@ -135,10 +135,10 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ begin
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function begin()
     {
@@ -159,10 +159,10 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ rollback
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤òÃæÃÇ¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä¸­æ–­ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function rollback()
     {
@@ -170,7 +170,7 @@ class Ethna_DB_PEAR extends Ethna_DB
             return 0;
         }
 
-        // ¥í¡¼¥ë¥Ğ¥Ã¥¯»ş¤Ï¥¹¥¿¥Ã¥¯¿ô¤Ë´Ø¤ï¤é¤º¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò¥¯¥ê¥¢¤¹¤ë
+        // ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯æ™‚ã¯ã‚¹ã‚¿ãƒƒã‚¯æ•°ã«é–¢ã‚ã‚‰ãšãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
         $r = $this->query('ROLLBACK;');
         if (Ethna::isError($r)) {
             return $r;
@@ -183,10 +183,10 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ commit
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò½ªÎ»¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’çµ‚äº†ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function commit()
     {
@@ -209,11 +209,11 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ getMetaData
     /**
-     *  ¥Æ¡¼¥Ö¥ëÄêµÁ¾ğÊó¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ†ãƒ¼ãƒ–ãƒ«å®šç¾©æƒ…å ±ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $table  ¥Æ¡¼¥Ö¥ëÌ¾
-     *  @return mixed   array: PEAR::DB¤Ë½à¤¸¤¿¥á¥¿¥Ç¡¼¥¿ Ethna_Error::¥¨¥é¡¼
+     *  @param  string  $table  ãƒ†ãƒ¼ãƒ–ãƒ«å
+     *  @return mixed   array: PEAR::DBã«æº–ã˜ãŸãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ Ethna_Error::ã‚¨ãƒ©ãƒ¼
      */
     function &getMetaData($table)
     {
@@ -250,13 +250,13 @@ class Ethna_DB_PEAR extends Ethna_DB
             $def[$k]['flags'] = explode(' ', $def[$k]['flags']);
             switch ($this->type) {
             case 'mysql':
-                // auto_increment ¤¬¤¢¤ì¤Ğ sequence
+                // auto_increment ãŒã‚ã‚Œã° sequence
                 if (in_array('auto_increment', $def[$k]['flags'])) {
                     $def[$k]['flags'][] = 'sequence';
                 }
                 break;
             case 'pgsql':
-                // nextval ¤¬¤¢¤ì¤Ğ sequence
+                // nextval ãŒã‚ã‚Œã° sequence
                 foreach ($def[$k]['flags'] as $f) {
                     if (strpos($f, 'nextval') !== false) {
                         $def[$k]['flags'][] = 'sequence';
@@ -265,7 +265,7 @@ class Ethna_DB_PEAR extends Ethna_DB
                 }
                 break;
             case 'sqlite':
-                // integer, primary key ¤Ê¤é¤Ğ auto_increment ¤òÄÉ²Ã
+                // integer, primary key ãªã‚‰ã° auto_increment ã‚’è¿½åŠ 
                 if ($def[$k]['type'] == 'int'
                     && in_array('primary_key', $def[$k]['flags'])) {
                     $def[$k]['flags'][] = 'sequence';
@@ -279,13 +279,13 @@ class Ethna_DB_PEAR extends Ethna_DB
     // }}}
     // }}}
 
-    // {{{ Ethna_AppObjectÏ¢·È¤Î¤¿¤á¤Î¼ÂÁõ
+    // {{{ Ethna_AppObjecté€£æºã®ãŸã‚ã®å®Ÿè£…
     // {{{ getType
     /**
-     *  DB¥¿¥¤¥×¤òÊÖ¤¹
+     *  DBã‚¿ã‚¤ãƒ—ã‚’è¿”ã™
      *
      *  @access public
-     *  @return string  DB¥¿¥¤¥×
+     *  @return string  DBã‚¿ã‚¤ãƒ—
      */
     function getType()
     {
@@ -295,11 +295,11 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ query
     /**
-     *  ¥¯¥¨¥ê¤òÈ¯¹Ô¤¹¤ë
+     *  ã‚¯ã‚¨ãƒªã‚’ç™ºè¡Œã™ã‚‹
      *
      *  @access public
-     *  @param  string  $query  SQLÊ¸
-     *  @return mixed   DB_Result:·ë²Ì¥ª¥Ö¥¸¥§¥¯¥È Ethna_Error:¥¨¥é¡¼
+     *  @param  string  $query  SQLæ–‡
+     *  @return mixed   DB_Result:çµæœã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function &query($query)
     {
@@ -309,8 +309,8 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ getNextId
     /**
-     *  Ä¾¸å¤ÎINSERT¤Ë»È¤¦ID¤ò¼èÆÀ¤¹¤ë
-     *  (pgsql¤Î¤ßÂĞ±ş)
+     *  ç›´å¾Œã®INSERTã«ä½¿ã†IDã‚’å–å¾—ã™ã‚‹
+     *  (pgsqlã®ã¿å¯¾å¿œ)
      *
      *  @access public
      *  @return mixed   int
@@ -331,11 +331,11 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ getInsertId
     /**
-     *  Ä¾Á°¤ÎINSERT¤Ë¤è¤ëID¤ò¼èÆÀ¤¹¤ë
-     *  (mysql, sqlite¤Î¤ßÂĞ±ş)
+     *  ç›´å‰ã®INSERTã«ã‚ˆã‚‹IDã‚’å–å¾—ã™ã‚‹
+     *  (mysql, sqliteã®ã¿å¯¾å¿œ)
      *
      *  @access public
-     *  @return mixed   int:Ä¾¶á¤ÎINSERT¤Ë¤è¤êÀ¸À®¤µ¤ì¤¿ID null:Ì¤¥µ¥İ¡¼¥È
+     *  @return mixed   int:ç›´è¿‘ã®INSERTã«ã‚ˆã‚Šç”Ÿæˆã•ã‚ŒãŸID null:æœªã‚µãƒãƒ¼ãƒˆ
      */
     function getInsertId()
     {
@@ -353,10 +353,10 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ fetchRow
     /**
-     *  DB_Result::fetchRow()¤Î·ë²Ì¤òÀ°·Á¤·¤ÆÊÖ¤¹
+     *  DB_Result::fetchRow()ã®çµæœã‚’æ•´å½¢ã—ã¦è¿”ã™
      *
      *  @access public
-     *  @return int     ¹¹¿·¹Ô¿ô
+     *  @return int     æ›´æ–°è¡Œæ•°
      */
     function &fetchRow(&$res, $fetchmode = DB_FETCHMODE_DEFAULT, $rownum = null)
     {
@@ -385,10 +385,10 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ affectedRows
     /**
-     *  Ä¾¶á¤Î¥¯¥¨¥ê¤Ë¤è¤ë¹¹¿·¹Ô¿ô¤ò¼èÆÀ¤¹¤ë
+     *  ç›´è¿‘ã®ã‚¯ã‚¨ãƒªã«ã‚ˆã‚‹æ›´æ–°è¡Œæ•°ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return int     ¹¹¿·¹Ô¿ô
+     *  @return int     æ›´æ–°è¡Œæ•°
      */
     function affectedRows()
     {
@@ -398,8 +398,8 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ quoteIdentifier
     /**
-     *  db¤Îtype¤Ë±ş¤¸¤Æ¼±ÊÌ»Ò¤òquote¤¹¤ë
-     *  (ÇÛÎó¤Î¾ì¹ç¤Ï³ÆÍ×ÁÇ¤òquote)
+     *  dbã®typeã«å¿œã˜ã¦è­˜åˆ¥å­ã‚’quoteã™ã‚‹
+     *  (é…åˆ—ã®å ´åˆã¯å„è¦ç´ ã‚’quote)
      *
      *  @access protected
      *  @param  mixed   $identifier array or string
@@ -428,14 +428,14 @@ class Ethna_DB_PEAR extends Ethna_DB
     // }}}
     // }}}
 
-    // {{{ Ethna_DB_PEARÆÈ¼«¤Î¼ÂÁõ
+    // {{{ Ethna_DB_PEARç‹¬è‡ªã®å®Ÿè£…
     // {{{ sqlquery
     /**
-     *  SQLÊ¸»ØÄê¥¯¥¨¥ê¤òÈ¯¹Ô¤¹¤ë
+     *  SQLæ–‡æŒ‡å®šã‚¯ã‚¨ãƒªã‚’ç™ºè¡Œã™ã‚‹
      *
      *  @access public
-     *  @param  string  $sqlid      SQL-ID(+°ú¿ô)
-     *  @return mixed   DB_Result:·ë²Ì¥ª¥Ö¥¸¥§¥¯¥È Ethna_Error:¥¨¥é¡¼
+     *  @param  string  $sqlid      SQL-ID(+å¼•æ•°)
+     *  @return mixed   DB_Result:çµæœã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function &sqlquery($sqlid)
     {
@@ -449,11 +449,11 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ sql
     /**
-     *  SQLÊ¸¤ò¼èÆÀ¤¹¤ë
+     *  SQLæ–‡ã‚’å–å¾—ã™ã‚‹
      *  
      *  @access public
      *  @param  string  $sqlid      SQL-ID
-     *  @return string  SQLÊ¸
+     *  @return string  SQLæ–‡
      */
     function sql($sqlid)
     {
@@ -467,11 +467,11 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ lock
     /**
-     *  ¥Æ¡¼¥Ö¥ë¤ò¥í¥Ã¥¯¤¹¤ë
+     *  ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹
      *
      *  @access public
-     *  @param  mixed   ¥í¥Ã¥¯ÂĞ¾İ¥Æ¡¼¥Ö¥ëÌ¾
-     *  @return mixed   DB_Result:·ë²Ì¥ª¥Ö¥¸¥§¥¯¥È Ethna_Error:¥¨¥é¡¼
+     *  @param  mixed   ãƒ­ãƒƒã‚¯å¯¾è±¡ãƒ†ãƒ¼ãƒ–ãƒ«å
+     *  @return mixed   DB_Result:çµæœã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function lock($tables)
     {
@@ -491,10 +491,10 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ unlock
     /**
-     *  ¥Æ¡¼¥Ö¥ë¤Î¥í¥Ã¥¯¤ò²òÊü¤¹¤ë
+     *  ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ­ãƒƒã‚¯ã‚’è§£æ”¾ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   DB_Result:·ë²Ì¥ª¥Ö¥¸¥§¥¯¥È Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   DB_Result:çµæœã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function unlock()
     {
@@ -505,11 +505,11 @@ class Ethna_DB_PEAR extends Ethna_DB
 
     // {{{ _query
     /**
-     *  ¥¯¥¨¥ê¤òÈ¯¹Ô¤¹¤ë
+     *  ã‚¯ã‚¨ãƒªã‚’ç™ºè¡Œã™ã‚‹
      *
      *  @access private
-     *  @param  string  $query  SQLÊ¸
-     *  @return mixed   DB_Result:·ë²Ì¥ª¥Ö¥¸¥§¥¯¥È Ethna_Error:¥¨¥é¡¼
+     *  @param  string  $query  SQLæ–‡
+     *  @return mixed   DB_Result:çµæœã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function &_query($query)
     {
@@ -517,13 +517,13 @@ class Ethna_DB_PEAR extends Ethna_DB
         $r =& $this->db->query($query);
         if (DB::isError($r)) {
             if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
-                $error = Ethna::raiseNotice('¥æ¥Ë¡¼¥¯À©Ìó¥¨¥é¡¼ SQL[%s]',
+                $error = Ethna::raiseNotice('Unique Constraint Error SQL[%s]',
                     E_DB_DUPENT,
                     $query,
                     $this->db->errorNative(),
                     $r->getUserInfo());
             } else {
-                $error = Ethna::raiseError('¥¯¥¨¥ê¥¨¥é¡¼ SQL[%s] CODE[%d] MESSAGE[%s]',
+                $error = Ethna::raiseError('Query Error SQL[%s] CODE[%d] MESSAGE[%s]',
                     E_DB_QUERY,
                     $query,
                     $this->db->errorNative(),

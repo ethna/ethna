@@ -11,8 +11,8 @@
 
 // {{{ Ethna_Plugin_Logwriter_Alertmail
 /**
- *  ¥í¥°½ĞÎÏ¥¯¥é¥¹(¥¢¥é¡¼¥È¥á¡¼¥ë)
- *  Ethna_Logger ¤Ë¤¢¤ë _alert() ¤ò¥×¥é¥°¥¤¥ó¤Ë¤·¤¿¤À¤±¤Ç¤¹¡£
+ *  ãƒ­ã‚°å‡ºåŠ›ã‚¯ãƒ©ã‚¹(ã‚¢ãƒ©ãƒ¼ãƒˆãƒ¡ãƒ¼ãƒ«)
+ *  Ethna_Logger ã«ã‚ã‚‹ _alert() ã‚’ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã«ã—ãŸã ã‘ã§ã™ã€‚
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -24,16 +24,16 @@ class Ethna_Plugin_Logwriter_Alertmail extends Ethna_Plugin_Logwriter
      *  @access private
      */
 
-    /** @var    array   ¥¢¥é¡¼¥ÈÁ÷¿®Àè¥á¡¼¥ë¥¢¥É¥ì¥¹ */
+    /** @var    array   ã‚¢ãƒ©ãƒ¼ãƒˆé€ä¿¡å…ˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ */
     var $mailaddress = array();
 
     /**#@-*/
 
     /**
-     *  ¥í¥°¥ª¥×¥·¥ç¥ó¤òÀßÄê¤¹¤ë
+     *  ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹
      *
      *  @access public
-     *  @param  int     $option     ¥í¥°¥ª¥×¥·¥ç¥ó(LOG_FILE,LOG_FUNCTION...)
+     *  @param  int     $option     ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³(LOG_FILE,LOG_FUNCTION...)
      */
     function setOption($option)
     {
@@ -47,11 +47,11 @@ class Ethna_Plugin_Logwriter_Alertmail extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $level      ¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸(+°ú¿ô)
+     *  @param  int     $level      ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_DEBUG, LOG_NOTICE...)
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(+å¼•æ•°)
      */
     function log($level, $message)
     {
@@ -86,10 +86,10 @@ class Ethna_Plugin_Logwriter_Alertmail extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥á¡¼¥ë¤òÁ÷¿®¤¹¤ë
+     *  ãƒ¡ãƒ¼ãƒ«ã‚’é€ä¿¡ã™ã‚‹
      *
      *  @access protected
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function _alert($message)
     {

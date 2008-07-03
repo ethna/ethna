@@ -90,6 +90,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
             $gateway = GATEWAY_WWW;
         }
         
+        //  possible target is Action, View.
         $r =& Ethna_Generator::generate($target, $basedir,
                                         $target_name, $skelfile, $gateway);
         if (Ethna::isError($r)) {

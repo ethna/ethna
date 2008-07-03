@@ -11,7 +11,7 @@
 
 // {{{ Ethna_View_List
 /**
- *  ¥ê¥¹¥È¥Ó¥å¡¼´ğÄì¥¯¥é¥¹¤Î¼ÂÁõ
+ *  ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼åŸºåº•ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,31 +23,31 @@ class Ethna_View_List extends Ethna_ViewClass
      *  @access private
      */
 
-    /** @var    int     É½¼¨³«»Ï¥ª¥Õ¥»¥Ã¥È */
+    /** @var    int     è¡¨ç¤ºé–‹å§‹ã‚ªãƒ•ã‚»ãƒƒãƒˆ */
     var $offset = 0;
 
-    /** @var    int     É½¼¨·ï¿ô */
+    /** @var    int     è¡¨ç¤ºä»¶æ•° */
     var $count = 25;
 
-    /** @var    array   ¸¡º÷ÂĞ¾İ¹àÌÜ°ìÍ÷ */
+    /** @var    array   æ¤œç´¢å¯¾è±¡é …ç›®ä¸€è¦§ */
     var $search_list = array();
 
-    /** @var    string  ¸¡º÷¥Ş¥Í¡¼¥¸¥ã¥¯¥é¥¹Ì¾ */
+    /** @var    string  æ¤œç´¢ãƒãƒãƒ¼ã‚¸ãƒ£ã‚¯ãƒ©ã‚¹å */
     var $manager_name = null;
 
-    /** @var    string  É½¼¨ÂĞ¾İ¥¯¥é¥¹Ì¾ */
+    /** @var    string  è¡¨ç¤ºå¯¾è±¡ã‚¯ãƒ©ã‚¹å */
     var $class_name = null;
 
     /**#@-*/
 
     /**
-     *  Á«°ÜÁ°½èÍı
+     *  é·ç§»å‰å‡¦ç†
      *
      *  @access public
      */
     function preforward()
     {
-        // É½¼¨¥ª¥Õ¥»¥Ã¥È/·ï¿ôÀßÄê
+        // è¡¨ç¤ºã‚ªãƒ•ã‚»ãƒƒãƒˆ/ä»¶æ•°è¨­å®š
         $this->offset = $this->af->get('offset');
         if ($this->offset == "") {
             $this->offset = 0;
@@ -56,7 +56,7 @@ class Ethna_View_List extends Ethna_ViewClass
             $this->count = intval($this->af->get('count'));
         }
 
-        // ¸¡º÷¾ò·ï
+        // æ¤œç´¢æ¡ä»¶
         $filter = array();
         $sort = array();
         foreach ($this->search_list as $key) {
@@ -71,7 +71,7 @@ class Ethna_View_List extends Ethna_ViewClass
             }
         }
 
-        // É½¼¨¹àÌÜ°ìÍ÷
+        // è¡¨ç¤ºé …ç›®ä¸€è¦§
         $manager_name = $this->manager_name;
         for ($i = 0; $i < 2; $i++) {
             list($total, $obj_list) = $this->$manager_name->getObjectList($this->class_name, $filter, $sort, $this->offset, $this->count);
@@ -91,16 +91,16 @@ class Ethna_View_List extends Ethna_ViewClass
         $list_name = sprintf("%s_list", strtolower(preg_replace('/(.)([A-Z])/', '\\1_\\2', $this->class_name)));
         $this->af->setApp($list_name, $r);
 
-        // ¥Ê¥Ó¥²¡¼¥·¥ç¥ó
+        // ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³
         $this->af->setApp('nav', $this->_getNavigation($total, $obj_list));
         $this->af->setAppNE('query', $this->_getQueryParameter());
 
-        // ¸¡º÷¥ª¥×¥·¥ç¥ó
+        // æ¤œç´¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³
         $this->_setQueryOption();
     }
 
     /**
-     *  É½¼¨¹àÌÜ¤ò½¤Àµ¤¹¤ë
+     *  è¡¨ç¤ºé …ç›®ã‚’ä¿®æ­£ã™ã‚‹
      *
      *  @access protected
      */
@@ -110,12 +110,12 @@ class Ethna_View_List extends Ethna_ViewClass
     }
     
     /**
-     *  ¥Ê¥Ó¥²¡¼¥·¥ç¥ó¾ğÊó¤ò¼èÆÀ¤¹¤ë
+     *  ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @param  int     $total      ¸¡º÷Áí·ï¿ô
-     *  @param  array   $list       ¸¡º÷·ë²Ì
-     *  @return array   ¥Ê¥Ó¥²¡¼¥·¥ç¥ó¾ğÊó¤ò³ÊÇ¼¤·¤¿ÇÛÎó
+     *  @param  int     $total      æ¤œç´¢ç·ä»¶æ•°
+     *  @param  array   $list       æ¤œç´¢çµæœ
+     *  @return array   ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’æ ¼ç´ã—ãŸé…åˆ—
      */
     function _getNavigation($total, &$list)
     {
@@ -144,7 +144,7 @@ class Ethna_View_List extends Ethna_ViewClass
     }
 
     /**
-     *  ¸¡º÷¹àÌÜ¤òÀ¸À®¤¹¤ë
+     *  æ¤œç´¢é …ç›®ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access protected
      */
@@ -153,11 +153,11 @@ class Ethna_View_List extends Ethna_ViewClass
     }
 
     /**
-     *  ¸¡º÷ÆâÍÆ¤ò³ÊÇ¼¤·¤¿GET°ú¿ô¤òÀ¸À®¤¹¤ë
+     *  æ¤œç´¢å†…å®¹ã‚’æ ¼ç´ã—ãŸGETå¼•æ•°ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access private
-     *  @param  array   $search_list    ¸¡º÷ÂĞ¾İ°ìÍ÷
-     *  @return string  ¸¡º÷ÆâÍÆ¤ò³ÊÇ¼¤·¤¿GET°ú¿ô
+     *  @param  array   $search_list    æ¤œç´¢å¯¾è±¡ä¸€è¦§
+     *  @return string  æ¤œç´¢å†…å®¹ã‚’æ ¼ç´ã—ãŸGETå¼•æ•°
      */
     function _getQueryParameter()
     {

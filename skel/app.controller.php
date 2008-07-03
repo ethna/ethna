@@ -7,16 +7,16 @@
  *  @version    $Id$
  */
 
-/** アプリケーションベースディレクトリ */
+/** Application base directory */
 define('BASE', dirname(dirname(__FILE__)));
 
-/** include_pathの設定(アプリケーションディレクトリを追加) */
+/** include_path setting (adding "/app" and "/lib" directory to include_path) */
 $app = BASE . "/app";
 $lib = BASE . "/lib";
 ini_set('include_path', implode(PATH_SEPARATOR, array($app, $lib)) . PATH_SEPARATOR . ini_get('include_path'));
 
 
-/** アプリケーションライブラリのインクルード */
+/** including application library. */
 require_once 'Ethna/Ethna.php';
 require_once '{$project_id}_Error.php';
 require_once '{$project_id}_ActionClass.php';
@@ -24,7 +24,7 @@ require_once '{$project_id}_ActionForm.php';
 require_once '{$project_id}_ViewClass.php';
 
 /**
- *  {$project_id}アプリケーションのコントローラ定義
+ *  {$project_id} application Controller definition.
  *
  *  @author     {$author}
  *  @access     public
@@ -37,18 +37,18 @@ class {$project_id}_Controller extends Ethna_Controller
      */
 
     /**
-     *  @var    string  アプリケーションID
+     *  @var    string  Application ID(appid)
      */
     var $appid = '{$application_id}';
 
     /**
-     *  @var    array   forward定義
+     *  @var    array   forward definition.
      */
     var $forward = array(
         /*
-         *  TODO: ここにforward先を記述してください
+         *  TODO: write forward definition here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'index'         => array(
          *      'view_name' => '{$project_id}_View_Index',
@@ -57,33 +57,32 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
-     *  @var    array   action定義
+     *  @var    array   action definition.
      */
     var $action = array(
         /*
-         *  TODO: ここにaction定義を記述してください
+         *  TODO: write action definition here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'index'     => array(),
          */
     );
 
     /**
-     *  @var    array   soap action定義
+     *  @var    array   SOAP action definition.
      */
     var $soap_action = array(
         /*
-         *  TODO: ここにSOAPアプリケーション用のaction定義を
-         *  記述してください
-         *  記述例：
+         *  TODO: write action definition for SOAP application here.
+         *  Example:
          *
          *  'sample'            => array(),
          */
     );
 
     /**
-     *  @var    array       アプリケーションディレクトリ
+     *  @var    array       application directory.
      */
     var $directory = array(
         'action'        => 'app/action',
@@ -106,14 +105,14 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
-     *  @var    array       DBアクセス定義
+     *  @var    array       database access definition.
      */
     var $db = array(
         ''              => DB_TYPE_RW,
     );
 
     /**
-     *  @var    array       拡張子設定
+     *  @var    array       extention(.php, etc) configuration.
      */
     var $ext = array(
         'php'           => 'php',
@@ -121,12 +120,12 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
-     *  @var    array   クラス定義
+     *  @var    array   class definition.
      */
     var $class = array(
         /*
-         *  TODO: 設定クラス、ログクラス、SQLクラスをオーバーライド
-         *  した場合は下記のクラス名を忘れずに変更してください
+         *  TODO: When you override Configuration class, Logger class,
+         *        SQL class, don't forget to change definition as follows!
          */
         'class'         => 'Ethna_ClassFactory',
         'backend'       => 'Ethna_Backend',
@@ -145,17 +144,19 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
-     *  @var    array       検索対象となるプラグインのアプリケーションIDのリスト
+     *  @var    array       list of application id where Ethna searches plugin.
      */
     var $plugin_search_appids = array(
         /*
-         *  プラグイン検索時に検索対象となるアプリケーションIDのリストを記述します。
+         *  write list of application id where Ethna searches plugin.
          *
-         *  記述例：
-         *  Common_Plugin_Foo_Bar のような命名のプラグインがアプリケーションの
-         *  プラグインディレクトリに存在する場合、以下のように指定すると
-         *  Common_Plugin_Foo_Bar, {$project_id}_Plugin_Foo_Bar, Ethna_Plugin_Foo_Bar
-         *  の順にプラグインが検索されます。 
+         *  Example:
+         *  When there are plugins whose name are like "Common_Plugin_Foo_Bar" in
+         *  application plugin directory, Ethna searches them in the following order.
+         *
+         *  1. Common_Plugin_Foo_Bar,
+         *  2. {$project_id}_Plugin_Foo_Bar
+         *  3. Ethna_Plugin_Foo_Bar
          *
          *  'Common', '{$project_id}', 'Ethna',
          */
@@ -163,99 +164,114 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
-     *  @var    array       フィルタ設定
+     *  @var    array       filter definition.
      */
     var $filter = array(
         /*
-         *  TODO: フィルタを利用する場合はここにそのプラグイン名を
-         *  記述してください
-         *  (クラス名を指定するとfilterディレクトリからフィルタクラス
-         *  を読み込みます)
+         *  TODO: when you use filter, write filter plugin name here.
+         *  (If you specify class name, Ethna reads filter class in 
+         *   filter directory)
          *
-         *  記述例：
+         *  Example:
          *
          *  'ExecutionTime',
          */
     );
 
     /**
-     *  @var    array   smarty modifier定義
+     *  @var    array   smarty modifier definition.
      */
     var $smarty_modifier_plugin = array(
         /*
-         *  TODO: ここにユーザ定義のsmarty modifier一覧を記述してください
+         *  TODO: write user defined smarty modifier here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'smarty_modifier_foo_bar',
          */
     );
 
     /**
-     *  @var    array   smarty function定義
+     *  @var    array   smarty function definition.
      */
     var $smarty_function_plugin = array(
         /*
-         *  TODO: ここにユーザ定義のsmarty function一覧を記述してください
+         *  TODO: write user defined smarty function here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'smarty_function_foo_bar',
          */
     );
 
     /**
-     *  @var    array   smarty block定義
+     *  @var    array   smarty block definition.
      */
     var $smarty_block_plugin = array(
         /*
-         *  TODO: ここにユーザ定義のsmarty block一覧を記述してください
+         *  TODO: write user defined smarty block here.
          *
-         *  記述例：
-         *
+         *  Example:
+         * 
          *  'smarty_block_foo_bar',
          */
     );
 
     /**
-     *  @var    array   smarty prefilter定義
+     *  @var    array   smarty prefilter definition.
      */
     var $smarty_prefilter_plugin = array(
         /*
-         *  TODO: ここにユーザ定義のsmarty prefilter一覧を記述してください
+         *  TODO: write user defined smarty prefilter here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'smarty_prefilter_foo_bar',
          */
     );
 
     /**
-     *  @var    array   smarty postfilter定義
+     *  @var    array   smarty postfilter definition.
      */
     var $smarty_postfilter_plugin = array(
         /*
-         *  TODO: ここにユーザ定義のsmarty postfilter一覧を記述してください
+         *  TODO: write user defined smarty postfilter here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'smarty_postfilter_foo_bar',
          */
     );
 
     /**
-     *  @var    array   smarty outputfilter定義
+     *  @var    array   smarty outputfilter definition.
      */
     var $smarty_outputfilter_plugin = array(
         /*
-         *  TODO: ここにユーザ定義のsmarty outputfilter一覧を記述してください
+         *  TODO: write user defined smarty outputfilter here.
          *
-         *  記述例：
+         *  Example:
          *
          *  'smarty_outputfilter_foo_bar',
          */
     );
 
     /**#@-*/
+
+    /**
+     *  Get Default language and locale setting.
+     *  If you want to change Ethna's output encoding, override this method.
+     *
+     *  @access protected
+     *  @return array   locale name(e.x ja_JP, en_US .etc),
+     *                  system encoding name,
+     *                  client encoding name(= template encoding)
+     *                  (locale name is "ll_cc" format. ll = language code. cc = country code.)
+     */
+    function _getDefaultLanguage()
+    {
+        return array('{$locale}', 'UTF-8', '{$client_enc}');
+    }
 }
+
 ?>

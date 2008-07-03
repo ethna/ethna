@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Backend
 /**
- *  ¥Ğ¥Ã¥¯¥¨¥ó¥É½èÍı¥¯¥é¥¹
+ *  ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰å‡¦ç†ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,63 +23,63 @@ class Ethna_Backend
      *  @access     private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
-    /** @var    object  Ethna_ClassFactory  ¥¯¥é¥¹¥Õ¥¡¥¯¥È¥ê¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ClassFactory  ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¯ãƒˆãƒªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $class_factory;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $config;
 
-    /** @var    object  Ethna_I18N          i18n¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_I18N          i18nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $i18n;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_error;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È($action_error¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($action_errorã®çœç•¥å½¢) */
     var $ae;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_form;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È($action_form¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($action_formã®çœç•¥å½¢) */
     var $af;
 
-    /** @var    object  Ethna_ActionClass   ¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionClass   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_class;
 
-    /** @var    object  Ethna_ActionClass   ¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È($action_class¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionClass   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($action_classã®çœç•¥å½¢) */
     var $ac;
 
-    /** @var    object  Ethna_Session       ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Session       ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $session;
 
-    /** @var    object  Ethna_Plugin        ¥×¥é¥°¥¤¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Plugin        ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $plugin;
 
-    /** @var    array   Ethna_DB¥ª¥Ö¥¸¥§¥¯¥È¤ò³ÊÇ¼¤·¤¿ÇÛÎó */
+    /** @var    array   Ethna_DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ ¼ç´ã—ãŸé…åˆ— */
     var $db_list;
 
-    /** @var    object  Ethna_Logger        ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger        ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
     /**#@-*/
 
 
     /**
-     *  Ethna_Backend¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Backendã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Backend(&$controller)
     {
-        // ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÀßÄê
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¨­å®š
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
 
@@ -102,10 +102,10 @@ class Ethna_Backend
     }
 
     /**
-     *  controller¥ª¥Ö¥¸¥§¥¯¥È¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getController()
     {
@@ -113,10 +113,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getConfig()
     {
@@ -124,10 +124,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥óID¤òÊÖ¤¹
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³IDã‚’è¿”ã™
      *
      *  @access public
-     *  @return string  ¥¢¥×¥ê¥±¡¼¥·¥ç¥óID
+     *  @return string  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ID
      */
     function getAppId()
     {
@@ -135,10 +135,10 @@ class Ethna_Backend
     }
 
     /**
-     *  I18N¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(R)
+     *  I18Nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_I18N  i18n¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_I18N  i18nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getI18N()
     {
@@ -146,10 +146,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getActionError()
     {
@@ -157,10 +157,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getActionForm()
     {
@@ -168,7 +168,7 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(W)
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(W)
      *
      *  @access public
      */
@@ -179,10 +179,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¼Â¹ÔÃæ¤Î¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(R)
+     *  å®Ÿè¡Œä¸­ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return mixed   Ethna_ActionClass:¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹ null:¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹Ì¤Äê
+     *  @return mixed   Ethna_ActionClass:ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ null:ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹æœªå®š
      */
     function &getActionClass()
     {
@@ -190,7 +190,7 @@ class Ethna_Backend
     }
 
     /**
-     *  ¼Â¹ÔÃæ¤Î¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(W)
+     *  å®Ÿè¡Œä¸­ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(W)
      *
      *  @access public
      */
@@ -201,10 +201,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(R)
+     *  ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_Logger    ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Logger    ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getLogger()
     {
@@ -212,10 +212,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_Session   ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Session   ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getSession()
     {
@@ -223,10 +223,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥¯¥»¥µ(R)
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_Plugin    ¥×¥é¥°¥¤¥ó¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Plugin    ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getPlugin()
     {
@@ -234,10 +234,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥Ş¥Í¡¼¥¸¥ã¥ª¥Ö¥¸¥§¥¯¥È¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  ãƒãƒãƒ¼ã‚¸ãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return object  Ethna_AppManager    ¥Ş¥Í¡¼¥¸¥ã¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_AppManager    ãƒãƒãƒ¼ã‚¸ãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getManager($type, $weak = false)
     {
@@ -246,10 +246,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return mixed   $key¤ËÂĞ±ş¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È(or null)
+     *  @return mixed   $keyã«å¯¾å¿œã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(or null)
      */
     function &getObject($key)
     {
@@ -260,10 +260,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥Ù¡¼¥¹¥Ç¥£¥ì¥¯¥È¥ê¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string  ¥Ù¡¼¥¹¥Ç¥£¥ì¥¯¥È¥ê¤Î¥Ñ¥¹Ì¾
+     *  @return string  ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹å
      */
     function getBasedir()
     {
@@ -271,10 +271,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥Æ¥ó¥×¥ì¡¼¥È¥Ç¥£¥ì¥¯¥È¥ê¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string  ¥Æ¥ó¥×¥ì¡¼¥È¥Ç¥£¥ì¥¯¥È¥ê¤Î¥Ñ¥¹Ì¾
+     *  @return string  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹å
      */
     function getTemplatedir()
     {
@@ -282,10 +282,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤ÎÀßÄê¥Ç¥£¥ì¥¯¥È¥ê¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®šãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string  ÀßÄê¥Ç¥£¥ì¥¯¥È¥ê¤Î¥Ñ¥¹Ì¾
+     *  @return string  è¨­å®šãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹å
      */
     function getEtcdir()
     {
@@ -293,10 +293,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥Æ¥ó¥İ¥é¥ê¥Ç¥£¥ì¥¯¥È¥ê¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string  ¥Æ¥ó¥İ¥é¥ê¥Ç¥£¥ì¥¯¥È¥ê¤Î¥Ñ¥¹Ì¾
+     *  @return string  ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹å
      */
     function getTmpdir()
     {
@@ -304,10 +304,10 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥Æ¥ó¥×¥ì¡¼¥È¥Õ¥¡¥¤¥ë³ÈÄ¥»Ò¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string  ¥Æ¥ó¥×¥ì¡¼¥È¥Õ¥¡¥¤¥ë¤Î³ÈÄ¥»Ò
+     *  @return string  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®æ‹¡å¼µå­
      */
     function getTemplateext()
     {
@@ -315,11 +315,11 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥í¥°¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $level      ¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸(printf·Á¼°)
+     *  @param  int     $level      ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_DEBUG, LOG_NOTICE...)
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(printfå½¢å¼)
      */
     function log($level, $message)
     {
@@ -332,11 +332,11 @@ class Ethna_Backend
     }
 
     /**
-     *  ¥Ğ¥Ã¥¯¥¨¥ó¥É½èÍı¤ò¼Â¹Ô¤¹¤ë
+     *  ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹
      *
      *  @access public
-     *  @param  string  $action_name    ¼Â¹Ô¤¹¤ë¥¢¥¯¥·¥ç¥ó¤ÎÌ¾¾Î
-     *  @return mixed   (string):ForwardÌ¾(null¤Ê¤éforward¤·¤Ê¤¤) Ethna_Error:¥¨¥é¡¼
+     *  @param  string  $action_name    å®Ÿè¡Œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®åç§°
+     *  @return mixed   (string):Forwardå(nullãªã‚‰forwardã—ãªã„) Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function perform($action_name)
     {
@@ -346,7 +346,7 @@ class Ethna_Backend
         $this->action_class =& new $action_class_name($this);
         $this->ac =& $this->action_class;
 
-        // ¥¢¥¯¥·¥ç¥ó¤Î¼Â¹Ô
+        // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œ
         $forward_name = $this->ac->authenticate();
         if ($forward_name === false) {
             return null;
@@ -367,12 +367,12 @@ class Ethna_Backend
     }
 
     /**
-     *  DB¥ª¥Ö¥¸¥§¥¯¥È¤òÊÖ¤¹
+     *  DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™
      *
      *  @access public
-     *  @param  string  $db_key DB¥­¡¼
-     *  @return mixed   Ethna_DB:DB¥ª¥Ö¥¸¥§¥¯¥È null:DSNÀßÄê¤Ê¤· Ethna_Error:¥¨¥é¡¼
-     *  @todo   ¤³¤ÎÃæ¤Çnew¤·¤Ê¤¤¤Çclass factory¤òÍøÍÑ¤¹¤ë
+     *  @param  string  $db_key DBã‚­ãƒ¼
+     *  @return mixed   Ethna_DB:DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ null:DSNè¨­å®šãªã— Ethna_Error:ã‚¨ãƒ©ãƒ¼
+     *  @todo   ã“ã®ä¸­ã§newã—ãªã„ã§class factoryã‚’åˆ©ç”¨ã™ã‚‹
      */
     function &getDB($db_key = "")
     {
@@ -390,7 +390,7 @@ class Ethna_Backend
         $dsn = $this->controller->getDSN($db_key);
 
         if ($dsn == "") {
-            // DBÀÜÂ³ÉÔÍ×
+            // DBæ¥ç¶šä¸è¦
             return $null;
         }
 
@@ -420,10 +420,10 @@ class Ethna_Backend
     }
 
     /**
-     *  DB¥ª¥Ö¥¸¥§¥¯¥È(Á´¤Æ)¤ò¼èÆÀ¤¹¤ë
+     *  DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(å…¨ã¦)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   array:Ethna_DB¥ª¥Ö¥¸¥§¥¯¥È¤Î°ìÍ÷ Ethan_Error:(¤¤¤º¤ì¤«°ì¤Ä°Ê¾å¤ÎÀÜÂ³¤Ç)¥¨¥é¡¼
+     *  @return mixed   array:Ethna_DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¸€è¦§ Ethan_Error:(ã„ãšã‚Œã‹ä¸€ã¤ä»¥ä¸Šã®æ¥ç¶šã§)ã‚¨ãƒ©ãƒ¼
      */
     function getDBList()
     {
@@ -448,7 +448,7 @@ class Ethna_Backend
     }
 
     /**
-     *  DB¥³¥Í¥¯¥·¥ç¥ó¤òÀÚÃÇ¤¹¤ë
+     *  DBã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’åˆ‡æ–­ã™ã‚‹
      *
      *  @access public
      */
@@ -463,21 +463,21 @@ class Ethna_Backend
     }
 
     /**
-     *  »ØÄê¤µ¤ì¤¿DB¥­¡¼¤ËÂĞ±ş¤¹¤ë(Åö³ºDB¥ª¥Ö¥¸¥§¥¯¥È¤ò³ÊÇ¼¤¹¤ë¤¿¤á¤Î)¥á¥ó¥ĞÊÑ¿ôÌ¾¤ò¼èÆÀ¤¹¤ë
+     *  æŒ‡å®šã•ã‚ŒãŸDBã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹(å½“è©²DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ ¼ç´ã™ã‚‹ãŸã‚ã®)ãƒ¡ãƒ³ãƒå¤‰æ•°åã‚’å–å¾—ã™ã‚‹
      *
-     *  ÀµÄ¾¤â¤¦Í×¤é¤Ê¤¤¤Î¤Ç¤¹¤¬¡¢¸åÊı¸ß´¹À­°İ»ı¤Î¤¿¤á¤Ë°ì±ş»Ä¤·¤Æ¤¢¤ë¾õÂÖ¤Ç¤¹
-     *  (Ethna_AppManager¥¯¥é¥¹¤Ê¤É¤Ç¡¢$this->db¤È¤«¤·¤Æ¤¤¤ë²Õ½ê¤¬¾¯¤Ê¤«¤é¤º¤¢
-     *  ¤ë¤Î¤Ç)
+     *  æ­£ç›´ã‚‚ã†è¦ã‚‰ãªã„ã®ã§ã™ãŒã€å¾Œæ–¹äº’æ›æ€§ç¶­æŒã®ãŸã‚ã«ä¸€å¿œæ®‹ã—ã¦ã‚ã‚‹çŠ¶æ…‹ã§ã™
+     *  (Ethna_AppManagerã‚¯ãƒ©ã‚¹ãªã©ã§ã€$this->dbã¨ã‹ã—ã¦ã„ã‚‹ç®‡æ‰€ãŒå°‘ãªã‹ã‚‰ãšã‚
+     *  ã‚‹ã®ã§)
      *
      *  @access private
-     *  @param  string  $db_key DB¥­¡¼
-     *  @return mixed   string:¥á¥ó¥ĞÊÑ¿ôÌ¾ Ethna_Error:ÉÔÀµ¤ÊDB¼ïÊÌ
+     *  @param  string  $db_key DBã‚­ãƒ¼
+     *  @return mixed   string:ãƒ¡ãƒ³ãƒå¤‰æ•°å Ethna_Error:ä¸æ­£ãªDBç¨®åˆ¥
      */
     function &_getDBVarname($db_key = "")
     {
         $r = $this->controller->getDBType($db_key);
         if (is_null($r)) {
-            return Ethna::raiseError("Ì¤ÄêµÁ¤ÎDB¼ïÊÌ[%s]", E_DB_INVALIDTYPE, $db_key);
+            return Ethna::raiseError("Undefined DB Type [%s]", E_DB_INVALIDTYPE, $db_key);
         }
 
         if ($db_key == "") {

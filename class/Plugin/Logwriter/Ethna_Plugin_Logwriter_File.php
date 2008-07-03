@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Logwriter_File
 /**
- *  ¥í¥°½ĞÎÏ¥¯¥é¥¹(File)
+ *  ãƒ­ã‚°å‡ºåŠ›ã‚¯ãƒ©ã‚¹(File)
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,16 +23,16 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
      *  @access private
      */
 
-    /** @var    int     ¥í¥°¥Õ¥¡¥¤¥ë¥Ï¥ó¥É¥ë */
+    /** @var    int     ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒ³ãƒ‰ãƒ« */
     var $fp;
 
-    /** @var    int     ¥í¥°¥Õ¥¡¥¤¥ë¥Ñ¡¼¥ß¥Ã¥·¥ç¥ó */
+    /** @var    int     ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ãƒ¼ãƒŸãƒƒã‚·ãƒ§ãƒ³ */
     var $mode = 0666;
 
     /**#@-*/
 
     /**
-     *  Ethna_Plugin_Logwriter_File¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Plugin_Logwriter_Fileã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
      */
@@ -42,10 +42,10 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°¥ª¥×¥·¥ç¥ó¤òÀßÄê¤¹¤ë
+     *  ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹
      *
      *  @access public
-     *  @param  int     $option     ¥í¥°¥ª¥×¥·¥ç¥ó(LOG_FILE,LOG_FUNCTION...)
+     *  @param  int     $option     ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³(LOG_FILE,LOG_FUNCTION...)
      */
     function setOption($option)
     {
@@ -63,7 +63,7 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°½ĞÎÏ¤ò³«»Ï¤¹¤ë
+     *  ãƒ­ã‚°å‡ºåŠ›ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
      */
@@ -77,11 +77,11 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $level      ¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸(+°ú¿ô)
+     *  @param  int     $level      ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_DEBUG, LOG_NOTICE...)
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(+å¼•æ•°)
      */
     function log($level, $message)
     {
@@ -114,7 +114,7 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°½ĞÎÏ¤ò½ªÎ»¤¹¤ë
+     *  ãƒ­ã‚°å‡ºåŠ›ã‚’çµ‚äº†ã™ã‚‹
      *
      *  @access public
      */
@@ -127,14 +127,14 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     }
 
     /**
-     *  ¥í¥°¥Õ¥¡¥¤¥ë¤Î½ñ¤­½Ğ¤·Àè¤ò¼èÆÀ¤¹¤ë(¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£¤Ë
-     *  LOG_FILE¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Î¤ßÍ­¸ú)
+     *  ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æ›¸ãå‡ºã—å…ˆã‚’å–å¾—ã™ã‚‹(ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£ã«
+     *  LOG_FILEãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã®ã¿æœ‰åŠ¹)
      *
-     *  ¥í¥°¥Õ¥¡¥¤¥ë¤Î½ñ¤­½Ğ¤·Àè¤òÊÑ¹¹¤·¤¿¤¤¾ì¹ç¤Ï¤³¤Î¥á¥½¥Ã¥É¤ò
-     *  ¥ª¡¼¥Ğ¡¼¥é¥¤¥É¤·¤Ş¤¹
+     *  ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æ›¸ãå‡ºã—å…ˆã‚’å¤‰æ›´ã—ãŸã„å ´åˆã¯ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’
+     *  ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã™
      *
      *  @access protected
-     *  @return string  ¥í¥°¥Õ¥¡¥¤¥ë¤Î½ñ¤­½Ğ¤·Àè
+     *  @return string  ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æ›¸ãå‡ºã—å…ˆ
      */
     function _getLogFile()
     {

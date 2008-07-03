@@ -11,12 +11,12 @@
 
 // {{{ ethna_error_handler
 /**
- *  ¥¨¥é¡¼¥³¡¼¥ë¥Ğ¥Ã¥¯´Ø¿ô
+ *  ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
  *
- *  @param  int     $errno      ¥¨¥é¡¼¥ì¥Ù¥ë
- *  @param  string  $errstr     ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸
- *  @param  string  $errfile    ¥¨¥é¡¼È¯À¸²Õ½ê¤Î¥Õ¥¡¥¤¥ëÌ¾
- *  @param  string  $errline    ¥¨¥é¡¼È¯À¸²Õ½ê¤Î¹ÔÈÖ¹æ
+ *  @param  int     $errno      ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«
+ *  @param  string  $errstr     ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ *  @param  string  $errfile    ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿç®‡æ‰€ã®ãƒ•ã‚¡ã‚¤ãƒ«å
+ *  @param  string  $errline    ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿç®‡æ‰€ã®è¡Œç•ªå·
  */
 function ethna_error_handler($errno, $errstr, $errfile, $errline)
 {
@@ -90,7 +90,7 @@ set_error_handler('ethna_error_handler');
 
 // {{{ Ethna_Error
 /**
- *  ¥¨¥é¡¼¥¯¥é¥¹
+ *  ã‚¨ãƒ©ãƒ¼ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -102,22 +102,22 @@ class Ethna_Error extends PEAR_Error
      *  @access private
      */
 
-    /** @var    object  Ethna_I18N  i18n¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_I18N  i18nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $i18n;
 
-    /** @var    object  Ethna_Logger    logger¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger    loggerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
     /**#@-*/
 
     /**
-     *  Ethna_Error¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Errorã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  int     $level              ¥¨¥é¡¼¥ì¥Ù¥ë
-     *  @param  string  $message            ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸
-     *  @param  int     $code               ¥¨¥é¡¼¥³¡¼¥É
-     *  @param  array   $userinfo           ¥¨¥é¡¼ÄÉ²Ã¾ğÊó(¥¨¥é¡¼¥³¡¼¥É°Ê¹ß¤ÎÁ´¤Æ¤Î°ú¿ô)
+     *  @param  int     $level              ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«
+     *  @param  string  $message            ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     *  @param  int     $code               ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+     *  @param  array   $userinfo           ã‚¨ãƒ©ãƒ¼è¿½åŠ æƒ…å ±(ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ä»¥é™ã®å…¨ã¦ã®å¼•æ•°)
      */
     function Ethna_Error($message = null, $code = null, $mode = null, $options = null)
     {
@@ -126,7 +126,7 @@ class Ethna_Error extends PEAR_Error
             $this->i18n =& $controller->getI18N();
         }
 
-        // $options°Ê¹ß¤Î°ú¿ô->$userinfo
+        // $optionsä»¥é™ã®å¼•æ•°->$userinfo
         if (func_num_args() > 4) {
             $userinfo = array_slice(func_get_args(), 4);
             if (count($userinfo) == 1) {
@@ -140,9 +140,9 @@ class Ethna_Error extends PEAR_Error
             $userinfo = array();
         }
 
-        // ¥á¥Ã¥»¡¼¥¸ÊäÀµ½èÍı
+        // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è£œæ­£å‡¦ç†
         if (is_null($message)) {
-            // $code¤«¤é¥á¥Ã¥»¡¼¥¸¤ò¼èÆÀ¤¹¤ë
+            // $codeã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
             $message = $controller->getErrorMessage($code);
             if (is_null($message)) {
                 $message = 'unknown error';
@@ -151,15 +151,15 @@ class Ethna_Error extends PEAR_Error
 
         parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
 
-        // Ethna¥Õ¥ì¡¼¥à¥ï¡¼¥¯¤Î¥¨¥é¡¼¥Ï¥ó¥É¥é(PEAR_Error¤Î¥³¡¼¥ë¥Ğ¥Ã¥¯¤È¤Ï°Û¤Ê¤ë)
+        // Ethnaãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã®ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒ©(PEAR_Errorã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã¨ã¯ç•°ãªã‚‹)
         Ethna::handleError($this);
     }
 
     /**
-     *  level¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  levelã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @return int     ¥¨¥é¡¼¥ì¥Ù¥ë
+     *  @return int     ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«
      */
     function getLevel()
     {
@@ -167,14 +167,14 @@ class Ethna_Error extends PEAR_Error
     }
 
     /**
-     *  message¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  messageã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
-     *  PEAR_Error::getMessage()¤ò¥ª¡¼¥Ğ¡¼¥é¥¤¥É¤·¤Æ°Ê²¼¤Î½èÍı¤ò¹Ô¤¦
-     *  - ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤Îi18n½èÍı
-     *  - $userinfo¤È¤·¤ÆÅÏ¤µ¤ì¤¿¥Ç¡¼¥¿¤Ë¤è¤ëvsprintf()½èÍı
+     *  PEAR_Error::getMessage()ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ä»¥ä¸‹ã®å‡¦ç†ã‚’è¡Œã†
+     *  - ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®i18nå‡¦ç†
+     *  - $userinfoã¨ã—ã¦æ¸¡ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã«ã‚ˆã‚‹vsprintf()å‡¦ç†
      *
      *  @access public
-     *  @return string  ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸
+     *  @return string  ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function getMessage()
     {
@@ -188,14 +188,14 @@ class Ethna_Error extends PEAR_Error
     }
 
     /**
-     *  ¥¨¥é¡¼ÄÉ²Ã¾ğÊó¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚¨ãƒ©ãƒ¼è¿½åŠ æƒ…å ±ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
-     *  PEAR_Error::getUserInfo()¤ò¥ª¡¼¥Ğ¡¼¥é¥¤¥É¤·¤Æ¡¢ÇÛÎó¤Î¸Ä¡¹¤Î
-     *  ¥¨¥ó¥È¥ê¤Ø¤Î¥¢¥¯¥»¥¹¤ò¥µ¥İ¡¼¥È
+     *  PEAR_Error::getUserInfo()ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€é…åˆ—ã®å€‹ã€…ã®
+     *  ã‚¨ãƒ³ãƒˆãƒªã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’ã‚µãƒãƒ¼ãƒˆ
      *
      *  @access public
-     *  @param  int     $n      ¥¨¥é¡¼ÄÉ²Ã¾ğÊó¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹(¾ÊÎ¬²Ä)
-     *  @return mixed   message°ú¿ô
+     *  @param  int     $n      ã‚¨ãƒ©ãƒ¼è¿½åŠ æƒ…å ±ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(çœç•¥å¯)
+     *  @return mixed   messageå¼•æ•°
      */
     function getUserInfo($n = null)
     {
@@ -211,12 +211,12 @@ class Ethna_Error extends PEAR_Error
     }
 
     /**
-     *  ¥¨¥é¡¼ÄÉ²Ã¾ğÊó¤Ø¤Î¥¢¥¯¥»¥µ(W)
+     *  ã‚¨ãƒ©ãƒ¼è¿½åŠ æƒ…å ±ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(W)
      *
-     *  PEAR_Error::addUserInfo()¤ò¥ª¡¼¥Ğ¡¼¥é¥¤¥É
+     *  PEAR_Error::addUserInfo()ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
      *
      *  @access public
-     *  @param  string  $info   ÄÉ²Ã¤¹¤ë¥¨¥é¡¼¾ğÊó
+     *  @param  string  $info   è¿½åŠ ã™ã‚‹ã‚¨ãƒ©ãƒ¼æƒ…å ±
      */
     function addUserInfo($info)
     {

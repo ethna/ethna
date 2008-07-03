@@ -11,10 +11,10 @@
 
 // {{{ to_array
 /**
- *  ¥°¥í¡¼¥Ğ¥ë¥æ¡¼¥Æ¥£¥ê¥Æ¥£´Ø¿ô: ¥¹¥«¥é¡¼ÃÍ¤òÍ×ÁÇ¿ô1¤ÎÇÛÎó¤È¤·¤ÆÊÖ¤¹
+ *  ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£é–¢æ•°: ã‚¹ã‚«ãƒ©ãƒ¼å€¤ã‚’è¦ç´ æ•°1ã®é…åˆ—ã¨ã—ã¦è¿”ã™
  *
- *  @param  mixed   $v  ÇÛÎó¤È¤·¤Æ°·¤¦ÃÍ
- *  @return array   ÇÛÎó¤ËÊÑ´¹¤µ¤ì¤¿ÃÍ
+ *  @param  mixed   $v  é…åˆ—ã¨ã—ã¦æ‰±ã†å€¤
+ *  @return array   é…åˆ—ã«å¤‰æ›ã•ã‚ŒãŸå€¤
  */
 function to_array($v)
 {
@@ -28,10 +28,10 @@ function to_array($v)
 
 // {{{ is_error
 /**
- *  ¥°¥í¡¼¥Ğ¥ë¥æ¡¼¥Æ¥£¥ê¥Æ¥£´Ø¿ô: »ØÄê¤µ¤ì¤¿¥Õ¥©¡¼¥à¹àÌÜ¤Ë¥¨¥é¡¼¤¬¤¢¤ë¤«¤É¤¦¤«¤òÊÖ¤¹
+ *  ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£é–¢æ•°: æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®ã«ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™
  *
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
- *  @return bool    true:¥¨¥é¡¼Í­¤ê false:¥¨¥é¡¼Ìµ¤·
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
+ *  @return bool    true:ã‚¨ãƒ©ãƒ¼æœ‰ã‚Š false:ã‚¨ãƒ©ãƒ¼ç„¡ã—
  */
 function is_error($name = null)
 {
@@ -47,11 +47,11 @@ function is_error($name = null)
 
 // {{{ file_exists_ex
 /**
- *  ¥°¥í¡¼¥Ğ¥ë¥æ¡¼¥Æ¥£¥ê¥Æ¥£´Ø¿ô: include_path¤ò¸¡º÷¤·¤Ä¤Äfile_exists()¤¹¤ë
+ *  ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£é–¢æ•°: include_pathã‚’æ¤œç´¢ã—ã¤ã¤file_exists()ã™ã‚‹
  *
- *  @param  string  $path               ¥Õ¥¡¥¤¥ëÌ¾
- *  @param  bool    $use_include_path   include_path¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤«¤É¤¦¤«
- *  @return bool    true:Í­¤ê false:Ìµ¤·
+ *  @param  string  $path               ãƒ•ã‚¡ã‚¤ãƒ«å
+ *  @param  bool    $use_include_path   include_pathã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‹ã©ã†ã‹
+ *  @return bool    true:æœ‰ã‚Š false:ç„¡ã—
  */
 function file_exists_ex($path, $use_include_path = true)
 {
@@ -80,10 +80,10 @@ function file_exists_ex($path, $use_include_path = true)
 
 // {{{ is_absolute_path
 /**
- *  ¥°¥í¡¼¥Ğ¥ë¥æ¡¼¥Æ¥£¥ê¥Æ¥£´Ø¿ô: ÀäÂĞ¥Ñ¥¹¤«¤É¤¦¤«¤òÊÖ¤¹
+ *  ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£é–¢æ•°: çµ¶å¯¾ãƒ‘ã‚¹ã‹ã©ã†ã‹ã‚’è¿”ã™
  *
- *  @param  string  $path               ¥Õ¥¡¥¤¥ëÌ¾
- *  @return bool    true:ÀäÂĞ false:ÁêÂĞ
+ *  @param  string  $path               ãƒ•ã‚¡ã‚¤ãƒ«å
+ *  @return bool    true:çµ¶å¯¾ false:ç›¸å¯¾
  */
 function is_absolute_path($path)
 {
@@ -102,7 +102,7 @@ function is_absolute_path($path)
 
 // {{{ Ethna_Util
 /**
- *  ¥æ¡¼¥Æ¥£¥ê¥Æ¥£¥¯¥é¥¹
+ *  ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -112,10 +112,10 @@ class Ethna_Util
 {
     // {{{ isDuplicatePost
     /**
-     *  POST¤Î¥æ¥Ë¡¼¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
+     *  POSTã®ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†
      *
      *  @access public
-     *  @return bool    true:2²óÌÜ°Ê¹ß¤ÎPOST false:1²óÌÜ¤ÎPOST
+     *  @return bool    true:2å›ç›®ä»¥é™ã®POST false:1å›ç›®ã®POST
      */
     function isDuplicatePost()
     {
@@ -154,10 +154,10 @@ class Ethna_Util
 
     // {{{ clearDuplicatePost
     /**
-     *  POST¤Î¥æ¥Ë¡¼¥¯¥Á¥§¥Ã¥¯¥Õ¥é¥°¤ò¥¯¥ê¥¢¤¹¤ë
+     *  POSTã®ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒã‚§ãƒƒã‚¯ãƒ•ãƒ©ã‚°ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
      *
      *  @acccess public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function clearDuplicatePost()
     {
@@ -176,7 +176,7 @@ class Ethna_Util
                             $uniqid);
         if (file_exists($filename)) {
             if (unlink($filename) == false) {
-                return Ethna::raiseWarning("¥Õ¥¡¥¤¥ë½ñ¤­¹ş¤ß¥¨¥é¡¼[%s]", E_APP_WRITE, $filename);
+                return Ethna::raiseWarning("File Write Error [%s]", E_APP_WRITE, $filename);
             }
         }
 
@@ -186,10 +186,10 @@ class Ethna_Util
 
     // {{{ isCsrfSafeValid
     /**
-     *  CSRF¤ò¥Á¥§¥Ã¥¯¤¹¤ë
+     *  CSRFã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
      *
      *  @access public
-     *  @return bool    true:Àµ¾ï¤ÊPOST false:ÉÔÀµ¤ÊPOST
+     *  @return bool    true:æ­£å¸¸ãªPOST false:ä¸æ­£ãªPOST
      */
     function isCsrfSafe()
     {
@@ -208,10 +208,10 @@ class Ethna_Util
 
     // {{{ setCsrfID
     /**
-     *  CSRF¤ò¥Á¥§¥Ã¥¯¤¹¤ë
+     *  CSRFã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
      *
      *  @access public
-     *  @return bool    true:À®¸ù
+     *  @return bool    true:æˆåŠŸ
      */
     function setCsrfID()
     {
@@ -230,11 +230,11 @@ class Ethna_Util
 
     // {{{ checkMailAddress
     /**
-     *  ¥á¡¼¥ë¥¢¥É¥ì¥¹¤¬Àµ¤·¤¤¤«¤É¤¦¤«¤ò¥Á¥§¥Ã¥¯¤¹¤ë
+     *  ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒæ­£ã—ã„ã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $mailaddress    ¥Á¥§¥Ã¥¯¤¹¤ë¥á¡¼¥ë¥¢¥É¥ì¥¹
-     *  @return bool    true: Àµ¤·¤¤¥á¡¼¥ë¥¢¥É¥ì¥¹ false: ÉÔÀµ¤Ê·Á¼°
+     *  @param  string  $mailaddress    ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹
+     *  @return bool    true: æ­£ã—ã„ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ false: ä¸æ­£ãªå½¢å¼
      */
     function checkMailAddress($mailaddress)
     {
@@ -248,12 +248,12 @@ class Ethna_Util
 
     // {{{ explodeCSV
     /**
-     *  CSV·Á¼°¤ÎÊ¸»úÎó¤òÇÛÎó¤ËÊ¬³ä¤¹¤ë
+     *  CSVå½¢å¼ã®æ–‡å­—åˆ—ã‚’é…åˆ—ã«åˆ†å‰²ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $csv        CSV·Á¼°¤ÎÊ¸»úÎó(1¹ÔÊ¬)
-     *  @param  string  $delimiter  ¥Õ¥£¡¼¥ë¥É¤Î¶èÀÚ¤êÊ¸»ú
-     *  @return mixed   (array):Ê¬³ä·ë²Ì Ethna_Error:¥¨¥é¡¼(¹Ô·ÑÂ³)
+     *  @param  string  $csv        CSVå½¢å¼ã®æ–‡å­—åˆ—(1è¡Œåˆ†)
+     *  @param  string  $delimiter  ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®åŒºåˆ‡ã‚Šæ–‡å­—
+     *  @return mixed   (array):åˆ†å‰²çµæœ Ethna_Error:ã‚¨ãƒ©ãƒ¼(è¡Œç¶™ç¶š)
      */
     function explodeCSV($csv, $delimiter = ",")
     {
@@ -317,7 +317,7 @@ class Ethna_Util
                             $field .= $line_end;
 
                             // request one more line
-                            return Ethna::raiseNotice('CSVÊ¬³ä¥¨¥é¡¼(¹Ô·ÑÂ³)', E_UTIL_CSV_CONTINUE);
+                            return Ethna::raiseNotice('CSV Split Error (line continue)', E_UTIL_CSV_CONTINUE);
                         }
                     }
                 }
@@ -344,12 +344,12 @@ class Ethna_Util
 
     // {{{ escapeCSV
     /**
-     *  CSV¥¨¥¹¥±¡¼¥×½èÍı¤ò¹Ô¤¦
+     *  CSVã‚¨ã‚¹ã‚±ãƒ¼ãƒ—å‡¦ç†ã‚’è¡Œã†
      *
      *  @access public
-     *  @param  string  $csv        ¥¨¥¹¥±¡¼¥×ÂĞ¾İ¤ÎÊ¸»úÎó(CSV¤Î³ÆÍ×ÁÇ)
-     *  @param  bool    $escape_nl  ²ş¹ÔÊ¸»ú(\r/\n)¤Î¥¨¥¹¥±¡¼¥×¥Õ¥é¥°
-     *  @return string  CSV¥¨¥¹¥±¡¼¥×¤µ¤ì¤¿Ê¸»úÎó
+     *  @param  string  $csv        ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—å¯¾è±¡ã®æ–‡å­—åˆ—(CSVã®å„è¦ç´ )
+     *  @param  bool    $escape_nl  æ”¹è¡Œæ–‡å­—(\r/\n)ã®ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ãƒ•ãƒ©ã‚°
+     *  @return string  CSVã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã•ã‚ŒãŸæ–‡å­—åˆ—
      */
     function escapeCSV($csv, $escape_nl = false)
     {
@@ -368,11 +368,11 @@ class Ethna_Util
 
     // {{{ escapeHtml
     /**
-     *  ÇÛÎó¤ÎÍ×ÁÇ¤òÁ´¤ÆHTML¥¨¥¹¥±¡¼¥×¤·¤ÆÊÖ¤¹
+     *  é…åˆ—ã®è¦ç´ ã‚’å…¨ã¦HTMLã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã—ã¦è¿”ã™
      *
      *  @access public
-     *  @param  array   $target     HTML¥¨¥¹¥±¡¼¥×ÂĞ¾İ¤È¤Ê¤ëÇÛÎó
-     *  @return array   ¥¨¥¹¥±¡¼¥×¤µ¤ì¤¿ÇÛÎó
+     *  @param  array   $target     HTMLã‚¨ã‚¹ã‚±ãƒ¼ãƒ—å¯¾è±¡ã¨ãªã‚‹é…åˆ—
+     *  @return array   ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã•ã‚ŒãŸé…åˆ—
      */
     function escapeHtml($target)
     {
@@ -382,11 +382,11 @@ class Ethna_Util
     }
 
     /**
-     *  ÇÛÎó¤ÎÍ×ÁÇ¤òÁ´¤ÆHTML¥¨¥¹¥±¡¼¥×¤·¤ÆÊÖ¤¹
+     *  é…åˆ—ã®è¦ç´ ã‚’å…¨ã¦HTMLã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã—ã¦è¿”ã™
      *
      *  @access public
-     *  @param  mixed   $vars   HTML¥¨¥¹¥±¡¼¥×ÂĞ¾İ¤È¤Ê¤ëÇÛÎó
-     *  @param  mixed   $retval HTML¥¨¥¹¥±¡¼¥×ÂĞ¾İ¤È¤Ê¤ë»ÒÍ×ÁÇ
+     *  @param  mixed   $vars   HTMLã‚¨ã‚¹ã‚±ãƒ¼ãƒ—å¯¾è±¡ã¨ãªã‚‹é…åˆ—
+     *  @param  mixed   $retval HTMLã‚¨ã‚¹ã‚±ãƒ¼ãƒ—å¯¾è±¡ã¨ãªã‚‹å­è¦ç´ 
      */
     function _escapeHtml(&$vars, &$retval)
     {
@@ -403,11 +403,11 @@ class Ethna_Util
 
     // {{{ encode_MIME
     /**
-     *  Ê¸»úÎó¤òMIME¥¨¥ó¥³¡¼¥É¤¹¤ë
+     *  æ–‡å­—åˆ—ã‚’MIMEã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $string     MIME¥¨¥ó¥³¡¼¥É¤¹¤ëÊ¸»úÎó
-     *  @return ¥¨¥ó¥³¡¼¥ÉºÑ¤ß¤ÎÊ¸»úÎó
+     *  @param  string  $string     MIMEã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã™ã‚‹æ–‡å­—åˆ—
+     *  @return ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æ¸ˆã¿ã®æ–‡å­—åˆ—
      */
     function encode_MIME($string)
     {
@@ -426,13 +426,13 @@ class Ethna_Util
 
     // {{{ getDirectLinkList
     /**
-     *  GoogleÉ÷¥ê¥ó¥¯¥ê¥¹¥È¤òÊÖ¤¹
+     *  Googleé¢¨ãƒªãƒ³ã‚¯ãƒªã‚¹ãƒˆã‚’è¿”ã™
      *
      *  @access public
-     *  @param  int     $total      ¸¡º÷Áí·ï¿ô
-     *  @param  int     $offset     É½¼¨¥ª¥Õ¥»¥Ã¥È
-     *  @param  int     $count      É½¼¨·ï¿ô
-     *  @return array   ¥ê¥ó¥¯¾ğÊó¤ò³ÊÇ¼¤·¤¿ÇÛÎó
+     *  @param  int     $total      æ¤œç´¢ç·ä»¶æ•°
+     *  @param  int     $offset     è¡¨ç¤ºã‚ªãƒ•ã‚»ãƒƒãƒˆ
+     *  @param  int     $count      è¡¨ç¤ºä»¶æ•°
+     *  @return array   ãƒªãƒ³ã‚¯æƒ…å ±ã‚’æ ¼ç´ã—ãŸé…åˆ—
      */
     function getDirectLinkList($total, $offset, $count)
     {
@@ -490,11 +490,11 @@ class Ethna_Util
 
     // {{{ getEra
     /**
-     *  ¸µ¹æÀ©¤Ç¤ÎÇ¯¤òÊÖ¤¹
+     *  å…ƒå·åˆ¶ã§ã®å¹´ã‚’è¿”ã™
      *
      *  @access public
      *  @param  int     $t      unix time
-     *  @return string  ¸µ¹æ(ÉÔÌÀ¤Ê¾ì¹ç¤Ïnull)
+     *  @return string  å…ƒå·(ä¸æ˜ãªå ´åˆã¯null)
      */
     function getEra($t)
     {
@@ -502,9 +502,11 @@ class Ethna_Util
         $year = $tm['tm_year'] + 1900;
 
         if ($year >= 1989) {
-            return array('Ê¿À®', $year - 1988);
+            $heisei_str = _et('Heisei');
+            return array($heisei_str, $year - 1988);
         } else if ($year >= 1926) {
-            return array('¾¼ÏÂ', $year - 1925);
+            $showa_str = _et('Showa');
+            return array($showa_str, $year - 1925);
         }
 
         return null;
@@ -513,11 +515,11 @@ class Ethna_Util
 
     // {{{ getImageExtName
     /**
-     *  getimagesize()¤ÎÊÖ¤¹¥¤¥á¡¼¥¸¥¿¥¤¥×¤ËÂĞ±ş¤¹¤ë³ÈÄ¥»Ò¤òÊÖ¤¹
+     *  getimagesize()ã®è¿”ã™ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—ã«å¯¾å¿œã™ã‚‹æ‹¡å¼µå­ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  int     $type   getimagesize()´Ø¿ô¤ÎÊÖ¤¹¥¤¥á¡¼¥¸¥¿¥¤¥×
-     *  @return string  $type¤ËÂĞ±ş¤¹¤ë³ÈÄ¥»Ò
+     *  @param  int     $type   getimagesize()é–¢æ•°ã®è¿”ã™ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—
+     *  @return string  $typeã«å¯¾å¿œã™ã‚‹æ‹¡å¼µå­
      */
     function getImageExtName($type)
     {
@@ -546,13 +548,13 @@ class Ethna_Util
 
     // {{{ getRandom
     /**
-     *  ¥é¥ó¥À¥à¤Ê¥Ï¥Ã¥·¥åÃÍ¤òÀ¸À®¤¹¤ë
+     *  ãƒ©ãƒ³ãƒ€ãƒ ãªãƒãƒƒã‚·ãƒ¥å€¤ã‚’ç”Ÿæˆã™ã‚‹
      *
-     *  ·è¤·¤Æ¹âÂ®¤Ç¤Ï¤Ê¤¤¤Î¤ÇÍğÍÑ¤ÏÈò¤±¤ë¤³¤È
+     *  æ±ºã—ã¦é«˜é€Ÿã§ã¯ãªã„ã®ã§ä¹±ç”¨ã¯é¿ã‘ã‚‹ã“ã¨
      *
      *  @access public
-     *  @param  int     $length ¥Ï¥Ã¥·¥åÃÍ¤ÎÄ¹¤µ(¡Á64)
-     *  @return string  ¥Ï¥Ã¥·¥åÃÍ
+     *  @param  int     $length ãƒãƒƒã‚·ãƒ¥å€¤ã®é•·ã•(ã€œ64)
+     *  @return string  ãƒãƒƒã‚·ãƒ¥å€¤
      */
     function getRandom($length = 64)
     {
@@ -567,9 +569,17 @@ class Ethna_Util
         $value = "";
         for ($i = 0; $i < 2; $i++) {
             // for Linux
-            if (file_exists('/proc/net/dev')) {
+            // open_basedir ãŒã‚ªãƒ³ã§ã€ã‹ã¤ /proc ãŒè¨±å¯ã•ã‚Œã¦ã„ã‚‹ã‹ï¼Ÿ
+            // open_basedir ãŒç©ºãªã‚‰è¨±å¯ã•ã‚Œã¦ã„ã‚‹ã¨çœ‹åšã™
+            $devfile = '/proc/net/dev';
+            $open_basedir_conf = ini_get('open_basedir');
+            $devfile_enabled = (empty($open_basedir_conf) 
+                            || (preg_match('#:/proc#', $open_basedir_conf) > 0
+                            ||  preg_match('#^/proc#', $open_basedir_conf) > 0));
+
+            if ($devfile_enabled && file_exists($devfile)) {
                 $rx = $tx = 0;
-                $fp = fopen('/proc/net/dev', 'r');
+                $fp = fopen($devfile, 'r');
                 if ($fp != null) {
                     $header = true;
                     while (feof($fp) === false) {
@@ -604,13 +614,13 @@ class Ethna_Util
 
     // {{{ get2dArray
     /**
-     *  1¼¡¸µÇÛÎó¤òm x n¤ËºÆ¹½À®¤¹¤ë
+     *  1æ¬¡å…ƒé…åˆ—ã‚’m x nã«å†æ§‹æˆã™ã‚‹
      *
      *  @access public
-     *  @param  array   $array  ½èÍıÂĞ¾İ¤Î1¼¡¸µÇÛÎó
-     *  @param  int     $m      ¼´¤ÎÍ×ÁÇ¿ô
-     *  @param  int     $order  $m¤òX¼´¤È¸«Ğö¤¹¤«Y¼´¤È¸«Ğö¤¹¤«(0:X¼´ 1:Y¼´)
-     *  @return array   m x n¤ËºÆ¹½À®¤µ¤ì¤¿ÇÛÎó
+     *  @param  array   $array  å‡¦ç†å¯¾è±¡ã®1æ¬¡å…ƒé…åˆ—
+     *  @param  int     $m      è»¸ã®è¦ç´ æ•°
+     *  @param  int     $order  $mã‚’Xè»¸ã¨è¦‹åšã™ã‹Yè»¸ã¨è¦‹åšã™ã‹(0:Xè»¸ 1:Yè»¸)
+     *  @return array   m x nã«å†æ§‹æˆã•ã‚ŒãŸé…åˆ—
      */
     function get2dArray($array, $m, $order)
     {
@@ -624,10 +634,10 @@ class Ethna_Util
             $elts = array();
             for ($j = 0; $j < $m; $j++) {
                 if ($order == 0) {
-                    // ²£ÊÂ¤Ó(²£¡§$mÎó ½Ä¡§ÌµÀ©¸Â)
+                    // æ¨ªä¸¦ã³(æ¨ªï¼š$måˆ— ç¸¦ï¼šç„¡åˆ¶é™)
                     $key = $i*$m+$j;
                 } else {
-                    // ½ÄÊÂ¤Ó(²£¡§ÌµÀ©¸Â ½Ä¡§$m¹Ô)
+                    // ç¸¦ä¸¦ã³(æ¨ªï¼šç„¡åˆ¶é™ ç¸¦ï¼š$mè¡Œ)
                     $key = $i+$n*$j;
                 }
                 if (array_key_exists($key, $array) == false) {
@@ -644,13 +654,13 @@ class Ethna_Util
 
     // {{{ isAbsolute
     /**
-     *  ¥Ñ¥¹Ì¾¤¬ÀäÂĞ¥Ñ¥¹¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  ãƒ‘ã‚¹åãŒçµ¶å¯¾ãƒ‘ã‚¹ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  port from File in PEAR (for BC)
      *
      *  @access public
      *  @param  string  $path
-     *  @return bool    true:ÀäÂĞ¥Ñ¥¹ false:ÁêÂĞ¥Ñ¥¹
+     *  @return bool    true:çµ¶å¯¾ãƒ‘ã‚¹ false:ç›¸å¯¾ãƒ‘ã‚¹
      */
     function isAbsolute($path)
     {
@@ -671,7 +681,7 @@ class Ethna_Util
 
     // {{{ isRootDir
     /**
-     *  ¥Ñ¥¹Ì¾¤¬¥ë¡¼¥È¥Ç¥£¥ì¥¯¥È¥ê¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  ãƒ‘ã‚¹åãŒãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
      *  @param  string  $path
@@ -695,9 +705,9 @@ class Ethna_Util
      *  mkdir -p
      *
      *  @access public
-     *  @param  string  $dir    ºîÀ®¤¹¤ë¥Ç¥£¥ì¥¯¥È¥ê
-     *  @param  int     $mode   ¥Ñ¡¼¥ß¥Ã¥·¥ç¥ó
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $dir    ä½œæˆã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     *  @param  int     $mode   ãƒ‘ãƒ¼ãƒŸãƒƒã‚·ãƒ§ãƒ³
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      *  @static
      */
     function mkdir($dir, $mode)
@@ -723,7 +733,7 @@ class Ethna_Util
 
     // {{{ chmod
     /**
-     *  ¥Õ¥¡¥¤¥ë¤Î¥Ñ¡¼¥ß¥Ã¥·¥ç¥ó¤òÊÑ¹¹¤¹¤ë
+     *  ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ãƒ¼ãƒŸãƒƒã‚·ãƒ§ãƒ³ã‚’å¤‰æ›´ã™ã‚‹
      */
     function chmod($file, $mode)
     {
@@ -737,12 +747,12 @@ class Ethna_Util
 
     // {{{ purgeDir
     /**
-     *  ¥Ç¥£¥ì¥¯¥È¥ê¤òºÆµ¢Åª¤Ëºï½ü¤¹¤ë
-     *  (ÅÓÃæ¤Ç¼ºÇÔ¤·¤Æ¤âÃæÃÇ¤»¤º¡¢ºï½ü¤Ç¤­¤ë¤â¤Î¤Ï¤¹¤Ù¤Æ¾Ã¤¹)
+     *  ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å†å¸°çš„ã«å‰Šé™¤ã™ã‚‹
+     *  (é€”ä¸­ã§å¤±æ•—ã—ã¦ã‚‚ä¸­æ–­ã›ãšã€å‰Šé™¤ã§ãã‚‹ã‚‚ã®ã¯ã™ã¹ã¦æ¶ˆã™)
      *
      *  @access public
-     *  @param  string  $file   ºï½ü¤¹¤ë¥Õ¥¡¥¤¥ë¤Ş¤¿¤Ï¥Ç¥£¥ì¥¯¥È¥ê
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $file   å‰Šé™¤ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      *  @static
      */
     function purgeDir($dir)
@@ -776,11 +786,11 @@ class Ethna_Util
 
     // {{{ purgeTmp
     /**
-     *  ¥Æ¥ó¥İ¥é¥ê¥Ç¥£¥ì¥¯¥È¥ê¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤¹¤ë
+     *  ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $prefix     ¥Õ¥¡¥¤¥ë¤Î¥×¥ì¥Õ¥£¥¯¥¹
-     *  @param  int     $timeout    ºï½üÂĞ¾İïçÃÍ(ÉÃ¡İ60*60*1¤Ê¤é1»ş´Ö)
+     *  @param  string  $prefix     ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ—ãƒ¬ãƒ•ã‚£ã‚¯ã‚¹
+     *  @param  int     $timeout    å‰Šé™¤å¯¾è±¡é–¾å€¤(ç§’âˆ’60*60*1ãªã‚‰1æ™‚é–“)
      */
     function purgeTmp($prefix, $timeout)
     {
@@ -808,13 +818,13 @@ class Ethna_Util
 
     // {{{ lockFile
     /**
-     *  ¥Õ¥¡¥¤¥ë¤ò¥í¥Ã¥¯¤¹¤ë
+     *  ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $file       ¥í¥Ã¥¯¤¹¤ë¥Õ¥¡¥¤¥ëÌ¾
-     *  @param  int     $mode       ¥í¥Ã¥¯¥â¡¼¥É('r', 'rw')
-     *  @param  int     $timeout    ¥í¥Ã¥¯ÂÔ¤Á¥¿¥¤¥à¥¢¥¦¥È(ÉÃ¡İ0¤Ê¤éÌµ¸Â)
-     *  @return int     ¥í¥Ã¥¯¥Ï¥ó¥É¥ë(false¤Ê¤é¥¨¥é¡¼)
+     *  @param  string  $file       ãƒ­ãƒƒã‚¯ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å
+     *  @param  int     $mode       ãƒ­ãƒƒã‚¯ãƒ¢ãƒ¼ãƒ‰('r', 'rw')
+     *  @param  int     $timeout    ãƒ­ãƒƒã‚¯å¾…ã¡ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ(ç§’âˆ’0ãªã‚‰ç„¡é™)
+     *  @return int     ãƒ­ãƒƒã‚¯ãƒãƒ³ãƒ‰ãƒ«(falseãªã‚‰ã‚¨ãƒ©ãƒ¼)
      */
     function lockFile($file, $mode, $timeout = 0)
     {
@@ -823,7 +833,7 @@ class Ethna_Util
         }
         $lh = fopen($file, 'r');
         if ($lh == null) {
-            return Ethna::raiseError("¥Õ¥¡¥¤¥ëÆÉ¤ß¹ş¤ß¥¨¥é¡¼[%s]", E_APP_READ, $file);
+            return Ethna::raiseError("File Read Error [%s]", E_APP_READ, $file);
         }
 
         $lock_mode = $mode == 'r' ? LOCK_SH : LOCK_EX;
@@ -837,7 +847,7 @@ class Ethna_Util
         }
         if ($timeout > 0 && $i == $timeout) {
             // timed out
-            return Ethna::raiseError("¥Õ¥¡¥¤¥ë¥í¥Ã¥¯¼èÆÀ¥¨¥é¡¼[%s]", E_APP_LOCK, $file);
+            return Ethna::raiseError("File lock get error [%s]", E_APP_LOCK, $file);
         }
 
         return $lh;
@@ -846,10 +856,10 @@ class Ethna_Util
 
     // {{{ unlockFile
     /**
-     *  ¥Õ¥¡¥¤¥ë¤Î¥í¥Ã¥¯¤ò²ò½ü¤¹¤ë
+     *  ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $lh     ¥í¥Ã¥¯¥Ï¥ó¥É¥ë
+     *  @param  int     $lh     ãƒ­ãƒƒã‚¯ãƒãƒ³ãƒ‰ãƒ«
      */
     function unlockFile($lh)
     {
@@ -859,11 +869,11 @@ class Ethna_Util
 
     // {{{ formatBacktrace
     /**
-     *  ¥Ğ¥Ã¥¯¥È¥ì¡¼¥¹¤ò¥Õ¥©¡¼¥Ş¥Ã¥È¤·¤ÆÊÖ¤¹
+     *  ãƒãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã—ã¦è¿”ã™
      *
      *  @access public
-     *  @param  array   $bt     debug_backtrace()´Ø¿ô¤Ç¼èÆÀ¤·¤¿¥Ğ¥Ã¥¯¥È¥ì¡¼¥¹
-     *  @return string  Ê¸»úÎó¤Ë¥Õ¥©¡¼¥Ş¥Ã¥È¤µ¤ì¤¿¥Ğ¥Ã¥¯¥È¥ì¡¼¥¹
+     *  @param  array   $bt     debug_backtrace()é–¢æ•°ã§å–å¾—ã—ãŸãƒãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     *  @return string  æ–‡å­—åˆ—ã«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã•ã‚ŒãŸãƒãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
      */
     function formatBacktrace($bt) 
     {
@@ -881,7 +891,7 @@ class Ethna_Util
                 continue;
             }
 
-            // °ú¿ô¤Î¥À¥ó¥×
+            // å¼•æ•°ã®ãƒ€ãƒ³ãƒ—
             foreach ($elt['args'] as $arg) {
                 $r .= Ethna_Util::_formatBacktrace($arg);
             }
@@ -891,13 +901,13 @@ class Ethna_Util
     }
 
     /**
-     *  ¥Ğ¥Ã¥¯¥È¥ì¡¼¥¹°ú¿ô¤ò¥Õ¥©¡¼¥Ş¥Ã¥È¤·¤ÆÊÖ¤¹
+     *  ãƒãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å¼•æ•°ã‚’ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã—ã¦è¿”ã™
      *
      *  @access private
-     *  @param  string  $arg    ¥Ğ¥Ã¥¯¥È¥ì¡¼¥¹¤Î°ú¿ô
-     *  @param  int     $level  ¥Ğ¥Ã¥¯¥È¥ì¡¼¥¹¤Î¥Í¥¹¥È¥ì¥Ù¥ë
-     *  @param  int     $wrap   ²ş¹Ô¥Õ¥é¥°
-     *  @return string  Ê¸»úÎó¤Ë¥Õ¥©¡¼¥Ş¥Ã¥È¤µ¤ì¤¿¥Ğ¥Ã¥¯¥È¥ì¡¼¥¹
+     *  @param  string  $arg    ãƒãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®å¼•æ•°
+     *  @param  int     $level  ãƒãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®ãƒã‚¹ãƒˆãƒ¬ãƒ™ãƒ«
+     *  @param  int     $wrap   æ”¹è¡Œãƒ•ãƒ©ã‚°
+     *  @return string  æ–‡å­—åˆ—ã«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã•ã‚ŒãŸãƒãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
      */
     function _formatBacktrace($arg, $level = 0, $wrap = true)
     {

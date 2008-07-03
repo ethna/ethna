@@ -34,6 +34,7 @@ $config = array(
     'log_option'            => 'pid,function,pos',
     'log_filter_do'         => '',
     'log_filter_ignore'     => 'Undefined index.*%%.*tpl',
+
     // sample-2: mulitple facility
     //'log' => array(
     //    'echo'  => array(
@@ -75,6 +76,9 @@ $config = array(
     //     ),
     // ),
 
+    // i18n
+    //'use_gettext' => false,
+    
     // csrf
     // 'csrf' => 'Session',
 );

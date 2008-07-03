@@ -13,7 +13,7 @@ require_once 'Console/Getopt.php';
 
 // {{{ Ethna_Plugin_Handle
 /**
- *  ���ޥ�ɥ饤��ϥ�ɥ�ץ饰����δ��쥯�饹
+ *  コマンドラインハンドラプラグインの基底クラス
  *  
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public

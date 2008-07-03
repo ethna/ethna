@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Generator_AppManager
 /**
- *  ¥¹¥±¥ë¥È¥óÀ¸À®¥¯¥é¥¹
+ *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ç”Ÿæˆã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,11 +20,11 @@
 class Ethna_Plugin_Generator_AppManager extends Ethna_Plugin_Generator
 {
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥Ş¥Í¡¼¥¸¥ã¤Î¥¹¥±¥ë¥È¥ó¤òÀ¸À®¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ã®ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
-     *  @param  string  $manager_name    ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥Ş¥Í¡¼¥¸Ì¾
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $manager_name    ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒãƒ¼ã‚¸å
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function generate($manager_name)
     {

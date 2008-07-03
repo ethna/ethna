@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Logwriter_Echo
 /**
- *  ¥í¥°½ĞÎÏ´ğÄì¥¯¥é¥¹
+ *  ãƒ­ã‚°å‡ºåŠ›åŸºåº•ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -26,11 +26,11 @@ class Ethna_Plugin_Logwriter_Echo extends Ethna_Plugin_Logwriter
     /**#@-*/
 
     /**
-     *  ¥í¥°¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $level      ¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸(+°ú¿ô)
+     *  @param  int     $level      ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_DEBUG, LOG_NOTICE...)
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(+å¼•æ•°)
      */
     function log($level, $message)
     {

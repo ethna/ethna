@@ -11,7 +11,7 @@
 
 // {{{ Ethna_SOAP_GatewayGenerator
 /**
- *  ╗╪─ъд╡дьд┐е│еєе╚еэб╝ещд╦┬╨▒■д╣дые▓б╝е╚ежезедепеще╣е│б╝е╔дЄ└╕└од╣дыепеще╣
+ *  цМЗхоЪуБХуВМуБЯуВ│уГ│уГИуГнуГ╝уГйуБлхп╛х┐ЬуБЩуВЛуВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙуВТчФЯцИРуБЩуВЛуВпуГйуВ╣
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,31 +23,31 @@ class Ethna_SOAP_GatewayGenerator
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controllerеке╓е╕езепе╚ */
+    /** @var    object  Ethna_Controller    controllerуВкуГЦуВ╕уВзуВпуГИ */
     var $controller;
 
-    /** @var    object  Ethna_Config        └▀─ъеке╓е╕езепе╚ */
+    /** @var    object  Ethna_Config        шинхоЪуВкуГЦуВ╕уВзуВпуГИ */
     var $config;
 
-    /** @var    object  Ethna_ActionError   евепе╖ечеєеиещб╝еке╓е╕езепе╚ */
+    /** @var    object  Ethna_ActionError   уВвуВпуВ╖уГзуГ│уВиуГйуГ╝уВкуГЦуВ╕уВзуВпуГИ */
     var $action_error;
 
-    /** @var    object  Ethna_ActionError   евепе╖ечеєеиещб╝еке╓е╕езепе╚(╛╩╬м╖┴) */
+    /** @var    object  Ethna_ActionError   уВвуВпуВ╖уГзуГ│уВиуГйуГ╝уВкуГЦуВ╕уВзуВпуГИ(чЬБчХех╜в) */
     var $ae;
 
-    /** @var    string      е▓б╝е╚ежезедепеще╣е│б╝е╔ */
+    /** @var    string      уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙ */
     var $gateway;
 
-    /** @var    string      е▓б╝е╚ежезедепеще╣╝▒╩╠╠╛ */
+    /** @var    string      уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣шнШхИехРН */
     var $name;
 
-    /** @var    string      е▓б╝е╚ежезедепеще╣е═б╝ере╣е┌б╝е╣ */
+    /** @var    string      уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уГНуГ╝уГауВ╣уГЪуГ╝уВ╣ */
     var $namespace;
 
     /**#@-*/
 
     /**
-     *  Ethna_SOAP_GatewayGeneratorепеще╣д╬е│еєе╣е╚ещепе┐
+     *  Ethna_SOAP_GatewayGeneratorуВпуГйуВ╣уБоуВ│уГ│уВ╣уГИуГйуВпуВ┐
      *
      *  @access public
      */
@@ -63,10 +63,10 @@ class Ethna_SOAP_GatewayGenerator
     }
 
     /**
-     *  е▓б╝е╚ежезедепеще╣е│б╝е╔дЄ└╕└од╣ды
+     *  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙуВТчФЯцИРуБЩуВЛ
      *
      *  @access public
-     *  @return string  е▓б╝е╚ежезепеще╣е│б╝е╔
+     *  @return string  уВ▓уГ╝уГИуВжуВзуВпуГйуВ╣уВ│уГ╝уГЙ
      */
     function generate()
     {
@@ -83,10 +83,10 @@ class Ethna_SOAP_GatewayGenerator
     }
 
     /**
-     *  е▓б╝е╚ежезедепеще╣д╬епеще╣╠╛дЄ╝ш╞└д╣ды
+     *  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уБоуВпуГйуВ╣хРНуВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access public
-     *  @return string  е▓б╝е╚ежезедепеще╣д╬епеще╣╠╛
+     *  @return string  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уБоуВпуГйуВ╣хРН
      */
     function getClassName()
     {
@@ -94,10 +94,10 @@ class Ethna_SOAP_GatewayGenerator
     }
 
     /**
-     *  е▓б╝е╚ежезедепеще╣е│б╝е╔(е╪е├е└╔Ї╩м)дЄ╝ш╞└д╣ды
+     *  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙ(уГШуГГуГАщГихИЖ)уВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access private
-     *  @return string  е▓б╝е╚ежезедепеще╣е│б╝е╔(е╪е├е└╔Ї╩м)
+     *  @return string  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙ(уГШуГГуГАщГихИЖ)
      */
     function _getHeader()
     {
@@ -107,10 +107,10 @@ class Ethna_SOAP_GatewayGenerator
     }
 
     /**
-     *  е▓б╝е╚ежезедепеще╣е│б╝е╔(есе╜е├е╔еиеєе╚еъ╔Ї╩м)дЄ╝ш╞└д╣ды
+     *  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙ(уГбуВ╜уГГуГЙуВиуГ│уГИуГкщГихИЖ)уВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access private
-     *  @return string  е▓б╝е╚ежезедепеще╣е│б╝е╔(есе╜е├е╔еиеєе╚еъ╔Ї╩м)
+     *  @return string  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙ(уГбуВ╜уГГуГЙуВиуГ│уГИуГкщГихИЖ)
      */
     function _getEntry()
     {
@@ -154,10 +154,10 @@ class Ethna_SOAP_GatewayGenerator
     }
 
     /**
-     *  е▓б╝е╚ежезедепеще╣е│б╝е╔(е╒е├е┐╔Ї╩м)дЄ╝ш╞└д╣ды
+     *  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙ(уГХуГГуВ┐щГихИЖ)уВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access private
-     *  @return string  е▓б╝е╚ежезедепеще╣е│б╝е╔(е╒е├е┐╔Ї╩м)
+     *  @return string  уВ▓уГ╝уГИуВжуВзуВдуВпуГйуВ╣уВ│уГ╝уГЙ(уГХуГГуВ┐щГихИЖ)
      */
     function _getFooter()
     {
@@ -167,10 +167,10 @@ class Ethna_SOAP_GatewayGenerator
     }
 
     /**
-     *  е═б╝ере╣е┌б╝е╣дЄ╝ш╞└д╣ды
+     *  уГНуГ╝уГауВ╣уГЪуГ╝уВ╣уВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access private
-     *  @return string  е═б╝ере╣е┌б╝е╣
+     *  @return string  уГНуГ╝уГауВ╣уГЪуГ╝уВ╣
      */
     function _getNameSpace()
     {

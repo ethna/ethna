@@ -25,7 +25,7 @@ function ethna_adodb_logger ($msg, $newline) {
 /**
  *  Ethna_DB_ADOdb
  *
- *  Ethna¤Î¥Õ¥ì¡¼¥à¥ï¡¼¥¯¤ÇADOdb¥ª¥Ö¥¸¥§¥¯¥È¤ò°·¤¦¤¿¤á¤ÎÃê¾İ¥¯¥é¥¹
+ *  Ethnaã®ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã§ADOdbã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ‰±ã†ãŸã‚ã®æŠ½è±¡ã‚¯ãƒ©ã‚¹
  *
  *  @package    Ethna
  *  @author     halt feits <halt.feits@gmail.com>
@@ -37,7 +37,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @access private
      */
 
-    /** @var    object  DB              DB¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  DB              DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $db;
 
     /** @var    string   dsn */
@@ -47,12 +47,12 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
 
     /**
-     *  ¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *  @param  string  $dsn                                DSN
-     *  @param  bool    $persistent                         »ıÂ³ÀÜÂ³ÀßÄê
+     *  @param  bool    $persistent                         æŒç¶šæ¥ç¶šè¨­å®š
      */
     function Ethna_DB_ADOdb(&$controller, $dsn, $persistent)
     {
@@ -63,10 +63,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ connect
     /**
-     *  DB¤ËÀÜÂ³¤¹¤ë
+     *  DBã«æ¥ç¶šã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function connect()
     {
@@ -91,7 +91,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ disconnect
     /**
-     *  DBÀÜÂ³¤òÀÚÃÇ¤¹¤ë
+     *  DBæ¥ç¶šã‚’åˆ‡æ–­ã™ã‚‹
      *
      *  @access public
      */
@@ -104,10 +104,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ isValid
     /**
-     *  DBÀÜÂ³¾õÂÖ¤òÊÖ¤¹
+     *  DBæ¥ç¶šçŠ¶æ…‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @return bool    true:Àµ¾ï(ÀÜÂ³ºÑ¤ß) false:¥¨¥é¡¼/Ì¤ÀÜÂ³
+     *  @return bool    true:æ­£å¸¸(æ¥ç¶šæ¸ˆã¿) false:ã‚¨ãƒ©ãƒ¼/æœªæ¥ç¶š
      */
     function isValid()
     {
@@ -121,10 +121,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ begin
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function begin()
     {
@@ -134,10 +134,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ rollback
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤òÃæÃÇ¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä¸­æ–­ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function rollback()
     {
@@ -148,10 +148,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ commit
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò½ªÎ»¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’çµ‚äº†ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function commit()
     {
@@ -162,11 +162,11 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ query
     /**
-     *  ¥¯¥¨¥ê¤òÈ¯¹Ô¤¹¤ë
+     *  ã‚¯ã‚¨ãƒªã‚’ç™ºè¡Œã™ã‚‹
      *
      *  @access public
-     *  @param  string  $query  SQLÊ¸
-     *  @return mixed   DB_Result:·ë²Ì¥ª¥Ö¥¸¥§¥¯¥È Ethna_Error:¥¨¥é¡¼
+     *  @param  string  $query  SQLæ–‡
+     *  @return mixed   DB_Result:çµæœã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function &query($query, $inputarr = false)
     {
@@ -176,11 +176,11 @@ class Ethna_DB_ADOdb extends Ethna_DB
     
     //{{{ _query
     /**
-     *  ¥¯¥¨¥ê¤òÈ¯¹Ô¤¹¤ë
+     *  ã‚¯ã‚¨ãƒªã‚’ç™ºè¡Œã™ã‚‹
      *
      *  @access private
-     *  @param  string  $query  SQLÊ¸
-     *  @return mixed   DB_Result:·ë²Ì¥ª¥Ö¥¸¥§¥¯¥È Ethna_Error:¥¨¥é¡¼
+     *  @param  string  $query  SQLæ–‡
+     *  @return mixed   DB_Result:çµæœã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function &_query($query, $inputarr = false)
     {
@@ -189,7 +189,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
         if ($r === false) {
 
-            $error = Ethna::raiseError('¥¨¥é¡¼ SQL[%s] CODE[%d] MESSAGE[%s]',
+            $error = Ethna::raiseError('ã‚¨ãƒ©ãƒ¼ SQL[%s] CODE[%d] MESSAGE[%s]',
                 E_DB_QUERY,
                 $query,
                 $this->db->ErrorNo(),

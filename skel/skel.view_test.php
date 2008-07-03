@@ -8,7 +8,7 @@
  */
 
 /**
- *  {$forward_name}ビューの実装
+ *  {$forward_name} view implementation.
  *
  *  @author     {$author}
  *  @access     public
@@ -18,48 +18,48 @@ class {$view_class}_TestCase extends Ethna_UnitTestCase
 {
     /**
      *  @access private
-     *  @var    string  ビュー名
+     *  @var    string  view name.
      */
     var $forward_name = '{$forward_name}';
 
     /**
-     *    テストの初期化
+     * initialize test.
      *
-     *    @access public
+     * @access public
      */
     function setUp()
     {
-        $this->createPlainActionForm(); // アクションフォームの作成
-        $this->createViewClass();       // ビューの作成
+        $this->createPlainActionForm(); // create ActionForm
+        $this->createViewClass();       // create View.
     }
 
     /**
-     *    テストの後始末
+     *  clean up testcase.
      *
-     *    @access public
+     *  @access public
      */
     function tearDown()
     {
     }
 
     /**
-     *  {$forward_name}遷移前処理のサンプルテストケース
+     *  {$forward_name} preprocess sample testcase.
      *
      *  @access public
      */
     function test_viewSample()
     {
         /*
-        // フォームの設定
+        // setting form input. 
         $this->af->set('id', 1);
 
-        // {$forward_name}遷移前処理
+        // {$forward_name} preprocess.
         $this->vc->preforward();
         $this->assertNull($this->af->get('data'));
         */
 
         /**
-         *  TODO: テストケースを記述して下さい。
+         *  TODO: write test case! :)
          *  @see http://simpletest.org/en/first_test_tutorial.html
          *  @see http://simpletest.org/en/unit_test_documentation.html
          */

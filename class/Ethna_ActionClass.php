@@ -11,7 +11,7 @@
 
 // {{{ Ethna_ActionClass
 /**
- *  action¼Â¹Ô¥¯¥é¥¹
+ *  actionå®Ÿè¡Œã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,40 +23,40 @@ class Ethna_ActionClass
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend       backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend       backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È    */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ    */
     var $config;
 
-    /** @var    object  Ethna_I18N          i18n¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_I18N          i18nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $i18n;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_error;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È(¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(çœç•¥å½¢) */
     var $ae;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_form;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È(¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(çœç•¥å½¢) */
     var $af;
 
-    /** @var    object  Ethna_Session       ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Session       ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $session;
 
-    /** @var    object  Ethna_Plugin        ¥×¥é¥°¥¤¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Plugin        ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $plugin;
 
     /**#@-*/
 
     /**
-     *  Ethna_ActionClass¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_ActionClassã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Backend   $backend    backend¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Backend   $backend    backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_ActionClass(&$backend)
     {
@@ -76,10 +76,10 @@ class Ethna_ActionClass
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¼Â¹ÔÁ°¤ÎÇ§¾Ú½èÍı¤ò¹Ô¤¦
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Ÿè¡Œå‰ã®èªè¨¼å‡¦ç†ã‚’è¡Œã†
      *
      *  @access public
-     *  @return string  Á«°ÜÌ¾(null¤Ê¤éÀµ¾ï½ªÎ», false¤Ê¤é½èÍı½ªÎ»)
+     *  @return string  é·ç§»å(nullãªã‚‰æ­£å¸¸çµ‚äº†, falseãªã‚‰å‡¦ç†çµ‚äº†)
      */
     function authenticate()
     {
@@ -87,10 +87,10 @@ class Ethna_ActionClass
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¼Â¹ÔÁ°¤Î½èÍı(¥Õ¥©¡¼¥àÃÍ¥Á¥§¥Ã¥¯Åù)¤ò¹Ô¤¦
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Ÿè¡Œå‰ã®å‡¦ç†(ãƒ•ã‚©ãƒ¼ãƒ å€¤ãƒã‚§ãƒƒã‚¯ç­‰)ã‚’è¡Œã†
      *
      *  @access public
-     *  @return string  Á«°ÜÌ¾(null¤Ê¤éÀµ¾ï½ªÎ», false¤Ê¤é½èÍı½ªÎ»)
+     *  @return string  é·ç§»å(nullãªã‚‰æ­£å¸¸çµ‚äº†, falseãªã‚‰å‡¦ç†çµ‚äº†)
      */
     function prepare()
     {
@@ -98,10 +98,10 @@ class Ethna_ActionClass
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¼Â¹Ô
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Ÿè¡Œ
      *
      *  @access public
-     *  @return string  Á«°ÜÌ¾(null¤Ê¤éÁ«°Ü¤Ï¹Ô¤ï¤Ê¤¤)
+     *  @return string  é·ç§»å(nullãªã‚‰é·ç§»ã¯è¡Œã‚ãªã„)
      */
     function perform()
     {

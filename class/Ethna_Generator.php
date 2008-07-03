@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Generator
 /**
- *  ¥¹¥±¥ë¥È¥óÀ¸À®¥¯¥é¥¹
+ *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ç”Ÿæˆã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,13 +20,13 @@
 class Ethna_Generator
 {
     /**
-     *  ¥¹¥±¥ë¥È¥ó¤òÀ¸À®¤¹¤ë
+     *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
-     *  @param  string  $type       À¸À®¤¹¤ëÂĞ¾İ
-     *  @param  string  $app_dir    ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥Ç¥£¥ì¥¯¥È¥ê
-     *                              (null¤Î¤È¤­¤Ï¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤òÆÃÄê¤·¤Ê¤¤)
-     *  @param  mixed   residue     ¥×¥é¥°¥¤¥ó¤Îgenerate()¤Ë¤½¤Î¤Ş¤ŞÅÏ¤¹
+     *  @param  string  $type       ç”Ÿæˆã™ã‚‹å¯¾è±¡
+     *  @param  string  $app_dir    ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     *                              (nullã®ã¨ãã¯ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ç‰¹å®šã—ãªã„)
+     *  @param  mixed   residue     ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®generate()ã«ãã®ã¾ã¾æ¸¡ã™
      *  @static
      */
     function &generate()
@@ -54,19 +54,19 @@ class Ethna_Generator
             return $generator;
         }
         
-        // °ú¿ô¤Ï¥×¥é¥°¥¤¥ó°ÍÂ¸¤È¤¹¤ë
+        // å¼•æ•°ã¯ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ä¾å­˜ã¨ã™ã‚‹
         $ret = call_user_func_array(array(&$generator, 'generate'), $arg_list);
         return $ret;
     }
 
     /**
-     *  ¥¹¥±¥ë¥È¥ó¤òºï½ü¤¹¤ë
+     *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $type       À¸À®¤¹¤ëÂĞ¾İ
-     *  @param  string  $app_dir    ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥Ç¥£¥ì¥¯¥È¥ê
-     *                              (null¤Î¤È¤­¤Ï¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤òÆÃÄê¤·¤Ê¤¤)
-     *  @param  mixed   residue     ¥×¥é¥°¥¤¥ó¤Îremove()¤Ë¤½¤Î¤Ş¤ŞÅÏ¤¹
+     *  @param  string  $type       ç”Ÿæˆã™ã‚‹å¯¾è±¡
+     *  @param  string  $app_dir    ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     *                              (nullã®ã¨ãã¯ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ç‰¹å®šã—ãªã„)
+     *  @param  mixed   residue     ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®remove()ã«ãã®ã¾ã¾æ¸¡ã™
      *  @static
      */
     function &remove()
@@ -94,7 +94,7 @@ class Ethna_Generator
             return $generator;
         }
         
-        // °ú¿ô¤Ï¥×¥é¥°¥¤¥ó°ÍÂ¸¤È¤¹¤ë
+        // å¼•æ•°ã¯ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ä¾å­˜ã¨ã™ã‚‹
         $ret = call_user_func_array(array(&$generator, 'remove'), $arg_list);
         return $ret;
     }

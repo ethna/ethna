@@ -9,7 +9,7 @@
 //error_reporting(E_ALL);
 
 /**
- *  Ethna_DB_ADOdb•Ø•È•π§Œ•∆•π•»•±°º•π
+ *  Ethna_DB_ADOdb„ÇØ„É©„Çπ„ÅÆ„ÉÜ„Çπ„Éà„Ç±„Éº„Çπ
  *
  *  @package Ethna
  *  @author halt feits <halt.feits@gmail.com>

@@ -4,7 +4,7 @@
  */
 
 /**
- *  Ethna_Plugin_Validator_Required¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Validator_Requiredã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
@@ -60,13 +60,13 @@ class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
 }
 
 /**
- *  SessionClass¤Î_Dummy
+ *  SessionClassã®_Dummy
  *
  *  @access public
  */
 // {{{ Ethna_Session
 /**
- *  ¥»¥Ã¥·¥ç¥ó¥¯¥é¥¹¤Î¥À¥ß¡¼
+ *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã®ãƒ€ãƒŸãƒ¼
  *
  *  @author     Keita Arai <cocoiti@comio.info>
  *  @access     public
@@ -78,7 +78,7 @@ class Ethna_Session_Dummy extends Ethna_Session
 
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤òÉüµ¢¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å¾©å¸°ã™ã‚‹
      *
      *  @access public
      */
@@ -89,10 +89,10 @@ class Ethna_Session_Dummy extends Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤ÎÀµÅöÀ­¥Á¥§¥Ã¥¯
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æ­£å½“æ€§ãƒã‚§ãƒƒã‚¯
      *
      *  @access public
-     *  @return bool    true:ÀµÅö¤Ê¥»¥Ã¥·¥ç¥ó false:ÉÔÅö¤Ê¥»¥Ã¥·¥ç¥ó
+     *  @return bool    true:æ­£å½“ãªã‚»ãƒƒã‚·ãƒ§ãƒ³ false:ä¸å½“ãªã‚»ãƒƒã‚·ãƒ§ãƒ³
      */
     function isValid()
     {
@@ -100,11 +100,11 @@ class Ethna_Session_Dummy extends Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $lifetime   ¥»¥Ã¥·¥ç¥óÍ­¸ú´ü´Ö(ÉÃÃ±°Ì, 0¤Ê¤é¥»¥Ã¥·¥ç¥ó¥¯¥Ã¥­¡¼)
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼
+     *  @param  int     $lifetime   ã‚»ãƒƒã‚·ãƒ§ãƒ³æœ‰åŠ¹æœŸé–“(ç§’å˜ä½, 0ãªã‚‰ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¯ãƒƒã‚­ãƒ¼)
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼
      */
     function start($lifetime = 0, $anonymous = false)
     {
@@ -115,10 +115,10 @@ class Ethna_Session_Dummy extends Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤òÇË´ş¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ç ´æ£„ã™ã‚‹
      *
      *  @access public
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼
      */
     function destroy()
     {
@@ -126,11 +126,11 @@ class Ethna_Session_Dummy extends Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥óÃÍ¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³å€¤ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @param  string  $name   ¥­¡¼
-     *  @return mixed   ¼èÆÀ¤·¤¿ÃÍ(null:¥»¥Ã¥·¥ç¥ó¤¬³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤)
+     *  @param  string  $name   ã‚­ãƒ¼
+     *  @return mixed   å–å¾—ã—ãŸå€¤(null:ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã„)
      */
     function get($name)
     {
@@ -141,12 +141,12 @@ class Ethna_Session_Dummy extends Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥óÃÍ¤Ø¤Î¥¢¥¯¥»¥µ(W)
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³å€¤ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(W)
      *
      *  @access public
-     *  @param  string  $name   ¥­¡¼
-     *  @param  string  $value  ÃÍ
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼(¥»¥Ã¥·¥ç¥ó¤¬³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤)
+     *  @param  string  $name   ã‚­ãƒ¼
+     *  @param  string  $value  å€¤
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼(ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã„)
      */
     function set($name, $value)
     {
@@ -161,11 +161,11 @@ class Ethna_Session_Dummy extends Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤ÎÃÍ¤òÇË´ş¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®å€¤ã‚’ç ´æ£„ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $name   ¥­¡¼
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼(¥»¥Ã¥·¥ç¥ó¤¬³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤)
+     *  @param  string  $name   ã‚­ãƒ¼
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼(ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã„)
      */
     function remove($name)
     {

@@ -15,7 +15,7 @@ require_once 'rhaco/tag/TemplateParser.php';
 require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
 
 /**
- *  Rhaco¥ì¥ó¥À¥é¥¯¥é¥¹
+ *  Rhacoãƒ¬ãƒ³ãƒ€ãƒ©ã‚¯ãƒ©ã‚¹
  *
  *  @access     public
  *  @package    Ethna
@@ -42,7 +42,7 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     var $engine;
     
     /**
-     *  Ethna_Renderer_Rhaco¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Renderer_Rhacoã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
      */
@@ -65,7 +65,7 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
         $this->engine->compile_dir = $this->compile_dir;
         $this->engine->compile_id = md5($this->template_dir);
 
-        // °ì±ş¤¬¤ó¤Ğ¤Ã¤Æ¤ß¤ë
+        // ä¸€å¿œãŒã‚“ã°ã£ã¦ã¿ã‚‹
         if (is_dir($this->engine->compile_dir) === false) {
             Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
@@ -74,11 +74,11 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
     
     /**
-     *  ¥Ó¥å¡¼¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ“ãƒ¥ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $template   ¥Æ¥ó¥×¥ì¡¼¥ÈÌ¾
-     *  @param  bool    $capture    true ¤Ê¤é¤Ğ½ĞÎÏ¤òÉ½¼¨¤»¤º¤ËÊÖ¤¹
+     *  @param  string  $template   ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå
+     *  @param  bool    $capture    true ãªã‚‰ã°å‡ºåŠ›ã‚’è¡¨ç¤ºã›ãšã«è¿”ã™
      */
     function perform($template = null, $capture = false)
     {
@@ -105,12 +105,12 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
     
     /**
-     * ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ò¼èÆÀ¤¹¤ë
+     * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’å–å¾—ã™ã‚‹
      * 
      *  @todo fixme
      *  @access public
-     *  @param string $name  ÊÑ¿ôÌ¾
-     *  @return mixed¡¡ÊÑ¿ô
+     *  @param string $name  å¤‰æ•°å
+     *  @return mixedã€€å¤‰æ•°
      */
     function &getProp($name = null)
     {
@@ -124,9 +124,9 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤òºï½ü¤¹¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’å‰Šé™¤ã™ã‚‹
      * 
-     *  @param name    ÊÑ¿ôÌ¾
+     *  @param name    å¤‰æ•°å
      *  @todo
      *  @access public
      */
@@ -136,7 +136,7 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ËÇÛÎó¤ò³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã«é…åˆ—ã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
      *  @param array $array
      *  @access public
@@ -147,7 +147,7 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ËÇÛÎó¤ò»²¾È¤È¤·¤Æ³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã«é…åˆ—ã‚’å‚ç…§ã¨ã—ã¦å‰²ã‚Šå½“ã¦ã‚‹
      * 
      *  @param array $array
      *  @todo no implement
@@ -159,10 +159,10 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ò³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
-     *  @param string $name ÊÑ¿ôÌ¾
-     *  @param mixed $value ÃÍ
+     *  @param string $name å¤‰æ•°å
+     *  @param mixed $value å€¤
      * 
      *  @access public
      */
@@ -172,12 +172,12 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤Ë»²¾È¤ò³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã«å‚ç…§ã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
      *  @access public
      *  @todo fixme
-     *  @param string $name ÊÑ¿ôÌ¾
-     *  @param mixed $value ÃÍ
+     *  @param string $name å¤‰æ•°å
+     *  @param mixed $value å€¤
      */
     function setPropByRef($name, &$value)
     {
@@ -192,7 +192,7 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
      */
     function setPlugin($name, $type, $plugin)
     {
-        //Smarty¥×¥é¥°¥¤¥ó´Ø¿ô¤ÎÍ­Ìµ¤ò¥Á¥§¥Ã¥¯
+        //Smartyãƒ—ãƒ©ã‚°ã‚¤ãƒ³é–¢æ•°ã®æœ‰ç„¡ã‚’ãƒã‚§ãƒƒã‚¯
         if (is_callable($plugin) === false) {
             return Ethna::raiseWarning('Does not exists.');
         }
@@ -214,7 +214,7 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
     }
 
     /**
-     *  ¥Ç¥Õ¥©¥ë¥È¤ÎÀßÄê.
+     *  ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è¨­å®š.
      *
      *  @access public
      */

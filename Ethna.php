@@ -31,10 +31,10 @@ if (!defined('DIRECTORY_SEPARATOR')) {
     }
 }
 
-/** �С��������� */
-define('ETHNA_VERSION', '2.3.5');
+/** バージョン定義 */
+define('ETHNA_VERSION', '2.5.0-preview1');
 
-/** Ethna�١����ǥ��쥯�ȥ���� */
+/** Ethnaベースディレクトリ定義 */
 define('ETHNA_BASE', dirname(__FILE__));
 
 require_once ETHNA_BASE . '/class/Ethna_ActionClass.php';
@@ -74,233 +74,226 @@ if (extension_loaded('soap')) {
     require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_WsdlGenerator.php';
 }
 
-/** ���饤����ȸ������: �Ѹ� */
-define('LANG_EN', 'en');
-
-/** ���饤����ȸ������: ���ܸ� */
-define('LANG_JA', 'ja');
-
-
-/** �����ȥ�����: WWW */
+/** ゲートウェイ: WWW */
 define('GATEWAY_WWW', 1);
 
-/** �����ȥ�����: CLI */
+/** ゲートウェイ: CLI */
 define('GATEWAY_CLI', 2);
 
-/** �����ȥ�����: XMLRPC */
+/** ゲートウェイ: XMLRPC */
 define('GATEWAY_XMLRPC', 3);
 
-/** �����ȥ�����: SOAP */
+/** ゲートウェイ: SOAP */
 define('GATEWAY_SOAP', 4);
 
 
-/** DB�������: R/W */
+/** DB種別定義: R/W */
 define('DB_TYPE_RW', 1);
 
-/** DB�������: R/O */
+/** DB種別定義: R/O */
 define('DB_TYPE_RO', 2);
 
-/** DB�������: Misc  */
+/** DB種別定義: Misc  */
 define('DB_TYPE_MISC', 3);
 
 
-/** ���Ƿ�: ���� */
+/** 要素型: 整数 */
 define('VAR_TYPE_INT', 1);
 
-/** ���Ƿ�: ��ư�������� */
+/** 要素型: 浮動小数点数 */
 define('VAR_TYPE_FLOAT', 2);
 
-/** ���Ƿ�: ʸ���� */
+/** 要素型: 文字列 */
 define('VAR_TYPE_STRING', 3);
 
-/** ���Ƿ�: ���� */
+/** 要素型: 日付 */
 define('VAR_TYPE_DATETIME', 4);
 
-/** ���Ƿ�: ������ */
+/** 要素型: 真偽値 */
 define('VAR_TYPE_BOOLEAN', 5);
 
-/** ���Ƿ�: �ե����� */
+/** 要素型: ファイル */
 define('VAR_TYPE_FILE', 6);
 
 
-/** �ե����෿: text */
+/** フォーム型: text */
 define('FORM_TYPE_TEXT', 1);
 
-/** �ե����෿: password */
+/** フォーム型: password */
 define('FORM_TYPE_PASSWORD', 2);
 
-/** �ե����෿: textarea */
+/** フォーム型: textarea */
 define('FORM_TYPE_TEXTAREA', 3);
 
-/** �ե����෿: select */
+/** フォーム型: select */
 define('FORM_TYPE_SELECT', 4);
 
-/** �ե����෿: radio */
+/** フォーム型: radio */
 define('FORM_TYPE_RADIO', 5);
 
-/** �ե����෿: checkbox */
+/** フォーム型: checkbox */
 define('FORM_TYPE_CHECKBOX', 6);
 
-/** �ե����෿: button */
+/** フォーム型: button */
 define('FORM_TYPE_SUBMIT', 7);
 
-/** �ե����෿: file */
+/** フォーム型: file */
 define('FORM_TYPE_FILE', 8);
 
-/** �ե����෿: button */
+/** フォーム型: button */
 define('FORM_TYPE_BUTTON', 9);
 
-/** �ե����෿: hidden */
+/** フォーム型: hidden */
 define('FORM_TYPE_HIDDEN', 10);
 
 
-/** ���顼������: ���̥��顼 */
+/** エラーコード: 一般エラー */
 define('E_GENERAL', 1);
 
-/** ���顼������: DB��³���顼 */
+/** エラーコード: DB接続エラー */
 define('E_DB_CONNECT', 2);
 
-/** ���顼������: DB����ʤ� */
+/** エラーコード: DB設定なし */
 define('E_DB_NODSN', 3);
 
-/** ���顼������: DB�����ꥨ�顼 */
+/** エラーコード: DBクエリエラー */
 define('E_DB_QUERY', 4);
 
-/** ���顼������: DB��ˡ����������顼 */
+/** エラーコード: DBユニークキーエラー */
 define('E_DB_DUPENT', 5);
 
-/** ���顼������: DB���̥��顼 */
+/** エラーコード: DB種別エラー */
 define('E_DB_INVALIDTYPE', 6);
 
-/** ���顼������: ���å���󥨥顼(ͭ�������ڤ�) */
+/** エラーコード: セッションエラー(有効期限切れ) */
 define('E_SESSION_EXPIRE', 16);
 
-/** ���顼������: ���å���󥨥顼(IP���ɥ쥹�����å����顼) */
+/** エラーコード: セッションエラー(IPアドレスチェックエラー) */
 define('E_SESSION_IPCHECK', 17);
 
-/** ���顼������: ���������̤������顼 */
+/** エラーコード: アクション未定義エラー */
 define('E_APP_UNDEFINED_ACTION', 32);
 
-/** ���顼������: ��������󥯥饹̤������顼 */
+/** エラーコード: アクションクラス未定義エラー */
 define('E_APP_UNDEFINED_ACTIONCLASS', 33);
 
-/** ���顼������: ���ץꥱ������󥪥֥�������ID��ʣ���顼 */
+/** エラーコード: アプリケーションオブジェクトID重複エラー */
 define('E_APP_DUPENT', 34);
 
-/** ���顼������: ���ץꥱ�������᥽�åɤ�¸�ߤ��ʤ� */
+/** エラーコード: アプリケーションメソッドが存在しない */
 define('E_APP_NOMETHOD', 35);
 
-/** ���顼������: ���å����顼 */
+/** エラーコード: ロックエラー */
 define('E_APP_LOCK', 36);
 
-/** ���顼������: �ɤ߹��ߥ��顼 */
+/** エラーコード: 読み込みエラー */
 define('E_APP_READ', 37);
 
-/** ���顼������: �񤭹��ߥ��顼 */
+/** エラーコード: 書き込みエラー */
 define('E_APP_WRITE', 38);
 
-/** ���顼������: CSVʬ�䥨�顼(�Է�³) */
+/** エラーコード: CSV分割エラー(行継続) */
 define('E_UTIL_CSV_CONTINUE', 64);
 
-/** ���顼������: �ե������ͷ����顼(�����顼�������������) */
+/** エラーコード: フォーム値型エラー(スカラー引数に配列指定) */
 define('E_FORM_WRONGTYPE_SCALAR', 128);
 
-/** ���顼������: �ե������ͷ����顼(��������˥����顼����) */
+/** エラーコード: フォーム値型エラー(配列引数にスカラー指定) */
 define('E_FORM_WRONGTYPE_ARRAY', 129);
 
-/** ���顼������: �ե������ͷ����顼(������) */
+/** エラーコード: フォーム値型エラー(整数型) */
 define('E_FORM_WRONGTYPE_INT', 130);
 
-/** ���顼������: �ե������ͷ����顼(��ư����������) */
+/** エラーコード: フォーム値型エラー(浮動小数点数型) */
 define('E_FORM_WRONGTYPE_FLOAT', 131);
 
-/** ���顼������: �ե������ͷ����顼(���շ�) */
+/** エラーコード: フォーム値型エラー(日付型) */
 define('E_FORM_WRONGTYPE_DATETIME', 132);
 
-/** ���顼������: �ե������ͷ����顼(BOOL��) */
+/** エラーコード: フォーム値型エラー(BOOL型) */
 define('E_FORM_WRONGTYPE_BOOLEAN', 133);
 
-/** ���顼������: �ե������ͷ����顼(FILE��) */
+/** エラーコード: フォーム値型エラー(FILE型) */
 define('E_FORM_WRONGTYPE_FILE', 134);
 
-/** ���顼������: �ե�������ɬ�ܥ��顼 */
+/** エラーコード: フォーム値必須エラー */
 define('E_FORM_REQUIRED', 135);
 
-/** ���顼������: �ե������ͺǾ��ͥ��顼(������) */
+/** エラーコード: フォーム値最小値エラー(整数型) */
 define('E_FORM_MIN_INT', 136);
 
-/** ���顼������: �ե������ͺǾ��ͥ��顼(��ư����������) */
+/** エラーコード: フォーム値最小値エラー(浮動小数点数型) */
 define('E_FORM_MIN_FLOAT', 137);
 
-/** ���顼������: �ե������ͺǾ��ͥ��顼(ʸ����) */
+/** エラーコード: フォーム値最小値エラー(文字列型) */
 define('E_FORM_MIN_STRING', 138);
 
-/** ���顼������: �ե������ͺǾ��ͥ��顼(���շ�) */
+/** エラーコード: フォーム値最小値エラー(日付型) */
 define('E_FORM_MIN_DATETIME', 139);
 
-/** ���顼������: �ե������ͺǾ��ͥ��顼(�ե����뷿) */
+/** エラーコード: フォーム値最小値エラー(ファイル型) */
 define('E_FORM_MIN_FILE', 140);
 
-/** ���顼������: �ե������ͺ����ͥ��顼(������) */
+/** エラーコード: フォーム値最大値エラー(整数型) */
 define('E_FORM_MAX_INT', 141);
 
-/** ���顼������: �ե������ͺ����ͥ��顼(��ư����������) */
+/** エラーコード: フォーム値最大値エラー(浮動小数点数型) */
 define('E_FORM_MAX_FLOAT', 142);
 
-/** ���顼������: �ե������ͺ����ͥ��顼(ʸ����) */
+/** エラーコード: フォーム値最大値エラー(文字列型) */
 define('E_FORM_MAX_STRING', 143);
 
-/** ���顼������: �ե������ͺ����ͥ��顼(���շ�) */
+/** エラーコード: フォーム値最大値エラー(日付型) */
 define('E_FORM_MAX_DATETIME', 144);
 
-/** ���顼������: �ե������ͺ����ͥ��顼(�ե����뷿) */
+/** エラーコード: フォーム値最大値エラー(ファイル型) */
 define('E_FORM_MAX_FILE', 145);
 
-/** ���顼������: �ե�������ʸ����(����ɽ��)���顼 */
+/** エラーコード: フォーム値文字種(正規表現)エラー */
 define('E_FORM_REGEXP', 146);
 
-/** ���顼������: �ե������Ϳ���(������������å�)���顼 */
+/** エラーコード: フォーム値数値(カスタムチェック)エラー */
 define('E_FORM_INVALIDVALUE', 147);
 
-/** ���顼������: �ե�������ʸ����(������������å�)���顼 */
+/** エラーコード: フォーム値文字種(カスタムチェック)エラー */
 define('E_FORM_INVALIDCHAR', 148);
 
-/** ���顼������: ��ǧ�ѥ���ȥ����ϥ��顼 */
+/** エラーコード: 確認用エントリ入力エラー */
 define('E_FORM_CONFIRM', 149);
 
-/** ���顼������: ����å��奿�������� */
+/** エラーコード: キャッシュタイプ不正 */
 define('E_CACHE_INVALID_TYPE', 192);
 
-/** ���顼������: ����å����ͤʤ� */
+/** エラーコード: キャッシュ値なし */
 define('E_CACHE_NO_VALUE', 193);
 
-/** ���顼������: ����å���ͭ������ */
+/** エラーコード: キャッシュ有効期限 */
 define('E_CACHE_EXPIRED', 194);
 
-/** ���顼������: ����å��奨�顼(����¾) */
+/** エラーコード: キャッシュエラー(その他) */
 define('E_CACHE_GENERAL', 195);
 
-/** ���顼������: �ץ饰���󤬸��Ĥ���ʤ� */
+/** エラーコード: プラグインが見つからない */
 define('E_PLUGIN_NOTFOUND', 196);
 
-/** ���顼������: �ץ饰���󥨥顼(����¾) */
+/** エラーコード: プラグインエラー(その他) */
 define('E_PLUGIN_GENERAL', 197);
 
 if (defined('E_STRICT') == false) {
-    /** PHP 5�Ȥθߴ��ݻ���� */
+    /** PHP 5との互換保持定義 */
     define('E_STRICT', 2048);
 }
 
-/** Ethna�������Х��ѿ�: ���顼������Хå��ؿ� */
+/** Ethnaグローバル変数: エラーコールバック関数 */
 $GLOBALS['_Ethna_error_callback_list'] = array();
 
-/** Ethna�������Х��ѿ�: ���顼��å����� */
+/** Ethnaグローバル変数: エラーメッセージ */
 $GLOBALS['_Ethna_error_message_list'] = array();
 
 
 // {{{ Ethna
 /**
- *  Ethna�ե졼�������饹
+ *  Ethnaフレームワーククラス
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -315,11 +308,11 @@ class Ethna extends PEAR
     /**#@-*/
 
     /**
-     *  Ethna_Error���֥������Ȥ���������(���顼��٥�:E_USER_ERROR)
+     *  Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_ERROR)
      *
      *  @access public
-     *  @param  string  $message            ���顼��å�����
-     *  @param  int     $code               ���顼������
+     *  @param  string  $message            エラーメッセージ
+     *  @param  int     $code               エラーコード
      *  @static
      */
     function &raiseError($message, $code = E_GENERAL)
@@ -335,11 +328,11 @@ class Ethna extends PEAR
     }
 
     /**
-     *  Ethna_Error���֥������Ȥ���������(���顼��٥�:E_USER_WARNING)
+     *  Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_WARNING)
      *
      *  @access public
-     *  @param  string  $message            ���顼��å�����
-     *  @param  int     $code               ���顼������
+     *  @param  string  $message            エラーメッセージ
+     *  @param  int     $code               エラーコード
      *  @static
      */
     function &raiseWarning($message, $code = E_GENERAL)
@@ -355,11 +348,11 @@ class Ethna extends PEAR
     }
 
     /**
-     *  Ethna_Error���֥������Ȥ���������(���顼��٥�:E_USER_NOTICE)
+     *  Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_NOTICE)
      *
      *  @access public
-     *  @param  string  $message            ���顼��å�����
-     *  @param  int     $code               ���顼������
+     *  @param  string  $message            エラーメッセージ
+     *  @param  int     $code               エラーコード
      *  @static
      */
     function &raiseNotice($message, $code = E_GENERAL)
@@ -375,10 +368,10 @@ class Ethna extends PEAR
     }
 
     /**
-     *  ���顼ȯ������(�ե졼�����Ȥ��Ƥ�)������Хå��ؿ������ꤹ��
+     *  エラー発生時の(フレームワークとしての)コールバック関数を設定する
      *
      *  @access public
-     *  @param  mixed   string:������Хå��ؿ�̾ array:������Хå����饹(̾|���֥�������)+�᥽�å�̾
+     *  @param  mixed   string:コールバック関数名 array:コールバッククラス(名|オブジェクト)+メソッド名
      *  @static
      */
     function setErrorCallback($callback)
@@ -387,7 +380,7 @@ class Ethna extends PEAR
     }
 
     /**
-     *  ���顼ȯ������(�ե졼�����Ȥ��Ƥ�)������Хå��ؿ��򥯥ꥢ����
+     *  エラー発生時の(フレームワークとしての)コールバック関数をクリアする
      *
      *  @access public
      *  @static
@@ -398,10 +391,10 @@ class Ethna extends PEAR
     }
 
     /**
-     *  ���顼ȯ�����ν�����Ԥ�(������Хå��ؿ�/�᥽�åɤ�ƤӽФ�)
+     *  エラー発生時の処理を行う(コールバック関数/メソッドを呼び出す)
      *  
      *  @access public
-     *  @param  object  Ethna_Error     Ethna_Error���֥�������
+     *  @param  object  Ethna_Error     Ethna_Errorオブジェクト
      *  @static
      */
     function handleError(&$error)

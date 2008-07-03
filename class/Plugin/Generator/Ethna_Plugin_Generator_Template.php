@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Generator_Template
 /**
- *  ������ȥ��������饹
+ *  スケルトン生成クラス
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,19 +20,33 @@
 class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
 {
     /**
-     *  �ƥ�ץ졼�ȤΥ�����ȥ����������
+     *  テンプレートのスケルトンを生成する
      *
      *  @access public
-     *  @param  string  $forward_name   �ƥ�ץ졼��̾
-     *  @param  string  $skelton        ������ȥ�ե�����̾
-     *  @return true|Ethna_Error        true:���� Ethna_Error:����
+     *  @param  string  $forward_name   テンプレート名
+     *  @param  string  $skelton        スケルトンファイル名
+     *  @param  string  $locale         ロケール名
+     *  @param  string  $encoding       エンコーディング
+     *  @return true|Ethna_Error        true:成功 Ethna_Error:失敗
      */
-    function &generate($forward_name, $skelton = null)
+    function &generate($forward_name, $skelton = null, $locale, $encoding)
     {
+        //  ロケールが指定された場合は、それを優先する 
+        if (!empty($locale)) {
+            $this->ctl->setLocale($locale);
+        }
+
+        //  ロケール名がディレクトリに含まれていない場合は、
+        //  ディレクトリがないためなのでそれを補正 
         $tpl_dir = $this->ctl->getTemplatedir();
+        if (!empty($locale) && strpos($tpl_dir, $locale) === false) {
+            $tpl_dir = $this->ctl->getDirectory('template');
+            $tpl_dir .= "/$locale";
+        }
         if ($tpl_dir{strlen($tpl_dir)-1} != '/') {
             $tpl_dir .= '/';
         }
+ 
         $tpl_path = $this->ctl->getDefaultForwardPath($forward_name);
 
         // entity
@@ -48,7 +62,7 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
         $macro = array();
         // add '_' for tpl and no user macro for tpl
         $macro['_project_id'] = $this->ctl->getAppId();
-
+        $macro['client_enc'] = $encoding;
 
         // generate
         if (file_exists($entity)) {

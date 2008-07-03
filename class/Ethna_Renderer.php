@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Renderer
 /**
- *  ¥ì¥ó¥À¥é¥¯¥é¥¹¡ÊMojavi¤Î¤Ş¤Í¡Ë
+ *  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚¯ãƒ©ã‚¹ï¼ˆMojaviã®ã¾ã­ï¼‰
  *
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @access     public
@@ -23,10 +23,10 @@ class Ethna_Renderer
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
     /** @var    string  template directory  */
@@ -38,14 +38,14 @@ class Ethna_Renderer
     /** @var    string  template file */
     var $template;
 
-    /** @var    string  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô */
+    /** @var    string  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•° */
     var $prop;
     
-    /** @var    string  ¥ì¥ó¥À¥é¥×¥é¥°¥¤¥ó(Ethna_Plugin¤È¤Ï´Ø·¸¤Ê¤·) */
+    /** @var    string  ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ—ãƒ©ã‚°ã‚¤ãƒ³(Ethna_Pluginã¨ã¯é–¢ä¿‚ãªã—) */
     var $plugin_registry;
     
     /**
-     *  Ethna_Renderer¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Rendererã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
      */
@@ -61,10 +61,10 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Ó¥å¡¼¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ“ãƒ¥ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹
      *
-     *  @param string   $template   ¥Æ¥ó¥×¥ì¡¼¥È
-     *  @param  bool    $capture    true ¤Ê¤é¤Ğ½ĞÎÏ¤òÉ½¼¨¤»¤º¤ËÊÖ¤¹
+     *  @param string   $template   ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+     *  @param  bool    $capture    true ãªã‚‰ã°å‡ºåŠ›ã‚’è¡¨ç¤ºã›ãšã«è¿”ã™
      *
      *  @access public
      */
@@ -78,7 +78,7 @@ class Ethna_Renderer
             $this->template = $template;
         }
 
-        // ¥Æ¥ó¥×¥ì¡¼¥È¤ÎÍ­Ìµ¤Î¥Á¥§¥Ã¥¯
+        // ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®æœ‰ç„¡ã®ãƒã‚§ãƒƒã‚¯
         if (is_readable($this->template_dir . $this->template) === false) {
             return Ethna::raiseWarning("template is not found: " . $this->template);
         }
@@ -96,7 +96,7 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥È¥¨¥ó¥¸¥ó¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚¨ãƒ³ã‚¸ãƒ³ã‚’å–å¾—ã™ã‚‹
      * 
      *  @return object   Template Engine.
      * 
@@ -108,7 +108,7 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥È¥Ç¥£¥ì¥¯¥È¥ê¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
      * 
      *  @return string   Template Directory
      * 
@@ -120,11 +120,11 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’å–å¾—ã™ã‚‹
      * 
-     *  @param string $name  ÊÑ¿ôÌ¾
+     *  @param string $name  å¤‰æ•°å
      * 
-     *  @return mixed    ÊÑ¿ô
+     *  @return mixed    å¤‰æ•°
      * 
      *  @access public
      */
@@ -138,9 +138,9 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤òºï½ü¤¹¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’å‰Šé™¤ã™ã‚‹
      * 
-     *  @param name    ÊÑ¿ôÌ¾
+     *  @param name    å¤‰æ•°å
      * 
      *  @access public
      */
@@ -152,7 +152,7 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ËÇÛÎó¤ò³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã«é…åˆ—ã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
      *  @param array $array
      * 
@@ -164,7 +164,7 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ËÇÛÎó¤ò»²¾È¤È¤·¤Æ³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã«é…åˆ—ã‚’å‚ç…§ã¨ã—ã¦å‰²ã‚Šå½“ã¦ã‚‹
      * 
      *  @param array $array
      * 
@@ -181,10 +181,10 @@ class Ethna_Renderer
     }
 
     /**
-     * ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ò³ä¤êÅö¤Æ¤ë
+     * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
-     * @param string $name ÊÑ¿ôÌ¾
-     * @param mixed $value ÃÍ
+     * @param string $name å¤‰æ•°å
+     * @param mixed $value å€¤
      * 
      * @access public
      */
@@ -194,10 +194,10 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤Ë»²¾È¤ò³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã«å‚ç…§ã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
-     *  @param string $name ÊÑ¿ôÌ¾
-     *  @param mixed $value ÃÍ
+     *  @param string $name å¤‰æ•°å
+     *  @param mixed $value å€¤
      * 
      *  @access public
      */
@@ -207,9 +207,9 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥È¤ò³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
-     *  @param string $template ¥Æ¥ó¥×¥ì¡¼¥ÈÌ¾
+     *  @param string $template ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå
      * 
      *  @access public
      */
@@ -219,9 +219,9 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥È¥Ç¥£¥ì¥¯¥È¥ê¤ò³ä¤êÅö¤Æ¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å‰²ã‚Šå½“ã¦ã‚‹
      * 
-     *  @param string $dir ¥Ç¥£¥ì¥¯¥È¥êÌ¾
+     *  @param string $dir ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
      * 
      *  @access public
      */
@@ -235,9 +235,9 @@ class Ethna_Renderer
     }
     
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥È¤ÎÍ­Ìµ¤ò¥Á¥§¥Ã¥¯¤¹¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®æœ‰ç„¡ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
      * 
-     *  @param string $template ¥Æ¥ó¥×¥ì¡¼¥ÈÌ¾
+     *  @param string $template ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå
      * 
      *  @access public
      */
@@ -251,11 +251,11 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¤ò¥»¥Ã¥È¤¹¤ë
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
      * 
-     *  @param string $name¡¡¥×¥é¥°¥¤¥óÌ¾
-     *  @param string $type ¥×¥é¥°¥¤¥ó¥¿¥¤¥×
-     *  @param string $plugin ¥×¥é¥°¥¤¥óËÜÂÎ
+     *  @param string $nameã€€ãƒ—ãƒ©ã‚°ã‚¤ãƒ³å
+     *  @param string $type ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚¿ã‚¤ãƒ—
+     *  @param string $plugin ãƒ—ãƒ©ã‚°ã‚¤ãƒ³æœ¬ä½“
      * 
      *  @access public
      */
@@ -266,7 +266,7 @@ class Ethna_Renderer
 
     // {{{ proxy methods (for B.C.)
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤ò³ä¤êÅö¤Æ¤ë(¸åÊı¸ß´¹)
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’å‰²ã‚Šå½“ã¦ã‚‹(å¾Œæ–¹äº’æ›)
      *
      *  @access public
      */
@@ -276,7 +276,7 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥ÈÊÑ¿ô¤Ë»²¾È¤ò³ä¤êÅö¤Æ¤ë(¸åÊı¸ß´¹)
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã«å‚ç…§ã‚’å‰²ã‚Šå½“ã¦ã‚‹(å¾Œæ–¹äº’æ›)
      *
      *  @access public
      */
@@ -286,7 +286,7 @@ class Ethna_Renderer
     }
 
     /**
-     *  ¥Ó¥å¡¼¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ“ãƒ¥ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
      */

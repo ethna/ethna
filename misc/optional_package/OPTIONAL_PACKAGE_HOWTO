@@ -1,10 +1,10 @@
-¤³¤³¤Ç¤Ï¡¢Ethna¤Ë°ÍÂ¸¤¹¤ë simpletest µÚ¤Ó¡¢Smarty¤Î¥Ñ¥Ã¥±¡¼¥¸ºîÀ®ÊıË¡¤Ë¤Ä¤¤¤Æ
-ÀâÌÀ¤·¤Ş¤¹¡£
+ã“ã“ã§ã¯ã€Ethnaã«ä¾å­˜ã™ã‚‹ simpletest åŠã³ã€Smartyã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ä½œæˆæ–¹æ³•ã«ã¤ã„ã¦
+èª¬æ˜ã—ã¾ã™ã€‚
 
-1. PEAR_PackageProjector¤ò¥¤¥ó¥¹¥È¡¼¥ë
-- http://servlet.sakura.ne.jp/wiki/index.php?PEAR_PackageProjector ¤Î¼ê½ç¤Ë½¾¤Ã¤Æ¥¤¥ó¥¹¥È¡¼¥ë¤¹¤ë
--- Linux ¤Ç¼Â¹Ô¤·¤Æ¤¤¤ë¾ì¹ç¡¢PEAR/PackageProjector/Derictory.php ¤ò°Ê²¼¤Î¤è¤¦¤Ë½¤Àµ¤·¤Ê¤¤¤È¼ºÇÔ¤¹¤ë¤«¤â¤·¤ì¤Ş¤»¤ó¡£
--- 310¹ÔÌÜ¤ò°Ê²¼¤Î¤è¤¦¤Ë½¤Àµ
+1. PEAR_PackageProjectorã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
+- http://servlet.sakura.ne.jp/wiki/index.php?PEAR_PackageProjector ã®æ‰‹é †ã«å¾“ã£ã¦ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹
+-- Linux ã§å®Ÿè¡Œã—ã¦ã„ã‚‹å ´åˆã€PEAR/PackageProjector/Derictory.php ã‚’ä»¥ä¸‹ã®ã‚ˆã†ã«ä¿®æ­£ã—ãªã„ã¨å¤±æ•—ã™ã‚‹ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã€‚
+-- 310è¡Œç›®ã‚’ä»¥ä¸‹ã®ã‚ˆã†ã«ä¿®æ­£
 
          if (self::isAbsolutePath($path)) {
              return $path;
@@ -15,30 +15,30 @@
      }
 
 
-2. PEAR_PackageProjector ¤Î¥³¥Ş¥ó¥É pearproj ¤Î¥Ñ¥¹¤òÀßÄê
-- Smarty/build/build[.bat] ¤ò³«¤¤¤Æ¡¢pearproj ¥³¥Ş¥ó¥É¤ò¡¢
-  ¥¤¥ó¥¹¥È¡¼¥ë¤µ¤ì¤¿ pearproj ¥³¥Ş¥ó¥É¤ÎÀäÂĞ¥Ñ¥¹¤ËÃÖ¤­´¹¤¨¤ë¡£
-- simpletest/build/build[.bat] ¤âÆ±ÍÍ¤Ë¤¹¤ë
+2. PEAR_PackageProjector ã®ã‚³ãƒãƒ³ãƒ‰ pearproj ã®ãƒ‘ã‚¹ã‚’è¨­å®š
+- Smarty/build/build[.bat] ã‚’é–‹ã„ã¦ã€pearproj ã‚³ãƒãƒ³ãƒ‰ã‚’ã€
+  ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚ŒãŸ pearproj ã‚³ãƒãƒ³ãƒ‰ã®çµ¶å¯¾ãƒ‘ã‚¹ã«ç½®ãæ›ãˆã‚‹ã€‚
+- simpletest/build/build[.bat] ã‚‚åŒæ§˜ã«ã™ã‚‹
 
-3. Smarty, simpletest ¤Î¥Ñ¥Ã¥±¡¼¥¸¤ò src ¥Ç¥£¥ì¥¯¥È¥ê¤ËÇÛÃÖ
-- Smarty/src ¥Ç¥£¥ì¥¯¥È¥ê¤Ë Smarty-x.x.x.tar.gz ¤ò¥À¥¦¥ó¥í¡¼¥É¤·¡¢¡ÖÅ¸³«¤·¤Æ¤ª¤¯¡×
--- Å¸³«¤·¤Ê¤¤¤È¥Ñ¥Ã¥±¡¼¥¸ºîÀ®»ş¤Ë¥¨¥é¡¼¤Ë¤Ê¤ê¤Ş¤¹¡ª
-- simpletest/src ¥Ç¥£¥ì¥¯¥È¥ê¤Ë simpletest-x.x.x.tar.gz ¤ò¥À¥¦¥ó¥í¡¼¥É¤·¡¢¡ÖÅ¸³«¤·¤Æ¤ª¤¯¡×
--- Å¸³«¤·¤Ê¤¤¤È¥Ñ¥Ã¥±¡¼¥¸ºîÀ®»ş¤Ë¥¨¥é¡¼¤Ë¤Ê¤ê¤Ş¤¹¡ª
--- Å¸³«¸å¡¢simpletest/src/simpletest ¥Ç¥£¥ì¥¯¥È¥ê¤¬¤Ç¤­¤ë¤Î¤Ç¡¢simpletest/src/simpletest-x.x.x ¤Ë¥ê¥Í¡¼¥à¤¹¤ë
+3. Smarty, simpletest ã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ src ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®
+- Smarty/src ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã« Smarty-x.x.x.tar.gz ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ã€ã€Œå±•é–‹ã—ã¦ãŠãã€
+-- å±•é–‹ã—ãªã„ã¨ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ä½œæˆæ™‚ã«ã‚¨ãƒ©ãƒ¼ã«ãªã‚Šã¾ã™ï¼
+- simpletest/src ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã« simpletest-x.x.x.tar.gz ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ã€ã€Œå±•é–‹ã—ã¦ãŠãã€
+-- å±•é–‹ã—ãªã„ã¨ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ä½œæˆæ™‚ã«ã‚¨ãƒ©ãƒ¼ã«ãªã‚Šã¾ã™ï¼
+-- å±•é–‹å¾Œã€simpletest/src/simpletest ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã§ãã‚‹ã®ã§ã€simpletest/src/simpletest-x.x.x ã«ãƒªãƒãƒ¼ãƒ ã™ã‚‹
 
-4. build.conf ¤ÎÊÔ½¸
-- Smarty/build/build.conf ¤Î¥Ğ¡¼¥¸¥ç¥óÈÖ¹æ¤ò¥À¥¦¥ó¥í¡¼¥É¤·¤¿Smarty¤Î¥Ğ¡¼¥¸¥ç¥óÈÖ¹æ¤ËÃÖ¤­´¹¤¨¤ë
-- simpletest/build/build.conf ¤âÆ±ÍÍ¤Ë¤¹¤ë
+4. build.conf ã®ç·¨é›†
+- Smarty/build/build.conf ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ãŸSmartyã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·ã«ç½®ãæ›ãˆã‚‹
+- simpletest/build/build.conf ã‚‚åŒæ§˜ã«ã™ã‚‹
 
-5. ¥Ñ¥Ã¥±¡¼¥¸¤òÀ¸À®
-- °Ê²¼¤Î¥³¥Ş¥ó¥É¤ò¼Â¹Ô¤¹¤ì¤Ğ¡¢Smarty ¤È simpletest ¤Î release ¥Ç¥£¥ì¥¯¥È¥ê¤Ë
-  PEAR¥Ñ¥Ã¥±¡¼¥¸¤¬ºîÀ®¤µ¤ì¤Ş¤¹¡£
+5. ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ç”Ÿæˆ
+- ä»¥ä¸‹ã®ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚Œã°ã€Smarty ã¨ simpletest ã® release ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«
+  PEARãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ãŒä½œæˆã•ã‚Œã¾ã™ã€‚
 
--- Smarty¤Î¾ì¹ç
+-- Smartyã®å ´åˆ
 --- $ cd Smarty/build
 --- $ ./build
 
--- simpletest ¤Î¾ì¹ç
+-- simpletest ã®å ´åˆ
 --- $cd simpletest/build
 --- $ ./build

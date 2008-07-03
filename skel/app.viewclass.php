@@ -10,7 +10,7 @@
 
 // {{{ {$project_id}_ViewClass
 /**
- *  viewクラス
+ *  View class.
  *
  *  @author     {$author}
  *  @package    {$project_id}
@@ -19,14 +19,24 @@
 class {$project_id}_ViewClass extends Ethna_ViewClass
 {
     /**
-     *  共通値を設定する
+     *  set common default value.
      *
      *  @access protected
-     *  @param  object  {$project_id}_Renderer  レンダラオブジェクト
+     *  @param  object  {$project_id}_Renderer  Renderer object.
      */
     function _setDefault(&$renderer)
     {
     }
+
+    /**
+     *  set language using actionform value, cookie ... etc.
+     *
+     *  @access protected
+     */
+    function _setLanguage()
+    {
+    }
 }
 // }}}
+
 ?>

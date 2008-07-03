@@ -1,130 +1,152 @@
 <?php
+// vim: foldmethod=marker
 /**
  *  Ethna_Plugin_Validator_Max_Test.php
  */
 
 /**
- *  Ethna_Plugin_Validator_Max¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Validator_Maxã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
 class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
 {
-    function testCheckValidatorMax()
+    var $vld;
+
+    function setUp()
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
-        $vld = $plugin->getPlugin('Validator', 'Max');
+        $this->vld = $plugin->getPlugin('Validator', 'Max');
+    }
 
-
+    // {{{ test max integer
+    function test_max_integer()
+    {
         $form_int = array(
                           'type'          => VAR_TYPE_INT,
                           'required'      => true,
                           'max'           => '10',
-                          'error'         => '{form}¤Ë¤Ï10°Ê²¼¤Î¿ô»ú(À°¿ô)¤òÆþÎÏ¤·¤Æ²¼¤µ¤¤'
+                          'error'         => '{form}ã«ã¯10ä»¥ä¸‹ã®æ•°å­—(æ•´æ•°)ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„'
                           );
-        $vld->af->setDef('namae_int', $form_int);
+        $this->vld->af->setDef('namae_int', $form_int);
 
-        $pear_error = $vld->validate('namae_int', 9, $form_int);
+        $pear_error = $this->vld->validate('namae_int', 9, $form_int);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_int', 10, $form_int);
+        $pear_error = $this->vld->validate('namae_int', 10, $form_int);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_int', '', $form_int);
+        $pear_error = $this->vld->validate('namae_int', '', $form_int);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_int', 9.5, $form_int);
+        $pear_error = $this->vld->validate('namae_int', 9.5, $form_int);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // max¤òÄ¶¤¨¤¿ÃÍ
-        $pear_error = $vld->validate('namae_int', 11, $form_int);
+        // maxã‚’è¶…ãˆãŸå€¤
+        $pear_error = $this->vld->validate('namae_int', 11, $form_int);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_MAX_INT,$pear_error->getCode());
         $this->assertEqual($form_int['error'], $pear_error->getMessage());
+    } 
+    // }}}
 
-
-
+    // {{{ test max float
+    function test_max_float()
+    {
         $form_float = array(
                             'type'          => VAR_TYPE_FLOAT,
                             'required'      => true,
                             'max'           => '10.000000',
-                            'error'         => '{form}¤Ë¤Ï10.000000°Ê²¼¤Î¿ô»ú(¾®¿ô)¤òÆþÎÏ¤·¤Æ²¼¤µ¤¤'
+                            'error'         => '{form}ã«ã¯10.000000ä»¥ä¸‹ã®æ•°å­—(å°æ•°)ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„'
                             );
-        $vld->af->setDef('namae_float', $form_float);
+        $this->vld->af->setDef('namae_float', $form_float);
 
-        $pear_error = $vld->validate('namae_float', 10, $form_float);
+        $pear_error = $this->vld->validate('namae_float', 10, $form_float);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_float', '', $form_float);
+        $pear_error = $this->vld->validate('namae_float', '', $form_float);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // max¤òÄ¶¤¨¤¿ÃÍ
-        $pear_error = $vld->validate('namae_float', 10.11, $form_float);
+        // maxã‚’è¶…ãˆãŸå€¤
+        $pear_error = $this->vld->validate('namae_float', 10.11, $form_float);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_MAX_FLOAT, $pear_error->getCode());
         $this->assertEqual($form_float['error'], $pear_error->getMessage());
 
-        // max¤òÄ¶¤¨¤¿ÃÍ
-        $pear_error = $vld->validate('namae_float', 11, $form_float);
+        // maxã‚’è¶…ãˆãŸå€¤
+        $pear_error = $this->vld->validate('namae_float', 11, $form_float);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_MAX_FLOAT, $pear_error->getCode());
         $this->assertEqual($form_float['error'], $pear_error->getMessage());
+    }
+    // }}}
 
-
-
+    // {{{ test max string
+    function test_max_string()
+    {
         $form_string = array(
                              'type'          => VAR_TYPE_STRING,
                              'required'      => true,
                              'max'           => '2',
-                             'error'         => '{form}¤ÏÁ´³Ñ2Ê¸»ú°Ê²¼(È¾³Ñ1Ê¸»ú°Ê²¼)¤ÇÆþÎÏ¤·¤Æ²¼¤µ¤¤'
+                             'error'         => '{form}ã¯å…¨è§’2æ–‡å­—ä»¥ä¸‹(åŠè§’1æ–‡å­—ä»¥ä¸‹)ã§å…¥åŠ›ã—ã¦ä¸‹ã•ã„'
                              );
-        $vld->af->setDef('namae_string', $form_string);
+        $this->vld->af->setDef('namae_string', $form_string);
 
-        $pear_error = $vld->validate('namae_string', '', $form_string);
+        $pear_error = $this->vld->validate('namae_string', '', $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_string', 'as', $form_string);
+        $pear_error = $this->vld->validate('namae_string', 'as', $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // max¤òÄ¶¤¨¤¿Ê¸»úÎóÄ¹
-        $pear_error = $vld->validate('namae_string', 'ddd', $form_string);
+        // maxã‚’è¶…ãˆãŸæ–‡å­—åˆ—é•·
+        $pear_error = $this->vld->validate('namae_string', 'ddd', $form_string);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_MAX_STRING, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
-        // max¤òÄ¶¤¨¤¿Ê¸»úÎóÄ¹
-        $pear_error = $vld->validate('namae_string', 118888, $form_string);
+        // maxã‚’è¶…ãˆãŸæ–‡å­—åˆ—é•·
+        $pear_error = $this->vld->validate('namae_string', 118888, $form_string);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_MAX_STRING, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
+        // multibyte string.
+        $pear_error = $this->vld->validate('namae_string', 'ã‚ã‚', $form_string);
+        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+ 
+        $pear_error = $this->vld->validate('namae_string', 'ã‚ã‚ã‚', $form_string);
+        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+    }
+    // }}}
 
-
+    // {{{ test max datetime
+    function test_max_datetime()
+    {
         $form_datetime = array(
                                'type'          => VAR_TYPE_DATETIME,
                                'required'      => true,
                                'max'           => '-1 day',
-                               'error'         => '{form}¤Ë¤Ï-1 day°ÊÁ°¤ÎÆüÉÕ¤òÆþÎÏ¤·¤Æ²¼¤µ¤¤'
+                               'error'         => '{form}ã«ã¯-1 dayä»¥å‰ã®æ—¥ä»˜ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„'
                                );
-        $vld->af->setDef('namae_datetime', $form_datetime);
+        $this->vld->af->setDef('namae_datetime', $form_datetime);
 
-        $pear_error = $vld->validate('namae_datetime', '-2 day', $form_datetime);
+        $pear_error = $this->vld->validate('namae_datetime', '-2 day', $form_datetime);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_datetime', '-1 day', $form_datetime);
+        $pear_error = $this->vld->validate('namae_datetime', '-1 day', $form_datetime);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_datetime', '', $form_datetime);
+        $pear_error = $this->vld->validate('namae_datetime', '', $form_datetime);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // max¤òÄ¶¤¨¤¿ÆüÉÕ
-        $pear_error = $vld->validate('namae_datetime', '+3 day', $form_datetime);
+        // maxã‚’è¶…ãˆãŸæ—¥ä»˜
+        $pear_error = $this->vld->validate('namae_datetime', '+3 day', $form_datetime);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_MAX_DATETIME, $pear_error->getCode());
         $this->assertEqual($form_datetime['error'], $pear_error->getMessage());
-
-
     }
+    // }}}
+
 }
 ?>

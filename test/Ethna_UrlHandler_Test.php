@@ -4,7 +4,7 @@
  */
 
 /**
- *  Ethna_UrlHandler¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_UrlHandlerã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
@@ -74,7 +74,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
     // {{{ test_requestToAction_simple
     function test_requestToAction_simple()
     {
-        // pathinfo ¤«¤é action ¼èÆÀ
+        // pathinfo ã‹ã‚‰ action å–å¾—
         $http_vars = array(
             '__url_handler__'   => 'entrypoint',      // not empty
             '__url_info__'      => '/foo/bar',  // null or not empty
@@ -84,17 +84,17 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $this->url_handler->action_map = $this->_simple_map;
         $injected = $this->url_handler->requestToAction($http_vars);
 
-        // action ¤ò¼õ¤±¼è¤ë
+        // action ã‚’å—ã‘å–ã‚‹
         $diff = array_diff($injected, $http_vars);
         $this->assertEqual(count($diff), 1);
         $this->assertEqual($diff['action_test_foo_bar'], true);
 
-        // action ¤ò¼õ¤±¼è¤ë°Ê³°¤ÎÊÑ²½¤¬¤Ê¤¤¤³¤È¤ò³ÎÇ§
+        // action ã‚’å—ã‘å–ã‚‹ä»¥å¤–ã®å¤‰åŒ–ãŒãªã„ã“ã¨ã‚’ç¢ºèª
         $diff = array_diff($http_vars, $injected);
         $this->assertEqual(count($diff), 0);
 
 
-        // action ¤ò¼õ¤±¼è¤ë
+        // action ã‚’å—ã‘å–ã‚‹
         $this->url_handler->action_map = $this->_complex_map;
         $injected = $this->url_handler->requestToAction($http_vars);
 
@@ -108,7 +108,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
     // {{{ test_requestToAction_nopathinfo
     function test_requestToAction_nopathinfo()
     {
-        // pathinfo ¤Ê¤·
+        // pathinfo ãªã—
         $http_vars = array(
             '__url_handler__'   => 'entrypoint',
             '__url_info__'      => null,
@@ -117,7 +117,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $this->url_handler->action_map = $this->_complex_map;
         $injected = $this->url_handler->requestToAction($http_vars);
 
-        // ÊÑ²½¤Ê¤·
+        // å¤‰åŒ–ãªã—
         $diff = array_diff($injected, $http_vars);
         $this->assertEqual(count($diff), 0);
     }
@@ -126,19 +126,19 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
     // {{{ test_requestToAction_withparams1
     function test_requestToAction_withparams1()
     {
-        // pathinfo ¤«¤é action ¤È¥Ñ¥é¥á¡¼¥¿¤ò¼õ¤±¼è¤ë
+        // pathinfo ã‹ã‚‰ action ã¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å—ã‘å–ã‚‹
         $http_vars = array(
             '__url_handler__'   => 'entrypoint',
             '__url_info__'      => '/foo/bar/aaa',
         );
 
-        // °ìÃ×¤¹¤ë action_map ¤¬¤Ê¤¤: ¥¨¥é¡¼¤È¤·¤Æ array() ¤òÊÖ¤¹
+        // ä¸€è‡´ã™ã‚‹ action_map ãŒãªã„: ã‚¨ãƒ©ãƒ¼ã¨ã—ã¦ array() ã‚’è¿”ã™
         $this->url_handler->action_map = $this->_simple_map;
         $injected = $this->url_handler->requestToAction($http_vars);
         $this->assertEqual(count($injected), 0);
 
 
-        // action ¤È¥Ñ¥é¥á¡¼¥¿ param1 ¤ò¼õ¤±¼è¤ë
+        // action ã¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ param1 ã‚’å—ã‘å–ã‚‹
         $this->url_handler->action_map = $this->_complex_map;
         $injected = $this->url_handler->requestToAction($http_vars);
 
@@ -152,7 +152,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
     // {{{ test_requestToAction_withparams2
     function test_requestToAction_withparams2()
     {
-        // pathinfo ¤«¤é action ¤ÈÊ£¿ô¤Î¥Ñ¥é¥á¡¼¥¿¤ò¼õ¤±¼è¤ë
+        // pathinfo ã‹ã‚‰ action ã¨è¤‡æ•°ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å—ã‘å–ã‚‹
         $http_vars = array(
             '__url_handler__'   => 'entrypoint',
             '__url_info__'      => '/foo/bar/aaa/bbb',
@@ -172,7 +172,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
     // {{{ test_requestToAction_withparams3
     function test_requestToAction_withparams3()
     {
-        // ÄêµÁ¤µ¤ì¤¿°Ê¾å¤Î¥Ñ¥é¥á¡¼¥¿¤¬¤¢¤ë¾ì¹ç
+        // å®šç¾©ã•ã‚ŒãŸä»¥ä¸Šã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒã‚ã‚‹å ´åˆ
         $http_vars = array(
             '__url_handler__'   => 'entrypoint',
             '__url_info__'      => '/foo/bar/aaa/bbb/ccc',
@@ -187,13 +187,13 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
     // {{{ test_requestToAction_misc
     function test_requestToAction_misc()
     {
-        // ÈùÌ¯¤Ê pathinfo ¤Î¥Á¥§¥Ã¥¯
+        // å¾®å¦™ãª pathinfo ã®ãƒã‚§ãƒƒã‚¯
         $http_vars = array(
             '__url_handler__'   => 'entrypoint',
         );
         $this->url_handler->action_map = $this->_complex_map;
 
-        // Í¾Ê¬¤Ê slash ¤¬Á°¸å¤Ë¤Ä¤¤¤Æ¤¤¤ë
+        // ä½™åˆ†ãª slash ãŒå‰å¾Œã«ã¤ã„ã¦ã„ã‚‹
         $http_vars['__url_info__'] = '///foo///bar///value1///';
         $injected = $this->url_handler->requestToAction($http_vars);
         $diff = array_diff($injected, $http_vars);
@@ -201,7 +201,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $this->assertEqual($diff['param1'], 'value1');
         $this->assertFalse(isset($diff['param2']));
 
-        // path ¤¬ '/./' ¤ò´Ş¤à
+        // path ãŒ '/./' ã‚’å«ã‚€
         $http_vars['__url_info__'] = '/foo/bar/./value1';
         $injected = $this->url_handler->requestToAction($http_vars);
         $diff = array_diff($injected, $http_vars);
@@ -209,7 +209,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $this->assertEqual($diff['param1'], '.');
         $this->assertEqual($diff['param2'], 'value1');
 
-        // path ¤¬ '/../' ¤ò´Ş¤à
+        // path ãŒ '/../' ã‚’å«ã‚€
         $http_vars['__url_info__'] = '/foo/bar/../baz';
         $injected = $this->url_handler->requestToAction($http_vars);
         $diff = array_diff($injected, $http_vars);
@@ -217,7 +217,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $this->assertEqual($diff['param1'], '..');
         $this->assertEqual($diff['param2'], 'baz');
 
-        // Ä¹¤¤¥ê¥¯¥¨¥¹¥È
+        // é•·ã„ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
         $http_vars['__url_info__'] = '/foo/bar/' . str_repeat('a', 10000);
         $injected = $this->url_handler->requestToAction($http_vars);
         $diff = array_diff($injected, $http_vars);
@@ -257,7 +257,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $this->assertFalse(is_null($ret));
         list($path, $path_key) = $ret;
 
-        // action "test_foo_bar" ¤ËÂĞ±ş¤¹¤ë¤Î¤Ï "entrypoint" ¤Î "/foo/bar"
+        // action "test_foo_bar" ã«å¯¾å¿œã™ã‚‹ã®ã¯ "entrypoint" ã® "/foo/bar"
         $this->assertEqual($path, 'entrypoint/foo/bar');
         $this->assertTrue($path_key == array());
     }

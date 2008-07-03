@@ -1,7 +1,7 @@
 <?php
 // {{{ Ethna_Plugin_Validator_Mbegexp
 /**
- *  ¥Þ¥ë¥Á¥Ð¥¤¥ÈÂÐ±þÀµµ¬É½¸½¤Ë¤è¤ë¥Ð¥ê¥Ç¡¼¥¿¥×¥é¥°¥¤¥ó
+ *  ãƒžãƒ«ãƒãƒã‚¤ãƒˆå¯¾å¿œæ­£è¦è¡¨ç¾ã«ã‚ˆã‚‹ãƒãƒªãƒ‡ãƒ¼ã‚¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @access     public
@@ -9,16 +9,16 @@
  */
 class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
 {
-    /** @var    bool    ÇÛÎó¤ò¼õ¤±¼è¤ë¤«¥Õ¥é¥° */
+    /** @var    bool    é…åˆ—ã‚’å—ã‘å–ã‚‹ã‹ãƒ•ãƒ©ã‚° */
     var $accept_array = false;
 
     /**
-     *  Àµµ¬É½¸½¤Ë¤è¤ë¥Õ¥©¡¼¥àÃÍ¤Î¥Á¥§¥Ã¥¯¤ò¹Ô¤¦(¥Þ¥ë¥Á¥Ð¥¤¥ÈÂÐ±þ¡Ë
+     *  æ­£è¦è¡¨ç¾ã«ã‚ˆã‚‹ãƒ•ã‚©ãƒ¼ãƒ å€¤ã®ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†(ãƒžãƒ«ãƒãƒã‚¤ãƒˆå¯¾å¿œï¼‰
      *
      *  @access public
-     *  @param  string  $name       ¥Õ¥©¡¼¥à¤ÎÌ¾Á°
-     *  @param  mixed   $var        ¥Õ¥©¡¼¥à¤ÎÃÍ
-     *  @param  array   $params     ¥×¥é¥°¥¤¥ó¤Î¥Ñ¥é¥á¡¼¥¿
+     *  @param  string  $name       ãƒ•ã‚©ãƒ¼ãƒ ã®åå‰
+     *  @param  mixed   $var        ãƒ•ã‚©ãƒ¼ãƒ ã®å€¤
+     *  @param  array   $params     ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     function &validate($name, $var, $params)
     {
@@ -29,16 +29,18 @@ class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
             return $true;
         }
 
+        $ctl =& $this->backend->getController();
+        $cli_enc = $ctl->getClientEncoding();
         $encoding = (isset($params['encoding']))
                   ? $params['encoding']
-                  : 'EUC-JP';
+                  : $cli_enc;
         mb_regex_encoding($encoding);
 
         if (mb_ereg($params['mbregexp'], $var) !== 1) {
             if (isset($params['error'])) {
                 $msg = $params['error'];
             } else {
-                $msg = "{form}¤òÀµ¤·¤¯ÆþÎÏ¤·¤Æ¤¯¤À¤µ¤¤";
+                $msg = _et('Please input {form} properly.');
             }
             return Ethna::raiseNotice($msg, E_FORM_REGEXP);
         }

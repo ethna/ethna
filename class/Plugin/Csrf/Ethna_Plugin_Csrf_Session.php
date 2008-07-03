@@ -11,9 +11,9 @@
 
 // {{{ Ethna_Plugin_Csrf_Session
 /**
- *  CSRFÂĞºö
+ *  CSRFå¯¾ç­–
  *
- *  CSRFÂĞºö¤ò¥È¡¼¥¯¥ó¤òÍÑ¤¤¤ÆÂĞºö¤¹¤ë¤¿¤á¤Î¥³¡¼¥É
+ *  CSRFå¯¾ç­–ã‚’ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ç”¨ã„ã¦å¯¾ç­–ã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ‰
  *
  *  @author     Keita Arai <cocoiti@comio.info>
  *  @access     public
@@ -25,31 +25,31 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
      *  @access private
      */
 
-    /** @var    object  Ethna_Session    ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Session    ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $session;
     
     /**#@-*/
 
 
     /**
-     *  Ethna_Plugin_Csrf¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Plugin_Csrfã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Plugin_Csrf_Session(&$controller)
     {
         parent::Ethna_Plugin_Csrf($controller);
 
-        // ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÀßÄê
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¨­å®š
         $this->session =& $this->controller->getSession();
     }
     
     /**
-     *  ¥È¡¼¥¯¥ó¤òView¤È¥í¡¼¥«¥ë¥Õ¥¡¥¤¥ë¤Ë¥»¥Ã¥È¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³ã‚’Viewã¨ãƒ­ãƒ¼ã‚«ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚»ãƒƒãƒˆã™ã‚‹
      *
      *  @access public
-     *  @return boolean  À®¸ù¤«¼ºÇÔ¤«
+     *  @return boolean  æˆåŠŸã‹å¤±æ•—ã‹
      */
     function set()
     {
@@ -69,10 +69,10 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥È¡¼¥¯¥óID¤ò¼èÆÀ¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string ¥È¡¼¥¯¥óID¤òÊÖ¤¹¡£
+     *  @return string ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’è¿”ã™ã€‚
      */
     function get()
     {
@@ -84,7 +84,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥È¡¼¥¯¥óID¤òºï½ü¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
      */

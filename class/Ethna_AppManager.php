@@ -9,28 +9,28 @@
  *  @version    $Id$
  */
 
-/** еве╫еъе▒б╝е╖ечеєеке╓е╕езепе╚╛ї┬╓: ╗╚═╤▓─╟╜ */
+/** уВвуГЧуГкуВ▒уГ╝уВ╖уГзуГ│уВкуГЦуВ╕уВзуВпуГИчК╢цЕЛ: ф╜┐чФихПпшГ╜ */
 define('OBJECT_STATE_ACTIVE', 0);
-/** еве╫еъе▒б╝е╖ечеєеке╓е╕езепе╚╛ї┬╓: ╗╚═╤╔╘▓─ */
+/** уВвуГЧуГкуВ▒уГ╝уВ╖уГзуГ│уВкуГЦуВ╕уВзуВпуГИчК╢цЕЛ: ф╜┐чФиф╕НхПп */
 define('OBJECT_STATE_INACTIVE', 100);
 
 
-/** еве╫еъе▒б╝е╖ечеєеке╓е╕езепе╚е╜б╝е╚е╒еще░: ╛║╜ч */
+/** уВвуГЧуГкуВ▒уГ╝уВ╖уГзуГ│уВкуГЦуВ╕уВзуВпуГИуВ╜уГ╝уГИуГХуГйуВ░: цШЗщаЖ */
 define('OBJECT_SORT_ASC', 0);
-/** еве╫еъе▒б╝е╖ечеєеке╓е╕езепе╚е╜б╝е╚е╒еще░: ╣▀╜ч */
+/** уВвуГЧуГкуВ▒уГ╝уВ╖уГзуГ│уВкуГЦуВ╕уВзуВпуГИуВ╜уГ╝уГИуГХуГйуВ░: щЩНщаЖ */
 define('OBJECT_SORT_DESC', 1);
 
 
-/** еве╫еъе▒б╝е╖ечеєеке╓е╕езепе╚едеєе▌б╝е╚еке╫е╖ечеє: NULLе╫еэе╤е╞ег╠╡╩╤┤╣ */
+/** уВвуГЧуГкуВ▒уГ╝уВ╖уГзуГ│уВкуГЦуВ╕уВзуВпуГИуВдуГ│уГЭуГ╝уГИуВкуГЧуВ╖уГзуГ│: NULLуГЧуГнуГСуГЖуВгчДбхдЙцПЫ */
 define('OBJECT_IMPORT_IGNORE_NULL', 1);
 
-/** еве╫еъе▒б╝е╖ечеєеке╓е╕езепе╚едеєе▌б╝е╚еке╫е╖ечеє: NULLе╫еэе╤е╞егвк╢ї╩╕╗·╬є╩╤┤╣ */
+/** уВвуГЧуГкуВ▒уГ╝уВ╖уГзуГ│уВкуГЦуВ╕уВзуВпуГИуВдуГ│уГЭуГ╝уГИуВкуГЧуВ╖уГзуГ│: NULLуГЧуГнуГСуГЖуВгтЖТчй║цЦЗхнЧхИЧхдЙцПЫ */
 define('OBJECT_IMPORT_CONVERT_NULL', 2);
 
 
 // {{{ Ethna_AppManager
 /**
- *  еве╫еъе▒б╝е╖ечеєе▐е═б╝е╕еуд╬е┘б╝е╣епеще╣
+ *  уВвуГЧуГкуВ▒уГ╝уВ╖уГзуГ│уГЮуГНуГ╝уВ╕уГгуБоуГЩуГ╝уВ╣уВпуГйуВ╣
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -42,38 +42,38 @@ class Ethna_AppManager
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend       backendеке╓е╕езепе╚ */
+    /** @var    object  Ethna_Backend       backendуВкуГЦуВ╕уВзуВпуГИ */
     var $backend;
 
-    /** @var    object  Ethna_Config        └▀─ъеке╓е╕езепе╚ */
+    /** @var    object  Ethna_Config        шинхоЪуВкуГЦуВ╕уВзуВпуГИ */
     var $config;
 
-    /**  @var    object  Ethna_DB      DBеке╓е╕езепе╚ */
+    /**  @var    object  Ethna_DB      DBуВкуГЦуВ╕уВзуВпуГИ */
     var $db;
 
-    /** @var    object  Ethna_I18N          i18nеке╓е╕езепе╚ */
+    /** @var    object  Ethna_I18N          i18nуВкуГЦуВ╕уВзуВпуГИ */
     var $i18n;
 
-    /** @var    object  Ethna_ActionForm    евепе╖ечеєе╒ейб╝ереке╓е╕езепе╚ */
+    /** @var    object  Ethna_ActionForm    уВвуВпуВ╖уГзуГ│уГХуВйуГ╝уГауВкуГЦуВ╕уВзуВпуГИ */
     var $action_form;
 
-    /** @var    object  Ethna_ActionForm    евепе╖ечеєе╒ейб╝ереке╓е╕езепе╚(╛╩╬м╖┴) */
+    /** @var    object  Ethna_ActionForm    уВвуВпуВ╖уГзуГ│уГХуВйуГ╝уГауВкуГЦуВ╕уВзуВпуГИ(чЬБчХех╜в) */
     var $af;
 
-    /** @var    object  Ethna_Session       е╗е├е╖ечеєеке╓е╕езепе╚ */
+    /** @var    object  Ethna_Session       уВ╗уГГуВ╖уГзуГ│уВкуГЦуВ╕уВзуВпуГИ */
     var $session;
 
     /**#@-*/
 
     /**
-     *  Ethna_AppManagerд╬е│еєе╣е╚ещепе┐
+     *  Ethna_AppManagerуБоуВ│уГ│уВ╣уГИуГйуВпуВ┐
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend   backendеке╓е╕езепе╚
+     *  @param  object  Ethna_Backend   &$backend   backendуВкуГЦуВ╕уВзуВпуГИ
      */
     function Ethna_AppManager(&$backend)
     {
-        // ┤Ё╦▄еке╓е╕езепе╚д╬└▀─ъ
+        // хЯ║цЬмуВкуГЦуВ╕уВзуВпуГИуБошинхоЪ
         $this->backend =& $backend;
         $this->config =& $backend->getConfig();
         $this->i18n =& $backend->getI18N();
@@ -91,11 +91,11 @@ class Ethna_AppManager
     }
 
     /**
-     *  ┬░└нд╬░ь═ўдЄ╩╓д╣
+     *  х▒ЮцАзуБоф╕АшжзуВТш┐ФуБЩ
      *
      *  @access public
-     *  @param  string  $attr_name  ┬░└нд╬╠╛┴░(╩╤┐Ї╠╛)
-     *  @return array   ┬░└н├═░ь═ў
+     *  @param  string  $attr_name  х▒ЮцАзуБохРНхЙН(хдЙцХ░хРН)
+     *  @return array   х▒ЮцАзхАдф╕Ашжз
      */
     function getAttrList($attr_name)
     {
@@ -104,12 +104,12 @@ class Ethna_AppManager
     }
 
     /**
-     *  ┬░└нд╬╔╜╝и╠╛дЄ╩╓д╣
+     *  х▒ЮцАзуБошбичд║хРНуВТш┐ФуБЩ
      *
      *  @access public
-     *  @param  string  $attr_name  ┬░└нд╬╠╛┴░(╩╤┐Ї╠╛)
-     *  @param  mixed   $id         ┬░└нID
-     *  @return string  ┬░└нд╬╔╜╝и╠╛
+     *  @param  string  $attr_name  х▒ЮцАзуБохРНхЙН(хдЙцХ░хРН)
+     *  @param  mixed   $id         х▒ЮцАзID
+     *  @return string  х▒ЮцАзуБошбичд║хРН
      */
     function getAttrName($attr_name, $id)
     {
@@ -125,12 +125,12 @@ class Ethna_AppManager
     }
 
     /**
-     *  ┬░└нд╬╔╜╝и╠╛(╛▄║┘)дЄ╩╓д╣
+     *  х▒ЮцАзуБошбичд║хРН(шй│ч┤░)уВТш┐ФуБЩ
      *
      *  @access public
-     *  @param  string  $attr_name  ┬░└нд╬╠╛┴░(╩╤┐Ї╠╛)
-     *  @param  mixed   $id         ┬░└нID
-     *  @return string  ┬░└нд╬╛▄║┘╔╜╝и╠╛
+     *  @param  string  $attr_name  х▒ЮцАзуБохРНхЙН(хдЙцХ░хРН)
+     *  @param  mixed   $id         х▒ЮцАзID
+     *  @return string  х▒ЮцАзуБошй│ч┤░шбичд║хРН
      */
     function getAttrLongName($attr_name, $id)
     {
@@ -147,16 +147,16 @@ class Ethna_AppManager
     }
 
     /**
-     *  еке╓е╕езепе╚д╬░ь═ўдЄ╩╓д╣
+     *  уВкуГЦуВ╕уВзуВпуГИуБоф╕АшжзуВТш┐ФуБЩ
      *
      *  @access public
-     *  @param  string  $class  Ethna_AppObjectд╬╖╤╛╡епеще╣╠╛
-     *  @param  array   $filter     ╕б║ў╛Є╖я
-     *  @param  array   $order      ╕б║ў╖ы▓╠е╜б╝е╚╛Є╖я
-     *  @param  int     $offset     ╕б║ў╖ы▓╠╝ш╞└еке╒е╗е├е╚
-     *  @param  int     $count      ╕б║ў╖ы▓╠╝ш╞└┐Ї
-     *  @return mixed   array(0 => ╕б║ў╛Є╖яд╦е▐е├е┴д╖д┐╖я┐Ї, 1 => $offset, $countд╦дшдъ╗╪─ъд╡дьд┐╖я┐Їд╬еке╓е╕езепе╚ID░ь═ў) Ethna_Error:еиещб╝
-     *  @todo   е╤е╒ейб╝е▐еєе╣┬╨║Ў(1еке╓е╕езепе╚д╬└ъ═несетеъдм┬┐дд╛ь╣ч)
+     *  @param  string  $class  Ethna_AppObjectуБоч╢ЩцЙ┐уВпуГйуВ╣хРН
+     *  @param  array   $filter     цдЬч┤вцЭбф╗╢
+     *  @param  array   $order      цдЬч┤вч╡РцЮЬуВ╜уГ╝уГИцЭбф╗╢
+     *  @param  int     $offset     цдЬч┤вч╡РцЮЬхПЦх╛ЧуВкуГХуВ╗уГГуГИ
+     *  @param  int     $count      цдЬч┤вч╡РцЮЬхПЦх╛ЧцХ░
+     *  @return mixed   array(0 => цдЬч┤вцЭбф╗╢уБлуГЮуГГуГБуБЧуБЯф╗╢цХ░, 1 => $offset, $countуБлуВИуВКцМЗхоЪуБХуВМуБЯф╗╢цХ░уБоуВкуГЦуВ╕уВзуВпуГИIDф╕Ашжз) Ethna_Error:уВиуГйуГ╝
+     *  @todo   уГСуГХуВйуГ╝уГЮуГ│уВ╣хп╛чнЦ(1уВкуГЦуВ╕уВзуВпуГИуБохНацЬЙуГбуГвуГкуБМхдЪуБДха┤хРИ)
      */
     function getObjectList($class, $filter = null,
                            $order = null, $offset = null, $count = null)
@@ -166,7 +166,7 @@ class Ethna_AppManager
         $object_list = array();
         $class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
 
-        // енеуе├е╖ехе┴езе├еп
+        // уВнуГгуГГуВ╖уГеуГБуВзуГГуВп
         $cache_class = strtolower($class_name);
         if (is_array($_ETHNA_APP_MANAGER_OL_CACHE) == false
             || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OL_CACHE) == false) {
@@ -177,7 +177,7 @@ class Ethna_AppManager
             list($length, $prop_list)
                 = $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key];
         } else {
-            // енеуе├е╖ех╣╣┐╖
+            // уВнуГгуГГуВ╖уГецЫ┤цЦ░
             $tmp =& new $class_name($this->backend);
             list($length, $prop_list)
                 = $tmp->searchProp(null, $filter, $order, $offset, $count);
@@ -194,22 +194,22 @@ class Ethna_AppManager
     }
 
     /**
-     *  еке╓е╕езепе╚е╫еэе╤е╞егд╬░ь═ўдЄ╩╓д╣
+     *  уВкуГЦуВ╕уВзуВпуГИуГЧуГнуГСуГЖуВгуБоф╕АшжзуВТш┐ФуБЩ
      *
-     *  getObjectList()есе╜е├е╔д╧╛Є╖яд╦е▐е├е┴д╣дыIDдЄ╕╡д╦Ethna_AppObjectдЄ└╕└од╣ды
-     *  д┐дсе│е╣е╚дмдлдлдыбгд│д┴дщд╧е╫еэе╤е╞егд╬д▀дЄSELECTд╣дыд╬д╟─уе│е╣е╚д╟е╟б╝е┐
-     *  дЄ╝ш╞└д╣дыд│д╚дм▓─╟╜бг
+     *  getObjectList()уГбуВ╜уГГуГЙуБпцЭбф╗╢уБлуГЮуГГуГБуБЩуВЛIDуВТхЕГуБлEthna_AppObjectуВТчФЯцИРуБЩуВЛ
+     *  уБЯуВБуВ│уВ╣уГИуБМуБЛуБЛуВЛуАВуБУуБбуВЙуБпуГЧуГнуГСуГЖуВгуБоуБ┐уВТSELECTуБЩуВЛуБоуБзф╜ОуВ│уВ╣уГИуБзуГЗуГ╝уВ┐
+     *  уВТхПЦх╛ЧуБЩуВЛуБУуБиуБМхПпшГ╜уАВ
      *
      *  @access public
-     *  @param  string  $class      Ethna_AppObjectд╬╖╤╛╡епеще╣╠╛
-     *  @param  array   $keys       ╝ш╞└д╣дые╫еэе╤е╞ег░ь═ў(nullд╩дщ┴┤д╞)
-     *  @param  array   $filter     ╕б║ў╛Є╖я
-     *  @param  array   $order      ╕б║ў╖ы▓╠е╜б╝е╚╛Є╖я
-     *  @param  int     $offset     ╕б║ў╖ы▓╠╝ш╞└еке╒е╗е├е╚
-     *  @param  int     $count      ╕б║ў╖ы▓╠╝ш╞└┐Ї
-     *  @return mixed   array(0 => ╕б║ў╛Є╖яд╦е▐е├е┴д╖д┐╖я┐Ї,
-     *                        1 => $offset, $countд╦дшдъ╗╪─ъд╡дьд┐╖я┐Їд╬е╫еэе╤е╞ег░ь═ў)
-     *                  Ethna_Error:еиещб╝
+     *  @param  string  $class      Ethna_AppObjectуБоч╢ЩцЙ┐уВпуГйуВ╣хРН
+     *  @param  array   $keys       хПЦх╛ЧуБЩуВЛуГЧуГнуГСуГЖуВгф╕Ашжз(nullуБкуВЙхЕиуБж)
+     *  @param  array   $filter     цдЬч┤вцЭбф╗╢
+     *  @param  array   $order      цдЬч┤вч╡РцЮЬуВ╜уГ╝уГИцЭбф╗╢
+     *  @param  int     $offset     цдЬч┤вч╡РцЮЬхПЦх╛ЧуВкуГХуВ╗уГГуГИ
+     *  @param  int     $count      цдЬч┤вч╡РцЮЬхПЦх╛ЧцХ░
+     *  @return mixed   array(0 => цдЬч┤вцЭбф╗╢уБлуГЮуГГуГБуБЧуБЯф╗╢цХ░,
+     *                        1 => $offset, $countуБлуВИуВКцМЗхоЪуБХуВМуБЯф╗╢цХ░уБоуГЧуГнуГСуГЖуВгф╕Ашжз)
+     *                  Ethna_Error:уВиуГйуГ╝
      */
     function getObjectPropList($class, $keys = null, $filter = null,
                                $order = null, $offset = null, $count = null)
@@ -219,7 +219,7 @@ class Ethna_AppManager
         $prop_list = array();
         $class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
 
-        // енеуе├е╖ехе┴езе├еп
+        // уВнуГгуГГуВ╖уГеуГБуВзуГГуВп
         $cache_class = strtolower($class_name);
         if (is_array($_ETHNA_APP_MANAGER_OPL_CACHE) == false
             || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OPL_CACHE) == false) {
@@ -229,7 +229,7 @@ class Ethna_AppManager
         if (array_key_exists($cache_key, $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class])) {
             // skip
         } else {
-            // енеуе├е╖ех╣╣┐╖
+            // уВнуГгуГГуВ╖уГецЫ┤цЦ░
             $tmp =& new $class_name($this->backend);
             $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class][$cache_key]
                 = $tmp->searchProp($keys, $filter, $order, $offset, $count);
@@ -239,16 +239,16 @@ class Ethna_AppManager
     }
 
     /**
-     *  еке╓е╕езепе╚е╫еэе╤е╞егдЄ╩╓д╣
+     *  уВкуГЦуВ╕уВзуВпуГИуГЧуГнуГСуГЖуВгуВТш┐ФуБЩ
      *
-     *  getObjectPropList()есе╜е├е╔д╬┤╩░╫╚╟д╟бв$filterд╦дшдъ╖ы▓╠дм1еиеєе╚еъд╦
-     *  └й╕┬д╡дьды╛ь╣ч(е╫ещеде▐еъенб╝д╟д╬╕б║ў┼∙)д╦═°═╤д╣ды
+     *  getObjectPropList()уГбуВ╜уГГуГЙуБоч░бцШУчЙИуБзуАБ$filterуБлуВИуВКч╡РцЮЬуБМ1уВиуГ│уГИуГкуБл
+     *  хИ╢щЩРуБХуВМуВЛха┤хРИ(уГЧуГйуВдуГЮуГкуВнуГ╝уБзуБоцдЬч┤вчнЙ)уБлхИйчФиуБЩуВЛ
      *
      *  @access public
-     *  @param  string  $class      Ethna_AppObjectд╬╖╤╛╡епеще╣╠╛
-     *  @param  array   $keys       ╝ш╞└д╣дые╫еэе╤е╞ег░ь═ў
-     *  @param  array   $filter     ╕б║ў╛Є╖я
-     *  @return mixed   array:е╫еэе╤е╞ег░ь═ў null:еиеєе╚еъд╩д╖ Ethna_Error:еиещб╝
+     *  @param  string  $class      Ethna_AppObjectуБоч╢ЩцЙ┐уВпуГйуВ╣хРН
+     *  @param  array   $keys       хПЦх╛ЧуБЩуВЛуГЧуГнуГСуГЖуВгф╕Ашжз
+     *  @param  array   $filter     цдЬч┤вцЭбф╗╢
+     *  @return mixed   array:уГЧуГнуГСуГЖуВгф╕Ашжз null:уВиуГ│уГИуГкуБкуБЧ Ethna_Error:уВиуГйуГ╝
      */
     function getObjectProp($class, $keys = null, $filter = null)
     {
@@ -257,7 +257,7 @@ class Ethna_AppManager
         $prop_list = array();
         $class_name = sprintf("%s_%s", $this->backend->getAppId(), $class);
 
-        // енеуе├е╖ехе┴езе├еп
+        // уВнуГгуГГуВ╖уГеуГБуВзуГГуВп
         $cache_class = strtolower($class_name);
         if (is_array($_ETHNA_APP_MANAGER_OP_CACHE) == false
             || array_key_exists($cache_class, $_ETHNA_APP_MANAGER_OP_CACHE) == false) {
@@ -267,7 +267,7 @@ class Ethna_AppManager
         if (array_key_exists($cache_key, $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class])) {
             // skip
         } else {
-            // енеуе├е╖ех╣╣┐╖
+            // уВнуГгуГГуВ╖уГецЫ┤цЦ░
             $tmp =& new $class_name($this->backend);
             list(, $prop) = $tmp->searchProp($keys, $filter);
             $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class][$cache_key]

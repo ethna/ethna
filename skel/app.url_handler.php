@@ -8,7 +8,7 @@
  */
 
 /**
- *  URLハンドラクラス
+ *  URLHandler class.
  *
  *  @author     {$author}
  *  @access     public
@@ -16,7 +16,7 @@
  */
 class {$project_id}_UrlHandler extends Ethna_UrlHandler
 {
-    /** @var    array   アクションマッピング */
+    /** @var    array   Action Mapping */
     var $action_map = array(
         /*
         'user'  => array(
@@ -31,7 +31,7 @@ class {$project_id}_UrlHandler extends Ethna_UrlHandler
     );
 
     /**
-     *  {$project_id}_UrlHandlerクラスのインスタンスを取得する
+     *  get {$project_id}_UrlHandler class instance.
      *
      *  @access public
      */
@@ -41,9 +41,9 @@ class {$project_id}_UrlHandler extends Ethna_UrlHandler
         return $instance;
     }
 
-    // {{{ ゲートウェイリクエスト正規化
+    // {{{ normalize gateway request method.
     /**
-     *  リクエスト正規化(userゲートウェイ)
+     *  normalize request(via user defined gateway)
      *
      *  @access private
      */
@@ -55,9 +55,9 @@ class {$project_id}_UrlHandler extends Ethna_UrlHandler
      */
     // }}}
 
-    // {{{ ゲートウェイパス生成
+    // {{{ generate gateway path method.
     /**
-     *  パス生成(userゲートウェイ)
+     *  generate path(via user defined gateway)
      *
      *  @access private
      */
@@ -69,7 +69,7 @@ class {$project_id}_UrlHandler extends Ethna_UrlHandler
      */
     // }}}
 
-    // {{{ フィルタ
+    // {{{ filter 
     // }}}
 }
 

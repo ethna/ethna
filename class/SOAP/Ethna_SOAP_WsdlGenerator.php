@@ -11,7 +11,7 @@
 
 // {{{ Ethna_SOAP_WsdlGenerator
 /**
- *  »ØÄê¤µ¤ì¤¿¥³¥ó¥È¥í¡¼¥é¤ËÂĞ±ş¤¹¤ëWSDL¤òÀ¸À®¤¹¤ë¥¯¥é¥¹
+ *  æŒ‡å®šã•ã‚ŒãŸã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã«å¯¾å¿œã™ã‚‹WSDLã‚’ç”Ÿæˆã™ã‚‹ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,34 +23,34 @@ class Ethna_SOAP_WsdlGenerator
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $config;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_error;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È(¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(çœç•¥å½¢) */
     var $ae;
 
     /** @var    string      WSDL */
     var $wsdl;
 
-    /** @var    string      ¥²¡¼¥È¥¦¥§¥¤¥¯¥é¥¹¥³¡¼¥É */
+    /** @var    string      ã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤ã‚¯ãƒ©ã‚¹ã‚³ãƒ¼ãƒ‰ */
     var $gateway;
 
-    /** @var    string      ¥²¡¼¥È¥¦¥§¥¤¥¯¥é¥¹¼±ÊÌÌ¾ */
+    /** @var    string      ã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤ã‚¯ãƒ©ã‚¹è­˜åˆ¥å */
     var $name;
 
-    /** @var    string      ¥²¡¼¥È¥¦¥§¥¤¥¯¥é¥¹¥Í¡¼¥à¥¹¥Ú¡¼¥¹ */
+    /** @var    string      ã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤ã‚¯ãƒ©ã‚¹ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹ */
     var $namespace;
 
     /**#@-*/
 
     /**
-     *  Ethna_SOAP_WsdlGenerator¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_SOAP_WsdlGeneratorã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     function Ethna_SOAP_WsdlGenerator($gateway)
     {
@@ -65,7 +65,7 @@ class Ethna_SOAP_WsdlGenerator
     }
 
     /**
-     *  WSDL¤òÀ¸À®¤¹¤ë
+     *  WSDLã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
      *  @return string  WSDL
@@ -89,10 +89,10 @@ class Ethna_SOAP_WsdlGenerator
     }
 
     /**
-     *  WSDL(¥Ø¥Ã¥ÀÉôÊ¬)¤ò¼èÆÀ¤¹¤ë
+     *  WSDL(ãƒ˜ãƒƒãƒ€éƒ¨åˆ†)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  WSDL(¥Ø¥Ã¥ÀÉôÊ¬)
+     *  @return string  WSDL(ãƒ˜ãƒƒãƒ€éƒ¨åˆ†)
      */
     function _getHeader()
     {
@@ -113,16 +113,16 @@ EOD;
     }
 
     /**
-     *  WSDL(·¿ÄêµÁÉôÊ¬)¤ò¼èÆÀ¤¹¤ë
+     *  WSDL(å‹å®šç¾©éƒ¨åˆ†)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  WSDL(·¿ÄêµÁÉôÊ¬)
+     *  @return string  WSDL(å‹å®šç¾©éƒ¨åˆ†)
      */
     function _getTypes()
     {
         $types = sprintf(" <types>\n  <s:schema targetNamespace=\"%s\">\n", $this->namespace);
 
-        // ´ğËÜ·¿
+        // åŸºæœ¬å‹
         $types .=<<<EOD
    <s:complexType name="ArrayOfInt">
     <s:complexContent mixed="false">
@@ -146,7 +146,7 @@ EOD;
    </s:complexType>\n
 EOD;
         
-        // ¥¢¥¯¥·¥ç¥ó¸ÇÍ­
+        // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å›ºæœ‰
         foreach ($this->controller->soap_action as $k => $v) {
             $action_form_name = $this->controller->getActionFormName($k);
             $form =& new $action_form_name($this->controller);
@@ -154,10 +154,10 @@ EOD;
                 continue;
             }
 
-            // ¥Ç¥Õ¥©¥ë¥È¥¨¥ó¥È¥ê¤òÄÉ²Ã
+            // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¨ãƒ³ãƒˆãƒªã‚’è¿½åŠ 
             Ethna_SOAP_Util::fixRetval($form->retval);
 
-            // ¥·¥ê¥¢¥é¥¤¥º
+            // ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º
             $retval_name = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($k)) . "Result";
             $types .= $this->_serializeTypes($form->retval, $retval_name);
         }
@@ -166,10 +166,10 @@ EOD;
     }
 
     /**
-     *  WSDL(MessageÉôÊ¬)¤ò¼èÆÀ¤¹¤ë
+     *  WSDL(Messageéƒ¨åˆ†)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  WSDL(MessageÉôÊ¬)
+     *  @return string  WSDL(Messageéƒ¨åˆ†)
      *  @todo   respect access controlls
      */
     function _getMessage()
@@ -185,10 +185,10 @@ EOD;
     }
 
     /**
-     *  WSDL(PortTypeÉôÊ¬)¤ò¼èÆÀ¤¹¤ë
+     *  WSDL(PortTypeéƒ¨åˆ†)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  WSDL(PortTypeÉôÊ¬)
+     *  @return string  WSDL(PortTypeéƒ¨åˆ†)
      */
     function _getPortType()
     {
@@ -206,10 +206,10 @@ EOD;
     }
 
     /**
-     *  WSDL(BindingÉôÊ¬)¤ò¼èÆÀ¤¹¤ë
+     *  WSDL(Bindingéƒ¨åˆ†)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  WSDL(BindingÉôÊ¬)
+     *  @return string  WSDL(Bindingéƒ¨åˆ†)
      */
     function _getBinding()
     {
@@ -236,10 +236,10 @@ EOD;
     }
 
     /**
-     *  WSDL(ServiceÉôÊ¬)¤ò¼èÆÀ¤¹¤ë
+     *  WSDL(Serviceéƒ¨åˆ†)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  WSDL(ServiceÉôÊ¬)
+     *  @return string  WSDL(Serviceéƒ¨åˆ†)
      */
     function _getService()
     {
@@ -255,10 +255,10 @@ EOD;
     }
 
     /**
-     *  WSDL(¥Õ¥Ã¥¿ÉôÊ¬)¤ò¼èÆÀ¤¹¤ë
+     *  WSDL(ãƒ•ãƒƒã‚¿éƒ¨åˆ†)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  WSDL(¥Õ¥Ã¥¿ÉôÊ¬)
+     *  @return string  WSDL(ãƒ•ãƒƒã‚¿éƒ¨åˆ†)
      */
     function _getFooter()
     {
@@ -266,10 +266,10 @@ EOD;
     }
 
     /**
-     *  ¥Í¡¼¥à¥¹¥Ú¡¼¥¹¤ò¼èÆÀ¤¹¤ë
+     *  ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  ¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @return string  ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function _getNameSpace()
     {
@@ -277,12 +277,12 @@ EOD;
     }
 
     /**
-     *  ·¿¤Î¥·¥ê¥¢¥é¥¤¥º
+     *  å‹ã®ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º
      *
      *  @access private
-     *  @param  array   $def    ·¿ÄêµÁ
-     *  @param  string  $name   ÊÑ¿ôÌ¾
-     *  @return string  ¥·¥ê¥¢¥é¥¤¥º¤µ¤ì¤¿·¿ÄêµÁ
+     *  @param  array   $def    å‹å®šç¾©
+     *  @param  string  $name   å¤‰æ•°å
+     *  @return string  ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã•ã‚ŒãŸå‹å®šç¾©
      */
     function _serializeTypes($def, $name)
     {
@@ -304,12 +304,12 @@ EOD;
     }
 
     /**
-     *  ·¿¤Î¥·¥ê¥¢¥é¥¤¥º(¥¨¥ì¥á¥ó¥ÈÂĞ±ş)
+     *  å‹ã®ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º(ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆå¯¾å¿œ)
      *
      *  @access private
-     *  @param  array   $def    ·¿ÄêµÁ
-     *  @param  string  $name   ÊÑ¿ôÌ¾
-     *  @return string  ¥·¥ê¥¢¥é¥¤¥º¤µ¤ì¤¿·¿ÄêµÁ(³ÆÍ×ÁÇ)
+     *  @param  array   $def    å‹å®šç¾©
+     *  @param  string  $name   å¤‰æ•°å
+     *  @return string  ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã•ã‚ŒãŸå‹å®šç¾©(å„è¦ç´ )
      */
     function __serializeTypes($def, $name)
     {
@@ -353,12 +353,12 @@ EOD;
     }
 
     /**
-     *  Message¤Î¥·¥ê¥¢¥é¥¤¥º
+     *  Messageã®ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º
      *
      *  @access private
-     *  @param  string  $name   messageÌ¾
-     *  @param  int     $serno  messageÏ¢ÈÖ
-     *  @return string  ¥·¥ê¥¢¥é¥¤¥º¤µ¤ì¤¿message
+     *  @param  string  $name   messageå
+     *  @param  int     $serno  messageé€£ç•ª
+     *  @return string  ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã•ã‚ŒãŸmessage
      */
     function _serializeMessage($name, $serno)
     {
@@ -397,12 +397,12 @@ EOD;
     }
 
     /**
-     *  PortType¤Î¥·¥ê¥¢¥é¥¤¥º
+     *  PortTypeã®ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º
      *
      *  @access private
-     *  @param  string  $name   porttypeÌ¾
-     *  @param  int     $serno  porttypeÏ¢ÈÖ
-     *  @return string  ¥·¥ê¥¢¥é¥¤¥º¤µ¤ì¤¿porttype
+     *  @param  string  $name   porttypeå
+     *  @param  int     $serno  porttypeé€£ç•ª
+     *  @return string  ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã•ã‚ŒãŸporttype
      */
     function _serializePortType($name, $serno)
     {

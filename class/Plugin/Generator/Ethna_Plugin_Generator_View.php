@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Generator_View
 /**
- *  スケルトン栏喇クラス
+ *  銈广偙銉儓銉崇敓鎴愩偗銉┿偣
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,12 +20,12 @@
 class Ethna_Plugin_Generator_View extends Ethna_Plugin_Generator
 {
     /**
-     *  ビュ〖のスケルトンを栏喇する
+     *  銉撱儱銉笺伄銈广偙銉儓銉炽倰鐢熸垚銇欍倠
      *
      *  @access public
-     *  @param  string  $forward_name   ビュ〖叹
-     *  @param  string  $skelton        スケルトンファイル叹
-     *  @return true|Ethna_Error        true:喇根 Ethna_Error:己窃
+     *  @param  string  $forward_name   銉撱儱銉煎悕
+     *  @param  string  $skelton        銈广偙銉儓銉炽儠銈°偆銉悕
+     *  @return true|Ethna_Error        true:鎴愬姛 Ethna_Error:澶辨晽
      */
     function &generate($forward_name, $skelton = null, $gateway = GATEWAY_WWW)
     {

@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Validator_Type
 /**
- *  е┐еде╫е┴езе├епе╫еще░едеє
+ *  уВ┐уВдуГЧуГБуВзуГГуВпуГЧуГйуВ░уВдуГ│
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -19,16 +19,16 @@
  */
 class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
 {
-    /** @var    bool    ╟█╬єдЄ╝їд▒╝шдыдле╒еще░ */
+    /** @var    bool    щЕНхИЧуВТхПЧуБСхПЦуВЛуБЛуГХуГйуВ░ */
     var $accept_array = false;
 
     /**
-     *  е╒ейб╝ер├═д╬╖┐е┴езе├епдЄ╣╘дж
+     *  уГХуВйуГ╝уГахАдуБохЮЛуГБуВзуГГуВпуВТшбМуБЖ
      *
      *  @access public
-     *  @param  string  $name       е╒ейб╝ерд╬╠╛┴░
-     *  @param  mixed   $var        е╒ейб╝ерд╬├═
-     *  @param  array   $params     е╫еще░едеєд╬е╤ещесб╝е┐
+     *  @param  string  $name       уГХуВйуГ╝уГауБохРНхЙН
+     *  @param  mixed   $var        уГХуВйуГ╝уГауБохАд
+     *  @param  array   $params     уГЧуГйуВ░уВдуГ│уБоуГСуГйуГбуГ╝уВ┐
      */
     function &validate($name, $var, $params)
     {
@@ -45,7 +45,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}д╦д╧┐Ї╗·(└░┐Ї)дЄ╞■╬╧д╖д╞▓╝д╡дд";
+                            $msg = _et('Please input integer value to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_INT);
                     }
@@ -56,7 +56,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}д╦д╧┐Ї╗·(╛о┐Ї)дЄ╞■╬╧д╖д╞▓╝д╡дд";
+                            $msg = _et('Please input float value to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FLOAT);
                     }
@@ -67,7 +67,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}д╦д╧1д▐д┐д╧0д╬д▀╞■╬╧д╟днд▐д╣";
+                            $msg = _et('You can input 0 or 1 to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_BOOLEAN);
                     }
@@ -79,7 +79,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         if (isset($params['error'])) {
                             $msg = $params['error'];
                         } else {
-                            $msg = "{form}д╦д╧╞№╔╒дЄ╞■╬╧д╖д╞▓╝д╡дд";
+                            $msg = _et('Please input valid datetime to {form}.');
                         }
                         return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_DATETIME);
                     }
@@ -91,4 +91,5 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
     }
 }
 // }}}
+
 ?>

@@ -4,8 +4,8 @@
  */
 
 /**
- *  Ethna_Logger¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
- *  (Logwriter¤Ç¤Ï¤Ê¤¯¡¢Logwriter¤Î¥Þ¥Í¡¼¥¸¥ã¤È¤·¤Æ¤ÎLogger¤Î¥Æ¥¹¥È)
+ *  Ethna_Loggerã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
+ *  (Logwriterã§ã¯ãªãã€Logwriterã®ãƒžãƒãƒ¼ã‚¸ãƒ£ã¨ã—ã¦ã®Loggerã®ãƒ†ã‚¹ãƒˆ)
  *
  *  @access public
  */
@@ -13,7 +13,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
 {
     function setUp()
     {
-        // Config¥¯¥é¥¹¤òEthna_Logger_Test_Config¤ËÀßÄê
+        // Configã‚¯ãƒ©ã‚¹ã‚’Ethna_Logger_Test_Configã«è¨­å®š
         $this->ctl->class['config'] = 'Ethna_Logger_Test_Config';
         $this->ctl->getConfig();
     }

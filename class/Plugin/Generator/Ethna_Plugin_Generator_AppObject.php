@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Generator_AppObject
 /**
- *  ¥¹¥±¥ë¥È¥óÀ¸À®¥¯¥é¥¹
+ *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ç”Ÿæˆã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,11 +20,11 @@
 class Ethna_Plugin_Generator_AppObject extends Ethna_Plugin_Generator
 {
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¹¥±¥ë¥È¥ó¤òÀ¸À®¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
-     *  @param  string  $table_name     ¥Æ¡¼¥Ö¥ëÌ¾
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $table_name     ãƒ†ãƒ¼ãƒ–ãƒ«å
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function generate($table_name)
     {

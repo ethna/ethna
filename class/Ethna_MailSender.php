@@ -9,13 +9,13 @@
  *  @version    $Id$
  */
 
-/** ¥á¡¼¥ë¥Æ¥ó¥×¥ì¡¼¥È¥¿¥¤¥×: Ä¾ÀÜÁ÷¿® */
+/** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚¿ã‚¤ãƒ—: ç›´æ¥é€ä¿¡ */
 define('MAILSENDER_TYPE_DIRECT', 0);
 
 
 // {{{ Ethna_MailSender
 /**
- *  ¥á¡¼¥ëÁ÷¿®¥¯¥é¥¹
+ *  ãƒ¡ãƒ¼ãƒ«é€ä¿¡ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -27,32 +27,32 @@ class Ethna_MailSender
      *  @access private
      */
 
-    /** @var    array   ¥á¡¼¥ë¥Æ¥ó¥×¥ì¡¼¥ÈÄêµÁ */
+    /** @var    array   ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå®šç¾© */
     var $def = array(
     );
 
-    /** @var    string  ¥á¡¼¥ë¥Æ¥ó¥×¥ì¡¼¥È¥Ç¥£¥ì¥¯¥È¥ê */
+    /** @var    string  ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
     var $mail_dir = 'mail';
 
-    /** @var    int     Á÷¿®¥á¡¼¥ë¥¿¥¤¥× */
+    /** @var    int     é€ä¿¡ãƒ¡ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ— */
     var $type;
 
-    /** @var    string  Á÷¿®¥ª¥×¥·¥ç¥ó */
+    /** @var    string  é€ä¿¡ã‚ªãƒ—ã‚·ãƒ§ãƒ³ */
     var $option = '';
 
-    /** @var    object  Ethna_Backend   backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend   backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Config    ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Config    è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $config;
 
     /**#@-*/
 
     /**
-     *  Ethna_MailSender¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_MailSenderã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend       backend¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Backend   &$backend       backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_MailSender(&$backend)
     {
@@ -61,10 +61,10 @@ class Ethna_MailSender
     }
 
     /**
-     *  ¥á¡¼¥ë¥ª¥×¥·¥ç¥ó¤òÀßÄê¤¹¤ë
+     *  ãƒ¡ãƒ¼ãƒ«ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹
      *
      *  @access public
-     *  @param  string  $option ¥á¡¼¥ëÁ÷¿®¥ª¥×¥·¥ç¥ó
+     *  @param  string  $option ãƒ¡ãƒ¼ãƒ«é€ä¿¡ã‚ªãƒ—ã‚·ãƒ§ãƒ³
      */
     function setOption($option)
     {
@@ -72,43 +72,44 @@ class Ethna_MailSender
     }
 
     /**
-     *  ¥á¡¼¥ë¤òÁ÷¿®¤¹¤ë
+     *  ãƒ¡ãƒ¼ãƒ«ã‚’é€ä¿¡ã™ã‚‹
      *
-     *  $attach ¤Î»ØÄêÊıË¡:
-     *  - ´ûÂ¸¤Î¥Õ¥¡¥¤¥ë¤òÅºÉÕ¤¹¤ë¤È¤­
+     *  $attach ã®æŒ‡å®šæ–¹æ³•:
+     *  - æ—¢å­˜ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ·»ä»˜ã™ã‚‹ã¨ã
      *  <code>
      *  array('filename' => '/tmp/hoge.xls', 'content-type' => 'application/vnd.ms-excel')
      *  </code>
-     *  - Ê¸»úÎó¤ËÌ¾Á°¤òÉÕ¤±¤ÆÅºÉÕ¤¹¤ë¤È¤­
+     *  - æ–‡å­—åˆ—ã«åå‰ã‚’ä»˜ã‘ã¦æ·»ä»˜ã™ã‚‹ã¨ã
      *  <code>
      *  array('name' => 'foo.txt', 'content' => 'this is foo.')
      *  </code>
-     *  'content-type' ¾ÊÎ¬»ş¤Ï 'application/octet-stream' ¤È¤Ê¤ë¡£
-     *  Ê£¿ôÅºÉÕ¤¹¤ë¤È¤­¤Ï¾å¤ÎÇÛÎó¤òÅº»ú0¤«¤é»Ï¤Ş¤ë¤Õ¤Ä¤¦¤ÎÇÛÎó¤ËÆş¤ì¤ë¡£
+     *  'content-type' çœç•¥æ™‚ã¯ 'application/octet-stream' ã¨ãªã‚‹ã€‚
+     *  è¤‡æ•°æ·»ä»˜ã™ã‚‹ã¨ãã¯ä¸Šã®é…åˆ—ã‚’æ·»å­—0ã‹ã‚‰å§‹ã¾ã‚‹ãµã¤ã†ã®é…åˆ—ã«å…¥ã‚Œã‚‹ã€‚
      *
      *  @access public
-     *  @param  string  $to         ¥á¡¼¥ëÁ÷¿®Àè¥¢¥É¥ì¥¹ (null¤Î¤È¤­¤ÏÁ÷¿®¤»¤º¤ËÆâÍÆ¤ò return ¤¹¤ë)
-     *  @param  string  $template   ¥á¡¼¥ë¥Æ¥ó¥×¥ì¡¼¥ÈÌ¾ or ¥¿¥¤¥×
-     *  @param  array   $macro      ¥Æ¥ó¥×¥ì¡¼¥È¥Ş¥¯¥í or $template¤¬MAILSENDER_TYPE_DIRECT¤Î¤È¤­¤Ï¥á¡¼¥ëÁ÷¿®ÆâÍÆ)
-     *  @param  array   $attach     ÅºÉÕ¥Õ¥¡¥¤¥ë
+     *  @param  string  $to         ãƒ¡ãƒ¼ãƒ«é€ä¿¡å…ˆã‚¢ãƒ‰ãƒ¬ã‚¹ (nullã®ã¨ãã¯é€ä¿¡ã›ãšã«å†…å®¹ã‚’ return ã™ã‚‹)
+     *  @param  string  $template   ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå or ã‚¿ã‚¤ãƒ—
+     *  @param  array   $macro      ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒã‚¯ãƒ­ or $templateãŒMAILSENDER_TYPE_DIRECTã®ã¨ãã¯ãƒ¡ãƒ¼ãƒ«é€ä¿¡å†…å®¹)
+     *  @param  array   $attach     æ·»ä»˜ãƒ•ã‚¡ã‚¤ãƒ«
      */
     function send($to, $template, $macro, $attach = null)
     {
-        // ¥á¡¼¥ëÆâÍÆ¤òºîÀ®
+        // ãƒ¡ãƒ¼ãƒ«å†…å®¹ã‚’ä½œæˆ
         if ($template === MAILSENDER_TYPE_DIRECT) {
             $mail = $macro;
         } else {
             $renderer =& $this->getTemplateEngine();
 
-            // ´ğËÜ¾ğÊóÀßÄê
-            $renderer->setProp("env_datetime", strftime('%YÇ¯%m·î%dÆü %H»ş%MÊ¬%SÉÃ'));
+            // åŸºæœ¬æƒ…å ±è¨­å®š
+            $env_datetime = _et('%Y/%m/%d %H:%M:%S');
+            $renderer->setProp("env_datetime", strftime($env_datetime));
             $renderer->setProp("env_useragent", $_SERVER["HTTP_USER_AGENT"]);
             $renderer->setProp("env_remoteaddr", $_SERVER["REMOTE_ADDR"]);
 
-            // ¥Ç¥Õ¥©¥ë¥È¥Ş¥¯¥íÀßÄê
+            // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒã‚¯ãƒ­è¨­å®š
             $macro = $this->_setDefaultMacro($macro);
 
-            // ¥æ¡¼¥¶ÄêµÁ¾ğÊóÀßÄê
+            // ãƒ¦ãƒ¼ã‚¶å®šç¾©æƒ…å ±è¨­å®š
             if (is_array($macro)) {
                 foreach ($macro as $key => $value) {
                     $renderer->setProp($key, $value);
@@ -123,11 +124,11 @@ class Ethna_MailSender
             return $mail;
         }
 
-        // ¥á¡¼¥ëÆâÍÆ¤ò¥Ø¥Ã¥À¤ÈËÜÊ¸¤ËÊ¬Î¥
+        // ãƒ¡ãƒ¼ãƒ«å†…å®¹ã‚’ãƒ˜ãƒƒãƒ€ã¨æœ¬æ–‡ã«åˆ†é›¢
         $mail = str_replace("\r\n", "\n", $mail);
         list($header, $body) = $this->_parse($mail);
 
-        // ÅºÉÕ¥Õ¥¡¥¤¥ë (multipart)
+        // æ·»ä»˜ãƒ•ã‚¡ã‚¤ãƒ« (multipart)
         if ($attach !== null) {
             $attach = isset($attach[0]) ? $attach : array($attach);
             $boundary = Ethna_Util::getRandom(); 
@@ -171,7 +172,7 @@ class Ethna_MailSender
             $body .= "--$boundary--";
         }
 
-        // ¥Ø¥Ã¥À
+        // ãƒ˜ãƒƒãƒ€
         if (isset($header['mime-version']) === false) {
             $header['mime-version'] = array('Mime-Version', '1.0');
         }
@@ -198,13 +199,13 @@ class Ethna_MailSender
             $header_line .= $value[0] . ": " . $value[1];
         }
 
-        // ²ş¹Ô¥³¡¼¥É¤ò CRLF ¤Ë
+        // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’ CRLF ã«
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $body = str_replace("\n", "\r\n", $body);
         }
         $header_line = str_replace("\n", "\r\n", $header_line);
 
-        // Á÷¿®
+        // é€ä¿¡
         foreach (to_array($to) as $rcpt) {
             if (is_string($this->option)) {
                 mail($rcpt, $header['subject'][1], $body, $header_line, $this->option);
@@ -215,11 +216,11 @@ class Ethna_MailSender
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¸ÇÍ­¤Î¥Ş¥¯¥í¤òÀßÄê¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å›ºæœ‰ã®ãƒã‚¯ãƒ­ã‚’è¨­å®šã™ã‚‹
      *
      *  @access protected
-     *  @param  array   $macro  ¥æ¡¼¥¶ÄêµÁ¥Ş¥¯¥í
-     *  @return array   ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¸ÇÍ­½èÍıºÑ¤ß¥Ş¥¯¥í
+     *  @param  array   $macro  ãƒ¦ãƒ¼ã‚¶å®šç¾©ãƒã‚¯ãƒ­
+     *  @return array   ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å›ºæœ‰å‡¦ç†æ¸ˆã¿ãƒã‚¯ãƒ­
      */
     function _setDefaultMacro($macro)
     {
@@ -227,11 +228,11 @@ class Ethna_MailSender
     }
 
     /**
-     *  ¥Æ¥ó¥×¥ì¡¼¥È¥á¡¼¥ë¤Î¥Ø¥Ã¥À¾ğÊó¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ¡ãƒ¼ãƒ«ã®ãƒ˜ãƒƒãƒ€æƒ…å ±ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @param  string  $mail   ¥á¡¼¥ë¥Æ¥ó¥×¥ì¡¼¥È
-     *  @return array   ¥Ø¥Ã¥À, ËÜÊ¸
+     *  @param  string  $mail   ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+     *  @return array   ãƒ˜ãƒƒãƒ€, æœ¬æ–‡
      */
     function _parse($mail)
     {
@@ -257,10 +258,10 @@ class Ethna_MailSender
     }
 
     /**
-     *  ¥á¡¼¥ë¥Õ¥©¡¼¥Ş¥Ã¥ÈÍÑ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È¼èÆÀ¤¹¤ë
+     *  ãƒ¡ãƒ¼ãƒ«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆç”¨ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return object  Ethna_Renderer  ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Renderer  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getRenderer()
     {
@@ -269,10 +270,10 @@ class Ethna_MailSender
     }
 
     /**
-     *  ¥á¡¼¥ë¥Õ¥©¡¼¥Ş¥Ã¥ÈÍÑ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È¼èÆÀ¤¹¤ë
+     *  ãƒ¡ãƒ¼ãƒ«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆç”¨ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return object  Ethna_Renderer  ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Renderer  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getTemplateEngine()
     {

@@ -11,12 +11,12 @@
 
 // {{{ Ethna_ActionError
 /**
- *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥¨¥é¡¼´ÉÍı¥¯¥é¥¹
+ *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ç®¡ç†ã‚¯ãƒ©ã‚¹
  *
  *  @access     public
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @package    Ethna
- *  @todo   ÇÛÎó¥Õ¥©¡¼¥à¤ò°·¤¨¤ë¤è¤¦¤Ë¤¹¤ë
+ *  @todo   é…åˆ—ãƒ•ã‚©ãƒ¼ãƒ ã‚’æ‰±ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹
  */
 class Ethna_ActionError
 {
@@ -24,18 +24,18 @@ class Ethna_ActionError
      *  @access private
      */
 
-    /** @var    array   ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤Î°ìÍ÷ */
+    /** @var    array   ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¸€è¦§ */
     var $error_list = array();
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_form = null;
 
-    /** @var    object  Ethna_Logger        ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger        ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger = null;
     /**#@-*/
 
     /**
-     *  Ethna_ActionError¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_ActionErrorã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
      */
@@ -44,13 +44,13 @@ class Ethna_ActionError
     }
 
     /**
-     *  ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤òÀ¸À®/ÄÉ²Ã¤¹¤ë
+     *  ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ/è¿½åŠ ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $name       ¥¨¥é¡¼¤ÎÈ¯À¸¤·¤¿¥Õ¥©¡¼¥à¹àÌÜÌ¾(ÉÔÍ×¤Ê¤énull)
-     *  @param  string  $message    ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸
-     *  @param  int     $code       ¥¨¥é¡¼¥³¡¼¥É
-     *  @return Ethna_Error ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  string  $name       ã‚¨ãƒ©ãƒ¼ã®ç™ºç”Ÿã—ãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®å(ä¸è¦ãªã‚‰null)
+     *  @param  string  $message    ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     *  @param  int     $code       ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+     *  @return Ethna_Error ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &add($name, $message, $code = null)
     {
@@ -65,11 +65,11 @@ class Ethna_ActionError
     }
 
     /**
-     *  Ethna_Error¥ª¥Ö¥¸¥§¥¯¥È¤òÄÉ²Ã¤¹¤ë
+     *  Ethna_Errorã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹
      *
      *  @access public
-     *  @param  string              $name   ¥¨¥é¡¼¤ËÂĞ±ş¤¹¤ë¥Õ¥©¡¼¥à¹àÌÜÌ¾(ÉÔÍ×¤Ê¤énull)
-     *  @param  object  Ethna_Error $error  ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  string              $name   ã‚¨ãƒ©ãƒ¼ã«å¯¾å¿œã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å(ä¸è¦ãªã‚‰null)
+     *  @param  object  Ethna_Error $error  ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function addObject($name, &$error)
     {
@@ -78,17 +78,17 @@ class Ethna_ActionError
         $elt['object'] =& $error;
         $this->error_list[] = $elt;
 
-        // ¥í¥°½ĞÎÏ(ÊäÂ­)
+        // ãƒ­ã‚°å‡ºåŠ›(è£œè¶³)
         $af =& $this->_getActionForm();
         $logger =& $this->_getLogger();
         $logger->log(LOG_NOTICE, '{form} -> [%s]', $this->action_form->getName($name));
     }
 
     /**
-     *  ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤Î¿ô¤òÊÖ¤¹
+     *  ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ã‚’è¿”ã™
      *
      *  @access public
-     *  @return int     ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤Î¿ô
+     *  @return int     ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°
      */
     function count()
     {
@@ -96,10 +96,10 @@ class Ethna_ActionError
     }
 
     /**
-     *  ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤Î¿ô¤òÊÖ¤¹(count()¥á¥½¥Ã¥É¤Î¥¨¥¤¥ê¥¢¥¹)
+     *  ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ã‚’è¿”ã™(count()ãƒ¡ã‚½ãƒƒãƒ‰ã®ã‚¨ã‚¤ãƒªã‚¢ã‚¹)
      *
      *  @access public
-     *  @return int     ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤Î¿ô
+     *  @return int     ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°
      */
     function length()
     {
@@ -107,7 +107,7 @@ class Ethna_ActionError
     }
 
     /**
-     *  ÅĞÏ¿¤µ¤ì¤¿¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤òÁ´¤Æºï½ü¤¹¤ë
+     *  ç™»éŒ²ã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…¨ã¦å‰Šé™¤ã™ã‚‹
      *
      *  @access public
      */
@@ -117,11 +117,11 @@ class Ethna_ActionError
     }
 
     /**
-     *  »ØÄê¤µ¤ì¤¿¥Õ¥©¡¼¥à¹àÌÜ¤Ë¥¨¥é¡¼¤¬È¯À¸¤·¤Æ¤¤¤ë¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
-     *  @return bool    true:¥¨¥é¡¼¤¬È¯À¸¤·¤Æ¤¤¤ë false:¥¨¥é¡¼¤¬È¯À¸¤·¤Æ¤¤¤Ê¤¤
+     *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
+     *  @return bool    true:ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ã‚‹ false:ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ãªã„
      */
     function isError($name)
     {
@@ -134,11 +134,11 @@ class Ethna_ActionError
     }
 
     /**
-     *  »ØÄê¤µ¤ì¤¿¥Õ¥©¡¼¥à¹àÌÜ¤ËÂĞ±ş¤¹¤ë¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤òÊÖ¤¹
+     *  æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®ã«å¯¾å¿œã™ã‚‹ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
-     *  @return string  ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸(¥¨¥é¡¼¤¬Ìµ¤¤¾ì¹ç¤Ïnull)
+     *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
+     *  @return string  ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(ã‚¨ãƒ©ãƒ¼ãŒç„¡ã„å ´åˆã¯null)
      */
     function getMessage($name)
     {
@@ -151,10 +151,10 @@ class Ethna_ActionError
     }
 
     /**
-     *  ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤òÇÛÎó¤Ë¤·¤ÆÊÖ¤¹
+     *  ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’é…åˆ—ã«ã—ã¦è¿”ã™
      *
      *  @access public
-     *  @return array   ¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È¤ÎÇÛÎó
+     *  @return array   ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
      */
     function getErrorList()
     {
@@ -162,10 +162,10 @@ class Ethna_ActionError
     }
 
     /**
-     *  ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤òÇÛÎó¤Ë¤·¤ÆÊÖ¤¹
+     *  ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é…åˆ—ã«ã—ã¦è¿”ã™
      *
      *  @access public
-     *  @return array   ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤ÎÇÛÎó
+     *  @return array   ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®é…åˆ—
      */
     function getMessageList()
     {
@@ -178,11 +178,11 @@ class Ethna_ActionError
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @param  array   ¥¨¥é¡¼¥¨¥ó¥È¥ê
-     *  @return string  ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸
+     *  @param  array   ã‚¨ãƒ©ãƒ¼ã‚¨ãƒ³ãƒˆãƒª
+     *  @return string  ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function _getMessage(&$error)
     {
@@ -192,7 +192,7 @@ class Ethna_ActionError
     }
 
     /**
-     *  Ethna_ActionForm¥ª¥Ö¥¸¥§¥¯¥È¤ò¼èÆÀ¤¹¤ë
+     *  Ethna_ActionFormã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
      *  @return object  Ethna_ActionForm
@@ -207,7 +207,7 @@ class Ethna_ActionError
     }
 
     /**
-     *  Ethna_Logger¥ª¥Ö¥¸¥§¥¯¥È¤ò¼èÆÀ¤¹¤ë
+     *  Ethna_Loggerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
      *  @return object  Ethna_Logger

@@ -9,7 +9,7 @@
  */
 
 /**
- *  UnitTestCase¼Â¹Ô¥¯¥é¥¹
+ *  UnitTestCaseå®Ÿè¡Œã‚¯ãƒ©ã‚¹
  *
  *  @author     Takuya Ookubo <sfio@sakura.ai.to>
  *  @access     public
@@ -17,66 +17,66 @@
  */
 class Ethna_UnitTestCase extends UnitTestCase
 {
-    /** @var    object  Ethna_Backend       backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend       backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
-    /** @var    object  Ethna_Session       ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Session       ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $session;
 
-    /** @var    string                      ¥¢¥¯¥·¥ç¥óÌ¾ */
+    /** @var    string                      ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å */
     var $action_name;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_form;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È($action_form¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($action_formã®çœç•¥å½¢) */
     var $af;
 
-    /** @var    object  Ethna_ActionClass   ¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionClass   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_class;
 
-    /** @var    object  Ethna_ActionClass   ¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È($action_class¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionClass   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($action_classã®çœç•¥å½¢) */
     var $ac;
 
-    /** @var    string                      ¥Ó¥å¡¼Ì¾ */
+    /** @var    string                      ãƒ“ãƒ¥ãƒ¼å */
     var $forward_name;
 
-    /** @var    object  Ethna_ViewClass     view¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ViewClass     viewã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $view_class;
 
-    /** @var    object  Ethna_ViewClass     view¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È($view_class¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ViewClass     viewã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($view_classã®çœç•¥å½¢) */
     var $vc;
 
     /**
-     *  Ethna_UnitTestCase¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_UnitTestCaseã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_UnitTestCase(&$controller)
     {
         parent::UnitTestCase();
 
-        // ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÀßÄê
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¨­å®š
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
         $this->backend =& $this->ctl->getBackend();
         $this->session =& $this->backend->getSession();
 
-        // ÊÑ¿ô¤Î½é´ü²½
+        // å¤‰æ•°ã®åˆæœŸåŒ–
         $this->action_form = $this->af = null;
         $this->action_class = $this->ac = null;
         $this->view_class = $this->vc = null;
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¤ÎºîÀ®¤È´ØÏ¢ÉÕ¤±
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã®ä½œæˆã¨é–¢é€£ä»˜ã‘
      *
      *  @access public
      */
@@ -85,15 +85,15 @@ class Ethna_UnitTestCase extends UnitTestCase
         $this->action_form =& new $form_name($this->ctl);
         $this->af =& $this->action_form;
 
-        // controler&backend¤Ëaf¤ò´ØÏ¢ÉÕ¤±
+        // controler&backendã«afã‚’é–¢é€£ä»˜ã‘
         $this->ctl->action_name = $this->action_name;
         $this->ctl->action_form =& $this->af;
         $this->backend->action_form =& $this->af;
         $this->backend->af =& $this->af;
 
-        // action_error, validator ¤Î½é´ü²½
-        // ¤³¤ì¤Ë¤è¤ê¡¢Ä¾Á°¤Î¥Æ¥¹¥È·ë²Ì¤ò¤Ò¤­¤º¤é¤Ê¤¤
-        // ¤è¤¦¤Ë¤¹¤ë
+        // action_error, validator ã®åˆæœŸåŒ–
+        // ã“ã‚Œã«ã‚ˆã‚Šã€ç›´å‰ã®ãƒ†ã‚¹ãƒˆçµæžœã‚’ã²ããšã‚‰ãªã„
+        // ã‚ˆã†ã«ã™ã‚‹
         $ae =& $this->ctl->getActionError();
         $ae->clear();
         unset($ae->action_form);
@@ -101,7 +101,7 @@ class Ethna_UnitTestCase extends UnitTestCase
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¤ÎºîÀ®
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã®ä½œæˆ
      *
      *  @access public
      */
@@ -130,7 +130,7 @@ class Ethna_UnitTestCase extends UnitTestCase
     }
 
     /**
-     *  Ã±½ã¤Ê¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¤ÎºîÀ®
+     *  å˜ç´”ãªã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã®ä½œæˆ
      *
      *  @access public
      */
@@ -141,7 +141,7 @@ class Ethna_UnitTestCase extends UnitTestCase
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¤ÎºîÀ®
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ä½œæˆ
      *
      *  @access public
      */
@@ -151,18 +151,18 @@ class Ethna_UnitTestCase extends UnitTestCase
             $this->createActionForm();
         }
 
-        // ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
         $action_class_name = $this->ctl->getActionClassName($this->action_name);
         $this->action_class =& new $action_class_name($this->backend);
         $this->ac =& $this->action_class;
 
-        // backend¤Ëac¤ò´ØÏ¢ÉÕ¤±
+        // backendã«acã‚’é–¢é€£ä»˜ã‘
         $this->backend->action_class =& $this->ac;
         $this->backend->ac =& $this->ac;
     }
 
     /**
-     *  ¥Ó¥å¡¼¤ÎºîÀ®
+     *  ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
      *
      *  @access public
      */
@@ -172,7 +172,7 @@ class Ethna_UnitTestCase extends UnitTestCase
             $this->createPlainActionForm();
         }
 
-        // ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
         $view_class_name = $this->ctl->getViewClassName($this->forward_name);
         $this->view_class =& new $view_class_name($this->backend, $this->forward_name, $this->ctl->_getForwardPath($this->forward_name));
         $this->vc =& $this->view_class;

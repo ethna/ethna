@@ -11,10 +11,10 @@
 
 // {{{ Ethna_DB
 /**
- *  EthnaÍÑDBÃê¾İ¥¯¥é¥¹
+ *  Ethnaç”¨DBæŠ½è±¡ã‚¯ãƒ©ã‚¹
  *
- *  Ethna¤Î¥Õ¥ì¡¼¥à¥ï¡¼¥¯¤ÇDB¥ª¥Ö¥¸¥§¥¯¥È¤ò°·¤¦¤¿¤á¤ÎÃê¾İ¥¯¥é¥¹
- *  (¤Î¤Ä¤â¤ê...¤¢¤¡¤¹¤Ğ¤é¤·¤­PHP 4)
+ *  Ethnaã®ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã§DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ‰±ã†ãŸã‚ã®æŠ½è±¡ã‚¯ãƒ©ã‚¹
+ *  (ã®ã¤ã‚‚ã‚Š...ã‚ãã™ã°ã‚‰ã—ãPHP 4)
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -26,22 +26,22 @@ class Ethna_DB
      *  @access private
      */
 
-    /** @var    object  DB              DB¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  DB              DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $db;
 
-    /** @var    array   ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó´ÉÍı¥¹¥¿¥Ã¥¯ */
+    /** @var    array   ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç®¡ç†ã‚¹ã‚¿ãƒƒã‚¯ */
     var $transaction = array();
 
     /**#@-*/
 
 
     /**
-     *  Ethna_DB¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_DBã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *  @param  string  $dsn                                DSN
-     *  @param  bool    $persistent                         »ıÂ³ÀÜÂ³ÀßÄê
+     *  @param  bool    $persistent                         æŒç¶šæ¥ç¶šè¨­å®š
      */
     function Ethna_DB(&$controller, $dsn, $persistent)
     {
@@ -50,17 +50,17 @@ class Ethna_DB
     }
 
     /**
-     *  DB¤ËÀÜÂ³¤¹¤ë
+     *  DBã«æ¥ç¶šã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function connect()
     {
     }
 
     /**
-     *  DBÀÜÂ³¤òÀÚÃÇ¤¹¤ë
+     *  DBæ¥ç¶šã‚’åˆ‡æ–­ã™ã‚‹
      *
      *  @access public
      */
@@ -69,57 +69,57 @@ class Ethna_DB
     }
 
     /**
-     *  DBÀÜÂ³¾õÂÖ¤òÊÖ¤¹
+     *  DBæ¥ç¶šçŠ¶æ…‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @return bool    true:Àµ¾ï(ÀÜÂ³ºÑ¤ß) false:¥¨¥é¡¼/Ì¤ÀÜÂ³
+     *  @return bool    true:æ­£å¸¸(æ¥ç¶šæ¸ˆã¿) false:ã‚¨ãƒ©ãƒ¼/æœªæ¥ç¶š
      */
     function isValid()
     {
     }
 
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function begin()
     {
     }
 
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤òÃæÃÇ¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä¸­æ–­ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function rollback()
     {
     }
 
     /**
-     *  DB¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò½ªÎ»¤¹¤ë
+     *  DBãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’çµ‚äº†ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function commit()
     {
     }
 
     /**
-     *  ¥Æ¡¼¥Ö¥ëÄêµÁ¾ğÊó¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ†ãƒ¼ãƒ–ãƒ«å®šç¾©æƒ…å ±ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   array: PEAR::DB¤Ë½à¤¸¤¿¥á¥¿¥Ç¡¼¥¿ Ethna_Error::¥¨¥é¡¼
+     *  @return mixed   array: PEAR::DBã«æº–ã˜ãŸãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ Ethna_Error::ã‚¨ãƒ©ãƒ¼
      */
     function getMetaData()
     {
     }
 
     /**
-     *  DSN¤ò¼èÆÀ¤¹¤ë
+     *  DSNã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
      *  @return string  DSN

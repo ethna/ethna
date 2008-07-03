@@ -12,7 +12,7 @@
 
 // {{{ Ethna_Plugin
 /**
- *  ¥×¥é¥°¥¤¥ó¥¯¥é¥¹
+ *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹
  *  
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
@@ -25,32 +25,32 @@ class Ethna_Plugin
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
-    /** @var    object  Ethna_Logger        ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger        ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
-    /** @var    array   ¥×¥é¥°¥¤¥ó¤Î¥ª¥Ö¥¸¥§¥¯¥È(¥¤¥ó¥¹¥¿¥ó¥¹)¤òÊİÂ¸¤¹¤ëÇÛÎó */
+    /** @var    array   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹)ã‚’ä¿å­˜ã™ã‚‹é…åˆ— */
     var $obj_registry = array();
 
-    /** @var    array   ¥×¥é¥°¥¤¥ó¤Î¥¯¥é¥¹Ì¾¡¢¥½¡¼¥¹¥Õ¥¡¥¤¥ëÌ¾¤òÊİÂ¸¤¹¤ëÇÛÎó */
+    /** @var    array   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¯ãƒ©ã‚¹åã€ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ä¿å­˜ã™ã‚‹é…åˆ— */
     var $src_registry = array();
 
-    /** @var    array       ¸¡º÷ÂĞ¾İ¤È¤Ê¤ë¥×¥é¥°¥¤¥ó¤Î¥¢¥×¥ê¥±¡¼¥·¥ç¥óID¤Î¥ê¥¹¥È */
+    /** @var    array       æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³IDã®ãƒªã‚¹ãƒˆ */
     var $appid_list;
 
     /**#@-*/
 
-    // {{{ ¥³¥ó¥¹¥È¥é¥¯¥¿
+    // {{{ ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     /**
-     *  Ethna_Plugin¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Pluginã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    $controller ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    $controller ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Plugin(&$controller)
     {
@@ -66,13 +66,13 @@ class Ethna_Plugin
     }
 
     /**
-     *  logger¤òset¤¹¤ë¡£
+     *  loggerã‚’setã™ã‚‹ã€‚
      *
-     *  LogWriter¤Ïplugin¤Ê¤Î¤Ç¡¢plugin¥¤¥ó¥¹¥¿¥ó¥¹ºîÀ®»şÅÀ¤Ç¤Ï
-     *  logger¤Ë°ÍÂ¸¤·¤Ê¤¤¤è¤¦¤Ë¤¹¤ë¡£
+     *  LogWriterã¯pluginãªã®ã§ã€pluginã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆæ™‚ç‚¹ã§ã¯
+     *  loggerã«ä¾å­˜ã—ãªã„ã‚ˆã†ã«ã™ã‚‹ã€‚
      *
      *  @access public
-     *  @param  object  Ethna_Logger    $logger ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Logger    $logger ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function setLogger(&$logger)
     {
@@ -82,14 +82,14 @@ class Ethna_Plugin
     }
     // }}}
 
-    // {{{ ¥×¥é¥°¥¤¥ó¸Æ¤Ó½Ğ¤·¥¤¥ó¥¿¥Õ¥§¡¼¥¹
+    // {{{ ãƒ—ãƒ©ã‚°ã‚¤ãƒ³å‘¼ã³å‡ºã—ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤ò¼èÆÀ
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
      *
      *  @access public
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
-     *  @return object  ¥×¥é¥°¥¤¥ó¤Î¥¤¥ó¥¹¥¿¥ó¥¹
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
+     *  @return object  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     function &getPlugin($type, $name)
     {
@@ -97,11 +97,11 @@ class Ethna_Plugin
     }
 
     /**
-     *  ¤¢¤ë¼ïÎà ($type) ¤Î¥×¥é¥°¥¤¥ó ($name) ¤ÎÁ´¥ê¥¹¥È¤ò¼èÆÀ
+     *  ã‚ã‚‹ç¨®é¡ ($type) ã®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ ($name) ã®å…¨ãƒªã‚¹ãƒˆã‚’å–å¾—
      *
      *  @access public
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @return array   ¥×¥é¥°¥¤¥ó¥ª¥Ö¥¸¥§¥¯¥È¤ÎÇÛÎó
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @return array   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
      */
     function getPluginList($type)
     {
@@ -121,52 +121,52 @@ class Ethna_Plugin
     }
     // }}}
 
-    // {{{ obj_registry ¤Î¥¢¥¯¥»¥µ
+    // {{{ obj_registry ã®ã‚¢ã‚¯ã‚»ã‚µ
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤ò¥ì¥¸¥¹¥È¥ê¤«¤é¼èÆÀ
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒ¬ã‚¸ã‚¹ãƒˆãƒªã‹ã‚‰å–å¾—
      *
      *  @access private
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
-     *  @return object  ¥×¥é¥°¥¤¥ó¤Î¥¤¥ó¥¹¥¿¥ó¥¹
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
+     *  @return object  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     function &_getPlugin($type, $name)
     {
         if (isset($this->obj_registry[$type]) == false) {
             $this->obj_registry[$type] = array();
 
-            // ¥×¥é¥°¥¤¥ó¤Î¿Æ¥¯¥é¥¹¤ò(Â¸ºß¤¹¤ì¤Ğ)ÆÉ¤ß¹ş¤ß
+            // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®è¦ªã‚¯ãƒ©ã‚¹ã‚’(å­˜åœ¨ã™ã‚Œã°)èª­ã¿è¾¼ã¿
             foreach ($this->appid_list as $appid) {
                 list($class, $dir, $file) = $this->getPluginNaming($type, null, $appid);
                 $this->_includePluginSrc($class, $dir, $file, true);
             }
         }
 
-        // key ¤¬¤Ê¤¤¤È¤­¤Ï¥×¥é¥°¥¤¥ó¤ò¥í¡¼¥É¤¹¤ë
+        // key ãŒãªã„ã¨ãã¯ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
         if (array_key_exists($name, $this->obj_registry[$type]) == false) {
             $this->_loadPlugin($type, $name);
         }
 
-        // null ¤Î¤È¤­¤Ï¥í¡¼¥É¤Ë¼ºÇÔ¤·¤Æ¤¤¤ë
+        // null ã®ã¨ãã¯ãƒ­ãƒ¼ãƒ‰ã«å¤±æ•—ã—ã¦ã„ã‚‹
         if (is_null($this->obj_registry[$type][$name])) {
             return Ethna::raiseWarning('plugin [type=%s, name=%s] is not found',
                 E_PLUGIN_NOTFOUND, $type, $name);
         }
 
-        // ¥×¥é¥°¥¤¥ó¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤òÊÖ¤¹
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™
         return $this->obj_registry[$type][$name];
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¤òinclude¤·¤Ænew¤·¡¤¥ì¥¸¥¹¥È¥ê¤ËÅĞÏ¿
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’includeã—ã¦newã—ï¼Œãƒ¬ã‚¸ã‚¹ãƒˆãƒªã«ç™»éŒ²
      *
      *  @access private
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
      */
     function _loadPlugin($type, $name)
     {
-        // ¥×¥é¥°¥¤¥ó¤Î¥Õ¥¡¥¤¥ëÌ¾¤ò¼èÆÀ
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—
         $plugin_src = $this->_getPluginSrc($type, $name);
         if (is_null($plugin_src)) {
             $this->obj_registry[$type][$name] = null;
@@ -174,14 +174,14 @@ class Ethna_Plugin
         }
         list($plugin_class, $plugin_dir, $plugin_file) = $plugin_src;
 
-        // ¥×¥é¥°¥¤¥ó¤Î¥Õ¥¡¥¤¥ë¤òÆÉ¤ß¹ş¤ß
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿
         $r =& $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
         if (Ethna::isError($r)) {
             $this->obj_registry[$type][$name] = null;
             return;
         }
 
-        // ¥×¥é¥°¥¤¥óºîÀ®
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ä½œæˆ
         $instance =& new $plugin_class($this->controller, $type, $name);
         if (is_object($instance) == false
             || strcasecmp(get_class($instance), $plugin_class) != 0) {
@@ -193,11 +193,11 @@ class Ethna_Plugin
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤ò¥ì¥¸¥¹¥È¥ê¤«¤é¾Ã¤¹
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒ¬ã‚¸ã‚¹ãƒˆãƒªã‹ã‚‰æ¶ˆã™
      *
      *  @access private
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
      */
     function _unloadPlugin($type, $name)
     {
@@ -205,14 +205,14 @@ class Ethna_Plugin
     }
     // }}}
 
-    // {{{ src_registry ¤Î¥¢¥¯¥»¥µ
+    // {{{ src_registry ã®ã‚¢ã‚¯ã‚»ã‚µ
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¥½¡¼¥¹¥Õ¥¡¥¤¥ëÌ¾¤È¥¯¥é¥¹Ì¾¤ò¥ì¥¸¥¹¥È¥ê¤«¤é¼èÆÀ
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«åã¨ã‚¯ãƒ©ã‚¹åã‚’ãƒ¬ã‚¸ã‚¹ãƒˆãƒªã‹ã‚‰å–å¾—
      *
      *  @access private
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
-     *  @return array   ¥½¡¼¥¹¥Õ¥¡¥¤¥ëÌ¾¤È¥¯¥é¥¹Ì¾¤«¤é¤Ê¤ëÇÛÎó
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
+     *  @return array   ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«åã¨ã‚¯ãƒ©ã‚¹åã‹ã‚‰ãªã‚‹é…åˆ—
      */
     function _getPluginSrc($type, $name)
     {
@@ -220,26 +220,26 @@ class Ethna_Plugin
             $this->src_registry[$type] = array();
         }
 
-        // key ¤¬¤Ê¤¤¤È¤­¤Ï¥×¥é¥°¥¤¥ó¤Î¸¡º÷¤ò¤¹¤ë
+        // key ãŒãªã„ã¨ãã¯ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®æ¤œç´¢ã‚’ã™ã‚‹
         if (array_key_exists($name, $this->src_registry[$type]) == false) {
             $this->_searchPluginSrc($type, $name);
         }
 
-        // ¥×¥é¥°¥¤¥ó¤Î¥½¡¼¥¹¤òÊÖ¤¹
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚½ãƒ¼ã‚¹ã‚’è¿”ã™
         return $this->src_registry[$type][$name];
     }
     // }}}
 
-    // {{{ ¥×¥é¥°¥¤¥ó¥Õ¥¡¥¤¥ë¸¡º÷ÉôÊ¬
+    // {{{ ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«æ¤œç´¢éƒ¨åˆ†
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¥¯¥é¥¹Ì¾¡¢¥Ç¥£¥ì¥¯¥È¥ê¡¢¥Õ¥¡¥¤¥ëÌ¾¤ò·èÄê
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¯ãƒ©ã‚¹åã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ±ºå®š
      *
      *  @access public
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á° (null¤Î¤È¤­¤Ï¿Æ¥¯¥é¥¹)
-     *  @param  string  $appid  ¥¢¥×¥ê¥±¡¼¥·¥ç¥óID
-     *  @return array   ¥×¥é¥°¥¤¥ó¤Î¥¯¥é¥¹Ì¾¡¢¥Ç¥£¥ì¥¯¥È¥ê¡¢¥Õ¥¡¥¤¥ëÌ¾¤ÎÇÛÎó
-     *  @todo   class factory¤Înaming rule¤ÈÀ°¹ç¤µ¤»¤ë
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰ (nullã®ã¨ãã¯è¦ªã‚¯ãƒ©ã‚¹)
+     *  @param  string  $appid  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ID
+     *  @return array   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚¯ãƒ©ã‚¹åã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€ãƒ•ã‚¡ã‚¤ãƒ«åã®é…åˆ—
+     *  @todo   class factoryã®naming ruleã¨æ•´åˆã•ã›ã‚‹
      */
     function getPluginNaming($type, $name, $appid)
     {
@@ -270,13 +270,13 @@ class Ethna_Plugin
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¥½¡¼¥¹¤ò include ¤¹¤ë
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚½ãƒ¼ã‚¹ã‚’ include ã™ã‚‹
      *
      *  @access private
-     *  @param  string  $class  ¥¯¥é¥¹Ì¾
-     *  @param  string  $dir    ¥Ç¥£¥ì¥¯¥È¥êÌ¾
-     *  @param  string  $file   ¥Õ¥¡¥¤¥ëÌ¾
-     *  @param  bool    $parent ¿Æ¥¯¥é¥¹¤«¤É¤¦¤«¤Î¥Õ¥é¥°
+     *  @param  string  $class  ã‚¯ãƒ©ã‚¹å
+     *  @param  string  $dir    ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
+     *  @param  string  $file   ãƒ•ã‚¡ã‚¤ãƒ«å
+     *  @param  bool    $parent è¦ªã‚¯ãƒ©ã‚¹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
      *  @return true|Ethna_Error
      */
     function &_includePluginSrc($class, $dir, $file, $parent = false)
@@ -314,19 +314,19 @@ class Ethna_Plugin
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó, Ethna ¤Î½ç¤Ç¥×¥é¥°¥¤¥ó¤Î¥½¡¼¥¹¤ò¸¡º÷¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³, Ethna ã®é †ã§ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚½ãƒ¼ã‚¹ã‚’æ¤œç´¢ã™ã‚‹
      *
      *  @access private
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
      */
     function _searchPluginSrc($type, $name)
     {
-        // ¥³¥ó¥È¥í¡¼¥é¤Ç»ØÄê¤µ¤ì¤¿¥¢¥×¥ê¥±¡¼¥·¥ç¥óID¤Î½ç¤Ë¸¡º÷
+        // ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã§æŒ‡å®šã•ã‚ŒãŸã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³IDã®é †ã«æ¤œç´¢
         foreach ($this->appid_list as $appid) {
             list($class, $dir, $file) = $this->getPluginNaming($type, $name, $appid);
             if (class_exists($class)) {
-                // ¤¹¤Ç¤Ë¥¯¥é¥¹¤¬Â¸ºß¤¹¤ë¾ì¹ç¤ÏÆÃÊÌ¤Ë¥¹¥­¥Ã¥×
+                // ã™ã§ã«ã‚¯ãƒ©ã‚¹ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ç‰¹åˆ¥ã«ã‚¹ã‚­ãƒƒãƒ—
                 if (isset($this->src_registry[$type]) == false) {
                     $this->src_registry[$type] = array();
                 }
@@ -344,13 +344,13 @@ class Ethna_Plugin
             }
         }
 
-        // ¸«¤Ä¤«¤é¤Ê¤«¤Ã¤¿¾ì¹ç (null¤Çµ­²±¤·¤Æ¤ª¤¯)
+        // è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆ (nullã§è¨˜æ†¶ã—ã¦ãŠã)
         $this->logger->log(LOG_WARNING, 'plugin file for [type=%s, name=%s] is not found in search', $type, $name);
         $this->src_registry[$type][$name] = null;
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¼ïÎà ($type) ¤ò¤¹¤Ù¤Æ¸¡º÷¤¹¤ë
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡ ($type) ã‚’ã™ã¹ã¦æ¤œç´¢ã™ã‚‹
      *
      *  @access public
      *  @return array
@@ -378,25 +378,25 @@ class Ethna_Plugin
     }
 
     /**
-     *  »ØÄê¤µ¤ì¤¿ $type ¤Î¥×¥é¥°¥¤¥ó (¤Î¥½¡¼¥¹) ¤ò¤¹¤Ù¤Æ¸¡º÷¤¹¤ë
+     *  æŒ‡å®šã•ã‚ŒãŸ $type ã®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ (ã®ã‚½ãƒ¼ã‚¹) ã‚’ã™ã¹ã¦æ¤œç´¢ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
      */
     function searchAllPluginSrc($type)
     {
-        // ¸å¤Ç¸«ÉÕ¤«¤Ã¤¿¤â¤Î¤Ç¾å½ñ¤­¤¹¤ë¤Î¤Ç $this->appid_list ¤ÎµÕ½ç¤È¤¹¤ë
+        // å¾Œã§è¦‹ä»˜ã‹ã£ãŸã‚‚ã®ã§ä¸Šæ›¸ãã™ã‚‹ã®ã§ $this->appid_list ã®é€†é †ã¨ã™ã‚‹
         $name_list = array();
         foreach (array_reverse($this->appid_list) as $appid) {
             list($class_regexp, $dir, $file_regexp) = $this->getPluginNaming($type, '([^_]+)', $appid);
 
-            //¥Ç¥£¥ì¥¯¥È¥ê¤ÎÂ¸ºß¤Î¥Á¥§¥Ã¥¯
+            //ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å­˜åœ¨ã®ãƒã‚§ãƒƒã‚¯
             if (is_dir($dir) == false) {
-                // ¥¢¥×¥êÂ¦¤Ç¸«ÉÕ¤«¤é¤Ê¤¤¤Î¤ÏÀµ¾ï
+                // ã‚¢ãƒ—ãƒªå´ã§è¦‹ä»˜ã‹ã‚‰ãªã„ã®ã¯æ­£å¸¸
                 continue;
             }
 
-            // ¥Ç¥£¥ì¥¯¥È¥ê¤ò³«¤¯
+            // ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’é–‹ã
             $dh = opendir($dir);
             if (is_resource($dh) == false) {
                 $this->logger->log(LOG_DEBUG, 'cannot open plugin directory: [%s]', $dir);
@@ -404,7 +404,7 @@ class Ethna_Plugin
             }
             $this->logger->log(LOG_DEBUG, 'plugin directory opened: [%s]', $dir);
 
-            // ¾ò·ï¤Ë¤¢¤¦ $name ¤ò¥ê¥¹¥È¤ËÄÉ²Ã
+            // æ¡ä»¶ã«ã‚ã† $name ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ 
             while (($file = readdir($dh)) !== false) {
                 if (preg_match('#^'.$file_regexp.'$#', $file, $matches)
                     && file_exists("{$dir}/{$file}")) {
@@ -416,19 +416,19 @@ class Ethna_Plugin
         }
 
         foreach (array_keys($name_list) as $name) {
-            // ¾éÄ¹¤À¤¬¤â¤¦°ìÅÙÃµ¤·¤Ê¤ª¤¹
+            // å†—é•·ã ãŒã‚‚ã†ä¸€åº¦æ¢ã—ãªãŠã™
             $this->_searchPluginSrc($type, $name);
         }
     }
     // }}}
 
-    // {{{ static ¤Ê include ¥á¥½¥Ã¥É
+    // {{{ static ãª include ãƒ¡ã‚½ãƒƒãƒ‰
     /**
-     *  Ethna ËÜÂÎÉÕÂ°¤Î¥×¥é¥°¥¤¥ó¤Î¥½¡¼¥¹¤ò include ¤¹¤ë
+     *  Ethna æœ¬ä½“ä»˜å±ã®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚½ãƒ¼ã‚¹ã‚’ include ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
      *  @static
      */
     function includeEthnaPlugin($type, $name)
@@ -437,12 +437,12 @@ class Ethna_Plugin
     }
 
     /**
-     *  ¥×¥é¥°¥¤¥ó¤Î¥½¡¼¥¹¤ò include ¤¹¤ë
+     *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ã‚½ãƒ¼ã‚¹ã‚’ include ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $type   ¥×¥é¥°¥¤¥ó¤Î¼ïÎà
-     *  @param  string  $name   ¥×¥é¥°¥¤¥ó¤ÎÌ¾Á°
-     *  @param  string  $appid  ¥¢¥×¥ê¥±¡¼¥·¥ç¥óID
+     *  @param  string  $type   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç¨®é¡
+     *  @param  string  $name   ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åå‰
+     *  @param  string  $appid  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ID
      *  @static
      */
     function includePlugin($type, $name, $appid = null)

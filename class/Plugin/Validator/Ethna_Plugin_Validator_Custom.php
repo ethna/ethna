@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Validator_Custom
 /**
- *  custom¥Ğ¥ê¥Ç¡¼¥¿¤Î¥é¥Ã¥Ñ¡¼¥×¥é¥°¥¤¥ó
+ *  customãƒãƒªãƒ‡ãƒ¼ã‚¿ã®ãƒ©ãƒƒãƒ‘ãƒ¼ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -19,16 +19,16 @@
  */
 class Ethna_Plugin_Validator_Custom extends Ethna_Plugin_Validator
 {
-    /** @var    bool    ÇÛÎó¤ò¼õ¤±¼è¤ë¤«¥Õ¥é¥° */
+    /** @var    bool    é…åˆ—ã‚’å—ã‘å–ã‚‹ã‹ãƒ•ãƒ©ã‚° */
     var $accept_array = true;
 
     /**
-     *  custom¥Ğ¥ê¥Ç¡¼¥¿¤Î¥é¥Ã¥Ñ¡¼
+     *  customãƒãƒªãƒ‡ãƒ¼ã‚¿ã®ãƒ©ãƒƒãƒ‘ãƒ¼
      *
      *  @access public
-     *  @param  string  $name       ¥Õ¥©¡¼¥à¤ÎÌ¾Á°
-     *  @param  mixed   $var        ¥Õ¥©¡¼¥à¤ÎÃÍ
-     *  @param  array   $params     ¥×¥é¥°¥¤¥ó¤Î¥Ñ¥é¥á¡¼¥¿
+     *  @param  string  $name       ãƒ•ã‚©ãƒ¼ãƒ ã®åå‰
+     *  @param  mixed   $var        ãƒ•ã‚©ãƒ¼ãƒ ã®å€¤
+     *  @param  array   $params     ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     function &validate($name, $var, $params)
     {
@@ -44,8 +44,8 @@ class Ethna_Plugin_Validator_Custom extends Ethna_Plugin_Validator
             if (method_exists($this->af, $method)) {
                 $ret =& $this->af->$method($name);
                 if (Ethna::isError($ret)) {
-                    // ¤³¤Î¥¨¥é¡¼¤Ï¤¹¤Ç¤Ë af::checkSomething() ¤Ç ae::add()
-                    // ¤·¤Æ¤¢¤ë
+                    // ã“ã®ã‚¨ãƒ©ãƒ¼ã¯ã™ã§ã« af::checkSomething() ã§ ae::add()
+                    // ã—ã¦ã‚ã‚‹
                     return $false;
                 }
             }

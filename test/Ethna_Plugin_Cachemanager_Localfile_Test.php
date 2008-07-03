@@ -4,7 +4,7 @@
  */
 
 /**
- *  Ethna_Plugin_Cachemanager_Localfile¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Cachemanager_Localfileã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
@@ -36,7 +36,7 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         $plugin =& $ctl->getPlugin();
         $cm = $plugin->getPlugin('Cachemanager', 'Localfile');
 
-        // Ê¸»úÎó¤Î¥­¥ã¥Ã¥·¥å
+        // æ–‡å­—åˆ—ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥
         $string_key = 'string_key';
         $string_value = "cache\ncontent";
         $cm->set($string_key, $string_value, mktime(0, 0, 0, 7, 1, 2000));
@@ -45,7 +45,7 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         $this->assertEqual(mktime(0, 0, 0, 7, 1, 2000), $cm->getLastModified($string_key));
         $this->assertTrue($string_value, $cache_string);
 
-        // À°¿ô¤Î¥­¥ã¥Ã¥·¥å + namespace
+        // æ•´æ•°ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ + namespace
         $int_key = 'int_key';
         $int_value = 777;
         $namespace = 'test';
@@ -54,39 +54,39 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         $this->assertTrue($cm->isCached($int_key, mktime(0, 0, 0, 7, 1, 2000), $namespace));
         $this->assertTrue($int_value, $cache_int);
 
-        // ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥­¥ã¥Ã¥·¥å
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥
         $object_key = 'object_key';
         $object_value =& $cm;
         $cm->set($object_key, $object_value);
         $this->assertTrue($cm->isCached($object_key));
-        // ¥­¥ã¥Ã¥·¥å¤µ¤ì¤¿¥¤¥ó¥¹¥¿¥ó¥¹
+        // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
         $cache_object = $cm->get($object_key);
         $this->assertTrue($string_value, $cache_object->get($string_key));
 
-        // ¥­¥ã¥Ã¥·¥å¤Î¥¯¥ê¥¢¤ò¥Æ¥¹¥È
+        // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®ã‚¯ãƒªã‚¢ã‚’ãƒ†ã‚¹ãƒˆ
         $cm->clear($object_key);
         $this->assertFalse($cm->isCached($object_key));
 
-        // ¥­¥ã¥Ã¥·¥å¤µ¤ì¤Æ¤¤¤Ê¤¤¤Î¤Ë¸Æ¤Ó½Ð¤½¤¦¤È¤·¤¿¾ì¹ç
+        // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚Œã¦ã„ãªã„ã®ã«å‘¼ã³å‡ºãã†ã¨ã—ãŸå ´åˆ
         $nocache_key = 'nocache_key';
         $cm->clear($nocache_key);
         $pear_error = $cm->get($nocache_key);
         $this->assertEqual(E_CACHE_NO_VALUE, $pear_error->getCode());
         $this->assertEqual('fopen failed', $pear_error->getMessage());
 
-        // ¥Õ¥¡¥¤¥ë¤ËÆÉ¤ß¹þ¤ß¸¢¸Â¤¬¤Ê¤¤¾ì¹ç
+        // ãƒ•ã‚¡ã‚¤ãƒ«ã«èª­ã¿è¾¼ã¿æ¨©é™ãŒãªã„å ´åˆ
         Ethna_Util::chmod($cm->_getCacheFile(null, $string_key), 0222);
         $pear_error = $cm->get($string_key);
         $this->assertEqual(E_CACHE_NO_VALUE, $pear_error->getCode());
         $this->assertEqual('fopen failed', $pear_error->getMessage());
         Ethna_Util::chmod($cm->_getCacheFile(null, $string_key), 0666);
 
-        // lifetimeÀÚ¤ì¤Î¾ì¹ç
+        // lifetimeåˆ‡ã‚Œã®å ´åˆ
         $pear_error = $cm->get($string_key, 1);
         $this->assertEqual(E_CACHE_EXPIRED, $pear_error->getCode());
         $this->assertEqual('fopen failed', $pear_error->getMessage());
 
-        // ¥Ç¥£¥ì¥¯¥È¥êÌ¾¤ÈÆ±¤¸¥Õ¥¡¥¤¥ë¤¬¤¢¤Ã¤Æ¥Ç¥£¥ì¥¯¥È¥ê¤¬ºîÀ®¤Ç¤­¤Ê¤¤¾ì¹ç
+        // ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã¨åŒã˜ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã£ã¦ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒä½œæˆã§ããªã„å ´åˆ
         $tmp_key = 'tmpkey';
         $tmp_dirname = $cm->_getCacheDir(null, $tmp_key);
         Ethna_Util::mkdir(dirname($tmp_dirname), 0777);

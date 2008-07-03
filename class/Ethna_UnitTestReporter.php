@@ -11,7 +11,7 @@
 require_once 'simpletest/scorer.php';
 
 /**
- *  Ethna¥Ş¥Í¡¼¥¸¥ã¥¯¥é¥¹
+ *  Ethnaãƒãƒãƒ¼ã‚¸ãƒ£ã‚¯ãƒ©ã‚¹
  *
  *  @author     Takuya Ookubo <sfio@sakura.ai.to>
  *  @access     public
@@ -25,12 +25,12 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     var $result;
 
     /**
-     *  Ethna_UnitTestReporter¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_UnitTestReporterã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  string  $character_set  ¥­¥ã¥é¥¯¥¿¥»¥Ã¥È
+     *  @param  string  $character_set  ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚»ãƒƒãƒˆ
      */
-    function Ethna_UnitTestReporter($character_set = 'EUC-JP')
+    function Ethna_UnitTestReporter($character_set = 'UTF-8')
     {
         $this->SimpleReporter();
         $this->_character_set = $character_set;
@@ -39,10 +39,10 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  ·ë²Ì
+     *  çµæœ
      *
      *  @access public
-     *  @param string   $test_name  ¥Æ¥¹¥ÈÌ¾¾Î
+     *  @param string   $test_name  ãƒ†ã‚¹ãƒˆåç§°
      */
     function paintFooter($test_name)
     {
@@ -57,10 +57,10 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  ¥Ñ¥¹
+     *  ãƒ‘ã‚¹
      *
      *  @access public
-     *¡¡@param string   $message    ¥á¥Ã¥»¡¼¥¸
+     *ã€€@param string   $message    ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function paintPass($message)
     {
@@ -75,10 +75,10 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  ¼ºÇÔ
+     *  å¤±æ•—
      *
      *  @access public
-     *¡¡@param string   $message    ¥á¥Ã¥»¡¼¥¸
+     *ã€€@param string   $message    ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function paintFail($message)
     {
@@ -93,10 +93,10 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  Îã³°
+     *  ä¾‹å¤–
      *
      *  @access public
-     *¡¡@param string   $message    ¥á¥Ã¥»¡¼¥¸
+     *ã€€@param string   $message    ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function paintException($message)
     {
@@ -114,10 +114,10 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  ¥Æ¥¹¥È¥±¡¼¥¹³«»Ï
+     *  ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹é–‹å§‹
      *
      *  @access public
-     *  @param string   $test_name  ¥Æ¥¹¥ÈÌ¾¾Î
+     *  @param string   $test_name  ãƒ†ã‚¹ãƒˆåç§°
      */
     function paintCaseStart($test_name)
     {
@@ -130,10 +130,10 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  ¥Æ¥¹¥È¥±¡¼¥¹½ªÎ»
+     *  ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹çµ‚äº†
      *
      *  @access public
-     *  @param string   $test_name  ¥Æ¥¹¥ÈÌ¾¾Î
+     *  @param string   $test_name  ãƒ†ã‚¹ãƒˆåç§°
      */
     function paintCaseEnd($test_name)
     {
@@ -145,10 +145,10 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  ¥Õ¥©¡¼¥Ş¥Ã¥ÈºÑ¤ß¥á¥Ã¥»¡¼¥¸
+     *  ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ¸ˆã¿ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      *
      *  @access public
-     *¡¡@param string   $message    ¥á¥Ã¥»¡¼¥¸
+     *ã€€@param string   $message    ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function paintFormattedMessage($message)
     {
@@ -159,11 +159,11 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     }
 
     /**
-     *  HTML¥¨¥ó¥Æ¥£¥Æ¥£ÊÑ´¹
+     *  HTMLã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£å¤‰æ›
      *
-     *¡¡@access protected
-     *¡¡@param string   $message    ¥×¥ì¡¼¥ó¥Æ¥­¥¹¥È
-     *¡¡@return string              HTML¥¨¥ó¥Æ¥£¥Æ¥£ÊÑ´¹ºÑ¤ß¥á¥Ã¥»¡¼¥¸
+     *ã€€@access protected
+     *ã€€@param string   $message    ãƒ—ãƒ¬ãƒ¼ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+     *ã€€@return string              HTMLã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£å¤‰æ›æ¸ˆã¿ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     function _htmlEntities($message)
     {

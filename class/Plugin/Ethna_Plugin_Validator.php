@@ -9,14 +9,14 @@
  *  @version    $Id$
  */
 
-// UPLOAD_ERR_* ¤¬Ì¤ÄêµÁ¤Î¾ì¹ç (PHP 4.3.0 °ÊÁ°)
+// UPLOAD_ERR_* ãŒæœªå®šç¾©ã®å ´åˆ (PHP 4.3.0 ä»¥å‰)
 if (defined('UPLOAD_ERR_OK') == false) {
     define('UPLOAD_ERR_OK', 0);
 }
 
 // {{{ Ethna_Plugin_Validator
 /**
- *  ¥Ğ¥ê¥Ç¡¼¥¿¥×¥é¥°¥¤¥ó¤Î´ğÄì¥¯¥é¥¹
+ *  ãƒãƒªãƒ‡ãƒ¼ã‚¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åŸºåº•ã‚¯ãƒ©ã‚¹
  *  
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -28,28 +28,28 @@ class Ethna_Plugin_Validator
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend   backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend   backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Logger    ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger    ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
-    /** @var    object  Ethna_ActionForm    ¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_form;
 
-    /** @var    object  Ethna_ActionForm    ¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $af;
 
-    /** @var    bool    ÇÛÎó¤ò¼õ¤±¼è¤ë¥Ğ¥ê¥Ç¡¼¥¿¤«¤É¤¦¤«¤Î¥Õ¥é¥° */
+    /** @var    bool    é…åˆ—ã‚’å—ã‘å–ã‚‹ãƒãƒªãƒ‡ãƒ¼ã‚¿ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚° */
     var $accept_array = false;
 
     /**#@-*/
 
     /**
-     *  ¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    $controller ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    $controller ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Plugin_Validator(&$controller)
     {
@@ -60,12 +60,12 @@ class Ethna_Plugin_Validator
     }
 
     /**
-     *  ¥Õ¥©¡¼¥àÃÍ¸¡¾Ú¤Î¤¿¤á¤ËActionForm¤«¤é¸Æ¤Ó½Ğ¤µ¤ì¤ë¥á¥½¥Ã¥É
+     *  ãƒ•ã‚©ãƒ¼ãƒ å€¤æ¤œè¨¼ã®ãŸã‚ã«ActionFormã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
      *
      *  @access public
-     *  @param  string  $name       ¥Õ¥©¡¼¥à¤ÎÌ¾Á°
-     *  @param  mixed   $var        ¥Õ¥©¡¼¥à¤ÎÃÍ
-     *  @param  array   $params     ¥×¥é¥°¥¤¥ó¤Î¥Ñ¥é¥á¡¼¥¿
+     *  @param  string  $name       ãƒ•ã‚©ãƒ¼ãƒ ã®åå‰
+     *  @param  mixed   $var        ãƒ•ã‚©ãƒ¼ãƒ ã®å€¤
+     *  @param  array   $params     ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     function &validate($name, $var, $params)
     {
@@ -73,10 +73,10 @@ class Ethna_Plugin_Validator
     }
 
     /**
-     *  ¥Õ¥©¡¼¥àÄêµÁ¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ•ã‚©ãƒ¼ãƒ å®šç¾©ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $name       ¥Õ¥©¡¼¥à¤ÎÌ¾Á°
+     *  @param  string  $name       ãƒ•ã‚©ãƒ¼ãƒ ã®åå‰
      */
     function getFormDef($name)
     {
@@ -84,10 +84,10 @@ class Ethna_Plugin_Validator
     }
 
     /**
-     *  ¥Õ¥©¡¼¥à¤Îtype¤ò¼èÆÀ¤¹¤ë(ÇÛÎó¤Î¾ì¹ç¤ÏÃÍ¤Î¤ß)
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã®typeã‚’å–å¾—ã™ã‚‹(é…åˆ—ã®å ´åˆã¯å€¤ã®ã¿)
      *
      *  @access public
-     *  @param  string  $name       ¥Õ¥©¡¼¥à¤ÎÌ¾Á°
+     *  @param  string  $name       ãƒ•ã‚©ãƒ¼ãƒ ã®åå‰
      */
     function getFormType($name)
     {
@@ -104,11 +104,11 @@ class Ethna_Plugin_Validator
     }
 
     /**
-     *  ¥Õ¥©¡¼¥àÃÍ¤¬¶õ¤«¤É¤¦¤«¤òÈ½Äê (ÇÛÎó¥Õ¥©¡¼¥à¤Î¾ì¹ç¤Ï³ÆÍ×ÁÇ¤ËÂĞ¤·¤Æ¸Æ¤Ó½Ğ¤¹)
+     *  ãƒ•ã‚©ãƒ¼ãƒ å€¤ãŒç©ºã‹ã©ã†ã‹ã‚’åˆ¤å®š (é…åˆ—ãƒ•ã‚©ãƒ¼ãƒ ã®å ´åˆã¯å„è¦ç´ ã«å¯¾ã—ã¦å‘¼ã³å‡ºã™)
      *
      *  @access protected
-     *  @param  mixed   $var       ¥Õ¥©¡¼¥à¤ÎÃÍ (ÇÛÎó¥Õ¥©¡¼¥à¤Î¾ì¹ç¤Ï³ÆÍ×ÁÇ)
-     *  @param  int     $type      ¥Õ¥©¡¼¥à¤Îtype
+     *  @param  mixed   $var       ãƒ•ã‚©ãƒ¼ãƒ ã®å€¤ (é…åˆ—ãƒ•ã‚©ãƒ¼ãƒ ã®å ´åˆã¯å„è¦ç´ )
+     *  @param  int     $type      ãƒ•ã‚©ãƒ¼ãƒ ã®type
      */
     function isEmpty($var, $type)
     {
@@ -131,7 +131,7 @@ class Ethna_Plugin_Validator
     }
 
     /**
-     *  true ¤ò»²¾È¤ÇÊÖ¤¹
+     *  true ã‚’å‚ç…§ã§è¿”ã™
      *
      *  @access protected
      */
@@ -142,12 +142,12 @@ class Ethna_Plugin_Validator
     }
 
     /**
-     *  ¥¨¥é¡¼¤òÊÖ¤¹
+     *  ã‚¨ãƒ©ãƒ¼ã‚’è¿”ã™
      *
      *  @access protected
-     *  @param  string  $msg        ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸
-     *  @param  int     $code       ¥¨¥é¡¼¥³¡¼¥É
-     *  @param  mixed   $info       ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤Ësprintf¤ÇÅÏ¤¹¥Ñ¥é¥á¡¼¥¿
+     *  @param  string  $msg        ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     *  @param  int     $code       ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+     *  @param  mixed   $info       ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«sprintfã§æ¸¡ã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     function &error($msg, $code, $info = null)
     {

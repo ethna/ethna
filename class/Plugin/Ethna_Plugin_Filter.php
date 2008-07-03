@@ -11,13 +11,13 @@
 
 // {{{ Ethna_Plugin_Filter
 /**
- *  ¥×¥é¥°¥¤¥ó¥Õ¥£¥ë¥¿´ğÄì¥¯¥é¥¹
+ *  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ•ã‚£ãƒ«ã‚¿åŸºåº•ã‚¯ãƒ©ã‚¹
  *
- *  Plugin¼ÂÁõ¤Ë¤è¤ê¡¤Ethna_Filter¤Î¸å·Ñ¤È¤·¤Æ¡¤
- *  Ethna_Plugin_Filter¤ËÄÉ²Ã¤·¤Ş¤·¤¿¡¥´ğËÜÅª¤ËEthna_Filter¤ÈÆ±¤¸¤Ç¤¹¡¥
+ *  Pluginå®Ÿè£…ã«ã‚ˆã‚Šï¼ŒEthna_Filterã®å¾Œç¶™ã¨ã—ã¦ï¼Œ
+ *  Ethna_Plugin_Filterã«è¿½åŠ ã—ã¾ã—ãŸï¼åŸºæœ¬çš„ã«Ethna_Filterã¨åŒã˜ã§ã™ï¼
  *  
- *  Mojavi¤Î¿¿»÷¤Ç¤¹¡Ê¤­¤Ã¤Ñ¤ê¡Ë¡£¥¢¥¯¥·¥ç¥ó¼Â¹ÔÁ°¤Ë³Æ¼ï½èÍı¤ò¹Ô¤¦¤³¤È¤¬
- *  ½ĞÍè¤Ş¤¹¡£
+ *  Mojaviã®çœŸä¼¼ã§ã™ï¼ˆãã£ã±ã‚Šï¼‰ã€‚ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Ÿè¡Œå‰ã«å„ç¨®å‡¦ç†ã‚’è¡Œã†ã“ã¨ãŒ
+ *  å‡ºæ¥ã¾ã™ã€‚
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -29,30 +29,30 @@ class Ethna_Plugin_Filter
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $config;
 
-    /** @var    object  Ethna_Logger        ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger        ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
     /**#@-*/
 
 
     /**
-     *  Ethna_Plugin_Filter¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Plugin_Filterã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Plugin_Filter(&$controller)
     {
-        // ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÀßÄê
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¨­å®š
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
 
@@ -61,21 +61,21 @@ class Ethna_Plugin_Filter
     }
 
     /**
-     *  ¼Â¹ÔÁ°¥Õ¥£¥ë¥¿
+     *  å®Ÿè¡Œå‰ãƒ•ã‚£ãƒ«ã‚¿
      *
      *  @access public
-     *  @return Ethna_Error:¼Â¹ÔÃæ»ß any:Àµ¾ï½ªÎ»
+     *  @return Ethna_Error:å®Ÿè¡Œä¸­æ­¢ any:æ­£å¸¸çµ‚äº†
      */
     function preFilter()
     {
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¼Â¹ÔÁ°¥Õ¥£¥ë¥¿
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Ÿè¡Œå‰ãƒ•ã‚£ãƒ«ã‚¿
      *
      *  @access public
-     *  @param  string  $action_name    ¼Â¹Ô¤µ¤ì¤ë¥¢¥¯¥·¥ç¥óÌ¾
-     *  @return string  null:Àµ¾ï½ªÎ» (string):¼Â¹Ô¤¹¤ë¥¢¥¯¥·¥ç¥óÌ¾¤òÊÑ¹¹
+     *  @param  string  $action_name    å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å
+     *  @return string  null:æ­£å¸¸çµ‚äº† (string):å®Ÿè¡Œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³åã‚’å¤‰æ›´
      */
     function preActionFilter($action_name)
     {
@@ -83,12 +83,12 @@ class Ethna_Plugin_Filter
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¼Â¹Ô¸å¥Õ¥£¥ë¥¿
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å®Ÿè¡Œå¾Œãƒ•ã‚£ãƒ«ã‚¿
      *
      *  @access public
-     *  @param  string  $action_name    ¼Â¹Ô¤µ¤ì¤¿¥¢¥¯¥·¥ç¥óÌ¾
-     *  @param  string  $forward_name   ¼Â¹Ô¤µ¤ì¤¿¥¢¥¯¥·¥ç¥ó¤«¤é¤ÎÌá¤êÃÍ
-     *  @return string  null:Àµ¾ï½ªÎ» (string):Á«°ÜÌ¾¤òÊÑ¹¹
+     *  @param  string  $action_name    å®Ÿè¡Œã•ã‚ŒãŸã‚¢ã‚¯ã‚·ãƒ§ãƒ³å
+     *  @param  string  $forward_name   å®Ÿè¡Œã•ã‚ŒãŸã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‹ã‚‰ã®æˆ»ã‚Šå€¤
+     *  @return string  null:æ­£å¸¸çµ‚äº† (string):é·ç§»åã‚’å¤‰æ›´
      */
     function postActionFilter($action_name, $forward_name)
     {
@@ -96,10 +96,10 @@ class Ethna_Plugin_Filter
     }
 
     /**
-     *  ¼Â¹Ô¸å¥Õ¥£¥ë¥¿
+     *  å®Ÿè¡Œå¾Œãƒ•ã‚£ãƒ«ã‚¿
      *
      *  @access public
-     *  @return Ethna_Error:¼Â¹ÔÃæ»ß any:Àµ¾ï½ªÎ»
+     *  @return Ethna_Error:å®Ÿè¡Œä¸­æ­¢ any:æ­£å¸¸çµ‚äº†
      */
     function postFilter()
     {

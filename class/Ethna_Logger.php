@@ -10,18 +10,18 @@
  */
 
 /**
- *  ³ÈÄ¥¥í¥°¥×¥í¥Ñ¥Æ¥£: ¥Õ¥¡¥¤¥ë½ĞÎÏ
+ *  æ‹¡å¼µãƒ­ã‚°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£: ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
  */
 define('LOG_FILE', 1 << 16);
 
 /**
- *  ³ÈÄ¥¥í¥°¥×¥í¥Ñ¥Æ¥£: É¸½à½ĞÎÏ
+ *  æ‹¡å¼µãƒ­ã‚°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£: æ¨™æº–å‡ºåŠ›
  */
 define('LOG_ECHO', 1 << 17);
 
 // {{{ Ethna_Logger
 /**
- *  ¥í¥°´ÉÍı¥¯¥é¥¹
+ *  ãƒ­ã‚°ç®¡ç†ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -34,7 +34,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @access private
      */
 
-    /** @var    array   ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£°ìÍ÷ */
+    /** @var    array   ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£ä¸€è¦§ */
     var $log_facility_list = array(
         'auth'      => array('name' => 'LOG_AUTH'),
         'cron'      => array('name' => 'LOG_CRON'),
@@ -50,7 +50,7 @@ class Ethna_Logger extends Ethna_AppManager
         'echo'      => array('name' => 'LOG_ECHO'),
     );
 
-    /** @var    array   ¥í¥°¥ì¥Ù¥ë°ìÍ÷ */
+    /** @var    array   ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ä¸€è¦§ */
     var $log_level_list = array(
         'emerg'     => array('name' => 'LOG_EMERG',     'value' => 7),
         'alert'     => array('name' => 'LOG_ALERT',     'value' => 6),
@@ -62,40 +62,40 @@ class Ethna_Logger extends Ethna_AppManager
         'debug'     => array('name' => 'LOG_DEBUG',     'value' => 0),
     );
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
-    /** @var    array   ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£ */
+    /** @var    array   ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£ */
     var $facility = array();
 
-    /** @var    array   ¥í¥°¥ì¥Ù¥ë */
+    /** @var    array   ãƒ­ã‚°ãƒ¬ãƒ™ãƒ« */
     var $level = array();
 
-    /** @var    array   ¥í¥°¥ª¥×¥·¥ç¥ó */
+    /** @var    array   ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³ */
     var $option = array();
 
-    /** @var    array   ¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(½ĞÎÏ) */
+    /** @var    array   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚£ãƒ«ã‚¿(å‡ºåŠ›) */
     var $message_filter_do = array();
 
-    /** @var    array   ¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(Ìµ»ë) */
+    /** @var    array   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚£ãƒ«ã‚¿(ç„¡è¦–) */
     var $message_filter_ignore = array();
 
-    /** @var    int     ¥¢¥é¡¼¥È¥ì¥Ù¥ë */
+    /** @var    int     ã‚¢ãƒ©ãƒ¼ãƒˆãƒ¬ãƒ™ãƒ« */
     var $alert_level;
 
-    /** @var    string  ¥¢¥é¡¼¥È¥á¡¼¥ë¥¢¥É¥ì¥¹ */
+    /** @var    string  ã‚¢ãƒ©ãƒ¼ãƒˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ */
     var $alert_mailaddress;
 
-    /** @var    array   Ethna_LogWriter ¥í¥°½ĞÎÏ¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    array   Ethna_LogWriter ãƒ­ã‚°å‡ºåŠ›ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $writer = array();
 
-    /** @var    bool    ¥í¥°½ĞÎÏ³«»Ï¥Õ¥é¥° */
+    /** @var    bool    ãƒ­ã‚°å‡ºåŠ›é–‹å§‹ãƒ•ãƒ©ã‚° */
     var $is_begin = false;
 
-    /** @var    array   ¥í¥°¥¹¥¿¥Ã¥¯(begin()Á°¤Ëlog()¤¬¸Æ¤Ó½Ğ¤µ¤ì¤¿¾ì¹ç¤Î¥¹¥¿¥Ã¥¯) */
+    /** @var    array   ãƒ­ã‚°ã‚¹ã‚¿ãƒƒã‚¯(begin()å‰ã«log()ãŒå‘¼ã³å‡ºã•ã‚ŒãŸå ´åˆã®ã‚¹ã‚¿ãƒƒã‚¯) */
     var $log_stack = array();
 
     /**#@-*/
@@ -103,10 +103,10 @@ class Ethna_Logger extends Ethna_AppManager
     
     // {{{ Ethna_Logger
     /**
-     *  Ethna_Logger¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Loggerã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    $controller controller¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    $controller controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Logger(&$controller)
     {
@@ -114,7 +114,7 @@ class Ethna_Logger extends Ethna_AppManager
         $this->ctl =& $this->controller;
         $config =& $controller->getConfig();
 
-        // ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£¥Æ¡¼¥Ö¥ëÊä´°(LOCAL0¡ÁLOCAL8)
+        // ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£ãƒ†ãƒ¼ãƒ–ãƒ«è£œå®Œ(LOCAL0ã€œLOCAL8)
         for ($i = 0; $i < 8; $i++) {
             if (defined("LOG_LOCAL$i")) {
                 $this->log_facility_list["local$i"] = array('name' => "LOG_LOCAL$i");
@@ -123,7 +123,7 @@ class Ethna_Logger extends Ethna_AppManager
 
         $config_log = $config->get('log');
 
-        // ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£
+        // ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£
         if (is_array($config_log)) {
             $this->facility = array_keys($config_log);
         } else {
@@ -131,7 +131,7 @@ class Ethna_Logger extends Ethna_AppManager
         }
 
         foreach ($this->facility as $f) {
-            // ¥í¥°¥ì¥Ù¥ë
+            // ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«
             if (isset($config_log[$f]['level'])) {
                 $this->level[$f] = $this->_parseLogLevel($config_log[$f]['level']);
             } else if (($level = $config->get("log_level_$f")) !== null) {
@@ -142,7 +142,7 @@ class Ethna_Logger extends Ethna_AppManager
                 $this->level[$f] = LOG_WARNING;
             }
 
-            // ¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(filter_do)
+            // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚£ãƒ«ã‚¿(filter_do)
             if (isset($config_log[$f]['filter_do'])) {
                 $this->message_filter_do[$f] = $config_log[$f]['filter_do'];
             } else if (($filter = $config->get("log_filter_do_$f")) !== null) {
@@ -153,7 +153,7 @@ class Ethna_Logger extends Ethna_AppManager
                 $this->message_filter_do[$f] = '';
             }
 
-            // ¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(filter_ignore)
+            // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚£ãƒ«ã‚¿(filter_ignore)
             if (isset($config_log[$f]['filter_ignore'])) {
                 $this->message_filter_ignore[$f] = $config_log[$f]['filter_ignore'];
             } else if (($filter = $config->get("log_filter_ignore_$f")) !== null) {
@@ -164,14 +164,14 @@ class Ethna_Logger extends Ethna_AppManager
                 $this->message_filter_ignore[$f] = '';
             }
 
-            // ¤½¤Î¤¿¥ª¥×¥·¥ç¥ó (unset¤Ï¤»¤º¤Ë¤½¤Î¤Ş¤ŞÅÏ¤¹)
+            // ãã®ãŸã‚ªãƒ—ã‚·ãƒ§ãƒ³ (unsetã¯ã›ãšã«ãã®ã¾ã¾æ¸¡ã™)
             if (isset($config_log[$f])) {
                 $this->option[$f] = $config_log[$f];
             } else {
                 $this->option[$f] = array();
             }
 
-            // 'option' ¤Ë¤è¤ë¥ª¥×¥·¥ç¥ó»ØÄê (for B.C.)
+            // 'option' ã«ã‚ˆã‚‹ã‚ªãƒ—ã‚·ãƒ§ãƒ³æŒ‡å®š (for B.C.)
             if (isset($config_log[$f]['option'])) {
                 $option = $this->_parseLogOption($config_log[$f]['option']);
             } else if (($option = $config->get("log_option_$f")) !== null) {
@@ -184,7 +184,7 @@ class Ethna_Logger extends Ethna_AppManager
             }
         }
 
-        // ¥¢¥é¡¼¥È¥ª¥×¥·¥ç¥ó
+        // ã‚¢ãƒ©ãƒ¼ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³
         $this->alert_level =
             $this->_parseLogLevel($config->get('log_alert_level'));
         $this->alert_mailaddress
@@ -194,11 +194,11 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ getLogFacility
     /**
-     *  ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£(¥Õ¥¡¥·¥ê¥Æ¥£¤¬1¤Ä°Ê²¼¤Ê¤éscalar¡¢
-     *                  2¤Ä°Ê¾å¤Ê¤éÇÛÎó¤òÊÖ¤¹ for B.C.)
+     *  @return mixed   ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£(ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£ãŒ1ã¤ä»¥ä¸‹ãªã‚‰scalarã€
+     *                  2ã¤ä»¥ä¸Šãªã‚‰é…åˆ—ã‚’è¿”ã™ for B.C.)
      */
     function getLogFacility()
     {
@@ -215,11 +215,11 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ errorLevelToLogLevel
     /**
-     *  PHP¥¨¥é¡¼¥ì¥Ù¥ë¤ò¥í¥°¥ì¥Ù¥ë¤ËÊÑ´¹¤¹¤ë
+     *  PHPã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«ã‚’ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã«å¤‰æ›ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $errno  PHP¥¨¥é¡¼¥ì¥Ù¥ë
-     *  @return array   ¥í¥°¥ì¥Ù¥ë(LOG_NOTICE,...), ¥¨¥é¡¼¥ì¥Ù¥ëÉ½¼¨Ì¾("E_NOTICE"...)
+     *  @param  int     $errno  PHPã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«
+     *  @return array   ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_NOTICE,...), ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«è¡¨ç¤ºå("E_NOTICE"...)
      *  @static
      */
     function errorLevelToLogLevel($errno)
@@ -241,13 +241,13 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ begin
     /**
-     *  ¥í¥°½ĞÎÏ¤ò³«»Ï¤¹¤ë
+     *  ãƒ­ã‚°å‡ºåŠ›ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
      */
     function begin()
     {
-        // LogWriter¥¯¥é¥¹¤ÎÀ¸À®
+        // LogWriterã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
         foreach ($this->facility as $f) {
             $this->writer[$f] =& $this->_getLogWriter($this->option[$f], $f);
             if (Ethna::isError($this->writer[$f])) {
@@ -263,7 +263,7 @@ class Ethna_Logger extends Ethna_AppManager
         
         $this->is_begin = true;
 
-        // begin()°ÊÁ°¤Îlog()¤ò½èÍı
+        // begin()ä»¥å‰ã®log()ã‚’å‡¦ç†
         if (count($this->log_stack) > 0) {
             // copy and clear for recursive calls
             $tmp_stack = $this->log_stack;
@@ -279,11 +279,11 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ log
     /**
-     *  ¥í¥°¤ò½ĞÎÏ¤¹¤ë
+     *  ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $level      ¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸(+°ú¿ô)
+     *  @param  int     $level      ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_DEBUG, LOG_NOTICE...)
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(+å¼•æ•°)
      */
     function log($level, $message)
     {
@@ -298,7 +298,7 @@ class Ethna_Logger extends Ethna_AppManager
         }
 
         foreach (array_keys($this->writer) as $key) {
-            // ¥í¥°¥á¥Ã¥»¡¼¥¸¥Õ¥£¥ë¥¿(¥ì¥Ù¥ë¥Õ¥£¥ë¥¿¤ËÍ¥Àè¤¹¤ë)
+            // ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚£ãƒ«ã‚¿(ãƒ¬ãƒ™ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã«å„ªå…ˆã™ã‚‹)
             $r = $this->_evalMessageMask($this->message_filter_do[$key], $message);
             if (is_null($r)) {
                 $r = $this->_evalMessageMask($this->message_filter_ignore[$key],
@@ -308,12 +308,12 @@ class Ethna_Logger extends Ethna_AppManager
                 }
             }
 
-            // ¥í¥°¥ì¥Ù¥ë¥Õ¥£¥ë¥¿
+            // ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ãƒ•ã‚£ãƒ«ã‚¿
             if ($this->_evalLevelMask($this->level[$key], $level)) {
                 continue;
             }
 
-            // ¥í¥°½ĞÎÏ
+            // ãƒ­ã‚°å‡ºåŠ›
             $args = func_get_args();
             if (count($args) > 2) {
                 array_splice($args, 0, 2);
@@ -322,7 +322,7 @@ class Ethna_Logger extends Ethna_AppManager
             $output = $this->writer[$key]->log($level, $message);
         }
 
-        // ¥¢¥é¡¼¥È½èÍı
+        // ã‚¢ãƒ©ãƒ¼ãƒˆå‡¦ç†
         if ($this->_evalLevelMask($this->alert_level, $level) == false) {
             if (count($this->alert_mailaddress) > 0) {
                 $this->_alert($output);
@@ -333,7 +333,7 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ end
     /**
-     *  ¥í¥°½ĞÎÏ¤ò½ªÎ»¤¹¤ë
+     *  ãƒ­ã‚°å‡ºåŠ›ã‚’çµ‚äº†ã™ã‚‹
      *
      *  @access public
      */
@@ -349,12 +349,12 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ _getLogWriter
     /**
-     *  LogWriter¥ª¥Ö¥¸¥§¥¯¥È¤ò¼èÆÀ¤¹¤ë
+     *  LogWriterã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
-     *  @param  array   $option     ¥í¥°¥ª¥×¥·¥ç¥ó
-     *  @param  string  $facility   ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£
-     *  @return object  LogWriter   LogWriter¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  array   $option     ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+     *  @param  string  $facility   ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£
+     *  @return object  LogWriter   LogWriterã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &_getLogWriter($option, $facility = null)
     {
@@ -399,18 +399,18 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ _alert
     /**
-     *  ¥¢¥é¡¼¥È¥á¡¼¥ë¤òÁ÷¿®¤¹¤ë
+     *  ã‚¢ãƒ©ãƒ¼ãƒˆãƒ¡ãƒ¼ãƒ«ã‚’é€ä¿¡ã™ã‚‹
      *
      *  @access protected
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸
-     *  @return int     0:Àµ¾ï½ªÎ»
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     *  @return int     0:æ­£å¸¸çµ‚äº†
      *  @deprecated
      */
     function _alert($message)
     {
         restore_error_handler();
 
-        // ¥Ø¥Ã¥À
+        // ãƒ˜ãƒƒãƒ€
         $header = "Mime-Version: 1.0\n";
         $header .= "Content-Type: text/plain; charset=ISO-2022-JP\n";
         $header .= "X-Alert: " . $this->controller->getAppId();
@@ -419,7 +419,7 @@ class Ethna_Logger extends Ethna_AppManager
                            substr($message, 0, 12),
                            strlen($message) > 12 ? "..." : "");
         
-        // ËÜÊ¸
+        // æœ¬æ–‡
         $mail = sprintf("--- [log message] ---\n%s\n\n", $message);
         if (function_exists("debug_backtrace")) {
             $bt = debug_backtrace();
@@ -442,11 +442,11 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ _evalMessageMask
     /**
-     *  ¥í¥°¥á¥Ã¥»¡¼¥¸¤Î¥Ş¥¹¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
+     *  ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãƒã‚¹ã‚¯ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†
      *
      *  @access private
-     *  @param  string  $filter     ¥Õ¥£¥ë¥¿
-     *  @param  string  $message    ¥í¥°¥á¥Ã¥»¡¼¥¸
+     *  @param  string  $filter     ãƒ•ã‚£ãƒ«ã‚¿
+     *  @param  string  $message    ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      *  @return mixed   true:match, null:skip
      */
     function _evalMessageMask($filter, $message)
@@ -463,12 +463,12 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ _evalLevelMask
     /**
-     *  ¥í¥°¥ì¥Ù¥ë¤Î¥Ş¥¹¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
+     *  ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®ãƒã‚¹ã‚¯ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†
      *
      *  @access private
-     *  @param  int     $src    ¥í¥°¥ì¥Ù¥ë¥Ş¥¹¥¯
-     *  @param  int     $dst    ¥í¥°¥ì¥Ù¥ë
-     *  @return bool    true:ïçÃÍ°Ê²¼ false:ïçÃÍ°Ê¾å
+     *  @param  int     $src    ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ãƒã‚¹ã‚¯
+     *  @param  int     $dst    ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«
+     *  @return bool    true:é–¾å€¤ä»¥ä¸‹ false:é–¾å€¤ä»¥ä¸Š
      */
     function _evalLevelMask($src, $dst)
     {
@@ -477,7 +477,7 @@ class Ethna_Logger extends Ethna_AppManager
         if (is_null($log_level_table)) {
             $log_level_table = array();
 
-            // ¥í¥°¥ì¥Ù¥ë¥Æ¡¼¥Ö¥ë(µÕ°ú¤­)ºîÀ®
+            // ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ãƒ†ãƒ¼ãƒ–ãƒ«(é€†å¼•ã)ä½œæˆ
             foreach ($this->log_level_list as $key => $def) {
                 if (defined($def['name']) == false) {
                     continue;
@@ -486,7 +486,7 @@ class Ethna_Logger extends Ethna_AppManager
             }
         }
 
-        // ÃÎ¤é¤Ê¤¤¥ì¥Ù¥ë¤Ê¤é½ĞÎÏ¤·¤Ê¤¤
+        // çŸ¥ã‚‰ãªã„ãƒ¬ãƒ™ãƒ«ãªã‚‰å‡ºåŠ›ã—ãªã„
         if (isset($log_level_table[$src]) == false
             || isset($log_level_table[$dst]) == false) {
             return true;
@@ -502,12 +502,12 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ _parseLogOption
     /**
-     *  ¥í¥°¥ª¥×¥·¥ç¥ó(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)¤ò²òÀÏ¤¹¤ë
+     *  ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³(è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å€¤)ã‚’è§£æã™ã‚‹
      *
      *  @access private
-     *  @param  mixed   $option ¥í¥°¥ª¥×¥·¥ç¥ó(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)
-     *  @return array   ²òÀÏ¤µ¤ì¤¿ÀßÄê¥Õ¥¡¥¤¥ëÃÍ(¥¢¥é¡¼¥ÈÄÌÃÎ¥á¡¼¥ë¥¢¥É¥ì¥¹,
-     *                  ¥¢¥é¡¼¥ÈÂĞ¾İ¥í¥°¥ì¥Ù¥ë, ¥í¥°¥ª¥×¥·¥ç¥ó)
+     *  @param  mixed   $option ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³(è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å€¤)
+     *  @return array   è§£æã•ã‚ŒãŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å€¤(ã‚¢ãƒ©ãƒ¼ãƒˆé€šçŸ¥ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹,
+     *                  ã‚¢ãƒ©ãƒ¼ãƒˆå¯¾è±¡ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«, ãƒ­ã‚°ã‚ªãƒ—ã‚·ãƒ§ãƒ³)
      */
     function _parseLogOption($option)
     {
@@ -533,11 +533,11 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ _parseLogFacility
     /**
-     *  ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)¤ò²òÀÏ¤¹¤ë
+     *  ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£(è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å€¤)ã‚’è§£æã™ã‚‹
      *
      *  @access private
-     *  @param  string  $facility   ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)
-     *  @return array   ¥í¥°¥Õ¥¡¥·¥ê¥Æ¥£(LOG_LOCAL0, LOG_FILE...)¤ò³ÊÇ¼¤·¤¿ÇÛÎó
+     *  @param  string  $facility   ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£(è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å€¤)
+     *  @return array   ãƒ­ã‚°ãƒ•ã‚¡ã‚·ãƒªãƒ†ã‚£(LOG_LOCAL0, LOG_FILE...)ã‚’æ ¼ç´ã—ãŸé…åˆ—
      */
     function _parseLogFacility($facility)
     {
@@ -548,11 +548,11 @@ class Ethna_Logger extends Ethna_AppManager
 
     // {{{ _parseLogLevel
     /**
-     *  ¥í¥°¥ì¥Ù¥ë(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)¤ò²òÀÏ¤¹¤ë
+     *  ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å€¤)ã‚’è§£æã™ã‚‹
      *
      *  @access private
-     *  @param  string  $level  ¥í¥°¥ì¥Ù¥ë(ÀßÄê¥Õ¥¡¥¤¥ëÃÍ)
-     *  @return int     ¥í¥°¥ì¥Ù¥ë(LOG_DEBUG, LOG_NOTICE...)
+     *  @param  string  $level  ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å€¤)
+     *  @return int     ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«(LOG_DEBUG, LOG_NOTICE...)
      */
     function _parseLogLevel($level)
     {

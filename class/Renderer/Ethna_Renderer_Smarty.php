@@ -13,7 +13,7 @@ require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
 
 // {{{ Ethna_Renderer_Smarty
 /**
- *  Smarty•Ï•Û•¿•È•Ø•È•π° Mojavi§Œ§ﬁ§Õ°À
+ *  Smarty„É¨„É≥„ÉÄ„É©„ÇØ„É©„ÇπÔºàMojavi„ÅÆ„Åæ„Å≠Ôºâ
  *
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @access     public
@@ -25,7 +25,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     var $compile_dir;
     
     /**
-     *  Ethna_Renderer_Smarty•Ø•È•π§Œ•≥•Û•π•»•È•Ø•ø
+     *  Ethna_Renderer_Smarty„ÇØ„É©„Çπ„ÅÆ„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
      *
      *  @access public
      */
@@ -44,7 +44,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->engine->compile_dir = $this->compile_dir;
         $this->engine->compile_id = md5($this->template_dir);
 
-        // ∞Ï±˛§¨§Û§–§√§∆§ﬂ§Î
+        // ‰∏ÄÂøú„Åå„Çì„Å∞„Å£„Å¶„Åø„Çã
         if (is_dir($this->engine->compile_dir) === false) {
             Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
@@ -56,7 +56,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
     
     /**
-     *  •«•’•©•Î•»§Œ¿ﬂƒÍ.
+     *  „Éá„Éï„Ç©„É´„Éà„ÅÆË®≠ÂÆö.
      *
      *  @access public
      */
@@ -93,10 +93,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  •”•Â°º§ÚΩ–Œœ§π§Î
+     *  „Éì„É•„Éº„ÇíÂá∫Âäõ„Åô„Çã
      *
-     *  @param  string  $template   •∆•Û•◊•Ï°º•»Ãæ
-     *  @param  bool    $capture    true § §È§–Ω–Œœ§Ú…Ωº®§ª§∫§À ÷§π
+     *  @param  string  $template   „ÉÜ„É≥„Éó„É¨„Éº„ÉàÂêç
+     *  @param  bool    $capture    true „Å™„Çâ„Å∞Âá∫Âäõ„ÇíË°®Á§∫„Åõ„Åö„Å´Ëøî„Åô
      *
      *  @access public
      */
@@ -124,11 +124,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
     
     /**
-     * •∆•Û•◊•Ï°º•» —øÙ§ÚºË∆¿§π§Î
+     * „ÉÜ„É≥„Éó„É¨„Éº„ÉàÂ§âÊï∞„ÇíÂèñÂæó„Åô„Çã
      * 
-     *  @param string $name   —øÙÃæ
+     *  @param string $name  Â§âÊï∞Âêç
      *
-     *  @return mixed°° —øÙ
+     *  @return mixed„ÄÄÂ§âÊï∞
      *
      *  @access public
      */
@@ -143,9 +143,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  •∆•Û•◊•Ï°º•» —øÙ§Ú∫ÔΩ¸§π§Î
+     *  „ÉÜ„É≥„Éó„É¨„Éº„ÉàÂ§âÊï∞„ÇíÂâäÈô§„Åô„Çã
      * 
-     *  @param name     —øÙÃæ
+     *  @param name    Â§âÊï∞Âêç
      * 
      *  @access public
      */
@@ -155,7 +155,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  •∆•Û•◊•Ï°º•» —øÙ§À«€ŒÛ§Ú≥‰§Í≈ˆ§∆§Î
+     *  „ÉÜ„É≥„Éó„É¨„Éº„ÉàÂ§âÊï∞„Å´ÈÖçÂàó„ÇíÂâ≤„ÇäÂΩì„Å¶„Çã
      * 
      *  @param array $array
      * 
@@ -167,7 +167,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  •∆•Û•◊•Ï°º•» —øÙ§À«€ŒÛ§Úª≤æ»§»§∑§∆≥‰§Í≈ˆ§∆§Î
+     *  „ÉÜ„É≥„Éó„É¨„Éº„ÉàÂ§âÊï∞„Å´ÈÖçÂàó„ÇíÂèÇÁÖß„Å®„Åó„Å¶Ââ≤„ÇäÂΩì„Å¶„Çã
      * 
      *  @param array $array
      * 
@@ -179,10 +179,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  •∆•Û•◊•Ï°º•» —øÙ§Ú≥‰§Í≈ˆ§∆§Î
+     *  „ÉÜ„É≥„Éó„É¨„Éº„ÉàÂ§âÊï∞„ÇíÂâ≤„ÇäÂΩì„Å¶„Çã
      * 
-     *  @param string $name  —øÙÃæ
-     *  @param mixed $value √Õ
+     *  @param string $name Â§âÊï∞Âêç
+     *  @param mixed $value ÂÄ§
      * 
      *  @access public
      */
@@ -192,10 +192,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  •∆•Û•◊•Ï°º•» —øÙ§Àª≤æ»§Ú≥‰§Í≈ˆ§∆§Î
+     *  „ÉÜ„É≥„Éó„É¨„Éº„ÉàÂ§âÊï∞„Å´ÂèÇÁÖß„ÇíÂâ≤„ÇäÂΩì„Å¶„Çã
      * 
-     *  @param string $name  —øÙÃæ
-     *  @param mixed $value √Õ
+     *  @param string $name Â§âÊï∞Âêç
+     *  @param mixed $value ÂÄ§
      * 
      *  @access public
      */
@@ -205,40 +205,40 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  •◊•È•∞•§•Û§Ú•ª•√•»§π§Î
+     *  „Éó„É©„Ç∞„Ç§„É≥„Çí„Çª„ÉÉ„Éà„Åô„Çã
      * 
-     *  @param string $name°°•◊•È•∞•§•ÛÃæ
-     *  @param string $type •◊•È•∞•§•Û•ø•§•◊
-     *  @param mixed $plugin •◊•È•∞•§•ÛÀ‹¬Œ
+     *  @param string $name„ÄÄ„Éó„É©„Ç∞„Ç§„É≥Âêç
+     *  @param string $type „Éó„É©„Ç∞„Ç§„É≥„Çø„Ç§„Éó
+     *  @param mixed $plugin „Éó„É©„Ç∞„Ç§„É≥Êú¨‰Ωì
      * 
      *  @access public
      */
     function setPlugin($name, $type, $plugin) 
     {
-        //•◊•È•∞•§•Û¥ÿøÙ§ŒÕ≠Ãµ§Ú•¡•ß•√•Ø
+        //„Éó„É©„Ç∞„Ç§„É≥Èñ¢Êï∞„ÅÆÊúâÁÑ°„Çí„ÉÅ„Çß„ÉÉ„ÇØ
         if (is_callable($plugin) === false) {
             return Ethna::raiseWarning('Does not exists.');
         }
 
-        //•◊•È•∞•§•Û§ŒºÔŒ‡§Ú•¡•ß•√•Ø
+        //„Éó„É©„Ç∞„Ç§„É≥„ÅÆÁ®ÆÈ°û„Çí„ÉÅ„Çß„ÉÉ„ÇØ
         $register_method = 'register_' . $type;
         if (method_exists($this->engine, $register_method) === false) {
             return Ethna::raiseWarning('This plugin type does not exist');
         }
 
-        // •’•£•Î•ø§œÃæ¡∞§ §∑§«≈–œø
+        // „Éï„Ç£„É´„Çø„ÅØÂêçÂâç„Å™„Åó„ÅßÁôªÈå≤
         if ($type === 'prefilter' || $type === 'postfilter' || $type === 'outputfilter') {
             parent::setPlugin($name, $type, $plugin);
             $this->engine->$register_method($plugin);
             return;
         }
         
-        // •◊•È•∞•§•Û§ŒÃæ¡∞§Ú•¡•ß•√•Ø
+        // „Éó„É©„Ç∞„Ç§„É≥„ÅÆÂêçÂâç„Çí„ÉÅ„Çß„ÉÉ„ÇØ
         if ($name === '') {
             return Ethna::raiseWarning('Please set plugin name');
         }
        
-        // •◊•È•∞•§•Û§Ú≈–œø§π§Î
+        // „Éó„É©„Ç∞„Ç§„É≥„ÇíÁôªÈå≤„Åô„Çã
         parent::setPlugin($name, $type, $plugin);
         $this->engine->$register_method($name, $plugin);
     }

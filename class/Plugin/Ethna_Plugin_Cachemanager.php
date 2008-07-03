@@ -10,7 +10,7 @@
  */
 
 /**
- *  ¥­¥ã¥Ã¥·¥å¥Ş¥Í¡¼¥¸¥ã¥×¥é¥°¥¤¥ó¥¯¥é¥¹
+ *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,19 +20,19 @@ class Ethna_Plugin_Cachemanager
 {
     /**#@+  @access private */
 
-    /** @var    string  ¸½ºß¤Î¥Í¡¼¥à¥¹¥Ú¡¼¥¹ */
+    /** @var    string  ç¾åœ¨ã®ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹ */
     var $namespace = '';
 
-    /** @var    object  Ethna_Backend       backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend       backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È    */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ    */
     var $config;
 
     /**#@-*/
 
     /**
-     *  Ethna_Plugin_Cachemanager¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Plugin_Cachemanagerã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
      */
@@ -44,10 +44,10 @@ class Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹¤ò¼èÆÀ¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string  ¸½ºß¤Î¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @return string  ç¾åœ¨ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function getNamespace($namespace)
     {
@@ -55,10 +55,10 @@ class Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹¤òÀßÄê¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹ã‚’è¨­å®šã™ã‚‹
      *
      *  @access public
-     *  @param  string  $namespace  ¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @param  string  $namespace  ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function setNamespace($namespace)
     {
@@ -66,79 +66,79 @@ class Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¤ËÀßÄê¤µ¤ì¤¿ÃÍ¤ò¼èÆÀ¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«è¨­å®šã•ã‚ŒãŸå€¤ã‚’å–å¾—ã™ã‚‹
      *
-     *  ¥­¥ã¥Ã¥·¥å¤ËÃÍ¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¥­¥ã¥Ã¥·¥åÃÍ
-     *  ¤¬Ìá¤êÃÍ¤È¤Ê¤ë¡£¥­¥ã¥Ã¥·¥å¤ËÃÍ¤¬Ìµ¤¤¾ì¹ç¤älifetime
-     *  ¤ò²á¤®¤Æ¤¤¤ë¾ì¹ç¡¢¥¨¥é¡¼¤¬È¯À¸¤·¤¿¾ì¹ç¤ÏPEAR_Error
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤¬Ìá¤êÃÍ¤È¤Ê¤ë¡£
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«å€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã‚­ãƒ£ãƒƒã‚·ãƒ¥å€¤
+     *  ãŒæˆ»ã‚Šå€¤ã¨ãªã‚‹ã€‚ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«å€¤ãŒç„¡ã„å ´åˆã‚„lifetime
+     *  ã‚’éãã¦ã„ã‚‹å ´åˆã€ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã¯PEAR_Error
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæˆ»ã‚Šå€¤ã¨ãªã‚‹ã€‚
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  int     $lifetime   ¥­¥ã¥Ã¥·¥åÍ­¸ú´ü´Ö
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return mixed   ¥­¥ã¥Ã¥·¥åÃÍ
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  int     $lifetime   ã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ‰åŠ¹æœŸé–“
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return mixed   ã‚­ãƒ£ãƒƒã‚·ãƒ¥å€¤
      */
     function get($key, $lifetime = null, $namespace = null)
     {
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¤ÎºÇ½ª¹¹¿·Æü»ş¤ò¼èÆÀ¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®æœ€çµ‚æ›´æ–°æ—¥æ™‚ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return int     ºÇ½ª¹¹¿·Æü»ş(unixtime)
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return int     æœ€çµ‚æ›´æ–°æ—¥æ™‚(unixtime)
      */
     function getLastModified($key, $namespace = null)
     {
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¤ËÃÍ¤òÀßÄê¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«å€¤ã‚’è¨­å®šã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  mixed   $value      ¥­¥ã¥Ã¥·¥åÃÍ
-     *  @param  int     $timestamp  ¥­¥ã¥Ã¥·¥åºÇ½ª¹¹¿·»ş¹ï(unixtime)
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  mixed   $value      ã‚­ãƒ£ãƒƒã‚·ãƒ¥å€¤
+     *  @param  int     $timestamp  ã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ€çµ‚æ›´æ–°æ™‚åˆ»(unixtime)
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function set($key, $value, $timestamp = null, $namespace = null)
     {
     }
 
     /**
-     *  ÃÍ¤¬¥­¥ã¥Ã¥·¥å¤µ¤ì¤Æ¤¤¤ë¤«¤É¤¦¤«¤ò¼èÆÀ¤¹¤ë
+     *  å€¤ãŒã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  int     $lifetime   ¥­¥ã¥Ã¥·¥åÍ­¸ú´ü´Ö
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  int     $lifetime   ã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ‰åŠ¹æœŸé–“
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function isCached($key, $timestamp = null, $namespace = null)
     {
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¤«¤éÃÍ¤òºï½ü¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰å€¤ã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function clear($key, $namespace = null)
     {
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¥Ç¡¼¥¿¤ò¥í¥Ã¥¯¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  int     $timeout    ¥í¥Ã¥¯¥¿¥¤¥à¥¢¥¦¥È
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  int     $timeout    ãƒ­ãƒƒã‚¯ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function lock($key, $timeout = 5, $namespace = null)
     {
@@ -146,12 +146,12 @@ class Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¥Ç¡¼¥¿¤Î¥í¥Ã¥¯¤ò²ò½ü¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã®ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function unlock($key, $namespace = null)
     {
@@ -159,12 +159,12 @@ class Ethna_Plugin_Cachemanager
     }
 
     /**
-     * °µ½Ì¥Õ¥é¥°¤òÎ©¤Æ¤ë
+     * åœ§ç¸®ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
      *
-     * MySQL¤Ê¤É¤¤¤¯¤Ä¤«¤Î»Ò¥¯¥é¥¹¤ÇÍ­¸ú
+     * MySQLãªã©ã„ãã¤ã‹ã®å­ã‚¯ãƒ©ã‚¹ã§æœ‰åŠ¹
      * 
      * @access public
-     * @param bool $flag ¥Õ¥é¥°
+     * @param bool $flag ãƒ•ãƒ©ã‚°
      */
     function setCompress($flag) {
         return false;

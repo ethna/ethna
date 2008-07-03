@@ -19,36 +19,36 @@
 class Ethna_Plugin_Generator_Test extends Ethna_Plugin_Generator
 {
     /**
-     * ¥Õ¥¡¥¤¥ëÀ¸À®¤ò¹Ô¤¦
+     * ãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆã‚’è¡Œã†
      * 
      * @access public
-     * @param string $skelfile ¥¹¥±¥ë¥È¥ó¥Õ¥¡¥¤¥ëÌ¾
-     * @param string $name     ¥Æ¥¹¥È¥±¡¼¥¹Ì¾
+     * @param string $skelfile ã‚¹ã‚±ãƒ«ãƒˆãƒ³ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @param string $name     ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹å
      * @return mixed TRUE; OK
-     *               Ethna_Error: ¥¨¥é¡¼È¯À¸
+     *               Ethna_Error: ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿ
      */
     function &generate($skelfile, $name)
     {
-        // Controller¤ò¼èÆÀ
+        // Controllerã‚’å–å¾—
         $ctl =& $this->ctl;
         
-        // ¥Æ¥¹¥È¤òÀ¸À®¤¹¤ë¥Ç¥£¥ì¥¯¥È¥ê¤¬¤¢¤ë¤«¡©
-        // ¤Ê¤±¤ì¤Ğ app/test ¤¬¥Ç¥Õ¥©¥ë¥È¡£
+        // ãƒ†ã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã‚ã‚‹ã‹ï¼Ÿ
+        // ãªã‘ã‚Œã° app/test ãŒãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã€‚
         $dir = $ctl->getDirectory('test');
         if ($dir === null) {
             $dir = $ctl->getDirectory('app') . "/" . "test";
         }
         
-        // ¥Õ¥¡¥¤¥ëÌ¾À¸À®
+        // ãƒ•ã‚¡ã‚¤ãƒ«åç”Ÿæˆ
         $file = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($name)) . "Test.php";
         $generatePath = "$dir/$file";
         
-        // ¥¹¥±¥ë¥È¥ó·èÄê
+        // ã‚¹ã‚±ãƒ«ãƒˆãƒ³æ±ºå®š
         $skelton = (!empty($skelfile))
                  ? $skelfile
                  : "skel.test.php";
         
-        // ¥Ş¥¯¥íÀ¸À®
+        // ãƒã‚¯ãƒ­ç”Ÿæˆ
         $macro = array();
         $macro['project_id'] = ucfirst($ctl->getAppId());
         $macro['file_path'] = $file;
@@ -57,7 +57,7 @@ class Ethna_Plugin_Generator_Test extends Ethna_Plugin_Generator
         $userMacro = $this->_getUserMacro();
         $macro = array_merge($macro, $userMacro);
         
-        // À¸À®
+        // ç”Ÿæˆ
         Ethna_Util::mkdir(dirname($generatePath), 0755);
         if (file_exists($generatePath)) {
             printf("file [%s] already exists -> skip\n", $generatePath);

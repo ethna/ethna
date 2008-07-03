@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Form_Info
 /**
- *  __ethna_info__¥Õ¥©¡¼¥à¤Î¼ÂÁõ
+ *  __ethna_info__ãƒ•ã‚©ãƒ¼ãƒ ã®å®Ÿè£…
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -21,7 +21,7 @@ class Ethna_Form_Info extends Ethna_ActionForm
 {
     /**
      *  @access private
-     *  @var    array   ¥Õ¥©¡¼¥àÃÍÄêµÁ
+     *  @var    array   ãƒ•ã‚©ãƒ¼ãƒ å€¤å®šç¾©
      */
     var $form = array(
     );
@@ -30,7 +30,7 @@ class Ethna_Form_Info extends Ethna_ActionForm
 
 // {{{ Ethna_Action_Info
 /**
- *  __ethna_info__¥¢¥¯¥·¥ç¥ó¤Î¼ÂÁõ
+ *  __ethna_info__ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè£…
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -39,10 +39,10 @@ class Ethna_Form_Info extends Ethna_ActionForm
 class Ethna_Action_Info extends Ethna_ActionClass
 {
     /**
-     *  __ethna_info__¥¢¥¯¥·¥ç¥ó¤ÎÁ°½èÍı
+     *  __ethna_info__ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å‰å‡¦ç†
      *
      *  @access public
-     *  @return string      ForwardÀè(Àµ¾ï½ªÎ»¤Ê¤énull)
+     *  @return string      Forwardå…ˆ(æ­£å¸¸çµ‚äº†ãªã‚‰null)
      */
     function prepare()
     {
@@ -50,10 +50,10 @@ class Ethna_Action_Info extends Ethna_ActionClass
     }
 
     /**
-     *  __ethna_info__¥¢¥¯¥·¥ç¥ó¤Î¼ÂÁõ
+     *  __ethna_info__ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè£…
      *
      *  @access public
-     *  @return string  Á«°ÜÌ¾
+     *  @return string  é·ç§»å
      */
     function perform()
     {

@@ -11,12 +11,12 @@
 
 // {{{ Ethna_AppObject
 /**
- *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¯¥é¥¹
+ *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
  *  @package    Ethna
- *  @todo       Ê£¿ô¥Æ¡¼¥Ö¥ë¤ÎÂĞ±ş
+ *  @todo       è¤‡æ•°ãƒ†ãƒ¼ãƒ–ãƒ«ã®å¯¾å¿œ
  */
 class Ethna_AppObject
 {
@@ -25,46 +25,46 @@ class Ethna_AppObject
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend       backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend       backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $config;
 
-    /** @var    object  Ethna_I18N          i18n¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_I18N          i18nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $i18n;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_form;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È(¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(çœç•¥å½¢) */
     var $af;
 
-    /** @var    object  Ethna_Session       ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Session       ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $session;
 
-    /** @var    string  DBÄêµÁ¥×¥ì¥Õ¥£¥¯¥¹ */
+    /** @var    string  DBå®šç¾©ãƒ—ãƒ¬ãƒ•ã‚£ã‚¯ã‚¹ */
     var $db_prefix = null;
 
-    /** @var    array   ¥Æ¡¼¥Ö¥ëÄêµÁ */
+    /** @var    array   ãƒ†ãƒ¼ãƒ–ãƒ«å®šç¾© */
     var $table_def = null;
 
-    /** @var    array   ¥×¥í¥Ñ¥Æ¥£ÄêµÁ */
+    /** @var    array   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾© */
     var $prop_def = null;
 
-    /** @var    array   ¥×¥í¥Ñ¥Æ¥£ */
+    /** @var    array   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
     var $prop = null;
 
-    /** @var    array   ¥×¥í¥Ñ¥Æ¥£(¥Ğ¥Ã¥¯¥¢¥Ã¥×) */
+    /** @var    array   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£(ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—) */
     var $prop_backup = null;
 
-    /** @var    int     ¥×¥í¥Ñ¥Æ¥£ÄêµÁ¥­¥ã¥Ã¥·¥åÍ­¸ú´ü´Ö(sec) */
+    /** @var    int     ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ‰åŠ¹æœŸé–“(sec) */
     var $prop_def_cache_lifetime = 86400;
 
-    /** @var    array   ¥×¥é¥¤¥Ş¥ê¥­¡¼ÄêµÁ */
+    /** @var    array   ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼å®šç¾© */
     var $id_def = null;
 
-    /** @var    int     ¥ª¥Ö¥¸¥§¥¯¥ÈID */
+    /** @var    int     ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID */
     var $id = null;
 
     /**#@-*/
@@ -72,14 +72,14 @@ class Ethna_AppObject
 
     // {{{ Ethna_AppObject
     /**
-     *  Ethna_AppObject¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_AppObjectã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend   Ethna_Backend¥ª¥Ö¥¸¥§¥¯¥È
-     *  @param  mixed   $key_type   ¸¡º÷¥­¡¼Ì¾
-     *  @param  mixed   $key        ¸¡º÷¥­¡¼
-     *  @param  array   $prop       ¥×¥í¥Ñ¥Æ¥£°ìÍ÷
-     *  @return mixed   0:Àµ¾ï½ªÎ» -1:¥­¡¼/¥×¥í¥Ñ¥Æ¥£Ì¤»ØÄê Ethna_Error:¥¨¥é¡¼
+     *  @param  object  Ethna_Backend   &$backend   Ethna_Backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *  @param  mixed   $key_type   æ¤œç´¢ã‚­ãƒ¼å
+     *  @param  mixed   $key        æ¤œç´¢ã‚­ãƒ¼
+     *  @param  array   $prop       ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ä¸€è¦§
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† -1:ã‚­ãƒ¼/ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æœªæŒ‡å®š Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function Ethna_AppObject(&$backend, $key_type = null, $key = null, $prop = null)
     {
@@ -90,21 +90,21 @@ class Ethna_AppObject
         $this->session =& $backend->getSession();
         $ctl =& $backend->getController();
 
-        // DB¥ª¥Ö¥¸¥§¥¯¥È¤ÎÀßÄê
+        // DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¨­å®š
         $db_list = $this->_getDBList();
         if (Ethna::isError($db_list)) {
             return $db_list;
         } else if (is_null($db_list['rw'])) {
             return Ethna::raiseError(
-                "Ethna_AppObject¤òÍøÍÑ¤¹¤ë¤Ë¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹ÀßÄê¤¬É¬Í×¤Ç¤¹",
+                "Ethna_AppObjectã‚’åˆ©ç”¨ã™ã‚‹ã«ã¯ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹è¨­å®šãŒå¿…è¦ã§ã™",
                 E_DB_NODSN);
         }
         $this->my_db_rw =& $db_list['rw'];
         $this->my_db_ro =& $db_list['ro'];
-        // XXX: app obj¤Ïdb type¤òÃÎ¤é¤Ê¤¯¤Æ¤âÆ°¤¯¤Ù¤­
+        // XXX: app objã¯db typeã‚’çŸ¥ã‚‰ãªãã¦ã‚‚å‹•ãã¹ã
         $this->my_db_type = $this->my_db_rw->getType();
 
-        // ¥×¥í¥Ñ¥Æ¥£ÄêµÁ¼«Æ°¼èÆÀ
+        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©è‡ªå‹•å–å¾—
         if (is_null($this->table_def)) {
             $this->table_def = $this->_getTableDef();
         }
@@ -115,14 +115,14 @@ class Ethna_AppObject
             $this->prop_def = $this->_getPropDef();
         }
 
-        // ¥×¥í¥Ñ¥Æ¥£ÄêµÁ¤ÎÉ¬¿Ü¥­¡¼¤òÊä´°
+        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ã®å¿…é ˆã‚­ãƒ¼ã‚’è£œå®Œ
         foreach (array_keys($this->prop_def) as $k) {
             if (isset($this->prop_def[$k]['primary']) == false) {
                 $this->prop_def[$k]['primary'] = false;
             }
         }
 
-        // ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥×¥é¥¤¥Ş¥ê¥­¡¼ÄêµÁ¹½ÃÛ
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼å®šç¾©æ§‹ç¯‰
         foreach ($this->prop_def as $k => $v) {
             if ($v['primary'] == false) {
                 continue;
@@ -136,13 +136,13 @@ class Ethna_AppObject
             }
         }
         
-        // ¥­¡¼ÂÅÅöÀ­¥Á¥§¥Ã¥¯
+        // ã‚­ãƒ¼å¦¥å½“æ€§ãƒã‚§ãƒƒã‚¯
         if (is_null($key_type) && is_null($key) && is_null($prop)) {
             // perhaps for adding object
             return 0;
         }
 
-        // ¥×¥í¥Ñ¥Æ¥£ÀßÄê
+        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®š
         if (is_null($prop)) {
             $this->_setPropByDB($key_type, $key);
         } else {
@@ -166,10 +166,10 @@ class Ethna_AppObject
 
     // {{{ isValid
     /**
-     *  Í­¸ú¤Ê¥ª¥Ö¥¸¥§¥¯¥È¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  æœ‰åŠ¹ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @return bool    true:Í­¸ú false:Ìµ¸ú
+     *  @return bool    true:æœ‰åŠ¹ false:ç„¡åŠ¹
      */
     function isValid()
     {
@@ -183,13 +183,13 @@ class Ethna_AppObject
 
     // {{{ isActive
     /**
-     *  ¥¢¥¯¥Æ¥£¥Ö¤Ê¥ª¥Ö¥¸¥§¥¯¥È¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã©ã†ã‹ã‚’è¿”ã™
      *
-     *  isValid()¥á¥½¥Ã¥É¤Ï¥ª¥Ö¥¸¥§¥¯¥È¼«ÂÎ¤¬Í­¸ú¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë¤Î¤ËÂĞ¤·
-     *  isActive()¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤¬¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤È¤·¤ÆÍ­¸ú¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  isValid()ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã®ã«å¯¾ã—
+     *  isActive()ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã¨ã—ã¦æœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @return bool    true:¥¢¥¯¥Æ¥£¥Ö false:Èó¥¢¥¯¥Æ¥£¥Ö
+     *  @return bool    true:ã‚¢ã‚¯ãƒ†ã‚£ãƒ– false:éã‚¢ã‚¯ãƒ†ã‚£ãƒ–
      */
     function isActive()
     {
@@ -202,10 +202,10 @@ class Ethna_AppObject
 
     // {{{ getDef
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥×¥í¥Ñ¥Æ¥£ÄêµÁ¤òÊÖ¤¹
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ã‚’è¿”ã™
      *
      *  @access public
-     *  @return array   ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥×¥í¥Ñ¥Æ¥£ÄêµÁ
+     *  @return array   ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©
      */
     function getDef()
     {
@@ -215,10 +215,10 @@ class Ethna_AppObject
 
     // {{{ getIdDef
     /**
-     *  ¥×¥é¥¤¥Ş¥ê¥­¡¼ÄêµÁ¤òÊÖ¤¹
+     *  ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼å®šç¾©ã‚’è¿”ã™
      *
      *  @access public
-     *  @return mixed   ¥×¥é¥¤¥Ş¥ê¥­¡¼¤È¤Ê¤ë¥×¥í¥Ñ¥Æ¥£Ì¾
+     *  @return mixed   ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ã¨ãªã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
      */
     function getIdDef()
     {
@@ -228,10 +228,10 @@ class Ethna_AppObject
 
     // {{{ getId
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈID¤òÊÖ¤¹
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’è¿”ã™
      *
      *  @access public
-     *  @return mixed   ¥ª¥Ö¥¸¥§¥¯¥ÈID
+     *  @return mixed   ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
      */
     function getId()
     {
@@ -241,11 +241,11 @@ class Ethna_AppObject
 
     // {{{ get
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @param  string  $key    ¥×¥í¥Ñ¥Æ¥£Ì¾
-     *  @return mixed   ¥×¥í¥Ñ¥Æ¥£
+     *  @param  string  $key    ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+     *  @return mixed   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
      */
     function get($key)
     {
@@ -262,11 +262,11 @@ class Ethna_AppObject
 
     // {{{ getName
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£É½¼¨Ì¾¤Ø¤Î¥¢¥¯¥»¥µ
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¡¨ç¤ºåã¸ã®ã‚¢ã‚¯ã‚»ã‚µ
      *
      *  @access public
-     *  @param  string  $key    ¥×¥í¥Ñ¥Æ¥£Ì¾
-     *  @return string  ¥×¥í¥Ñ¥Æ¥£¤ÎÉ½¼¨Ì¾
+     *  @param  string  $key    ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+     *  @return string  ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®è¡¨ç¤ºå
      */
     function getName($key)
     {
@@ -276,11 +276,11 @@ class Ethna_AppObject
 
     // {{{ getLongName
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£É½¼¨Ì¾(¾ÜºÙ)¤Ø¤Î¥¢¥¯¥»¥µ
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¡¨ç¤ºå(è©³ç´°)ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ
      *
      *  @access public
-     *  @param  string  $key    ¥×¥í¥Ñ¥Æ¥£Ì¾
-     *  @return string  ¥×¥í¥Ñ¥Æ¥£¤ÎÉ½¼¨Ì¾(¾ÜºÙ)
+     *  @param  string  $key    ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+     *  @return string  ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®è¡¨ç¤ºå(è©³ç´°)
      */
     function getLongName($key)
     {
@@ -290,10 +290,10 @@ class Ethna_AppObject
 
     // {{{ getNameObject
     /**
-     *  ¥×¥í¥Ñ¥Æ¥£É½¼¨Ì¾¤ò³ÊÇ¼¤·¤¿Ï¢ÁÛÇÛÎó¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¡¨ç¤ºåã‚’æ ¼ç´ã—ãŸé€£æƒ³é…åˆ—ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return array   ¥×¥í¥Ñ¥Æ¥£É½¼¨Ì¾¤ò³ÊÇ¼¤·¤¿Ï¢ÁÛÇÛÎó
+     *  @return array   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¡¨ç¤ºåã‚’æ ¼ç´ã—ãŸé€£æƒ³é…åˆ—
      */
     function getNameObject()
     {
@@ -309,11 +309,11 @@ class Ethna_AppObject
 
     // {{{ set
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤Ø¤Î¥¢¥¯¥»¥µ(W)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(W)
      *
      *  @access public
-     *  @param  string  $key    ¥×¥í¥Ñ¥Æ¥£Ì¾
-     *  @param  string  $value  ¥×¥í¥Ñ¥Æ¥£ÃÍ
+     *  @param  string  $key    ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+     *  @param  string  $value  ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤
      */
     function set($key, $value)
     {
@@ -327,17 +327,17 @@ class Ethna_AppObject
 
     // {{{ dump
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤ò»ØÄê¤Î·Á¼°¤Ç¥À¥ó¥×¤¹¤ë(¸½ºß¤ÏCSV·Á¼°¤Î¤ß¥µ¥İ¡¼¥È)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’æŒ‡å®šã®å½¢å¼ã§ãƒ€ãƒ³ãƒ—ã™ã‚‹(ç¾åœ¨ã¯CSVå½¢å¼ã®ã¿ã‚µãƒãƒ¼ãƒˆ)
      *
      *  @access public
-     *  @param  string  $type   ¥À¥ó¥×·Á¼°("csv"...)
-     *  @return string  ¥À¥ó¥×·ë²Ì(¥¨¥é¡¼¤Î¾ì¹ç¤Ïnull)
+     *  @param  string  $type   ãƒ€ãƒ³ãƒ—å½¢å¼("csv"...)
+     *  @return string  ãƒ€ãƒ³ãƒ—çµæœ(ã‚¨ãƒ©ãƒ¼ã®å ´åˆã¯null)
      */
     function dump($type = "csv")
     {
         $method = "_dump_$type";
         if (method_exists($this, $method) == false) {
-            return Ethna::raiseError("¥á¥½¥Ã¥ÉÌ¤ÄêµÁ[%s]", E_APP_NOMETHOD, $method);
+            return Ethna::raiseError("Undefined Method [%s]", E_APP_NOMETHOD, $method);
         }
 
         return $this->$method();
@@ -346,22 +346,22 @@ class Ethna_AppObject
 
     // {{{ importForm
     /**
-     *  ¥Õ¥©¡¼¥àÃÍ¤«¤é¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤ò¥¤¥ó¥İ¡¼¥È¤¹¤ë
+     *  ãƒ•ã‚©ãƒ¼ãƒ å€¤ã‹ã‚‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚¤ãƒ³ãƒãƒ¼ãƒˆã™ã‚‹
      *
      *  @access public
-     *  @param  int     $option ¥¤¥ó¥İ¡¼¥È¥ª¥×¥·¥ç¥ó(OBJECT_IMPORT_IGNORE_NULL,...)
+     *  @param  int     $option ã‚¤ãƒ³ãƒãƒ¼ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³(OBJECT_IMPORT_IGNORE_NULL,...)
      */
     function importForm($option = null)
     {
         foreach ($this->getDef() as $k => $def) {
             $value = $this->af->get($def['form_name']);
             if (is_null($value)) {
-                // ¥Õ¥©¡¼¥à¤«¤éÃÍ¤¬Á÷¿®¤µ¤ì¤Æ¤¤¤Ê¤¤¾ì¹ç¤Î¿¶Éñ¤¤
+                // ãƒ•ã‚©ãƒ¼ãƒ ã‹ã‚‰å€¤ãŒé€ä¿¡ã•ã‚Œã¦ã„ãªã„å ´åˆã®æŒ¯èˆã„
                 if ($option == OBJECT_IMPORT_IGNORE_NULL) {
-                    // null¤Ï¥¹¥­¥Ã¥×
+                    // nullã¯ã‚¹ã‚­ãƒƒãƒ—
                     continue;
                 } else if ($option == OBJECT_IMPORT_CONVERT_NULL) {
-                    // ¶õÊ¸»úÎó¤ËÊÑ´¹
+                    // ç©ºæ–‡å­—åˆ—ã«å¤‰æ›
                     $value = '';
                 }
             }
@@ -372,7 +372,7 @@ class Ethna_AppObject
 
     // {{{ exportForm
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤ò¥Õ¥©¡¼¥àÃÍ¤Ë¥¨¥¯¥¹¥İ¡¼¥È¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ãƒ•ã‚©ãƒ¼ãƒ å€¤ã«ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã™ã‚‹
      *
      *  @access public
      */
@@ -386,19 +386,19 @@ class Ethna_AppObject
 
     // {{{ add
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤òÄÉ²Ã¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function add()
     {
-        // next id¤Î¼èÆÀ: (pgsql¤Î¾ì¹ç¤Î¤ß)
-        // ¼èÆÀ¤Ç¤­¤¿¾ì¹ç¤Ï¤³¤Îid¤ò»È¤¦
+        // next idã®å–å¾—: (pgsqlã®å ´åˆã®ã¿)
+        // å–å¾—ã§ããŸå ´åˆã¯ã“ã®idã‚’ä½¿ã†
         foreach (to_array($this->id_def) as $id_def) {
             if (isset($this->prop_def[$id_def]['seq'])
                 && $this->prop_def[$id_def]['seq']) {
-                // NOTE: ¤³¤Îapp object°Ê³°¤«¤éinsert¤¬¤Ê¤¤¤³¤È¤¬Á°Äó
+                // NOTE: ã“ã®app objectä»¥å¤–ã‹ã‚‰insertãŒãªã„ã“ã¨ãŒå‰æ
                 $next_id = $this->my_db_rw->getNextId(
                     $this->prop_def[$id_def]['table'], $id_def);
                 if ($next_id !== null && $next_id >= 0) {
@@ -413,7 +413,7 @@ class Ethna_AppObject
             $r =& $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
                 if ($r->getCode() == E_DB_DUPENT) {
-                    // ½ÅÊ£¥¨¥é¡¼¥­¡¼¤ÎÈ½ÊÌ
+                    // é‡è¤‡ã‚¨ãƒ©ãƒ¼ã‚­ãƒ¼ã®åˆ¤åˆ¥
                     $duplicate_key_list = $this->_getDuplicateKeyList();
                     if (Ethna::isError($duplicate_key_list)) {
                         return $duplicate_key_list;
@@ -421,7 +421,7 @@ class Ethna_AppObject
                     if (is_array($duplicate_key_list)
                         && count($duplicate_key_list) > 0) {
                         foreach ($duplicate_key_list as $k) {
-                            return Ethna::raiseNotice('½ÅÊ£¥¨¥é¡¼[%s]',
+                            return Ethna::raiseNotice('Duplicate Key Error [%s]',
                                                       E_APP_DUPENT, $k);
                         }
                     }
@@ -434,11 +434,11 @@ class Ethna_AppObject
         }
         if ($i == 4) {
             // cannot be reached
-            return Ethna::raiseError('½ÅÊ£¥¨¥é¡¼¥­¡¼È½ÊÌ¥¨¥é¡¼', E_GENERAL);
+            return Ethna::raiseError('Cannot detect Duplicate key Error', E_GENERAL);
         }
 
-        // last insert id¤Î¼èÆÀ: (mysql, sqlite¤Î¤ß)
-        // primary key ¤Î 'seq' ¥Õ¥é¥°¤¬¤¢¤ë(ºÇ½é¤Î)¥×¥í¥Ñ¥Æ¥£¤ËÆş¤ì¤ë
+        // last insert idã®å–å¾—: (mysql, sqliteã®ã¿)
+        // primary key ã® 'seq' ãƒ•ãƒ©ã‚°ãŒã‚ã‚‹(æœ€åˆã®)ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã«å…¥ã‚Œã‚‹
         $insert_id = $this->my_db_rw->getInsertId(); 
         if ($insert_id !== null && $insert_id >= 0) {
             foreach (to_array($this->id_def) as $id_def) {
@@ -450,7 +450,7 @@ class Ethna_AppObject
             }
         }
 
-        // ID¤ÎÀßÄê
+        // IDã®è¨­å®š
         if (is_array($this->id_def)) {
             $this->id = array();
             foreach ($this->id_def as $k) {
@@ -462,7 +462,7 @@ class Ethna_AppObject
             trigger_error("primary key is missing", E_USER_ERROR);
         }
 
-        // ¥Ğ¥Ã¥¯¥¢¥Ã¥×/¥­¥ã¥Ã¥·¥å¹¹¿·
+        // ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—/ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
         $this->prop_backup = $this->prop;
         $this->_clearPropCache();
 
@@ -472,10 +472,10 @@ class Ethna_AppObject
 
     // {{{ update
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤ò¹¹¿·¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ›´æ–°ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function update()
     {
@@ -484,7 +484,7 @@ class Ethna_AppObject
             $r =& $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
                 if ($r->getCode() == E_DB_DUPENT) {
-                    // ½ÅÊ£¥¨¥é¡¼¥­¡¼¤ÎÈ½ÊÌ
+                    // é‡è¤‡ã‚¨ãƒ©ãƒ¼ã‚­ãƒ¼ã®åˆ¤åˆ¥
                     $duplicate_key_list = $this->_getDuplicateKeyList();
                     if (Ethna::isError($duplicate_key_list)) {
                         return $duplicate_key_list;
@@ -492,7 +492,7 @@ class Ethna_AppObject
                     if (is_array($duplicate_key_list)
                         && count($duplicate_key_list) > 0) {
                         foreach ($duplicate_key_list as $k) {
-                            return Ethna::raiseNotice('½ÅÊ£¥¨¥é¡¼[%s]',
+                            return Ethna::raiseNotice('Duplicate Key Error [%s]',
                                                       E_APP_DUPENT, $k);
                         }
                     }
@@ -505,7 +505,7 @@ class Ethna_AppObject
         }
         if ($i == 4) {
             // cannot be reached
-            return Ethna::raiseError('½ÅÊ£¥¨¥é¡¼¥­¡¼È½ÊÌ¥¨¥é¡¼', E_GENERAL);
+            return Ethna::raiseError('Cannot detect Duplicate key Error', E_GENERAL);
         }
 
         $affected_rows = $this->my_db_rw->affectedRows();
@@ -513,7 +513,7 @@ class Ethna_AppObject
             $this->backend->log(LOG_DEBUG, "update query with 0 updated rows");
         }
 
-        // ¥Ğ¥Ã¥¯¥¢¥Ã¥×/¥­¥ã¥Ã¥·¥å¹¹¿·
+        // ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—/ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
         $this->prop_backup = $this->prop;
         $this->_clearPropCache();
 
@@ -523,13 +523,13 @@ class Ethna_AppObject
 
     // {{{ replace
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤òÃÖ´¹¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç½®æ›ã™ã‚‹
      *
-     *  MySQL¤ÎREPLACEÊ¸¤ËÁêÅö¤¹¤ëÆ°ºî¤ò¹Ô¤¦(add()¤Ç½ÅÊ£¥¨¥é¡¼¤¬È¯À¸¤·¤¿¤é
-     *  update()¤ò¹Ô¤¦)
+     *  MySQLã®REPLACEæ–‡ã«ç›¸å½“ã™ã‚‹å‹•ä½œã‚’è¡Œã†(add()ã§é‡è¤‡ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã‚‰
+     *  update()ã‚’è¡Œã†)
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» >0:¥ª¥Ö¥¸¥§¥¯¥ÈID(ÄÉ²Ã»ş) Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† >0:ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID(è¿½åŠ æ™‚) Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function replace()
     {
@@ -561,10 +561,10 @@ class Ethna_AppObject
 
     // {{{ remove
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤òºï½ü¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function remove()
     {
@@ -574,7 +574,7 @@ class Ethna_AppObject
             return $r;
         }
 
-        // ¥×¥í¥Ñ¥Æ¥£/¥Ğ¥Ã¥¯¥¢¥Ã¥×/¥­¥ã¥Ã¥·¥å¥¯¥ê¥¢
+        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£/ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—/ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚¯ãƒªã‚¢
         $this->id = $this->prop = $this->prop_backup = null;
         $this->_clearPropCache();
 
@@ -584,16 +584,16 @@ class Ethna_AppObject
 
     // {{{ searchId
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈID¤ò¸¡º÷¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’æ¤œç´¢ã™ã‚‹
      *
      *  @access public
-     *  @param  array   $filter     ¸¡º÷¾ò·ï
-     *  @param  array   $order      ¸¡º÷·ë²Ì¥½¡¼¥È¾ò·ï
-     *  @param  int     $offset     ¸¡º÷·ë²Ì¼èÆÀ¥ª¥Õ¥»¥Ã¥È
-     *  @param  int     $count      ¸¡º÷·ë²Ì¼èÆÀ¿ô
-     *  @return mixed   array(0 => ¸¡º÷¾ò·ï¤Ë¥Ş¥Ã¥Á¤·¤¿·ï¿ô,
-     *                  1 => $offset, $count¤Ë¤è¤ê»ØÄê¤µ¤ì¤¿·ï¿ô¤Î¥ª¥Ö¥¸¥§¥¯¥ÈID°ìÍ÷)
-     *                  Ethna_Error:¥¨¥é¡¼
+     *  @param  array   $filter     æ¤œç´¢æ¡ä»¶
+     *  @param  array   $order      æ¤œç´¢çµæœã‚½ãƒ¼ãƒˆæ¡ä»¶
+     *  @param  int     $offset     æ¤œç´¢çµæœå–å¾—ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+     *  @param  int     $count      æ¤œç´¢çµæœå–å¾—æ•°
+     *  @return mixed   array(0 => æ¤œç´¢æ¡ä»¶ã«ãƒãƒƒãƒã—ãŸä»¶æ•°,
+     *                  1 => $offset, $countã«ã‚ˆã‚ŠæŒ‡å®šã•ã‚ŒãŸä»¶æ•°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDä¸€è¦§)
+     *                  Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function searchId($filter = null, $order = null, $offset = null, $count = null)
     {
@@ -619,7 +619,7 @@ class Ethna_AppObject
         for ($i = 0; $i < $n; $i++) {
             $row = $this->my_db_ro->fetchRow($r, DB_FETCHMODE_ASSOC);
 
-            // ¥×¥é¥¤¥Ş¥ê¥­¡¼¤¬1¥«¥é¥à¤Ê¤é¥¹¥«¥é¡¼ÃÍ¤ËÊÑ´¹
+            // ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ãŒ1ã‚«ãƒ©ãƒ ãªã‚‰ã‚¹ã‚«ãƒ©ãƒ¼å€¤ã«å¤‰æ›
             if (is_array($this->id_def) == false) {
                 $row = $row[$this->id_def];
             }
@@ -635,17 +635,17 @@ class Ethna_AppObject
 
     // {{{ searchProp
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤ò¸¡º÷¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’æ¤œç´¢ã™ã‚‹
      *
      *  @access public
-     *  @param  array   $keys       ¼èÆÀ¤¹¤ë¥×¥í¥Ñ¥Æ¥£
-     *  @param  array   $filter     ¸¡º÷¾ò·ï
-     *  @param  array   $order      ¸¡º÷·ë²Ì¥½¡¼¥È¾ò·ï
-     *  @param  int     $offset     ¸¡º÷·ë²Ì¼èÆÀ¥ª¥Õ¥»¥Ã¥È
-     *  @param  int     $count      ¸¡º÷·ë²Ì¼èÆÀ¿ô
-     *  @return mixed   array(0 => ¸¡º÷¾ò·ï¤Ë¥Ş¥Ã¥Á¤·¤¿·ï¿ô,
-     *                  1 => $offset, $count¤Ë¤è¤ê»ØÄê¤µ¤ì¤¿·ï¿ô¤Î¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£°ìÍ÷)
-     *                  Ethna_Error:¥¨¥é¡¼
+     *  @param  array   $keys       å–å¾—ã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+     *  @param  array   $filter     æ¤œç´¢æ¡ä»¶
+     *  @param  array   $order      æ¤œç´¢çµæœã‚½ãƒ¼ãƒˆæ¡ä»¶
+     *  @param  int     $offset     æ¤œç´¢çµæœå–å¾—ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+     *  @param  int     $count      æ¤œç´¢çµæœå–å¾—æ•°
+     *  @return mixed   array(0 => æ¤œç´¢æ¡ä»¶ã«ãƒãƒƒãƒã—ãŸä»¶æ•°,
+     *                  1 => $offset, $countã«ã‚ˆã‚ŠæŒ‡å®šã•ã‚ŒãŸä»¶æ•°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ä¸€è¦§)
+     *                  Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function searchProp($keys = null, $filter = null, $order = null,
                         $offset = null, $count = null)
@@ -683,15 +683,15 @@ class Ethna_AppObject
 
     // {{{ _setDefault
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥Ç¥Õ¥©¥ë¥È¥×¥í¥Ñ¥Æ¥£¤òÀßÄê¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¨­å®šã™ã‚‹
      *
-     *  ¥³¥ó¥¹¥È¥é¥¯¥¿¤Ë¤è¤ê»ØÄê¤µ¤ì¤¿¥­¡¼¤Ë¥Ş¥Ã¥Á¤¹¤ë¥¨¥ó¥È¥ê¤¬¤Ê¤«¤Ã¤¿¾ì¹ç¤Î
-     *  ¥Ç¥Õ¥©¥ë¥È¥×¥í¥Ñ¥Æ¥£¤ò¤³¤³¤ÇÀßÄê¤¹¤ë¤³¤È¤¬½ĞÍè¤ë
+     *  ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã«ã‚ˆã‚ŠæŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«ãƒãƒƒãƒã™ã‚‹ã‚¨ãƒ³ãƒˆãƒªãŒãªã‹ã£ãŸå ´åˆã®
+     *  ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã“ã“ã§è¨­å®šã™ã‚‹ã“ã¨ãŒå‡ºæ¥ã‚‹
      *
      *  @access protected
-     *  @param  mixed   $key_type   ¸¡º÷¥­¡¼Ì¾
-     *  @param  mixed   $key        ¸¡º÷¥­¡¼
-     *  @return int     0:Àµ¾ï½ªÎ»
+     *  @param  mixed   $key_type   æ¤œç´¢ã‚­ãƒ¼å
+     *  @param  mixed   $key        æ¤œç´¢ã‚­ãƒ¼
+     *  @return int     0:æ­£å¸¸çµ‚äº†
      */
     function _setDefault($key_type, $key)
     {
@@ -701,11 +701,11 @@ class Ethna_AppObject
 
     // {{{ _setPropByDB
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤òDB¤«¤é¼èÆÀ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’DBã‹ã‚‰å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @param  mixed   $key_type   ¸¡º÷¥­¡¼Ì¾
-     *  @param  mixed   $key        ¸¡º÷¥­¡¼
+     *  @param  mixed   $key_type   æ¤œç´¢ã‚­ãƒ¼å
+     *  @param  mixed   $key        æ¤œç´¢ã‚­ãƒ¼
      */
     function _setPropByDB($key_type, $key)
     {
@@ -725,7 +725,7 @@ class Ethna_AppObject
             }
         }
 
-        // ¥­¥ã¥Ã¥·¥å¥Á¥§¥Ã¥¯
+        // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒã‚§ãƒƒã‚¯
         $class_name = strtolower(get_class($this));
         if (is_array($_ETHNA_APP_OBJECT_CACHE) == false
             || array_key_exists($class_name, $_ETHNA_APP_OBJECT_CACHE) == false) {
@@ -737,10 +737,10 @@ class Ethna_AppObject
             return;
         }
 
-        // SQLÊ¸¹½ÃÛ
+        // SQLæ–‡æ§‹ç¯‰
         $sql = $this->_getSQL_Select($key_type, $key);
 
-        // ¥×¥í¥Ñ¥Æ¥£¼èÆÀ
+        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å–å¾—
         $r =& $this->my_db_ro->query($sql);
         if (Ethna::isError($r)) {
             return;
@@ -758,24 +758,24 @@ class Ethna_AppObject
         }
         $this->prop = $this->my_db_ro->fetchRow($r, DB_FETCHMODE_ASSOC);
 
-        // ¥­¥ã¥Ã¥·¥å¥¢¥Ã¥×¥Ç¡¼¥È
+        // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
         $_ETHNA_APP_OBJECT_CACHE[$class_name][$cache_key] = $this->prop;
     }
     // }}}
 
     // {{{ _setPropByValue
     /**
-     *  ¥³¥ó¥¹¥È¥é¥¯¥¿¤Ç»ØÄê¤µ¤ì¤¿¥×¥í¥Ñ¥Æ¥£¤òÀßÄê¤¹¤ë
+     *  ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§æŒ‡å®šã•ã‚ŒãŸãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¨­å®šã™ã‚‹
      *
      *  @access private
-     *  @param  array   $prop   ¥×¥í¥Ñ¥Æ¥£°ìÍ÷
+     *  @param  array   $prop   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ä¸€è¦§
      */
     function _setPropByValue($prop)
     {
         $def = $this->getDef();
         foreach ($def as $key => $value) {
             if ($value['primary'] && isset($prop[$key]) == false) {
-                // ¥×¥é¥¤¥Ş¥ê¥­¡¼¤Ï¾ÊÎ¬ÉÔ²Ä
+                // ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ã¯çœç•¥ä¸å¯
                 trigger_error("primary key is not identical", E_USER_ERROR);
             }
             $this->prop[$key] = $prop[$key];
@@ -785,10 +785,10 @@ class Ethna_AppObject
 
     // {{{ _getPrimaryTable
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥×¥é¥¤¥Ş¥ê¥Æ¡¼¥Ö¥ë¤ò¼èÆÀ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ©ã‚¤ãƒãƒªãƒ†ãƒ¼ãƒ–ãƒ«ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥×¥é¥¤¥Ş¥ê¥Æ¡¼¥Ö¥ëÌ¾
+     *  @return string  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ©ã‚¤ãƒãƒªãƒ†ãƒ¼ãƒ–ãƒ«å
      */
     function _getPrimaryTable()
     {
@@ -801,16 +801,16 @@ class Ethna_AppObject
 
     // {{{ _getDuplicateKeyList
     /**
-     *  ½ÅÊ£¥­¡¼¤ò¼èÆÀ¤¹¤ë
+     *  é‡è¤‡ã‚­ãƒ¼ã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return mixed   0:½ÅÊ£¤Ê¤· Ethna_Error:¥¨¥é¡¼ array:½ÅÊ£¥­¡¼¤Î¥×¥í¥Ñ¥Æ¥£Ì¾°ìÍ÷
+     *  @return mixed   0:é‡è¤‡ãªã— Ethna_Error:ã‚¨ãƒ©ãƒ¼ array:é‡è¤‡ã‚­ãƒ¼ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åä¸€è¦§
      */
     function _getDuplicateKeyList()
     {
         $duplicate_key_list = array();
 
-        // ¸½ºßÀßÄê¤µ¤ì¤Æ¤¤¤ë¥×¥é¥¤¥Ş¥ê¥­¡¼¤ËNULL¤¬´Ş¤Ş¤ì¤ë¾ì¹ç¤Ï¸¡º÷¤·¤Ê¤¤
+        // ç¾åœ¨è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ã«NULLãŒå«ã¾ã‚Œã‚‹å ´åˆã¯æ¤œç´¢ã—ãªã„
         $check_pkey = true;
         foreach (to_array($this->id_def) as $k) {
             if (isset($this->prop[$k]) == false || is_null($this->prop[$k])) {
@@ -819,7 +819,7 @@ class Ethna_AppObject
             }
         }
 
-        // ¥×¥é¥¤¥Ş¥ê¥­¡¼¤Ïmulti columns¤Ë¤Ê¤êÆÀ¤ë¤Î¤ÇÊÌ°·¤¤
+        // ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ã¯multi columnsã«ãªã‚Šå¾—ã‚‹ã®ã§åˆ¥æ‰±ã„
         if ($check_pkey) {
             $sql = $this->_getSQL_Duplicate($this->id_def);
             $r =& $this->my_db_rw->query($sql);
@@ -831,7 +831,7 @@ class Ethna_AppObject
             }
         }
 
-        // ¥æ¥Ë¡¼¥¯¥­¡¼
+        // ãƒ¦ãƒ‹ãƒ¼ã‚¯ã‚­ãƒ¼
         foreach ($this->prop_def as $k => $v) {
             if ($v['primary'] == true || $v['key'] == false) {
                 continue;
@@ -855,18 +855,18 @@ class Ethna_AppObject
 
     // {{{ _getSQL_Select
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤ò¼èÆÀ¤¹¤ëSQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’å–å¾—ã™ã‚‹SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @param  array   $key_type   ¥­¡¼¤È¤Ê¤ë¥×¥í¥Ñ¥Æ¥£Ì¾°ìÍ÷
-     *  @param  array   $key        $key_type¤ËÂĞ±ş¤¹¤ë¥­¡¼°ìÍ÷
-     *  @return string  SELECTÊ¸
+     *  @param  array   $key_type   ã‚­ãƒ¼ã¨ãªã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åä¸€è¦§
+     *  @param  array   $key        $key_typeã«å¯¾å¿œã™ã‚‹ã‚­ãƒ¼ä¸€è¦§
+     *  @return string  SELECTæ–‡
      */
     function _getSQL_Select($key_type, $key)
     {
         $key_type = to_array($key_type);
         if (is_null($key)) {
-            // add()Á°
+            // add()å‰
             $key = array();
             for ($i = 0; $i < count($key_type); $i++) {
                 $key[$i] = null;
@@ -875,7 +875,7 @@ class Ethna_AppObject
             $key = to_array($key);
         }
 
-        // SQL¥¨¥¹¥±¡¼¥×
+        // SQLã‚¨ã‚¹ã‚±ãƒ¼ãƒ—
         Ethna_AppSQL::escapeSQL($key, $this->my_db_type);
 
         $tables = implode(',',
@@ -883,7 +883,7 @@ class Ethna_AppObject
         $columns = implode(',',
             $this->my_db_ro->quoteIdentifier(array_keys($this->prop_def)));
 
-        // ¸¡º÷¾ò·ï
+        // æ¤œç´¢æ¡ä»¶
         $condition = null;
         for ($i = 0; $i < count($key_type); $i++) {
             if (is_null($condition)) {
@@ -903,10 +903,10 @@ class Ethna_AppObject
 
     // {{{ _getSQL_Add
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤ÈÄÉ²Ã¤¹¤ëSQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨è¿½åŠ ã™ã‚‹SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @return string  ¥ª¥Ö¥¸¥§¥¯¥È¤òÄÉ²Ã¤¹¤ë¤¿¤á¤ÎINSERTÊ¸
+     *  @return string  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ãŸã‚ã®INSERTæ–‡
      */
     function _getSQL_Add()
     {
@@ -936,17 +936,17 @@ class Ethna_AppObject
 
     // {{{ _getSQL_Update
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤ò¹¹¿·¤¹¤ëSQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’æ›´æ–°ã™ã‚‹SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @return ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤ò¹¹¿·¤¹¤ë¤¿¤á¤ÎUPDATEÊ¸
+     *  @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’æ›´æ–°ã™ã‚‹ãŸã‚ã®UPDATEæ–‡
      */
     function _getSQL_Update()
     {
         $tables = implode(',',
             $this->my_db_rw->quoteIdentifier(array_keys($this->table_def)));
 
-        // SET¶ç¹½ÃÛ
+        // SETå¥æ§‹ç¯‰
         $set_list = "";
         $prop_arg_list = $this->prop;
         Ethna_AppSQL::escapeSQL($prop_arg_list, $this->my_db_type);
@@ -959,7 +959,7 @@ class Ethna_AppObject
                                  $prop_arg_list[$k]);
         }
 
-        // ¸¡º÷¾ò·ï(primary key)
+        // æ¤œç´¢æ¡ä»¶(primary key)
         $condition = null;
         foreach (to_array($this->id_def) as $k) {
             if (is_null($condition)) {
@@ -981,17 +981,17 @@ class Ethna_AppObject
 
     // {{{ _getSQL_Remove
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤òºï½ü¤¹¤ëSQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @return string  ¥ª¥Ö¥¸¥§¥¯¥È¤òºï½ü¤¹¤ë¤¿¤á¤ÎDELETEÊ¸
+     *  @return string  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹ãŸã‚ã®DELETEæ–‡
      */
     function _getSQL_Remove()
     {
         $tables = implode(',',
             $this->my_db_rw->quoteIdentifier(array_keys($this->table_def)));
 
-        // ¸¡º÷¾ò·ï(primary key)
+        // æ¤œç´¢æ¡ä»¶(primary key)
         $condition = null;
         foreach (to_array($this->id_def) as $k) {
             if (is_null($condition)) {
@@ -1017,11 +1017,11 @@ class Ethna_AppObject
 
     // {{{ _getSQL_Duplicate
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤Î¥æ¥Ë¡¼¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦SQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @param  mixed   $key    ¥æ¥Ë¡¼¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦¥×¥í¥Ñ¥Æ¥£Ì¾
-     *  @return string  ¥æ¥Ë¡¼¥¯¥Á¥§¥Ã¥¯¤ò¹Ô¤¦¤¿¤á¤ÎSELECTÊ¸
+     *  @param  mixed   $key    ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+     *  @return string  ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†ãŸã‚ã®SELECTæ–‡
      */
     function _getSQL_Duplicate($key)
     {
@@ -1031,7 +1031,7 @@ class Ethna_AppObject
             $this->my_db_ro->quoteIdentifier(array_keys($this->prop_def)));
 
         $condition = null;
-        // ¸¡º÷¾ò·ï(¸½ºßÀßÄê¤µ¤ì¤Æ¤¤¤ë¥×¥é¥¤¥Ş¥ê¥­¡¼¤Ï¸¡º÷ÂĞ¾İ¤«¤é½ü¤¯)
+        // æ¤œç´¢æ¡ä»¶(ç¾åœ¨è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ã¯æ¤œç´¢å¯¾è±¡ã‹ã‚‰é™¤ã)
         if (is_null($this->id) == false) {
             $primary_value = to_array($this->getId());
             $n = 0;
@@ -1069,16 +1069,16 @@ class Ethna_AppObject
 
     // {{{ _getSQL_SearchLength
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷Áí¿ô(offset, count½ü³°)¤ò¼èÆÀ¤¹¤ëSQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢ç·æ•°(offset, counté™¤å¤–)ã‚’å–å¾—ã™ã‚‹SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @param  array   $filter     ¸¡º÷¾ò·ï
-     *  @return string  ¸¡º÷Áí¿ô¤ò¼èÆÀ¤¹¤ë¤¿¤á¤ÎSELECTÊ¸
-     *  @todo   my_db_type¤Î»²¾È¤òÇÑ»ß
+     *  @param  array   $filter     æ¤œç´¢æ¡ä»¶
+     *  @return string  æ¤œç´¢ç·æ•°ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®SELECTæ–‡
+     *  @todo   my_db_typeã®å‚ç…§ã‚’å»ƒæ­¢
      */
     function _getSQL_SearchLength($filter)
     {
-        // ¥Æ¡¼¥Ö¥ë
+        // ãƒ†ãƒ¼ãƒ–ãƒ«
         $tables = implode(',',
             $this->my_db_ro->quoteIdentifier(array_keys($this->table_def)));
         if ($this->_isAdditionalField($filter)) {
@@ -1105,18 +1105,18 @@ class Ethna_AppObject
 
     // {{{ _getSQL_SearchId
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈID¸¡º÷¤ò¹Ô¤¦SQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDæ¤œç´¢ã‚’è¡Œã†SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @param  array   $filter     ¸¡º÷¾ò·ï
-     *  @param  array   $order      ¸¡º÷·ë²Ì¥½¡¼¥È¾ò·ï
-     *  @param  int     $offset     ¸¡º÷·ë²Ì¼èÆÀ¥ª¥Õ¥»¥Ã¥È
-     *  @param  int     $count      ¸¡º÷·ë²Ì¼èÆÀ¿ô
-     *  @return string  ¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¤ò¹Ô¤¦SELECTÊ¸
+     *  @param  array   $filter     æ¤œç´¢æ¡ä»¶
+     *  @param  array   $order      æ¤œç´¢çµæœã‚½ãƒ¼ãƒˆæ¡ä»¶
+     *  @param  int     $offset     æ¤œç´¢çµæœå–å¾—ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+     *  @param  int     $count      æ¤œç´¢çµæœå–å¾—æ•°
+     *  @return string  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢ã‚’è¡Œã†SELECTæ–‡
      */
     function _getSQL_SearchId($filter, $order, $offset, $count)
     {
-        // ¥Æ¡¼¥Ö¥ë
+        // ãƒ†ãƒ¼ãƒ–ãƒ«
         $tables = implode(',',
             $this->my_db_ro->quoteIdentifier(array_keys($this->table_def)));
         if ($this->_isAdditionalField($filter)
@@ -1163,19 +1163,19 @@ class Ethna_AppObject
 
     // {{{ _getSQL_SearchProp
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¸¡º÷¤ò¹Ô¤¦SQLÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æ¤œç´¢ã‚’è¡Œã†SQLæ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @param  array   $keys       ¼èÆÀ¥×¥í¥Ñ¥Æ¥£°ìÍ÷
-     *  @param  array   $filter     ¸¡º÷¾ò·ï
-     *  @param  array   $order      ¸¡º÷·ë²Ì¥½¡¼¥È¾ò·ï
-     *  @param  int     $offset     ¸¡º÷·ë²Ì¼èÆÀ¥ª¥Õ¥»¥Ã¥È
-     *  @param  int     $count      ¸¡º÷·ë²Ì¼èÆÀ¿ô
-     *  @return string  ¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¤ò¹Ô¤¦SELECTÊ¸
+     *  @param  array   $keys       å–å¾—ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ä¸€è¦§
+     *  @param  array   $filter     æ¤œç´¢æ¡ä»¶
+     *  @param  array   $order      æ¤œç´¢çµæœã‚½ãƒ¼ãƒˆæ¡ä»¶
+     *  @param  int     $offset     æ¤œç´¢çµæœå–å¾—ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+     *  @param  int     $count      æ¤œç´¢çµæœå–å¾—æ•°
+     *  @return string  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢ã‚’è¡Œã†SELECTæ–‡
      */
     function _getSQL_SearchProp($keys, $filter, $order, $offset, $count)
     {
-        // ¥Æ¡¼¥Ö¥ë
+        // ãƒ†ãƒ¼ãƒ–ãƒ«
         $tables = implode(',',
             $this->my_db_ro->quoteIdentifier(array_keys($this->table_def)));
         if ($this->_isAdditionalField($filter)
@@ -1184,7 +1184,7 @@ class Ethna_AppObject
         }
         $p_table = $this->_getPrimaryTable();
 
-        // ¸¡º÷ÍÑÄÉ²Ã¥×¥í¥Ñ¥Æ¥£
+        // æ¤œç´¢ç”¨è¿½åŠ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
         if ($this->_isAdditionalField($filter)
             || $this->_isAdditionalField($order)) {
             $search_prop_def = $this->_SQLPlugin_SearchPropDef();
@@ -1193,7 +1193,7 @@ class Ethna_AppObject
         }
         $def = array_merge($this->getDef(), $search_prop_def);
 
-        // ¥«¥é¥à
+        // ã‚«ãƒ©ãƒ 
         $column = "";
         $keys = $keys === null ? array_keys($def) : to_array($keys);
         foreach ($keys as $key) {
@@ -1206,7 +1206,7 @@ class Ethna_AppObject
                                $this->my_db_ro->quoteIdentifier($key));
         }
 
-        // WHERE ¤Î¾ò·ï
+        // WHERE ã®æ¡ä»¶
         $condition = $this->_getSQL_SearchCondition($filter);
 
         // ORDER BY
@@ -1241,11 +1241,11 @@ class Ethna_AppObject
 
     // {{{ _getSQL_SearchCondition
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷SQL¤Î¾ò·ïÊ¸¤ò¹½ÃÛ¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢SQLã®æ¡ä»¶æ–‡ã‚’æ§‹ç¯‰ã™ã‚‹
      *
      *  @access private
-     *  @param  array   $filter     ¸¡º÷¾ò·ï
-     *  @return string  ¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¤Î¾ò·ïÊ¸(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  array   $filter     æ¤œç´¢æ¡ä»¶
+     *  @return string  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢ã®æ¡ä»¶æ–‡(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function _getSQL_SearchCondition($filter)
     {
@@ -1255,7 +1255,7 @@ class Ethna_AppObject
 
         $p_table = $this->_getPrimaryTable();
 
-        // ¸¡º÷ÍÑÄÉ²Ã¥×¥í¥Ñ¥Æ¥£
+        // æ¤œç´¢ç”¨è¿½åŠ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
         if ($this->_isAdditionalField($filter)) {
             $search_prop_def = $this->_SQLPlugin_SearchPropDef();
         } else {
@@ -1279,12 +1279,12 @@ class Ethna_AppObject
             $t = isset($prop_def[$k]['table']) ? $prop_def[$k]['table'] : $p_table;
 
             if (is_object($v)) {
-                // Ethna_AppSearchObject¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç
+                // Ethna_AppSearchObjectãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ
                 $condition .= $v->toString(
                     $this->my_db_ro->quoteIdentifier($t)
                     .'.'. $this->my_db_ro->quoteIdentifier($k));
             } else if (is_array($v) && count($v) > 0 && is_object($v[0])) {
-                // Ethna_AppSearchObject¤¬ÇÛÎó¤Ç»ØÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç
+                // Ethna_AppSearchObjectãŒé…åˆ—ã§æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ
                 $n = 0;
                 foreach ($v as $so) {
                     if ($n > 0) {
@@ -1296,14 +1296,14 @@ class Ethna_AppObject
                     $n++;
                 }
             } else if ($prop_def[$k]['type'] == VAR_TYPE_STRING) {
-                // ¾ÊÎ¬·Á(Ê¸»úÎó)
+                // çœç•¥å½¢(æ–‡å­—åˆ—)
                 Ethna_AppSQL::escapeSQL($v, $this->my_db_type);
                 $condition .= Ethna_AppSQL::getCondition(
                     $this->my_db_ro->quoteIdentifier($t)
                     .'.'. $this->my_db_ro->quoteIdentifier($k),
                     $v, OBJECT_CONDITION_LIKE);
             } else {
-                // ¾ÊÎ¬·Á(¿ôÃÍ)
+                // çœç•¥å½¢(æ•°å€¤)
                 Ethna_AppSQL::escapeSQL($v, $this->my_db_type);
                 $condition .= Ethna_AppSQL::getCondition(
                     $this->my_db_ro->quoteIdentifier($t)
@@ -1318,7 +1318,7 @@ class Ethna_AppObject
 
     // {{{ _SQLPlugin_SearchTable
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷SQL¥×¥é¥°¥¤¥ó(ÄÉ²Ã¥Æ¡¼¥Ö¥ë)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢SQLãƒ—ãƒ©ã‚°ã‚¤ãƒ³(è¿½åŠ ãƒ†ãƒ¼ãƒ–ãƒ«)
      *
      *  sample:
      *  <code>
@@ -1326,7 +1326,7 @@ class Ethna_AppObject
      *  </code>
      *
      *  @access protected
-     *  @return string  ¥Æ¡¼¥Ö¥ëJOIN¤ÎSQLÊ¸
+     *  @return string  ãƒ†ãƒ¼ãƒ–ãƒ«JOINã®SQLæ–‡
      */
     function _SQLPlugin_SearchTable()
     {
@@ -1336,7 +1336,7 @@ class Ethna_AppObject
 
     // {{{ _SQLPlugin_SearchPropDef
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷SQL¥×¥é¥°¥¤¥ó(ÄÉ²Ã¾ò·ïÄêµÁ)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢SQLãƒ—ãƒ©ã‚°ã‚¤ãƒ³(è¿½åŠ æ¡ä»¶å®šç¾©)
      *
      *  sample:
      *  <code>
@@ -1350,7 +1350,7 @@ class Ethna_AppObject
      *  </code>
      *
      *  @access protected
-     *  @return array   ÄÉ²Ã¾ò·ïÄêµÁ
+     *  @return array   è¿½åŠ æ¡ä»¶å®šç¾©
      */
     function _SQLPlugin_SearchPropDef()
     {
@@ -1360,10 +1360,10 @@ class Ethna_AppObject
 
     // {{{ _dump_csv
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¥×¥í¥Ñ¥Æ¥£¤òCSV·Á¼°¤Ç¥À¥ó¥×¤¹¤ë
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’CSVå½¢å¼ã§ãƒ€ãƒ³ãƒ—ã™ã‚‹
      *
      *  @access protected
-     *  @return string  ¥À¥ó¥×·ë²Ì
+     *  @return string  ãƒ€ãƒ³ãƒ—çµæœ
      */
     function _dump_csv()
     {
@@ -1384,11 +1384,11 @@ class Ethna_AppObject
 
     // {{{ _isAdditionalField
     /**
-     *  (¸¡º÷¾ò·ï|¥½¡¼¥È¾ò·ï)¥Õ¥£¡¼¥ë¥É¤ËÄÉ²Ã¥Õ¥£¡¼¥ë¥É¤¬´Ş¤Ş¤ì¤ë¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  (æ¤œç´¢æ¡ä»¶|ã‚½ãƒ¼ãƒˆæ¡ä»¶)ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¿½åŠ ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå«ã¾ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access private
-     *  @param  array   $field  (¸¡º÷¾ò·ï|¥½¡¼¥È¾ò·ï)ÄêµÁ
-     *  @return bool    true:´Ş¤Ş¤ì¤ë false:´Ş¤Ş¤ì¤Ê¤¤
+     *  @param  array   $field  (æ¤œç´¢æ¡ä»¶|ã‚½ãƒ¼ãƒˆæ¡ä»¶)å®šç¾©
+     *  @return bool    true:å«ã¾ã‚Œã‚‹ false:å«ã¾ã‚Œãªã„
      */
     function _isAdditionalField($field)
     {
@@ -1414,7 +1414,7 @@ class Ethna_AppObject
 
     // {{{ _clearPropCache
     /**
-     *  ¥­¥ã¥Ã¥·¥å¥Ç¡¼¥¿¤òºï½ü¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access private
      */
@@ -1435,7 +1435,7 @@ class Ethna_AppObject
 
     // {{{ _getDBList
     /**
-     *  DB¥ª¥Ö¥¸¥§¥¯¥È(read only/read-write)¤ò¼èÆÀ¤¹¤ë
+     *  DBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(read only/read-write)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
      *  @return array   array('ro' => {read only db object}, 'rw' => {read-write db object})
@@ -1450,8 +1450,8 @@ class Ethna_AppObject
         }
         foreach ($db_list as $elt) {
             if ($this->db_prefix) {
-                // ÆÃÄê¤Î¥×¥ì¥Õ¥£¥¯¥¹¤¬»ØÄê¤µ¤ì¤¿DBÀÜÂ³¤òÍøÍÑ
-                // (¥Æ¡¼¥Ö¥ë¤´¤È¤ËDB¤¬°Û¤Ê¤ë¾ì¹ç¤Ê¤É)
+                // ç‰¹å®šã®ãƒ—ãƒ¬ãƒ•ã‚£ã‚¯ã‚¹ãŒæŒ‡å®šã•ã‚ŒãŸDBæ¥ç¶šã‚’åˆ©ç”¨
+                // (ãƒ†ãƒ¼ãƒ–ãƒ«ã”ã¨ã«DBãŒç•°ãªã‚‹å ´åˆãªã©)
                 if (strncmp($this->db_prefix,
                             $elt['key'],
                             strlen($this->db_prefix)) != 0) {
@@ -1480,13 +1480,13 @@ class Ethna_AppObject
 
     // {{{ _getTableDef
     /**
-     *  ¥Æ¡¼¥Ö¥ëÄêµÁ¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ†ãƒ¼ãƒ–ãƒ«å®šç¾©ã‚’å–å¾—ã™ã‚‹
      *
-     *  (¥¯¥é¥¹Ì¾¢ª¥Æ¡¼¥Ö¥ëÌ¾¤Î¥ë¡¼¥ë¤òÊÑ¤¨¤¿¤¤¾ì¹ç¤Ï
-     *  ¤³¤Î¥á¥½¥Ã¥É¤ò¥ª¡¼¥Ğ¡¼¥é¥¤¥É¤·¤Ş¤¹)
+     *  (ã‚¯ãƒ©ã‚¹åâ†’ãƒ†ãƒ¼ãƒ–ãƒ«åã®ãƒ«ãƒ¼ãƒ«ã‚’å¤‰ãˆãŸã„å ´åˆã¯
+     *  ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã™)
      *
      *  @access protected
-     *  @return array   ¥Æ¡¼¥Ö¥ëÄêµÁ
+     *  @return array   ãƒ†ãƒ¼ãƒ–ãƒ«å®šç¾©
      */
     function _getTableDef()
     {
@@ -1496,7 +1496,7 @@ class Ethna_AppObject
         }
         $table = $match[2];
 
-        // PHP 4¤Ï¾ï¤Ë¾®Ê¸»ú¤òÊÖ¤¹...¤Î¤ÇPHP 5ÀìÍÑ
+        // PHP 4ã¯å¸¸ã«å°æ–‡å­—ã‚’è¿”ã™...ã®ã§PHP 5å°‚ç”¨
         $table = preg_replace('/^([A-Z])/e', "strtolower('\$1')", $table);
         $table = preg_replace('/([A-Z])/e', "'_' . strtolower('\$1')", $table);
 
@@ -1506,10 +1506,10 @@ class Ethna_AppObject
 
     // {{{ _getPropDef
     /**
-     *  ¥×¥í¥Ñ¥Æ¥£ÄêµÁ¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
-     *  @return array   ¥×¥í¥Ñ¥Æ¥£ÄêµÁ
+     *  @return array   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©
      */
     function _getPropDef()
     {
@@ -1582,7 +1582,7 @@ class Ethna_AppObject
 
     // {{{ _fieldNameToFormName
     /**
-     *  ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Õ¥£¡¼¥ë¥ÉÌ¾¤ËÂĞ±ş¤¹¤ë¥Õ¥©¡¼¥àÌ¾¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰åã«å¯¾å¿œã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒ åã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
      */

@@ -11,7 +11,7 @@
 
 // {{{ Ethna_SOAP_ActionForm
 /**
- *  SOAP¥Õ¥©¡¼¥à¥¯¥é¥¹
+ *  SOAPãƒ•ã‚©ãƒ¼ãƒ ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,19 +23,19 @@ class Ethna_SOAP_ActionForm extends Ethna_ActionForm
      *  @access private
      */
 
-    /** @var    array   °ú¿ôÄêµÁ */
+    /** @var    array   å¼•æ•°å®šç¾© */
     var $arg = array();
 
-    /** @var    array   Ìá¤êÃÍÄêµÁ */
+    /** @var    array   æˆ»ã‚Šå€¤å®šç¾© */
     var $retval = array();
 
     /**#@-*/
 
     /**
-     *  Ethna_SOAP_ActionForm¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_SOAP_ActionFormã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_ActionError   $action_error   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_ActionError   $action_error   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_SOAP_ActionForm(&$action_error)
     {

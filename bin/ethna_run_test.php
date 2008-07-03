@@ -10,27 +10,27 @@
  *  @version    $Id$
  */
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥Ù¡¼¥¹¥Ç¥£¥ì¥¯¥È¥ê */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
 define('BASE', dirname(dirname(__FILE__)));
 
-/** include_path¤ÎÀßÄê(¤³¤Îtest runner¤¬¤¢¤ë¥Ç¥£¥ì¥¯¥È¥ê¤òÄÉ²Ã) */
+/** include_pathã®è¨­å®š(ã“ã®test runnerãŒã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿½åŠ ) */
 ini_set('include_path', dirname(BASE) . PATH_SEPARATOR . ini_get('include_path'));
 
-/** Ethna´ØÏ¢¥¯¥é¥¹¤Î¥¤¥ó¥¯¥ë¡¼¥É */
+/** Ethnaé–¢é€£ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ */
 require_once 'Ethna/Ethna.php';
 
-/** SimpleTest¤Î¥¤¥ó¥¯¥ë¡¼¥É */
+/** SimpleTestã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ */
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
 require_once 'Ethna/test/TextDetailReporter.php';
 require_once 'Ethna/test/Ethna_UnitTestBase.php';
 
-/** ¥Æ¥¹¥È¥±¡¼¥¹¤¬¤¢¤ë¥Ç¥£¥ì¥¯¥È¥ê */
+/** ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ãŒã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
 $test_dir = ETHNA_BASE . '/test';
 
 $test = &new GroupTest('Ethna All tests');
 
-// ¥Æ¥¹¥È¥±¡¼¥¹¤Î¥Õ¥¡¥¤¥ë¥ê¥¹¥È¤ò¼èÆÀ
+// ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆã‚’å–å¾—
 require_once 'Console/Getopt.php';
 $args = Console_Getopt::readPHPArgv();
 list($args, $opts) = Console_Getopt::getopt2($args, '', array());
@@ -41,12 +41,12 @@ if (count($opts) > 0) {
     $file_list = getFileList($test_dir);
 }
 
-// ¥Æ¥¹¥È¥±¡¼¥¹¤òÅĞÏ¿
+// ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã‚’ç™»éŒ²
 foreach ($file_list as $file) {
     $test->addTestFile($file);
 }
 
-// ·ë²Ì¤ò¥³¥Ş¥ó¥É¥é¥¤¥ó¤Ë½ĞÎÏ
+// çµæœã‚’ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã«å‡ºåŠ›
 //$test->run(new TextReporter());
 $test->run(new TextDetailReporter());
 
@@ -72,13 +72,13 @@ function getFileList($dir_path)
 
         if (is_file($full_path)){
 
-            // ¥Æ¥¹¥È¥±¡¼¥¹¤Î¥Õ¥¡¥¤¥ë¤Î¤ßÆÉ¤ß¹ş¤à
+            // ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®ã¿èª­ã¿è¾¼ã‚€
             if (preg_match('/^(Ethna_)(.*)(_Test.php)$/',$file_path,$matches)) {
                 $file_list[] = $full_path;
             }
 
-        // ¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤¬¤¢¤ë¾ì¹ç¤Ï¡¤ºÆµ¢Åª¤ËÆÉ¤ß¹ş¤à¡¥
-        // "."¤Ç»Ï¤Ş¤ë¥Ç¥£¥ì¥¯¥È¥ê¤ÏÆÉ¤ß¹ş¤Ş¤Ê¤¤.
+        // ã‚µãƒ–ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã‚ã‚‹å ´åˆã¯ï¼Œå†å¸°çš„ã«èª­ã¿è¾¼ã‚€ï¼
+        // "."ã§å§‹ã¾ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯èª­ã¿è¾¼ã¾ãªã„.
         } else if (is_dir($full_path) && !preg_match('/^\./',$file_path,$matches)) {
 
             $file_list = array_merge($file_list,getFileList($full_path));

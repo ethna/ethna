@@ -12,7 +12,7 @@
 /**
  *  smarty modifier:number_format()
  *
- *  number_format()´Ø¿ô¤Îwrapper
+ *  number_format()é–¢æ•°ã®wrapper
  *
  *  sample:
  *  <code>
@@ -22,8 +22,8 @@
  *  12,345
  *  </code>
  *
- *  @param  string  $string ¥Õ¥©¡¼¥Ş¥Ã¥ÈÂĞ¾İÊ¸»úÎó
- *  @return string  ¥Õ¥©¡¼¥Ş¥Ã¥ÈºÑ¤ßÊ¸»úÎó
+ *  @param  string  $string ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆå¯¾è±¡æ–‡å­—åˆ—
+ *  @return string  ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ¸ˆã¿æ–‡å­—åˆ—
  */
 function smarty_modifier_number_format($string)
 {
@@ -38,19 +38,19 @@ function smarty_modifier_number_format($string)
 /**
  *  smarty modifier:strftime()
  *
- *  strftime()´Ø¿ô¤Îwrapper
+ *  strftime()é–¢æ•°ã®wrapper
  *
  *  sample:
  *  <code>
- *  {"2004/01/01 01:01:01"|strftime:"%YÇ¯%m·î%dÆü"}
+ *  {"2004/01/01 01:01:01"|strftime:"%Yå¹´%mæœˆ%dæ—¥"}
  *  </code>
  *  <code>
- *  2004Ç¯01·î01Æü
+ *  2004å¹´01æœˆ01æ—¥
  *  </code>
  *
- *  @param  string  $string ¥Õ¥©¡¼¥Ş¥Ã¥ÈÂĞ¾İÊ¸»úÎó
- *  @param  string  $format ½ñ¼°»ØÄêÊ¸»úÎó(strftime()´Ø¿ô»²¾È)
- *  @return string  ¥Õ¥©¡¼¥Ş¥Ã¥ÈºÑ¤ßÊ¸»úÎó
+ *  @param  string  $string ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆå¯¾è±¡æ–‡å­—åˆ—
+ *  @param  string  $format æ›¸å¼æŒ‡å®šæ–‡å­—åˆ—(strftime()é–¢æ•°å‚ç…§)
+ *  @return string  ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ¸ˆã¿æ–‡å­—åˆ—
  */
 function smarty_modifier_strftime($string, $format)
 {
@@ -65,7 +65,7 @@ function smarty_modifier_strftime($string, $format)
 /**
  *  smarty modifier:count()
  *
- *  count()´Ø¿ô¤Îwrapper
+ *  count()é–¢æ•°ã®wrapper
  *
  *  sample:
  *  <code>
@@ -77,8 +77,8 @@ function smarty_modifier_strftime($string, $format)
  *  3
  *  </code>
  *
- *  @param  array   $array  ÂĞ¾İ¤È¤Ê¤ëÇÛÎó
- *  @return int     ÇÛÎó¤ÎÍ×ÁÇ¿ô
+ *  @param  array   $array  å¯¾è±¡ã¨ãªã‚‹é…åˆ—
+ *  @return int     é…åˆ—ã®è¦ç´ æ•°
  */
 function smarty_modifier_count($array)
 {
@@ -90,7 +90,7 @@ function smarty_modifier_count($array)
 /**
  *  smarty modifier:join()
  *
- *  join()´Ø¿ô¤Îwrapper
+ *  join()é–¢æ•°ã®wrapper
  *
  *  sample:
  *  <code>
@@ -102,9 +102,9 @@ function smarty_modifier_count($array)
  *  1:2:3
  *  </code>
  *
- *  @param  array   $array  joinÂĞ¾İ¤ÎÇÛÎó
- *  @param  string  $glue   Ï¢·ëÊ¸»úÎó
- *  @return string  Ï¢·ë¸å¤ÎÊ¸»úÎó
+ *  @param  array   $array  joinå¯¾è±¡ã®é…åˆ—
+ *  @param  string  $glue   é€£çµæ–‡å­—åˆ—
+ *  @return string  é€£çµå¾Œã®æ–‡å­—åˆ—
  */
 function smarty_modifier_join($array, $glue)
 {
@@ -119,7 +119,7 @@ function smarty_modifier_join($array, $glue)
 /**
  *  smarty modifier:filter()
  *
- *  »ØÄê¤µ¤ì¤¿Ï¢ÁÛÇÛÎó¤Î¤¦¤Á$key¤Ç»ØÄê¤µ¤ì¤¿Í×ÁÇ¤Î¤ß¤òÇÛÎó¤ËºÆ¹½À®¤¹¤ë
+ *  æŒ‡å®šã•ã‚ŒãŸé€£æƒ³é…åˆ—ã®ã†ã¡$keyã§æŒ‡å®šã•ã‚ŒãŸè¦ç´ ã®ã¿ã‚’é…åˆ—ã«å†æ§‹æˆã™ã‚‹
  *
  *  sample:
  *  <code>
@@ -135,9 +135,9 @@ function smarty_modifier_join($array, $glue)
  *  1,2,3
  *  </code>
  *  
- *  @param  array   $array  filterÂĞ¾İ¤È¤Ê¤ëÇÛÎó
- *  @param  string  $key    È´¤­½Ğ¤·¤ÆÇÛÎó¤ò¹½À®¤¹¤ëÏ¢ÁÛÇÛÎó¤Î¥­¡¼
- *  @return array   ºÆ¹½À®¤µ¤ì¤¿ÇÛÎó
+ *  @param  array   $array  filterå¯¾è±¡ã¨ãªã‚‹é…åˆ—
+ *  @param  string  $key    æŠœãå‡ºã—ã¦é…åˆ—ã‚’æ§‹æˆã™ã‚‹é€£æƒ³é…åˆ—ã®ã‚­ãƒ¼
+ *  @return array   å†æ§‹æˆã•ã‚ŒãŸé…åˆ—
  */
 function smarty_modifier_filter($array, $key)
 {
@@ -159,7 +159,7 @@ function smarty_modifier_filter($array, $key)
 /**
  *  smarty modifier:unique()
  *
- *  unique()´Ø¿ô¤Îwrapper
+ *  unique()é–¢æ•°ã®wrapper
  *
  *  sample:
  *  <code>
@@ -181,9 +181,9 @@ function smarty_modifier_filter($array, $key)
  *  123
  *  </code>
  *  
- *  @param  array   $array  ½èÍıÂĞ¾İ¤È¤Ê¤ëÇÛÎó
- *  @param  key     $key    ½èÍıÂĞ¾İ¤È¤Ê¤ë¥­¡¼(null¤Ê¤éÇÛÎóÍ×ÁÇ)
- *  @return array   ºÆ¹½À®¤µ¤ì¤¿ÇÛÎó
+ *  @param  array   $array  å‡¦ç†å¯¾è±¡ã¨ãªã‚‹é…åˆ—
+ *  @param  key     $key    å‡¦ç†å¯¾è±¡ã¨ãªã‚‹ã‚­ãƒ¼(nullãªã‚‰é…åˆ—è¦ç´ )
+ *  @return array   å†æ§‹æˆã•ã‚ŒãŸé…åˆ—
  */
 function smarty_modifier_unique($array, $key = null)
 {
@@ -207,32 +207,38 @@ function smarty_modifier_unique($array, $key = null)
 
 // {{{ smarty_modifier_wordwrap_i18n
 /**
- *  smarty modifier:Ê¸»úÎó¤Îwordwrap½èÍı
- *
- *  [¸½ºßEUC-JPÂĞ±ş¤ÏEUC-JP¤Î¤ßÂĞ±ş]
+ *  smarty modifier:æ–‡å­—åˆ—ã®wordwrapå‡¦ç†
  *
  *  sample:
  *  <code>
- *  {"¤¢¤¤¤¦a¤¨a¤ªa¤«¤­aaa¤¯¤±¤³"|wordrap_i18n:8}
+ *  {"ã‚ã„ã†aãˆaãŠaã‹ãaaaãã‘ã“"|wordrap_i18n:8}
  *  </code>
  *  <code>
- *  ¤¢¤¤¤¦a
- *  ¤¨a¤ªa¤«
- *  ¤­aaa¤¯
- *  ¤±¤³
+ *  ã‚ã„ã†a
+ *  ãˆaãŠaã‹
+ *  ãaaaã
+ *  ã‘ã“
  *  </code>
  *
- *  @param  string  $string wordwrap¤¹¤ëÊ¸»úÎó
- *  @param  string  $break  ²ş¹ÔÊ¸»ú
- *  @param  int     $width  wordwrapÉı(È¾³Ñ$widthÊ¸»ú¤Çwordwrap¤¹¤ë)
- *  @param  int     $indent ¥¤¥ó¥Ç¥ó¥ÈÉı(È¾³Ñ$indentÊ¸»ú)
- *  @return string  wordwrap½èÍı¤µ¤ì¤¿Ê¸»úÎó
+ *  @param  string  $string wordwrapã™ã‚‹æ–‡å­—åˆ—
+ *  @param  string  $break  æ”¹è¡Œæ–‡å­—
+ *  @param  int     $width  wordwrapå¹…(åŠè§’$widthæ–‡å­—ã§wordwrapã™ã‚‹)
+ *  @param  int     $indent ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆå¹…(åŠè§’$indentæ–‡å­—)
+ *                          æ•°å€¤ã‚’æŒ‡å®šã™ã‚‹ãŒã€ã¯ã˜ã‚ã®è¡Œã¯ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã•ã‚Œãªã„
+ *  @return string  wordwrapå‡¦ç†ã•ã‚ŒãŸæ–‡å­—åˆ—
  */
 function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent = 0)
 {
+    $ctl =& Ethna_Controller::getInstance();
+    $client_enc = $ctl->getClientEncoding(); 
+
+    //    ã„ã‚ã‚†ã‚‹åŠè§’ã‚’å˜ä½ã«ã—ã¦wrapã™ã‚‹ä½ç½®ã‚’æ¸¬ã‚‹ãŸã‚ã€ã„ã£ãŸã‚“
+    //    EUC_JP ã«å¤‰æ›ã™ã‚‹
+    $euc_string = mb_convert_encoding($string, 'EUC_JP', $client_enc);
+
     $r = "";
     $i = "$break" . str_repeat(" ", $indent);
-    $tmp = $string;
+    $tmp = $euc_string;
     do {
         $n = strpos($tmp, $break);
         if ($n !== false && $n < $width) {
@@ -242,9 +248,8 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
             continue;
         }
 
-        $s = mb_strimwidth($tmp, 0, $width, "", "EUC-JP");
+        $s = mb_strimwidth($tmp, 0, $width, "", 'EUC_JP');
 
-        // EUC-JP¤Î¤ßÂĞ±ş
         $n = strlen($s);
         if ($n >= $width && $tmp{$n} != "" && $tmp{$n} != " ") {
             while ((ord($s{$n-1}) & 0x80) == 0) {
@@ -262,24 +267,27 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
 
     $r = preg_replace('/\s+$/', '', $r);
 
+    //    æœ€å¾Œã«ã€ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã«å¤‰æ›
+    $r = mb_convert_encoding($r, $client_enc, 'EUC_JP');
+
     return $r;
 }
 // }}}
 
 // {{{ smarty_modifier_truncate_i18n
 /**
- *  smarty modifier:Ê¸»úÎóÀÚ¤êµÍ¤á½èÍı(i18nÂĞ±ş)
+ *  smarty modifier:æ–‡å­—åˆ—åˆ‡ã‚Šè©°ã‚å‡¦ç†(i18nå¯¾å¿œ)
  *
  *  sample:
  *  <code>
- *  {"ÆüËÜ¸ì¤Ç¤¹"|truncate_i18n:5:"..."}
+ *  {"æ—¥æœ¬èªã§ã™"|truncate_i18n:5:"..."}
  *  </code>
  *  <code>
- *  ÆüËÜ...
+ *  æ—¥æœ¬...
  *  </code>
  *
- *  @param  int     $len        ºÇÂçÊ¸»úÉı
- *  @param  string  $postfix    ËöÈø¤ËÉÕ²Ã¤¹¤ëÊ¸»úÎó
+ *  @param  int     $len        æœ€å¤§æ–‡å­—å¹…
+ *  @param  string  $postfix    æœ«å°¾ã«ä»˜åŠ ã™ã‚‹æ–‡å­—åˆ—
  */
 function smarty_modifier_truncate_i18n($string, $len = 80, $postfix = "...")
 {
@@ -289,18 +297,18 @@ function smarty_modifier_truncate_i18n($string, $len = 80, $postfix = "...")
 
 // {{{ smarty_modifier_i18n
 /**
- *  smarty modifier:i18n¥Õ¥£¥ë¥¿
+ *  smarty modifier:i18nãƒ•ã‚£ãƒ«ã‚¿
  *
  *  sample:
  *  <code>
  *  {"english"|i18n}
  *  </code>
  *  <code>
- *  ±Ñ¸ì
+ *  è‹±èª
  *  </code>
  *
- *  @param  string  $string i18n½èÍıÂĞ¾İ¤ÎÊ¸»úÎó
- *  @return string  ¥í¥±¡¼¥ë¤ËÂĞ±ş¤·¤¿¥á¥Ã¥»¡¼¥¸
+ *  @param  string  $string i18nå‡¦ç†å¯¾è±¡ã®æ–‡å­—åˆ—
+ *  @return string  ãƒ­ã‚±ãƒ¼ãƒ«ã«å¯¾å¿œã—ãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
  */
 function smarty_modifier_i18n($string)
 {
@@ -314,7 +322,7 @@ function smarty_modifier_i18n($string)
 
 // {{{ smarty_modifier_checkbox
 /**
- *  smarty modifier:¥Á¥§¥Ã¥¯¥Ü¥Ã¥¯¥¹ÍÑ¥Õ¥£¥ë¥¿
+ *  smarty modifier:ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ç”¨ãƒ•ã‚£ãƒ«ã‚¿
  *
  *  sample:
  *  <code>
@@ -326,8 +334,8 @@ function smarty_modifier_i18n($string)
  *  <input type="checkbox" name="test" checkbox>
  *  </code>
  *
- *  @param  string  $string ¥Á¥§¥Ã¥¯¥Ü¥Ã¥¯¥¹¤ËÅÏ¤µ¤ì¤¿¥Õ¥©¡¼¥àÃÍ
- *  @return string  $string¤¬¶õÊ¸»úÎó¤¢¤ë¤¤¤Ï0°Ê³°¤Î¾ì¹ç¤Ï"checked"
+ *  @param  string  $string ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ã«æ¸¡ã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ å€¤
+ *  @return string  $stringãŒç©ºæ–‡å­—åˆ—ã‚ã‚‹ã„ã¯0ä»¥å¤–ã®å ´åˆã¯"checked"
  */
 function smarty_modifier_checkbox($string)
 {
@@ -339,10 +347,10 @@ function smarty_modifier_checkbox($string)
 
 // {{{ smarty_modifier_select
 /**
- *  smarty modifier:¥»¥ì¥¯¥È¥Ü¥Ã¥¯¥¹ÍÑ¥Õ¥£¥ë¥¿
+ *  smarty modifier:ã‚»ãƒ¬ã‚¯ãƒˆãƒœãƒƒã‚¯ã‚¹ç”¨ãƒ•ã‚£ãƒ«ã‚¿
  *
- *  Ã±½ã¤Ê¥»¥ì¥¯¥È¥Ü¥Ã¥¯¥¹¤Î¾ì¹ç¤Ïsmarty´Ø¿ô"select"¤òÍøÍÑ¤¹¤ë¤³¤È¤Ç
- *  ¥¿¥°¤ò¾ÊÎ¬²ÄÇ½
+ *  å˜ç´”ãªã‚»ãƒ¬ã‚¯ãƒˆãƒœãƒƒã‚¯ã‚¹ã®å ´åˆã¯smartyé–¢æ•°"select"ã‚’åˆ©ç”¨ã™ã‚‹ã“ã¨ã§
+ *  ã‚¿ã‚°ã‚’çœç•¥å¯èƒ½
  *
  *  sample:
  *  <code>
@@ -356,23 +364,29 @@ function smarty_modifier_checkbox($string)
  *  <option value="2" >bar</option>
  *  </code>
  *
- *  @param  string  $string ¥»¥ì¥¯¥È¥Ü¥Ã¥¯¥¹¤ËÅÏ¤µ¤ì¤¿¥Õ¥©¡¼¥àÃÍ
- *  @param  string  $value  <option>¥¿¥°¤Ë»ØÄê¤µ¤ì¤Æ¤¤¤ëÃÍ
- *  @return string  $string¤¬$value¤Ë¥Ş¥Ã¥Á¤¹¤ë¾ì¹ç¤Ï"selected"
+ *  @param  string  $string ã‚»ãƒ¬ã‚¯ãƒˆãƒœãƒƒã‚¯ã‚¹ã«æ¸¡ã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ å€¤
+ *  @param  string  $value  <option>ã‚¿ã‚°ã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å€¤
+ *  @return string  $stringãŒ$valueã«ãƒãƒƒãƒã™ã‚‹å ´åˆã¯"selected"
  */
 function smarty_modifier_select($string, $value)
 {
+    //    æ¨™æº–ã«åˆã‚ã›ã‚‹
+    //    @see http://www.w3.org/TR/html401/interact/forms.html#adef-selected
+    //    @see http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd
+    //    @see http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd
+    //    @see http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-frameset.dtd
+    //    @see http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_sformsmodule
     if ($string == $value) {
-        return 'selected="true"';
+        return 'selected="selected"';
     }
 }
 // }}}
 
 // {{{ smarty_modifier_form_value
 /**
- *  smarty modifier:¥Õ¥©¡¼¥àÃÍ½ĞÎÏ¥Õ¥£¥ë¥¿
+ *  smarty modifier:ãƒ•ã‚©ãƒ¼ãƒ å€¤å‡ºåŠ›ãƒ•ã‚£ãƒ«ã‚¿
  *
- *  ¥Õ¥©¡¼¥àÌ¾¤òÊÑ¿ô¤Ç»ØÄê¤·¤Æ¥Õ¥©¡¼¥àÃÍ¤ò¼èÆÀ¤·¤¿¤¤¾ì¹ç¤Ë»ÈÍÑ¤¹¤ë
+ *  ãƒ•ã‚©ãƒ¼ãƒ åã‚’å¤‰æ•°ã§æŒ‡å®šã—ã¦ãƒ•ã‚©ãƒ¼ãƒ å€¤ã‚’å–å¾—ã—ãŸã„å ´åˆã«ä½¿ç”¨ã™ã‚‹
  *
  *  sample:
  *  <code>
@@ -384,8 +398,8 @@ function smarty_modifier_select($string, $value)
  *  bar
  *  </code>
  *
- *  @param  string  $string ¥Õ¥©¡¼¥à¹àÌÜÌ¾
- *  @return string  ¥Õ¥©¡¼¥àÃÍ
+ *  @param  string  $string ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
+ *  @return string  ãƒ•ã‚©ãƒ¼ãƒ å€¤
  */
 function smarty_modifier_form_value($string)
 {
@@ -404,11 +418,11 @@ function smarty_modifier_form_value($string)
 
 // {{{ smarty_function_is_error
 /**
- *  smarty function:»ØÄê¤µ¤ì¤¿¥Õ¥©¡¼¥à¹àÌÜ¤Ç¥¨¥é¡¼¤¬È¯À¸¤·¤Æ¤¤¤ë¤«¤É¤¦¤«¤òÊÖ¤¹
- *  NOTE: {if is_error('name')} ¤Ï Ethna_Util.php ¤Î is_error() ¤Ç¤¢¤Ã¤Æ¡¢
- *        smarty_function_is_error() ¤Ç¤Ï¤Ê¤¤¤³¤È¤ËÃí°Õ
+ *  smarty function:æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™
+ *  NOTE: {if is_error('name')} ã¯ Ethna_Util.php ã® is_error() ã§ã‚ã£ã¦ã€
+ *        smarty_function_is_error() ã§ã¯ãªã„ã“ã¨ã«æ³¨æ„
  *
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
  */
 function smarty_function_is_error($params, &$smarty)
 {
@@ -419,17 +433,17 @@ function smarty_function_is_error($params, &$smarty)
 
 // {{{ smarty_function_message
 /**
- *  smarty function:»ØÄê¤µ¤ì¤¿¥Õ¥©¡¼¥à¹àÌÜ¤ËÂĞ±ş¤¹¤ë¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤ò½ĞÎÏ¤¹¤ë
+ *  smarty function:æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®ã«å¯¾å¿œã™ã‚‹ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã™ã‚‹
  *
  *  sample:
  *  <code>
  *  <input type="text" name="foo">{message name="foo"}
  *  </code>
  *  <code>
- *  <input type="text" name="foo">foo¤òÆşÎÏ¤·¤Æ¤¯¤À¤µ¤¤
+ *  <input type="text" name="foo">fooã‚’å…¥åŠ›ã—ã¦ãã ã•ã„
  *  </code>
  *
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
  */
 function smarty_function_message($params, &$smarty)
 {
@@ -455,7 +469,7 @@ function smarty_function_message($params, &$smarty)
 
 // {{{ smarty_function_uniqid
 /**
- *  smarty function:¥æ¥Ë¡¼¥¯ID¤òÀ¸À®¤¹¤ë(double post¥Á¥§¥Ã¥¯ÍÑ)
+ *  smarty function:ãƒ¦ãƒ‹ãƒ¼ã‚¯IDã‚’ç”Ÿæˆã™ã‚‹(double postãƒã‚§ãƒƒã‚¯ç”¨)
  *
  *  sample:
  *  <code>
@@ -465,7 +479,7 @@ function smarty_function_message($params, &$smarty)
  *  <input type="hidden" name="uniqid" value="a0f24f75e...e48864d3e">
  *  </code>
  *
- *  @param  string  $type   É½¼¨¥¿¥¤¥×("get" or "post"¡İ¥Ç¥Õ¥©¥ë¥È="post")
+ *  @param  string  $type   è¡¨ç¤ºã‚¿ã‚¤ãƒ—("get" or "post"âˆ’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ="post")
  *  @see    isDuplicatePost
  */
 function smarty_function_uniqid($params, &$smarty)
@@ -481,12 +495,12 @@ function smarty_function_uniqid($params, &$smarty)
 
 // {{{ smarty_function_select
 /**
- *  smarty function:¥»¥ì¥¯¥È¥Õ¥£¡¼¥ë¥ÉÀ¸À®
+ *  smarty function:ã‚»ãƒ¬ã‚¯ãƒˆãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ç”Ÿæˆ
  *
- *  @param  array   $list   ÁªÂò»è°ìÍ÷
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
- *  @param  string  $value  ¥»¥ì¥¯¥È¥Ü¥Ã¥¯¥¹¤ËÅÏ¤µ¤ì¤¿¥Õ¥©¡¼¥àÃÍ
- *  @param  string  $empty  ¶õ¥¨¥ó¥È¥ê(¡Ö---ÁªÂò¤·¤Æ²¼¤µ¤¤---¡×Åù)
+ *  @param  array   $list   é¸æŠè‚¢ä¸€è¦§
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
+ *  @param  string  $value  ã‚»ãƒ¬ã‚¯ãƒˆãƒœãƒƒã‚¯ã‚¹ã«æ¸¡ã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ å€¤
+ *  @param  string  $empty  ç©ºã‚¨ãƒ³ãƒˆãƒª(ã€Œ---é¸æŠã—ã¦ä¸‹ã•ã„---ã€ç­‰)
  *  @deprecated
  */
 function smarty_function_select($params, &$smarty)
@@ -506,11 +520,11 @@ function smarty_function_select($params, &$smarty)
 
 // {{{ smarty_function_checkbox_list
 /**
- *  smarty function:¥Á¥§¥Ã¥¯¥Ü¥Ã¥¯¥¹¥Õ¥£¥ë¥¿´Ø¿ô(ÇÛÎóÂĞ±ş)
+ *  smarty function:ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ãƒ•ã‚£ãƒ«ã‚¿é–¢æ•°(é…åˆ—å¯¾å¿œ)
  *
- *  @param  string  $form   ¥Á¥§¥Ã¥¯¥Ü¥Ã¥¯¥¹¤ËÅÏ¤µ¤ì¤¿¥Õ¥©¡¼¥àÃÍ
- *  @param  string  $key    É¾²ÁÂĞ¾İ¤ÎÇÛÎó¥¤¥ó¥Ç¥Ã¥¯¥¹
- *  @param  string  $value  É¾²ÁÃÍ
+ *  @param  string  $form   ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ã«æ¸¡ã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ å€¤
+ *  @param  string  $key    è©•ä¾¡å¯¾è±¡ã®é…åˆ—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+ *  @param  string  $value  è©•ä¾¡å€¤
  *  @deprecated
  */
 function smarty_function_checkbox_list($params, &$smarty)
@@ -553,7 +567,7 @@ function smarty_function_checkbox_list($params, &$smarty)
 
 // {{{ smarty_function_url
 /**
- *  smarty function:urlÀ¸À®
+ *  smarty function:urlç”Ÿæˆ
  */
 function smarty_function_url($params, &$smarty)
 {
@@ -604,9 +618,9 @@ function smarty_function_url($params, &$smarty)
 
 // {{{ smarty_function_form_name
 /**
- *  smarty function:¥Õ¥©¡¼¥àÉ½¼¨Ì¾À¸À®
+ *  smarty function:ãƒ•ã‚©ãƒ¼ãƒ è¡¨ç¤ºåç”Ÿæˆ
  *
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
  */
 function smarty_function_form_name($params, &$smarty)
 {
@@ -650,9 +664,9 @@ function smarty_function_form_name($params, &$smarty)
 
 // {{{ smarty_function_form_submit
 /**
- *  smarty function:¥Õ¥©¡¼¥à¤Îsubmit¥Ü¥¿¥óÀ¸À®
+ *  smarty function:ãƒ•ã‚©ãƒ¼ãƒ ã®submitãƒœã‚¿ãƒ³ç”Ÿæˆ
  *
- *  @param  string  $submit   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
+ *  @param  string  $submit   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
  */
 function smarty_function_form_submit($params, &$smarty)
 {
@@ -667,9 +681,9 @@ function smarty_function_form_submit($params, &$smarty)
 
 // {{{ smarty_function_form_input
 /**
- *  smarty function:¥Õ¥©¡¼¥à¥¿¥°À¸À®
+ *  smarty function:ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ç”Ÿæˆ
  *
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
  */
 function smarty_function_form_input($params, &$smarty)
 {
@@ -688,7 +702,7 @@ function smarty_function_form_input($params, &$smarty)
         return null;
     }
 
-    // ¸½ºß¤Î{form_input}¤ò°Ï¤àform block¤¬¤¢¤ì¤Ğ¥Ñ¥é¥á¡¼¥¿¤ò¼èÆÀ¤·¤Æ¤ª¤¯
+    // ç¾åœ¨ã®{form_input}ã‚’å›²ã‚€form blockãŒã‚ã‚Œã°ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¦ãŠã
     $block_params = null;
     for ($i = count($smarty->_tag_stack); $i >= 0; --$i) {
         if ($smarty->_tag_stack[$i][0] === 'form') {
@@ -711,16 +725,16 @@ function smarty_function_form_input($params, &$smarty)
 
     // default
     if (isset($params['default'])) {
-        // {form_input default=...}¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ì¤Ğ¤½¤Î¤Ş¤Ş
+        // {form_input default=...}ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚Œã°ãã®ã¾ã¾
 
     } else if (isset($block_params['default'])) {
-        // ³°Â¦¤Î {form default=...} ¥Ö¥í¥Ã¥¯
+        // å¤–å´ã® {form default=...} ãƒ–ãƒ­ãƒƒã‚¯
         if (isset($block_params['default'][$name])) {
             $params['default'] = $block_params['default'][$name];
         }
     }
 
-    // ¸½ºß¤Î¥¢¥¯¥·¥ç¥ó¤Ç¼õ¤±¼è¤Ã¤¿¥Õ¥©¡¼¥àÃÍ
+    // ç¾åœ¨ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã§å—ã‘å–ã£ãŸãƒ•ã‚©ãƒ¼ãƒ å€¤
     $af =& $c->getActionForm();
     $val = $af->get($name);
     if ($val !== null) {
@@ -733,16 +747,16 @@ function smarty_function_form_input($params, &$smarty)
 
 // {{{ smarty_block_form
 /**
- *  smarty block:¥Õ¥©¡¼¥à¥¿¥°½ĞÎÏ¥×¥é¥°¥¤¥ó
+ *  smarty block:ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°å‡ºåŠ›ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
  */
 function smarty_block_form($params, $content, &$smarty, &$repeat)
 {
     if ($repeat) {
-        // {form}: ¥Ö¥í¥Ã¥¯ÆâÉô¤Ë¿Ê¤àÁ°¤Î½èÍı
+        // {form}: ãƒ–ãƒ­ãƒƒã‚¯å†…éƒ¨ã«é€²ã‚€å‰ã®å‡¦ç†
 
         // default
         if (isset($params['default']) === false) {
-            // »ØÄê¤Ê¤·¤Î¤È¤­¤Ï $form ¤ò»È¤¦
+            // æŒ‡å®šãªã—ã®ã¨ãã¯ $form ã‚’ä½¿ã†
             $c =& Ethna_Controller::getInstance();
             $af =& $c->getActionForm();
 
@@ -751,11 +765,11 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
                 =& $af->getArray(false);
         }
 
-        // ¤³¤³¤ÇÊÖ¤¹ÃÍ¤Ï½ĞÎÏ¤µ¤ì¤Ê¤¤
+        // ã“ã“ã§è¿”ã™å€¤ã¯å‡ºåŠ›ã•ã‚Œãªã„
         return '';
 
     } else {
-        // {/form}: ¥Ö¥í¥Ã¥¯Á´ÂÎ¤ò½ĞÎÏ
+        // {/form}: ãƒ–ãƒ­ãƒƒã‚¯å…¨ä½“ã‚’å‡ºåŠ›
 
         $c =& Ethna_Controller::getInstance();
         $view =& $c->getView();
@@ -773,7 +787,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             $content = $hidden . $content;
         }
 
-        // enctype ¤ÎÎ¬¾ÎÂĞ±ş
+        // enctype ã®ç•¥ç§°å¯¾å¿œ
         if (isset($params['enctype'])) {
             if ($params['enctype'] == 'file'
                 || $params['enctype'] == 'multipart') {
@@ -783,12 +797,12 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             }
         }
 
-        // default¤Ï¤â¤¦ÉÔÍ×
+        // defaultã¯ã‚‚ã†ä¸è¦
         if (isset($params['default'])) {
             unset($params['default']);
         }
 
-        // $content¤ò°Ï¤à<form>¥Ö¥í¥Ã¥¯Á´ÂÎ¤ò½ĞÎÏ
+        // $contentã‚’å›²ã‚€<form>ãƒ–ãƒ­ãƒƒã‚¯å…¨ä½“ã‚’å‡ºåŠ›
         return $view->getFormBlock($content, $params);
     }
 }
@@ -796,7 +810,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
 
 // {{{ smarty_function_csrfid
 /**
- *  smarty function: ÀµÅö¤Ê¥İ¥¹¥È¤Ç¤¢¤ë¤³¤È¤òÊİ¾Ú¤¹¤ëID¤ò½ĞÎÏ¤¹¤ë
+ *  smarty function: æ­£å½“ãªãƒã‚¹ãƒˆã§ã‚ã‚‹ã“ã¨ã‚’ä¿è¨¼ã™ã‚‹IDã‚’å‡ºåŠ›ã™ã‚‹
  *
  *  sample:
  *  <code>
@@ -806,7 +820,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
  *  <input type="hidden" name="csrfid" value="a0f24f75e...e48864d3e">
  *  </code>
  *
- *  @param  string  $type   É½¼¨¥¿¥¤¥×("get" or "post"¡İ¥Ç¥Õ¥©¥ë¥È="post")
+ *  @param  string  $type   è¡¨ç¤ºã‚¿ã‚¤ãƒ—("get" or "post"âˆ’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ="post")
  *  @see    isRequestValid
  */
 function smarty_function_csrfid($params, &$smarty)

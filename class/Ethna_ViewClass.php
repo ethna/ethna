@@ -11,7 +11,7 @@
 
 // {{{ Ethna_ViewClass
 /**
- *  view¥¯¥é¥¹
+ *  viewã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,58 +23,58 @@ class Ethna_ViewClass
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend       backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend       backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È    */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ    */
     var $config;
 
-    /** @var    object  Ethna_I18N          i18n¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_I18N          i18nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $i18n;
 
-    /** @var    object  Ethna_Logger    ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger    ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
-    /** @var    object  Ethna_Plugin    ¥×¥é¥°¥¤¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Plugin    ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $plugin;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_error;
 
-    /** @var    object  Ethna_ActionError   ¥¢¥¯¥·¥ç¥ó¥¨¥é¡¼¥ª¥Ö¥¸¥§¥¯¥È(¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionError   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(çœç•¥å½¢) */
     var $ae;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $action_form;
 
-    /** @var    object  Ethna_ActionForm    ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È(¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_ActionForm    ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(çœç•¥å½¢) */
     var $af;
 
-    /** @var    array   ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È(helper) */
+    /** @var    array   ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(helper) */
     var $helper_action_form = array();
 
-    /** @var    array   helper¤Çhtml¤Îattribute¤Ë¤Ï¤·¤Ê¥Ñ¥é¥á¡¼¥¿¤Î°ìÍ÷ */
+    /** @var    array   helperã§htmlã®attributeã«ã¯ã—ãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ä¸€è¦§ */
     var $helper_parameter_keys = array('default', 'option', 'separator');
 
-    /** @var    object  Ethna_Session       ¥»¥Ã¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Session       ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $session;
 
-    /** @var    string  Á«°ÜÌ¾ */
+    /** @var    string  é·ç§»å */
     var $forward_name;
 
-    /** @var    string  Á«°ÜÀè¥Æ¥ó¥×¥ì¡¼¥È¥Õ¥¡¥¤¥ëÌ¾ */
+    /** @var    string  é·ç§»å…ˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å */
     var $forward_path;
 
     /**#@-*/
 
     // {{{ Ethna_ViewClass
     /**
-     *  Ethna_ViewClass¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_ViewClassã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Backend   $backend    backend¥ª¥Ö¥¸¥§¥¯¥È
-     *  @param  string  $forward_name   ¥Ó¥å¡¼¤Ë´ØÏ¢ÉÕ¤±¤é¤ì¤Æ¤¤¤ëÁ«°ÜÌ¾
-     *  @param  string  $forward_path   ¥Ó¥å¡¼¤Ë´ØÏ¢ÉÕ¤±¤é¤ì¤Æ¤¤¤ë¥Æ¥ó¥×¥ì¡¼¥È¥Õ¥¡¥¤¥ëÌ¾
+     *  @param  object  Ethna_Backend   $backend    backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *  @param  string  $forward_name   ãƒ“ãƒ¥ãƒ¼ã«é–¢é€£ä»˜ã‘ã‚‰ã‚Œã¦ã„ã‚‹é·ç§»å
+     *  @param  string  $forward_path   ãƒ“ãƒ¥ãƒ¼ã«é–¢é€£ä»˜ã‘ã‚‰ã‚Œã¦ã„ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å
      */
     function Ethna_ViewClass(&$backend, $forward_name, $forward_path)
     {
@@ -104,10 +104,10 @@ class Ethna_ViewClass
 
     // {{{ preforward
     /**
-     *  ²èÌÌÉ½¼¨Á°½èÍı
+     *  ç”»é¢è¡¨ç¤ºå‰å‡¦ç†
      *
-     *  ¥Æ¥ó¥×¥ì¡¼¥È¤ËÀßÄê¤¹¤ëÃÍ¤Ç¥³¥ó¥Æ¥­¥¹¥È¤Ë°ÍÂ¸¤·¤Ê¤¤¤â¤Î¤Ï
-     *  ¤³¤³¤ÇÀßÄê¤¹¤ë(Îã:¥»¥ì¥¯¥È¥Ü¥Ã¥¯¥¹Åù)
+     *  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã«è¨­å®šã™ã‚‹å€¤ã§ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã«ä¾å­˜ã—ãªã„ã‚‚ã®ã¯
+     *  ã“ã“ã§è¨­å®šã™ã‚‹(ä¾‹:ã‚»ãƒ¬ã‚¯ãƒˆãƒœãƒƒã‚¯ã‚¹ç­‰)
      *
      *  @access public
      */
@@ -118,15 +118,16 @@ class Ethna_ViewClass
 
     // {{{ forward
     /**
-     *  Á«°ÜÌ¾¤ËÂĞ±ş¤¹¤ë²èÌÌ¤ò½ĞÎÏ¤¹¤ë
+     *  é·ç§»åã«å¯¾å¿œã™ã‚‹ç”»é¢ã‚’å‡ºåŠ›ã™ã‚‹
      *
-     *  ÆÃ¼ì¤Ê²èÌÌ¤òÉ½¼¨¤¹¤ë¾ì¹ç¤ò½ü¤¤¤ÆÆÃ¤Ë¥ª¡¼¥Ğ¡¼¥é¥¤¥É¤¹¤ëÉ¬Í×¤ÏÌµ¤¤
-     *  (preforward()¤Î¤ß¥ª¡¼¥Ğ¡¼¥é¥¤¥É¤¹¤ì¤ĞÎÉ¤¤)
+     *  ç‰¹æ®Šãªç”»é¢ã‚’è¡¨ç¤ºã™ã‚‹å ´åˆã‚’é™¤ã„ã¦ç‰¹ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹å¿…è¦ã¯ç„¡ã„
+     *  (preforward()ã®ã¿ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚Œã°è‰¯ã„)
      *
      *  @access public
      */
     function forward()
     {
+        $this->_setLanguage();
         $renderer =& $this->_getRenderer();
         $this->_setDefault($renderer);
         $renderer->perform($this->forward_path);
@@ -135,7 +136,7 @@ class Ethna_ViewClass
 
     // {{{ addActionFormHelper
     /**
-     *  helper¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È¤òÀßÄê¤¹¤ë
+     *  helperã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
      *
      *  @access public
      */
@@ -165,7 +166,7 @@ class Ethna_ViewClass
 
     // {{{ clearActionFormHelper
     /**
-     *  helper¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È¤òºï½ü¤¹¤ë
+     *  helperã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
      */
@@ -177,18 +178,18 @@ class Ethna_ViewClass
 
     // {{{ _getHelperActionForm
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¥ª¥Ö¥¸¥§¥¯¥È(helper)¤ò¼èÆÀ¤¹¤ë
-     *  $action === null ¤Ç $name ¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¤È¤­¤Ï¡¢$name¤ÎÄêµÁ¤ò
-     *  ´Ş¤à¤â¤Î¤òÃµ¤¹
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(helper)ã‚’å–å¾—ã™ã‚‹
+     *  $action === null ã§ $name ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã¨ãã¯ã€$nameã®å®šç¾©ã‚’
+     *  å«ã‚€ã‚‚ã®ã‚’æ¢ã™
      *
      *  @access protected
-     *  @param  string  action  ¼èÆÀ¤¹¤ë¥¢¥¯¥·¥ç¥óÌ¾
-     *  @param  string  name    ÄêµÁ¤µ¤ì¤Æ¤¤¤ë¤³¤È¤ò´üÂÔ¤¹¤ë¥Õ¥©¡¼¥àÌ¾
-     *  @return object  Ethna_ActionForm¤Ş¤¿¤Ï·Ñ¾µ¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  string  action  å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å
+     *  @param  string  name    å®šç¾©ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’æœŸå¾…ã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒ å
+     *  @return object  Ethna_ActionFormã¾ãŸã¯ç¶™æ‰¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &_getHelperActionForm($action = null, $name = null)
     {
-        // $action ¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç
+        // $action ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ
         if ($action !== null) {
             if (isset($this->helper_action_form[$action])
                 && is_object($this->helper_action_form[$action])) {
@@ -201,13 +202,13 @@ class Ethna_ViewClass
             }
         }
 
-        // ºÇ½é¤Ë $this->af ¤òÄ´¤Ù¤ë
+        // æœ€åˆã« $this->af ã‚’èª¿ã¹ã‚‹
         $def = $this->af->getDef($name);
         if ($def !== null) {
             return $this->af;
         }
 
-        // $this->helper_action_form ¤ò½ç¤ËÄ´¤Ù¤ë
+        // $this->helper_action_form ã‚’é †ã«èª¿ã¹ã‚‹
         foreach (array_keys($this->helper_action_form) as $action) {
             if (is_object($this->helper_action_form[$action]) === false) {
                 continue;
@@ -219,7 +220,7 @@ class Ethna_ViewClass
             }
         }
 
-        // ¸«ÉÕ¤«¤é¤Ê¤«¤Ã¤¿
+        // è¦‹ä»˜ã‹ã‚‰ãªã‹ã£ãŸ
         $this->logger->log(LOG_WARNING,
             'action form defining form [%s] not found', $name);
         return null;
@@ -228,7 +229,7 @@ class Ethna_ViewClass
 
     // {{{ getFormName
     /**
-     *  »ØÄê¤µ¤ì¤¿¥Õ¥©¡¼¥à¹àÌÜ¤ËÂĞ±ş¤¹¤ë¥Õ¥©¡¼¥àÌ¾(w/ ¥ì¥ó¥À¥ê¥ó¥°)¤ò¼èÆÀ¤¹¤ë
+     *  æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®ã«å¯¾å¿œã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒ å(w/ ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°)ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
      */
@@ -250,8 +251,8 @@ class Ethna_ViewClass
 
     // {{{ getFormSubmit
     /**
-     *  submit¥Ü¥¿¥ó¤ò¼èÆÀ¤¹¤ë(Á÷¿®Àè¥¢¥¯¥·¥ç¥ó¤Ç¼õ¤±¼è¤ë¤è¤¦
-     *  ÄêµÁ¤µ¤ì¤Æ¤¤¤Ê¤¤¤È¤­¤Ë¡¢¤¿¤ó¤Ësubmit¥Ü¥¿¥ó¤òºî¤ë¤Î¤Ë»È¤¦)
+     *  submitãƒœã‚¿ãƒ³ã‚’å–å¾—ã™ã‚‹(é€ä¿¡å…ˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã§å—ã‘å–ã‚‹ã‚ˆã†
+     *  å®šç¾©ã•ã‚Œã¦ã„ãªã„ã¨ãã«ã€ãŸã‚“ã«submitãƒœã‚¿ãƒ³ã‚’ä½œã‚‹ã®ã«ä½¿ã†)
      *
      *  @access public
      */
@@ -266,10 +267,10 @@ class Ethna_ViewClass
 
     // {{{ getFormInput
     /**
-     *  »ØÄê¤µ¤ì¤¿¥Õ¥©¡¼¥à¹àÌÜ¤ËÂĞ±ş¤¹¤ë¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë
+     *  æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ¼ãƒ é …ç›®ã«å¯¾å¿œã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @todo   JavaScriptÂĞ±ş
+     *  @todo   JavaScriptå¯¾å¿œ
      */
     function getFormInput($name, $action, $params)
     {
@@ -287,7 +288,7 @@ class Ethna_ViewClass
             $def['form_type'] = FORM_TYPE_TEXT;
         }
 
-        // ÇÛÎó¥Õ¥©¡¼¥à¤¬²¿²ó¸Æ¤Ğ¤ì¤¿¤«¤òÊİÂ¸¤¹¤ë¥«¥¦¥ó¥¿
+        // é…åˆ—ãƒ•ã‚©ãƒ¼ãƒ ãŒä½•å›å‘¼ã°ã‚ŒãŸã‹ã‚’ä¿å­˜ã™ã‚‹ã‚«ã‚¦ãƒ³ã‚¿
         if (isset($def['type']) && is_array($def['type'])) {
             static $form_counter = array();
             if (isset($form_counter[$action]) === false) {
@@ -351,7 +352,7 @@ class Ethna_ViewClass
 
     // {{{ getFormBlock
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="form")
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="form")
      *
      *  @access protected
      */
@@ -368,13 +369,13 @@ class Ethna_ViewClass
 
     // {{{ _getSelectorOptions
     /**
-     *  select, radio, checkbox ¤ÎÁªÂò»è¤ò¼èÆÀ¤¹¤ë
+     *  select, radio, checkbox ã®é¸æŠè‚¢ã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
      */
     function _getSelectorOptions(&$af, $def, $params)
     {
-        // $params, $def ¤Î½ç¤ÇÄ´¤Ù¤ë
+        // $params, $def ã®é †ã§èª¿ã¹ã‚‹
         $source = null;
         if (isset($params['option'])) {
             $source = $params['option'];
@@ -382,18 +383,18 @@ class Ethna_ViewClass
             $source = $def['option'];
         }
 
-        // Ì¤ÄêµÁ or ÄêµÁºÑ¤ß¤Î¾ì¹ç¤Ï¤½¤Î¤Ş¤Ş
+        // æœªå®šç¾© or å®šç¾©æ¸ˆã¿ã®å ´åˆã¯ãã®ã¾ã¾
         if ($source === null) {
             return null;
         } else if (is_array($source)) {
             return $source;
         }
         
-        // ÁªÂò»è¤ò¼èÆÀ
+        // é¸æŠè‚¢ã‚’å–å¾—
         $options = null;
         $split = array_map("trim", explode(',', $source));
         if (count($split) === 1) {
-            // ¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à¤«¤é¼èÆÀ
+            // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‹ã‚‰å–å¾—
             $method_or_property = $split[0];
             if (method_exists($af, $method_or_property)) {
                 $options = $af->$method_or_property();
@@ -401,7 +402,7 @@ class Ethna_ViewClass
                 $options = $af->$method_or_property;
             }
         } else {
-            // ¥Ş¥Í¡¼¥¸¥ã¤«¤é¼èÆÀ
+            // ãƒãƒãƒ¼ã‚¸ãƒ£ã‹ã‚‰å–å¾—
             $mgr =& $this->backend->getManager($split[0]);
             $attr_list = $mgr->getAttrList($split[1]);
             if (is_array($attr_list)) {
@@ -424,7 +425,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Button
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="button")
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="button")
      *
      *  @access protected
      */
@@ -452,7 +453,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Checkbox
     /**
-     *  ¥Á¥§¥Ã¥¯¥Ü¥Ã¥¯¥¹¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="check")
+     *  ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="check")
      *
      *  @access protected
      */
@@ -465,14 +466,14 @@ class Ethna_ViewClass
             $params['name'] = $name;
         }
 
-        // ¥ª¥×¥·¥ç¥ó¤Î°ìÍ÷(alist)¤ò¼èÆÀ
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ä¸€è¦§(alist)ã‚’å–å¾—
         if (isset($def['option']) && is_array($def['option'])) {
             $options = $def['option'];
         } else {
             $options = array();
         }
 
-        // defaultÃÍ¤ÎÀßÄê
+        // defaultå€¤ã®è¨­å®š
         if (isset($params['default'])) {
             $current_value = $params['default'];
         } else if (isset($def['default'])) {
@@ -482,7 +483,7 @@ class Ethna_ViewClass
         }
         $current_value = array_map('strval', to_array($current_value));
 
-        // ¥¿¥°¤Î¥»¥Ñ¥ì¡¼¥¿
+        // ã‚¿ã‚°ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿
         if (isset($params['separator'])) {
             $separator = $params['separator'];
         } else {
@@ -516,7 +517,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_File
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="file")
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="file")
      *
      *  @access protected
      */
@@ -536,7 +537,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Hidden
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="hidden")
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="hidden")
      *
      *  @access protected
      */
@@ -574,7 +575,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Password
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="password")
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="password")
      *
      *  @access protected
      */
@@ -617,7 +618,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Radio
     /**
-     *  ¥é¥¸¥ª¥Ü¥¿¥ó¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="radio")
+     *  ãƒ©ã‚¸ã‚ªãƒœã‚¿ãƒ³ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="radio")
      *
      *  @access protected
      */
@@ -630,14 +631,14 @@ class Ethna_ViewClass
             $params['name'] = $name;
         }
 
-        // ¥ª¥×¥·¥ç¥ó¤Î°ìÍ÷(alist)¤ò¼èÆÀ
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ä¸€è¦§(alist)ã‚’å–å¾—
         if (isset($def['option']) && is_array($def['option'])) {
             $options = $def['option'];
         } else {
             $options = array();
         }
 
-        // defaultÃÍ¤ÎÀßÄê
+        // defaultå€¤ã®è¨­å®š
         if (isset($params['default'])) {
             $current_value = $params['default'];
         } else if (isset($def['default'])) {
@@ -646,7 +647,7 @@ class Ethna_ViewClass
             $current_value = null;
         }
 
-        // ¥¿¥°¤Î¥»¥Ñ¥ì¡¼¥¿
+        // ã‚¿ã‚°ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿
         if (isset($params['separator'])) {
             $separator = $params['separator'];
         } else {
@@ -680,7 +681,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Select
     /**
-     *  ¥»¥ì¥¯¥È¥Ü¥Ã¥¯¥¹¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="select")
+     *  ã‚»ãƒ¬ã‚¯ãƒˆãƒœãƒƒã‚¯ã‚¹ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="select")
      *
      *  @access protected
      */
@@ -692,14 +693,14 @@ class Ethna_ViewClass
             $params['name'] = $name;
         }
 
-        // ¥ª¥×¥·¥ç¥ó¤Î°ìÍ÷(alist)¤ò¼èÆÀ
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ä¸€è¦§(alist)ã‚’å–å¾—
         if (isset($def['option']) && is_array($def['option'])) {
             $options = $def['option'];
         } else {
             $options = array();
         }
 
-        // defaultÃÍ¤ÎÀßÄê
+        // defaultå€¤ã®è¨­å®š
         if (isset($params['default'])) {
             $current_value = $params['default'];
         } else if (isset($def['default'])) {
@@ -709,26 +710,30 @@ class Ethna_ViewClass
         }
         $current_value = array_map('strval', to_array($current_value));
 
-        // ¥¿¥°¤Î¥»¥Ñ¥ì¡¼¥¿
+        // ã‚¿ã‚°ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿
         if (isset($params['separator'])) {
             $separator = $params['separator'];
         } else {
             $separator = "\n";
         }
 
-        // select¥¿¥°¤ÎÃæ¿È¤òºî¤ë
+        // selectã‚¿ã‚°ã®ä¸­èº«ã‚’ä½œã‚‹
         $contents = array();
         $selected = false;
         foreach ($options as $key => $value) {
             $attr = array('value' => $key);
-            if (in_array((string) $key, $current_value, true)) {
+            $def['_form_counter'] = empty($def['_form_counter']) ? 0 : $def['_form_counter'];
+            if (isset($params['multiple']) &&
+                    in_array((string)$key, $current_value, true) ||
+               !isset($params['multiple']) && $selected === false &&
+                    strcmp($current_value[$def['_form_counter']], $key) === 0) {
                 $attr['selected'] = 'selected';
                 $selected = true;
             }
             $contents[] = $this->_getFormInput_Html('option', $attr, $value);
         }
 
-        // ¶õ¥¨¥ó¥È¥ê
+        // ç©ºã‚¨ãƒ³ãƒˆãƒª
         if (isset($params['emptyoption'])) {
             $attr = array('value' => '');
             if ($selected === false) {
@@ -748,7 +753,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Submit
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="submit")
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="submit")
      *
      *  @access protected
      */
@@ -775,7 +780,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Textarea
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(textarea)
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(textarea)
      *
      *  @access protected
      */
@@ -813,7 +818,7 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Text
     /**
-     *  ¥Õ¥©¡¼¥à¥¿¥°¤ò¼èÆÀ¤¹¤ë(type="text")
+     *  ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹(type="text")
      *
      *  @access protected
      */
@@ -859,13 +864,13 @@ class Ethna_ViewClass
 
     // {{{ _getFormInput_Html
     /**
-     *  HTML¥¿¥°¤ò¼èÆÀ¤¹¤ë
+     *  HTMLã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
      */
     function _getFormInput_Html($tag, $attr, $element = null, $escape_element = true)
     {
-        // ÉÔÍ×¤Ê¥Ñ¥é¥á¡¼¥¿¤Ï¾Ã¤¹
+        // ä¸è¦ãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã¯æ¶ˆã™
         foreach ($this->helper_parameter_keys as $key) {
             unset($attr[$key]);
         }
@@ -894,10 +899,10 @@ class Ethna_ViewClass
 
     // {{{ _getRenderer
     /**
-     *  ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È¤ò¼èÆÀ¤¹¤ë
+     *  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
-     *  @return object  Ethna_Renderer  ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Renderer  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &_getRenderer()
     {
@@ -908,10 +913,10 @@ class Ethna_ViewClass
 
     // {{{ _getTemplateEngine
     /**
-     *  ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È¤ò¼èÆÀ¤¹¤ë(¤½¤Î¤¦¤Á_getRenderer()¤ËÅı¹ç¤µ¤ì¤ëÍ½Äê)
+     *  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹(ãã®ã†ã¡_getRenderer()ã«çµ±åˆã•ã‚Œã‚‹äºˆå®š)
      *
      *  @access protected
-     *  @return object  Ethna_Renderer  ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @return object  Ethna_Renderer  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *  @obsolete
      */
     function &_getTemplateEngine()
@@ -945,12 +950,25 @@ class Ethna_ViewClass
 
     // {{{ _setDefault
     /**
-     *  ¶¦ÄÌÃÍ¤òÀßÄê¤¹¤ë
+     *  å…±é€šå€¤ã‚’è¨­å®šã™ã‚‹
      *
      *  @access protected
-     *  @param  object  Ethna_Renderer  ¥ì¥ó¥À¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Renderer  ãƒ¬ãƒ³ãƒ€ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function _setDefault(&$renderer)
+    {
+    }
+    // }}}
+
+    // {{{ _setLanguage
+    /**
+     *  è¨€èªè¨­å®šã‚’è¨­å®šã™ã‚‹ã€‚
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚„Cookieã®å€¤ç­‰ã§ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚„è¨€èªè¨­å®š
+     *  ã‚’åˆ‡ã‚Šæ›¿ãˆãŸã„å ´åˆã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ãã ã•ã„ã€‚
+     *
+     *  @access protected
+     */
+    function _setLanguage()
     {
     }
     // }}}

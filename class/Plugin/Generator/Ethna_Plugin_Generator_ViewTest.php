@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Generator_ViewTest
 /**
- *  ¥¹¥±¥ë¥È¥óÀ¸À®¥¯¥é¥¹
+ *  ã‚¹ã‚±ãƒ«ãƒˆãƒ³ç”Ÿæˆã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,12 +20,12 @@
 class Ethna_Plugin_Generator_ViewTest extends Ethna_Plugin_Generator
 {
     /**
-     *  ¥Ó¥å¡¼ÍÑ¥Æ¥¹¥È¤Î¥¹¥±¥ë¥È¥ó¤òÀ¸À®¤¹¤ë
+     *  ãƒ“ãƒ¥ãƒ¼ç”¨ãƒ†ã‚¹ãƒˆã®ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
-     *  @param  string  $forward_name   ¥Ó¥å¡¼Ì¾
-     *  @param  string  $skelton        ¥¹¥±¥ë¥È¥ó¥Õ¥¡¥¤¥ëÌ¾
-     *  @return true|Ethna_Error        true:À®¸ù Ethna_Error:¼ºÇÔ
+     *  @param  string  $forward_name   ãƒ“ãƒ¥ãƒ¼å
+     *  @param  string  $skelton        ã‚¹ã‚±ãƒ«ãƒˆãƒ³ãƒ•ã‚¡ã‚¤ãƒ«å
+     *  @return true|Ethna_Error        true:æˆåŠŸ Ethna_Error:å¤±æ•—
      */
     function &generate($forward_name, $skelton = null, $gateway = GATEWAY_WWW)
     {

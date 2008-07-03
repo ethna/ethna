@@ -4,7 +4,7 @@
  */
 
 /**
- *  Ethna_Plugin_Logwriter_Echo¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Logwriter_Echoã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
@@ -39,16 +39,16 @@ class Ethna_Plugin_Logwriter_Echo_Test extends Ethna_UnitTestBase
             LOG_DEBUG,);
 
         foreach ($level_array as $level) {
-            ob_start();         // ¥³¥ó¥½¡¼¥ë¤Ø¤Î½ÐÎÏ¤ò¥­¥ã¥×¥Á¥ã³«»Ï
+            ob_start();         // ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã¸ã®å‡ºåŠ›ã‚’ã‚­ãƒ£ãƒ—ãƒãƒ£é–‹å§‹
 
-            // ´Ø¿ô¤¬ÊÖ¤¹Ê¸»úÎó¤Ë²þ¹Ô¥¿¥°ÉÕÍ¿¤ÎÀ§Èó
+            // é–¢æ•°ãŒè¿”ã™æ–‡å­—åˆ—ã«æ”¹è¡Œã‚¿ã‚°ä»˜ä¸Žã®æ˜¯éž
             $funcout = $this->lw->log($level, $message)
                 . sprintf("%s", $this->ctl->getGateway() != GATEWAY_WWW ? "" : "<br />");
 
             $stdout = trim(ob_get_contents());
             $this->assertEqual($funcout, $stdout);
 
-            ob_end_clean();     // ¥³¥ó¥½¡¼¥ë¤Ø¤Î½ÐÎÏ¤ò¥­¥ã¥×¥Á¥ã½ªÎ»
+            ob_end_clean();     // ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã¸ã®å‡ºåŠ›ã‚’ã‚­ãƒ£ãƒ—ãƒãƒ£çµ‚äº†
         }
     }
 
@@ -62,16 +62,16 @@ class Ethna_Plugin_Logwriter_Echo_Test extends Ethna_UnitTestBase
         $level = LOG_WARNING;
         $message = "SELECT * FROM item WHERE name LIKE '%salt%';";
 
-        ob_start();         // ¥³¥ó¥½¡¼¥ë¤Ø¤Î½ÐÎÏ¤ò¥­¥ã¥×¥Á¥ã³«»Ï
+        ob_start();         // ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã¸ã®å‡ºåŠ›ã‚’ã‚­ãƒ£ãƒ—ãƒãƒ£é–‹å§‹
 
-        // ´Ø¿ô¤¬ÊÖ¤¹Ê¸»úÎó¤Ë²þ¹Ô¥¿¥°ÉÕÍ¿¤ÎÀ§Èó
+        // é–¢æ•°ãŒè¿”ã™æ–‡å­—åˆ—ã«æ”¹è¡Œã‚¿ã‚°ä»˜ä¸Žã®æ˜¯éž
         $funcout = $this->lw->log($level, $message)
             . sprintf("%s", $this->ctl->getGateway() != GATEWAY_WWW ? "" : "<br />");
 
         $stdout = trim(ob_get_contents());
         $this->assertEqual($funcout, $stdout);
 
-        ob_end_clean();     // ¥³¥ó¥½¡¼¥ë¤Ø¤Î½ÐÎÏ¤ò¥­¥ã¥×¥Á¥ã½ªÎ»
+        ob_end_clean();     // ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã¸ã®å‡ºåŠ›ã‚’ã‚­ãƒ£ãƒ—ãƒãƒ£çµ‚äº†
     }
 }
 ?>

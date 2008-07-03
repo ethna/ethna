@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Logwriter_Default
 /**
- *  ¥í¥°½ĞÎÏ´ğÄì¥¯¥é¥¹
+ *  ãƒ­ã‚°å‡ºåŠ›åŸºåº•ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public

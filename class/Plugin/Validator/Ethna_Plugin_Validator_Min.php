@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Plugin_Validator_Min
 /**
- *  ºÇ¾®ÃÍ¥Á¥§¥Ã¥¯¥×¥é¥°¥¤¥ó
+ *  æœ€å°å€¤ãƒã‚§ãƒƒã‚¯ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
@@ -19,16 +19,16 @@
  */
 class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
 {
-    /** @var    bool    ÇÛÎó¤ò¼õ¤±¼è¤ë¤«¥Õ¥é¥° */
+    /** @var    bool    é…åˆ—ã‚’å—ã‘å–ã‚‹ã‹ãƒ•ãƒ©ã‚° */
     var $accept_array = false;
 
     /**
-     *  ºÇ¾®ÃÍ¤Î¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
+     *  æœ€å°å€¤ã®ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†
      *
      *  @access public
-     *  @param  string  $name       ¥Õ¥©¡¼¥à¤ÎÌ¾Á°
-     *  @param  mixed   $var        ¥Õ¥©¡¼¥à¤ÎÃÍ
-     *  @param  array   $params     ¥×¥é¥°¥¤¥ó¤Î¥Ñ¥é¥á¡¼¥¿
+     *  @param  string  $name       ãƒ•ã‚©ãƒ¼ãƒ ã®åå‰
+     *  @param  mixed   $var        ãƒ•ã‚©ãƒ¼ãƒ ã®å€¤
+     *  @param  array   $params     ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     function &validate($name, $var, $params)
     {
@@ -44,7 +44,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}¤Ë¤Ï%d°Ê¾å¤Î¿ô»ú(À°¿ô)¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤";
+                        $msg = _et('Please input more than %d(int) to {form}.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_INT, array($params['min']));
                 }
@@ -55,7 +55,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}¤Ë¤Ï%f°Ê¾å¤Î¿ô»ú(¾®¿ô)¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤";
+                        $msg = _et('Please input more than %f(float) to {form}.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_FLOAT, array($params['min']));
                 }
@@ -68,7 +68,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}¤Ë¤Ï%s°Ê¹ß¤ÎÆüÉÕ¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤";
+                        $msg = _et('Please input datetime value %s or later to {form}.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_DATETIME, array($params['min']));
                 }
@@ -80,22 +80,43 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                     if (isset($params['error'])) {
                         $msg = $params['error'];
                     } else {
-                        $msg = "{form}¤Ë¤Ï%dKB°Ê¾å¤Î¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Æ²¼¤µ¤¤";
+                        $msg = _et('Please specify file whose size is more than %d KB.');
                     }
                     return Ethna::raiseNotice($msg, E_FORM_MIN_FILE, array($params['min']));
                 }
                 break;
 
             case VAR_TYPE_STRING:
-                if (strlen($var) < $params['min']) {
-                    if (isset($params['error'])) {
-                        $msg = $params['error'];
-                    } else {
-                        $msg = "{form}¤ÏÁ´³Ñ%dÊ¸»ú°Ê¾å(È¾³Ñ%dÊ¸»ú°Ê¾å)¤ÇÆşÎÏ¤·¤Æ²¼¤µ¤¤";
-                    }
-                    return Ethna::raiseNotice($msg, E_FORM_MIN_STRING,
-                            array(intval($params['min']/2), $params['min']));
+
+                //
+                //  ãƒãƒ«ãƒãƒã‚¤ãƒˆã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã¨ã€ãã†ã§ãªã„å ´åˆã§
+                //  ç•°ãªã‚‹ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’å‘¼ã¶ã€‚
+                //
+                //  ã“ã‚Œã¯ Ethna_Controller#client_encoding ã®å€¤ã«ã‚ˆ
+                //  ã£ã¦å‹•ããŒæ±ºã¾ã‚‹
+                //
+
+                $ctl = Ethna_Controller::getInstance();
+                $client_enc = $ctl->getClientEncoding();
+                $plugin = $this->backend->getPlugin();
+
+                //  select Plugin.
+                if (mb_enabled() && strcasecmp('UTF-8', $client_enc) == 0) {
+                    $plugin_name = 'Mbstrmin';
+                    $params['mbstrmin'] = $params['min'];
+                } elseif (strcasecmp('EUC-JP', $client_enc == 0)
+                       || strcasecmp('eucJP-win', $client_enc == 0)) {
+                    $plugin_name = 'Strmincompat';
+                    $params['strmincompat'] = $params['min'];
+                } else { 
+                    $plugin_name = 'Strmin';
+                    $params['strmin'] = $params['min'];
                 }
+                unset($params['min']);
+
+                $vld = $plugin->getPlugin('Validator', $plugin_name);
+                return $vld->validate($name, $var, $params);
+
                 break;
         }
 

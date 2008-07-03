@@ -34,14 +34,14 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         require_once 'PEAR/PackageFileManager2.php';
         require_once 'PEAR/PackageFileManager/File.php';
 
-        // °ú¿ô¤ÎÉ¾²Á
+        // å¼•æ•°ã®è©•ä¾¡
         $args =& $this->_parseArgList();
         if (Ethna::isError($args)) {
             return $args;
         }
         list($ini, $skelfile, $workdir) = $args;
 
-        // ¥Ñ¥Ã¥±¡¼¥¸¤òºî¤ë¥×¥é¥°¥¤¥ó¤Î target
+        // ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ä½œã‚‹ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã® target
         $targets = array();
         if ($ini['plugin']['master'] == true) {
             $targets[] = 'master';
@@ -50,25 +50,25 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
             $targets[] = 'local';
         }
 
-        // ÀßÄêÍÑ¤ÎÇÛÎó¤òÍÑ°Õ
+        // è¨­å®šç”¨ã®é…åˆ—ã‚’ç”¨æ„
         $setting = array();
 
-        // {{{ master ¤È local ¤Ç¶¦ÄÌ¤ÎÀßÄê
-        // ¥×¥é¥°¥¤¥óÌ¾
+        // {{{ master ã¨ local ã§å…±é€šã®è¨­å®š
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³å
         $ptype = $ini['plugin']['type'];
         $pname = $ini['plugin']['name'];
 
-        // ¥Ñ¥Ã¥±¡¼¥¸¤ÎÀâÌÀ
+        // ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®èª¬æ˜Ž
         $setting['channel']     = $ini['package']['channel'];
         $setting['summary']     = $ini['package']['summary'];
         $setting['description'] = $ini['package']['description'];
 
-        // ¥ê¥ê¡¼¥¹¤ÎÀâÌÀ
+        // ãƒªãƒªãƒ¼ã‚¹ã®èª¬æ˜Ž
         $setting['version']     = $ini['release']['version'];
         $setting['state']       = $ini['release']['state'];
         $setting['notes']       = $ini['release']['notes'];
 
-        // ¥á¥ó¥Æ¥Ê
+        // ãƒ¡ãƒ³ãƒ†ãƒŠ
         $mnts = $ini['maintainers'];
         for ($i = 1; ; $i++) {
             if (isset($mnts["name$i"]) == false
@@ -85,36 +85,36 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
                 );
         }
 
-        // ¥é¥¤¥»¥ó¥¹
+        // ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
         $setting['license']['name'] = $ini['license']['name'];
         if (isset($ini['license']['uri'])) {
             $setting['license']['uri'] = $ini['license']['uri'];
         }
         // }}}
 
-        // ¤Þ¤ë¤Þ¤ë¥³¥Ô¡¼ :-p
+        // ã¾ã‚‹ã¾ã‚‹ã‚³ãƒ”ãƒ¼ :-p
         $setting = array('master' => $setting, 'local' => $setting);
 
-        // {{{ master ¤È local ¤Ç°Û¤Ê¤ëÉôÊ¬
-        // ¥Ñ¥Ã¥±¡¼¥¸Ì¾
+        // {{{ master ã¨ local ã§ç•°ãªã‚‹éƒ¨åˆ†
+        // ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸å
         $setting['master']['pkgname'] = "Ethna_Plugin_{$ptype}_{$pname}";
         $setting['local'] ['pkgname'] = "App_Plugin_{$ptype}_{$pname}";
 
-        // ¥×¥é¥°¥¤¥ó¤Î¥Õ¥¡¥¤¥ëÌ¾
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«å
         $setting['master']['filename'] = "Ethna_Plugin_{$ptype}_{$pname}.php";
         $setting['local'] ['filename'] = "skel.plugin.{$ptype}_{$pname}.php";
 
-        // ÆþÎÏ¥Õ¥¡¥¤¥ë¤ÎÃÖ´¹¥Þ¥¯¥í
+        // å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã®ç½®æ›ãƒžã‚¯ãƒ­
         $setting['master']['macro'] = array(
-            // package »þ¤ËÃÖ´¹
+            // package æ™‚ã«ç½®æ›
             'application_id'    => 'Ethna',
             'project_id'        => 'Ethna',
             );
         $setting['local']['macro'] = array(
-            // install »þ¤ËÃÖ´¹
+            // install æ™‚ã«ç½®æ›
             );
 
-        // setOptins($config) »þ¤Ë merge ¤¹¤ëÀßÄê
+        // setOptins($config) æ™‚ã« merge ã™ã‚‹è¨­å®š
         $setting['master']['config'] = array(
             'baseinstalldir' => "Ethna/class/Plugin/{$ptype}",
             );
@@ -122,20 +122,20 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
             'baseinstalldir' => '.',
             );
 
-        // Ç¤°Õ¤Ë $packagexml->doSomething() ¤¹¤ë¤¿¤á¤Î callback
+        // ä»»æ„ã« $packagexml->doSomething() ã™ã‚‹ãŸã‚ã® callback
         $setting['master']['callback'] = array(
             'addPackageDepWithChannel'
                 => array('optional', 'ethna', 'pear.ethna.jp', '2.3.0'),
             );
         $setting['local']['callback'] = array(
-            // local ÍÑ¤Î¥Ñ¥Ã¥±¡¼¥¸¤ò master ¤Ë¥¤¥ó¥¹¥È¡¼¥ë¤µ¤»¤Ê¤¤¤¿¤á¤Î conflict
+            // local ç”¨ã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ master ã«ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã›ãªã„ãŸã‚ã® conflict
             'addConflictingPackageDepWithChannel'
                 => array('pear', 'pear.php.net'),
             );
         // }}}
 
 
-        // ¥Ñ¥Ã¥±¡¼¥¸ºîÀ®
+        // ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ä½œæˆ
         $this->pear =& new Ethna_PearWrapper();
         $this->pear->init('master');
         foreach ($targets as $target) {
@@ -154,7 +154,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
             return Ethna::raiseError("failed making working dir: $workdir.");
         }
 
-        // ¥×¥é¥°¥¤¥ó¤Î¸µ¥Õ¥¡¥¤¥ë¤òºîÀ®
+        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®å…ƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆ
         $rfp = fopen($skelfile, "r");
         if ($rfp == false) {
             return Ethna::raiseError("failed open skelton file: $skelfile.");
@@ -178,7 +178,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         fclose($wfp);
         fclose($rfp);
 
-        // package.xml ¤òºî¤ë
+        // package.xml ã‚’ä½œã‚‹
         $pkgconfig = array(
             'packagedirectory' => $workdir,
             'outputdirectory' => $workdir,
@@ -230,7 +230,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
             return Ethna::raiseError($r->getMessage, $r->getCode());
         }
 
-        // package ¤òºî¤ë
+        // package ã‚’ä½œã‚‹
         $r = $this->pear->_run('package', array(), array("$workdir/package.xml"));
         if (PEAR::isError($r)) {
             return Ethna::raiseError($r->getMessage, $r->getCode());

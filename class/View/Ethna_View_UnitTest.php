@@ -9,7 +9,7 @@
  */
 
 /**
- *  __ethna_unittest__¥Ó¥å¡¼¤Î¼ÂÁõ
+ *  __ethna_unittest__ãƒ“ãƒ¥ãƒ¼ã®å®Ÿè£…
  *
  *  @author     Takuya Ookubo <sfio@sakura.ai.to>
  *  @access     public
@@ -18,18 +18,18 @@
 class Ethna_View_UnitTest extends Ethna_ViewClass
 {
     /**
-     *  Á«°ÜÁ°½èÍı
+     *  é·ç§»å‰å‡¦ç†
      *
      *  @access public
      */
     function preforward()
     {
-        // ¥¿¥¤¥à¥¢¥¦¥È¤·¤Ê¤¤¤è¤¦¤ËÊÑ¹¹
+        // ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã—ãªã„ã‚ˆã†ã«å¤‰æ›´
         $max_execution_time = ini_get('max_execution_time');
         set_time_limit(0);
 
         if (!headers_sent()) {
-            // ¥­¥ã¥Ã¥·¥å¤·¤Ê¤¤
+            // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãªã„
             header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s \G\M\T"));
             header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -58,7 +58,7 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
         $this->af->setApp('report', $report);
         $this->af->setApp('result', $result);
 
-        // ¥¿¥¤¥à¥¢¥¦¥È¤ò¸µ¤ËÌá¤¹
+        // ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã‚’å…ƒã«æˆ»ã™
         set_time_limit($max_execution_time);
     }
 }

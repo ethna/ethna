@@ -1,136 +1,149 @@
 <?php
+// vim: foldmethod=marker
 /**
  *  Ethna_Plugin_Validator_Required_Test.php
  */
 
 /**
- *  Ethna_Plugin_Validator_Required¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Validator_Requiredã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
 class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
 {
-    function testCheckValidatorRequired()
+    var $vld;
+
+    function setUp()
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
-        $vld = $plugin->getPlugin('Validator', 'Required');
+        $this->vld = $plugin->getPlugin('Validator', 'Required');
+    }
 
+    // {{{ test form type text.
+    function test_formtext()
+    {
+        //    required => false ã§ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚©ãƒ¼ãƒ ã«æ–‡å­—åˆ—ã‚’å…¥åŠ›ã™ã‚‹å ´åˆ
         $form_string = array(
                              'type'          => VAR_TYPE_STRING,
                              'required'      => false,
                              'form_type'     => FORM_TYPE_TEXT,
                              );
-        $vld->af->setDef('namae_string', $form_string);
+        $this->vld->af->setDef('namae_string', $form_string);
 
-        $pear_error = $vld->validate('namae_string', 10, $form_string);
+        $pear_error = $this->vld->validate('namae_string', 10, $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_string', '', $form_string);
+        $pear_error = $this->vld->validate('namae_string', '', $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_string', false, $form_string);
+        $pear_error = $this->vld->validate('namae_string', false, $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_string', null, $form_string);
+        $pear_error = $this->vld->validate('namae_string', null, $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-
+        //    required => true ã§ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚©ãƒ¼ãƒ ã«æ–‡å­—åˆ—ã‚’å…¥åŠ›ã™ã‚‹å ´åˆ
         $form_string = array(
                              'type'          => VAR_TYPE_STRING,
                              'required'      => true,
                              'form_type'     => FORM_TYPE_TEXT,
-                             'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼'
+                             'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼'
                              );
-        $vld->af->setDef('namae_string', $form_string);
+        $this->vld->af->setDef('namae_string', $form_string);
 
-        $pear_error = $vld->validate('namae_string', 10, $form_string);
+        $pear_error = $this->vld->validate('namae_string', 10, $form_string);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // É¬¿Ü¥Õ¥©¡¼¥à¤ËÆþÎÏ¤¬¤Ê¤¤
-        $pear_error = $vld->validate('namae_string', '', $form_string);
+        // å¿…é ˆãƒ•ã‚©ãƒ¼ãƒ ã«å…¥åŠ›ãŒãªã„
+        $pear_error = $this->vld->validate('namae_string', '', $form_string);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_string', false, $form_string);
+        $pear_error = $this->vld->validate('namae_string', false, $form_string);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_string', null, $form_string);
+        $pear_error = $this->vld->validate('namae_string', null, $form_string);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
+    }
+    // }}}
 
-
-
+    // {{{ test form type select 
+    function test_formselect()
+    {
         $form_select = array(
                              'type'          => VAR_TYPE_STRING,
                              'required'      => false,
                              'form_type'     => FORM_TYPE_SELECT,
-                             'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼'
+                             'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼'
                              );
-        $vld->af->setDef('namae_select', $form_select);
+        $this->vld->af->setDef('namae_select', $form_select);
 
-        $pear_error = $vld->validate('namae_select', 'selection', $form_select);
+        $pear_error = $this->vld->validate('namae_select', 'selection', $form_select);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_select', '', $form_select);
+        $pear_error = $this->vld->validate('namae_select', '', $form_select);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_select', false, $form_select);
+        $pear_error = $this->vld->validate('namae_select', false, $form_select);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_select', null, $form_select);
+        $pear_error = $this->vld->validate('namae_select', null, $form_select);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
-
 
         $form_select = array(
                              'type'          => VAR_TYPE_STRING,
                              'required'      => true,
                              'form_type'     => FORM_TYPE_SELECT,
-                             'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼'
+                             'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼'
                              );
-        $vld->af->setDef('namae_select', $form_select);
+        $this->vld->af->setDef('namae_select', $form_select);
 
-        $pear_error = $vld->validate('namae_select', 'selection', $form_select);
+        $pear_error = $this->vld->validate('namae_select', 'selection', $form_select);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // É¬¿Ü¥Õ¥©¡¼¥à¤¬ÁªÂò¤µ¤ì¤Ê¤¤
-        $pear_error = $vld->validate('namae_select', '', $form_select);
+        // å¿…é ˆãƒ•ã‚©ãƒ¼ãƒ ãŒé¸æŠžã•ã‚Œãªã„
+        $pear_error = $this->vld->validate('namae_select', '', $form_select);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_select['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_select', false, $form_select);
+        $pear_error = $this->vld->validate('namae_select', false, $form_select);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_select['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_select', null, $form_select);
+        $pear_error = $this->vld->validate('namae_select', null, $form_select);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_select['error'], $pear_error->getMessage());
+    }
+    //  }}}
 
-
-
+    // {{{ test form type radio
+    function test_formradio()
+    {
         $form_radio = array(
                             'type'          => VAR_TYPE_STRING,
                             'required'      => false,
                             'form_type'     => FORM_TYPE_RADIO,
-                            'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼'
+                            'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼'
                             );
-        $vld->af->setDef('namae_radio', $form_radio);
+        $this->vld->af->setDef('namae_radio', $form_radio);
 
-        $pear_error = $vld->validate('namae_radio', 'radio', $form_radio);
+        $pear_error = $this->vld->validate('namae_radio', 'radio', $form_radio);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_radio', '', $form_radio);
+        $pear_error = $this->vld->validate('namae_radio', '', $form_radio);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_radio', false, $form_radio);
+        $pear_error = $this->vld->validate('namae_radio', false, $form_radio);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_radio', null, $form_radio);
+        $pear_error = $this->vld->validate('namae_radio', null, $form_radio);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
 
@@ -138,38 +151,41 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                             'type'          => VAR_TYPE_STRING,
                             'required'      => true,
                             'form_type'     => FORM_TYPE_RADIO,
-                            'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼'
+                            'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼'
                             );
-        $vld->af->setDef('namae_radio', $form_radio);
+        $this->vld->af->setDef('namae_radio', $form_radio);
 
-        $pear_error = $vld->validate('namae_radio', 'radio', $form_radio);
+        $pear_error = $this->vld->validate('namae_radio', 'radio', $form_radio);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // É¬¿Ü¥Õ¥©¡¼¥à¤¬ÁªÂò¤µ¤ì¤Ê¤¤
-        $pear_error = $vld->validate('namae_radio', '', $form_radio);
+        // å¿…é ˆãƒ•ã‚©ãƒ¼ãƒ ãŒé¸æŠžã•ã‚Œãªã„
+        $pear_error = $this->vld->validate('namae_radio', '', $form_radio);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_radio['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_radio', false, $form_radio);
+        $pear_error = $this->vld->validate('namae_radio', false, $form_radio);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_radio['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_radio', null, $form_radio);
+        $pear_error = $this->vld->validate('namae_radio', null, $form_radio);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_radio['error'], $pear_error->getMessage());
+    }
+    //  }}}
 
-
-
+    // {{{ test form type checkbox 
+    function test_formcheckbox()
+    {
         $form_checkbox = array(
                                'required'      => false,
                                'form_type'     => FORM_TYPE_CHECKBOX,
                                'type'          => array(VAR_TYPE_BOOLEAN),
-                               'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼',
+                               'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼',
                                );
-        $vld->af->setDef('namae_checkbox', $form_checkbox);
+        $this->vld->af->setDef('namae_checkbox', $form_checkbox);
 
         $checks = array(
                         '1st' => 0,
@@ -177,17 +193,17 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                         '3rd' => 3,
                         '4th' => 'value'
                         );
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
         $checks = array();
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_checkbox', null, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', null, $form_checkbox);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_checkbox', false, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', false, $form_checkbox);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
 
@@ -195,9 +211,9 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                                'required'      => true,
                                'form_type'     => FORM_TYPE_CHECKBOX,
                                'type'          => array(VAR_TYPE_BOOLEAN),
-                               'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼',
+                               'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼',
                                );
-        $vld->af->setDef('namae_checkbox', $form_checkbox);
+        $this->vld->af->setDef('namae_checkbox', $form_checkbox);
 
         $checks = array(
                         '1st' => 0,
@@ -205,37 +221,36 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                         '3rd' => 3,
                         '4th' => 'value'
                         );
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // É¬¿Ü¥Õ¥©¡¼¥à¤¬ÁªÂò¤µ¤ì¤Ê¤¤
+        // å¿…é ˆãƒ•ã‚©ãƒ¼ãƒ ãŒé¸æŠžã•ã‚Œãªã„
         $checks = array();
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_checkbox['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_checkbox', null, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', null, $form_checkbox);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_checkbox['error'], $pear_error->getMessage());
 
-        $pear_error = $vld->validate('namae_checkbox', false, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', false, $form_checkbox);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_checkbox['error'], $pear_error->getMessage());
-
 
 
         $form_checkbox = array(
                                'required'      => true,
                                'form_type'     => FORM_TYPE_CHECKBOX,
                                'type'          => array(VAR_TYPE_BOOLEAN),
-                               'error'         => '¥Õ¥©¡¼¥àÃÍÉ¬¿Ü¥¨¥é¡¼',
+                               'error'         => 'ãƒ•ã‚©ãƒ¼ãƒ å€¤å¿…é ˆã‚¨ãƒ©ãƒ¼',
                                'key'           => '4th',
                                'num'           => 4,
                                );
-        $vld->af->setDef('namae_checkbox', $form_checkbox);
+        $this->vld->af->setDef('namae_checkbox', $form_checkbox);
 
         $checks = array(
                         '1st' => 0,
@@ -243,17 +258,17 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                         '3rd' => 3,
                         '4th' => 'value'
                         );
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // ²¿¤é¤«¤Î½èÍý¤Çfalse¤Ë½ñ¤­´¹¤¨¤Æ¤·¤Þ¤Ã¤¿¾ì¹ç¤Ï¥¨¥é¡¼
+        // ä½•ã‚‰ã‹ã®å‡¦ç†ã§falseã«æ›¸ãæ›ãˆã¦ã—ã¾ã£ãŸå ´åˆã¯ã‚¨ãƒ©ãƒ¼
         $checks = array(
                         '1st' => 0,
                         '2nd' => 1,
                         '3rd' => 3,
                         '4th' => false
                         );
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_checkbox['error'], $pear_error->getMessage());
@@ -264,7 +279,7 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                         '2nd' => 1,
                         '3rd' => 'value'
                         );
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_checkbox['error'], $pear_error->getMessage());
@@ -276,12 +291,12 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                         '3rd' => 2,
                         '4' => 3
                         );
-        $pear_error = $vld->validate('namae_checkbox', $checks, $form_checkbox);
+        $pear_error = $this->vld->validate('namae_checkbox', $checks, $form_checkbox);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_REQUIRED, $pear_error->getCode());
         $this->assertEqual($form_checkbox['error'], $pear_error->getMessage());
-
-
     }
+    //  }}}
 }
+
 ?>

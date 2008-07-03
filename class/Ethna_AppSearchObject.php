@@ -9,38 +9,38 @@
  *  @version    $Id$
  */
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: != */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: != */
 define('OBJECT_CONDITION_NE', 0);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: == */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: == */
 define('OBJECT_CONDITION_EQ', 1);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: LIKE */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: LIKE */
 define('OBJECT_CONDITION_LIKE', 2);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: > */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: > */
 define('OBJECT_CONDITION_GT', 3);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: < */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: < */
 define('OBJECT_CONDITION_LT', 4);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: >= */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: >= */
 define('OBJECT_CONDITION_GE', 5);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: <= */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: <= */
 define('OBJECT_CONDITION_LE', 6);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: AND */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: AND */
 define('OBJECT_CONDITION_AND', 7);
 
-/** ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï: OR */
+/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶: OR */
 define('OBJECT_CONDITION_OR', 8);
 
 
 
 // {{{ Ethna_AppSearchObject
 /**
- *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ª¥Ö¥¸¥§¥¯¥È¸¡º÷¾ò·ï¥¯¥é¥¹
+ *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¤œç´¢æ¡ä»¶ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -52,14 +52,14 @@ class Ethna_AppSearchObject
      *  @access private
      */
 
-    /** @var    string  ¸¡º÷ÃÍ */
+    /** @var    string  æ¤œç´¢å€¤ */
     var $value;
 
-    /** @var    int     ¸¡º÷¾ò·ï */
+    /** @var    int     æ¤œç´¢æ¡ä»¶ */
     var $condition;
 
     /**
-     *  @var    array   ÄÉ²Ã¸¡º÷¾ò·ï¤òÊİ»ı¤·¤¿Ethna_AppSearchObject¤Î°ìÍ÷
+     *  @var    array   è¿½åŠ æ¤œç´¢æ¡ä»¶ã‚’ä¿æŒã—ãŸEthna_AppSearchObjectã®ä¸€è¦§
      */
     var $object_list = array();
 
@@ -67,11 +67,11 @@ class Ethna_AppSearchObject
 
 
     /**
-     *  Ethna_AppSearchObject¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_AppSearchObjectã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  string  $value      ¸¡º÷ÃÍ
-     *  @param  int     $condition  ¸¡º÷¾ò·ï(OBJECT_CONDITION_NE,...)
+     *  @param  string  $value      æ¤œç´¢å€¤
+     *  @param  int     $condition  æ¤œç´¢æ¡ä»¶(OBJECT_CONDITION_NE,...)
      */
     function Ethna_AppSearchObject($value, $condition)
     {
@@ -80,12 +80,12 @@ class Ethna_AppSearchObject
     }
 
     /**
-     *  ¸¡º÷¾ò·ï¤òOR/AND¤ÇÄÉ²Ã¤¹¤ë
+     *  æ¤œç´¢æ¡ä»¶ã‚’OR/ANDã§è¿½åŠ ã™ã‚‹
      *
      *  @access public
-     *  @param  string                          $name           ¸¡º÷ÂĞ¾İ¥«¥é¥àÌ¾
-     *  @param  object  Ethna_AppSearchObject   $search_object  ÄÉ²Ã¤¹¤ë¸¡º÷¾ò·ï
-     *  @param  int                             $condition      ÄÉ²Ã¾ò·ï(OR/AND)
+     *  @param  string                          $name           æ¤œç´¢å¯¾è±¡ã‚«ãƒ©ãƒ å
+     *  @param  object  Ethna_AppSearchObject   $search_object  è¿½åŠ ã™ã‚‹æ¤œç´¢æ¡ä»¶
+     *  @param  int                             $condition      è¿½åŠ æ¡ä»¶(OR/AND)
      */
     function addObject($name, $search_object, $condition)
     {
@@ -97,7 +97,7 @@ class Ethna_AppSearchObject
     }
 
     /**
-     *  »ØÄê¤µ¤ì¤¿¥Õ¥£¡¼¥ë¥É¤¬¸¡º÷ÂĞ¾İ¤È¤Ê¤Ã¤Æ¤¤¤ë¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒæ¤œç´¢å¯¾è±¡ã¨ãªã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
      */
@@ -118,11 +118,11 @@ class Ethna_AppSearchObject
     }
 
     /**
-     *  ¸¡º÷¾ò·ïSQLÊ¸¤òÊÖ¤¹
+     *  æ¤œç´¢æ¡ä»¶SQLæ–‡ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  string  ¸¡º÷ÂĞ¾İ¥«¥é¥àÌ¾
-     *  @return SQLÊ¸
+     *  @param  string  æ¤œç´¢å¯¾è±¡ã‚«ãƒ©ãƒ å
+     *  @return SQLæ–‡
      */
     function toString($column)
     {

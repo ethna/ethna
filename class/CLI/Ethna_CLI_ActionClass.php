@@ -11,7 +11,7 @@
 
 // {{{ Ethna_CLI_ActionClass
 /**
- *  ¥³¥Ş¥ó¥É¥é¥¤¥óaction¼Â¹Ô¥¯¥é¥¹
+ *  ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³actionå®Ÿè¡Œã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -21,7 +21,7 @@
 class Ethna_CLI_ActionClass extends Ethna_ActionClass
 {
     /**
-     *  action½èÍı
+     *  actionå‡¦ç†
      *
      *  @access public
      */

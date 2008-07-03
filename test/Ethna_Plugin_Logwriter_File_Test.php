@@ -4,7 +4,7 @@
  */
 
 /**
- *  Ethna_Plugin_Logwriter_File¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Logwriter_Fileã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
@@ -33,12 +33,12 @@ class Ethna_Plugin_Logwriter_File_Test extends Ethna_UnitTestBase
         $lw->end();
         clearstatcache();
         $_after_size = filesize($option['file']);
-        // ¥í¥°¤ò½ÐÎÏ¤·¤¿¥Õ¥¡¥¤¥ë¤Î¥µ¥¤¥º¤¬Âç¤­¤¯¤Ê¤Ã¤¿¤³¤È¤ò³ÎÇ§
+        // ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºãŒå¤§ãããªã£ãŸã“ã¨ã‚’ç¢ºèª
         $this->assertTrue($_before_size < $_after_size);
 
         $file = file($option['file']);
-        $line_count = count($file); // ºÇ¸å¤ËÄÉµ­¤·¤¿¹ÔÈÖ¹æ
-        // Ç¯·îÆü»þÊ¬¤Î°ìÃ×¡¢ÉÃ¤Î¥Õ¥©¡¼¥Þ¥Ã¥È¡¢ID¡¦¥í¥°¥ì¥Ù¥ë¡¦¥á¥Ã¥»¡¼¥¸¤Î°ìÃ×¤ò³ÎÇ§
+        $line_count = count($file); // æœ€å¾Œã«è¿½è¨˜ã—ãŸè¡Œç•ªå·
+        // å¹´æœˆæ—¥æ™‚åˆ†ã®ä¸€è‡´ã€ç§’ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã€IDãƒ»ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ãƒ»ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ä¸€è‡´ã‚’ç¢ºèª
         $this->assertTrue(preg_match('/^'.preg_quote(strftime('%Y/%m/%d %H:%M:'), '/')
                             .'[0-5][0-9] '
                             .preg_quote($option['ident'].'('
@@ -65,12 +65,12 @@ class Ethna_Plugin_Logwriter_File_Test extends Ethna_UnitTestBase
         $lw->end();
         clearstatcache();
         $_after_size = filesize($option['file']);
-        // ¥í¥°¤ò½ÐÎÏ¤·¤¿¥Õ¥¡¥¤¥ë¤Î¥µ¥¤¥º¤¬Âç¤­¤¯¤Ê¤Ã¤¿¤³¤È¤ò³ÎÇ§
+        // ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºãŒå¤§ãããªã£ãŸã“ã¨ã‚’ç¢ºèª
         $this->assertTrue($_before_size < $_after_size);
 
         $file = file($option['file']);
-        $line_count = count($file); // ºÇ¸å¤ËÄÉµ­¤·¤¿¹ÔÈÖ¹æ
-        // Ç¯·îÆü»þÊ¬¤Î°ìÃ×¡¢ÉÃ¤Î¥Õ¥©¡¼¥Þ¥Ã¥È¡¢ID¡¦PID¡¦¥í¥°¥ì¥Ù¥ë¡¦¥á¥Ã¥»¡¼¥¸¤Î°ìÃ×¤ò³ÎÇ§
+        $line_count = count($file); // æœ€å¾Œã«è¿½è¨˜ã—ãŸè¡Œç•ªå·
+        // å¹´æœˆæ—¥æ™‚åˆ†ã®ä¸€è‡´ã€ç§’ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã€IDãƒ»PIDãƒ»ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ãƒ»ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ä¸€è‡´ã‚’ç¢ºèª
         $this->assertTrue(preg_match('/^'.preg_quote(strftime('%Y/%m/%d %H:%M:'), '/')
                             .'[0-5][0-9] '
                             .preg_quote($option['ident'].'['.getmypid().']('

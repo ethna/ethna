@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Session
 /**
- *  ¥»¥Ã¥·¥ç¥ó¥¯¥é¥¹
+ *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,29 +23,29 @@ class Ethna_Session
      *  @access private
      */
 
-    /** @var    object  Ethna_Logger    logger¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger    loggerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
-    /** @var    string  ¥»¥Ã¥·¥ç¥óÌ¾ */
+    /** @var    string  ã‚»ãƒƒã‚·ãƒ§ãƒ³å */
     var $session_name;
 
-    /** @var    string  ¥»¥Ã¥·¥ç¥ó¥Ç¡¼¥¿ÊİÂ¸¥Ç¥£¥ì¥¯¥È¥ê */
+    /** @var    string  ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ä¿å­˜ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
     var $session_save_dir;
 
-    /** @var    bool    ¥»¥Ã¥·¥ç¥ó³«»Ï¥Õ¥é¥° */
+    /** @var    bool    ã‚»ãƒƒã‚·ãƒ§ãƒ³é–‹å§‹ãƒ•ãƒ©ã‚° */
     var $session_start = false;
 
-    /** @var    bool    Æ¿Ì¾¥»¥Ã¥·¥ç¥ó¥Õ¥é¥° */
+    /** @var    bool    åŒ¿åã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚° */
     var $anonymous = false;
 
     /**#@-*/
 
     /**
-     *  Ethna_Session¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Sessionã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  string  $appid      ¥¢¥×¥ê¥±¡¼¥·¥ç¥óID(¥»¥Ã¥·¥ç¥óÌ¾¤È¤·¤Æ»ÈÍÑ)
-     *  @param  string  $save_dir   ¥»¥Ã¥·¥ç¥ó¥Ç¡¼¥¿¤òÊİÂ¸¤¹¤ë¥Ç¥£¥ì¥¯¥È¥ê
+     *  @param  string  $appid      ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ID(ã‚»ãƒƒã‚·ãƒ§ãƒ³åã¨ã—ã¦ä½¿ç”¨)
+     *  @param  string  $save_dir   ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      */
     function Ethna_Session($appid, $save_dir, $logger)
     {
@@ -77,7 +77,7 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤òÉüµ¢¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å¾©å¸°ã™ã‚‹
      *
      *  @access public
      */
@@ -104,10 +104,10 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤ÎÀµÅöÀ­¥Á¥§¥Ã¥¯
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æ­£å½“æ€§ãƒã‚§ãƒƒã‚¯
      *
      *  @access public
-     *  @return bool    true:ÀµÅö¤Ê¥»¥Ã¥·¥ç¥ó false:ÉÔÅö¤Ê¥»¥Ã¥·¥ç¥ó
+     *  @return bool    true:æ­£å½“ãªã‚»ãƒƒã‚·ãƒ§ãƒ³ false:ä¸å½“ãªã‚»ãƒƒã‚·ãƒ§ãƒ³
      */
     function isValid()
     {
@@ -133,11 +133,11 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
      *
      *  @access public
-     *  @param  int     $lifetime   ¥»¥Ã¥·¥ç¥óÍ­¸ú´ü´Ö(ÉÃÃ±°Ì, 0¤Ê¤é¥»¥Ã¥·¥ç¥ó¥¯¥Ã¥­¡¼)
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼
+     *  @param  int     $lifetime   ã‚»ãƒƒã‚·ãƒ§ãƒ³æœ‰åŠ¹æœŸé–“(ç§’å˜ä½, 0ãªã‚‰ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¯ãƒƒã‚­ãƒ¼)
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼
      */
     function start($lifetime = 0, $anonymous = false)
     {
@@ -165,10 +165,10 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤òÇË´ş¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ç ´æ£„ã™ã‚‹
      *
      *  @access public
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼
      */
     function destroy()
     {
@@ -184,10 +184,10 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥óID¤òºÆÀ¸À®¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³IDã‚’å†ç”Ÿæˆã™ã‚‹
      *
      *  @access public
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼
      */
     function regenerateId($lifetime = 0, $anonymous = false)
     {
@@ -210,11 +210,11 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥óÃÍ¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³å€¤ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @param  string  $name   ¥­¡¼
-     *  @return mixed   ¼èÆÀ¤·¤¿ÃÍ(null:¥»¥Ã¥·¥ç¥ó¤¬³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤)
+     *  @param  string  $name   ã‚­ãƒ¼
+     *  @return mixed   å–å¾—ã—ãŸå€¤(null:ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã„)
      */
     function get($name)
     {
@@ -229,12 +229,12 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥óÃÍ¤Ø¤Î¥¢¥¯¥»¥µ(W)
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³å€¤ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(W)
      *
      *  @access public
-     *  @param  string  $name   ¥­¡¼
-     *  @param  string  $value  ÃÍ
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼(¥»¥Ã¥·¥ç¥ó¤¬³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤)
+     *  @param  string  $name   ã‚­ãƒ¼
+     *  @param  string  $value  å€¤
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼(ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã„)
      */
     function set($name, $value)
     {
@@ -249,11 +249,11 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤ÎÃÍ¤òÇË´ş¤¹¤ë
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®å€¤ã‚’ç ´æ£„ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $name   ¥­¡¼
-     *  @return bool    true:Àµ¾ï½ªÎ» false:¥¨¥é¡¼(¥»¥Ã¥·¥ç¥ó¤¬³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤)
+     *  @param  string  $name   ã‚­ãƒ¼
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ã‚¨ãƒ©ãƒ¼(ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã„)
      */
     function remove($name)
     {
@@ -267,11 +267,11 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤¬³«»Ï¤µ¤ì¤Æ¤¤¤ë¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  string  $anonymous  Æ¿Ì¾¥»¥Ã¥·¥ç¥ó¤ò¡Ö³«»Ï¡×¤È¤ß¤Ê¤¹¤«¤É¤¦¤«(default: false)
-     *  @return bool    true:³«»ÏºÑ¤ß false:³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤
+     *  @param  string  $anonymous  åŒ¿åã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ã€Œé–‹å§‹ã€ã¨ã¿ãªã™ã‹ã©ã†ã‹(default: false)
+     *  @return bool    true:é–‹å§‹æ¸ˆã¿ false:é–‹å§‹ã•ã‚Œã¦ã„ãªã„
      */
     function isStart($anonymous = false)
     {
@@ -287,10 +287,10 @@ class Ethna_Session
     }
 
     /**
-     *  Æ¿Ì¾¥»¥Ã¥·¥ç¥ó¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  åŒ¿åã‚»ãƒƒã‚·ãƒ§ãƒ³ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @return bool    true:Æ¿Ì¾¥»¥Ã¥·¥ç¥ó false:ÈóÆ¿Ì¾¥»¥Ã¥·¥ç¥ó/¥»¥Ã¥·¥ç¥ó³«»Ï¤µ¤ì¤Æ¤¤¤Ê¤¤
+     *  @return bool    true:åŒ¿åã‚»ãƒƒã‚·ãƒ§ãƒ³ false:éåŒ¿åã‚»ãƒƒã‚·ãƒ§ãƒ³/ã‚»ãƒƒã‚·ãƒ§ãƒ³é–‹å§‹ã•ã‚Œã¦ã„ãªã„
      */
     function isAnonymous()
     {
@@ -298,13 +298,13 @@ class Ethna_Session
     }
 
     /**
-     *  ¥»¥Ã¥·¥ç¥ó¤ËÊİÂ¸¤µ¤ì¤¿IP¥¢¥É¥ì¥¹¤È¥¢¥¯¥»¥¹¸µ¤ÎIP¥¢¥É¥ì¥¹¤¬
-     *  Æ±°ì¥Í¥Ã¥È¥ï¡¼¥¯ÈÏ°Ï¤«¤É¤¦¤«¤òÈ½ÊÌ¤¹¤ë(16bit mask)
+     *  ã‚»ãƒƒã‚·ãƒ§ãƒ³ã«ä¿å­˜ã•ã‚ŒãŸIPã‚¢ãƒ‰ãƒ¬ã‚¹ã¨ã‚¢ã‚¯ã‚»ã‚¹å…ƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ãŒ
+     *  åŒä¸€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ç¯„å›²ã‹ã©ã†ã‹ã‚’åˆ¤åˆ¥ã™ã‚‹(16bit mask)
      *
      *  @access private
-     *  @param  string  $src_ip     ¥»¥Ã¥·¥ç¥ó³«»Ï»ş¤Î¥¢¥¯¥»¥¹¸µIP¥¢¥É¥ì¥¹
-     *  @param  string  $dst_ip     ¸½ºß¤Î¥¢¥¯¥»¥¹¸µIP¥¢¥É¥ì¥¹
-     *  @return bool    true:Àµ¾ï½ªÎ» false:ÉÔÀµ¤ÊIP¥¢¥É¥ì¥¹
+     *  @param  string  $src_ip     ã‚»ãƒƒã‚·ãƒ§ãƒ³é–‹å§‹æ™‚ã®ã‚¢ã‚¯ã‚»ã‚¹å…ƒIPã‚¢ãƒ‰ãƒ¬ã‚¹
+     *  @param  string  $dst_ip     ç¾åœ¨ã®ã‚¢ã‚¯ã‚»ã‚¹å…ƒIPã‚¢ãƒ‰ãƒ¬ã‚¹
+     *  @return bool    true:æ­£å¸¸çµ‚äº† false:ä¸æ­£ãªIPã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     function _validateRemoteAddr($src_ip, $dst_ip)
     {

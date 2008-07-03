@@ -19,10 +19,10 @@
 class Ethna_Plugin_Handle_AddTest extends Ethna_Plugin_Handle
 {
     /**
-     * ¥³¥Ş¥ó¥É¤Î³µÍ×¤òÊÖ¤¹
+     * ã‚³ãƒãƒ³ãƒ‰ã®æ¦‚è¦ã‚’è¿”ã™
      * 
      * @access protected
-     * @return string ¥³¥Ş¥ó¥É³µÍ×
+     * @return string ã‚³ãƒãƒ³ãƒ‰æ¦‚è¦
      */
     function getDescription()
     {
@@ -35,10 +35,10 @@ EOS;
     }
      
      /**
-      * ¥³¥Ş¥ó¥É¤Î»ÈÍÑË¡¤òÊÖ¤¹
+      * ã‚³ãƒãƒ³ãƒ‰ã®ä½¿ç”¨æ³•ã‚’è¿”ã™
       * 
       * @access protected
-      * @return string ¥³¥Ş¥ó¥É¤Î»ÈÍÑÊıË¡
+      * @return string ã‚³ãƒãƒ³ãƒ‰ã®ä½¿ç”¨æ–¹æ³•
       */
     function getUsage()
     {
@@ -49,13 +49,13 @@ EOS;
     }
      
     /**
-     * ¥³¥Ş¥ó¥É¤Î¼ÂÁõÉôÊ¬
+     * ã‚³ãƒãƒ³ãƒ‰ã®å®Ÿè£…éƒ¨åˆ†
      * 
-     * ¥Æ¥¹¥È¥±¡¼¥¹¥Õ¥¡¥¤¥ëÀ¸À®¤ò¹Ô¤¦
+     * ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆã‚’è¡Œã†
      * 
      * @access protected
-     * @return mixed ¼Â¹Ô·ë²Ì: TRUE: À®¸ù
-     *                         Ethna_Error: ¥¨¥é¡¼
+     * @return mixed å®Ÿè¡Œçµæœ: TRUE: æˆåŠŸ
+     *                         Ethna_Error: ã‚¨ãƒ©ãƒ¼
      */
     function &perform()
     {

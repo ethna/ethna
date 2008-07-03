@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Config
 /**
- *  ÀßÄê¥¯¥é¥¹
+ *  è¨­å®šã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,29 +23,29 @@ class Ethna_Config
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
     
-    /** @var    array   ÀßÄêÆâÍÆ */
+    /** @var    array   è¨­å®šå†…å®¹ */
     var $config = null;
 
     /**#@-*/
 
 
     /**
-     *  Ethna_Config¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Configã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    controller¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Config(&$controller)
     {
         $this->controller =& $controller;
 
-        // ÀßÄê¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¹ş¤ß
+        // è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
         $r = $this->_getConfig();
         if (Ethna::isError($r)) {
-            // ¤³¤Î»şÅÀ¤Ç¤ÏloggingÅù¤Ï½ĞÍè¤Ê¤¤(Logger¥ª¥Ö¥¸¥§¥¯¥È¤¬À¸À®¤µ¤ì¤Æ¤¤¤Ê¤¤)
+            // ã“ã®æ™‚ç‚¹ã§ã¯loggingç­‰ã¯å‡ºæ¥ãªã„(Loggerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç”Ÿæˆã•ã‚Œã¦ã„ãªã„)
             $fp = fopen("php://stderr", "r");
             fputs($fp, sprintf("error occured while reading config file(s) [%s]\n"), $r->getInfo(0));
             fclose($fp);
@@ -54,11 +54,11 @@ class Ethna_Config
     }
 
     /**
-     *  ÀßÄêÃÍ¤Ø¤Î¥¢¥¯¥»¥µ(R)
+     *  è¨­å®šå€¤ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(R)
      *
      *  @access public
-     *  @param  string  $key    ÀßÄê¹àÌÜÌ¾
-     *  @return string  ÀßÄêÃÍ
+     *  @param  string  $key    è¨­å®šé …ç›®å
+     *  @return string  è¨­å®šå€¤
      */
     function get($key = null)
     {
@@ -72,11 +72,11 @@ class Ethna_Config
     }
 
     /**
-     *  ÀßÄêÃÍ¤Ø¤Î¥¢¥¯¥»¥µ(W)
+     *  è¨­å®šå€¤ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ(W)
      *
      *  @access public
-     *  @param  string  $key    ÀßÄê¹àÌÜÌ¾
-     *  @param  string  $value  ÀßÄêÃÍ
+     *  @param  string  $key    è¨­å®šé …ç›®å
+     *  @param  string  $value  è¨­å®šå€¤
      */
     function set($key, $value)
     {
@@ -84,10 +84,10 @@ class Ethna_Config
     }
 
     /**
-     *  ÀßÄê¥Õ¥¡¥¤¥ë¤ò¹¹¿·¤¹¤ë
+     *  è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›´æ–°ã™ã‚‹
      *
      *  @access public
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function update()
     {
@@ -95,10 +95,10 @@ class Ethna_Config
     }
 
     /**
-     *  ÀßÄê¥Õ¥¡¥¤¥ë¤òÆÉ¤ß¹ş¤à
+     *  è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
      *
      *  @access private
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function _getConfig()
     {
@@ -115,7 +115,7 @@ class Ethna_Config
             Ethna_Util::unlockFile($lh);
         }
 
-        // ¥Ç¥Õ¥©¥ë¥ÈÃÍÀßÄê
+        // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤è¨­å®š
         if (isset($_SERVER['HTTP_HOST']) && isset($config['url']) == false) {
             $config['url'] = sprintf("http://%s", $_SERVER['HTTP_HOST']);
         }
@@ -138,10 +138,10 @@ class Ethna_Config
     }
 
     /**
-     *  ÀßÄê¥Õ¥¡¥¤¥ë¤Ë½ñ¤­¹ş¤à
+     *  è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€
      *
      *  @access private
-     *  @return mixed   0:Àµ¾ï½ªÎ» Ethna_Error:¥¨¥é¡¼
+     *  @return mixed   0:æ­£å¸¸çµ‚äº† Ethna_Error:ã‚¨ãƒ©ãƒ¼
      */
     function _setConfig()
     {
@@ -154,7 +154,7 @@ class Ethna_Config
 
         $fp = fopen($file, 'w');
         if ($fp == null) {
-            return Ethna::raiseError("¥Õ¥¡¥¤¥ë½ñ¤­¹ş¤ß¥¨¥é¡¼[%s]", E_APP_WRITE, $file);
+            return Ethna::raiseError("File Write Error [%s]", E_APP_WRITE, $file);
         }
         fwrite($fp, "<?php\n");
         fwrite($fp, sprintf("/*\n * %s\n *\n * update: %s\n */\n", basename($file), strftime('%Y/%m/%d %H:%M:%S')));
@@ -171,7 +171,7 @@ class Ethna_Config
     }
 
     /**
-     *  ÀßÄê¥Õ¥¡¥¤¥ë¤ËÀßÄêÃÍ¤ò½ñ¤­¹ş¤à
+     *  è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«è¨­å®šå€¤ã‚’æ›¸ãè¾¼ã‚€
      *
      *  @access private
      */
@@ -190,10 +190,10 @@ class Ethna_Config
     }
 
     /**
-     *  ÀßÄê¥Õ¥¡¥¤¥ëÌ¾¤ò¼èÆÀ¤¹¤ë
+     *  è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹
      *
      *  @access private
-     *  @return string  ÀßÄê¥Õ¥¡¥¤¥ë¤Ø¤Î¥Õ¥ë¥Ñ¥¹Ì¾
+     *  @return string  è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®ãƒ•ãƒ«ãƒ‘ã‚¹å
      */
     function _getConfigFile()
     {

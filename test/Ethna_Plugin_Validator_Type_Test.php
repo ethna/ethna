@@ -1,134 +1,151 @@
 <?php
+// vim: foldmethod=marker
 /**
  *  Ethna_Plugin_Validator_Type_Test.php
  */
 
 /**
- *  Ethna_Plugin_Validator_Type¥¯¥é¥¹¤Î¥Æ¥¹¥È¥±¡¼¥¹
+ *  Ethna_Plugin_Validator_Typeã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  *
  *  @access public
  */
 class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
 {
-    function testCheckValidatorType()
+    var $vld;
+
+    function setUp()
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
-        $vld = $plugin->getPlugin('Validator', 'Type');
+        $this->vld = $plugin->getPlugin('Validator', 'Type');
+    }
 
+    // {{{ check Type Integer
+    function test_Check_Type_Integer()
+    {
         $form_int = array(
                           'type'          => VAR_TYPE_INT,
                           'required'      => true,
-                          'error'         => '{form}¤Ë¤Ï¿ô»ú(À°¿ô)¤òÆþÎÏ¤·¤Æ²¼¤µ¤¤'
+                          'error'         => '{form}ã«ã¯æ•°å­—(æ•´æ•°)ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„'
                           );
-        $vld->af->setDef('namae_int', $form_int);
+        $this->vld->af->setDef('namae_int', $form_int);
 
-        $pear_error = $vld->validate('namae_int', 10, $form_int);
+        $pear_error = $this->vld->validate('namae_int', 10, $form_int);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_int', '', $form_int);
+        $pear_error = $this->vld->validate('namae_int', '', $form_int);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_int', '76', $form_int);
+        $pear_error = $this->vld->validate('namae_int', '76', $form_int);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // À°¿ô°Ê³°¤ÎÊ¸»úÎó¤¬ÆþÎÏ¤µ¤ì¤¿
-        $pear_error = $vld->validate('namae_int', '11asd', $form_int);
+        // æ•´æ•°ä»¥å¤–ã®æ–‡å­—åˆ—ãŒå…¥åŠ›ã•ã‚ŒãŸ
+        $pear_error = $this->vld->validate('namae_int', '11asd', $form_int);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_WRONGTYPE_INT, $pear_error->getCode());
         $this->assertEqual($form_int['error'], $pear_error->getMessage());
 
-        // À°¿ô°Ê³°¤ÎÊ¸»úÎó¤¬ÆþÎÏ¤µ¤ì¤¿
-        $pear_error = $vld->validate('namae_int', '7.6', $form_int);
+        // æ•´æ•°ä»¥å¤–ã®æ–‡å­—åˆ—ãŒå…¥åŠ›ã•ã‚ŒãŸ
+        $pear_error = $this->vld->validate('namae_int', '7.6', $form_int);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_WRONGTYPE_INT, $pear_error->getCode());
         $this->assertEqual($form_int['error'], $pear_error->getMessage());
+    }
+    // }}}
 
-
-
+    // {{{ check Type Float 
+    function test_Check_Type_Float()
+    {
         $form_float = array(
                             'type'          => VAR_TYPE_FLOAT,
                             'required'      => true,
-                            'error'         => '{form}¤Ë¤Ï¿ô»ú(¾®¿ô)¤òÆþÎÏ¤·¤Æ²¼¤µ¤¤'
+                            'error'         => '{form}ã«ã¯æ•°å­—(å°æ•°)ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„'
                             );
-        $vld->af->setDef('namae_float', $form_float);
+        $this->vld->af->setDef('namae_float', $form_float);
 
-        $pear_error = $vld->validate('namae_float', 10.1, $form_float);
+        $pear_error = $this->vld->validate('namae_float', 10.1, $form_float);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_float', 10, $form_float);
+        $pear_error = $this->vld->validate('namae_float', 10, $form_float);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_float', '', $form_float);
+        $pear_error = $this->vld->validate('namae_float', '', $form_float);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // ¿ô»ú°Ê³°¤ÎÊ¸»úÎó¤¬ÆþÎÏ¤µ¤ì¤¿
-        $pear_error = $vld->validate('namae_float', '1-0.1', $form_float);
+        // æ•°å­—ä»¥å¤–ã®æ–‡å­—åˆ—ãŒå…¥åŠ›ã•ã‚ŒãŸ
+        $pear_error = $this->vld->validate('namae_float', '1-0.1', $form_float);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_WRONGTYPE_FLOAT, $pear_error->getCode());
         $this->assertEqual($form_float['error'], $pear_error->getMessage());
+    }
+    // }}}
 
-
-
+    // {{{ check Type Boolean 
+    function test_Check_Type_Boolean()
+    {
         $form_boolean = array(
                              'type'          => VAR_TYPE_BOOLEAN,
                              'required'      => true,
-                             'error'         => '{form}¤Ë¤Ï1¤Þ¤¿¤Ï0¤Î¤ßÆþÎÏ¤Ç¤­¤Þ¤¹'
+                             'error'         => '{form}ã«ã¯1ã¾ãŸã¯0ã®ã¿å…¥åŠ›ã§ãã¾ã™'
                              );
-        $vld->af->setDef('namae_boolean', $form_boolean);
+        $this->vld->af->setDef('namae_boolean', $form_boolean);
 
-        $pear_error = $vld->validate('namae_boolean', 1, $form_boolean);
+        $pear_error = $this->vld->validate('namae_boolean', 1, $form_boolean);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_boolean', 0, $form_boolean);
+        $pear_error = $this->vld->validate('namae_boolean', 0, $form_boolean);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        $pear_error = $vld->validate('namae_boolean', '', $form_boolean);
+        $pear_error = $this->vld->validate('namae_boolean', '', $form_boolean);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // 0,1°Ê³°¤ÎÊ¸»ú¤¬ÆþÎÏ¤µ¤ì¤¿
-        $pear_error = $vld->validate('namae_boolean', 'aaa', $form_boolean);
+        // 0,1ä»¥å¤–ã®æ–‡å­—ãŒå…¥åŠ›ã•ã‚ŒãŸ
+        $pear_error = $this->vld->validate('namae_boolean', 'aaa', $form_boolean);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_WRONGTYPE_BOOLEAN, $pear_error->getCode());
         $this->assertEqual($form_boolean['error'], $pear_error->getMessage());
 
-        // 0,1°Ê³°¤ÎÊ¸»ú¤¬ÆþÎÏ¤µ¤ì¤¿
-        $pear_error = $vld->validate('namae_boolean', 10.1, $form_boolean);
+        // 0,1ä»¥å¤–ã®æ–‡å­—ãŒå…¥åŠ›ã•ã‚ŒãŸ
+        $pear_error = $this->vld->validate('namae_boolean', 10.1, $form_boolean);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_WRONGTYPE_BOOLEAN, $pear_error->getCode());
         $this->assertEqual($form_boolean['error'], $pear_error->getMessage());
+    }
+    // }}}
 
-
-
+    // {{{ check Type Datetime 
+    function test_Check_Type_Datetime()
+    { 
         $form_datetime = array(
                                'type'          => VAR_TYPE_DATETIME,
                                'required'      => true,
-                               'error'         => '{form}¤Ë¤ÏÆüÉÕ¤òÆþÎÏ¤·¤Æ²¼¤µ¤¤'
+                               'error'         => '{form}ã«ã¯æ—¥ä»˜ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„'
                                );
-        $vld->af->setDef('namae_datetime', $form_datetime);
+        $this->vld->af->setDef('namae_datetime', $form_datetime);
 
-        // Àµ¾ï¤ÊÆüÉÕ
-        $pear_error = $vld->validate('namae_datetime', "July 1, 2000 00:00:00 UTC", $form_datetime);
+        // æ­£å¸¸ãªæ—¥ä»˜
+        $pear_error = $this->vld->validate('namae_datetime', "July 1, 2000 00:00:00 UTC", $form_datetime);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
-        $pear_error = $vld->validate('namae_datetime', "+89 day", $form_datetime);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
-
-        // empty ¤Ï required ¤Ç¤ä¤ë¤Î¤Ç type ¤Ç¤Ï¥Á¥§¥Ã¥¯¤·¤Ê¤¤
-        $pear_error = $vld->validate('namae_datetime', "", $form_datetime);
+        $pear_error = $this->vld->validate('namae_datetime', "+89 day", $form_datetime);
         $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
 
-        // ÆüÉÕ¤ËÊÑ´¹¤Ç¤­¤Ê¤¤Ê¸»úÎó¤¬ÆþÎÏ¤µ¤ì¤¿
-        $pear_error = $vld->validate('namae_datetime', "monkey", $form_datetime);
+        // empty ã¯ required ã§ã‚„ã‚‹ã®ã§ type ã§ã¯ãƒã‚§ãƒƒã‚¯ã—ãªã„
+        $pear_error = $this->vld->validate('namae_datetime', "", $form_datetime);
+        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+
+        // æ—¥ä»˜ã«å¤‰æ›ã§ããªã„æ–‡å­—åˆ—ãŒå…¥åŠ›ã•ã‚ŒãŸ
+        $pear_error = $this->vld->validate('namae_datetime', "monkey", $form_datetime);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_WRONGTYPE_DATETIME, $pear_error->getCode());
         $this->assertEqual($form_datetime['error'], $pear_error->getMessage());
 
-        // ÆüÉÕ¤ËÊÑ´¹¤Ç¤­¤Ê¤¤Ê¸»úÎó¤¬ÆþÎÏ¤µ¤ì¤¿
-        $pear_error = $vld->validate('namae_datetime', "--1", $form_datetime);
+        // æ—¥ä»˜ã«å¤‰æ›ã§ããªã„æ–‡å­—åˆ—ãŒå…¥åŠ›ã•ã‚ŒãŸ
+        $pear_error = $this->vld->validate('namae_datetime', "--1", $form_datetime);
         $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
         $this->assertEqual(E_FORM_WRONGTYPE_DATETIME, $pear_error->getCode());
         $this->assertEqual($form_datetime['error'], $pear_error->getMessage());
-
     }
+    // }}}
 }
+
 ?>

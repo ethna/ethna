@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html;charset=EUC-JP" />
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
         <style type="text/css">
         <!--
         {literal}
@@ -86,20 +86,20 @@
                     <th colspan="3"><a name="action_{$action_name}"></a>{$action_name}</th>
                 </tr>
                 <tr>
-                    <td class="e">¥¢¥¯¥·¥ç¥ó¥¯¥é¥¹</td>
+                    <td class="e">ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹</td>
                     <td class="v" colspan="2">
-                        {$action.action_class}{if $action.action_class_info.undef}<i>(Ì¤ÄêµÁ)</li>{/if}
+                        {$action.action_class}{if $action.action_class_info.undef}<i>(æœªå®šç¾©)</i>{/if}
                     </td>
                 </tr>
                 <tr>
-                    <td class="e">¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à</td>
-                    <td class="v" colspan="2">{$action.action_form|default:"<i>(Ì¤ÄêµÁ)</i>"}{if $action.action_form_info.undef}<i>(Ì¤ÄêµÁ)</li>{/if}</td>
+                    <td class="e">ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ </td>
+                    <td class="v" colspan="2">{$action.action_form|default:"<i>(æœªå®šç¾©)</i>"}{if $action.action_form_info.undef}<i>(æœªå®šç¾©)</i>{/if}</td>
                 </tr>
                 <tr>
                     {if $action.action_form_info.form|@count == 0}
-                    <td class="e">¥Õ¥©¡¼¥àÃÍ</td>
+                    <td class="e">ãƒ•ã‚©ãƒ¼ãƒ å€¤</td>
                     {else}
-                    <td class="e" rowspan="{$action.action_form_info.form|@count}">¥Õ¥©¡¼¥àÃÍ</td>
+                    <td class="e" rowspan="{$action.action_form_info.form|@count}">ãƒ•ã‚©ãƒ¼ãƒ å€¤</td>
                     {/if}
                     {foreach name="form" from=$action.action_form_info.form key=form_name item=form}
                         {if !$smarty.foreach.form.first}<tr>{/if}
@@ -107,40 +107,40 @@
                         <td class="v">
                             <table cellpadding="1">
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">É½¼¨Ì¾</td>
-                                    <td style="border:0px; font-size:100%;">{$form.name|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                                    <td style="border:0px; font-size:100%;">è¡¨ç¤ºå</td>
+                                    <td style="border:0px; font-size:100%;">{$form.name|default:"<i>æœªå®šç¾©</i>"}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">É¬¿Ü</td>
+                                    <td style="border:0px; font-size:100%;">å¿…é ˆ</td>
                                     <td style="border:0px; font-size:100%;">{$form.required|default:"false"}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">ºÇÂçÃÍ</td>
-                                    <td style="border:0px; font-size:100%;">{$form.max|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                                    <td style="border:0px; font-size:100%;">æœ€å¤§å€¤</td>
+                                    <td style="border:0px; font-size:100%;">{$form.max|default:"<i>æœªå®šç¾©</i>"}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">ºÇ¾®ÃÍ</td>
-                                    <td style="border:0px; font-size:100%;">{$form.min|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                                    <td style="border:0px; font-size:100%;">æœ€å°å€¤</td>
+                                    <td style="border:0px; font-size:100%;">{$form.min|default:"<i>æœªå®šç¾©</i>"}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">Àµµ¬É½¸½</td>
-                                    <td style="border:0px; font-size:100%;">{$form.regexp|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                                    <td style="border:0px; font-size:100%;">æ­£è¦è¡¨ç¾</td>
+                                    <td style="border:0px; font-size:100%;">{$form.regexp|default:"<i>æœªå®šç¾©</i>"}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">¥Á¥§¥Ã¥¯¥á¥½¥Ã¥É</td>
-                                    <td style="border:0px; font-size:100%;">{$form.custom|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                                    <td style="border:0px; font-size:100%;">ãƒã‚§ãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰</td>
+                                    <td style="border:0px; font-size:100%;">{$form.custom|default:"<i>æœªå®šç¾©</i>"}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">ÊÑ´¹¥Õ¥£¥ë¥¿</td>
-                                    <td style="border:0px; font-size:100%;">{$form.filter|default:"<i>Ì¤ÄêµÁ</i>"|nl2br}</td>
+                                    <td style="border:0px; font-size:100%;">å¤‰æ›ãƒ•ã‚£ãƒ«ã‚¿</td>
+                                    <td style="border:0px; font-size:100%;">{$form.filter|default:"<i>æœªå®šç¾©</i>"|nl2br}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">¥Õ¥©¡¼¥à¥¿¥¤¥×</td>
-                                    <td style="border:0px; font-size:100%;">{$form.form_type|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                                    <td style="border:0px; font-size:100%;">ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚¤ãƒ—</td>
+                                    <td style="border:0px; font-size:100%;">{$form.form_type|default:"<i>æœªå®šç¾©</i>"}</td>
                                 </tr>
                                 <tr>
-                                    <td style="border:0px; font-size:100%;">¥¿¥¤¥×</td>
-                                    <td style="border:0px; font-size:100%;">{$form.type|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                                    <td style="border:0px; font-size:100%;">ã‚¿ã‚¤ãƒ—</td>
+                                    <td style="border:0px; font-size:100%;">{$form.type|default:"<i>æœªå®šç¾©</i>"}</td>
                                 </tr>
                             </table>
                         </td>
@@ -151,9 +151,9 @@
                 </tr>
                 <tr>
                     {if $action.action_class_info.return.prepare|@count == 0}
-                    <td class="e">Á«°ÜÀè(prepare)</td>
+                    <td class="e">é·ç§»å…ˆ(prepare)</td>
                     {else}
-                    <td class="e" rowspan="{$action.action_class_info.return.prepare|@count}">Á«°ÜÀè(prepare)</td>
+                    <td class="e" rowspan="{$action.action_class_info.return.prepare|@count}">é·ç§»å…ˆ(prepare)</td>
                     {/if}
                     {foreach name="return_prepare" from=$action.action_class_info.return.prepare item=forward}
                         {if !$smarty.foreach.return_prepare.first}<tr>{/if}
@@ -169,9 +169,9 @@
                 </tr>
                 <tr>
                     {if $action.action_class_info.return.perform|@count == 0}
-                    <td class="e" >Á«°ÜÀè(perform)</td>
+                    <td class="e" >é·ç§»å…ˆ(perform)</td>
                     {else}
-                    <td class="e" rowspan="{$action.action_class_info.return.perform|@count}">Á«°ÜÀè(perform)</td>
+                    <td class="e" rowspan="{$action.action_class_info.return.perform|@count}">é·ç§»å…ˆ(perform)</td>
                     {/if}
                     {foreach name="return_perform" from=$action.action_class_info.return.perform item=forward}
                         {if !$smarty.foreach.return_perform.first}<tr>{/if}
@@ -197,11 +197,11 @@
                     </th>
                 </tr>
                 <tr>
-                    <td class="e">¥Ó¥å¡¼¥¯¥é¥¹</td>
-                    <td class="v">{$forward.view_class|default:"<i>Ì¤ÄêµÁ</i>"}</td>
+                    <td class="e">ãƒ“ãƒ¥ãƒ¼ã‚¯ãƒ©ã‚¹</td>
+                    <td class="v">{$forward.view_class|default:"<i>æœªå®šç¾©</i>"}</td>
                 </tr>
                 <tr>
-                    <td class="e">¥Æ¥ó¥×¥ì¡¼¥È¥Õ¥¡¥¤¥ë</td>
+                    <td class="e">ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«</td>
                     <td class="v">{$forward.template_file}</td>
                 </tr>
                 {/foreach}

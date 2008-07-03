@@ -10,7 +10,7 @@
  */
 
 /**
- *  енеуе├е╖ехе▐е═б╝е╕еуепеще╣(еэб╝елеые╒ебедеыенеуе├е╖ех╚╟)
+ *  уВнуГгуГГуВ╖уГеуГЮуГНуГ╝уВ╕уГгуВпуГйуВ╣(уГнуГ╝уВлуГлуГХуВбуВдуГлуВнуГгуГГуВ╖уГечЙИ)
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,25 +23,25 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     /**#@-*/
 
     /**
-     *  енеуе├е╖ехд╦└▀─ъд╡дьд┐├═дЄ╝ш╞└д╣ды
+     *  уВнуГгуГГуВ╖уГеуБлшинхоЪуБХуВМуБЯхАдуВТхПЦх╛ЧуБЩуВЛ
      *
-     *  енеуе├е╖ехд╦├═дм└▀─ъд╡дьд╞ддды╛ь╣чд╧енеуе├е╖ех├═
-     *  дм╠сдъ├═д╚д╩дыбгенеуе├е╖ехд╦├═дм╠╡дд╛ь╣чдфlifetime
-     *  дЄ▓сдод╞ддды╛ь╣чбвеиещб╝дм╚п└╕д╖д┐╛ь╣чд╧PEAR_Error
-     *  еке╓е╕езепе╚дм╠сдъ├═д╚д╩дыбг
+     *  уВнуГгуГГуВ╖уГеуБлхАдуБМшинхоЪуБХуВМуБжуБДуВЛха┤хРИуБпуВнуГгуГГуВ╖уГехАд
+     *  уБМцИ╗уВКхАдуБиуБкуВЛуАВуВнуГгуГГуВ╖уГеуБлхАдуБМчДбуБДха┤хРИуВДlifetime
+     *  уВТщБОуБОуБжуБДуВЛха┤хРИуАБуВиуГйуГ╝уБМчЩ║чФЯуБЧуБЯха┤хРИуБпPEAR_Error
+     *  уВкуГЦуВ╕уВзуВпуГИуБМцИ╗уВКхАдуБиуБкуВЛуАВ
      *
      *  @access public
-     *  @param  string  $key        енеуе├е╖ехенб╝
-     *  @param  int     $lifetime   енеуе├е╖ех═н╕·┤№┤╓
-     *  @param  string  $namespace  енеуе├е╖ехе═б╝ере╣е┌б╝е╣
-     *  @return array   енеуе├е╖ех├═
+     *  @param  string  $key        уВнуГгуГГуВ╖уГеуВнуГ╝
+     *  @param  int     $lifetime   уВнуГгуГГуВ╖уГецЬЙхК╣цЬЯщЦУ
+     *  @param  string  $namespace  уВнуГгуГГуВ╖уГеуГНуГ╝уГауВ╣уГЪуГ╝уВ╣
+     *  @return array   уВнуГгуГГуВ╖уГехАд
      */
     function get($key, $lifetime = null, $namespace = null)
     {
         $namespace = is_null($namespace) ? $this->namespace : $namespace;
         $cache_file = $this->_getCacheFile($namespace, $key);
 
-        // ещеде╒е┐едере┴езе├еп
+        // уГйуВдуГХуВ┐уВдуГауГБуВзуГГуВп
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
@@ -57,7 +57,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         if ($fp == false) {
             return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
         }
-        // еэе├еп
+        // уГнуГГуВп
         $timeout = 3;
         while ($timeout > 0) {
             $r = flock($fp, LOCK_EX|LOCK_NB);
@@ -94,12 +94,12 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  енеуе├е╖ехд╬║╟╜к╣╣┐╖╞№╗■дЄ╝ш╞└д╣ды
+     *  уВнуГгуГГуВ╖уГеуБоцЬАч╡ВцЫ┤цЦ░цЧецЩВуВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access public
-     *  @param  string  $key        енеуе├е╖ехенб╝
-     *  @param  string  $namespace  енеуе├е╖ехе═б╝ере╣е┌б╝е╣
-     *  @return int     ║╟╜к╣╣┐╖╞№╗■(unixtime)
+     *  @param  string  $key        уВнуГгуГГуВ╖уГеуВнуГ╝
+     *  @param  string  $namespace  уВнуГгуГГуВ╖уГеуГНуГ╝уГауВ╣уГЪуГ╝уВ╣
+     *  @return int     цЬАч╡ВцЫ┤цЦ░цЧецЩВ(unixtime)
      */
     function getLastModified($key, $namespace = null)
     {
@@ -115,19 +115,19 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ├═дменеуе├е╖ехд╡дьд╞дддыдлд╔дждлдЄ╝ш╞└д╣ды
+     *  хАдуБМуВнуГгуГГуВ╖уГеуБХуВМуБжуБДуВЛуБЛуБйуБЖуБЛуВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access public
-     *  @param  string  $key        енеуе├е╖ехенб╝
-     *  @param  int     $lifetime   енеуе├е╖ех═н╕·┤№┤╓
-     *  @param  string  $namespace  енеуе├е╖ехе═б╝ере╣е┌б╝е╣
+     *  @param  string  $key        уВнуГгуГГуВ╖уГеуВнуГ╝
+     *  @param  int     $lifetime   уВнуГгуГГуВ╖уГецЬЙхК╣цЬЯщЦУ
+     *  @param  string  $namespace  уВнуГгуГГуВ╖уГеуГНуГ╝уГауВ╣уГЪуГ╝уВ╣
      */
     function isCached($key, $lifetime = null, $namespace = null)
     {
         $namespace = is_null($namespace) ? $this->namespace : $namespace;
         $cache_file = $this->_getCacheFile($namespace, $key);
 
-        // ещеде╒е┐едере┴езе├еп
+        // уГйуВдуГХуВ┐уВдуГауГБуВзуГГуВп
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
@@ -143,20 +143,20 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  енеуе├е╖ехд╦├═дЄ└▀─ъд╣ды
+     *  уВнуГгуГГуВ╖уГеуБлхАдуВТшинхоЪуБЩуВЛ
      *
      *  @access public
-     *  @param  string  $key        енеуе├е╖ехенб╝
-     *  @param  mixed   $value      енеуе├е╖ех├═
-     *  @param  int     $timestamp  енеуе├е╖ех║╟╜к╣╣┐╖╗■╣я(unixtime)
-     *  @param  string  $namespace  енеуе├е╖ехе═б╝ере╣е┌б╝е╣
+     *  @param  string  $key        уВнуГгуГГуВ╖уГеуВнуГ╝
+     *  @param  mixed   $value      уВнуГгуГГуВ╖уГехАд
+     *  @param  int     $timestamp  уВнуГгуГГуВ╖уГецЬАч╡ВцЫ┤цЦ░цЩВхИ╗(unixtime)
+     *  @param  string  $namespace  уВнуГгуГГуВ╖уГеуГНуГ╝уГауВ╣уГЪуГ╝уВ╣
      */
     function set($key, $value, $timestamp = null, $namespace = null)
     {
         $namespace = is_null($namespace) ? $this->namespace : $namespace;
         $dir = $this->_getCacheDir($namespace, $key);
 
-        // енеуе├е╖ехе╟егеьепе╚еъе┴езе├еп
+        // уВнуГгуГГуВ╖уГеуГЗуВгуГмуВпуГИуГкуГБуВзуГГуВп
         $r = Ethna_Util::mkdir($dir, 0777);
         if ($r == false && is_dir($dir) == false) {
             return Ethna::raiseError('mkdir(%s) failed', E_USER_WARNING, $dir);
@@ -168,7 +168,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('fopen failed', E_CACHE_GENERAL);
         }
 
-        // еэе├еп
+        // уГнуГГуВп
         $timeout = 3;
         while ($timeout > 0) {
             $r = flock($fp, LOCK_EX|LOCK_NB);
@@ -199,11 +199,11 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  енеуе├е╖ех├═дЄ║я╜№д╣ды
+     *  уВнуГгуГГуВ╖уГехАдуВТхЙКщЩдуБЩуВЛ
      *
      *  @access public
-     *  @param  string  $key        енеуе├е╖ехенб╝
-     *  @param  string  $namespace  енеуе├е╖ехе═б╝ере╣е┌б╝е╣
+     *  @param  string  $key        уВнуГгуГГуВ╖уГеуВнуГ╝
+     *  @param  string  $namespace  уВнуГгуГГуВ╖уГеуГНуГ╝уГауВ╣уГЪуГ╝уВ╣
      */
     function clear($key, $namespace = null)
     {
@@ -216,7 +216,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  енеуе├е╖ех┬╨╛▌е╟егеьепе╚еъдЄ╝ш╞└д╣ды
+     *  уВнуГгуГГуВ╖уГехп╛ш▒буГЗуВгуГмуВпуГИуГкуВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access private
      */
@@ -235,7 +235,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
 
         $map = $this->config->get('cachemanager_localfile');
         $tmp_key = $namespace . "::" . $key;
-        // PHP░═┬╕:)
+        // PHPф╛ЭхнШ:)
         $dir = "default";
 
         if (is_array($map)) {
@@ -251,7 +251,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  енеуе├е╖ехе╒ебедеыдЄ╝ш╞└д╣ды
+     *  уВнуГгуГГуВ╖уГеуГХуВбуВдуГлуВТхПЦх╛ЧуБЩуВЛ
      *
      *  @access private
      */
@@ -261,7 +261,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  енб╝дЄе╒ебедеые╖е╣е╞ер═╤д╦еие╣е▒б╝е╫д╣ды
+     *  уВнуГ╝уВТуГХуВбуВдуГлуВ╖уВ╣уГЖуГачФиуБлуВиуВ╣уВ▒уГ╝уГЧуБЩуВЛ
      *
      *  @access private
      */

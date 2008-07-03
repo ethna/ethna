@@ -6,12 +6,12 @@
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
- *  @version    $Id: Ethna_Plugin_Urlhandler.php 425 2006-11-21 09:29:00Z ichii386 $
+ *  @version    $Id$
  */
 
 // {{{ Ethna_Plugin_Urlhandler
 /**
- *  Urlhandler¥×¥é¥°¥¤¥ó¤Î´ğÄì¥¯¥é¥¹
+ *  Urlhandlerãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®åŸºåº•ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,19 +23,19 @@ class Ethna_Plugin_Urlhandler
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend   backend¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Backend   backendã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $backend;
 
-    /** @var    object  Ethna_Logger    ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger    ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
 
     /**#@-*/
 
     /**
-     *  Ethna_Plugin_Urlhandler¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Plugin_Urlhandlerã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    $controller ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    $controller ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Plugin_Urlhandler(&$controller)
     {
@@ -44,7 +44,7 @@ class Ethna_Plugin_Urlhandler
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¤ò¥æ¡¼¥¶¥ê¥¯¥¨¥¹¥È¤ËÊÑ´¹¤¹¤ë
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒ¦ãƒ¼ã‚¶ãƒªã‚¯ã‚¨ã‚¹ãƒˆã«å¤‰æ›ã™ã‚‹
      *
      *  @param string $action
      *  @param array $param
@@ -57,7 +57,7 @@ class Ethna_Plugin_Urlhandler
     }
 
     /**
-     *  ¥æ¡¼¥¶¥ê¥¯¥¨¥¹¥È¤ò¥¢¥¯¥·¥ç¥ó¤ËÊÑ´¹¤¹¤ë
+     *  ãƒ¦ãƒ¼ã‚¶ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã«å¤‰æ›ã™ã‚‹
      *
      *  @param array $http_vars
      *  @access public
@@ -69,7 +69,7 @@ class Ethna_Plugin_Urlhandler
     }
 
     /**
-     *  ¥¢¥¯¥·¥ç¥ó¤ò¥ê¥¯¥¨¥¹¥È¥Ñ¥é¥á¡¼¥¿¤ËÊÑ´¹¤¹¤ë
+     *  ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹
      *
      *  @access public
      *  @param array $http_vars
@@ -87,7 +87,7 @@ class Ethna_Plugin_Urlhandler
     }
 
     /**
-     *  ¥Ñ¥é¥á¡¼¥¿¤òURL¤ËÊÑ´¹¤¹¤ë
+     *  ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’URLã«å¤‰æ›ã™ã‚‹
      *
      *  @access public
      *  @param array $query query list 

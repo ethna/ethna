@@ -23,13 +23,13 @@ class Ethna_Handle
      *  @access     private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
-    /** @var    object  Ethna_Pluguin       plugin¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Pluguin       pluginã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $plugin;
 
     /**#@-*/
@@ -94,8 +94,8 @@ class Ethna_Handle
 
     // {{{ getEthnaController
     /**
-     *  Ethna_Controller¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤ò¼èÆÀ¤¹¤ë
-     *  (Ethna_Handler¤ÎÊ¸Ì®¤Ç¸Æ¤Ó½Ğ¤µ¤ì¤ë¤³¤È¤¬Á°Äó)
+     *  Ethna_Controllerã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+     *  (Ethna_Handlerã®æ–‡è„ˆã§å‘¼ã³å‡ºã•ã‚Œã‚‹ã“ã¨ãŒå‰æ)
      *
      *  @access public
      *  @static
@@ -108,7 +108,7 @@ class Ethna_Handle
 
     // {{{ getAppController
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î¥³¥ó¥È¥í¡¼¥é¥Õ¥¡¥¤¥ë/¥¯¥é¥¹¤ò¸¡º÷¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ•ã‚¡ã‚¤ãƒ«/ã‚¯ãƒ©ã‚¹ã‚’æ¤œç´¢ã™ã‚‹
      *
      *  @access public
      *  @static
@@ -169,9 +169,9 @@ class Ethna_Handle
 
     // {{{ getMasterSetting
     /**
-     *  Ethna ËÜÂÎ¤ÎÀßÄê¤ò¼èÆÀ¤¹¤ë (ethna¥³¥Ş¥ó¥ÉÍÑ)
+     *  Ethna æœ¬ä½“ã®è¨­å®šã‚’å–å¾—ã™ã‚‹ (ethnaã‚³ãƒãƒ³ãƒ‰ç”¨)
      *
-     *  @param  $section    ini ¥Õ¥¡¥¤¥ë¤Î section
+     *  @param  $section    ini ãƒ•ã‚¡ã‚¤ãƒ«ã® section
      *  @access public
      */
     function &getMasterSetting($section = null)
@@ -199,7 +199,7 @@ class Ethna_Handle
 
     // {{{ handleError
     /**
-     *  Ethna ¥³¥Ş¥ó¥É¤Ç¤Î¥¨¥é¡¼¥Ï¥ó¥É¥ê¥ó¥°
+     *  Ethna ã‚³ãƒãƒ³ãƒ‰ã§ã®ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°
      */
     function handleError(&$eobj)
     {

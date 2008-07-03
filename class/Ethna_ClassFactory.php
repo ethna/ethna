@@ -11,11 +11,11 @@
 
 // {{{ Ethna_ClassFactory
 /**
- *  Ethna¥Õ¥ì¡¼¥à¥ï¡¼¥¯¤Î¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥²¡¼¥È¥¦¥§¥¤
+ *  Ethnaãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤
  *
- *  DI¥³¥ó¥Æ¥Ê¤«¡¢¤È¤¤¤¦¤³¤È¤â¹Í¤¨¤Ş¤·¤¿¤¬Ethna¤Ç¤Ï¤³¤ÎÄøÅÙ¤ÎÃ±½ã¤Ê¤â¤Î¤Ë
- *  Î±¤á¤Æ¤ª¤­¤Ş¤¹¡£¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥ì¥Ù¥ëDI¤·¤¿¤¤¾ì¹ç¤Ï¥Õ¥£¥ë¥¿¥Á¥§¥¤¥ó¤ò
- *  »È¤Ã¤Æ¼Â¸½¤¹¤ë¤³¤È¤â½ĞÍè¤Ş¤¹¡£
+ *  DIã‚³ãƒ³ãƒ†ãƒŠã‹ã€ã¨ã„ã†ã“ã¨ã‚‚è€ƒãˆã¾ã—ãŸãŒEthnaã§ã¯ã“ã®ç¨‹åº¦ã®å˜ç´”ãªã‚‚ã®ã«
+ *  ç•™ã‚ã¦ãŠãã¾ã™ã€‚ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¬ãƒ™ãƒ«DIã—ãŸã„å ´åˆã¯ãƒ•ã‚£ãƒ«ã‚¿ãƒã‚§ã‚¤ãƒ³ã‚’
+ *  ä½¿ã£ã¦å®Ÿç¾ã™ã‚‹ã“ã¨ã‚‚å‡ºæ¥ã¾ã™ã€‚
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -27,33 +27,33 @@ class Ethna_ClassFactory
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È(¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(çœç•¥å½¢) */
     var $ctl;
     
-    /** @var    array   ¥¯¥é¥¹ÄêµÁ */
+    /** @var    array   ã‚¯ãƒ©ã‚¹å®šç¾© */
     var $class = array();
 
-    /** @var    array   À¸À®ºÑ¤ß¥ª¥Ö¥¸¥§¥¯¥È¥­¥ã¥Ã¥·¥å */
+    /** @var    array   ç”Ÿæˆæ¸ˆã¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚­ãƒ£ãƒƒã‚·ãƒ¥ */
     var $object = array();
 
-    /** @var    array   À¸À®ºÑ¤ß¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥Ş¥Í¡¼¥¸¥ã¥ª¥Ö¥¸¥§¥¯¥È¥­¥ã¥Ã¥·¥å */
+    /** @var    array   ç”Ÿæˆæ¸ˆã¿ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚­ãƒ£ãƒƒã‚·ãƒ¥ */
     var $manager = array();
 
-    /** @var    array   ¥á¥½¥Ã¥É°ìÍ÷¥­¥ã¥Ã¥·¥å */
+    /** @var    array   ãƒ¡ã‚½ãƒƒãƒ‰ä¸€è¦§ã‚­ãƒ£ãƒƒã‚·ãƒ¥ */
     var $method_list = array();
 
     /**#@-*/
 
 
     /**
-     *  Ethna_ClassFactory¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_ClassFactoryã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    controller¥ª¥Ö¥¸¥§¥¯¥È
-     *  @param  array                       $class          ¥¯¥é¥¹ÄêµÁ
+     *  @param  object  Ethna_Controller    &$controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *  @param  array                       $class          ã‚¯ãƒ©ã‚¹å®šç¾©
      */
     function Ethna_ClassFactory(&$controller, $class)
     {
@@ -63,34 +63,38 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  type¤ËÂĞ±ş¤¹¤ë¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¥Ş¥Í¡¼¥¸¥ã¥ª¥Ö¥¸¥§¥¯¥È¤òÊÖ¤¹
+     *  typeã«å¯¾å¿œã™ã‚‹ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™
+     *  æ³¨æ„ï¼š typeã¯å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„
+     *         (PHPè‡ªä½“ãŒã€ã‚¯ãƒ©ã‚¹åã®å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„ãŸã‚)
      *
      *  @access public
-     *  @param  string  $type   ¥¯¥é¥¹¥­¡¼
-     *  @param  bool    $weak   ¥ª¥Ö¥¸¥§¥¯¥È¤¬Ì¤À¸À®¤Î¾ì¹ç¤Î¶¯À©À¸À®¥Õ¥é¥°(default: false)
-     *  @return object  Ethna_AppManager    ¥Ş¥Í¡¼¥¸¥ã¥ª¥Ö¥¸¥§¥¯¥È
-     *
-     *  TODO: ¸½¾õ¤Î¼ÂÁõ¤Ç¤Ï¡¢type¤òÌ¾Á°¤È¤·¤Æ°·¤Ã¤Æ¤¤¤ë¤Î¤Ë¡¢
-     *        ÂçÊ¸»ú¾®Ê¸»ú¤ò¶èÊÌ¤·¤Æ°ã¤¦¥¤¥ó¥¹¥¿¥ó¥¹¤òÊÖ¤·¤Æ¤¤¤ë¤Î¤ò½¤Àµ¤¹¤ë
+     *  @param  string  $type   ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼å
+     *  @param  bool    $weak   ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæœªç”Ÿæˆã®å ´åˆã®å¼·åˆ¶ç”Ÿæˆãƒ•ãƒ©ã‚°(default: false)
+     *  @return object  Ethna_AppManager    ãƒãƒãƒ¼ã‚¸ãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function &getManager($type, $weak = false)
     {
         $obj = null;
 
-        // check if object class exists
+        //  ã™ã§ã«includeã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€includeã‚’è©¦ã¿ã‚‹
+        //  ã“ã“ã§è¿”ã•ã‚Œã‚‹ã‚¯ãƒ©ã‚¹åã¯ã€AppObjectã®å‘½åè¦ç´„ã«ã‚ˆã‚‹ã‚‚ã®
+        //
+        //  ã“ã‚Œã¯ã€AppObject ã®ãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã«AppManagerãŒå«ã¾ã‚Œã‚‹å ´åˆãŒ
+        //  ã‚ã‚‹ãŸã‚å¿…è¦ãªãƒ«ãƒ¼ãƒãƒ³ã§ã‚ã‚‹
         $obj_class_name = $this->controller->getObjectClassName($type);
         if (class_exists($obj_class_name) === false) {
-            // try include.
             $this->_include($obj_class_name);
         }
 
-        // check if manager class exists
+        //  ã™ã§ã«includeã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€includeã‚’è©¦ã¿ã‚‹
+        //  ã“ã“ã§è¿”ã•ã‚Œã‚‹ã‚¯ãƒ©ã‚¹åã¯ã€AppManagerã®å‘½åè¦ç´„ã«ã‚ˆã‚‹ã‚‚ã®
         $class_name = $this->controller->getManagerClassName($type);
         if (class_exists($class_name) === false
             && $this->_include($class_name) === false) {
-            return $obj;
+            return $obj;  //  include å¤±æ•—ã€‚æˆ»ã‚Šå€¤ã¯NULLã€‚
         }
 
+        //  ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±ã‚’é›†ã‚ã‚‹ 
         if (isset($this->method_list[$class_name]) == false) {
             $this->method_list[$class_name] = get_class_methods($class_name);
             for ($i = 0; $i < count($this->method_list[$class_name]); $i++) {
@@ -98,14 +102,25 @@ class Ethna_ClassFactory
             }
         }
 
-        // see if this should be singlton or not
+        //  PHPã®ã‚¯ãƒ©ã‚¹åã¯å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„ã®ã§ã€
+        //  åŒã˜ã‚¯ãƒ©ã‚¹åã¨è¦‹åšã•ã‚Œã‚‹ã‚‚ã®ã‚’æŒ‡å®šã—ãŸå ´åˆã«ã¯
+        //  åŒã˜ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒè¿”ã‚‹ã‚ˆã†ã«ã™ã‚‹
+        $type = strtolower($type);
+
+        //  ä»¥ä¸‹ã®ãƒ«ãƒ¼ãƒ«ã«å¾“ã£ã¦ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒåˆ©ç”¨å¯èƒ½ã‹ã‚’åˆ¤å®šã™ã‚‹
+        //  åˆ©ç”¨å¯èƒ½ã¨åˆ¤æ–­ã—ãŸå ´åˆã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚Œã¦ã„ã‚Œã°ãã‚Œã‚’è¿”ã™
+        //
+        //  1. ãƒ¡ã‚½ãƒƒãƒ‰ã« getInstance ãŒã‚ã‚Œã°ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’åˆ©ç”¨å¯èƒ½ã¨åˆ¤æ–­ã™ã‚‹
+        //     ã“ã®å ´åˆã€ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‹ã©ã†ã‹ã¯ getInstance æ¬¡ç¬¬
+        //  2. weak ãŒ true ã§ã‚ã‚Œã°ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¯åˆ©ç”¨ä¸èƒ½ã¨åˆ¤æ–­ã—ã¦ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿæˆ
+        //  3. weak ãŒ false ã§ã‚ã‚Œã°ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¯åˆ©ç”¨å¯èƒ½ã¨åˆ¤æ–­ã™ã‚‹(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ) 
         if ($this->_isCacheAvailable($class_name, $this->method_list[$class_name], $weak)) {
             if (isset($this->manager[$type]) && is_object($this->manager[$type])) {
                 return $this->manager[$type];
             }
         }
 
-        // see if we have helper methods
+        //  ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã®ãƒ˜ãƒ«ãƒ‘(getInstance)ãŒã‚ã‚Œã°ãã‚Œã‚’ä½¿ã†
         if (in_array("getinstance", $this->method_list[$class_name])) {
             $obj = call_user_func(array($class_name, 'getInstance'));
         } else {
@@ -113,6 +128,7 @@ class Ethna_ClassFactory
             $obj =& new $class_name($backend);
         }
 
+        //  ç”Ÿæˆã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã¨ã‚Šã‚ãˆãšã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹
         if (isset($this->manager[$type]) == false || is_object($this->manager[$type]) == false) {
             $this->manager[$type] =& $obj;
         }
@@ -121,15 +137,15 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥¯¥é¥¹¥­¡¼¤ËÂĞ±ş¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤òÊÖ¤¹/¥¯¥é¥¹¥­¡¼¤¬Ì¤ÄêµÁ¤Î¾ì¹ç¤ÏAppObject¤òÃµ¤¹
+     *  ã‚¯ãƒ©ã‚¹ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™/ã‚¯ãƒ©ã‚¹ã‚­ãƒ¼ãŒæœªå®šç¾©ã®å ´åˆã¯AppObjectã‚’æ¢ã™
+     *  ã‚¯ãƒ©ã‚¹ã‚­ãƒ¼ã¨ã¯ã€[Appid]_Controller#class ã«å®šã‚ã‚‰ã‚ŒãŸã‚‚ã®ã€‚
      *
      *  @access public
-     *  @param  string  $key    ¥¯¥é¥¹¥­¡¼
-     *  @param  bool    $weak   ¥ª¥Ö¥¸¥§¥¯¥È¤¬Ì¤À¸À®¤Î¾ì¹ç¤Î¶¯À©À¸À®¥Õ¥é¥°(default: false)
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
-     *
-     *  TODO: ¸½¾õ¤Î¼ÂÁõ¤Ç¤Ï¡¢type¤òÌ¾Á°¤È¤·¤Æ°·¤Ã¤Æ¤¤¤ë¤Î¤Ë¡¢
-     *        ÂçÊ¸»ú¾®Ê¸»ú¤ò¶èÊÌ¤·¤Æ°ã¤¦¥¤¥ó¥¹¥¿¥ó¥¹¤òÊÖ¤·¤Æ¤¤¤ë¤Î¤ò½¤Àµ¤¹¤ë
+     *  @param  string  $key    [Appid]_Controller#class ã«å®šã‚ã‚‰ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‚­ãƒ¼
+     *                          ã“ã®ã‚­ãƒ¼ã¯å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã™ã‚‹ 
+     *                          (é…åˆ—ã®ã‚­ãƒ¼ã¨ã—ã¦ä½¿ã‚ã‚Œã¦ã„ã‚‹ãŸã‚)
+     *  @param  bool    $ext    ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæœªç”Ÿæˆã®å ´åˆã®å¼·åˆ¶ç”Ÿæˆãƒ•ãƒ©ã‚°(default: false)
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &getObject($key, $ext = false)
     {
@@ -148,20 +164,23 @@ class Ethna_ClassFactory
             list($weak) = $ext;
         }
 
-        // try to include if not defined
+        //  ã™ã§ã«includeã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€includeã‚’è©¦ã¿ã‚‹
         if (class_exists($class_name) == false) {
             if ($this->_include($class_name) == false) {
-                return $object;
+                return $object;  //  include å¤±æ•—ã€‚è¿”ã‚Šå€¤ã¯null
             }
         }
 
-        // handle app object first
+        //  AppObject ã‚’ã¯ã˜ã‚ã«æ‰±ã† 
+        //  AppObject ã¯ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚Œãªã„ã“ã¨ã«æ³¨æ„
         if (isset($this->class[$key]) == false) {
             $backend =& $this->controller->getBackend();
             $object =& new $class_name($backend, $key_type, $key_value, $prop);
             return $object;
         }
 
+        //  Ethna_Controllerã§å®šç¾©ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‚­ãƒ¼ã®å ´åˆ
+        //  ã¯ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±ã‚’é›†ã‚ã‚‹ 
         if (isset($this->method_list[$class_name]) == false) {
             $this->method_list[$class_name] = get_class_methods($class_name);
             for ($i = 0; $i < count($this->method_list[$class_name]); $i++) {
@@ -169,14 +188,20 @@ class Ethna_ClassFactory
             }
         }
 
-        // see if this should be singlton or not
+        //  ä»¥ä¸‹ã®ãƒ«ãƒ¼ãƒ«ã«å¾“ã£ã¦ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒåˆ©ç”¨å¯èƒ½ã‹ã‚’åˆ¤å®šã™ã‚‹
+        //  åˆ©ç”¨å¯èƒ½ã¨åˆ¤æ–­ã—ãŸå ´åˆã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚Œã¦ã„ã‚Œã°ãã‚Œã‚’è¿”ã™
+        //
+        //  1. ãƒ¡ã‚½ãƒƒãƒ‰ã« getInstance ãŒã‚ã‚Œã°ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’åˆ©ç”¨å¯èƒ½ã¨åˆ¤æ–­ã™ã‚‹
+        //     ã“ã®å ´åˆã€ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‹ã©ã†ã‹ã¯ getInstance æ¬¡ç¬¬
+        //  2. weak ãŒ true ã§ã‚ã‚Œã°ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¯åˆ©ç”¨ä¸èƒ½ã¨åˆ¤æ–­ã—ã¦ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿæˆ
+        //  3. weak ãŒ false ã§ã‚ã‚Œã°ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¯åˆ©ç”¨å¯èƒ½ã¨åˆ¤æ–­ã™ã‚‹(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ) 
         if ($this->_isCacheAvailable($class_name, $this->method_list[$class_name], $weak)) {
             if (isset($this->object[$key]) && is_object($this->object[$key])) {
                 return $this->object[$key];
             }
         }
 
-        // see if we have helper methods
+        //  ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã®ãƒ˜ãƒ«ãƒ‘ãŒã‚ã‚Œã°ãã‚Œã‚’ä½¿ã†
         $method = sprintf('_getObject_%s', ucfirst($key));
         if (method_exists($this, $method)) {
             $object =& $this->$method($class_name);
@@ -186,6 +211,8 @@ class Ethna_ClassFactory
             $object =& new $class_name();
         }
 
+        //  ã‚¯ãƒ©ã‚¹ã‚­ãƒ¼ã«å®šã‚ã‚‰ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¯
+        //  ã¨ã‚Šã‚ãˆãšã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹
         if (isset($this->object[$key]) == false || is_object($this->object[$key]) == false) {
             $this->object[$key] =& $object;
         }
@@ -194,11 +221,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥¯¥é¥¹¥­¡¼¤ËÂĞ±ş¤¹¤ë¥¯¥é¥¹Ì¾¤òÊÖ¤¹
+     *  ã‚¯ãƒ©ã‚¹ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ã‚¯ãƒ©ã‚¹åã‚’è¿”ã™
      *
      *  @access public
-     *  @param  string  $key    ¥¯¥é¥¹¥­¡¼
-     *  @return string  ¥¯¥é¥¹Ì¾
+     *  @param  string  $key    ã‚¯ãƒ©ã‚¹ã‚­ãƒ¼
+     *  @return string  ã‚¯ãƒ©ã‚¹å
      */
     function getObjectName($key)
     {
@@ -210,11 +237,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(backend)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(backend)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_Backend($class_name)
     {
@@ -223,11 +250,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(config)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(config)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_Config($class_name)
     {
@@ -236,11 +263,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(i18n)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(i18n)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_I18n($class_name)
     {
@@ -249,11 +276,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(logger)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(logger)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_Logger($class_name)
     {
@@ -262,11 +289,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(plugin)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(plugin)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_Plugin($class_name)
     {
@@ -275,11 +302,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(renderer)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(renderer)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_Renderer($class_name)
     {
@@ -288,11 +315,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(session)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(session)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_Session($class_name)
     {
@@ -301,11 +328,11 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  ¥ª¥Ö¥¸¥§¥¯¥ÈÀ¸À®¥á¥½¥Ã¥É(sql)
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆãƒ¡ã‚½ãƒƒãƒ‰(sql)
      *
      *  @access protected
-     *  @param  string  $class_name     ¥¯¥é¥¹Ì¾
-     *  @return object  À¸À®¤µ¤ì¤¿¥ª¥Ö¥¸¥§¥¯¥È(¥¨¥é¡¼¤Ê¤énull)
+     *  @param  string  $class_name     ã‚¯ãƒ©ã‚¹å
+     *  @return object  ç”Ÿæˆã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã‚¨ãƒ©ãƒ¼ãªã‚‰null)
      */
     function &_getObject_Sql($class_name)
     {
@@ -314,7 +341,7 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  »ØÄê¤µ¤ì¤¿¥¯¥é¥¹¤«¤éÁÛÄê¤µ¤ì¤ë¥Õ¥¡¥¤¥ë¤òinclude¤¹¤ë
+     *  æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‹ã‚‰æƒ³å®šã•ã‚Œã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’includeã™ã‚‹
      *
      *  @access protected
      */
@@ -374,7 +401,7 @@ class Ethna_ClassFactory
     }
 
     /**
-     *  »ØÄê¤µ¤ì¤¿¥¯¥é¥¹¤¬¥­¥ã¥Ã¥·¥å¤òÍøÍÑ²ÄÇ½¤«¤É¤¦¤«¤ò¥Á¥§¥Ã¥¯¤¹¤ë
+     *  æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’åˆ©ç”¨å¯èƒ½ã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
      *
      *  @access protected
      */

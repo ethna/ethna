@@ -11,7 +11,7 @@
 
 // {{{ Ethna_SOAP_Gateway
 /**
- *  SOAP¥²¡¼¥È¥¦¥§¥¤¤Î´ğÄì¥¯¥é¥¹
+ *  SOAPã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤ã®åŸºåº•ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -23,13 +23,13 @@ class Ethna_SOAP_Gateway
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $controller;
 
     /**#@-*/
 
     /**
-     *  Ethna_SOAP_Gateway¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_SOAP_Gatewayã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
      */
@@ -39,7 +39,7 @@ class Ethna_SOAP_Gateway
     }
 
     /**
-     *  SOAP¥¢¥¯¥·¥ç¥ó¤ò¼Â¹Ô¤¹¤ë
+     *  SOAPã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹
      *
      *  @access public
      */
@@ -49,10 +49,10 @@ class Ethna_SOAP_Gateway
     }
 
     /**
-     *  ¥¢¥×¥ê¥±¡¼¥·¥ç¥óÀßÄêÃÍ°ìÍ÷¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³è¨­å®šå€¤ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return array   ¥¢¥×¥ê¥±¡¼¥·¥ç¥óÀßÄêÃÍ°ìÍ÷
+     *  @return array   ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³è¨­å®šå€¤ä¸€è¦§
      */
     function &getApp()
     {
@@ -61,10 +61,10 @@ class Ethna_SOAP_Gateway
     }
 
     /**
-     *  ¥¨¥é¡¼¥³¡¼¥É¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return int     ¥¨¥é¡¼¥³¡¼¥É(null¤Ê¤é¥¨¥é¡¼Ìµ¤·)
+     *  @return int     ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰(nullãªã‚‰ã‚¨ãƒ©ãƒ¼ç„¡ã—)
      */
     function getErrorCode()
     {
@@ -73,7 +73,7 @@ class Ethna_SOAP_Gateway
             return null;
         }
         
-        // ºÇ½é¤Î1¤Ä¤òÊÖ¤¹
+        // æœ€åˆã®1ã¤ã‚’è¿”ã™
         $error_list = $action_error->getErrorList();
         $error =& $error_list[0];
 
@@ -81,10 +81,10 @@ class Ethna_SOAP_Gateway
     }
 
     /**
-     *  ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤ò¼èÆÀ¤¹¤ë
+     *  ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string  ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸(null¤Ê¤é¥¨¥é¡¼Ìµ¤·)
+     *  @return string  ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(nullãªã‚‰ã‚¨ãƒ©ãƒ¼ç„¡ã—)
      */
     function getErrorMessage()
     {
@@ -93,7 +93,7 @@ class Ethna_SOAP_Gateway
             return null;
         }
 
-        // ºÇ½é¤Î1¤Ä¤òÊÖ¤¹
+        // æœ€åˆã®1ã¤ã‚’è¿”ã™
         $message_list = $action_error->getMessageList();
         $message = $message_list[0];
 

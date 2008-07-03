@@ -11,9 +11,9 @@
 
 // {{{ Ethna_Plugin_Csrf
 /**
- *  CSRFÂĞºö´ğÄì¥¯¥é¥¹
+ *  CSRFå¯¾ç­–åŸºåº•ã‚¯ãƒ©ã‚¹
  *
- *  CSRFÂĞºö¤ò¥È¡¼¥¯¥ó¤òÍÑ¤¤¤ÆÂĞºö¤¹¤ë¤¿¤á¤Î¥³¡¼¥É
+ *  CSRFå¯¾ç­–ã‚’ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ç”¨ã„ã¦å¯¾ç­–ã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ‰
  *
  *  @author     Keita Arai <cocoiti@comio.info>
  *  @access     public
@@ -27,30 +27,30 @@ class Ethna_Plugin_Csrf
 
     var $controller;
 
-    /** @var    object  Ethna_Controller    controller¥ª¥Ö¥¸¥§¥¯¥È($controller¤Î¾ÊÎ¬·Á) */
+    /** @var    object  Ethna_Controller    controllerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ($controllerã®çœç•¥å½¢) */
     var $ctl;
 
-    /** @var    object  Ethna_Config        ÀßÄê¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Config        è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $config;
 
-    /** @var    object  Ethna_Logger        ¥í¥°¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  Ethna_Logger        ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $logger;
     
-    /** @var    string  ¶¦Í­¥È¡¼¥¯¥óÌ¾ */
+    /** @var    string  å…±æœ‰ãƒˆãƒ¼ã‚¯ãƒ³å */
     var $token_name = 'ethna_csrf';
     
     /**#@-*/
 
 
     /**
-     *  Ethna_Plugin_Csrf¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Plugin_Csrfã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    ¥³¥ó¥È¥í¡¼¥é¥ª¥Ö¥¸¥§¥¯¥È
+     *  @param  object  Ethna_Controller    &$controller    ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     function Ethna_Plugin_Csrf(&$controller)
     {
-        // ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÀßÄê
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¨­å®š
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
 
@@ -59,10 +59,10 @@ class Ethna_Plugin_Csrf
     }
     
     /**
-     *  ¥È¡¼¥¯¥ó¤òView¤È¥í¡¼¥«¥ë¥Õ¥¡¥¤¥ë¤Ë¥»¥Ã¥È¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³ã‚’Viewã¨ãƒ­ãƒ¼ã‚«ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚»ãƒƒãƒˆã™ã‚‹
      *
      *  @access public
-     *  @return string  ¥È¡¼¥¯¥ó¤ÎKey
+     *  @return string  ãƒˆãƒ¼ã‚¯ãƒ³ã®Key
      */
     function set()
     {
@@ -70,10 +70,10 @@ class Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥È¡¼¥¯¥óID¤ò¼èÆÀ¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string ¥È¡¼¥¯¥óID¤òÊÖ¤¹¡£
+     *  @return string ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’è¿”ã™ã€‚
      */
     function get()
     {
@@ -81,10 +81,10 @@ class Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥È¡¼¥¯¥óID¤òºï½ü¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
-     *  @return string ¥È¡¼¥¯¥óID¤òÊÖ¤¹¡£
+     *  @return string ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’è¿”ã™ã€‚
      */
     function remove()
     {
@@ -92,10 +92,10 @@ class Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥È¡¼¥¯¥óÌ¾¤ò¼èÆÀ¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³åã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @return string ¥È¡¼¥¯¥óÌ¾¤òÊÖ¤¹¡£
+     *  @return string ãƒˆãƒ¼ã‚¯ãƒ³åã‚’è¿”ã™ã€‚
      */
     function getName()
     {
@@ -103,10 +103,10 @@ class Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥È¡¼¥¯¥óID¤ò¸¡¾Ú¤¹¤ë
+     *  ãƒˆãƒ¼ã‚¯ãƒ³IDã‚’æ¤œè¨¼ã™ã‚‹
      *
      *  @access public
-     *  @return mixed  Àµ¾ï¤Î¾ì¹ç¤Ïtrue, ÉÔÀµ¤Î¾ì¹ç¤Ïfalse
+     *  @return mixed  æ­£å¸¸ã®å ´åˆã¯true, ä¸æ­£ã®å ´åˆã¯false
      */
     function isValid()
     {
@@ -126,7 +126,7 @@ class Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥­¡¼¤òÀ¸À®¤¹¤ë
+     *  ã‚­ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access public
      *  @return string  keyname
@@ -137,10 +137,10 @@ class Ethna_Plugin_Csrf
     }
 
     /**
-     *  ¥ê¥¯¥¨¥¹¥È¤«¤é¥È¡¼¥¯¥óID¤È¥ê¥¯¥¨¥¹¥ÈID¤òÈ´¤­½Ğ¤¹
+     *  ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‹ã‚‰ãƒˆãƒ¼ã‚¯ãƒ³IDã¨ãƒªã‚¯ã‚¨ã‚¹ãƒˆIDã‚’æŠœãå‡ºã™
      *
      *  @access public
-     *  @return mixed  Àµ¾ï¤Î¾ì¹ç¤Ï¥È¡¼¥¯¥óÌ¾, ÉÔÀµ¤Î¾ì¹ç¤Ïfalse
+     *  @return mixed  æ­£å¸¸ã®å ´åˆã¯ãƒˆãƒ¼ã‚¯ãƒ³å, ä¸æ­£ã®å ´åˆã¯false
      */
     function _get_token()
     {

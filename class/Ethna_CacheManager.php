@@ -10,7 +10,7 @@
  */
 
 /**
- *  •≠•„•√•∑•Â•ﬁ•Õ°º•∏•„•Ø•È•π
+ *  „Ç≠„É£„ÉÉ„Ç∑„É•„Éû„Éç„Éº„Ç∏„É£„ÇØ„É©„Çπ
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -19,10 +19,10 @@
 class Ethna_CacheManager
 {
     /**
-     *  Cachemaanger •◊•È•∞•§•Û§Œ•§•Û•π•ø•Û•π§ÚºË∆¿§π§Î
+     *  Cachemaanger „Éó„É©„Ç∞„Ç§„É≥„ÅÆ„Ç§„É≥„Çπ„Çø„É≥„Çπ„ÇíÂèñÂæó„Åô„Çã
      *
-     *  @param  string  $type   •≠•„•√•∑•Â•ø•§•◊('localfile', 'memcache'...)
-     *  @return object  Ethna_Plugin_CacheMaanger   Cachemanager •◊•È•∞•§•Û§Œ•§•Û•π•ø•Û•π
+     *  @param  string  $type   „Ç≠„É£„ÉÉ„Ç∑„É•„Çø„Ç§„Éó('localfile', 'memcache'...)
+     *  @return object  Ethna_Plugin_CacheMaanger   Cachemanager „Éó„É©„Ç∞„Ç§„É≥„ÅÆ„Ç§„É≥„Çπ„Çø„É≥„Çπ
      *  @access public
      */
     function &getInstance($type)

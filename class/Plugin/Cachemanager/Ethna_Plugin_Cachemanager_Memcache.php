@@ -3,10 +3,10 @@
 /**
  *  Ethna_Plugin_Cachemanager_Memcache.php
  *
- *  - Point Cut¤·¤¿¤¤¤È»×¤Ã¤¿¡ª
- *  - ¥­¥ã¥Ã¥·¥å¥­¡¼¤Ë¤Ï250Ê¸»ú¤Ş¤Ç¤·¤«»ÈÍÑ¤Ç¤­¤Ê¤¤¤Î¤ÇÃí°Õ¤·¤Æ²¼¤µ¤¤
+ *  - Point Cutã—ãŸã„ã¨æ€ã£ãŸï¼
+ *  - ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼ã«ã¯250æ–‡å­—ã¾ã§ã—ã‹ä½¿ç”¨ã§ããªã„ã®ã§æ³¨æ„ã—ã¦ä¸‹ã•ã„
  *
- *  @todo   ¥Í¡¼¥à¥¹¥Ú¡¼¥¹/¥­¥ã¥Ã¥·¥å¥­¡¼Ä¹¤Î¥¨¥é¡¼¥Ï¥ó¥É¥ê¥ó¥°
+ *  @todo   ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹/ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼é•·ã®ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @package    Ethna
@@ -14,7 +14,7 @@
  */
 
 /**
- *  ¥­¥ã¥Ã¥·¥å¥Ş¥Í¡¼¥¸¥ã¥¯¥é¥¹(memcacheÈÇ)
+ *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒãƒ¼ã‚¸ãƒ£ã‚¯ãƒ©ã‚¹(memcacheç‰ˆ)
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -24,16 +24,16 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
 {
     /**#@+  @access private */
 
-    /** @var    object  MemCache    MemCache¥ª¥Ö¥¸¥§¥¯¥È */
+    /** @var    object  MemCache    MemCacheã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     var $memcache = null;
 
-    /** @var bool °µ½Ì¥Õ¥é¥° */
+    /** @var bool åœ§ç¸®ãƒ•ãƒ©ã‚° */
     var $compress = true;
 
     /**#@-*/
 
     /**
-     *  Ethna_Plugin_Cachemanager_Memcache¥¯¥é¥¹¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+     *  Ethna_Plugin_Cachemanager_Memcacheã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
      *  @access public
      */
@@ -44,7 +44,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  memcache¥­¥ã¥Ã¥·¥å¥ª¥Ö¥¸¥§¥¯¥È¤òÀ¸À®¡¢¼èÆÀ¤¹¤ë
+     *  memcacheã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã€å–å¾—ã™ã‚‹
      *
      *  @access protected
      */
@@ -90,10 +90,10 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  memcacheÀÜÂ³¾ğÊó¤ò¼èÆÀ¤¹¤ë
+     *  memcacheæ¥ç¶šæƒ…å ±ã‚’å–å¾—ã™ã‚‹
      *
      *  @access protected
-     *  @todo   $cache_key¤«¤é$index¤ò·è¤á¤ëÊıË¡¤òÊÑ¹¹¤Ç¤­¤ë¤è¤¦¤Ë¤¹¤ë
+     *  @todo   $cache_keyã‹ã‚‰$indexã‚’æ±ºã‚ã‚‹æ–¹æ³•ã‚’å¤‰æ›´ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
      */
     function _getMemcacheInfo($cache_key, $namespace)
     {
@@ -112,7 +112,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return array($default_memcache_host, $default_memcache_port);
         }
 
-        // namespace/cache_key¤ÇÀÜÂ³Àè¤ò·èÄê
+        // namespace/cache_keyã§æ¥ç¶šå…ˆã‚’æ±ºå®š
         $n = count($memcache_info[$namespace]);
 
         $index = $cache_key % $n;
@@ -130,18 +130,18 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¤ËÀßÄê¤µ¤ì¤¿ÃÍ¤ò¼èÆÀ¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«è¨­å®šã•ã‚ŒãŸå€¤ã‚’å–å¾—ã™ã‚‹
      *
-     *  ¥­¥ã¥Ã¥·¥å¤ËÃÍ¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¥­¥ã¥Ã¥·¥åÃÍ
-     *  ¤¬Ìá¤êÃÍ¤È¤Ê¤ë¡£¥­¥ã¥Ã¥·¥å¤ËÃÍ¤¬Ìµ¤¤¾ì¹ç¤älifetime
-     *  ¤ò²á¤®¤Æ¤¤¤ë¾ì¹ç¡¢¥¨¥é¡¼¤¬È¯À¸¤·¤¿¾ì¹ç¤ÏPEAR_Error
-     *  ¥ª¥Ö¥¸¥§¥¯¥È¤¬Ìá¤êÃÍ¤È¤Ê¤ë¡£
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«å€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã‚­ãƒ£ãƒƒã‚·ãƒ¥å€¤
+     *  ãŒæˆ»ã‚Šå€¤ã¨ãªã‚‹ã€‚ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«å€¤ãŒç„¡ã„å ´åˆã‚„lifetime
+     *  ã‚’éãã¦ã„ã‚‹å ´åˆã€ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã¯PEAR_Error
+     *  ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæˆ»ã‚Šå€¤ã¨ãªã‚‹ã€‚
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  int     $lifetime   ¥­¥ã¥Ã¥·¥åÍ­¸ú´ü´Ö
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return array   ¥­¥ã¥Ã¥·¥åÃÍ
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  int     $lifetime   ã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ‰åŠ¹æœŸé–“
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return array   ã‚­ãƒ£ãƒƒã‚·ãƒ¥å€¤
      */
     function get($key, $lifetime = null, $namespace = null)
     {
@@ -164,7 +164,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         $time = $value['time'];
         $data = $value['data'];
 
-        // ¥é¥¤¥Õ¥¿¥¤¥à¥Á¥§¥Ã¥¯
+        // ãƒ©ã‚¤ãƒ•ã‚¿ã‚¤ãƒ ãƒã‚§ãƒƒã‚¯
         if (is_null($lifetime) == false) {
             if (($time+$lifetime) < time()) {
                 return Ethna::raiseError('lifetime expired', E_CACHE_EXPIRED);
@@ -175,12 +175,12 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¤ÎºÇ½ª¹¹¿·Æü»ş¤ò¼èÆÀ¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®æœ€çµ‚æ›´æ–°æ—¥æ™‚ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return int     ºÇ½ª¹¹¿·Æü»ş(unixtime)
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return int     æœ€çµ‚æ›´æ–°æ—¥æ™‚(unixtime)
      */
     function getLastModified($key, $namespace = null)
     {
@@ -202,12 +202,12 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ÃÍ¤¬¥­¥ã¥Ã¥·¥å¤µ¤ì¤Æ¤¤¤ë¤«¤É¤¦¤«¤ò¼èÆÀ¤¹¤ë
+     *  å€¤ãŒã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  int     $lifetime   ¥­¥ã¥Ã¥·¥åÍ­¸ú´ü´Ö
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  int     $lifetime   ã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ‰åŠ¹æœŸé–“
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function isCached($key, $lifetime = null, $namespace = null)
     {
@@ -217,13 +217,13 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¤ËÃÍ¤òÀßÄê¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«å€¤ã‚’è¨­å®šã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  mixed   $value      ¥­¥ã¥Ã¥·¥åÃÍ
-     *  @param  int     $timestamp  ¥­¥ã¥Ã¥·¥åºÇ½ª¹¹¿·»ş¹ï(unixtime)
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  mixed   $value      ã‚­ãƒ£ãƒƒã‚·ãƒ¥å€¤
+     *  @param  int     $timestamp  ã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ€çµ‚æ›´æ–°æ™‚åˆ»(unixtime)
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function set($key, $value, $timestamp = null, $namespace = null)
     {
@@ -244,11 +244,11 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥åÃÍ¤òºï½ü¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥å€¤ã‚’å‰Šé™¤ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
      */
     function clear($key, $namespace = null)
     {
@@ -268,13 +268,13 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¥Ç¡¼¥¿¤ò¥í¥Ã¥¯¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  int     $timeout    ¥í¥Ã¥¯¥¿¥¤¥à¥¢¥¦¥È
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  int     $timeout    ãƒ­ãƒƒã‚¯ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function lock($key, $timeout = 5, $namespace = null)
     {
@@ -283,7 +283,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('memcache server not available', E_CACHE_LOCK_ERROR);
         }
 
-        // ¥í¥Ã¥¯ÍÑ¥­¥ã¥Ã¥·¥å¥Ç¡¼¥¿¤òÍøÍÑ¤¹¤ë
+        // ãƒ­ãƒƒã‚¯ç”¨ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã‚’åˆ©ç”¨ã™ã‚‹
         $namespace = is_null($namespace) ? $this->namespace : $namespace;
         $cache_key = "lock::" . $this->_getCacheKey($namespace, $key);
         $lock_lifetime = 30;
@@ -305,12 +305,12 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥­¥ã¥Ã¥·¥å¥Ç¡¼¥¿¤Î¥í¥Ã¥¯¤ò²ò½ü¤¹¤ë
+     *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã®ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹
      *
      *  @access public
-     *  @param  string  $key        ¥­¥ã¥Ã¥·¥å¥­¡¼
-     *  @param  string  $namespace  ¥­¥ã¥Ã¥·¥å¥Í¡¼¥à¥¹¥Ú¡¼¥¹
-     *  @return bool    true:À®¸ù false:¼ºÇÔ
+     *  @param  string  $key        ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼
+     *  @param  string  $namespace  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹
+     *  @return bool    true:æˆåŠŸ false:å¤±æ•—
      */
     function unlock($key, $namespace = null)
     {
@@ -326,13 +326,13 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     *  ¥Í¡¼¥à¥¹¥Ú¡¼¥¹¤«¤é¥­¥ã¥Ã¥·¥å¥­¡¼¤òÀ¸À®¤¹¤ë
+     *  ãƒãƒ¼ãƒ ã‚¹ãƒšãƒ¼ã‚¹ã‹ã‚‰ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚­ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
      *
      *  @access private
      */
     function _getCacheKey($namespace, $key)
     {
-        // ¾¯¤·ÍğË½¤À¤±¤É...
+        // å°‘ã—ä¹±æš´ã ã‘ã©...
         $key = str_replace(":", "_", $key);
         $cache_key = $namespace . "::" . $key;
         if (strlen($cache_key) > 250) {
@@ -342,12 +342,12 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     }
 
     /**
-     * °µ½Ì¥Õ¥é¥°¤òÎ©¤Æ¤ë
+     * åœ§ç¸®ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
      *
-     * MySQL¤Ê¤É¤¤¤¯¤Ä¤«¤Î»Ò¥¯¥é¥¹¤ÇÍ­¸ú
+     * MySQLãªã©ã„ãã¤ã‹ã®å­ã‚¯ãƒ©ã‚¹ã§æœ‰åŠ¹
      * 
      * @access public
-     * @param bool $flag ¥Õ¥é¥°
+     * @param bool $flag ãƒ•ãƒ©ã‚°
      */
     function setCompress($flag) {
         $this->compress = $flag;

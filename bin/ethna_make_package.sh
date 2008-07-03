@@ -4,7 +4,7 @@
 #
 #   ...:(
 #
-#   $Id$
+#   $Id: ethna_make_package.sh 461 2007-04-19 14:50:45Z ichii386 $
 #
 tmpdir="/tmp/ethna"
 
@@ -16,6 +16,12 @@ fi
 if [ "$1" = "-b" ]
 then
     beta=$1
+fi
+
+if [ "$1" = "-a" ]
+then
+    alpha=$1
+    beta=$alpha
 fi
 
 # chdir to basedir

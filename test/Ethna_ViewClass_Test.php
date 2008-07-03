@@ -9,7 +9,7 @@
 //error_reporting(E_ALL);
 
 /**
- *  Ethna_ViewClass•Ø•È•π§Œ•∆•π•»•±°º•π
+ *  Ethna_ViewClass„ÇØ„É©„Çπ„ÅÆ„ÉÜ„Çπ„Éà„Ç±„Éº„Çπ
  *
  *  @package Ethna
  *  @author halt feits <halt.feits@gmail.com>
@@ -194,18 +194,18 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
             );
         $params = array();
 
-        // value§ §∑
+        // value„Å™„Åó
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('btn', null, $params);
         $this->assertTrue(strpos($result, 'value') === false);
 
-        // default§œªÿƒÍ§∑§∆§‚Ãµ∞’Ã£
+        // default„ÅØÊåáÂÆö„Åó„Å¶„ÇÇÁÑ°ÊÑèÂë≥
         $params['default'] = 'hoge';
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('btn', null, $params);
         $this->assertTrue(strpos($result, 'value') === false);
 
-        // value§ÚªÿƒÍ
+        // value„ÇíÊåáÂÆö
         $params['value'] = 'fuga';
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('btn', null, $params);
@@ -228,19 +228,19 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
 <label for="chkbx_2"><input type="checkbox" name="chkbx[]" value="2" id="chkbx_2" checked="checked" />2</label>
 EOS;
 
-        // def §Œ default ªÿƒÍ§« int(2) §À check
+        // def „ÅÆ default ÊåáÂÆö„Åß int(2) „Å´ check
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('chkbx', null, $params);
         $this->assertEqual($result, $expected);
 
-        // params §Œ default ªÿƒÍ§« int(2) §À check
+        // params „ÅÆ default ÊåáÂÆö„Åß int(2) „Å´ check
         $def['default'] = 1;
-        $params['default'] = 2; // params§¨Õ•¿Ë
+        $params['default'] = 2; // params„ÅåÂÑ™ÂÖà
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('chkbx', null, $params);
         $this->assertEqual($result, $expected);
 
-        // params §Œ default ªÿƒÍ§« string(1) "2" §À check
+        // params „ÅÆ default ÊåáÂÆö„Åß string(1) "2" „Å´ check
         $params['default'] = '2';
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('chkbx', null, $params);
@@ -253,26 +253,26 @@ EOS;
         $def = array();
         $params = array();
 
-        // default§‚value§‚§ §§§»§≠
+        // default„ÇÇvalue„ÇÇ„Å™„ÅÑ„Å®„Åç
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('testform', null, $params);
         $this->assertTrue(strpos($result, 'value=""'));
 
-        // default§¨§¢§Î§»§≠
+        // default„Åå„ÅÇ„Çã„Å®„Åç
         $params['default'] = 'hoge';
         unset($params['value']);
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('testform', null, $params);
         $this->assertTrue(strpos($result, 'value="hoge"'));
 
-        // value§¨§¢§Î§»§≠
+        // value„Åå„ÅÇ„Çã„Å®„Åç
         unset($params['default']);
         $params['value'] = 'fuga';
         $this->viewclass->af->setDef($name, $def);
         $result = $this->viewclass->getFormInput('testform', null, $params);
         $this->assertTrue(strpos($result, 'value="fuga"'));
 
-        // default, valueŒæ ˝§¨§¢§Î§»§≠: value§¨Õ•¿Ë
+        // default, value‰∏°Êñπ„Åå„ÅÇ„Çã„Å®„Åç: value„ÅåÂÑ™ÂÖà
         $params['default'] = 'hogefuga';
         $params['value'] = 'foobar';
         $this->viewclass->af->setDef($name, $def);

@@ -11,7 +11,7 @@
 
 // {{{ Ethna_SOAP_Util
 /**
- *  SOAP¥æ¡¼¥Æ¥£¥ê¥Æ¥£¥¯¥é¥¹
+ *  SOAPãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -20,11 +20,11 @@
 class Ethna_SOAP_Util
 {
     /**
-     *  ·¿ÄêµÁ¤¬¥ª¥Ö¥¸¥§¥¯¥È·¿¤ÎÇÛÎó¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  å‹å®šç¾©ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‹ã®é…åˆ—ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  array   $def    ·¿ÄêµÁ
-     *  @return bool    true:¥ª¥Ö¥¸¥§¥¯¥È·¿ÇÛÎó false:¤½¤ì°Ê³°¤Î·¿
+     *  @param  array   $def    å‹å®šç¾©
+     *  @return bool    true:ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‹é…åˆ— false:ãã‚Œä»¥å¤–ã®å‹
      *  @static
      */
     function isArrayOfObject($def)
@@ -40,11 +40,11 @@ class Ethna_SOAP_Util
     }
 
     /**
-     *  ·¿ÄêµÁ¤¬¥¹¥«¥é¡¼ÃÍ¤ÎÇÛÎó¤«¤É¤¦¤«¤òÊÖ¤¹
+     *  å‹å®šç¾©ãŒã‚¹ã‚«ãƒ©ãƒ¼å€¤ã®é…åˆ—ã‹ã©ã†ã‹ã‚’è¿”ã™
      *
      *  @access public
-     *  @param  array   $def    ·¿ÄêµÁ
-     *  @return bool    true:¥¹¥«¥é¡¼·¿ÇÛÎó false:¤½¤ì°Ê³°¤Î·¿
+     *  @param  array   $def    å‹å®šç¾©
+     *  @return bool    true:ã‚¹ã‚«ãƒ©ãƒ¼å‹é…åˆ— false:ãã‚Œä»¥å¤–ã®å‹
      *  @static
      */
     function isArrayOfScalar($def)
@@ -59,11 +59,11 @@ class Ethna_SOAP_Util
     }
 
     /**
-     *  ¥¹¥«¥é¡¼ÃÍ¤Î·¿Ì¾¤òÊÖ¤¹
+     *  ã‚¹ã‚«ãƒ©ãƒ¼å€¤ã®å‹åã‚’è¿”ã™
      *
      *  @access public
-     *  @param  array   $def    ·¿ÄêµÁ
-     *  @return string  ·¿Ì¾
+     *  @param  array   $def    å‹å®šç¾©
+     *  @return string  å‹å
      *  @static
      */
     function getScalarTypeName($def)
@@ -90,11 +90,11 @@ class Ethna_SOAP_Util
     }
 
     /**
-     *  ÇÛÎó¤Î·¿Ì¾¤òÊÖ¤¹
+     *  é…åˆ—ã®å‹åã‚’è¿”ã™
      *
      *  @access public
-     *  @param  array   $def    ·¿ÄêµÁ
-     *  @return string  ·¿Ì¾
+     *  @param  array   $def    å‹å®šç¾©
+     *  @return string  å‹å
      *  @static
      */
     function getArrayTypeName($def)
@@ -121,10 +121,10 @@ class Ethna_SOAP_Util
     }
 
     /**
-     *  Ìá¤êÃÍ·¿ÄêµÁ¤òÀµµ¬²½¤¹¤ë
+     *  æˆ»ã‚Šå€¤å‹å®šç¾©ã‚’æ­£è¦åŒ–ã™ã‚‹
      *
      *  @access public
-     *  @param  array   $retval Ìá¤êÃÍ·¿ÄêµÁ
+     *  @param  array   $retval æˆ»ã‚Šå€¤å‹å®šç¾©
      *  @static
      */
     function fixRetval(&$retval)

@@ -11,7 +11,7 @@
 
 // {{{ Ethna_View_Info
 /**
- *  __ethna_info__¥Ó¥å¡¼¤Î¼ÂÁõ
+ *  __ethna_info__ãƒ“ãƒ¥ãƒ¼ã®å®Ÿè£…
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
@@ -26,7 +26,7 @@ class Ethna_View_Info extends Ethna_ViewClass
     /**#@-*/
 
     /**
-     *  Á«°ÜÁ°½èÍı
+     *  é·ç§»å‰å‡¦ç†
      *
      *  @access public
      */
