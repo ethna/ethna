@@ -831,7 +831,7 @@ class Ethna_Util
         if (file_exists($file) === false) {
             touch($file);
         }
-        $lh = fopen($file, 'r');
+        $lh = fopen($file, $mode);
         if ($lh == null) {
             return Ethna::raiseError("File Read Error [%s]", E_APP_READ, $file);
         }

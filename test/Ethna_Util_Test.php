@@ -38,10 +38,17 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     // {{{  testIsAbsolute
     function testIsAbsolute()
     {
-        $absolute_paths = array(
-            '/root',
-            '/home/user/giza',
-        );
+        if (OS_WINDOWS) {
+            $absolute_paths = array(
+                'D:\root',
+                'C:\home\user\giza',
+            );
+        } else {
+            $absolute_paths = array(
+                '/root',
+                '/home/user/giza',
+            );
+        }
 
         $invalid_params = array(
             '',

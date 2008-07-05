@@ -57,7 +57,7 @@ class Ethna_DB_ADOdb_Test extends Ethna_UnitTestBase
     {
         if ($this->db_type == 'sqlite') {
             if (file_exists($this->db_path)) {
-                unlink($this->db_path);
+                @unlink($this->db_path);
             }
         }
     }
