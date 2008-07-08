@@ -95,6 +95,7 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
         //    値が得られなければならない
         $r = Ethna_Util::getRandom();
         $this->assertNotNULL($r);
+        $this->assertEqual(64, strlen($r));
     }
     // }}}
 
