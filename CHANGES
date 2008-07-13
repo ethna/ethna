@@ -1,5 +1,12 @@
 * 変更点一覧
 
+** 2.5.0-preview2
+
+*** features
+
+- PEAR依存を排除するための変更
+-- Console_Getopt の代替として、Ethna_Getopt.php を追加
+
 ** 2.5.0-preview1
 
 *** features
