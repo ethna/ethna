@@ -56,6 +56,13 @@ class Ethna_UnitTestManager extends Ethna_AppManager
         }
         $base = $this->ctl->getBasedir();
 
+        //  テストディレクトリはユーザが変更できる
+        //  ため、実行時の変更のタイミング次第では
+        //  WARNING が出る可能性があるのをケアする
+        if (!is_dir($test_dir)) {
+            return array();
+        }
+
         $child_dir_list = array();
 
         $dh = opendir($test_dir);

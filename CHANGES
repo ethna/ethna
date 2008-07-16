@@ -7,6 +7,10 @@
 - PEAR依存を排除するための変更
 -- Console_Getopt の代替として、Ethna_Getopt.php を追加
 
+*** bug fix
+
+- テストディレクトリの変更のタイミングによっては、Ethna_UnitTestMangerがWARNINGを出す問題を回避 (thanks: maru_cc)
+
 ** 2.5.0-preview1
 
 *** features
