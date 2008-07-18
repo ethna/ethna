@@ -171,6 +171,24 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $r = $this->opt->getopt($args, $shortopt);
         $this->assertTrue(Ethna::isError($r));
         $this->assertEqual("unrecognized option -b", $r->getMessage());
+
+        // option setting will be refrected even when after values. :)
+        $args = array('-a', 'b', '-c', 'd', '-e', 'f');
+        $shortopt = 'ac:e::';
+        $r = $this->opt->getopt($args, $shortopt);
+        $this->assertFalse(Ethna::isError($r));
+
+        $parsed_arg = array_shift($r);
+        $this->assertEqual('a', $parsed_arg[0][0]);
+        $this->assertNULL($parsed_arg[0][1]);
+        $this->assertEqual('c', $parsed_arg[1][0]);
+        $this->assertEqual('d', $parsed_arg[1][1]);
+        $this->assertEqual('e', $parsed_arg[2][0]);
+        $this->assertNULL($parsed_arg[2][1]);
+ 
+        $nonparsed_arg = array_shift($r);
+        $this->assertEqual('b', $nonparsed_arg[0]);
+        $this->assertEqual('f', $nonparsed_arg[1]);
     }
 
     function test_shortopt_complex()
@@ -207,11 +225,6 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $nonparsed_arg = array_shift($r);
         $this->assertEqual('d', $nonparsed_arg[0]);
         $this->assertEqual('e', $nonparsed_arg[1]);
-
-        $args = array('-cd', '-ad');
-        $r = $this->opt->getopt($args, $shortopt);
-        $this->assertTrue(Ethna::isError($r));
-        $this->assertEqual("unrecognized option -d", $r->getMessage());
 
         $args = array('-cd', '-ad');
         $r = $this->opt->getopt($args, $shortopt);
@@ -393,7 +406,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $r = $this->opt->getopt($args, $shortopt, $longopt);
         $this->assertFalse(Ethna::isError($r));
         
-        $args = array('-a', '--foo', 'bar', '--bar=moge', 'hoge');
+        $args = array('-a', '--foo', 'bar', '--bar=moge', 'hoge', '--hoge');
         $r = $this->opt->getopt($args, $shortopt, $longopt);
         $this->assertFalse(Ethna::isError($r));
  
@@ -404,6 +417,9 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $this->assertEqual('bar', $parsed_arg[1][1]);
         $this->assertequal('--bar', $parsed_arg[2][0]);
         $this->assertEqual('moge', $parsed_arg[2][1]);
+        $this->assertequal('--hoge', $parsed_arg[3][0]);
+        $this->assertNULL($parsed_arg[3][1]);
+
 
         $nonparsed_arg = array_shift($r);
         $this->assertEqual('hoge', $nonparsed_arg[0]);
