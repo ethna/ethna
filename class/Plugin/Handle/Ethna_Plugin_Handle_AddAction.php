@@ -30,7 +30,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
         //  '-w[with-unittest]' and '-u[unittestskel]' option
         //  are not intuisive, but I dare to define them because
         //  -t and -s option are reserved by add-[action|view] handle
-        //  and Console_Getopt cannot interpret two-character option.
+        //  and Ethna_Getopt cannot interpret two-character option.
         //
         $r = $this->_getopt(
                   array('basedir=',

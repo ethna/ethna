@@ -31,9 +31,10 @@ $test_dir = ETHNA_BASE . '/test';
 $test = &new GroupTest('Ethna All tests');
 
 // テストケースのファイルリストを取得
-require_once 'Console/Getopt.php';
-$args = Console_Getopt::readPHPArgv();
-list($args, $opts) = Console_Getopt::getopt2($args, '', array());
+require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
+$opt = new Ethna_Getopt();
+$args = $opt->readPHPArgv();
+list($args, $opts) = $opt->getopt($args, '', array());
 array_shift($opts);
 if (count($opts) > 0) {
     $file_list = $opts;
@@ -47,7 +48,6 @@ foreach ($file_list as $file) {
 }
 
 // 結果をコマンドラインに出力
-//$test->run(new TextReporter());
 $test->run(new TextDetailReporter());
 
 //{{{ getFileList
@@ -89,4 +89,5 @@ function getFileList($dir_path)
     return $file_list;
 }
 //}}}
+
 ?>

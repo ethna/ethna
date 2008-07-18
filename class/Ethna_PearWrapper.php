@@ -648,7 +648,8 @@ class Ethna_PearWrapper
     {
         $short_args = $long_args = null;
         PEAR_Command::getGetOptArgs($cmd_str, $short_args, $long_args);
-        $opt_arg = Console_GetOpt::getOpt2($opt_array, $short_args, $long_args);
+        $opt = new Ethna_Getopt();
+        $opt_arg = $opt->getopt($opt_array, $short_args, $long_args);
         if (PEAR::isError($opt_arg)) return array();
         $opts = array();
         foreach ($opt_arg[0] as $tmp) {

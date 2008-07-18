@@ -27,11 +27,12 @@ $base = dirname(dirname(dirname(__FILE__)));
 ini_set('include_path', $base.PATH_SEPARATOR.ini_get('include_path'));
 
 require_once 'PEAR.php';
-require_once 'Console/Getopt.php';
 require_once 'Ethna/Ethna.php';
+require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
 
 // fetch arguments
-$arg_list = Console_Getopt::readPHPArgv();
+$opt = new Ethna_Getopt();
+$arg_list = $opt->readPHPArgv();
 if (Ethna::isError($arg_list)) {
     echo $arg_list->getMessage()."\n";
     exit(2);
@@ -41,7 +42,7 @@ array_shift($arg_list);
 $eh =& new Ethna_Handle();
 
 list($my_arg_list, $arg_list) = _Ethna_HandleGateway_SeparateArgList($arg_list);
-$r = Console_Getopt::getopt($my_arg_list, "v", array("version"));
+$r = $opt->getopt($my_arg_list, "v", array("version"));
 if (Ethna::isError($r)) {
     usage($eh);
     exit(1);
@@ -120,7 +121,7 @@ function _Ethna_HandleGateway_SeparateArgList($arg_list)
 function _Ethna_HandleGateway_ShowVersion()
 {
     $version = <<<EOD
-Ethna %s
+Ethna %s (using PHP %s)
 
 Copyright (c) 2004-%s,
   Masaki Fujimoto <fujimoto@php.net>
@@ -128,10 +129,11 @@ Copyright (c) 2004-%s,
   Takuya Ookubo <sfio@sakura.ai.to>
   nozzzzz <nozzzzz@gmail.com>
   cocoitiban <cocoiti@comio.info>
+  Yoshinari Takaoka <takaoka@beatcraft.com>
 
 http://ethna.jp/
 
 EOD;
-    printf($version, ETHNA_VERSION, date('Y'));
+    printf($version, ETHNA_VERSION, PHP_VERSION, date('Y'));
 }
 ?>

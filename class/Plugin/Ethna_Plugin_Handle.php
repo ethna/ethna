@@ -9,7 +9,7 @@
  *  @version    $Id$
  */
 
-require_once 'Console/Getopt.php';
+require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
 
 // {{{ Ethna_Plugin_Handle
 /**
@@ -109,7 +109,8 @@ class Ethna_Plugin_Handle
 
         // do getopt
         // ex: $sopts = 'fb:';
-        $opts_args = Console_Getopt::getopt2($this->arg_list, $sopts, $lopts);
+        $opt = new Ethna_Getopt();
+        $opts_args = $opt->getopt($this->arg_list, $sopts, $lopts);
         if (Ethna::isError($opts_args)) {
             return $opts_args;
         }
