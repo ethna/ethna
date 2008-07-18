@@ -152,11 +152,18 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $this->assertNULL($parsed_arg[0][1]);
 
         // option -a is defined, but value is disabled.
-        $args = array('-a', 'b');
+        // value will be NEVER interpreted.
+        $args = array('-a', 'b', 'c');
         $shortopt = 'a';
         $r = $this->opt->getopt($args, $shortopt);
-        $this->assertTrue(Ethna::isError($r));
-        $this->assertEqual("option -a doesn't allow an argument", $r->getMessage());
+        $this->assertFalse(Ethna::isError($r));
+        $parsed_arg = array_shift($r);
+        $this->assertEqual('a', $parsed_arg[0][0]);
+        $this->assertNULL($parsed_arg[0][1]);
+
+        $nonparsed_arg = array_shift($r);
+        $this->assertEqual('b', $nonparsed_arg[0]);
+        $this->assertEqual('c', $nonparsed_arg[1]);
 
         // successive option definition, but unrecognized option. :)
         $args = array('-ab');
@@ -309,10 +316,11 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
 
         $parsed_arg = array_shift($r);
         $this->assertEqual('--foo', $parsed_arg[0][0]);
-        $this->assertEqual('bar', $parsed_arg[0][1]);
+        $this->assertNULL($parsed_arg[0][1]);
 
         $nonparsed_arg = array_shift($r);
-        $this->assertEqual('hoge', $nonparsed_arg[0]);
+        $this->assertEqual('bar', $nonparsed_arg[0]);
+        $this->assertEqual('hoge', $nonparsed_arg[1]);
 
         // -foo value is bar, hoge, moge is nonparsed arg.
         $args = array('--foo=bar', 'hoge', 'moge');
@@ -344,7 +352,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $shortopt = null;
         $longopt = array("foo");
         $r = $this->opt->getopt($args, $shortopt, $longopt);
-        $this->assertfalse(ethna::iserror($r));
+        $this->assertfalse(Ethna::isError($r));
 
         $parsed_arg = array_shift($r);
         $this->assertequal('--foo', $parsed_arg[0][0]);
@@ -355,15 +363,22 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $shortopt = null;
         $longopt = array("foo");
         $r = $this->opt->getopt($args, $shortopt, $longopt);
-        $this->assertTrue(ethna::iserror($r));
+        $this->assertTrue(Ethna::isError($r));
         $this->assertEqual("option --foo doesn't allow an argument", $r->getMessage());
 
-        $args = array('--foo', 'bar');
+        $args = array('--foo', 'hoge', 'bar');
         $shortopt = null;
         $longopt = array("foo");
         $r = $this->opt->getopt($args, $shortopt, $longopt);
-        $this->assertTrue(ethna::iserror($r));
-        $this->assertEqual("option --foo doesn't allow an argument", $r->getMessage());
+        $this->assertFalse(Ethna::isError($r));
+
+        $parsed_arg = array_shift($r);
+        $this->assertequal('--foo', $parsed_arg[0][0]);
+        $this->assertNull($parsed_arg[0][1]);
+
+        $nonparsed_arg = array_shift($r);
+        $this->assertEqual('hoge', $nonparsed_arg[0]);
+        $this->assertEqual('bar', $nonparsed_arg[1]);
     }
     // }}}
 

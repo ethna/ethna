@@ -109,19 +109,21 @@ class Ethna_Getopt
                  }
                  
                  //  オプションの値を取り出す 
+                 $required = $longopts[$opt];
                  $value = NULL;
                  if (count($opt_and_value) == 2) {
                      $value = $opt_and_value[1];   // --foo=bar
-                 } elseif (strpos('-', $next_arg) !== 0) {
+                 } elseif (strpos('-', $next_arg) !== 0
+                        && $required == ETHNA_OPTVALUE_IS_REQUIRED) {
                      if (!empty($next_arg)) {      // --foo bar
                          // 次の $argv を値として解釈
+                         // == が設定されていた場合は値として解釈「しない」
                          $value = $next_arg;
                          $pos++;
                      }
                  }
 
                  //  オプション設定チェック 
-                 $required = $longopts[$opt];
                  switch ($required) {
                      case ETHNA_OPTVALUE_IS_REQUIRED:
                          if ($value === NULL) {
@@ -183,19 +185,20 @@ class Ethna_Getopt
                      switch ($required) {
                          case ETHNA_OPTVALUE_IS_REQUIRED:
                          case ETHNA_OPTVALUE_IS_OPTIONAL:
-                             if ($sopt_len == 1
-                              && $required == ETHNA_OPTVALUE_IS_REQUIRED) {
-                                 if ($next_arg[0] != '-') { // -a hoge
-                                     // 次の $argv を値として解釈
-                                     $value = $next_arg;
-                                     $pos++;
-                                 }
-                             } else {
-                                 //  残りの文字を値として解釈
-                                 $value = substr($sopt, $sopt_pos + 1);
-                                 $value = (empty($value)) ? NULL : $value;
-                             } 
-                             if ($required == ETHNA_OPTVALUE_IS_REQUIRED
+                            if ($sopt_len == 1
+                             && $required == ETHNA_OPTVALUE_IS_REQUIRED) {
+                                if ($next_arg[0] != '-') { // -a hoge
+                                    // 次の $argv を値として解釈
+                                    // 但し、:: の場合は解釈しない
+                                    $value = $next_arg;
+                                    $pos++;
+                                }
+                            } else {
+                                //  残りの文字を値として解釈
+                                $value = substr($sopt, $sopt_pos + 1);
+                                $value = (empty($value)) ? NULL : $value;
+                            } 
+                            if ($required == ETHNA_OPTVALUE_IS_REQUIRED
                               && empty($value)) {
                                  return Ethna::raiseError(
                                             "option -$opt requires an argument"
@@ -207,18 +210,8 @@ class Ethna_Getopt
                              $do_next_arg = true;
                              break;
                          case ETHNA_OPTVALUE_IS_DISABLED:
-
-                             //  値が設定禁止の場合は、次のargv の値が
-                             //  値であるかを調べるが、それは -a のよう
-                             //  な1文字オプションに限る。2文字以上の場合
-                             //  は一貫して次の「文字」をオプションとして
-                             //  解釈する
-                             if ($sopt_len == 1
-                              && $next_arg[0] != '-' && $next_arg !== NULL) {
-                                 return Ethna::raiseError(
-                                            "option -$opt doesn't allow an argument"
-                                        );
-                             }
+                             //   値を設定禁止にした場合は、値が解釈されなく
+                             //   なるので、値設定のチェックは不要
                              break;
                          default:
                              return Ethna::raiseError("unrecognized option -$opt");
