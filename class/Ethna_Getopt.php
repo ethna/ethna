@@ -4,7 +4,7 @@
  *  Ethna_Getopt.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
- *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *  @license    Public Domain
  *  @package    Ethna
  *  @version    $Id$
  */

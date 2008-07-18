@@ -5,7 +5,7 @@
 *** features
 
 - PEAR依存を排除するための変更
--- Console_Getopt の代替として、Ethna_Getopt.php を追加
+-- Console_Getopt の代替として、Ethna_Getopt.php を追加 (Public Domain)
 -- 性質上依存せざるを得ない以下のファイルを除き、Console_Getopt への依存を排除
 --- ETHNA_BASE/bin/ethna_make_package.php
 --- ETHNA_BASE/class/Ethna_PearWrapper.php
