@@ -9,8 +9,14 @@
  *  @version    $Id$
  */
 
-/** Ethna depends on PEAR */
-require_once 'PEAR.php';
+//  OS_WINDOWS constant was defined
+//  in PEAR.
+if (substr(PHP_OS, 0, 3) == 'WIN'
+ && !defined('OS_WINDOWS')) {
+    define('OS_WINDOWS', true);
+} else {
+    define('OS_WINDOWS', false);
+}
 
 if (!defined('PATH_SEPARATOR')) {
     if (OS_WINDOWS) {
@@ -33,6 +39,12 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 
 /** バージョン定義 */
 define('ETHNA_VERSION', '2.5.0-preview1');
+
+/**
+ * ダミーのエラーモード
+ * PEAR非依存、かつ互換性を維持するためのもの
+ */
+define('ETHNA_ERROR_DUMMY', 'dummy');
 
 /** Ethnaベースディレクトリ定義 */
 define('ETHNA_BASE', dirname(__FILE__));
@@ -299,13 +311,37 @@ $GLOBALS['_Ethna_error_message_list'] = array();
  *  @access     public
  *  @package    Ethna
  */
-class Ethna extends PEAR
+class Ethna
 {
-    /**#@+
-     *  @access private
+    /**
+     *  渡されたオブジェクトが Ethna_Error オブジェクト
+     *  かどうかチェックします。
+     *
+     *  @param mixed  $data    チェックする変数
+     *  @param mixed  $msgcode チェックするエラーメッセージまたはエラーコード  
+     *  @return mixed 変数が、Ethna_Error の場合に TRUEを返します。
+     *                第2引数が設定された場合は、さらに 所与された $msgcode
+     *                を含む場合のみ TRUEを返します。
+     *  @static
      */
+    function isError($data, $msgcode = NULL)
+    {
+        if (!is_object($data)) {
+            return false;
+        }
 
-    /**#@-*/
+        $class_name = get_class($data);
+        if (strcasecmp($class_name, 'Ethna_Error') === 0
+         || is_subclass_of($data, 'Ethna_Error')) {
+            if ($msgcode == NULL) {
+                return true;
+            } elseif ($data->getCode() == $msgcode) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      *  Ethna_Errorオブジェクトを生成する(エラーレベル:E_USER_ERROR)
@@ -324,7 +360,8 @@ class Ethna extends PEAR
                 $userinfo = $userinfo[0];
             }
         }
-        return PEAR::raiseError($message, $code, PEAR_ERROR_RETURN, E_USER_ERROR, $userinfo, 'Ethna_Error');
+        $error = new Ethna_Error($message, $code, ETHNA_ERROR_DUMMY, E_USER_ERROR, $userinfo, 'Ethna_Error');
+        return $error;
     }
 
     /**
@@ -344,7 +381,9 @@ class Ethna extends PEAR
                 $userinfo = $userinfo[0];
             }
         }
-        return PEAR::raiseError($message, $code, PEAR_ERROR_RETURN, E_USER_WARNING, $userinfo, 'Ethna_Error');
+
+        $error = new Ethna_Error($message, $code, ETHNA_ERROR_DUMMY, E_USER_WARNING, $userinfo, 'Ethna_Error');
+        return $error;
     }
 
     /**
@@ -364,7 +403,9 @@ class Ethna extends PEAR
                 $userinfo = $userinfo[0];
             }
         }
-        return PEAR::raiseError($message, $code, PEAR_ERROR_RETURN, E_USER_NOTICE, $userinfo, 'Ethna_Error');
+
+        $error = new Ethna_Error($message, $code, ETHNA_ERROR_DUMMY, E_USER_NOTICE, $userinfo, 'Ethna_Error');
+        return $error;
     }
 
     /**
@@ -409,11 +450,13 @@ class Ethna extends PEAR
 
                 // perform some more checks?
                 $object->$method($error);
-            } else {
+            } else {  
+                //  call statically
                 call_user_func($callback, $error);
             }
         }
     }
 }
 // }}}
+
 ?>

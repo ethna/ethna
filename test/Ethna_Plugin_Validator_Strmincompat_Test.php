@@ -43,23 +43,23 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
             //    ascii.
             $input_str = 'abcd';
             $pear_error = $this->vld->validate('namae_str', $input_str, $form_str);
-            $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+            $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
     
             $error_str = 'abc';
             $pear_error = $this->vld->validate('namae_str', $error_str, $form_str);
-            $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
             $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
             //    multibyte string
             $input_str = 'あい';
             $input_str_euc = mb_convert_encoding($input_str, 'EUC-JP', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $input_str_euc, $form_str);
-            $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+            $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
     
             $error_str = 'あ';
             $error_str_euc = mb_convert_encoding($error_str, 'EUC-JP', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $error_str_euc, $form_str);
-            $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
             $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
         } else {
@@ -87,23 +87,23 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
             //    ascii.
             $input_str = 'abcd';
             $pear_error = $this->vld->validate('namae_str', $input_str, $form_str);
-            $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+            $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
     
             $error_str = 'abc';
             $pear_error = $this->vld->validate('namae_str', $error_str, $form_str);
-            $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
             $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
             //    multibyte string(sjis)
             $input_str = 'あい';
             $input_str_sjis = mb_convert_encoding($input_str, 'SJIS', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $input_str_sjis, $form_str);
-            $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+            $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
     
             $error_str = 'あ';
             $error_str_sjis = mb_convert_encoding($error_str, 'SJIS', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $error_str_sjis, $form_str);
-            $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
             $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
         } else {

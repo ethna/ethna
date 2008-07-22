@@ -88,6 +88,10 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
 set_error_handler('ethna_error_handler');
 // }}}
 
+// {{{ ethna_exception_handler
+    //  TODO: Implement ethna_exception_handler function.
+// }}}
+
 // {{{ Ethna_Error
 /**
  *  エラークラス
@@ -96,7 +100,7 @@ set_error_handler('ethna_error_handler');
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Error extends PEAR_Error
+class Ethna_Error
 {
     /**#@+
      *  @access private
@@ -108,16 +112,36 @@ class Ethna_Error extends PEAR_Error
     /** @var    object  Ethna_Logger    loggerオブジェクト */
     var $logger;
 
+    /** @var    string  エラーメッセージ */
+    var $message;
+
+    /** @var    integer エラーコード */
+    var $code;
+
+    /** @var    integer エラーモード */
+    var $mode;
+    
+    /** @var    array   エラーモード依存のオプション */
+    var $options;
+
+    /** @var    string  ユーザー定義もしくはデバッグ関連の追加情報を記した文字列。 */
+    var $userinfo;
+
     /**#@-*/
 
     /**
      *  Ethna_Errorクラスのコンストラクタ
+     *  $userinfo は第5引数に設定すること。 
      *
      *  @access public
-     *  @param  int     $level              エラーレベル
      *  @param  string  $message            エラーメッセージ
      *  @param  int     $code               エラーコード
-     *  @param  array   $userinfo           エラー追加情報(エラーコード以降の全ての引数)
+     *  @param  int     $mode               エラーモード(PEAR_ERROR_RETURN等だが、
+     *                                      Ethna_Errorはコールバックを常に使用する
+     *                                      ので実質無視される)
+     *  @param  array   $options            エラーモード依存のオプション
+     *  @param  array   $userinfo           エラー追加情報($options より後の全ての引数)
+     *  @see http://pear.php.net/manual/ja/core.pear.pear-error.pear-error.php
      */
     function Ethna_Error($message = null, $code = null, $mode = null, $options = null)
     {
@@ -126,21 +150,23 @@ class Ethna_Error extends PEAR_Error
             $this->i18n =& $controller->getI18N();
         }
 
-        // $options以降の引数->$userinfo
+        // $options 以降の引数 -> $userinfo
         if (func_num_args() > 4) {
             $userinfo = array_slice(func_get_args(), 4);
             if (count($userinfo) == 1) {
                 if (is_array($userinfo[0])) {
-                    $userinfo = $userinfo[0];
+                    $this->userinfo = $userinfo[0];
                 } else if (is_null($userinfo[0])) {
-                    $userinfo = array();
+                    $this->userinfo = array();
                 }
+            } else {
+                $this->userinfo = $userinfo[0];
             }
         } else {
-            $userinfo = array();
+            $this->userinfo = array();
         }
 
-        // メッセージ補正処理
+        // メッセージ補正処理 ($message)
         if (is_null($message)) {
             // $codeからメッセージを取得する
             $message = $controller->getErrorMessage($code);
@@ -148,11 +174,26 @@ class Ethna_Error extends PEAR_Error
                 $message = 'unknown error';
             }
         }
+        $this->message = $message;
 
-        parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
+        //  その他メンバ変数設定
+        $this->code = $code;
+        $this->mode = $mode;
+        $this->options = $options; 
+        $this->level = ($this->options === NULL) ? E_USER_NOTICE : $options;
 
-        // Ethnaフレームワークのエラーハンドラ(PEAR_Errorのコールバックとは異なる)
+        //  Ethnaフレームワークのエラーハンドラ(PEAR_Errorのコールバックとは異なる)
         Ethna::handleError($this);
+    }
+
+    /**
+     * エラーオブジェクトに関連付けられたエラーコードを返します。
+     *
+     * @return integer - エラー番号
+     */
+    function getCode()
+    {
+        return $this->code;
     }
 
     /**
@@ -190,8 +231,7 @@ class Ethna_Error extends PEAR_Error
     /**
      *  エラー追加情報へのアクセサ(R)
      *
-     *  PEAR_Error::getUserInfo()をオーバーライドして、配列の個々の
-     *  エントリへのアクセスをサポート
+     *  エラー追加情報配列の個々のエントリへのアクセスをサポート
      *
      *  @access public
      *  @param  int     $n      エラー追加情報のインデックス(省略可)
@@ -213,8 +253,6 @@ class Ethna_Error extends PEAR_Error
     /**
      *  エラー追加情報へのアクセサ(W)
      *
-     *  PEAR_Error::addUserInfo()をオーバーライド
-     *
      *  @access public
      *  @param  string  $info   追加するエラー情報
      */
@@ -224,4 +262,5 @@ class Ethna_Error extends PEAR_Error
     }
 }
 // }}}
+
 ?>

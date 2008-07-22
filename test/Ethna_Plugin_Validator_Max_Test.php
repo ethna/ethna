@@ -32,20 +32,20 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
         $this->vld->af->setDef('namae_int', $form_int);
 
         $pear_error = $this->vld->validate('namae_int', 9, $form_int);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('namae_int', 10, $form_int);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('namae_int', '', $form_int);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('namae_int', 9.5, $form_int);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         // maxを超えた値
         $pear_error = $this->vld->validate('namae_int', 11, $form_int);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
         $this->assertEqual(E_FORM_MAX_INT,$pear_error->getCode());
         $this->assertEqual($form_int['error'], $pear_error->getMessage());
     } 
@@ -63,20 +63,20 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
         $this->vld->af->setDef('namae_float', $form_float);
 
         $pear_error = $this->vld->validate('namae_float', 10, $form_float);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('namae_float', '', $form_float);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         // maxを超えた値
         $pear_error = $this->vld->validate('namae_float', 10.11, $form_float);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
         $this->assertEqual(E_FORM_MAX_FLOAT, $pear_error->getCode());
         $this->assertEqual($form_float['error'], $pear_error->getMessage());
 
         // maxを超えた値
         $pear_error = $this->vld->validate('namae_float', 11, $form_float);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
         $this->assertEqual(E_FORM_MAX_FLOAT, $pear_error->getCode());
         $this->assertEqual($form_float['error'], $pear_error->getMessage());
     }
@@ -94,29 +94,29 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
         $this->vld->af->setDef('namae_string', $form_string);
 
         $pear_error = $this->vld->validate('namae_string', '', $form_string);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('namae_string', 'as', $form_string);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         // maxを超えた文字列長
         $pear_error = $this->vld->validate('namae_string', 'ddd', $form_string);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
         $this->assertEqual(E_FORM_MAX_STRING, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
         // maxを超えた文字列長
         $pear_error = $this->vld->validate('namae_string', 118888, $form_string);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
         $this->assertEqual(E_FORM_MAX_STRING, $pear_error->getCode());
         $this->assertEqual($form_string['error'], $pear_error->getMessage());
 
         // multibyte string.
         $pear_error = $this->vld->validate('namae_string', 'ああ', $form_string);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
  
         $pear_error = $this->vld->validate('namae_string', 'あああ', $form_string);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
     }
     // }}}
 
@@ -132,17 +132,17 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
         $this->vld->af->setDef('namae_datetime', $form_datetime);
 
         $pear_error = $this->vld->validate('namae_datetime', '-2 day', $form_datetime);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('namae_datetime', '-1 day', $form_datetime);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('namae_datetime', '', $form_datetime);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         // maxを超えた日付
         $pear_error = $this->vld->validate('namae_datetime', '+3 day', $form_datetime);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
         $this->assertEqual(E_FORM_MAX_DATETIME, $pear_error->getCode());
         $this->assertEqual($form_datetime['error'], $pear_error->getMessage());
     }

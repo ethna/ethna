@@ -37,15 +37,15 @@ class Ethna_Plugin_Validator_Mbregexp_Test extends Ethna_UnitTestBase
 
         $this->vld->af->setDef('input', $form_def);
         $pear_error = $this->vld->validate('input', 9, $form_def);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
 
         $pear_error = $this->vld->validate('input', 'あいう', $form_def);
-        $this->assertFalse(is_a($pear_error, 'PEAR_Error'));
+        $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
 
         //    encoding に指定された文字コード以外の文字列
         $euc_input = mb_convert_encoding('あいう', 'EUC-JP', 'UTF-8');
         $pear_error = $this->vld->validate('input', $euc_input, $form_def);
-        $this->assertTrue(is_a($pear_error, 'PEAR_Error'));
+        $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
     }
     // }}}
 
