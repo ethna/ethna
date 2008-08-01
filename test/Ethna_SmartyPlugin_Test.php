@@ -7,7 +7,6 @@
  *  @version    $Id$
  */
 
-
 require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
 
 //{{{    Ethna_SmartyPlugin_Test
@@ -18,6 +17,41 @@ require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
  */
 class Ethna_SmartyPlugin_Test extends Ethna_UnitTestBase
 {
+    // {{{ test_smarty_function_select
+    function test_smarty_function_select()
+    {
+        $params = array('list'  => array(
+                                       '1' => array('name' => 'foo'),
+                                       'value' => array('name' => 'bar'),
+                                   ),
+                        'name'  => 'name',
+                        'value' => 'value',
+                        'empty' => false,
+                  );
+        $dummy_smarty = null;
+        $expected = "<select name=\"name\">\n"
+                  . "<option value=\"1\" >foo</option>\n"
+                  . "<option value=\"value\" selected=\"selected\">bar</option>\n"
+                  . "</select>\n";
+
+        ob_start();
+        smarty_function_select($params, $dummy_smarty);
+        $actual = ob_get_clean();
+        $this->assertEqual($expected, $actual); 
+
+        $params['empty'] = '-- please select --';
+        $expected = "<select name=\"name\">\n"
+                  . "<option value=\"\">-- please select --</option>\n"
+                  . "<option value=\"1\" >foo</option>\n"
+                  . "<option value=\"value\" selected=\"selected\">bar</option>\n"
+                  . "</select>\n";
+        ob_start();
+        smarty_function_select($params, $dummy_smarty);
+        $actual = ob_get_clean();
+        $this->assertEqual($expected, $actual); 
+    }
+    // }}}
+
     // {{{ test_smarty_modifier_select
     function test_smarty_modifier_select()
     {

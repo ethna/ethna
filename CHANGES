@@ -8,6 +8,7 @@
   1. PEAR が PEAR2 に移行するに伴い、APIが不安定になること
   2. Ethna が依存している PEAR_Error は既に非推奨であること
   3. 外部ライブラリにできうる限り依存しない方がユーザの便宜となる
+  4. PEAR に依存していると、PHPライセンスと抵触しているライセンスで配布できない
 -- Console_Getopt の代替として、Ethna_Getopt.php を追加 (Public Domain)
 -- 性質上依存せざるを得ない以下のファイルを除き、Console_Getopt への依存を排除
 --- ETHNA_BASE/bin/ethna_make_package.php
@@ -19,6 +20,7 @@
 *** bug fix
 
 - テストディレクトリの変更のタイミングによっては、Ethna_UnitTestMangerがWARNINGを出す問題を回避 (thanks: maru_cc)
+- selected="selected" の修正漏れを修正 (thanks:maru_cc) 
 
 ** 2.5.0-preview1
 
