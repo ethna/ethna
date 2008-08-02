@@ -69,10 +69,10 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         $this->memcache_pool["$host:$port"] =& new MemCache();
 
         while ($retry > 0) {
-            if ($this->config->get('memcache_use_connect')) {
-                $r = $this->memcache_pool["$host:$port"]->connect($host, $port, $timeout);
-            } else {
+            if ($this->config->get('memcache_use_pconnect')) {
                 $r = $this->memcache_pool["$host:$port"]->pconnect($host, $port, $timeout);
+            } else {
+                $r = $this->memcache_pool["$host:$port"]->connect($host, $port, $timeout);
             }
             if ($r) {
                 break;
