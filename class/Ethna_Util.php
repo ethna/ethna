@@ -87,7 +87,7 @@ function file_exists_ex($path, $use_include_path = true)
  */
 function is_absolute_path($path)
 {
-    if (OS_WINDOWS) {
+    if (ETHNA_OS_WINDOWS) {
         if (preg_match('/^[a-z]:/i', $path) && $path{2} == DIRECTORY_SEPARATOR) {
             return true;
         }

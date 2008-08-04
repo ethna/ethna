@@ -186,7 +186,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
 
         //    build command string.
         $pear_cmds = $args['pear_args'];
-        $pear_bin = (OS_WINDOWS)
+        $pear_bin = (ETHNA_OS_WINDOWS)
                   ? getenv('PHP_PEAR_BIN_DIR') . DIRECTORY_SEPARATOR . 'pear.bat'
                   : (PHP_BINDIR . DIRECTORY_SEPARATOR . 'pear');
         $local_conf_file = $pear_local->getConfFile();
@@ -196,7 +196,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
             '-c',
             $local_conf_file
         );
-        if (OS_WINDOWS) {
+        if (ETHNA_OS_WINDOWS) {
             foreach($pear_cmds as $key => $value) {
                 $pear_cmds[$key] = (strpos($value, ' ') !== false)
                                  ? ('"' . $value . '"')
@@ -206,7 +206,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
         $command_str = implode(' ', $pear_cmds);
 
         //   finally exec pear command.
-        if (OS_WINDOWS) {
+        if (ETHNA_OS_WINDOWS) {
             $tmp_dir_name ="ethna_tmp_dir";
             Ethna_Util::mkdir($tmp_dir_name, 0777);
             $tmpnam = tempnam($tmp_dir_name, "temp") .'.bat';

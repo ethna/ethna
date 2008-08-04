@@ -38,7 +38,7 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     // {{{  testIsAbsolute
     function testIsAbsolute()
     {
-        if (OS_WINDOWS) {
+        if (ETHNA_OS_WINDOWS) {
             $absolute_paths = array(
                 'D:\root',
                 'C:\home\user\giza',
@@ -73,7 +73,7 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
         $this->assertTrue(DIRECTORY_SEPARATOR);
 
         $util = new Ethna_Util;
-        if (OS_WINDOWS) {
+        if (ETHNA_OS_WINDOWS) {
             $this->assertTrue($util->isRootDir("C:\\"));
             $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge\\fuga.txt"));
             $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge"));

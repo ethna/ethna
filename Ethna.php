@@ -9,17 +9,24 @@
  *  @version    $Id$
  */
 
-//  OS_WINDOWS constant was defined
-//  in PEAR.
+//
+//  PEAR OS_WINDOWS constant replacement.
+//
+//  PEAR の OS_WINDOWS 定数は、defined関数で
+//  既に定義されているかをチェックしていない。
+//  よって require_once 'PEAR.php' とすると
+//  E_NOTICEが出ることから、Windows環境判定用
+//  として独自の定数を定義する
+//
 if (substr(PHP_OS, 0, 3) == 'WIN'
- && !defined('OS_WINDOWS')) {
-    define('OS_WINDOWS', true);
-} elseif (!defined('OS_WINDOWS')) {
-    define('OS_WINDOWS', false);
+ && !defined('ETHNA_OS_WINDOWS')) {
+    define('ETHNA_OS_WINDOWS', true);
+} elseif (!defined('ETHNA_OS_WINDOWS')) {
+    define('ETHNA_OS_WINDOWS', false);
 }
 
 if (!defined('PATH_SEPARATOR')) {
-    if (OS_WINDOWS) {
+    if (ETHNA_OS_WINDOWS) {
         /** include_path separator(Windows) */
         define('PATH_SEPARATOR', ';');
     } else {
@@ -28,7 +35,7 @@ if (!defined('PATH_SEPARATOR')) {
     }
 }
 if (!defined('DIRECTORY_SEPARATOR')) {
-    if (OS_WINDOWS) {
+    if (ETHNA_OS_WINDOWS) {
         /** directory separator(Windows) */
         define('DIRECTORY_SEPARATOR', '\\');
     } else {

@@ -77,7 +77,7 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         // ファイルに読み込み権限がない場合
         // PHP 4, PHP5 ともに、Windows上ではmodeをどのように設定しても
         // read権限が残るためskip.(PHP 4.4.8, 5.2.6 on Windows XP)
-        if (!OS_WINDOWS) {
+        if (!ETHNA_OS_WINDOWS) {
             Ethna_Util::chmod($cm->_getCacheFile(null, $string_key), 0222);
             $pear_error = $cm->get($string_key);
             $this->assertEqual(E_CACHE_NO_VALUE, $pear_error->getCode());

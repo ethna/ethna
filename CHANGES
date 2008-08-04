@@ -16,6 +16,8 @@
 -- [Breaking B.C] Ethna から PEAR_Error まわりの依存を排除。これに伴い、Ethnaクラス が持っていた PEARコアコンポーネンツ の機能は使えなくなっている。
 --- Ethnaクラス に PEAR ライクなエラーチェックメソッドを追加し、それに伴う変更
 --- Ethna_Error で PEAR を呼び出していた部分を修正し、PEARに任せていたメンバ設定等を最実装
+--- PEAR.php で定義されていた OS_WINDOWS 定数の代替として、 ETHNA_OS_WINDOWS 定数を定義した
+    これは PEAR が、OS_WINDOWS 定数が再定義されているかをチェックしていないため
 
 *** bug fix
 

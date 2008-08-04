@@ -64,9 +64,7 @@ class Ethna_Class_Test extends Ethna_UnitTestBase
         //   PEAR_Error を渡してもfalse が返らなければならない
         $fp = @fopen('PEAR.php', 'r', true);
         if ($fp !== false) {
-            //  OS_WINDOWS 定数 が既に Ethna.php で定義済
-            //  のため E_NOTICE を抑制する
-            @require_once 'PEAR.php';
+            require_once 'PEAR.php';
             $error = new PEAR_Error();
             $this->assertFalse(Ethna::isError($error));
         }
