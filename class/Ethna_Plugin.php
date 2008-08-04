@@ -388,7 +388,11 @@ class Ethna_Plugin
         // 後で見付かったもので上書きするので $this->appid_list の逆順とする
         $name_list = array();
         foreach (array_reverse($this->appid_list) as $appid) {
-            list($class_regexp, $dir, $file_regexp) = $this->getPluginNaming($type, '([^_]+)', $appid);
+            //  クラス名として許可された文字であればOKとする
+            //  アンダーバーを拒む理由はないし、命名規約からも禁止されていない
+            //  @see http://ethna.jp/ethna-document-dev_guide-plugin.html
+            //  @see http://www.php.net/manual/en/language.variables.php
+            list($class_regexp, $dir, $file_regexp) = $this->getPluginNaming($type, '([a-zA-Z0-9_\x7f-\xff]+)', $appid);
 
             //ディレクトリの存在のチェック
             if (is_dir($dir) == false) {

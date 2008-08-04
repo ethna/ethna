@@ -313,6 +313,7 @@ class Ethna_Controller
 
         //    アプリケーションIDはクラス名のprefixともなるため、
         //    数字で始まっていてはいけない
+        //    @see http://www.php.net/manual/en/language.variables.php
         if (preg_match('/^[a-zA-Z][a-zA-Z0-9]*$/', $id) === 0) {
             $msg = (preg_match('/^[0-9]$/', $id[0]))
                  ? "Application ID must NOT start with Number.\n"
