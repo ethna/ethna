@@ -27,7 +27,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *
      *  キャッシュに値が設定されている場合はキャッシュ値
      *  が戻り値となる。キャッシュに値が無い場合やlifetime
-     *  を過ぎている場合、エラーが発生した場合はPEAR_Error
+     *  を過ぎている場合、エラーが発生した場合はEthna_Error
      *  オブジェクトが戻り値となる。
      *
      *  @access public

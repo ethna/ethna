@@ -650,7 +650,7 @@ class Ethna_PearWrapper
         PEAR_Command::getGetOptArgs($cmd_str, $short_args, $long_args);
         $opt = new Ethna_Getopt();
         $opt_arg = $opt->getopt($opt_array, $short_args, $long_args);
-        if (PEAR::isError($opt_arg)) return array();
+        if (Ethna::isError($opt_arg)) return array();
         $opts = array();
         foreach ($opt_arg[0] as $tmp) {
             list($opt, $val) = $tmp;

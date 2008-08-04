@@ -136,9 +136,8 @@ class Ethna_Error
      *  @access public
      *  @param  string  $message            エラーメッセージ
      *  @param  int     $code               エラーコード
-     *  @param  int     $mode               エラーモード(PEAR_ERROR_RETURN等だが、
-     *                                      Ethna_Errorはコールバックを常に使用する
-     *                                      ので実質無視される)
+     *  @param  int     $mode               エラーモード(Ethna_Errorはコールバックを
+     *                                      常に使用するので実質無視される)
      *  @param  array   $options            エラーモード依存のオプション
      *  @param  array   $userinfo           エラー追加情報($options より後の全ての引数)
      *  @see http://pear.php.net/manual/ja/core.pear.pear-error.pear-error.php
@@ -182,7 +181,7 @@ class Ethna_Error
         $this->options = $options; 
         $this->level = ($this->options === NULL) ? E_USER_NOTICE : $options;
 
-        //  Ethnaフレームワークのエラーハンドラ(PEAR_Errorのコールバックとは異なる)
+        //  Ethnaフレームワークのエラーハンドラ(callback)
         Ethna::handleError($this);
     }
 
@@ -210,7 +209,7 @@ class Ethna_Error
     /**
      *  messageへのアクセサ(R)
      *
-     *  PEAR_Error::getMessage()をオーバーライドして以下の処理を行う
+     *  以下の処理を行う
      *  - エラーメッセージのi18n処理
      *  - $userinfoとして渡されたデータによるvsprintf()処理
      *
