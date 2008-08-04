@@ -14,7 +14,7 @@
 if (substr(PHP_OS, 0, 3) == 'WIN'
  && !defined('OS_WINDOWS')) {
     define('OS_WINDOWS', true);
-} else {
+} elseif (!defined('OS_WINDOWS')) {
     define('OS_WINDOWS', false);
 }
 
