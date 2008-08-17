@@ -13,20 +13,9 @@ while (ob_get_level()) {
     ob_end_clean();
 }
 
-// setup path seprator
-if (!defined('PATH_SEPARATOR')) {
-    if (OS_WINDOWS) {
-        /** include_path separator(Windows) */
-        define('PATH_SEPARATOR', ';');
-    } else {
-        /** include_path separator(Unix) */
-        define('PATH_SEPARATOR', ':');
-    }
-}
 $base = dirname(dirname(dirname(__FILE__)));
 ini_set('include_path', $base.PATH_SEPARATOR.ini_get('include_path'));
 
-require_once 'PEAR.php';
 require_once 'Ethna/Ethna.php';
 require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
 
