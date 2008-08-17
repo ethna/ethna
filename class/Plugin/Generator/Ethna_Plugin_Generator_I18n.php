@@ -32,6 +32,12 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
     /** @var    boolean  gettext利用フラグ  */ 
     var $use_gettext;
    
+    /** @var    boolean  既存ファイルが存在した場合にtrue */ 
+    var $file_exists;
+
+    /** @var    string   実行時のUnix Time(ファイル名生成用) */ 
+    var $time;
+
     /**
      *  プロジェクトのメッセージカタログを生成する
      *
@@ -45,21 +51,32 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      */
     function &generate($locale, $use_gettext, $ext_dirs = array())
     {
+        $this->time = time();
         $this->locale = $locale;
         $this->use_gettext = $use_gettext;
+
         $outfile_path = $this->_get_output_file();
- 
-        // ファイルの存在チェック
-        if (file_exists($outfile_path)) {
-            printf('Message Catalog file already exists! overwrite?(y/n) : ');
-            flush();
-            $fp = fopen("php://stdin", "r");
-            $r = trim(fgets($fp, 128));
-            fclose($fp);
-            if (strtolower($r) != 'y') {
-                return Ethna::raiseError('aborted by user');
-            }
-        }        
+
+        //
+        //  既存ファイルが存在した場合は、以下の動きをする
+        //
+        //  1. Ethna 組み込みのカタログの場合、既存のiniファイル
+        //  の中身を抽出し、既存の翻訳を可能な限りマージする
+        //  2. gettext 利用の場合は、新たにファイルを作らせ、
+        //  既存翻訳とのマージは msgmergeプログラムを使わせる 
+        //
+        if ($this->file_exists) {
+            $msg = ($this->use_gettext)
+                 ? ("[NOTICE]: Message catalog file already exists! "
+                  . "CREATING NEW FILE ...\n"
+                  . "You can run msgmerge program to merge translation.\n"
+                   )
+                 : ("[NOTICE]: Message catalog file already exists!\n"
+                  . "This is overwritten and existing translation is merged automatically.\n");
+             print "\n-------------------------------\n"
+                 . $msg
+                 . "-------------------------------\n\n"; 
+        }
 
         // app ディレクトリとテンプレートディレクトリを
         // 再帰的に走査する。ユーザから指定があればそれも走査
@@ -103,9 +120,19 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         $locale_dir = $this->ctl->getDirectory('locale');
         $ext = ($this->use_gettext) ? 'po' : 'ini';
         $filename = $this->locale . ".${ext}";
+        $new_filename = NULL;
+
         $outfile_path = "${locale_dir}/"
                       . $this->locale
                       . "/LC_MESSAGES/$filename";
+
+        $this->file_exists = (file_exists($outfile_path));
+        if ($this->file_exists && $this->use_gettext) {
+            $new_filename = $this->locale . '_' . $this->time . ".${ext}";
+            $outfile_path = "${locale_dir}/"
+                          . $this->locale
+                          . "/LC_MESSAGES/$new_filename";
+        }
 
         return $outfile_path;
     }
@@ -168,9 +195,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      */
     function _analyzeFile($file)
     {
-        //  トークンを取得する
         $file_path = realpath($file);
-
         printf("Analyzing file ... %s\n", $file);
 
         //  ファイルを開けないならエラー
@@ -220,7 +245,11 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                  && $token_idx == T_CONSTANT_ENCAPSED_STRING) {
                     $token_str = substr($token_str, 1);     // 最初のクォートを除く
                     $token_str = substr($token_str, 0, -1); // 最後のクォートを除く
-                    $this->tokens[$file_path][] = array($token_str, $token_linenum);
+                    $this->tokens[$file_path][] = array(
+                                                      'token_str' => $token_str,
+                                                      'linenum' => $token_linenum,
+                                                      'translation' => ''
+                                                  );
                     $in_et_function = false;
                     continue;
                 }
@@ -230,6 +259,9 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                 //
             }
         }
+
+        //  Ethna組み込みのメッセージカタログであれば翻訳をマージする
+        $this->_mergeEthnaMessageCatalog();
 
         return true; 
     }
@@ -246,6 +278,33 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
     function _analyzeTemplate($file)
     {
         //  TODO: you should override this method.
+    }
+
+    /**
+     *  Ethna組み込みのメッセージカタログファイルを、上書き
+     *  する場合にマージします。
+     *
+     *  @access private
+     */
+    function _mergeEthnaMessageCatalog()
+    {
+        if (!($this->file_exists && !$this->use_gettext)) {
+            return;
+        }
+        $outfile_path = $this->_get_output_file();
+
+        $i18n = $this->ctl->getI18N();
+        $existing_catalog = $i18n->parseEthnaMsgCatalog($outfile_path);
+
+        foreach ($this->tokens as $file_path => $tokens) {
+            for ($i = 0; $i < count($tokens); $i++) {
+                $token = $tokens[$i];
+                $token_str = $token['token_str'];
+                if (array_key_exists($token_str, $existing_catalog)) {
+                    $this->tokens[$file_path][$i]['translation'] = $existing_catalog[$token_str];
+                }
+            }
+        }
     }
 
     /**
@@ -286,22 +345,23 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         foreach ($this->tokens as $file_path => $tokens) {
             $is_first_loop = false;
             foreach ($tokens as $token) {
-                $token_str = array_shift($token);
-                $token_line = array_shift($token);
+                $token_str = $token['token_str'];
+                $token_line = $token['linenum'];
                 $token_line = ($token_line !== false) ? ":${token_line}" : '';
+                $translation = $token['translation'];
 
                 if ($this->use_gettext) {
                     $contents .= (
                         "#: ${file_path}${token_line}\n"
                       . "msgid \"${token_str}\"\n"
-                      . "msgstr \"\"\n\n"
+                      . "msgstr \"${translation}\"\n\n"
                     ); 
                 } else {
                     if ($is_first_loop === false) {
                         $contents .= "\n; ${file_path}\n";
                         $is_first_loop = true;
                     }
-                    $contents .= "\"${token_str}\" = \"\"\n";
+                    $contents .= "\"${token_str}\" = \"${translation}\"\n";
                 }
             }
         } 

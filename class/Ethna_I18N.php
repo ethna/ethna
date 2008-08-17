@@ -271,9 +271,9 @@ class Ethna_I18N
         $contents = file($file);
         foreach ($contents as $idx => $line) {
 
-            //  コメント行は無視する
+            //  コメント行または空行は無視する
             trim($line);
-            if (strpos($line, ';') === 0) {
+            if (strpos($line, ';') === 0 || preg_match('/^$/', $line)) {
                 continue;
             }
 
