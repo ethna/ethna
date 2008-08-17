@@ -232,97 +232,119 @@ class Ethna_I18N
             }
         }
                      
+        //  localeディレクトリ内のファイルを読み込み、parseする
         $msg_dh = opendir($msg_dir);
+        while (($file = readdir($msg_dh)) !== false) {
+            if (is_dir($file) || !preg_match("/[A-Za-z0-9\-_]+\.ini$/", $file)) {
+                continue;
+            }
+            $msg_file = sprintf("%s/%s", $msg_dir, $file);
+            $messages = $this->parseEthnaMsgCatalog($msg_file);
+            $ret_messages = array_merge($ret_messages, $messages);
+        }
+        
+        return $ret_messages;
+    }
 
+    /**
+     *  Ethna独自のメッセージカタログをparseする
+     *
+     *  @access  public
+     *  @param   string    メッセージカタログファイル名
+     *  @return  array     読み込んだメッセージカタログ。失敗した場合は空の配列 
+     */
+    function parseEthnaMsgCatalog($file)
+    {
+        $messages = array();
+
+        //
         //    ファイルフォーマットは ini ファイルライクだが、
         //    parse_ini_file 関数は使わない。
         //
         //    キーに含められないキーワードや文字があるため。
         //    e.x yes, no {}|&~![() 等
         //    @see http://www.php.net/manual/en/function.parse-ini-file.php
-        while (($file = readdir($msg_dh)) !== false) {
-            if (is_dir($file) || !preg_match("/[A-Za-z0-9\-_]+\.ini$/", $file)) {
+        //
+        //    TODO: 複数行に渡った場合に対応する. 現行の実装は
+        //          Line Parser でしかない
+        //
+        $contents = file($file);
+        foreach ($contents as $idx => $line) {
+
+            //  コメント行は無視する
+            trim($line);
+            if (strpos($line, ';') === 0) {
                 continue;
             }
-            $msg_file = sprintf("%s/%s", $msg_dir, $file);
-            $contents = file($msg_file);
-            foreach ($contents as $idx => $line) {
 
-                //  コメント、もしくは不正な行は無視する
-                trim($line);
-                if (strpos($line, ';') === 0 || strpos($line, '=') === false || $line[0] != '"') {
-                    continue;
-                }
+            $quote = 0;                // ダブルクオートの数
+            $before_is_quote = false;  // 直前の文字がダブルクォートか否か
+            $equal_op = 0;             // 等値演算子の数
+            $is_end = false;           // 終了フラグ
+            $length = strlen($line);
+            $msgid = $msgstr = '';
 
-                $quote = 0;                // ダブルクオートの数
-                $before_is_quote = false;  // 直前の文字がダブルクォートか否か
-                $equal_op = 0;             // 等値演算子の数
-                $is_end = false;           // 終了フラグ
-                $length = strlen($line);
-                $msgid = $msgstr = '';
-
-                //    1文字ずつ、ダブルクォートの数
-                //    を基準にしてパースする
-                for ($pos = 0; $pos < $length; $pos++) {
-            
-                    //    特別な文字で分岐
-                    switch ($line[$pos]) {
-                        case '"':
-                            if (!$before_is_quote) {
-                                $quote++;
-                                continue 2;  // switch 文を抜けるのではなく、
-                                             // for文に戻る。
-                            }
-                            $before_is_quote = false;
-            
-                            //  ダブルクォートが4つに達した時点で終了
-                            if ($quote == 4) {
-                                $is_end = true;   
-                            }
-                            break; 
-                        case '=':
-                            //  等値演算子は文法的にvalidかどうかを確
-                            //  認する手段でしかない 
-                            if ($quote == 2) {
-                                $equal_op++;
-                            }
-                        case '\\': // backslash
-                            if ($quote == 1 || $quote == 3) {
-                                $before_is_quote = true;
-                            }
-                            break;
-                        default:
-                            if ($before_is_quote) {
-                                $before_is_quote = false;
-                            }
-                    }
-
-                    if ($is_end == true) {
+            //    1文字ずつ、ダブルクォートの数
+            //    を基準にしてパースする
+            for ($pos = 0; $pos < $length; $pos++) {
+        
+                //    特別な文字で分岐
+                switch ($line[$pos]) {
+                    case '"':
+                        if (!$before_is_quote) {
+                            $quote++;
+                            continue 2;  // switch 文を抜けるのではなく、
+                                         // for文に戻る。
+                        }
+                        $before_is_quote = false;
+        
+                        //  ダブルクォートが4つに達した時点で終了
+                        if ($quote == 4) {
+                            $is_end = true;   
+                        }
+                        break; 
+                    case '=':
+                        //  等値演算子は文法的にvalidかどうかを確
+                        //  認する手段でしかない 
+                        if ($quote == 2) {
+                            $equal_op++;
+                        }
+                    case '\\': // backslash
+                        if ($quote == 1 || $quote == 3) {
+                            $before_is_quote = true;
+                        }
                         break;
-                    }
-
-                    //  パース済みの文字列を追加
-                    if ($quote == 1) {
-                        $msgid .= $line[$pos];
-                    }
-                    if ($quote == 3) {
-                        $msgstr .= $line[$pos];
-                    }
+                    default:
+                        if ($before_is_quote) {
+                            $before_is_quote = false;
+                        }
                 }
-            
-                //  valid な行かチェック
-                if ($equal_op != 1 || $quote != 4) {
-                    $this->logger->log(LOG_WARNING,
-                                       "invalid message catalog in {$file}, line " . ($idx + 1)
-                    );
-                    continue; 
-                } 
 
-                $ret_messages[$msgid] = $msgstr; 
+                if ($is_end == true) {
+                    break;
+                }
+
+                //  パース済みの文字列を追加
+                if ($quote == 1) {
+                    $msgid .= $line[$pos];
+                }
+                if ($quote == 3) {
+                    $msgstr .= $line[$pos];
+                }
             }
+        
+            //  valid な行かチェック
+            if ($equal_op != 1 || $quote != 4) {
+                $this->logger->log(LOG_WARNING,
+                                   "invalid message catalog in {$file}, line " . ($idx + 1)
+                );
+                continue; 
+            } 
+
+            $messages[$msgid] = $msgstr; 
         }
         
-        return $ret_messages;
+        return $messages;
     }
 }
 // }}}
