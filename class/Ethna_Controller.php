@@ -511,11 +511,6 @@ class Ethna_Controller
      */
     function getDirectory($key)
     {
-        // for B.C.
-        if ($key == 'app' && isset($this->directory[$key]) == false) {
-            return BASE . '/app';
-        }
-
         if (isset($this->directory[$key]) == false) {
             return null;
         }
