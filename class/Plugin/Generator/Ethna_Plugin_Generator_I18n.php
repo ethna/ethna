@@ -214,6 +214,10 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         $token_num = count($file_tokens);
         $in_et_function = false;   
 
+        //  アクションディレクトリは特別扱いするため、それ
+        //  を取得
+        $action_dir = $this->ctl->getActionDir(GATEWAY_WWW);
+
         //  トークンを走査し、関数呼び出しを解析する
         for ($i = 0; $i < $token_num; $i++) {
 
@@ -253,17 +257,93 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                     $in_et_function = false;
                     continue;
                 }
-
-                //
-                //  TODO: ActionForm の $form メンバ解析
-                //
             }
+        }
+
+        //  アクションスクリプト の場合は、
+        //  ActionForm の $form メンバ解析
+        if (preg_match("#$action_dir#", $file_path)) {
+            $this->_analyzeActionForm($file_path); 
         }
 
         //  Ethna組み込みのメッセージカタログであれば翻訳をマージする
         $this->_mergeEthnaMessageCatalog();
 
         return true; 
+    }
+
+    /**
+     *  指定されたPHPスクリプトを調べ、メッセージ処理関数の呼び出し
+     *  箇所を取得します。
+     *
+     *  NOTICE: このメソッドは、指定ファイルがPHPスクリプトとして
+     *          正しいものかどうかはチェックしません。 
+     *
+     *  @access protected
+     *  @param  string  $file_path  走査対象ファイル
+     *  @return true|Ethna_Error true:成功 Ethna_Error:失敗
+     */
+    function _analyzeActionForm($file_path)
+    {
+        //   アクションスクリプトのトークンを取得 
+        $tokens = token_get_all(
+                      file_get_contents($file_path)
+                  );
+
+        //   クラスのトークンのみを取り出す
+        $class_names = array();
+        $class_started = false;
+        for ($i = 0; $i < count($tokens); $i++) { 
+            $token = $tokens[$i];
+            if (is_array($token)) {
+                $token_name = array_shift($token);
+                $token_str = array_shift($token);
+                
+                if ($token_name == T_CLASS) {  //  クラス定義開始
+                    $class_started = true;
+                    continue;
+                }
+                //    T_CLASS の直後に来た T_STRING をクラス名と見做す
+                if ($class_started === true && $token_name == T_STRING) {
+                    $class_started = false;
+                    $class_names[] = $token_str;
+                } 
+            }
+        }
+
+        //  アクションフォームのクラス名を特定
+        $af_classname = NULL;
+        foreach ($class_names as $name) {
+            $action_name = $this->ctl->actionFormToName($name);
+            if (!empty($action_name)) {
+                $af_classname = $name;
+                break;
+            }
+        }
+
+        //  特定したクラスをインスタンス化し、フォーム定義を解析する
+        printf("    Analyzing ActionForm class ... %s\n", $af_classname);
+        require_once $file_path;
+        $af = new $af_classname($this->ctl);
+        $form_def = $af->getDef();
+        $translatable_code = array('name', 'required_error', 'type_error', 'min_error',
+                                   'max_error', 'regexp_error'
+                             );
+        foreach ($form_def as $key => $def) {
+            //    対象となるのは name, *_error
+            //    但し、定義されていた場合のみ対象にする
+            //    @see http://ethna.jp/ethna-document-dev_guide-form-message.html 
+            foreach ($translatable_code as $code) {
+                if (array_key_exists($code, $def)) {
+                    $token_str = $def[$code]; 
+                    $this->tokens[$file_path][] = array(
+                                                      'token_str' => $token_str,
+                                                      'linenum' => false, // 行番号は取得しない
+                                                      'translation' => ''
+                                                  );
+                }
+            }
+        } 
     }
 
     /**
