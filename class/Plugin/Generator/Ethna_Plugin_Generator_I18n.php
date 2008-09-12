@@ -186,8 +186,9 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *  指定されたPHPスクリプトを調べ、メッセージ処理関数の呼び出し
      *  箇所を取得します。
      *
-     *  NOTICE: このメソッドは、指定ファイルがPHPスクリプトとして
-     *          正しいものかどうかはチェックしません。 
+     *  NOTICE: このメソッドは、指定ファイルがPHPスクリプト
+     *          (テンプレートファイル)として正しいものかどう
+     *          かはチェックしません。 
      *
      *  @access protected
      *  @param  string  $file     走査対象ファイル
@@ -262,7 +263,9 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
 
         //  アクションスクリプト の場合は、
         //  ActionForm の $form メンバ解析
-        if (preg_match("#$action_dir#", $file_path)) {
+        $php_ext = $this->ctl->getExt('php');
+        if (preg_match("#$action_dir#", $file_path)
+        && !preg_match("#.*Test\.${php_ext}$#", $file_path)) {
             $this->_analyzeActionForm($file_path); 
         }
 
@@ -348,8 +351,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
 
     /**
      *  指定されたテンプレートファイルを調べ、メッセージ処理関数
-     *  の呼び出し箇所を取得します。各テンプレートの実装に応じて
-     *  このメソッドを実装してください。 
+     *  の呼び出し箇所を取得します。
      *
      *  @access protected
      *  @param  string  $file    走査対象ファイル 
@@ -357,7 +359,80 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      */
     function _analyzeTemplate($file)
     {
-        //  TODO: you should override this method.
+        //  デフォルトはSmartyのテンプレートと看做す
+        $renderer =& $this->ctl->getRenderer();
+        $engine =& $renderer->getEngine();
+        $engine_name = get_class($engine);
+        if (strncasecmp('Smarty', $engine_name, 6) !== 0) {
+            return Ethna::raiseError(
+                       "You seems to use template engine other than Smarty ... : $engine_name"
+                   ); 
+        }
+
+        printf("Analyzing Template file ... %s\n", $file);
+
+        //  use smarty internal function :)
+        $compile_path = $engine->_get_compile_path($file);        
+        $compile_result = NULL;
+        if ($engine->_is_compiled($file, $compile_path)
+         || $engine->_compile_resource($file, $compile_path)) {
+            $compile_result = file_get_contents($compile_path);
+        }
+
+        if (empty($compile_result)) {
+            return Ethna::raiseError(
+                       "could not compile template file : $file"
+                   ); 
+        }
+
+        //  コンパイル済みのテンプレートを解析する
+        $tokens = token_get_all($compile_result);
+
+        for ($i = 0; $i < count($tokens); $i++) { 
+            $token = $tokens[$i];
+            if (is_array($token)) {
+                $token_name = array_shift($token);
+                $token_str = array_shift($token);
+                
+                if ($token_name == T_STRING
+                 && strcmp($token_str, 'smarty_modifier_i18n') === 0) {
+                     $noti18n_str = $this->_find_last_noti18n_str($tokens, $i);
+                     if (!empty($noti18n_str)) {
+                         $noti18n_str = substr($noti18n_str, 1);     // 最初のクォートを除く
+                         $noti18n_str = substr($noti18n_str, 0, -1); // 最後のクォートを除く
+                         $this->tokens[$file][] = array(
+                                                       'token_str' => $noti18n_str,
+                                                       'linenum' => false,
+                                                       'translation' => '',
+                                                  );
+                     }
+                }
+            }
+        }
+    }
+
+    /**
+     *  トークンを逆順に走査し、i18n という文字列「以外」で、かつ
+     *  クォートされている最初のトークンを取得します。
+     *
+     *  @param $tokens 解析対象トークン
+     *  @param $index  インデックス
+     *  @access private 
+     */
+    function _find_last_noti18n_str($tokens, $index)
+    {
+        for ($j = $index; $j > 0; $j--) {
+            $tmp_token = $tokens[$j];
+            if (is_array($tmp_token)) {
+                $tmp_token_name = array_shift($tmp_token);
+                $tmp_token_str = array_shift($tmp_token);
+                if ($tmp_token_name == T_CONSTANT_ENCAPSED_STRING 
+                 && strstr($tmp_token_str, 'i18n') === false) {
+                    return $tmp_token_str;
+                }
+            }
+        }
+        return NULL;
     }
 
     /**
