@@ -906,21 +906,6 @@ class Ethna_ViewClass
      */
     function &_getRenderer()
     {
-        $_ret_object =& $this->_getTemplateEngine();
-        return $_ret_object;
-    }
-    // }}}
-
-    // {{{ _getTemplateEngine
-    /**
-     *  レンダラオブジェクトを取得する(そのうち_getRenderer()に統合される予定)
-     *
-     *  @access protected
-     *  @return object  Ethna_Renderer  レンダラオブジェクト
-     *  @obsolete
-     */
-    function &_getTemplateEngine()
-    {
         $c =& $this->backend->getController();
         $renderer =& $c->getRenderer();
 

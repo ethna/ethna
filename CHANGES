@@ -25,6 +25,8 @@
    を自動的にマージする。gettext の場合は、新たにファイルを生成し、msgmerge プログラムを使って
    翻訳を既存のものとマージするように促す
 - 配布する Smarty を 2.6.20 に追随
+- [Breaking B.C] 互換性を保つために残されていた内部メソッドを削除
+-- Ethna_ViewClass#_getTemplateEngine
 
 *** bug fix
 
