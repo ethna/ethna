@@ -45,7 +45,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 }
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '2.5.0-preview1');
+define('ETHNA_VERSION', '2.5.0-preview2');
 
 /**
  * ダミーのエラーモード
