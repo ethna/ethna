@@ -37,6 +37,8 @@
 - プラグインのクラス名にアンダーバーを許していなかったが、PHPのクラス名的に正当な文字であればOKにするように変更(thanks:maru_cc)
 - Ethna_I18N.php で、メッセージをパースする際に空行を見逃していたバグを修正
 - Ethna_MailSender にてメールを送信する際、テンプレートが存在しなかった場合にも空メールを送ってしまうバグを修正 (thanks: ryosuke@sekido.info -> [ethna-users:1053])
+- smarty_modifier_checkbox が仕様に反する動作をしていたバグを修正し、仕様を厳密化した(thanks: maru_cc)
+-- checked が付くのはスカラーで、0 と空文字列、null, false 以外の場合とする 
 
 ** 2.5.0-preview1
 
