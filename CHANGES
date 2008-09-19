@@ -36,6 +36,7 @@
 -- [appid]/etc/[appid]-ini.php の memcache_use_connect 設定を memcache_use_pconnect に変更
 - プラグインのクラス名にアンダーバーを許していなかったが、PHPのクラス名的に正当な文字であればOKにするように変更(thanks:maru_cc)
 - Ethna_I18N.php で、メッセージをパースする際に空行を見逃していたバグを修正
+- Ethna_MailSender にてメールを送信する際、テンプレートが存在しなかった場合にも空メールを送ってしまうバグを修正 (thanks: ryosuke@sekido.info -> [ethna-users:1053])
 
 ** 2.5.0-preview1
 
