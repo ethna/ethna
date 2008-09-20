@@ -231,7 +231,7 @@ class Ethna_SmartyPlugin_Test extends Ethna_UnitTestBase
         $this->assertNULL($actual);
         fclose($fp);
     }
-    // }}}}
+    // }}}
 }
 // }}}
 
