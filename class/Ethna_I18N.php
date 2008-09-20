@@ -265,43 +265,46 @@ class Ethna_I18N
         //    e.x yes, no {}|&~![() 等
         //    @see http://www.php.net/manual/en/function.parse-ini-file.php
         //
-        //    TODO: 複数行に渡った場合に対応する. 現行の実装は
-        //          Line Parser でしかない
-        //
         $contents = file($file);
+        if ($contents === false) {
+            return $messages;
+        }
+
+        $quote = 0;                   // ダブルクオートの数 
+        $in_translation_line = false; // 翻訳行をパース中か否か
+        $before_is_quote = false;     // 直前の文字がクォート文字(\)か否か
+        $equal_op = 0;                // 等値演算子の数
+        $is_end = false;              // 終了フラグ
+        $msgid = $msgstr = '';
+
         foreach ($contents as $idx => $line) {
 
-            //  コメント行または空行は無視する
-            trim($line);
-            if (strpos($line, ';') === 0 || preg_match('/^$/', $line)) {
+            //  コメント行または空行は無視する。
+            //  ホワイトスペースを除いた上で、それと看做される行も無視する
+            $ltrimed_line = ltrim($line);
+            if ($in_translation_line == false
+            && (strpos($ltrimed_line, ';') === 0 || preg_match('/^$/', $ltrimed_line))) {
                 continue;
             }
 
-            $quote = 0;                // ダブルクオートの数
-            $before_is_quote = false;  // 直前の文字がダブルクォートか否か
-            $equal_op = 0;             // 等値演算子の数
-            $is_end = false;           // 終了フラグ
-            $length = strlen($line);
-            $msgid = $msgstr = '';
-
             //    1文字ずつ、ダブルクォートの数
             //    を基準にしてパースする
+            $length = strlen($line);
             for ($pos = 0; $pos < $length; $pos++) {
-        
+
                 //    特別な文字で分岐
                 switch ($line[$pos]) {
                     case '"':
+                        if ($in_translation_line == false && $pos == 0) {
+                            $in_translation_line = true;  // 翻訳行開始
+                        }
                         if (!$before_is_quote) {
                             $quote++;
                             continue 2;  // switch 文を抜けるのではなく、
-                                         // for文に戻る。
+                                         // for文に戻る = 次の文字へ
                         }
-                        $before_is_quote = false;
-        
-                        //  ダブルクォートが4つに達した時点で終了
-                        if ($quote == 4) {
-                            $is_end = true;   
-                        }
+                        //  クォートされた「"」
+                        $before_is_quote = false;         
                         break; 
                     case '=':
                         //  等値演算子は文法的にvalidかどうかを確
@@ -310,6 +313,7 @@ class Ethna_I18N
                             $equal_op++;
                         }
                     case '\\': // backslash
+                        //   クォート用のバックスラッシュと看做す
                         if ($quote == 1 || $quote == 3) {
                             $before_is_quote = true;
                         }
@@ -318,9 +322,13 @@ class Ethna_I18N
                         if ($before_is_quote) {
                             $before_is_quote = false;
                         }
+                        if ($quote == 4) {
+                            $is_end = true;   
+                        }
                 }
 
                 if ($is_end == true) {
+                    $in_translation_line = false;  //  翻訳行終了
                     break;
                 }
 
@@ -333,15 +341,30 @@ class Ethna_I18N
                 }
             }
         
-            //  valid な行かチェック
-            if ($equal_op != 1 || $quote != 4) {
+            //  一行分のパース終了
+            if ($is_end == false) {
+                //  翻訳行がまだ終わってない場合次の行へ
+                continue;
+            } elseif ($equal_op != 1 || $quote != 4) { 
+                //  終わっているが、valid な翻訳行でない場合
                 $this->logger->log(LOG_WARNING,
                                    "invalid message catalog in {$file}, line " . ($idx + 1)
                 );
                 continue; 
             } 
 
+            //  カタログに追加
+            $msgid = preg_replace('#\\\"#', '"', $msgid);
+            $msgstr = preg_replace('#\\\"#', '"', $msgstr);
             $messages[$msgid] = $msgstr; 
+
+            //  パース用変数をリセット
+            $quote = 0;                   
+            $in_translation_line = false;
+            $before_is_quote = false;
+            $equal_op = 0;
+            $is_end = false;
+            $msgid = $msgstr = '';
         }
         
         return $messages;
