@@ -50,6 +50,9 @@ class Ethna_ActionClass
     /** @var    object  Ethna_Plugin        プラグインオブジェクト */
     var $plugin;
 
+    /** @var    object  Ethna_Logger    ログオブジェクト */
+    var $logger;
+
     /**#@-*/
 
     /**
@@ -73,6 +76,7 @@ class Ethna_ActionClass
 
         $this->session =& $this->backend->getSession();
         $this->plugin =& $this->backend->getPlugin();
+        $this->logger =& $this->backend->getLogger();
     }
 
     /**
