@@ -10,11 +10,11 @@
  *  @version    $Id$
  */
 
-/** アプリケーションベースディレクトリ */
-define('BASE', dirname(dirname(__FILE__)));
+/** Ethnaインストールルートディレクトリ */
+define('ETHNA_INSTALL_BASE', dirname(dirname(__FILE__)));
 
 /** include_pathの設定(このtest runnerがあるディレクトリを追加) */
-ini_set('include_path', dirname(BASE) . PATH_SEPARATOR . ini_get('include_path'));
+ini_set('include_path', dirname(ETHNA_INSTALL_BASE) . PATH_SEPARATOR . ini_get('include_path'));
 
 /** Ethna関連クラスのインクルード */
 require_once 'Ethna/Ethna.php';
