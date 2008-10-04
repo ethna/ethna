@@ -26,10 +26,12 @@ if (Ethna::isError($arg_list)) {
     echo $arg_list->getMessage()."\n";
     exit(2);
 }
-array_shift($arg_list);
+array_shift($arg_list);  // remove "ethna_handle.php"
 
 $eh =& new Ethna_Handle();
 
+//  はじめの引数に - が含まれていればそれを分離する
+//  含まれていた場合、それは -v|--version でなければならない
 list($my_arg_list, $arg_list) = _Ethna_HandleGateway_SeparateArgList($arg_list);
 $r = $opt->getopt($my_arg_list, "v", array("version"));
 if (Ethna::isError($r)) {
@@ -91,6 +93,10 @@ function usage(&$eh)
 function _Ethna_HandleGateway_SeparateArgList($arg_list)
 {
     $my_arg_list = array();
+
+    //  はじめの引数に - が含まれていたら、
+    //  それを $my_arg_list に入れる
+    //  これは --version 判定のため 
     for ($i = 0; $i < count($arg_list); $i++) {
         if ($arg_list[$i]{0} == '-') {
             // assume this should be an option for myself
