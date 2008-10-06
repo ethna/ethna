@@ -396,39 +396,43 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                 
                 if ($token_name == T_STRING
                  && strcmp($token_str, 'smarty_modifier_i18n') === 0) {
-                     $noti18n_str = $this->_find_last_noti18n_str($tokens, $i);
-                     if (!empty($noti18n_str)) {
-                         $noti18n_str = substr($noti18n_str, 1);     // 最初のクォートを除く
-                         $noti18n_str = substr($noti18n_str, 0, -1); // 最後のクォートを除く
-                         $this->tokens[$file][] = array(
-                                                       'token_str' => $noti18n_str,
-                                                       'linenum' => false,
-                                                       'translation' => '',
-                                                  );
-                     }
+                    $i18n_str = $this->_find_template_i18n($tokens, $i);
+                    if (!empty($i18n_str)) {
+                        $i18n_str = substr($i18n_str, 1);     // 最初のクォートを除く
+                        $i18n_str = substr($i18n_str, 0, -1); // 最後のクォートを除く
+                        $this->tokens[$file][] = array(
+                                                      'token_str' => $i18n_str,
+                                                      'linenum' => false,
+                                                      'translation' => '',
+                                                 );
+                    }
                 }
             }
         }
     }
 
     /**
-     *  トークンを逆順に走査し、i18n という文字列「以外」で、かつ
-     *  クォートされている最初のトークンを取得します。
+     *  テンプレートのトークンを逆順に走査し、
+     *  翻訳トークンを取得します。
      *
      *  @param $tokens 解析対象トークン
      *  @param $index  インデックス
      *  @access private 
      */
-    function _find_last_noti18n_str($tokens, $index)
+    function _find_template_i18n($tokens, $index)
     {
         for ($j = $index; $j > 0; $j--) {
             $tmp_token = $tokens[$j];
+
             if (is_array($tmp_token)) {
                 $tmp_token_name = array_shift($tmp_token);
                 $tmp_token_str = array_shift($tmp_token);
                 if ($tmp_token_name == T_CONSTANT_ENCAPSED_STRING 
-                 && strstr($tmp_token_str, 'i18n') === false) {
-                    return $tmp_token_str;
+                 && !preg_match('#^["\']i18n["\']$#', $tmp_token_str)) {
+                    $prev_token = $tokens[$j - 1];
+                    if (!is_array($prev_token) && $prev_token == '=') {
+                        return $tmp_token_str;
+                    } 
                 }
             }
         }
