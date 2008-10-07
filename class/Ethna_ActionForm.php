@@ -850,11 +850,14 @@ class Ethna_ActionForm
             E_FORM_MAX_STRING   => 'max_error',
             E_FORM_REGEXP       => 'regexp_error',
         );
+        //   フォーム定義にエラーメッセージが定義されていれば
+        //   それを使う
         if (array_key_exists($code_map[$code], $def)) {
             $this->ae->add($name, $def[$code_map[$code]], $code);
             return;
         }
 
+        //   定義されていない場合は、内部のメッセージを使う
         if ($code == E_FORM_REQUIRED) {
             switch ($def['form_type']) {
             case FORM_TYPE_TEXT:
