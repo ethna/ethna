@@ -23,6 +23,9 @@ class Ethna_ViewClass
      *  @access private
      */
 
+    /** @var    object  Ethna_Controller    Controllerオブジェクト */
+    var $ctl;
+
     /** @var    object  Ethna_Backend       backendオブジェクト */
     var $backend;
 
@@ -79,6 +82,7 @@ class Ethna_ViewClass
     function Ethna_ViewClass(&$backend, $forward_name, $forward_path)
     {
         $c =& $backend->getController();
+        $this->ctl =& $c;
         $this->backend =& $backend;
         $this->config =& $this->backend->getConfig();
         $this->i18n =& $this->backend->getI18N();
