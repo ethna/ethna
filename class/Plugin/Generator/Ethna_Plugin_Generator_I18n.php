@@ -526,6 +526,10 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         } 
 
         //  finally write.
+        $outfile_dir = dirname($outfile_path);
+        if (!is_dir($outfile_dir)) {
+            Ethna_Util::mkdir($outfile_dir, 0755);
+        }
         $wfp = @fopen($outfile_path, "w");
         if ($wfp == null) {
             return Ethna::raiseError("unable to open file: $outfile_path");
