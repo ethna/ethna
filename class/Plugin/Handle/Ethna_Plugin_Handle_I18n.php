@@ -28,7 +28,7 @@ class Ethna_Plugin_Handle_I18n extends Ethna_Plugin_Handle
     {
         $r = $this->_getopt(
                   array('basedir=',
-                        'locale',
+                        'locale=',
                         'gettext',
                   )
              );
