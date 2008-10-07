@@ -27,7 +27,9 @@
 - 配布する Smarty を 2.6.20 に追随
 - [Breaking B.C] 互換性を保つために残されていた内部メソッドを削除
 -- Ethna_ViewClass#_getTemplateEngine
-- Ethna_ActionClass のメンバに $logger を追加
+- Ethna_ActionClass のメンバに $logger(Ethna_Logger) を追加
+- Ethna_ViewClass のメンバに $ctl(Ethna_Controller) を追加
+-- i18n 周りの情報を容易に変更させるようにするため
 
 *** bug fix
 
