@@ -199,7 +199,7 @@ class Ethna_ActionError
      */
     function &_getActionForm()
     {
-        if (is_null($this->action_form)) {
+        if (isset($this->action_form) == false) {
             $controller =& Ethna_Controller::getInstance();
             $this->action_form =& $controller->getActionForm();
         }
