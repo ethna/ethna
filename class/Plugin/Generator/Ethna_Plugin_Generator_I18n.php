@@ -83,7 +83,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         $app_dir = $this->ctl->getDirectory('app');
         $template_dir = $this->ctl->getDirectory('template');
         $scan_dir = array(
-            $app_dir, $template_dir,
+            $app_dir, "${template_dir}/${locale}",
         );
         $scan_dir = array_merge($scan_dir, $ext_dirs);
 
