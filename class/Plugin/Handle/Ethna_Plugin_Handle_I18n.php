@@ -76,7 +76,7 @@ class Ethna_Plugin_Handle_I18n extends Ethna_Plugin_Handle
     {
         return <<<EOS
 generate message catalog of project:
-    {$this->id} [-b|--basedir=dir] [-l|--locale] [-g|--gettext] [extdir1] [extdir2] ...
+    {$this->id} [-b|--basedir=dir] [-l|--locale=locale] [-g|--gettext] [extdir1] [extdir2] ...
 
 EOS;
     }
@@ -87,7 +87,7 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-l|--locale] [-g|--gettext] [extdir1] [extdir2] ...
+ethna {$this->id} [-b|--basedir=dir] [-l|--locale=locale] [-g|--gettext] [extdir1] [extdir2] ...
 
 EOS;
     }
