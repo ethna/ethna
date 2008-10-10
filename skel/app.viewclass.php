@@ -28,14 +28,6 @@ class {$project_id}_ViewClass extends Ethna_ViewClass
     {
     }
 
-    /**
-     *  set language using actionform value, cookie ... etc.
-     *
-     *  @access protected
-     */
-    function _setLanguage()
-    {
-    }
 }
 // }}}
 

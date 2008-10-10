@@ -131,7 +131,6 @@ class Ethna_ViewClass
      */
     function forward()
     {
-        $this->_setLanguage();
         $renderer =& $this->_getRenderer();
         $this->_setDefault($renderer);
         $renderer->perform($this->forward_path);
@@ -945,19 +944,6 @@ class Ethna_ViewClass
      *  @param  object  Ethna_Renderer  レンダラオブジェクト
      */
     function _setDefault(&$renderer)
-    {
-    }
-    // }}}
-
-    // {{{ _setLanguage
-    /**
-     *  言語設定を設定する。
-     *  アクションフォームやCookieの値等で、テンプレートや言語設定
-     *  を切り替えたい場合にオーバーライドしてください。
-     *
-     *  @access protected
-     */
-    function _setLanguage()
     {
     }
     // }}}

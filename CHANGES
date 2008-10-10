@@ -31,6 +31,8 @@
 - Ethna_ViewClass のメンバに $ctl(Ethna_Controller) を追加
 -- i18n 周りの情報を容易に変更させるようにするため
 - Ethna_Controller#_setLanguage メソッドを、backend, Session, actionform の初期化が終わってから呼ぶようにした。
+- 2.5.0 preview1 で追加した Ethna_ViewClass#_setLanguage メソッドを削除
+-- アクション実行後のロケール変更はあまり意味がないため :(
 
 *** bug fix
 
