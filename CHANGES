@@ -30,6 +30,7 @@
 - Ethna_ActionClass のメンバに $logger(Ethna_Logger) を追加
 - Ethna_ViewClass のメンバに $ctl(Ethna_Controller) を追加
 -- i18n 周りの情報を容易に変更させるようにするため
+- Ethna_Controller#_setLanguage メソッドを、backend, Session, actionform の初期化が終わってから呼ぶようにした。
 
 *** bug fix
 

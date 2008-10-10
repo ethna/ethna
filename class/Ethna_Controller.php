@@ -940,21 +940,21 @@ class Ethna_Controller
         }
         $this->action_name = $action_name;
 
-        // ロケール/言語設定
-        $this->_setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
-
         // オブジェクト生成
         $backend =& $this->getBackend();
 
         $form_name = $this->getActionFormName($action_name);
         $this->action_form =& new $form_name($this);
         $this->action_form->setFormVars();
-
-        // バックエンド処理実行
         $backend->setActionForm($this->action_form);
 
+        // アクションに必要とされる全てのオブジェクトが
+        // 初期化されたあと、言語切り替えフックを呼ぶ
         $session =& $this->getSession();
         $session->restore();
+        $this->_setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
+
+        // バックエンド処理実行
         $forward_name = $backend->perform($action_name);
 
         // アクション実行後フィルタ
@@ -1829,6 +1829,9 @@ class Ethna_Controller
         $this->system_encoding = $system_encoding;
         $this->client_encoding = $client_encoding;
 
+        //   $this->locale, $this->client_encoding を書き換えた場合は
+        //   必ず Ethna_I18N クラスの setLanguageメソッドも呼ぶこと!
+        //   さもないとカタログその他が再ロードされない！
         $i18n =& $this->getI18N();
         $i18n->setLanguage($locale, $system_encoding, $client_encoding);
     }
