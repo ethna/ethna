@@ -26,12 +26,12 @@ require_once 'Ethna/test/TextDetailReporter.php';
 require_once 'Ethna/test/Ethna_UnitTestBase.php';
 
 /** テストケースがあるディレクトリ */
-$test_dir = ETHNA_BASE . '/test';
+$test_dir = ETHNA_INSTALL_BASE . '/test';
 
 $test = &new GroupTest('Ethna All tests');
 
 // テストケースのファイルリストを取得
-require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
+require_once ETHNA_INSTALL_BASE . '/class/Ethna_Getopt.php';
 $opt = new Ethna_Getopt();
 $args = $opt->readPHPArgv();
 list($args, $opts) = $opt->getopt($args, '', array());
