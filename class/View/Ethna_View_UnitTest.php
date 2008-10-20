@@ -25,8 +25,10 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
     function preforward()
     {
         // タイムアウトしないように変更
-        $max_execution_time = ini_get('max_execution_time');
-        set_time_limit(0);
+        if (!ini_get('safe_mode')) {
+            $max_execution_time = ini_get('max_execution_time');
+            set_time_limit(0);
+        }
 
         if (!headers_sent()) {
             // キャッシュしない
@@ -45,8 +47,9 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
 
         // include
         $file = sprintf("%s/%s_UnitTestManager.php",
-            $ctl->getDirectory('app'),
-            $ctl->getAppId());
+                        $ctl->getDirectory('app'),
+                        $ctl->getAppId()
+                );
         include_once $file;
 
         // run
@@ -59,7 +62,10 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
         $this->af->setApp('result', $result);
 
         // タイムアウトを元に戻す
-        set_time_limit($max_execution_time);
+        if (!ini_get('safe_mode')) {
+            set_time_limit($max_execution_time);
+        }
     }
 }
+
 ?>
