@@ -100,13 +100,14 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
         }
 
         // locale
+        $ctl =& Ethna_Handle::getAppController(getcwd());
         if (isset($opt_list['locale'])) {
             $locale = end($opt_list['locale']);
             if (!preg_match('/^[A-Za-z_]+$/', $locale)) {
                 return Ethna::raiseError("You specified locale, but invalid : $locale", 'usage');
             }
         } else {
-            $locale = 'ja_JP';  //  default locale. 
+            $locale = $ctl->getLocale();
         }
 
         // encoding
@@ -119,7 +120,7 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
                 }
             }
         } else {
-            $encoding = 'UTF-8';  //  default encoding. 
+            $encoding = $ctl->getClientEncoding();
         }
 
         $r =& Ethna_Generator::generate('Template', $basedir,

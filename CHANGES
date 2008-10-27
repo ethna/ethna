@@ -5,6 +5,7 @@
 *** bug fix
 
 - safe-mode が ON の際に、Ethna_View_Test がエラーを吐く現象を回避 (thanks:longkey1 [ethna-users:1059])
+- "ethna add-view" コマンドにて、locale 及び client encoding のデフォルト設定が誤っていたバグを修正
 
 ** 2.5.0-preview2
 
