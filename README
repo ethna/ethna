@@ -20,10 +20,10 @@ Webサイトは http://ethna.jp です。
 - メーリングリスト 
 
 -- ユーザ向けメーリングリスト(ethna-users)
---- http://ethna.jp/mailman/listinfo/users
+--- http://ml.ethna.jp/mailman/listinfo/users
 
 -- Subversion リポジトリ 更新状況(ethna-cvs)
---- http://ethna.jp/mailman/listinfo/cvs
+--- http://ml.ethna.jp/mailman/listinfo/cvs
 
 - IRC
 
@@ -31,12 +31,16 @@ WIDE系ネットワーク Ethna:*.jp でEthnaの使い方や開発について
 議論しています。コミッタもいますので、バグなどについて文句
 を言うのはここが一番伝わりやすいかもしれません。
 
+IRCって何? という方は、IRC普及委員会 を参照して下さい。
+
+http://irc.nahi.to/
+
 2. バグ、要望等を報告する方法
 
 Ethna を使っていて、バグや変な挙動を見つけた場合は、開発者に報告をお願い
 します。報告する手段は以下の通りです。
 
+- IRCチャンネル(WIDE系ネットワーク Ethna:*.jp) -> ここが一番伝わりやすいです
 - ユーザ向けメーリングリスト(ethna-users)にバグについて投稿する
 - sourceforge.jp のバグトラッカ
 -- http://sourceforge.jp/tracker/index.php?group_id=1343&atid=5092&func=add
-- IRCチャンネル(WIDE系ネットワーク Ethna:*.jp)
