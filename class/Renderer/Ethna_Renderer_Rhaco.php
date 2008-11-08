@@ -304,8 +304,8 @@ class TemplateParser_Ethna extends TemplateParser
      * @access protected
      * @param string $src
      */
-    function _exec9002_smartyfunctions($src){
-
+    function _exec9002_smartyfunctions($src)
+    {
         $tag = new SimpleTag();
         $smarty_plugin_list = $this->getSmartyPluginList();
 
@@ -351,6 +351,16 @@ class TemplateParser_Ethna extends TemplateParser
         return $src;
     }
 
+    /**
+     * TemplateParser _getTagName
+     *
+     * @access protected
+     * @param string $value
+     */
+    function _getTagName($value)
+    {
+        return sprintf("rt:%s",$value);
+    }
 }
 
 ?>
