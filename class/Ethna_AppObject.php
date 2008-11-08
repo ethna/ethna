@@ -17,6 +17,8 @@
  *  @access     public
  *  @package    Ethna
  *  @todo       複数テーブルの対応
+ *  @todo       remove dependency on PEAR::DB
+ *  @todo       quoteidentifier は Ethna_AppSQL に持っていくべき
  */
 class Ethna_AppObject
 {
@@ -46,13 +48,13 @@ class Ethna_AppObject
     /** @var    string  DB定義プレフィクス */
     var $db_prefix = null;
 
-    /** @var    array   テーブル定義 */
+    /** @var    array   テーブル定義。対応するDB上のテーブル名を指定します。*/
     var $table_def = null;
 
-    /** @var    array   プロパティ定義 */
+    /** @var    array   プロパティ定義。テーブルのカラム定義を記述します。 */
     var $prop_def = null;
 
-    /** @var    array   プロパティ */
+    /** @var    array   プロパティ。各カラムに対応する実際の値です。 */
     var $prop = null;
 
     /** @var    array   プロパティ(バックアップ) */
@@ -64,7 +66,7 @@ class Ethna_AppObject
     /** @var    array   プライマリキー定義 */
     var $id_def = null;
 
-    /** @var    int     オブジェクトID */
+    /** @var    int     オブジェクトID (プライマリーキーの値) */
     var $id = null;
 
     /**#@-*/
@@ -76,9 +78,10 @@ class Ethna_AppObject
      *
      *  @access public
      *  @param  object  Ethna_Backend   &$backend   Ethna_Backendオブジェクト
-     *  @param  mixed   $key_type   検索キー名
-     *  @param  mixed   $key        検索キー
-     *  @param  array   $prop       プロパティ一覧
+     *  @param  mixed   $key_type   レコードを特定するためのカラム名
+     *                              (通常はプライマリーキーのフィールド)
+     *  @param  mixed   $key        レコードを特定するためのカラム値
+     *  @param  array   $prop       プロパティ(レコードの値)一覧
      *  @return mixed   0:正常終了 -1:キー/プロパティ未指定 Ethna_Error:エラー
      */
     function Ethna_AppObject(&$backend, $key_type = null, $key = null, $prop = null)
@@ -104,13 +107,16 @@ class Ethna_AppObject
         // XXX: app objはdb typeを知らなくても動くべき
         $this->my_db_type = $this->my_db_rw->getType();
 
-        // プロパティ定義自動取得
+        // テーブル定義自動取得
+        // 現在、記述可能なテーブルは常に一つで、primaryはtrue
         if (is_null($this->table_def)) {
             $this->table_def = $this->_getTableDef();
         }
         if (is_string($this->table_def)) {
             $this->table_def = array($this->table_def => array('primary' => true));
         }
+        // プロパティ定義(テーブルのカラム定義)自動取得
+        // データベースから自動取得され、キャッシュされる
         if (is_null($this->prop_def)) {
             $this->prop_def = $this->_getPropDef();
         }
@@ -131,7 +137,7 @@ class Ethna_AppObject
                 $this->id_def = $k;
             } else if (is_array($this->id_def)) {
                 $this->id_def[] = $k;
-            } else {
+            } else {  // scalar の場合
                 $this->id_def = array($this->id_def, $k);
             }
         }
@@ -143,6 +149,8 @@ class Ethna_AppObject
         }
 
         // プロパティ設定
+        // $key_type, $key が指定されたらDBから値を取得し、設定する
+        // $prop が設定された場合はそれを設定する
         if (is_null($prop)) {
             $this->_setPropByDB($key_type, $key);
         } else {
@@ -151,6 +159,7 @@ class Ethna_AppObject
 
         $this->prop_backup = $this->prop;
 
+        //   プライマリーキーの値を設定
         if (is_array($this->id_def)) {
             $this->id = array();
             foreach ($this->id_def as $k) {
@@ -167,6 +176,7 @@ class Ethna_AppObject
     // {{{ isValid
     /**
      *  有効なオブジェクトかどうかを返す
+     *  プライマリーキーの値が設定されてなければ不正なオブジェクトです。
      *
      *  @access public
      *  @return bool    true:有効 false:無効
@@ -202,7 +212,7 @@ class Ethna_AppObject
 
     // {{{ getDef
     /**
-     *  オブジェクトのプロパティ定義を返す
+     *  オブジェクトのプロパティ定義(カラム定義)を返す
      *
      *  @access public
      *  @return array   オブジェクトのプロパティ定義
@@ -228,7 +238,7 @@ class Ethna_AppObject
 
     // {{{ getId
     /**
-     *  オブジェクトIDを返す
+     *  オブジェクトID(primary keyの値)を返す
      *
      *  @access public
      *  @return mixed   オブジェクトID
@@ -244,8 +254,8 @@ class Ethna_AppObject
      *  オブジェクトプロパティへのアクセサ(R)
      *
      *  @access public
-     *  @param  string  $key    プロパティ名
-     *  @return mixed   プロパティ
+     *  @param  string  $key    プロパティ名(カラム名)
+     *  @return mixed   プロパティ(カラムの値)
      */
     function get($key)
     {
@@ -263,10 +273,14 @@ class Ethna_AppObject
     // {{{ getName
     /**
      *  オブジェクトプロパティ表示名へのアクセサ
+     *  プロパティ値と、表示用の値が違う場合 (「県」等）に、
+     *  オーバーライドして下さい。
+     *
+     *  表示用の値を返す形で実装します。 
      *
      *  @access public
-     *  @param  string  $key    プロパティ名
-     *  @return string  プロパティの表示名
+     *  @param  string  $key    プロパティ(カラム)名
+     *  @return string  プロパティ(カラム)の表示名
      */
     function getName($key)
     {
@@ -274,13 +288,14 @@ class Ethna_AppObject
     }
     // }}}
 
-    // {{{ getLongName
     /**
      *  オブジェクトプロパティ表示名(詳細)へのアクセサ
+     *  プロパティ値と、表示用の値が違う場合 (「県」等）に、
+     *  オーバーライドして下さい。
      *
      *  @access public
-     *  @param  string  $key    プロパティ名
-     *  @return string  プロパティの表示名(詳細)
+     *  @param  string  $key    プロパティ(カラム)名
+     *  @return string  プロパティ(カラム)の表示名(詳細)
      */
     function getLongName($key)
     {
@@ -291,6 +306,7 @@ class Ethna_AppObject
     // {{{ getNameObject
     /**
      *  プロパティ表示名を格納した連想配列を取得する
+     *  すべての getName メソッドの戻り値を配列として返します。
      *
      *  @access public
      *  @return array   プロパティ表示名を格納した連想配列
@@ -309,10 +325,10 @@ class Ethna_AppObject
 
     // {{{ set
     /**
-     *  オブジェクトプロパティへのアクセサ(W)
+     *  オブジェクトプロパティ(カラムに対応した値)を設定します。
      *
      *  @access public
-     *  @param  string  $key    プロパティ名
+     *  @param  string  $key    プロパティ(カラム)名
      *  @param  string  $value  プロパティ値
      */
     function set($key, $value)
@@ -349,7 +365,9 @@ class Ethna_AppObject
      *  フォーム値からオブジェクトプロパティをインポートする
      *
      *  @access public
-     *  @param  int     $option インポートオプション(OBJECT_IMPORT_IGNORE_NULL,...)
+     *  @param  int     $option インポートオプション
+     *                  OBJECT_IMPORT_IGNORE_NULL: フォーム値が送信されていない場合はスキップ
+     *                  OBJECT_IMPORT_CONVERT_NULL: フォーム値が送信されていない場合、空文字列に変換
      */
     function importForm($option = null)
     {
@@ -386,13 +404,15 @@ class Ethna_AppObject
 
     // {{{ add
     /**
-     *  オブジェクトを追加する
+     *  オブジェクトを追加する(INSERT)
      *
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
+     *  @todo remove dependency on PEAR::DB
      */
     function add()
     {
+        // primary key 定義が sequence の場合、
         // next idの取得: (pgsqlの場合のみ)
         // 取得できた場合はこのidを使う
         foreach (to_array($this->id_def) as $id_def) {
@@ -408,9 +428,11 @@ class Ethna_AppObject
             }
         }
 
+        //    INSERT 文を取得し、実行
         $sql = $this->_getSQL_Add();
         for ($i = 0; $i < 4; $i++) {
             $r =& $this->my_db_rw->query($sql);
+            //   エラーの場合 -> 重複キーエラーの場合はリトライ
             if (Ethna::isError($r)) {
                 if ($r->getCode() == E_DB_DUPENT) {
                     // 重複エラーキーの判別
@@ -450,7 +472,7 @@ class Ethna_AppObject
             }
         }
 
-        // IDの設定
+        // ID(Primary Key)の値を設定
         if (is_array($this->id_def)) {
             $this->id = array();
             foreach ($this->id_def as $k) {
@@ -472,15 +494,17 @@ class Ethna_AppObject
 
     // {{{ update
     /**
-     *  オブジェクトを更新する
+     *  オブジェクトを更新する(UPDATE)
      *
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
+     *  @todo remove dependency on PEAR::DB
      */
     function update()
     {
         $sql = $this->_getSQL_Update();
-        for ($i = 0; $i < 4; $i++) {
+        //   エラーの場合 -> 重複キーエラーの場合はリトライ(4回)
+        for ($i = 0; $i < 4; $i++) {  //  magic number
             $r =& $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
                 if ($r->getCode() == E_DB_DUPENT) {
@@ -530,12 +554,14 @@ class Ethna_AppObject
      *
      *  @access public
      *  @return mixed   0:正常終了 >0:オブジェクトID(追加時) Ethna_Error:エラー
+     *  @todo remove dependency on PEAR::DB
      */
     function replace()
     {
         $sql = $this->_getSQL_Select($this->getIdDef(), $this->getId());
 
-        for ($i = 0; $i < 3; $i++) {
+        //   重複機ーエラーの場合はリトライ(4回) 
+        for ($i = 0; $i < 3; $i++) {  // magic number
             $r = $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
                 return $r;
@@ -561,10 +587,11 @@ class Ethna_AppObject
 
     // {{{ remove
     /**
-     *  オブジェクトを削除する
+     *  オブジェクト(レコード)を削除する
      *
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
+     *  @todo remove dependency on PEAR::DB
      */
     function remove()
     {
@@ -584,20 +611,23 @@ class Ethna_AppObject
 
     // {{{ searchId
     /**
-     *  オブジェクトIDを検索する
+     *  オブジェクトID(プライマリーキーの値)を検索する
      *
      *  @access public
-     *  @param  array   $filter     検索条件
+     *  @param  array   $filter     WHERE検索条件(カラム名をキー、値には実際の条件値か、Ethna_AppSearchObjectを指定)
      *  @param  array   $order      検索結果ソート条件
+     *                              (カラム名をキー。値には、昇順の場合は OBJECT_SORT_ASC, 降順の場合は　OBJECT_SORT_DESC)
      *  @param  int     $offset     検索結果取得オフセット
      *  @param  int     $count      検索結果取得数
      *  @return mixed   array(0 => 検索条件にマッチした件数,
      *                  1 => $offset, $countにより指定された件数のオブジェクトID一覧)
      *                  Ethna_Error:エラー
+     *  TODO: remove dependency on PEAR::DB
      */
     function searchId($filter = null, $order = null, $offset = null, $count = null)
     {
-        if (is_null($offset) == false || is_null($count) == false) {
+       //   プライマリーキー件数検索
+       if (is_null($offset) == false || is_null($count) == false) {
             $sql = $this->_getSQL_SearchLength($filter);
             $r =& $this->my_db_ro->query($sql);
             if (Ethna::isError($r)) {
@@ -635,21 +665,24 @@ class Ethna_AppObject
 
     // {{{ searchProp
     /**
-     *  オブジェクトプロパティを検索する
+     *  オブジェクトプロパティ(レコード)を検索する
      *
      *  @access public
-     *  @param  array   $keys       取得するプロパティ
-     *  @param  array   $filter     検索条件
+     *  @param  array   $keys       取得するプロパティ(カラム名)
+     *  @param  array   $filter     WHERE検索条件(カラム名をキー、値には実際の条件値か、Ethna_AppSearchObjectを指定)
      *  @param  array   $order      検索結果ソート条件
+     *                              (カラム名をキー。値には、昇順の場合は OBJECT_SORT_ASC, 降順の場合は　OBJECT_SORT_DESC)
      *  @param  int     $offset     検索結果取得オフセット
      *  @param  int     $count      検索結果取得数
      *  @return mixed   array(0 => 検索条件にマッチした件数,
      *                  1 => $offset, $countにより指定された件数のオブジェクトプロパティ一覧)
      *                  Ethna_Error:エラー
+     *  TODO: remove dependency on PEAR::DB
      */
     function searchProp($keys = null, $filter = null, $order = null,
                         $offset = null, $count = null)
     {
+        //   プライマリーキー件数検索
         if (is_null($offset) == false || is_null($count) == false) {
             $sql = $this->_getSQL_SearchLength($filter);
             $r =& $this->my_db_ro->query($sql);
@@ -706,6 +739,7 @@ class Ethna_AppObject
      *  @access private
      *  @param  mixed   $key_type   検索キー名
      *  @param  mixed   $key        検索キー
+     *  TODO: depend on PEAR::DB
      */
     function _setPropByDB($key_type, $key)
     {
@@ -805,6 +839,7 @@ class Ethna_AppObject
      *
      *  @access private
      *  @return mixed   0:重複なし Ethna_Error:エラー array:重複キーのプロパティ名一覧
+     *  TODO: depend on PEAR::DB
      */
     function _getDuplicateKeyList()
     {
@@ -858,7 +893,7 @@ class Ethna_AppObject
      *  オブジェクトプロパティを取得するSQL文を構築する
      *
      *  @access private
-     *  @param  array   $key_type   キーとなるプロパティ名一覧
+     *  @param  array   $key_type   検索キーとなるプロパティ(カラム)名一覧
      *  @param  array   $key        $key_typeに対応するキー一覧
      *  @return string  SELECT文
      */
@@ -1072,22 +1107,29 @@ class Ethna_AppObject
      *  オブジェクト検索総数(offset, count除外)を取得するSQL文を構築する
      *
      *  @access private
-     *  @param  array   $filter     検索条件
+     *  @param  array   $filter     WHERE検索条件(カラム名をキー、値には実際の条件値か、Ethna_AppSearchObjectを指定)
      *  @return string  検索総数を取得するためのSELECT文
      *  @todo   my_db_typeの参照を廃止
      */
     function _getSQL_SearchLength($filter)
     {
-        // テーブル
+        // テーブル名をクォートした上で連結。
         $tables = implode(',',
             $this->my_db_ro->quoteIdentifier(array_keys($this->table_def)));
+
+        // プライマリーキー以外の検索条件が含まれていた
+        // 場合は、追加テーブルがあるとみなし、
+        // その解釈は _SQLPlugin_SearchTable に任せる
         if ($this->_isAdditionalField($filter)) {
             $tables .= " " . $this->_SQLPlugin_SearchTable();
         }
 
         $id_def = to_array($this->id_def);
+
+        //  テーブル名.プライマリーキー名
+        //  複数あった場合ははじめのものを使う
         $column_id = $this->my_db_ro->quoteIdentifier($this->_getPrimaryTable())
-            . "." . $this->my_db_ro->quoteIdentifier($id_def[0]);
+             . "." . $this->my_db_ro->quoteIdentifier($id_def[0]);
         $id_count = $this->my_db_ro->quoteIdentifier('id_count');
         $condition = $this->_getSQL_SearchCondition($filter);
 
@@ -1105,11 +1147,12 @@ class Ethna_AppObject
 
     // {{{ _getSQL_SearchId
     /**
-     *  オブジェクトID検索を行うSQL文を構築する
+     *  オブジェクトID(プライマリーキー)検索を行うSQL文を構築する
      *
      *  @access private
-     *  @param  array   $filter     検索条件
+     *  @param  array   $filter     WHERE検索条件(カラム名をキー、値には実際の条件値か、Ethna_AppSearchObjectを指定)
      *  @param  array   $order      検索結果ソート条件
+     *                              (カラム名をキー。値には、昇順の場合は OBJECT_SORT_ASC, 降順の場合は　OBJECT_SORT_DESC)
      *  @param  int     $offset     検索結果取得オフセット
      *  @param  int     $count      検索結果取得数
      *  @return string  オブジェクト検索を行うSELECT文
@@ -1166,9 +1209,10 @@ class Ethna_AppObject
      *  オブジェクトプロパティ検索を行うSQL文を構築する
      *
      *  @access private
-     *  @param  array   $keys       取得プロパティ一覧
-     *  @param  array   $filter     検索条件
+     *  @param  array   $keys       取得プロパティ(カラム名)一覧
+     *  @param  array   $filter     WHERE検索条件(カラム名をキー、値には実際の条件値か、Ethna_AppSearchObjectを指定)
      *  @param  array   $order      検索結果ソート条件
+     *                              (カラム名をキー。値には、昇順の場合は OBJECT_SORT_ASC, 降順の場合は　OBJECT_SORT_DESC)
      *  @param  int     $offset     検索結果取得オフセット
      *  @param  int     $count      検索結果取得数
      *  @return string  オブジェクト検索を行うSELECT文
@@ -1184,7 +1228,12 @@ class Ethna_AppObject
         }
         $p_table = $this->_getPrimaryTable();
 
-        // 検索用追加プロパティ
+        //  検索用追加プロパティ
+        //  プライマリーキー以外の検索キーが含まれていた
+        //  場合は、その解釈を _SQLPlugin_SearchPropDef に任せる
+        //
+        //  これによって、複数のテーブルの条件を指定することが
+        //  できる(一応. ダサいけど)
         if ($this->_isAdditionalField($filter)
             || $this->_isAdditionalField($order)) {
             $search_prop_def = $this->_SQLPlugin_SearchPropDef();
@@ -1201,6 +1250,7 @@ class Ethna_AppObject
                 $column .= ", ";
             }
             $t = isset($def[$key]['table']) ? $def[$key]['table'] : $p_table;
+            //   テーブル名.カラム名
             $column .= sprintf("%s.%s",
                                $this->my_db_ro->quoteIdentifier($t),
                                $this->my_db_ro->quoteIdentifier($key));
@@ -1244,7 +1294,7 @@ class Ethna_AppObject
      *  オブジェクト検索SQLの条件文を構築する
      *
      *  @access private
-     *  @param  array   $filter     検索条件
+     *  @param  array   $filter     WHERE検索条件(カラム名をキー、値には実際の条件値か、Ethna_AppSearchObjectを指定)
      *  @return string  オブジェクト検索の条件文(エラーならnull)
      */
     function _getSQL_SearchCondition($filter)
@@ -1255,7 +1305,12 @@ class Ethna_AppObject
 
         $p_table = $this->_getPrimaryTable();
 
-        // 検索用追加プロパティ
+        //  検索用追加プロパティ
+        //  プライマリーキー以外の検索キーが含まれていた
+        //  場合は、その解釈を _SQLPlugin_SearchPropDef に任せる
+        //
+        //  これによって、複数のテーブルの条件を指定することが
+        //  できる(一応. ダサいけど)
         if ($this->_isAdditionalField($filter)) {
             $search_prop_def = $this->_SQLPlugin_SearchPropDef();
         } else {
@@ -1278,6 +1333,9 @@ class Ethna_AppObject
 
             $t = isset($prop_def[$k]['table']) ? $prop_def[$k]['table'] : $p_table;
 
+            // 細かい条件を指定するには、Ethna_AppSearchObject
+            // を使う必要がある  文字列の場合は LIKE, 数値の場合
+            // は = 条件しか指定できないからである。
             if (is_object($v)) {
                 // Ethna_AppSearchObjectが指定されている場合
                 $condition .= $v->toString(
@@ -1384,7 +1442,8 @@ class Ethna_AppObject
 
     // {{{ _isAdditionalField
     /**
-     *  (検索条件|ソート条件)フィールドに追加フィールドが含まれるかどうかを返す
+     *  (検索条件|ソート条件)フィールドにプライマリーキー以外
+     *  の追加フィールドが含まれるかどうかを返す
      *
      *  @access private
      *  @param  array   $field  (検索条件|ソート条件)定義
@@ -1500,13 +1559,16 @@ class Ethna_AppObject
         $table = preg_replace('/^([A-Z])/e', "strtolower('\$1')", $table);
         $table = preg_replace('/([A-Z])/e', "'_' . strtolower('\$1')", $table);
 
+        //   JOIN には対応していないので、記述可能なテーブルは
+        //   常に一つ、かつ primary は trueになる
         return array($table => array('primary' => true));
     }
     // }}}
 
     // {{{ _getPropDef
     /**
-     *  プロパティ定義を取得する
+     *  プロパティ定義を取得します。キャッシュされている場合は、
+     *  そこから取得します。
      *
      *  @access protected
      *  @return array   プロパティ定義

@@ -112,10 +112,13 @@ class Ethna_DB
      *  テーブル定義情報を取得する
      *
      *  @access public
-     *  @return mixed   array: PEAR::DBに準じたメタデータ Ethna_Error::エラー
+     *  @return mixed   array: PEAR::DBに準じたメタデータ
+     *                  Ethna_Error::エラー
      */
     function getMetaData()
     {
+        //   このメソッドはAppObject
+        //   との連携に必要。
     }
 
     /**
