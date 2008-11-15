@@ -107,7 +107,11 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
                 return Ethna::raiseError("You specified locale, but invalid : $locale", 'usage');
             }
         } else {
-            $locale = $ctl->getLocale();
+            if (Ethna::isError($ctl)) {
+                $locale = 'ja_JP';
+            } else {
+                $locale = $ctl->getLocale();
+            }
         }
 
         // encoding
@@ -120,7 +124,11 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
                 }
             }
         } else {
-            $encoding = $ctl->getClientEncoding();
+            if (Ethna::isError($ctl)) {
+                $encoding = 'UTF-8';
+            } else {
+                $encoding = $ctl->getClientEncoding();
+            }
         }
 
         $r =& Ethna_Generator::generate('Template', $basedir,
