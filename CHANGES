@@ -7,6 +7,7 @@
 - safe-mode が ON の際に、Ethna_View_Test がエラーを吐く現象を回避 (thanks:longkey1 [ethna-users:1059])
 - "ethna add-view" コマンドにて、locale 及び client encoding のデフォルト設定が誤っていたバグを修正
 - Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
+- 複数ファイルをアップロード(つまり配列を使用)する際、必須チェックが機能しなかったバグを修正(thanks: id:syachi5150)
 
 ** 2.5.0-preview2
 

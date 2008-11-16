@@ -73,7 +73,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
         $valid_keys = array();
         if ($var != null) {
             foreach (array_keys($var) as $key) {
-                if ($this->isEmpty($var[$key], $form_def['type']) == false) {
+                if ($this->isEmpty($var[$key], $this->getFormType($name)) == false) {
                     $valid_keys[] = $key;
                 }
             }
