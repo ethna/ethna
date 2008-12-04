@@ -2,6 +2,10 @@
 
 ** 2.5.0-preview3
 
+*** features
+
+- Smarty を 2.6.21 に追随
+
 *** bug fix
 
 - safe-mode が ON の際に、Ethna_View_Test がエラーを吐く現象を回避 (thanks:longkey1 [ethna-users:1059])
