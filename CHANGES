@@ -5,6 +5,7 @@
 *** features
 
 - Smarty を 2.6.22 に追随
+- アプリケーションの最終処理を行うメソッドとして、Ethna_Controller#end を追加
 
 *** bug fix
 

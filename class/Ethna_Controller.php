@@ -268,6 +268,17 @@ class Ethna_Controller
     }
 
     /**
+     *  アプリケーション実行後の後始末を行います。 
+     *
+     *  @access protected 
+     */
+    function end()
+    {
+        //  必要に応じてオーバライドして下さい。
+        $this->logger->end();    
+    }
+
+    /**
      *  (現在アクティブな)コントローラのインスタンスを返す
      *
      *  @access public
@@ -798,6 +809,7 @@ class Ethna_Controller
     {
         $c =& new $class_name;
         $c->trigger($action_name, $fallback_action_name);
+        $c->end();
     }
 
     /**
@@ -814,6 +826,7 @@ class Ethna_Controller
         $c =& new $class_name(GATEWAY_CLI);
         $c->action_cli[$action_name] = array();
         $c->trigger($action_name, "", $enable_filter);
+        $c->end();
     }
 
     /**
@@ -830,6 +843,7 @@ class Ethna_Controller
 
         $c =& new $class_name(GATEWAY_XMLRPC);
         $c->trigger("", "", false);
+        $c->end();
     }
 
     /**
@@ -845,6 +859,7 @@ class Ethna_Controller
     {
         $c =& new $class_name(GATEWAY_SOAP);
         $c->trigger($action_name, $fallback_action_name);
+        $c->end();
     }
 
     /**
