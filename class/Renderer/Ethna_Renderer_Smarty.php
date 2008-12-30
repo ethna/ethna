@@ -49,8 +49,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
 
-        $this->engine->plugins_dir = array_merge(array(SMARTY_DIR . 'plugins'),
-                                                 $controller->getDirectory('plugins'));
+        $this->engine->plugins_dir = array_merge(
+            $controller->getDirectory('plugins'),
+            array(SMARTY_DIR . 'plugins')
+        );
 
         $this->_setDefaultPlugin();
     }
