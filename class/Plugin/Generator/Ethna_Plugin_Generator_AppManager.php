@@ -28,15 +28,14 @@ class Ethna_Plugin_Generator_AppManager extends Ethna_Plugin_Generator
      */
     function generate($manager_name)
     {
-        $manager_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($manager_name));
-
+        $class_name = $this->ctl->getManagerClassName($manager_name);
         $app_dir = $this->ctl->getDirectory('app');
-        $app_path = ucfirst($this->ctl->getAppId()) . '_' . $manager_id .'Manager.php';
+        $app_path = "${class_name}.php";
 
         $macro = array();
         $macro['project_id'] = $this->ctl->getAppId();
         $macro['app_path'] = $app_path;
-        $macro['app_manager'] = ucfirst($this->ctl->getAppId()) . '_' . $manager_id;
+        $macro['app_manager'] = $class_name;
 
         $user_macro = $this->_getUserMacro();
         $macro = array_merge($macro, $user_macro);
