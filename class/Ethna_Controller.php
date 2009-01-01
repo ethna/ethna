@@ -1381,21 +1381,12 @@ class Ethna_Controller
     {
         $this->filter_chain = array();
         foreach ($this->filter as $filter) {
-            //バージョン0.2.0以前のフィルタ群から探す
-            $file = sprintf("%s/%s.%s", $this->getDirectory('filter'), $filter,$this->getExt('php'));
-            if (file_exists($file)) {
-                include_once $file;
-                if (class_exists($filter)) {
-                    $this->filter_chain[] =& new $filter($this);
-                }
-            } else {  //プラグインから探す．
-                $filter_plugin =& $this->plugin->getPlugin('Filter', $filter);
-                if (Ethna::isError($filter_plugin)) {
-                    continue;
-                }
-
-                $this->filter_chain[] =& $filter_plugin;
+            $filter_plugin =& $this->plugin->getPlugin('Filter', $filter);
+            if (Ethna::isError($filter_plugin)) {
+                continue;
             }
+
+            $this->filter_chain[] =& $filter_plugin;
         }
     }
 
