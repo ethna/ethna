@@ -68,6 +68,9 @@ class Ethna_ViewClass
     /** @var    string  遷移先テンプレートファイル名 */
     var $forward_path;
 
+    /** @var    boolean  配列フォームを呼んだカウンタをリセットするか否か */
+    var $reset_counter = false;
+
     /**#@-*/
 
     // {{{ Ethna_ViewClass
@@ -141,6 +144,7 @@ class Ethna_ViewClass
     /**
      *  helperアクションフォームオブジェクトを設定する
      *
+     *  @param  string $action アクション名
      *  @access public
      */
     function addActionFormHelper($action)
@@ -230,6 +234,18 @@ class Ethna_ViewClass
     }
     // }}}
 
+    // {{{ resetFormCounter
+    /**
+     *  フォームヘルパ用、内部フォームカウンタをリセットする
+     *
+     *  @access public
+     */
+    function resetFormCounter()
+    {
+        $this->reset_counter = true;
+    }
+    // }}}
+
     // {{{ getFormName
     /**
      *  指定されたフォーム項目に対応するフォーム名(w/ レンダリング)を取得する
@@ -294,6 +310,11 @@ class Ethna_ViewClass
         // 配列フォームが何回呼ばれたかを保存するカウンタ
         if (isset($def['type']) && is_array($def['type'])) {
             static $form_counter = array();
+            if ($this->reset_counter) {
+                $form_counter = array();
+                $this->reset_counter = false;
+            }
+
             if (isset($form_counter[$action]) === false) {
                 $form_counter[$action] = array();
             }

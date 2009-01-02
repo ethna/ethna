@@ -789,16 +789,20 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
 {
     if ($repeat) {
         // {form}: ブロック内部に進む前の処理
+        
+        // 配列指定のフォームヘルパ用カウンタをリセットする
+        $c =& Ethna_Controller::getInstance();
+        $view =& $c->getView();
+        $view->resetFormCounter();
 
         // {form default=... }
         if (isset($params['default']) === false) {
             // 指定なしのときは $form を使う
             // 1テンプレートに複数 {form} を指定する場合は、
             // default を指定することが必要
-            $c =& Ethna_Controller::getInstance();
             $af =& $c->getActionForm();
 
-            // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
+            // c.f. http://smarty.net/manual/en/plugins.block.functions.php
             $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['default']
                 =& $af->getArray(false);
         }
@@ -823,7 +827,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             return null;
         }
 
-        // ethna_action
+        // {form ethna_action=... }
         if (isset($params['ethna_action'])) {
             $ethna_action = $params['ethna_action'];
             unset($params['ethna_action']);
@@ -833,7 +837,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             $content = $hidden . $content;
         }
 
-        //  name
+        //  {form name=... }
         //  指定された場合は、submitされた {form}を識別する
         //  id をhiddenタグで指定する
         $name = $params['name'];
