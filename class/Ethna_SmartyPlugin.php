@@ -761,10 +761,19 @@ function smarty_function_form_input($params, &$smarty)
         }
     }
 
-    // 現在のアクションで受け取ったフォーム値
+    // 現在のアクションで受け取ったフォーム値を補正する
+    // 補正できるのは、以下の場合のみ
+    //
+    // 1. {form name=...} の値が設定されていないか、submitされていないとき 
+    // 2. {form name=...} の値と、submitされたそれが等しいとき
     $af =& $c->getActionForm();
     $val = $af->get($name);
-    if ($val !== null) {
+    $form_id = $block_params['name'];     // {form name=... }
+    $cur_form_id = $af->get('ethna_fid'); // submitされたフォームID
+    $can_fill = ($cur_form_id == null 
+              || $form_id == null 
+              || $form_id == $cur_form_id);
+    if ($can_fill && $val !== null) {
         $params['default'] = $val;
     }
 
@@ -781,15 +790,25 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
     if ($repeat) {
         // {form}: ブロック内部に進む前の処理
 
-        // default
+        // {form default=... }
         if (isset($params['default']) === false) {
             // 指定なしのときは $form を使う
+            // 1テンプレートに複数 {form} を指定する場合は、
+            // default を指定することが必要
             $c =& Ethna_Controller::getInstance();
             $af =& $c->getActionForm();
 
             // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
             $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['default']
                 =& $af->getArray(false);
+        }
+
+        // {form name=... }
+        // 複数 {form} が置かれた場合に、それぞれを識別する役割を果たす
+        if (isset($params['name']) === false) {
+            // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
+            $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['name']
+                = 'default';
         }
 
         // ここで返す値は出力されない
@@ -812,6 +831,18 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             $view->addActionFormHelper($ethna_action);
             $hidden = $c->getActionRequest($ethna_action, 'hidden');
             $content = $hidden . $content;
+        }
+
+        //  name
+        //  指定された場合は、submitされた {form}を識別する
+        //  id をhiddenタグで指定する
+        $name = $params['name'];
+        unset($params['name']);
+        if ($name != 'default') {
+            $name_hidden = sprintf('<input type="hidden" name="ethna_fid" value="%s" />',
+                                   htmlspecialchars($name, ENT_QUOTES)
+                           ); 
+            $content = $name_hidden . $content;
         }
 
         // enctype の略称対応

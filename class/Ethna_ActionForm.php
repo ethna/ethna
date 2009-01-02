@@ -198,6 +198,20 @@ class Ethna_ActionForm
             $http_vars =& $_GET;
         }
 
+        //
+        //  ethna_fid というフォーム値は、フォーム定義に関わらず受け入れる
+        //  これは、submitされたフォームを識別するために使われる
+        //  null の場合は、以下の場合である
+        //
+        //  1. フォームヘルパが使われていない
+        //  2. 画面の初期表示などで、submitされなかった
+        //  3. {form name=...} が未設定である
+        //
+        $this->form_vars['ethna_fid'] = (isset($http_vars['ethna_fid']) == false
+                                      || is_null($http_vars['ethna_fid']))
+                                      ? null
+                                      : $http_vars['ethna_fid'];
+
         foreach ($this->form as $name => $def) {
             $type = is_array($def['type']) ? $def['type'][0] : $def['type'];
             if ($type == VAR_TYPE_FILE) {
