@@ -80,6 +80,9 @@ class Ethna_ActionForm
     /** @var    array   アプリケーションオブジェクト(helper)で利用しないフォーム名 */
     var $helper_skip_form = array();
 
+    /** @var    int   フォーム配列で使用可能な深さの上限 */
+    var $max_form_deps = 10;
+
     /**#@-*/
 
     /**
@@ -135,10 +138,7 @@ class Ethna_ActionForm
      */
     function get($name)
     {
-        if (isset($this->form_vars[$name])) {
-            return $this->form_vars[$name];
-        }
-        return null;
+        return $this->_getVarsByFormName($this->form_vars, $name);
     }
 
     /**
@@ -181,12 +181,125 @@ class Ethna_ActionForm
         // try message catalog
         return $this->i18n->get($name);
     }
+    
+    /**
+     *  フォーム名に対応するキーの配列を返す
+     *
+     *  @access private
+     *  @param  string  $name   フォーム名
+     *  @return array   キーの配列
+     */
+    function _getFormNameArray($name)
+    {
+        // 多次元配列を指定した場合
+        if (preg_match('/^.*\[[^\]]+\]$/', $name)) { 
+            $buff = preg_replace('/\]\[/', '[', $name); // hoge[foo][bar] => hoge[foo[bar]
+            $buff = preg_replace('/\]/', "", $buff);    // hoge][foo[bar] => hoge[foo[bar
+            $ret = explode('[', $buff);                 // hoge[foo[bar   => array('hoge', 'foo', 'var')
+        } else {
+            // 多次元配列を指定していない場合
+            $ret = array($name);
+        }
+        return $ret;
+    }
+
+    /**
+     *  配列の中からキーで指定された要素を取り出す
+     *
+     *  @access private
+     *  @param  array   &$target    対象とする配列
+     *  @param  string  $nane       キー
+     *  @return string  指定された要素
+     */
+    function _getVarsByFormName(&$target, $name)
+    {
+        $keys = $this->_getFormNameArray($name);
+        return $this->_getVarsByKeys($target, $keys);
+    }
+
+    /**
+     *  配列の中にキーで指定された要素を登録する
+     *  フォーム定義にキーがあるかどうかは無関係に登録します
+     *
+     *  @access private
+     *  @param  array   &$target    対象とする配列
+     *  @param  string  $nane       キー
+     *  @param  mixde   $value      登録する値
+     */
+    function _setVarsByFormName(&$target, $name, $vars)
+    {
+        $keys = $this->_getFormNameArray($name);
+        $this->_setVarsByKeys($target, $keys, $vars);
+    }
+    
+    /**
+     *  配列の中からキーで指定された要素を取り出す
+     *
+     *  @access private
+     *  @param  array   &$target    対象とする配列
+     *  @param  array   $keys       キーの配列
+     *  @return string  指定された要素
+     */
+    function _getVarsByKeys(&$target, $keys)
+    {
+        $count = count($keys);
+        if ($count == 0) { // 探索完了
+            return $target;
+        } elseif ($this->max_form_deps + 1 <= $count) { // 深すぎる配列を制限する
+            return null;
+        }
+
+        // まだ探索するキーが残っている
+        $curval = array_shift($keys);
+        if (is_array($target) && array_key_exists($curval, $target)) {
+            return $this->_getVarsByKeys($target[$curval], $keys);
+        }
+        return null;
+    }
+
+    function _setVarsByKeys(&$target, $keys, &$var)
+    {
+        $count = count($keys);
+        if ($count == 0) { // 探索完了
+            $target = $var;
+            return;
+        } elseif ($this->max_form_deps + 1 <= $count) { // 深すぎる配列を制限する
+            return;
+        }
+
+        // まだ探索するキーが残っている
+        $curval = array_shift($keys);
+        if (is_array($target)) {
+            if (! array_key_exists($curval, $target)) {
+                $target[$curval] = null;
+            }
+        } else {
+            $target = array($curval => null);
+        }
+
+        $this->_setVarsByKeys($target[$curval], $keys, $var);
+    }
+
+    /**
+     *  $_FILESの中からキーで指定された要素を取り出す
+     *
+     *  @access private
+     *  @param  array   &$target    対象とする配列
+     *  @param  string  $nane       キー
+     *  @param  string  $key        $_FILESに含まれる項目(tmp_name等)
+     *  @return string  指定された要素
+     */
+    function _getFilesInfoByFormName(&$target, $name, $key)
+    {
+        $form_keys = $this->_getFormNameArray($name);
+        array_splice($form_keys, 1, 0, $key);
+        return $this->_getVarsByKeys($target, $form_keys);
+    }
 
     /**
      *  ユーザから送信されたフォーム値をフォーム値定義に従ってインポートする
      *
      *  @access public
-     *  @todo   多次元の配列への対応
      */
     function setFormVars()
     {
@@ -218,22 +331,22 @@ class Ethna_ActionForm
                 // ファイルの場合
 
                 // 値の有無の検査
-                if (isset($_FILES[$name]) == false || is_null($_FILES[$name])) {
-                    $this->form_vars[$name] = null;
+                if (is_null($this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name'))) {
+                    $this->set($name, null);
                     continue;
                 }
 
                 // 配列構造の検査
                 if (is_array($def['type'])) {
-                    if (is_array($_FILES[$name]['tmp_name']) == false) {
+                    if (is_array($this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name')) == false) {
                         $this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
-                        $this->form_vars[$name] = null;
+                        $this->set($name, null);
                         continue;
                     }
                 } else {
-                    if (is_array($_FILES[$name]['tmp_name'])) {
+                    if (is_array($this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name'))) {
                         $this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
-                        $this->form_vars[$name] = null;
+                        $this->set($name, null);
                         continue;
                     }
                 }
@@ -242,62 +355,65 @@ class Ethna_ActionForm
                 if (is_array($def['type'])) {
                     $files = array();
                     // ファイルデータを再構成
-                    foreach (array_keys($_FILES[$name]['name']) as $key) {
+                    foreach (array_keys($this->_getFilesInfoByFormName($_FILES, $name, 'name')) as $key) {
                         $files[$key] = array();
-                        $files[$key]['name'] = $_FILES[$name]['name'][$key];
-                        $files[$key]['type'] = $_FILES[$name]['type'][$key];
-                        $files[$key]['size'] = $_FILES[$name]['size'][$key];
-                        $files[$key]['tmp_name'] = $_FILES[$name]['tmp_name'][$key];
-                        if (isset($_FILES[$name]['error']) == false) {
+                        $files[$key]['name'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'name');
+                        $files[$key]['type'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'type');
+                        $files[$key]['size'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'size');
+                        $files[$key]['tmp_name'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'tmp_name');
+                        if ($this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'error') == null) {
                             // PHP 4.2.0 以前
                             $files[$key]['error'] = 0;
                         } else {
-                            $files[$key]['error'] = $_FILES[$name]['error'][$key];
+                            $files[$key]['error'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'error');
                         }
                     }
                 } else {
-                    $files = $_FILES[$name];
-                    if (isset($files['error']) == false) {
+                    $files['name'] = $this->_getFilesInfoByFormName($_FILES, $name, 'name');
+                    $files['type'] = $this->_getFilesInfoByFormName($_FILES, $name, 'type');
+                    $files['size'] = $this->_getFilesInfoByFormName($_FILES, $name, 'size');
+                    $files['tmp_name'] = $this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name');
+                    if ($this->_getFilesInfoByFormName($_FILES, $name, 'error') == null) {
+                        // PHP 4.2.0 以前
                         $files['error'] = 0;
+                    } else {
+                        $files['error'] = $this->_getFilesInfoByFormName($_FILES, $name, 'error');
                     }
                 }
 
                 // 値のインポート
-                $this->form_vars[$name] = $files;
+                $this->set($name, $files);
 
             } else {
                 // ファイル以外の場合
 
+                $target_var = $this->_getVarsByFormName($http_vars, $name);
+
                 // 値の有無の検査
-                if (isset($http_vars[$name]) == false
-                    || is_null($http_vars[$name])) {
-                    $this->form_vars[$name] = null;
-                    if (isset($http_vars["{$name}_x"])
-                        && isset($http_vars["{$name}_y"])) {
-                        // 以前の仕様に合わせる
-                        $this->form_vars[$name] = $http_vars["{$name}_x"];
-                    }
+                if (isset($target_var) == false
+                    || is_null($target_var)) {
+                    $this->set($name, null);
                     continue;
                 }
 
                 // 配列構造の検査
                 if (is_array($def['type'])) {
-                    if (is_array($http_vars[$name]) == false) {
+                    if (is_array($target_var) == false) {
                         // 厳密には、この配列の各要素はスカラーであるべき
                         $this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
-                        $this->form_vars[$name] = null;
+                        $this->set($name, null);
                         continue;
                     }
                 } else {
-                    if (is_array($http_vars[$name])) {
+                    if (is_array($target_var)) {
                         $this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
-                        $this->form_vars[$name] = null;
+                        $this->set($name, null);
                         continue;
                     }
                 }
 
                 // 値のインポート
-                $this->form_vars[$name] = $http_vars[$name];
+                $this->set($name, $target_var);
             }
         }
     }
@@ -321,7 +437,7 @@ class Ethna_ActionForm
      */
     function set($name, $value)
     {
-        $this->form_vars[$name] = $value;
+        $this->_setVarsByFormName($this->form_vars, $name, $value);
     }
 
     /**
@@ -519,29 +635,24 @@ class Ethna_ActionForm
         if ($this->form[$form_name]['type'] != VAR_TYPE_FILE) {
             
             //    入力値とフィルタ定義を取り出す
-            $form_var = (isset($this->form_vars[$form_name]))
-                      ? $this->form_vars[$form_name]
-                      : null;
+            $form_var = $this->get($form_name);
             $filter = (isset($this->form[$form_name]['filter']))
                     ? $this->form[$form_name]['filter']
                     : null;
 
             //    フィルタを適用
             if (is_array($this->form[$form_name]['type']) == false) {
-                $this->form_vars[$form_name]
-                    = $this->_filter($form_var, $filter);
+                $this->set($form_name, $this->_filter($form_var, $filter));
             } else if ($form_var != null) {  //  配列の場合
-                foreach (array_keys($this->form_vars[$form_name]) as $key) {
-                    $this->form_vars[$form_name][$key]
-                        = $this->_filter($this->form_vars[$form_name][$key], $filter);
+                foreach (array_keys($form_var) as $key) {
+                    $this->set($form_name."[".$key."]", $this->_filter($form_var[$key], $filter));
                 }
             } else {  //  配列で値が空の場合
-                $this->form_vars[$form_name]
-                    = $this->_filter($form_var, $filter);
+                $this->set($form_name, $this->_filter($form_var, $filter));
             }
         }
 
-        $form_vars = $this->form_vars[$form_name];
+        $form_vars = $this->get($form_name);
         $plugin = $this->_getPluginDef($form_name);
 
         // type のチェックを処理の最初に追加
@@ -646,7 +757,7 @@ class Ethna_ActionForm
      */
     function check($name)
     {
-        if (is_null($this->form_vars[$name]) || $this->form_vars[$name] === "") {
+        if (is_null($this->get($name)) || $this->get($name) === "") {
             return null;
         }
 
@@ -654,7 +765,7 @@ class Ethna_ActionForm
         $c =& Ethna_Controller::getInstance();
         $this->backend =& $c->getBackend();
 
-        return to_array($this->form_vars[$name]);
+        return to_array($this->get($name));
     }
 
     /**
@@ -667,7 +778,7 @@ class Ethna_ActionForm
     function &checkVendorChar($name)
     {
         $null = null;
-        $string = $this->form_vars[$name];
+        $string = $this->get($name);
 
         for ($i = 0; $i < strlen($string); $i++) {
             /* JIS13区のみチェック */
@@ -805,7 +916,7 @@ class Ethna_ActionForm
                 continue;
             }
 
-            $form_value = $this->form_vars[$key];
+            $form_value = $this->get($key);
             if (is_array($value['type'])) {
                 $form_array = true;
             } else {
@@ -813,7 +924,7 @@ class Ethna_ActionForm
                 $form_array = false;
             }
 
-            if (is_null($this->form_vars[$key])) {
+            if (is_null($this->get($key))) {
                 // フォーム値が送られていない場合はそもそもhiddenタグを出力しない
                 continue;
             }
