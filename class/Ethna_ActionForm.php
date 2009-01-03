@@ -1267,6 +1267,13 @@ class Ethna_ActionForm
     function _setFormDef()
     {
         foreach ($this->form as $key => $value) {
+            if (is_numeric($key)) {
+                $this->form[$value] = array();
+                unset($this->form[$key]);
+            }
+        }
+
+        foreach ($this->form as $key => $value) {
             if (array_key_exists($key, $this->form_template)
                 && is_array($this->form_template)) {
                 foreach ($this->form_template[$key] as $def_key => $def_value) {
