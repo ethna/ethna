@@ -17,6 +17,12 @@ require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
  */
 class Ethna_SmartyPlugin_Test extends Ethna_UnitTestBase
 {
+    function tearDown()
+    {
+        $ctl =& new Ethna_Controller();
+        $ctl->setClientEncoding('UTF-8');
+    }
+
     // {{{ test_smarty_function_select
     function test_smarty_function_select()
     {
