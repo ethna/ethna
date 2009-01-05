@@ -393,6 +393,11 @@ class Ethna_ActionForm
                 if (isset($target_var) == false
                     || is_null($target_var)) {
                     $this->set($name, null);
+                    if (isset($http_vars["{$name}_x"])
+                     && isset($http_vars["{$name}_y"])) {
+                        // 以前の仕様に合わせる
+                        $this->set($name, $http_vars["{$name}_x"]);
+                    }
                     continue;
                 }
 
