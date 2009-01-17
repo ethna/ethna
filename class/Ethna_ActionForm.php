@@ -116,7 +116,7 @@ class Ethna_ActionForm
         }
 
         // フォーム値定義の設定
-        $this->_setFormDef_Helper();
+        $this->_setFormDef_HelperObj();
         $this->_setFormDef();
 
         // 省略値補正
@@ -1227,11 +1227,12 @@ class Ethna_ActionForm
     }
 
     /**
-     *  ヘルパオブジェクト経由でのフォーム値定義を設定する
+     *  ヘルパオブジェクト(アプリケーションオブジェクト)
+     *  経由でのフォーム値定義を設定する
      *
      *  @access protected
      */
-    function _setFormDef_Helper()
+    function _setFormDef_HelperObj()
     {
         foreach (array_keys($this->helper_app_object) as $key) {
             $object =& $this->helper_app_object[$key];
