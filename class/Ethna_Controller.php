@@ -957,17 +957,19 @@ class Ethna_Controller
 
         // オブジェクト生成
         $backend =& $this->getBackend();
-
-        $form_name = $this->getActionFormName($action_name);
-        $this->action_form =& new $form_name($this);
-        $this->action_form->setFormVars();
-        $backend->setActionForm($this->action_form);
-
-        // アクションに必要とされる全てのオブジェクトが
-        // 初期化されたあと、言語切り替えフックを呼ぶ
         $session =& $this->getSession();
         $session->restore();
+
+        // 言語切り替えフックを呼ぶ
         $this->_setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
+
+        // アクションフォーム初期化
+        // フォーム定義、フォーム値設定
+        $form_name = $this->getActionFormName($action_name);
+        $this->action_form =& new $form_name($this);
+        $this->action_form->setFormDef_PreHelper();
+        $this->action_form->setFormVars();
+        $backend->setActionForm($this->action_form);
 
         // バックエンド処理実行
         $forward_name = $backend->perform($action_name);
