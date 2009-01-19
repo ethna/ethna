@@ -9,7 +9,6 @@
  *  @version    $Id$
  */
 require_once 'Smarty/Smarty.class.php';
-require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
 
 // {{{ Ethna_Renderer_Smarty
 /**
@@ -51,7 +50,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
         $this->engine->plugins_dir = array_merge(
             $controller->getDirectory('plugins'),
-            array(SMARTY_DIR . 'plugins')
+            array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
         );
 
         $this->_setDefaultPlugin();
@@ -64,34 +63,6 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      */
     function _setDefaultPlugin()
     {
-        // default modifiers
-        $this->setPlugin('number_format','modifier','smarty_modifier_number_format');
-        $this->setPlugin('strftime','modifier','smarty_modifier_strftime');
-        $this->setPlugin('count','modifier','smarty_modifier_count');
-        $this->setPlugin('join','modifier','smarty_modifier_join');
-        $this->setPlugin('filter','modifier', 'smarty_modifier_filter');
-        $this->setPlugin('unique','modifier','smarty_modifier_unique');
-        $this->setPlugin('wordwrap_i18n','modifier','smarty_modifier_wordwrap_i18n');
-        $this->setPlugin('truncate_i18n','modifier','smarty_modifier_truncate_i18n');
-        $this->setPlugin('i18n','modifier','smarty_modifier_i18n');
-        $this->setPlugin('checkbox','modifier','smarty_modifier_checkbox');
-        $this->setPlugin('select','modifier','smarty_modifier_select');
-        $this->setPlugin('form_value','modifier','smarty_modifier_form_value');
-
-        // default functions
-        $this->setPlugin('is_error','function','smarty_function_is_error');
-        $this->setPlugin('message','function','smarty_function_message');
-        $this->setPlugin('uniqid','function','smarty_function_uniqid');
-        $this->setPlugin('select','function','smarty_function_select');
-        $this->setPlugin('checkbox_list','function','smarty_function_checkbox_list');
-        $this->setPlugin('form_name','function','smarty_function_form_name');
-        $this->setPlugin('form_input','function','smarty_function_form_input');
-        $this->setPlugin('form_submit','function','smarty_function_form_submit');
-        $this->setPlugin('url','function','smarty_function_url');
-        $this->setPlugin('csrfid','function','smarty_function_csrfid');
-
-        // default blocks
-        $this->setPlugin('form','block','smarty_block_form');       
     }
 
     /**

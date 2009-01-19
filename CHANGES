@@ -17,6 +17,10 @@
 - フォーム定義を動的に変更するためのAPIを追加
 -- Ethna_ActionForm#setFormDef_PreHelper
 --- Ethna_Backend や Ethna_Session が初期化後に呼ばれる 
+- Ethna 組み込みの Smarty プラグインを分割
+-- Ethna 組み込みの Smarty プラグインとして class/Plugin/Smarty/ に Smarty のプラグイン形式で個別に作成
+-- それに伴い Ethna_Smarty_Plugin クラスは削除
+-- 読み込み順は次のように指定 1. Controller の plugin ディレクトリ 2. Ethna 組み込みの Plugin/Smarty/ ディレクトリ 3. samrty デフォルトのプラグイン
 
 *** bug fix
 
