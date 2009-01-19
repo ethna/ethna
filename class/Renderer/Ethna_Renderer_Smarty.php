@@ -52,19 +52,8 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             $controller->getDirectory('plugins'),
             array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
         );
-
-        $this->_setDefaultPlugin();
     }
     
-    /**
-     *  デフォルトの設定.
-     *
-     *  @access public
-     */
-    function _setDefaultPlugin()
-    {
-    }
-
     /**
      *  ビューを出力する
      *
