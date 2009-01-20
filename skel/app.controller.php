@@ -95,7 +95,7 @@ class {$project_id}_Controller extends Ethna_Controller
         'filter'        => 'app/filter',
         'locale'        => 'locale',
         'log'           => 'log',
-        'plugins'       => array(),
+        'plugins'       => array('app/plugin/Smarty',),
         'template'      => 'template',
         'template_c'    => 'tmp',
         'tmp'           => 'tmp',
