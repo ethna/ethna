@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_SmartyPlugin_function_select_Test.php
+ *  Ethna_Plugin_Smarty_function_select_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$
@@ -9,13 +9,13 @@
 
 require_once ETHNA_BASE . '/class/Plugin/Smarty/function.select.php';
 
-//{{{    Ethna_SmartyPlugin_function_select_Test
+//{{{    Ethna_Plugin_Smarty_function_select_Test
 /**
  *  Test Case For function.select.php
  *
  *  @access public
  */
-class Ethna_SmartyPlugin_function_select_Test extends Ethna_UnitTestBase
+class Ethna_Plugin_Smarty_function_select_Test extends Ethna_UnitTestBase
 {
     // {{{ test_smarty_function_select
     function test_smarty_function_select()
