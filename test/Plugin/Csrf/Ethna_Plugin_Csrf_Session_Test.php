@@ -17,6 +17,15 @@ class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
      */
     var $csrf;
 
+    function setUp()
+    {
+    }
+
+    function tearDown()
+    {
+        $_SERVER['REQUEST_METHOD'] = NULL;
+    }
+
     function testMakeInstance()
     {
         $ctl =& Ethna_Controller::getInstance();
