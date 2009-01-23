@@ -454,7 +454,7 @@ class Ethna_PearWrapper
         $config =& PEAR_Config::singleton();
         $packagefile =& new PEAR_PackageFile($config);
         $info =& $packagefile->fromTgzFile($filename, PEAR_VALIDATE_NORMAL);
-        if (Ethna::isError($info)) {
+        if (PEAR::isError($info)) {
             return $info;
         }
         $info_array = $info->toArray();
