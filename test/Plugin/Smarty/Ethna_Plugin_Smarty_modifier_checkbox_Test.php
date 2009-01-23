@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_SmartyPlugin_modifier_checkbox_Test.php
+ *  Ethna_Plugin_Smarty_modifier_checkbox_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$
@@ -9,13 +9,13 @@
 
 require_once ETHNA_BASE . '/class/Plugin/Smarty/modifier.checkbox.php';
 
-//{{{    Ethna_SmartyPlugin_modifier_checkbox_Test
+//{{{    Ethna_Plugin_Smarty_modifier_checkbox_Test
 /**
- *  Test Case For modifier_checkbox.php
+ *  Test Case For modifier.checkbox.php
  *
  *  @access public
  */
-class Ethna_SmartyPlugin_modifier_checkbox_Test extends Ethna_UnitTestBase
+class Ethna_Plugin_Smarty_modifier_checkbox_Test extends Ethna_UnitTestBase
 {
     // {{{  test_smarty_modifier_checkbox
     function test_smarty_modifier_checkbox()

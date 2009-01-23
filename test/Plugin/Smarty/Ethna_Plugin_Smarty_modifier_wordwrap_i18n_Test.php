@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_SmartyPlugin_modifier_wordwrap_i18n_Test.php
+ *  Ethna_Plugin_Smarty_modifier_wordwrap_i18n_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$
@@ -9,13 +9,13 @@
 
 require_once ETHNA_BASE . '/class/Plugin/Smarty/modifier.wordwrap_i18n.php';
 
-//{{{    Ethna_SmartyPlugin_modifier_wordwrap_i18n_Test
+//{{{    Ethna_Plugin_Smarty_modifier_wordwrap_i18n_Test
 /**
- *  Test Case For modifier_wordwrap_i18n.php
+ *  Test Case For modifier.wordwrap_i18n.php
  *
  *  @access public
  */
-class Ethna_SmartyPlugin_modifier_wordwrap_i18n_Test extends Ethna_UnitTestBase
+class Ethna_Plugin_Smarty_modifier_wordwrap_i18n_Test extends Ethna_UnitTestBase
 {
     function tearDown()
     {

@@ -43,9 +43,18 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
+        //   REQUEST_METHOD を設定しないと
+        //   フォームテンプレートが初期化されない
+        $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->local_af = new Ethna_Test_ActionForm($this->ctl); 
         $this->local_af->clearFormVars();
         $this->ae->clear();
+    }
+
+    function tearDown()
+    {
+        $_SERVER['REQUEST_METHOD'] = NULL;
+        $this->local_af = NULL;
     }
 
     // {{{ get
@@ -62,14 +71,14 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
         //   null param.
         $def = $this->local_af->getDef();
         $this->assertEqual(2, count($def));
-        $this->assertEqual(3, count($def['test']));
+        $this->assertEqual(10, count($def['test']));
         $this->assertEqual('test', $def['test']['name']);
 
         //   non-exist key.
         $this->assertNull($this->local_af->getDef('hoge'));
 
         $def = $this->local_af->getDef('test');
-        $this->assertEqual(3, count($def));
+        $this->assertEqual(10, count($def));
         $this->assertEqual('test', $def['name']);
     }
     // }}}
