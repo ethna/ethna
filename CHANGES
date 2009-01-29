@@ -38,6 +38,9 @@
 -- http://wassr.jp/user/nazo/statuses/SkfJTckkN2
 - Ethna_ActionForm#getHiddenVars メソッドで、フォーム定義が配列で設定された値がスカラーの場合に警告が出ていたのを修正(thanks: maru_cc)
 -- 逆に、フォーム定義がスカラーで値が配列の場合は救いようがないので警告扱い
+- www/info.php を実行したり、www/unittest.php を実行すると、サーバが応答しなくなることがあるバグを修正
+-- アクションクラスの書き方によっては、Ethna_InfoManager が 無限ループに陥っていたため
+-- http://sourceforge.jp/tracker/index.php?func=detail&aid=10006&group_id=1343&atid=5092
 
 ** 2.5.0-preview2
 
