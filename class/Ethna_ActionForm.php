@@ -924,7 +924,19 @@ class Ethna_ActionForm
             $form_value = $this->get($key);
             if (is_array($value['type'])) {
                 $form_array = true;
+                //  フォーム定義が配列なのにスカラーが
+                //  渡ってきた場合は値を配列扱いとし、
+                //  フォーム定義を尊重する
+                if (is_array($form_value) == false) {
+                    $form_value = array($form_value);
+                }
             } else {
+                //  フォーム定義がスカラーなのに配列が渡ってきた
+                //  場合は救いようがないのでNOTICE扱いとし、タグも出力しない
+                if (is_array($form_value)) {
+                    $this->handleError($key, E_FORM_WRONGTYPE_ARRAY);
+                    continue;
+                }
                 $form_value = array($form_value);
                 $form_array = false;
             }

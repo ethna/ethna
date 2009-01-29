@@ -4,26 +4,27 @@
 
 *** features
 
-- Smarty を 2.6.22 に追随
-- アプリケーションの最終処理を行うメソッドとして、Ethna_Controller#end を追加
-- フィルタを一貫してプラグインから取得するように変更
--- http://d.hatena.ne.jp/syachi5150/20081022/1224676038
-- フォームヘルパの動作を改善
--- 1つのテンプレートに 複数 {form} が指定されたときに、submitされたformに対してのみ補正処理が働くように改善 この場合、{form name=...} 属性の指定が必須。
--- 1つのテンプレートに 複数 {form} が置かれた場合に、それぞれのフォームの配列を区別するようにした
--アクションフォームに関する変更
--- フォーム定義を「'def' => array(),」 と定義しなくても、「'def',」 と定義するだけで親のフォームテンプレートの定義を補うようにした (thanks: sotarok)
+- アクションフォームに関する変更
 -- フォーム定義を多次元配列に対応させました (thanks: id:syachi5150)
+--- http://d.hatena.ne.jp/syachi5150/20081022/1224676038
+-- フォーム定義を「'def' => array(),」 と定義しなくても、「'def',」 と定義するだけで親のフォームテンプレートの定義を補うようにした (thanks: sotarok)
 -- フォーム定義を動的に変更するためのAPIを追加
 --- Ethna_ActionForm#setFormDef_PreHelper
---- Ethna_Backend や Ethna_Session が初期化後に呼ばれる
--Smarty プラグインに関する変更
+    Ethna_Backend や Ethna_Session が初期化後に呼ばれる
+- フォームヘルパに関する変更
+-- 1つのテンプレートに 複数 {form} が指定されたときに、submitされたformに対してのみ補正処理が働くように改善 この場合、{form name=...} 属性の指定が必須
+-- 1つのテンプレートに 複数 {form} が置かれた場合に、それぞれのフォームの配列を区別するようにした
+- Smarty プラグインに関する変更
 -- Ethna 組み込みの Smarty プラグインを分割
 --- Ethna 組み込みの Smarty プラグインとして class/Plugin/Smarty/ に Smarty のプラグイン形式で個別に作成
 --- それに伴い Ethna_Smarty_Plugin クラスは削除
 --- 読み込み順は次のように指定 1. Controller の plugin ディレクトリ 2. Ethna 組み込みの Plugin/Smarty/ ディレクトリ 3. samrty デフォルトのプラグイン
 -- デフォルトの smarty プラグイン よりも Controller の plugins ディレクトリに定義されたプラグインを優先させるように変更
 -- アプリケーション独自のSmarty Pluginの定義場所を app/plugin/Smarty にできるようデフォルトでディレクトリの作成、コントローラに値のセットするよう変更
+- その他雑多な変更
+-- Smarty を 2.6.22 に追随
+-- アプリケーションの最終処理を行うメソッドとして、Ethna_Controller#end を追加
+-- フィルタを一貫してプラグインから取得するように変更
 
 *** bug fix
 
@@ -35,6 +36,11 @@
 - smarty_modifier_unique プラグインが、仕様通り動作していなかったバグを修正
 - Ethna_PearWrapper のエラー処理が誤っていたのを修正 (thanks: id:nazo)
 -- http://wassr.jp/user/nazo/statuses/SkfJTckkN2
+- Ethna_ActionForm#getHiddenVars メソッドで、フォーム定義が配列で設定された値がスカラーの場合に警告が出ていたのを修正(thanks: maru_cc)
+-- 逆に、フォーム定義がスカラーで値が配列の場合は救いようがないので警告扱い
+- www/info.php を実行したり、www/unittest.php を実行すると、サーバが応答しなくなることがあるバグを修正
+-- アクションクラスの書き方によっては、Ethna_InfoManager が 無限ループに陥っていたため
+-- http://sourceforge.jp/tracker/index.php?func=detail&aid=10006&group_id=1343&atid=5092
 
 ** 2.5.0-preview2
 
