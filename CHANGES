@@ -1,5 +1,13 @@
 * 変更点一覧
 
+** 2.5.0-preview4
+
+*** features
+
+*** bug fix
+- safe-mode が ON の際に、CacheManager_Localfile がディレクトリを生成できないので、tmp ディレクトリ直下にキャッシュファイルを作成するようにした
+
+
 ** 2.5.0-preview3
 
 *** features
