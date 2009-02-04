@@ -8,6 +8,11 @@
 
 *** bug fixes
 
+- 2.5.0 preview2からのバックポート
+
+- selected="selected" の修正漏れを修正 (thanks:maru_cc)
+
+
 - 2.5.0 preview1からのバックポート
 
 -- tpl/info.tpl のタグミスを修正

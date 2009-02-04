@@ -352,7 +352,7 @@ function smarty_modifier_checkbox($string)
  *  <option value="2" {$form|select:"2"}>bar</option>
  *  </code>
  *  <code>
- *  <option value="1" selected>foo</option>
+ *  <option value="1" selected="selected">foo</option>
  *  <option value="2" >bar</option>
  *  </code>
  *
@@ -489,6 +489,24 @@ function smarty_function_uniqid($params, &$smarty)
 /**
  *  smarty function:セレクトフィールド生成
  *
+ *  sample:
+ *  <code>
+ *  $smarty->assign('hoge',
+ *                   array(
+ *                       '1' => array('name' => 'foo'),
+ *                       '2' => array('name' => 'bar')
+ *                   )
+ *  );
+ *  {select list=$hoge name="hoge" value="1" empty="-- please select --"}
+ *  </code>
+ *  <code>
+ *  <select name="hoge">
+ *    <option value="">-- please select --</option>
+ *    <option value="1" selected="selected">foo</option>
+ *    <option value="2">bar</option>
+ *  </select>
+ *  </code>
+ *
  *  @param  array   $list   選択肢一覧
  *  @param  string  $name   フォーム項目名
  *  @param  string  $value  セレクトボックスに渡されたフォーム値
@@ -504,7 +522,7 @@ function smarty_function_select($params, &$smarty)
         printf("<option value=\"\">%s</option>\n", $empty);
     }
     foreach ($list as $id => $elt) {
-        printf("<option value=\"%s\" %s>%s</option>\n", $id, $id == $value ? 'selected="true"' : '', $elt['name']);
+        printf("<option value=\"%s\" %s>%s</option>\n", $id, $id == $value ? 'selected="selected"' : '', $elt['name']);
     }
     print "</select>\n";
 }
