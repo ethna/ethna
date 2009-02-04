@@ -11,7 +11,7 @@
 - 2.5.0 preview2からのバックポート
 
 - selected="selected" の修正漏れを修正 (thanks:maru_cc)
-
+- Ethna_MailSender にてメールを送信する際、テンプレートが存在しなかった場合にも空メールを送ってしまうバグを修正 (thanks: ryosuke@sekido.info -> [ethna-users:1053])
 
 - 2.5.0 preview1からのバックポート
 

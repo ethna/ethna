@@ -118,6 +118,9 @@ class Ethna_MailSender
                 $template = $this->def[$template];
             }
             $mail = $renderer->perform(sprintf('%s/%s', $this->mail_dir, $template), true);
+            if (Ethna::isError($mail)) {
+                return $mail;
+            }
         }
         if ($to === null) {
             return $mail;
