@@ -6,6 +6,12 @@
 
 - レンタルサーバを考慮して、[appid]_Controllerの include_path を、[appid]/lib を優先するように変更
 
+*** bug fixes
+
+以下、2.5.0 系からバックポートしたもの
+
+- tpl/info.tpl のタグミスを修正
+
 ** 2.3.5
 
 *** features

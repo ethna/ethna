@@ -88,12 +88,12 @@
                 <tr>
                     <td class="e">アクションクラス</td>
                     <td class="v" colspan="2">
-                        {$action.action_class}{if $action.action_class_info.undef}<i>(未定義)</li>{/if}
+                        {$action.action_class}{if $action.action_class_info.undef}<i>(未定義)</i>{/if}
                     </td>
                 </tr>
                 <tr>
                     <td class="e">アクションフォーム</td>
-                    <td class="v" colspan="2">{$action.action_form|default:"<i>(未定義)</i>"}{if $action.action_form_info.undef}<i>(未定義)</li>{/if}</td>
+                    <td class="v" colspan="2">{$action.action_form|default:"<i>(未定義)</i>"}{if $action.action_form_info.undef}<i>(未定義)</i>{/if}</td>
                 </tr>
                 <tr>
                     {if $action.action_form_info.form|@count == 0}
