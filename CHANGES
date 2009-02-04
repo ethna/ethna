@@ -15,6 +15,7 @@
 -- selected="true" -> selected="selected"
 - アプリケーションIDの始めの文字に数値を許していたバグを修正
 -- クラス名のprefixになるため、数値を許すと自動生成物がコンパイルエラーを起こす 
+- Ethna_Plugin_LogWriter クラスにて、バックトレース走査時の軽微なバグを修正(ethna-users:1024, thanks:sfio)
 
 ** 2.3.5
 
