@@ -302,10 +302,14 @@ class Ethna_Controller
             || strcasecmp($id, 'app') === 0) {
             return Ethna::raiseError("Application Id [$id] is reserved\n");
         }
-        if (preg_match('/^[0-9a-zA-Z]+$/', $id) === 0) {
-            return Ethna::raiseError(
-                "Only Numeric(0-9) and Alphabetical(A-Z) is allowed for Application Id\n"
-            );
+
+        //    アプリケーションIDはクラス名のprefixともなるため、
+        //    数字で始まっていてはいけない
+        if (preg_match('/^[a-zA-Z][a-zA-Z0-9]*$/', $id) === 0) {
+            $msg = (preg_match('/^[0-9]$/', $id[0]))
+                 ? "Application ID must NOT start with Number.\n"
+                 : "Only Numeric(0-9) and Alphabetical(A-Z) is allowed for Application Id\n";
+            return Ethna::raiseError($msg);
         }
         return $true;
     }
