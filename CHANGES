@@ -11,6 +11,8 @@
 以下、2.5.0 系からバックポートしたもの
 
 - tpl/info.tpl のタグミスを修正
+- smarty_modifier_select の戻り値が、諸々のHTML標準と異なっていたバグを修正(thanks: maru_cc)
+-- selected="true" -> selected="selected"
 
 ** 2.3.5
 
