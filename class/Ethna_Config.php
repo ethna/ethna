@@ -152,18 +152,13 @@ class Ethna_Config
             return $lh;
         }
 
-        $fp = fopen($file, 'w');
-        if ($fp == null) {
-            return Ethna::raiseError("ファイル書き込みエラー[%s]", E_APP_WRITE, $file);
-        }
-        fwrite($fp, "<?php\n");
-        fwrite($fp, sprintf("/*\n * %s\n *\n * update: %s\n */\n", basename($file), strftime('%Y/%m/%d %H:%M:%S')));
-        fwrite($fp, "\$config = array(\n");
+        fwrite($lh, "<?php\n");
+        fwrite($lh, sprintf("/*\n * %s\n *\n * update: %s\n */\n", basename($file), strftime('%Y/%m/%d %H:%M:%S')));
+        fwrite($lh, "\$config = array(\n");
         foreach ($this->config as $key => $value) {
-            $this->_setConfigValue($fp, $key, $value, 0);
+            $this->_setConfigValue($lh, $key, $value, 0);
         }
-        fwrite($fp, ");\n?>\n");
-        fclose($fp);
+        fwrite($lh, ");\n?>\n");
 
         Ethna_Util::unlockFile($lh);
 

@@ -8,14 +8,15 @@
 
 *** bug fixes
 
-以下、2.5.0 系からバックポートしたもの
+- 2.5.0 preview1からのバックポート
 
-- tpl/info.tpl のタグミスを修正
-- smarty_modifier_select の戻り値が、諸々のHTML標準と異なっていたバグを修正(thanks: maru_cc)
--- selected="true" -> selected="selected"
-- アプリケーションIDの始めの文字に数値を許していたバグを修正
--- クラス名のprefixになるため、数値を許すと自動生成物がコンパイルエラーを起こす 
-- Ethna_Plugin_LogWriter クラスにて、バックトレース走査時の軽微なバグを修正(ethna-users:1024, thanks:sfio)
+-- tpl/info.tpl のタグミスを修正
+-- smarty_modifier_select の戻り値が、諸々のHTML標準と異なっていたバグを修正(thanks: maru_cc)
+--- selected="true" -> selected="selected"
+-- アプリケーションIDの始めの文字に数値を許していたバグを修正
+--- クラス名のprefixになるため、数値を許すと自動生成物がコンパイルエラーを起こす 
+-- Ethna_Plugin_LogWriter クラスにて、バックトレース走査時の軽微なバグを修正(ethna-users:1024, thanks:sfio)
+-- Ethna_Config.php にて、設定ファイルのロックが機能していなかったバグを修正
 
 ** 2.3.5
 
