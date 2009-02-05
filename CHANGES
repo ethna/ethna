@@ -11,6 +11,8 @@
 - 2.5.0 preview3からのバックポート
 
 - Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
+- Ethna_ActionForm#getHiddenVars メソッドで、フォーム定義が配列で設定された値がスカラーの場合に警告が出ていたのを修正(thanks: maru_cc)
+-- 逆に、フォーム定義がスカラーで値が配列の場合は救いようがないので警告扱い
 
 - 2.5.0 preview2からのバックポート
 
