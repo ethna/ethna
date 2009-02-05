@@ -8,6 +8,10 @@
 
 *** bug fixes
 
+- 2.5.0 preview3からのバックポート
+
+- Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
+
 - 2.5.0 preview2からのバックポート
 
 - selected="selected" の修正漏れを修正 (thanks:maru_cc)
