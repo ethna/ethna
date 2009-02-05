@@ -196,9 +196,9 @@ function smarty_modifier_unique($array, $key = null)
             if (isset($v[$key]) == false) {
                 continue;
             }
-            $tmp[$v[$key]] = $v;
+            $tmp[] = $v[$key];
         }
-        return $tmp;
+        return array_unique($tmp);
     } else {
         return array_unique($array);
     }
