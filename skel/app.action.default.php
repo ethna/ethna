@@ -18,7 +18,7 @@
 class {$project_id}_Form_Index extends {$project_id}_ActionForm
 {
     /** @var    bool    バリデータにプラグインを使うフラグ */
-    var $use_validator_plugin = false;
+    var $use_validator_plugin = true;
 
     /**
      *  @access   private

@@ -10,25 +10,25 @@
 
 - 2.5.0 preview3からのバックポート
 
-- 複数ファイルをアップロード(つまり配列を使用)する際、必須チェックが機能しなかったバグを修正(thanks: id:syachi5150)
--- このバグは重大なので全ての安定版ユーザはアップデートを推奨
-- プラグインを使用しない場合に、required_num の場合について、ファイルの場合は1つ入力されていたらvalidとされていたのを、プラグインの動作に合わせて一応修正
--- この点は通常ユーザには影響しない。プラグインを使用するのがデフォルトだから。
-- Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
-- smarty_modifier_unique プラグインが、仕様通り動作していなかったバグを修正
-- Ethna_ActionForm#getHiddenVars メソッドで、フォーム定義が配列で設定された値がスカラーの場合に警告が出ていたのを修正(thanks: maru_cc)
--- 逆に、フォーム定義がスカラーで値が配列の場合は救いようがないので警告扱い
+-- 複数ファイルをアップロード(つまり配列を使用)する際、必須チェックが機能しなかったバグを修正(thanks: id:syachi5150)
+--- このバグは重大なので全ての安定版ユーザはアップデートを推奨
+-- プラグインを使用しない場合に、required_num の場合について、ファイルの場合は1つ入力されていたらvalidとされていたのを、プラグインの動作に合わせて一応修正
+--- この点は通常ユーザには影響しない。プラグインを使用するのがデフォルトだから。
+-- Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
+-- smarty_modifier_unique プラグインが、仕様通り動作していなかったバグを修正
+-- Ethna_ActionForm#getHiddenVars メソッドで、フォーム定義が配列で設定された値がスカラーの場合に警告が出ていたのを修正(thanks: maru_cc)
+--- 逆に、フォーム定義がスカラーで値が配列の場合は救いようがないので警告扱い
 - www/info.php を実行したり、www/unittest.php を実行すると、サーバが応答しなくなることがあるバグを修正
--- アクションクラスの書き方によっては、Ethna_InfoManager が 無限ループに陥っていたため
--- http://sourceforge.jp/tracker/index.php?func=detail&aid=10006&group_id=1343&atid=5092
+--- アクションクラスの書き方によっては、Ethna_InfoManager が 無限ループに陥っていたため
+--- http://sourceforge.jp/tracker/index.php?func=detail&aid=10006&group_id=1343&atid=5092
 
 - 2.5.0 preview2からのバックポート
 
-- selected="selected" の修正漏れを修正 (thanks:maru_cc)
-- Ethna_MailSender にてメールを送信する際、テンプレートが存在しなかった場合にも空メールを送ってしまうバグを修正 (thanks: ryosuke@sekido.info -> [ethna-users:1053])
-- smarty_modifier_checkbox が仕様に反する動作をしていたバグを修正し、仕様を厳密化した(thanks: maru_cc)
--- checked が付くのはスカラーで、0 と空文字列、null, false 以外の場合とする 
-- Ethna_ActionError#_getActionForm で、E_NOTICE が出る問題を回避
+-- selected="selected" の修正漏れを修正 (thanks:maru_cc)
+-- Ethna_MailSender にてメールを送信する際、テンプレートが存在しなかった場合にも空メールを送ってしまうバグを修正 (thanks: ryosuke@sekido.info -> [ethna-users:1053])
+-- smarty_modifier_checkbox が仕様に反する動作をしていたバグを修正し、仕様を厳密化した(thanks: maru_cc)
+--- checked が付くのはスカラーで、0 と空文字列、null, false 以外の場合とする 
+-- Ethna_ActionError#_getActionForm で、E_NOTICE が出る問題を回避
 
 - 2.5.0 preview1からのバックポート
 
@@ -39,6 +39,11 @@
 --- クラス名のprefixになるため、数値を許すと自動生成物がコンパイルエラーを起こす 
 -- Ethna_Plugin_LogWriter クラスにて、バックトレース走査時の軽微なバグを修正(ethna-users:1024, thanks:sfio)
 -- Ethna_Config.php にて、設定ファイルのロックが機能していなかったバグを修正
+
+- その他安定版にのみ影響するもの
+
+-- アクションフォームクラスのスケルトンの一部で、$use_validator_plugin = false となっていたのをデフォルトのtrueに修正
+--- これはプロジェクト作成時の app/action/Index.php にのみ影響する。ユーザはこれを通常は再利用しないと考えられるので、通常は影響ない
 
 ** 2.3.5
 
