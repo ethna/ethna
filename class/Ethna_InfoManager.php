@@ -288,7 +288,7 @@ class Ethna_InfoManager extends Ethna_AppManager
                 }
             } else if (($state == 'T_PREPARE' || $state == 'T_PERFORM') && $token[0] == T_RETURN) {
                 $s = "";
-                $n = 2;
+                $n = 1;
                 while ($token_list[$i+$n] !== ";") {
                     $s .= is_string($token_list[$i+$n]) ? $token_list[$i+$n] : $token_list[$i+$n][1];
                     $n++;
