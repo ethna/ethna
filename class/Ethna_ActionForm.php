@@ -523,9 +523,8 @@ class Ethna_ActionForm
                 $form_vars = array($this->form_vars[$name]);
             }
 
-            // ファイルの場合は配列で1つvalidならrequired条件をクリアする
             $valid_keys = array();
-            $required_num = max(1, $type == VAR_TYPE_FILE ? 1 : count($form_vars));
+            $required_num = count($form_vars);
             if (isset($def['required_num'])) {
                 $required_num = intval($def['required_num']);
             }
