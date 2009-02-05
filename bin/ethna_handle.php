@@ -128,6 +128,7 @@ Copyright (c) 2004-%s,
   Takuya Ookubo <sfio@sakura.ai.to>
   nozzzzz <nozzzzz@gmail.com>
   cocoitiban <cocoiti@comio.info>
+  Yoshinari Takaoka <takaoka@beatcraft.com>
 
 http://ethna.jp/
 
