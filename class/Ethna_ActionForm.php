@@ -524,7 +524,7 @@ class Ethna_ActionForm
             }
 
             $valid_keys = array();
-            $required_num = count($form_vars);
+            $required_num = max(1, count($form_vars));
             if (isset($def['required_num'])) {
                 $required_num = intval($def['required_num']);
             }
