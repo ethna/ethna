@@ -41,6 +41,7 @@
 - Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
 - 複数ファイルをアップロード(つまり配列を使用)する際、必須チェックが機能しなかったバグを修正(thanks: id:syachi5150)
 - ethna add-app-manager コマンドで生成されるアプリケーションマネージャのクラス名が、[Appid]_Controller#getManagerClassName の設定を反映するように修正。
+-- skel/skel.app_manager.php も修正
 - smarty_modifier_unique プラグインが、仕様通り動作していなかったバグを修正
 - Ethna_PearWrapper のエラー処理が誤っていたのを修正 (thanks: id:nazo)
 -- http://wassr.jp/user/nazo/statuses/SkfJTckkN2
