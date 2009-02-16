@@ -8,6 +8,7 @@
 
 - safe-mode が ON の際に、CacheManager_Localfile がディレクトリを生成できないので、tmp ディレクトリ直下にキャッシュファイルを作成するようにした
 -- skel/skel.app_manager.php も修正
+- APPID-ini.php が存在しない場合，またはURLが設定にない場合，デフォルトURLが HTTP_HOST で設定されていたが，末尾に / がなかったので修正
 
 ** 2.5.0-preview3
 
