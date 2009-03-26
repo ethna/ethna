@@ -6,6 +6,9 @@
 
 *** bug fix
 
+- Ethna_Controller#getTemplatedir を無視してテンプレートディレクトリを決定していたバグを修正(thanks: hiko)
+-- getTemplatedirメソッドをオーバライドしても強制的にロケールが付加されていた
+-- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=15570
 - "ethna pear-local list -a" の実行結果がエラーになってしまうバグを修正
 -- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=15760
 - safe-mode が ON の際に、CacheManager_Localfile がディレクトリを生成できないので、tmp ディレクトリ直下にキャッシュファイルを作成するようにした
