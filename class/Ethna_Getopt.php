@@ -228,7 +228,17 @@ class Ethna_Getopt
                  } 
 
              } else {  // オプションとして解釈されない
-                 $nonparsed_arguments[] = $arg;
+
+                 //   non-parsed なオプションに辿り着いた
+                 //   ら、それ以降の解釈を停止する
+                 //   つまり、それ以降は全て値として解釈する
+                 //
+                 //   これは POSIX_CORRECT な実装であって
+                 //   GNU Getopt な実装ではないが、実際に
+                 //   Console_Getopt で行われている以上、
+                 //   それに従った実装
+                 $nonparsed_arguments = array_slice($args, $pos);
+                 break;
              }
         }
   

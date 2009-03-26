@@ -124,6 +124,44 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         $this->assertTrue(isset($catalog['template i18n multiple modifier']));
     } 
 
+    function test_cmd_option()
+    {
+        //    unrecognized option
+        $r = $this->proj->runCmd('i18n', array('-k'));
+        $this->assertTrue(Ethna::isError($r));
+        $this->assertEqual('unrecognized option -k', $r->getMessage());
+
+        //    --locale(requires an argument)
+        $r = $this->proj->runCmd('i18n', array('-l'));
+        $this->assertTrue(Ethna::isError($r));
+        $this->assertEqual('option -l requires an argument', $r->getMessage());
+
+        $r = $this->proj->runCmd('i18n', array('-l', 'ko_KR'));
+        $this->assertFalse(Ethna::isError($r));
+        
+        $r = $this->proj->runCmd('i18n', array('--locale'));
+        $this->assertTrue(Ethna::isError($r));
+        $this->assertEqual('option --locale requires an argument', $r->getMessage());
+
+        //    --gettext option only
+        $r = $this->proj->runCmd('i18n', array('-g'));
+        $this->assertFalse(Ethna::isError($r));
+
+        $r = $this->proj->runCmd('i18n', array('--gettext'));
+        $this->assertFalse(Ethna::isError($r));
+
+        //    --gettext not allowed an argument 
+        $r = $this->proj->runCmd('i18n', array('--gettext=foo'));
+        $this->assertTrue(Ethna::isError($r));
+        $this->assertEqual("option --gettext doesn't allow an argument", $r->getMessage());
+
+        //    --locale and --gettext mixin
+        $r = $this->proj->runCmd('i18n', array('-g', '-l', 'ko_KR'));
+        $this->assertFalse(Ethna::isError($r));
+
+        $r = $this->proj->runCmd('i18n', array('--gettext', '--locale=ko_KR'));
+        $this->assertFalse(Ethna::isError($r));
+    }
    
     function run_i18n_cmd()
     {
@@ -133,6 +171,8 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
             return;
         }
     } 
+
+
 }
 // }}}
 
