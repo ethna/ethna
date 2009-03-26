@@ -54,8 +54,8 @@ class Ethna_Plugin_Handle_PearLocal_Test extends Ethna_UnitTestBase
         $this->assertTrue(Ethna::isError($r));
         $this->assertEqual('option --channel requires an argument', $r->getMessage());
 
-        //    normal command exexute
-        $r = $this->proj->runCmd('pear-local', array('install', 'Date'));
+        //    normal command exexute(offline only)
+        $r = $this->proj->runCmd('pear-local', array('config-set', 'default_channel', 'pear.php.net'));
         $this->assertFalse(Ethna::isError($r));
     }
 }
