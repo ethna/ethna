@@ -272,6 +272,17 @@ class {$project_id}_Controller extends Ethna_Controller
     {
         return array('{$locale}', 'UTF-8', '{$client_enc}');
     }
+
+    /**
+     *  テンプレートエンジンのデフォルト状態を設定する
+     *
+     *  @access protected
+     *  @param  object  Ethna_Renderer  レンダラオブジェクト
+     *  @obsolete
+     */
+    function _setDefaultTemplateEngine(&$renderer)
+    {
+    }
 }
 
 ?>
