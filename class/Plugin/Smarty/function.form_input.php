@@ -39,7 +39,7 @@ function smarty_function_form_input($params, &$smarty)
         $action = $block_params['ethna_action'];
     }
     if ($action !== null) {
-        $view->addActionFormHelper($action);
+        $view->addActionFormHelper($action, true);
     }
 
     // default
