@@ -4,6 +4,10 @@
 
 *** features
 
+- フォーム定義に関する変更
+-- フォーム定義を動的に変更するためのAPIをさらに追加
+-- Ethna_ActionForm#setFormDef_ViewHelper
+
 *** bug fix
 
 - Ethna_Controller#getTemplatedir を無視してテンプレートディレクトリを決定していたバグを修正(thanks: hiko)
