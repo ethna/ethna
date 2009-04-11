@@ -42,7 +42,7 @@ if (Ethna::isError($r)) {
 // ad-hoc:(
 foreach ($r[0] as $opt) {
     if ($opt[0] == "v" || $opt[0] == "--version") {
-        _Ethna_HandleGateway_ShowUsage();
+        _Ethna_HandleGateway_ShowVersion();
         exit(2);
     }
 }
