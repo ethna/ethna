@@ -12,6 +12,7 @@
 - add-project 時の www 以下に出来るエントリポイントから APPID_Controller へのパスを相対パスに変更
 - ethna コマンドの挙動変更
 -- ethna help コマンドを追加
+- 指定 Action が存在しない場合い、app/action 以下を全て include する仕様を変更
 
 *** bug fix
 

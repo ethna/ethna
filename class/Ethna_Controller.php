@@ -268,14 +268,14 @@ class Ethna_Controller
     }
 
     /**
-     *  アプリケーション実行後の後始末を行います。 
+     *  アプリケーション実行後の後始末を行います。
      *
-     *  @access protected 
+     *  @access protected
      */
     function end()
     {
         //  必要に応じてオーバライドして下さい。
-        $this->logger->end();    
+        $this->logger->end();
     }
 
     /**
@@ -463,7 +463,7 @@ class Ethna_Controller
         // テンプレートディレクトリにも自動的にそれを付加する。
         if (!empty($this->locale)) {
             $template .= '/' . $this->locale;
-        } 
+        }
 
         return $template;
     }
@@ -721,7 +721,7 @@ class Ethna_Controller
      *                  システムエンコーディング名,
      *                  クライアントエンコーディング名 の配列
      *                  (ロケール名は、ll_cc の形式。ll = 言語コード cc = 国コード)
-     *  @see http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html 
+     *  @see http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html
      */
     function getLanguage()
     {
@@ -1037,7 +1037,7 @@ class Ethna_Controller
                 'version'       => 'xmlrpc',
                 'encoding'      => 'utf-8'
             )
-        ); 
+        );
 
         xmlrpc_server_register_method(
             $xmlrpc_server,
@@ -1288,7 +1288,7 @@ class Ethna_Controller
      */
     function getActionRequest($action, $type = "hidden")
     {
-        $s = null; 
+        $s = null;
         if ($type == "hidden") {
             $s = sprintf('<input type="hidden" name="action_%s" value="true" />', htmlspecialchars($action, ENT_QUOTES));
         } else if ($type == "url") {
@@ -1669,7 +1669,7 @@ class Ethna_Controller
     {
         return str_replace('_', '/', $forward_name) . '.' . $this->ext['tpl'];
     }
-    
+
     /**
      *  テンプレートパス名から遷移名を取得する
      *
@@ -1736,9 +1736,9 @@ class Ethna_Controller
         if (is_object($this->renderer)) {
             return $this->renderer;
         }
-        
+
         $this->renderer =& $this->class_factory->getObject('renderer');
-       
+
         // {{{ for B.C.
         if (strtolower(get_class($this->renderer)) == "ethna_renderer_smarty") {
             // user defined modifiers
@@ -1830,7 +1830,7 @@ class Ethna_Controller
      *                                      (ll_cc の形式。ll = 言語コード cc = 国コード)
      *  @param  string  $system_encoding    システムエンコーディング名
      *  @param  string  $client_encoding    クライアントエンコーディング(テンプレートのエンコーディングと考えれば良い)
-     *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html 
+     *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html
      *  @see    Ethna_Controller#_getDefaultLanguage
      */
     function _setLanguage($locale, $system_encoding = null, $client_encoding = null)
@@ -1919,7 +1919,7 @@ class Ethna_Controller
     function getManagerClassName($name)
     {
         //   アプリケーションIDと、渡された名前のはじめを大文字にして、
-        //   組み合わせたものが返される 
+        //   組み合わせたものが返される
         return sprintf('%s_%sManager', $this->getAppId(), ucfirst($name));
     }
 
@@ -1935,7 +1935,7 @@ class Ethna_Controller
         //  引数のはじめの一文字目と、アンダーバー直後の
         //  1文字を必ず大文字にする。アンダーバーは削除される。
         $name = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($name));
-        
+
         //  $name に foo_bar を渡し、AppID が Hogeの場合
         //  [Appid]_FooBar が返される
         return sprintf('%s_%s', $this->getAppId(), $name);
@@ -1979,14 +1979,8 @@ class Ethna_Controller
                 include_once $action_dir . $class_path;
             } else {
                 $this->logger->log(LOG_DEBUG, 'default action file not found [%s] -> try all files', $class_path);
-                $class_path = null;
+                return;
             }
-        }
-        
-        // 全ファイルインクルード
-        if (is_null($class_path)) {
-            $this->_includeDirectory($this->getActiondir());
-            return;
         }
 
         // form_path属性チェック
@@ -2069,6 +2063,7 @@ class Ethna_Controller
      */
     function _includeDirectory($dir)
     {
+        var_dump($dir);
         $ext = "." . $this->ext['php'];
         $ext_len = strlen($ext);
 
@@ -2120,7 +2115,7 @@ class Ethna_Controller
 
     /**
      *  DSNのアクセス分岐を行う
-     *  
+     *
      *  スレーブサーバへの振分け処理(デフォルト:ランダム)を変更したい場合はこのメソッドをオーバーライドする
      *
      *  @access protected
@@ -2138,7 +2133,7 @@ class Ethna_Controller
         list($usec, $sec) = explode(' ', microtime());
         mt_srand($sec + ((float) $usec * 100000));
         $n = mt_rand(0, count($dsn_list)-1);
-        
+
         return $dsn_list[$n];
     }
 
@@ -2156,7 +2151,7 @@ class Ethna_Controller
         }
 
         require_once ETHNA_BASE . '/class/Ethna_InfoManager.php';
-        
+
         // see if we have simpletest
         if (file_exists_ex('simpletest/unit_tester.php', true)) {
             require_once ETHNA_BASE . '/class/Ethna_UnitTestManager.php';
@@ -2176,8 +2171,8 @@ class Ethna_Controller
             'view_name'     => 'Ethna_View_Info',
             'view_path'     => sprintf('%s/class/View/Ethna_View_Info.php', ETHNA_BASE),
         );
-        
-        
+
+
         // action設定
         $this->action['__ethna_unittest__'] = array(
             'form_name' =>  'Ethna_Form_UnitTest',
@@ -2230,7 +2225,7 @@ class Ethna_Controller
          echo "<br>";
          echo "In {$appid}-ini.php, please set as follows :<br><br>";
          echo "\$config = array ( 'debug' => true, );";
-     } 
+     }
 
     /**
      *  CLI実行中フラグを取得する
