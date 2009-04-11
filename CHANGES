@@ -10,6 +10,8 @@
 - APPID_Controller.php のスケルトンに継承を想定したメソッドを追加
 -- skel/app.controller.php _setDefaultTemplateEngin
 - add-project 時の www 以下に出来るエントリポイントから APPID_Controller へのパスを相対パスに変更
+- ethna コマンドの挙動変更
+-- ethna help コマンドを追加
 
 *** bug fix
 
