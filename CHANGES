@@ -7,6 +7,8 @@
 - フォーム定義に関する変更
 -- フォーム定義を動的に変更するためのAPIをさらに追加
 -- Ethna_ActionForm#setFormDef_ViewHelper
+- APPID_Controller.php のスケルトンに継承を想定したメソッドを追加
+-- skel/app.controller.php _setDefaultTemplateEngin
 
 *** bug fix
 
