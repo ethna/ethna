@@ -9,6 +9,7 @@
 -- Ethna_ActionForm#setFormDef_ViewHelper
 - APPID_Controller.php のスケルトンに継承を想定したメソッドを追加
 -- skel/app.controller.php _setDefaultTemplateEngin
+- add-project 時の www 以下に出来るエントリポイントから APPID_Controller へのパスを相対パスに変更
 
 *** bug fix
 
