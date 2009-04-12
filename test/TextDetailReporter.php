@@ -60,7 +60,7 @@ class TextDetailReporter extends SimpleReporter {
      */
     function paintFail($message) {
         parent::paintFail($message);
-        print $this->getFailCount() . ") $message\n";
+        print "\n\t" . $this->getFailCount() . ") $message\n";
         $breadcrumb = $this->getTestList();
         array_shift($breadcrumb);
         print "\tin " . implode("\n\tin ", array_reverse($breadcrumb));
