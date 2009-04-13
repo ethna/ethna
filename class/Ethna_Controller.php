@@ -2063,7 +2063,6 @@ class Ethna_Controller
      */
     function _includeDirectory($dir)
     {
-        var_dump($dir);
         $ext = "." . $this->ext['php'];
         $ext_len = strlen($ext);
 
