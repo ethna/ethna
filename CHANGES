@@ -25,6 +25,8 @@
 -- skel/skel.app_manager.php も修正
 - APPID-ini.php が存在しない場合，またはURLが設定にない場合，デフォルトURLが HTTP_HOST で設定されていたが，末尾に / がなかったので修正
 - フォームヘルパで自動的に出力されるhiddenタグの閉じ忘れを修正(thanks: id:syachi5150)
+- ethna add-app-manager コマンドで生成されるファイル名およびクラス名が間違っていたバグを修正(thanks: id:syachi5150)
+-- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16137
 
 ** 2.5.0-preview3
 
