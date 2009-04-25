@@ -27,6 +27,8 @@
 - フォームヘルパで自動的に出力されるhiddenタグの閉じ忘れを修正(thanks: id:syachi5150)
 - ethna add-app-manager コマンドで生成されるファイル名およびクラス名が間違っていたバグを修正(thanks: id:syachi5150)
 -- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16137
+- Validatorが出力するメッセージからフォーム名の後ろのスペースを削るように修正。(thanks: id:syachi5150)
+-- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16336
 
 ** 2.5.0-preview3
 
