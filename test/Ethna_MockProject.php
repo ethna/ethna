@@ -65,7 +65,7 @@ class Ethna_MockProject
         $id = 'add-project';
         $options = array(
                        '-b',
-                       $this->basedir,
+                       $this->basedir . '/' . $this->project_name,
                        '-s',
                        $this->skel_dir, 
                        $this->project_name,
