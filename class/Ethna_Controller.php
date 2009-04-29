@@ -134,25 +134,6 @@ class Ethna_Controller
     /** @var    object  レンダラー */
     var $renderer = null;
 
-    /** @var    array   smarty modifier定義 */
-    var $smarty_modifier_plugin = array();
-
-    /** @var    array   smarty function定義 */
-    var $smarty_function_plugin = array();
-
-    /** @var    array   smarty block定義 */
-    var $smarty_block_plugin = array();
-
-    /** @var    array   smarty prefilter定義 */
-    var $smarty_prefilter_plugin = array();
-
-    /** @var    array   smarty postfilter定義 */
-    var $smarty_postfilter_plugin = array();
-
-    /** @var    array   smarty outputfilter定義 */
-    var $smarty_outputfilter_plugin = array();
-
-
     /** @var    array   フィルターチェイン(Ethna_Filterオブジェクトの配列) */
     var $filter_chain = array();
 
@@ -1738,69 +1719,6 @@ class Ethna_Controller
         }
 
         $this->renderer =& $this->class_factory->getObject('renderer');
-
-        // {{{ for B.C.
-        if (strtolower(get_class($this->renderer)) == "ethna_renderer_smarty") {
-            // user defined modifiers
-            foreach ($this->smarty_modifier_plugin as $modifier) {
-                if (!is_array($modifier)) {
-                    $name = str_replace('smarty_modifier_', '', $modifier);
-                    $this->renderer->setPlugin($name,'modifier', $modifier);
-                } else {
-                    $this->renderer->setPlugin($modifier[1], 'modifier', $modifier);
-                }
-            }
-
-            // user defined functions
-            foreach ($this->smarty_function_plugin as $function) {
-                if (!is_array($function)) {
-                    $name = str_replace('smarty_function_', '', $function);
-                    $this->renderer->setPlugin($name, 'function', $function);
-                } else {
-                    $this->renderer->setPlugin($function[1], 'function', $function);
-                }
-            }
-
-            // user defined blocks
-            foreach ($this->smarty_block_plugin as $block) {
-                if (!is_array($block)) {
-                    $name = str_replace('smarty_block_', '', $block);
-                    $this->renderer->setPlugin($name,'block', $block);
-                } else {
-                    $this->renderer->setPlugin($block[1],'block', $block);
-                }
-            }
-
-            // user defined prefilters
-            foreach ($this->smarty_prefilter_plugin as $prefilter) {
-                if (!is_array($prefilter)) {
-                    $name = str_replace('smarty_prefilter_', '', $prefilter);
-                    $this->renderer->setPlugin($name,'prefilter', $prefilter);
-                } else {
-                    $this->renderer->setPlugin($prefilter[1],'prefilter', $prefilter);
-                }
-            }
-
-            // user defined postfilters
-            foreach ($this->smarty_postfilter_plugin as $postfilter) {
-                if (!is_array($postfilter)) {
-                    $name = str_replace('smarty_postfilter_', '', $postfilter);
-                    $this->renderer->setPlugin($name,'postfilter', $postfilter);
-                } else {
-                    $this->renderer->setPlugin($postfilter[1],'postfilter', $postfilter);
-                }
-            }
-
-            // user defined outputfilters
-            foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
-                if (!is_array($outputfilter)) {
-                    $name = str_replace('smarty_outputfilter_', '', $outputfilter);
-                    $this->renderer->setPlugin($name,'outputfilter', $outputfilter);
-                } else {
-                    $this->renderer->setPlugin($outputfilter[1],'outputfilter', $outputfilter);
-                }
-            }
-        }
 
         //テンプレートエンジンのデフォルトの設定
         $this->_setDefaultTemplateEngine($this->renderer);

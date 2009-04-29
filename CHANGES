@@ -14,6 +14,7 @@
 -- ethna help コマンドを追加
 - 指定 Action が存在しない場合い、app/action 以下を全て include する仕様を変更
 - add-project -b オプションの挙動変更
+- controller での smarty_xx_plugin の機能を削除
 
 *** bug fix
 
