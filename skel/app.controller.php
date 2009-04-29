@@ -65,7 +65,12 @@ class {$project_id}_Controller extends Ethna_Controller
          *
          *  Example:
          *
-         *  'index'     => array(),
+         *  'index'     => array(
+         *      'form_name' => 'Sample_Form_SomeAction',
+         *      'form_path' => 'Some/Action.php',
+         *      'class_name' => 'Sample_Action_SomeAction',
+         *      'class_path' => 'Some/Action.php',
+         *  ),
          */
     );
 
