@@ -10,9 +10,10 @@
 define('ETHNA_TEST_DIR', ETHNA_BASE . '/test');
 define('ETHNA_TEST_PROJECT', 'mockproject');
 define('ETHNA_TEST_SKELDIR', ETHNA_TEST_DIR . '/skel/');
+define('ETHNA_TEST_SKELTPLDIR', ETHNA_TEST_SKELDIR . '/template/');
 
 /**
- *  ethna command Emulator Class. 
+ *  ethna command, and project Emulator Class. 
  *  
  *  @access public
  */
@@ -123,7 +124,42 @@ class Ethna_MockProject
             return $r;
         }
 
+        //  set plain ActionForm
+        $ctl =& $this->getController();
+        $backend =& $ctl->getBackend();
+        $af =& new Ethna_ActionForm($ctl);
+        $backend->setActionForm($af);
+
         return true;
+    }
+
+    /**
+     *  アプリケーションのエントリポイントをエミュレートします。
+     *
+     *  @access public
+     *  @param  mixed   $action_name    指定のアクション名(省略可)
+     *  @param  array   $submit_value   ブラウザからSubmitする値 
+     *  @return string  ブラウザへの出力
+     */
+    function runMain($action_name = 'index', $submit_value = array())
+    {
+        if (($r = $this->create_ifnot_exists()) !== true) {
+            return $r;
+        }
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST["action_${action_name}"] = true;
+        $_POST = array_merge($_POST, $submit_value);
+
+        $c =& $this->getController();
+        $c->setGateway(GATEWAY_WWW);
+        ob_start();
+        @$c->trigger($action_name, "");  // suppress header related error.
+        $c->end();
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        return $result;
     }
 
     /*
@@ -140,7 +176,11 @@ class Ethna_MockProject
         if (($r = $this->create_ifnot_exists()) !== true) {
             return $r;
         }
-        return Ethna_Handle::getAppController($this->proj_basedir);
+        $ctl =& Ethna_Handle::getAppController($this->proj_basedir);
+
+        //   キャッシュが返されるため、$GLOBALSが設定されない場合がある
+        $GLOBALS['_Ethna_controller'] =& $ctl;
+        return $ctl;
     }
 
     /*
