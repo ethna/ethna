@@ -119,6 +119,14 @@ class Ethna_Controller
     /** @var    array   forward定義 */
     var $forward = array();
 
+    /** @var    array   デフォルトのforward定義 */
+    var $forward_default = array(
+        '404' => array( 'view_name' => 'Ethna_View_404',),
+        '500' => array( 'view_name' => 'Ethna_View_500',), 
+        'json' => array( 'view_name' => 'Ethna_View_Json',),
+        'redirect' => array( 'view_name' => 'Ethna_View_Redirect',),
+    );
+
     /** @var    array   action定義 */
     var $action = array();
 
@@ -216,6 +224,10 @@ class Ethna_Controller
                 }
             }
         }
+
+        // 遷移先設定をマージ
+        // 但し、キーは完全に維持する
+        $this->forward = $this->forward + $this->forward_default;
 
         // 初期設定
         // フレームワークとしての内部エンコーディングはクライアント
@@ -967,12 +979,22 @@ class Ethna_Controller
         }
 
         // コントローラで遷移先を決定する(オプション)
-        $forward_name = $this->_sortForward($action_name, $forward_name);
+        $forward_name_params = $this->_sortForward($action_name, $forward_name);
+
+        // Viewへの引数があれば取り出す
+        $preforward_params = array();
+        if (is_array($forward_name_params)) {
+            $forward_name = array_shift($forward_name_params);
+            $preforward_params = $forward_name_params;
+        }
+        else {
+            $forward_name = $forward_name_params;
+        }
 
         if ($forward_name != null) {
             $view_class_name = $this->getViewClassName($forward_name);
             $this->view =& new $view_class_name($backend, $forward_name, $this->_getForwardPath($forward_name));
-            $this->view->preforward();
+            call_user_func_array(array($this->view, 'preforward'), $preforward_params);
             $this->view->forward();
         }
 

@@ -56,7 +56,7 @@ class Ethna_ViewClass
     /** @var    array   アクションフォームオブジェクト(helper) */
     var $helper_action_form = array();
 
-    /** @var    array   helperでhtmlのattributeにはしなパラメータの一覧 */
+    /** @var    array   helperでhtmlのattributeにはしないパラメータの一覧 */
     var $helper_parameter_keys = array('default', 'option', 'separator');
 
     /** @var    object  Ethna_Session       セッションオブジェクト */
@@ -72,6 +72,33 @@ class Ethna_ViewClass
     var $reset_counter = false;
 
     /**#@-*/
+
+    /**#@+
+     *  @access protected
+     */
+
+    /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定   */
+    var $_layout_file = 'layout.tpl';
+
+    /**#@-*/
+
+    /**#@+
+     *  @access public
+     */
+
+    /** @var boolean  レイアウトテンプレートの使用フラグ       */
+    var $use_layout = true;
+
+    /** @var  boolean  デフォルトのヘッダ出力を使用するか否か  */
+    /**                ヘッダ出力を改造する場合はfalseにする   */
+    var $has_default_header = true;
+
+    /** @var  array    デフォルトのヘッダ出力を使用するか否か  */
+    /**                ヘッダ出力を改造する場合はfalseにする   */
+    var $default_header = array(
+        'Pragma' => 'no-cache',
+        'Cache-Control' => 'no-cache, no-store, must-revalidate',
+    );
 
     // {{{ Ethna_ViewClass
     /**
@@ -117,8 +144,11 @@ class Ethna_ViewClass
      *  ここで設定する(例:セレクトボックス等)
      *
      *  @access public
+     *  @param  mixed  $params  アクションクラスから返された引数 
+     *                          array('forward_name', $param) の形でアクション
+     *                          から値を返すことで、$params に値が渡されます。
      */
-    function preforward()
+    function preforward($params = NULL)
     {
     }
     // }}}
@@ -136,7 +166,203 @@ class Ethna_ViewClass
     {
         $renderer =& $this->_getRenderer();
         $this->_setDefault($renderer);
-        $renderer->perform($this->forward_path);
+
+        if ($this->has_default_header) {
+            $this->default_header['Content-Type'] = 'text/html; charset=' . $this->ctl->getClientEncoding();
+            $this->header($this->default_header);
+        }
+
+        // using layout.tpl flag
+        if ($this->use_layout) {
+
+            // check : layout file existance
+            $layout = $this->getLayout();
+            if ($this->templateExists($layout)) {
+                $content = $renderer->perform($this->forward_path, true);
+
+                if (Ethna::isError($content)) {
+                    if ($content->getCode() == E_GENERAL) {
+                        $error = 404;
+                    }
+                    else {
+                        $error = 500;
+                    }
+
+                    $this->error($error);
+                    $content = $renderer->perform($this->forward_path, true);
+                }
+
+                $renderer->assign('content', $content);
+                $renderer->display($layout, serialize($_SERVER['REQUEST_URI']));
+            } else {
+                return Ethna::raiseWarning('file "'.$layout.'" not found');
+            }
+        } else {
+            $renderer->perform($this->forward_path);
+        }
+    }
+    // }}}
+
+    // {{{ header
+    /**
+     *  HTTPヘッダを送信します。
+     *
+     *  @param  mixed   ヘッダを設定する値
+     *                  配列指定の場合、header => value の形式
+     *                  整数指定の場合は、HTTPステータスコード
+     *                  文字列で指定する場合は、ヘッダ出力をそのまま指定
+     *  @access public
+     */
+    function header($status)
+    {
+        if (is_array($status)) {
+            foreach ($status as $key => $status) {
+                header ($key . ": " . $status);
+            }
+        } else if (is_int($status)) {
+            $codes = array(
+                100 => "Continue",
+                101 => "Switching Protocols",
+                200 => "OK",
+                201 => "Created",
+                202 => "Accepted",
+                203 => "Non-Authoritative Information",
+                204 => "No Content",
+                205 => "Reset Content",
+                206 => "Partial Content",
+                300 => "Multiple Choices",
+                301 => "Moved Permanently",
+                302 => "Found",
+                303 => "See Other",
+                304 => "Not Modified",
+                305 => "Use Proxy",
+                307 => "Temporary Redirect",
+                400 => "Bad Request",
+                401 => "Unauthorized",
+                402 => "Payment Required",
+                403 => "Forbidden",
+                404 => "Not Found",
+                405 => "Method Not Allowed",
+                406 => "Not Acceptable",
+                407 => "Proxy Authentication Required",
+                408 => "Request Time-out",
+                409 => "Conflict",
+                410 => "Gone",
+                411 => "Length Required",
+                412 => "Precondition Failed",
+                413 => "Request Entity Too Large",
+                414 => "Request-URI Too Large",
+                415 => "Unsupported Media Type",
+                416 => "Requested range not satisfiable",
+                417 => "Expectation Failed",
+                500 => "Internal Server Error",
+                501 => "Not Implemented",
+                502 => "Bad Gateway",
+                503 => "Service Unavailable",
+                504 => "Gateway Time-out"
+            );
+
+            if (array_key_exists($status, $codes)) {
+                header("HTTP/1.1: {$status} {$codes[$status]}");
+            }
+        } else {
+            // check valid header
+            if (preg_match("/^.+\:\s.+$/", $status)) {
+                header($status);
+            }
+        }
+    }
+    // }}}
+
+    // {{{ redirect
+    /**
+     *  HTTPヘッダを送信します。
+     *
+     *  @param  mixed   ヘッダを設定する値
+     *                  配列指定の場合、header => value の形式
+     *                  整数指定の場合は、HTTPステータスコード
+     *                  文字列で指定する場合は、ヘッダ出力をそのまま指定
+     *  @access public
+     */
+    function redirect($url)
+    {
+        $this->has_default_header = false;
+        $this->use_layout = false;
+
+        $this->header(302);
+        $this->header(array('Location' => $url));
+    }
+    // }}}
+
+    // {{{ setLayout
+    /**
+     *  レイアウトテンプレートのファイル名を設定します。
+     *  レイアウトテンプレートは、HTML の外枠を設定するのに使用します。
+     *  
+     *  @param string $filename  レイアウトファイル名
+     *  @access public
+     */
+    function setLayout($filename)
+    {
+        // check layout file existance
+        if ($this->templateExists($filename)) {
+            $this->_layout_file = $filename;
+            return true;
+        } else {
+            return Ethna::raiseWarning('file "'.$filename.'" not found');
+        }
+    }
+    // }}}
+
+    // {{{ getLayout
+    /**
+     *  レイアウトテンプレートファイル名を取得します。
+     *  
+     *  @return string  レイアウトテンプレートのファイル名
+     *  @access public
+     */
+    function getLayout()
+    {
+        return $this->_layout_file;
+    }
+    // }}}
+
+    // {{{ templateExists
+    /**
+     *  テンプレートファイルが存在するか否かを返します。
+     *
+     * @param   string  $filename  チェック対象のテンプレートファイル
+     * @access  public
+     * @return  boolean 指定したテンプレートファイルが存在すればtrue
+     *                  存在しなければfalse
+     */
+    function templateExists($filename)
+    {
+        $renderer = $this->_getRenderer();
+        if ($renderer->templateExists($filename)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    // }}}
+
+    // {{{ error 
+    /**
+     *  エラーページ出力用のHTTPステータスコードを指定します。
+     *
+     *  @param  int  HTTPステータスコード
+     *  @access public
+     */
+    function error($code)
+    {
+        $this->has_default_header = false;
+        $this->header($code);
+
+        // template 以下に error404.tpl とかがあれば， 
+        // preforward で $this->error(404); とかすればいい
+        $this->forward_path = "error{$code}.tpl";
     }
     // }}}
 
@@ -642,10 +868,8 @@ class Ethna_ViewClass
             $params['value'] = $value;
         }
 
-        // maxlength
-        if (isset($def['max']) && $def['max']) {
-            $params['maxlength'] = $def['max'];
-        }
+        //   maxlength と フォーム定義のmax連携はサポートしない
+        //   @see http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 
         return $this->_getFormInput_Html('input', $params);
     }
@@ -831,7 +1055,6 @@ class Ethna_ViewClass
         $element = '';
         if (isset($params['value'])) {
             $element = $params['value'];
-            unset($params['value']);
         } else if (isset($params['default'])) {
             $element = $params['default'];
         } else if (isset($def['default'])) {
@@ -843,8 +1066,6 @@ class Ethna_ViewClass
             } else {
                 $element = '';
             }
-        } else {
-            $params['value'] = $element;
         }
 
         return $this->_getFormInput_Html('textarea', $params, $element);
@@ -888,10 +1109,8 @@ class Ethna_ViewClass
             $params['value'] = $value;
         }
 
-        // maxlength
-        if (isset($def['max']) && $def['max']) {
-            $params['maxlength'] = $def['max'];
-        }
+        //   maxlength と フォーム定義のmax連携はサポートしない
+        //   @see http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 
         return $this->_getFormInput_Html('input', $params);
     }
