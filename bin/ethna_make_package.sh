@@ -44,11 +44,13 @@ optpkg_dir="$targetdir/misc/optional_package"
 cd $optpkg_dir/Smarty/src
 tar xvfz Smarty*.tar.gz
 cd $optpkg_dir/Smarty/build
+chmod +x ./build
 ./build
 cp $optpkg_dir/Smarty/release/*.tgz $tmpdir
 cd $optpkg_dir/simpletest/src
 tar xvfz simpletest*.tar.gz
 cd $optpkg_dir/simpletest/build
+chmod +x ./build
 ./build
 cp $optpkg_dir/simpletest/release/*.tgz $tmpdir
 rm -rf $optpkg_dir
