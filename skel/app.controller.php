@@ -149,26 +149,6 @@ class {$project_id}_Controller extends Ethna_Controller
     );
 
     /**
-     *  @var    array       list of application id where Ethna searches plugin.
-     */
-    var $plugin_search_appids = array(
-        /*
-         *  write list of application id where Ethna searches plugin.
-         *
-         *  Example:
-         *  When there are plugins whose name are like "Common_Plugin_Foo_Bar" in
-         *  application plugin directory, Ethna searches them in the following order.
-         *
-         *  1. Common_Plugin_Foo_Bar,
-         *  2. {$project_id}_Plugin_Foo_Bar
-         *  3. Ethna_Plugin_Foo_Bar
-         *
-         *  'Common', '{$project_id}', 'Ethna',
-         */
-        '{$project_id}', 'Ethna',
-    );
-
-    /**
      *  @var    array       filter definition.
      */
     var $filter = array(

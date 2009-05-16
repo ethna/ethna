@@ -35,6 +35,10 @@
 - [Breaking B.C] ルールがユーザにとって直感的ではないとの理由から、フォーム定義の max と フォームヘルパの maxlength の連携機能を削除 (thanks: syachi5150)
 -- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 - Smarty を 2.6.23 に追随
+- プラグインに関する変更
+-- プラグインの名前空間の除去（検索用appidをなくした）
+-- それに伴いファイル名の命名規則を変更
+-- extlibの設置
 
 *** bug fix
 

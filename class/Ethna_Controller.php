@@ -93,9 +93,6 @@ class Ethna_Controller
         'url_handler'   => 'Ethna_UrlHandler',
     );
 
-    /** @var    array       検索対象となるプラグインのアプリケーションIDのリスト */
-    var $plugin_search_appids;
-
     /** @var    array       フィルタ設定 */
     var $filter = array(
     );
