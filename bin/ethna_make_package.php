@@ -113,8 +113,13 @@ $packagexml->addIgnoreToRelease('bin/ethna.bat');
 $packagexml->generateContents();
 
 if ($is_old_package) {
-    $pkg =& $packagexml->exportCompatiblePackageFile1();
-    $pkg->writePackageFile();
+    if (method_exists($packagexml, 'exportCompatiblePackageFile1')) {
+        $pkg =& $packagexml->exportCompatiblePackageFile1();
+        $pkg->writePackageFile();
+    } else {
+        //  PEAR package version 1 is not supported over PEAR 1.8.0.
+        echo "WARNING: PEAR package version 1 is not supported in this PEAR version.\n";
+    }
 } else {
     $packagexml->writePackageFile();
 }
