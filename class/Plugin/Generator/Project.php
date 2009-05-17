@@ -71,8 +71,6 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             return $r;
         }
 
-        $basedir = sprintf("%s/%s", $basedir, $id);
-
         // ディレクトリ作成
         if (is_dir($basedir) == false) {
             // confirm
@@ -153,6 +151,9 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             "app.url_handler.php" => sprintf("$basedir/app/%s_UrlHandler.php", $macro['project_id']),
             "etc.ini.php" => sprintf("$basedir/etc/%s-ini.php", $macro['project_prefix']),
             "template.index.tpl" => sprintf("$basedir/template/$locale/index.tpl"),
+            "template.layout.tpl" => sprintf("$basedir/template/$locale/layout.tpl"),
+            "template.404.tpl" => sprintf("$basedir/template/$locale/error404.tpl"),
+            "template.500.tpl" => sprintf("$basedir/template/$locale/error500.tpl"),
         );
 
         $skelfile_maps = array(
