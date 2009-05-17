@@ -13,14 +13,30 @@
 /** Ethnaインストールルートディレクトリ */
 define('ETHNA_INSTALL_BASE', dirname(dirname(__FILE__)));
 
+$symlink_filename = null;
+if (basename(ETHNA_INSTALL_BASE) != 'Ethna') {
+    $symlink_filename = dirname(ETHNA_INSTALL_BASE) . "/Ethna";
+    if (!file_exists($symlink_filename)) {
+        symlink(ETHNA_INSTALL_BASE, $symlink_filename);
+    }
+    else {
+        if (!is_link($symlink_filename)
+            || readlink($symlink_filename) != ETHNA_INSTALL_BASE) {
+            echo "Base dir 'Ethna' exists and it's not ETHNA_INSTALL_BASE.\n";
+            exit(1);
+        }
+    }
+}
+
 /** テストケースがあるディレクトリ */
 $test_dir = ETHNA_INSTALL_BASE . '/test';
 
 /** include_pathの設定(このtest runnerがあるディレクトリを追加) */
-ini_set('include_path', realpath(ETHNA_INSTALL_BASE . '/class') . PATH_SEPARATOR . ini_get('include_path'));
+//ini_set('include_path', realpath(ETHNA_INSTALL_BASE . '/class') . PATH_SEPARATOR . ini_get('include_path'));
+ini_set('include_path', realpath(dirname(ETHNA_INSTALL_BASE)) . PATH_SEPARATOR . ini_get('include_path'));
 
 /** Ethna関連クラスのインクルード */
-require_once ETHNA_INSTALL_BASE . '/Ethna.php';
+require_once 'Ethna/Ethna.php';
 
 /** SimpleTestのインクルード */
 require_once 'simpletest/unit_tester.php';
@@ -31,7 +47,7 @@ require_once $test_dir . '/Ethna_UnitTestBase.php';
 $test = &new GroupTest('Ethna All tests');
 
 // テストケースのファイルリストを取得
-require_once ETHNA_INSTALL_BASE . '/class/Ethna_Getopt.php';
+require_once 'Ethna/class/Ethna_Getopt.php';
 $opt = new Ethna_Getopt();
 $args = $opt->readPHPArgv();
 list($args, $opts) = $opt->getopt($args, '', array());
@@ -49,6 +65,10 @@ foreach ($file_list as $file) {
 
 // 結果をコマンドラインに出力
 $test->run(new TextDetailReporter());
+
+if ($symlink_filename !== null) {
+    unlink($symlink_filename);
+}
 
 //{{{ getFileList
 /**
