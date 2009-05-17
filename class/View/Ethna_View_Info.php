@@ -20,8 +20,11 @@
 class Ethna_View_Info extends Ethna_ViewClass
 {
     /**#@+
-     *  @access private
+     *  @access public
      */
+
+    /** @var boolean  レイアウトテンプレートの使用フラグ       */
+    var $use_layout = false;
 
     /**#@-*/
 

@@ -17,6 +17,15 @@
  */
 class Ethna_View_UnitTest extends Ethna_ViewClass
 {
+    /**#@+
+     *  @access public
+     */
+
+    /** @var boolean  レイアウトテンプレートの使用フラグ       */
+    var $use_layout = false;
+
+    /**#@-*/
+
     /**
      *  遷移前処理
      *
