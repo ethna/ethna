@@ -163,12 +163,12 @@ class Ethna_Plugin
     function _loadPlugin($type, $name)
     {
         // プラグインのファイル名を取得
-        $plugin_src = $this->_getPluginSrc($type, $name);
-        if (is_null($plugin_src)) {
+        $plugin_src_registry = $this->_getPluginSrc($type, $name);
+        if (is_null($plugin_src_registry)) {
             $this->obj_registry[$type][$name] = null;
             return;
         }
-        list($plugin_class, $plugin_dir, $plugin_file) = $plugin_src;
+        list($plugin_class, $plugin_dir, $plugin_file) = $plugin_src_registry;
 
         // プラグインのファイルを読み込み
         $r =& $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
@@ -370,27 +370,24 @@ class Ethna_Plugin
      */
     function _searchPluginSrc($type, $name)
     {
-
         list($class, $file) = $this->getPluginNaming($type, $name);
         if (class_exists($class)) {
             // すでにクラスが存在する場合は特別にスキップ
             if (isset($this->src_registry[$type]) == false) {
                 $this->src_registry[$type] = array();
             }
-
-            return;
         }
 
         $dir = $this->_searchPluginSrcDir($type, $name);
-        // エラーのときは
+
         if (Ethna::isError($dir)) {
             $this->src_registry[$type][$name] = null;
             return ;
         }
 
         if (file_exists("{$dir}/{$file}")) {
-            $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s]',
-                               "{$dir}/{$file}");
+            $this->logger->log(LOG_DEBUG, 'plugin file is found in search: [%s/%s]',
+                               $dir, $file);
             if (isset($this->src_registry[$type]) == false) {
                 $this->src_registry[$type] = array();
             }
