@@ -14,12 +14,15 @@
 define('ETHNA_INSTALL_BASE', dirname(dirname(__FILE__)));
 
 $symlink_filename = null;
+
+/** シンボリックリンクをインストールディレクトリの親に張る */
+/** symlink 関数は 5.3.0 以前では Windows でしか動作しない */
+/** が、Cygwinでテストするため問題はない。                 */
 if (basename(ETHNA_INSTALL_BASE) != 'Ethna') {
     $symlink_filename = dirname(ETHNA_INSTALL_BASE) . "/Ethna";
     if (!file_exists($symlink_filename)) {
         symlink(ETHNA_INSTALL_BASE, $symlink_filename);
-    }
-    else {
+    } else {
         if (!is_link($symlink_filename)
             || readlink($symlink_filename) != ETHNA_INSTALL_BASE) {
             echo "Base dir 'Ethna' exists and it's not ETHNA_INSTALL_BASE.\n";
@@ -66,7 +69,7 @@ foreach ($file_list as $file) {
 // 結果をコマンドラインに出力
 $test->run(new TextDetailReporter());
 
-if ($symlink_filename !== null) {
+if ($symlink_filename !== null && is_link($symlink_filename)) {
     unlink($symlink_filename);
 }
 
