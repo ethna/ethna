@@ -16,7 +16,7 @@ define('ETHNA_INSTALL_BASE', dirname(dirname(__FILE__)));
 $symlink_filename = null;
 
 /** シンボリックリンクをインストールディレクトリの親に張る */
-/** symlink 関数は 5.3.0 以前では Windows でしか動作しない */
+/** symlink 関数は 5.3.0 以前では Windows 上で動作しない   */
 /** が、Cygwinでテストするため問題はない。                 */
 if (basename(ETHNA_INSTALL_BASE) != 'Ethna') {
     $symlink_filename = dirname(ETHNA_INSTALL_BASE) . "/Ethna";
