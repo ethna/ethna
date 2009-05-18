@@ -1,6 +1,6 @@
 <?php
 /**
- *  {$project_id}_Plugin_Filter_ExecutionTime.php
+ *  Ethna_Plugin_Filter_ExecutionTime.php
  *
  *  @author     {$author}
  *  @package    {$project_id}
@@ -14,7 +14,7 @@
  *  @access     public
  *  @package    {$project_id}
  */
-class {$project_id}_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
+class Ethna_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
 {
     /**#@+
      *  @access private

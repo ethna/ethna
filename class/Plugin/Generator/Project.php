@@ -145,7 +145,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             "app.actionform.php" => sprintf("$basedir/app/%s_ActionForm.php", $macro['project_id']),
             "app.viewclass.php" => sprintf("$basedir/app/%s_ViewClass.php", $macro['project_id']),
             "app.action.default.php" => "$basedir/app/action/Index.php",
-            "app.plugin.filter.default.php" => sprintf("$basedir/app/plugin/Filter/%s_Plugin_Filter_ExecutionTime.php", $macro['project_id']),
+            "app.plugin.filter.default.php" => sprintf("$basedir/app/plugin/Filter/ExecutionTime.php", $macro['project_id']),
             "app.view.default.php" => "$basedir/app/view/Index.php",
             "app.unittest.php" => sprintf("$basedir/app/%s_UnitTestManager.php", $macro['project_id']),
             "app.url_handler.php" => sprintf("$basedir/app/%s_UrlHandler.php", $macro['project_id']),
