@@ -57,6 +57,9 @@
 -- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16137
 - Validatorが出力するメッセージからフォーム名の後ろのスペースを削るように修正。(thanks: id:syachi5150)
 -- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16336
+- Smarty 拡張プラグインの wordwrap_i18n にアルファベットのみを渡した場合に正しい結果が返らないバグを修正
+-- 末尾のスペースを取り除く挙動も wordwrap に合わせて削除
+-- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16839
 
 ** 2.5.0-preview3
 
