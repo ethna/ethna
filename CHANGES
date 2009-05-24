@@ -38,7 +38,7 @@
 -- それに伴いファイル名の命名規則を変更
 -- extlibの設置
 - その他雑多な変更
--- Smarty を 2.6.24 に追随
+-- Smarty を 2.6.25 に追随
 -- [Breaking B.C] ルールがユーザにとって直感的ではないとの理由から、フォーム定義の max と フォームヘルパの maxlength の連携機能を削除 (thanks: syachi5150)
 --- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 
