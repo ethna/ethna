@@ -37,6 +37,11 @@
 -- プラグインの名前空間の除去（検索用appidをなくした）
 -- それに伴いファイル名の命名規則を変更
 -- extlibの設置
+-- プラグイン関連のethnaコマンドを整理し、インストール、アンインストール関連コマンドは ethna pear-local コマンドに一本化
+--- ethna info-plugin (削除)
+--- ethna install-plugin (削除)
+--- ethna uninstall-plugin (削除)
+--- ethna upgrade-plugin (削除)
 - その他雑多な変更
 -- Smarty を 2.6.25 に追随
 -- [Breaking B.C] ルールがユーザにとって直感的ではないとの理由から、フォーム定義の max と フォームヘルパの maxlength の連携機能を削除 (thanks: syachi5150)
