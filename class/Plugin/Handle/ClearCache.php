@@ -62,24 +62,6 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
             echo " done\n";
         }
 
-        if (isset($args['pear']) || isset($args['any-tmp-files'])) {
-            echo "cleaning pear caches...";
-            ob_start();
-            $pear =& new Ethna_PearWrapper();
-            $r =& $pear->init('local', $basedir); 
-            if (Ethna::isError($r)) {
-                echo ob_get_clean();
-                return $r;
-            }
-            $r =& $pear->doClearCache();
-            if (Ethna::isError($r)) {
-                echo ob_get_clean();
-                return $r;
-            }
-            ob_get_clean();
-            echo " done\n";
-        }
-
         if (isset($args['any-tmp-files'])) {
             echo "cleaning tmp dirs...";
             // purge only entries in tmp.
