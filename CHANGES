@@ -38,6 +38,7 @@
 -- それに伴いファイル名の命名規則を変更
 -- extlibの設置
 -- プラグイン関連のethnaコマンドを整理し、インストール、アンインストール関連コマンドは ethna pear-local コマンドに一本化
+--- ethna channel-update (削除)
 --- ethna info-plugin (削除)
 --- ethna install-plugin (削除)
 --- ethna uninstall-plugin (削除)
