@@ -55,10 +55,11 @@ php $basedir/bin/ethna_make_package.php $beta
 cp -f $basedir/package.xml $tmpdir/
 cd $tmpdir
 tar zcvf Ethna-$version.tgz package.xml Ethna-$version
+zip -r Ethna-$version.zip package.xml Ethna-$version
 
 cd $basedir
 php $basedir/bin/ethna_make_package.php $beta -o
 cp -f $basedir/package.xml $tmpdir/
 cd $tmpdir
-tar zcvf Ethna-$version-dev.tgz package.xml Ethna-$version
+zip -r Ethna-$version-dev.zip package.xml Ethna-$version
 
