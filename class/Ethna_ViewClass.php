@@ -192,8 +192,8 @@ class Ethna_ViewClass
                     $content = $renderer->perform($this->forward_path, true);
                 }
 
-                $renderer->assign('content', $content);
-                $renderer->display($layout, serialize($_SERVER['REQUEST_URI']));
+                $renderer->setProp('content', $content);
+                $renderer->perform($layout, serialize($_SERVER['REQUEST_URI']));
             } else {
                 return Ethna::raiseWarning('file "'.$layout.'" not found');
             }
