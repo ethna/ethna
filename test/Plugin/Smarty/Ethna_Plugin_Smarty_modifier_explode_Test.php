@@ -17,7 +17,7 @@ require_once ETHNA_BASE . '/class/Plugin/Smarty/modifier.explode.php';
 class Ethna_Plugin_Smarty_modifier_explode_Test extends Ethna_UnitTestBase
 {
     // {{{  test_smarty_modifier_explode
-    function test_smarty_modifier_expode()
+    function test_smarty_modifier_explode()
     {
         //  配列でない場合
         $result = smarty_modifier_explode(1, ",");
