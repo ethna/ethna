@@ -1,5 +1,18 @@
 * 変更点一覧
 
+** 2.5.0-preview5
+
+*** features
+
+- 組み込みの Smarty プラグインの追加
+-- modifier
+--- explode (文字列を，ある文字で分割して配列に変換する）
+
+
+*** bug fix
+
+
+
 ** 2.5.0-preview4
 
 *** features
