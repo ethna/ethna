@@ -135,7 +135,9 @@ class Ethna_Plugin
             // プラグインの親クラスを(存在すれば)読み込み
             list($class, $file) = $this->getPluginNaming($type, null);
             $dir = $this->_searchPluginSrcDir($type, null);
-            $this->_includePluginSrc($class, $dir, $file, true);
+            if (!Ethna::isError($dir)) {
+                $this->_includePluginSrc($class, $dir, $file, true);
+            }
         }
 
         // key がないときはプラグインをロードする
