@@ -39,7 +39,7 @@ class Ethna_View_Json extends Ethna_ViewClass
         }
         $encoded_param = json_encode($encode_param);
 
-        header('Content-Type: application/json; charset=UTF-8');
+        $this->header(array('Content-Type' => 'application/json; charset=UTF-8'));
         echo $encoded_param;
     }
 
