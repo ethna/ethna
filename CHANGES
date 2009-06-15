@@ -1,18 +1,5 @@
 * 変更点一覧
 
-** 2.5.0-preview5
-
-*** features
-
-- 組み込みの Smarty プラグインの追加
--- modifier
---- explode (文字列を，ある文字で分割して配列に変換する）
-
-
-*** bug fix
-
-
-
 ** 2.5.0-preview4
 
 *** features
@@ -57,8 +44,11 @@
 --- ethna install-plugin (削除)
 --- ethna uninstall-plugin (削除)
 --- ethna upgrade-plugin (削除)
-- その他雑多な変更
+- Smartyに関する変更
 -- Smarty を 2.6.25 に追随
+-- 組み込みの Smarty プラグインの追加
+--- explode修正子 (文字列を，ある文字で分割して配列に変換する）
+- その他雑多な変更
 -- [Breaking B.C] ルールがユーザにとって直感的ではないとの理由から、フォーム定義の max と フォームヘルパの maxlength の連携機能を削除 (thanks: syachi5150)
 --- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 -- Windowsユーザへの便宜のため、zipアーカイブで成果物を配布するオプションを追加
@@ -81,6 +71,8 @@
 - Smarty 拡張プラグインの wordwrap_i18n にアルファベットのみを渡した場合に正しい結果が返らないバグを修正
 -- 末尾のスペースを取り除く挙動も wordwrap に合わせて削除
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16839
+- フォーム定義が配列で、Ethna_ActionForm#getHiddenVars の値を Ethna_ActionForm#setAppNE した場合、クロスサイトスクリプティング脆弱性が存在するバグを修正 (thanks: shuitic)
+-- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17332
 
 ** 2.5.0-preview3
 
