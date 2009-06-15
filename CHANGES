@@ -1,5 +1,144 @@
 * 変更点一覧
 
+** 2.5.0-preview4
+
+*** bug fix
+
+- フォーム定義が配列で、Ethna_ActionForm#getHiddenVars の値を Ethna_ActionForm#setAppNE した場合、クロスサイトスクリプティング脆弱性が存在するバグを修正 (thanks: shuitic)
+-- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17332
+
+** 2.5.0-preview3
+
+*** features
+
+- アクションフォームに関する変更
+-- フォーム定義を多次元配列に対応させました (thanks: id:syachi5150)
+--- http://d.hatena.ne.jp/syachi5150/20081022/1224676038
+-- フォーム定義を「'def' => array(),」 と定義しなくても、「'def',」 と定義するだけで親のフォームテンプレートの定義を補うようにした (thanks: sotarok)
+-- フォーム定義を動的に変更するためのAPIを追加
+--- Ethna_ActionForm#setFormDef_PreHelper
+    Ethna_Backend や Ethna_Session が初期化後に呼ばれる
+- フォームヘルパに関する変更
+-- 1つのテンプレートに 複数 {form} が指定されたときに、submitされたformに対してのみ補正処理が働くように改善 この場合、{form name=...} 属性の指定が必須
+-- 1つのテンプレートに 複数 {form} が置かれた場合に、それぞれのフォームの配列を区別するようにした
+- Smarty プラグインに関する変更
+-- Ethna 組み込みの Smarty プラグインを分割
+--- Ethna 組み込みの Smarty プラグインとして class/Plugin/Smarty/ に Smarty のプラグイン形式で個別に作成
+--- それに伴い Ethna_Smarty_Plugin クラスは削除
+--- 読み込み順は次のように指定 1. Controller の plugin ディレクトリ 2. Ethna 組み込みの Plugin/Smarty/ ディレクトリ 3. samrty デフォルトのプラグイン
+-- デフォルトの smarty プラグイン よりも Controller の plugins ディレクトリに定義されたプラグインを優先させるように変更
+-- アプリケーション独自のSmarty Pluginの定義場所を app/plugin/Smarty にできるようデフォルトでディレクトリの作成、コントローラに値のセットするよう変更
+- その他雑多な変更
+-- Smarty を 2.6.22 に追随
+-- アプリケーションの最終処理を行うメソッドとして、Ethna_Controller#end を追加
+-- フィルタを一貫してプラグインから取得するように変更
+
+*** bug fix
+
+- safe-mode が ON の際に、Ethna_View_Test がエラーを吐く現象を回避 (thanks:longkey1 [ethna-users:1059])
+- "ethna add-view" コマンドにて、locale 及び client encoding のデフォルト設定が誤っていたバグを修正
+- Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
+- 複数ファイルをアップロード(つまり配列を使用)する際、必須チェックが機能しなかったバグを修正(thanks: id:syachi5150)
+- ethna add-app-manager コマンドで生成されるアプリケーションマネージャのクラス名が、[Appid]_Controller#getManagerClassName の設定を反映するように修正。
+- smarty_modifier_unique プラグインが、仕様通り動作していなかったバグを修正
+- Ethna_PearWrapper のエラー処理が誤っていたのを修正 (thanks: id:nazo)
+-- http://wassr.jp/user/nazo/statuses/SkfJTckkN2
+- Ethna_ActionForm#getHiddenVars メソッドで、フォーム定義が配列で設定された値がスカラーの場合に警告が出ていたのを修正(thanks: maru_cc)
+-- 逆に、フォーム定義がスカラーで値が配列の場合は救いようがないので警告扱い
+- www/info.php を実行したり、www/unittest.php を実行すると、サーバが応答しなくなることがあるバグを修正
+-- アクションクラスの書き方によっては、Ethna_InfoManager が 無限ループに陥っていたため
+-- http://sourceforge.jp/tracker/index.php?func=detail&aid=10006&group_id=1343&atid=5092
+
+** 2.5.0-preview2
+
+*** features
+
+- PEAR依存を排除するための変更。依存を排除する理由は以下の通り。
+  1. PEAR が PEAR2 に移行するに伴い、APIが不安定になること
+  2. Ethna が依存している PEAR_Error は既に非推奨であること
+  3. 外部ライブラリにできうる限り依存しない方がユーザの便宜となる
+  4. PEAR に依存していると、PHPライセンスと抵触しているライセンスで配布できない
+-- Console_Getopt の代替として、Ethna_Getopt.php を追加 (Public Domain)
+-- 性質上依存せざるを得ない以下のファイルを除き、Console_Getopt への依存を排除
+--- ETHNA_BASE/bin/ethna_make_package.php
+--- ETHNA_BASE/class/Ethna_PearWrapper.php
+-- [Breaking B.C] Ethna から PEAR_Error まわりの依存を排除。これに伴い、Ethnaクラス が持っていた PEARコアコンポーネンツ の機能は使えなくなっている。
+--- Ethnaクラス に PEAR ライクなエラーチェックメソッドを追加し、それに伴う変更
+--- Ethna_Error で PEAR を呼び出していた部分を修正し、PEARに任せていたメンバ設定等を最実装
+--- PEAR.php で定義されていた OS_WINDOWS 定数の代替として、 ETHNA_OS_WINDOWS 定数を定義した
+    これは PEAR が、OS_WINDOWS 定数が再定義されているかをチェックしていないため
+- 国際化メッセージの生成支援機構として、i18n コマンドを実装
+-- gettext, Ethna組み込みのメッセージカタログに対応
+-- ethna i18n [-b|--basedir=dir] [-l|--locale] [-g|--gettext] [extdir1] [extdir2] ...
+-- メッセージファイルが存在する場合は、Ethna 組み込みのメッセージカタログの場合は、既存の翻訳
+
+
+** 2.5.0-preview3
+
+*** features
+
+- アクションフォームに関する変更
+-- フォーム定義を多次元配列に対応させました (thanks: id:syachi5150)
+--- http://d.hatena.ne.jp/syachi5150/20081022/1224676038
+-- フォーム定義を「'def' => array(),」 と定義しなくても、「'def',」 と定義するだけで親のフォームテンプレートの定義を補うようにした (thanks: sotarok)
+-- フォーム定義を動的に変更するためのAPIを追加
+--- Ethna_ActionForm#setFormDef_PreHelper
+    Ethna_Backend や Ethna_Session が初期化後に呼ばれる
+- フォームヘルパに関する変更
+-- 1つのテンプレートに 複数 {form} が指定されたときに、submitされたformに対してのみ補正処理が働くように改善 この場合、{form name=...} 属性の指定が必須
+-- 1つのテンプレートに 複数 {form} が置かれた場合に、それぞれのフォームの配列を区別するようにした
+- Smarty プラグインに関する変更
+-- Ethna 組み込みの Smarty プラグインを分割
+--- Ethna 組み込みの Smarty プラグインとして class/Plugin/Smarty/ に Smarty のプラグイン形式で個別に作成
+--- それに伴い Ethna_Smarty_Plugin クラスは削除
+--- 読み込み順は次のように指定 1. Controller の plugin ディレクトリ 2. Ethna 組み込みの Plugin/Smarty/ ディレクトリ 3. samrty デフォルトのプラグイン
+-- デフォルトの smarty プラグイン よりも Controller の plugins ディレクトリに定義されたプラグインを優先させるように変更
+-- アプリケーション独自のSmarty Pluginの定義場所を app/plugin/Smarty にできるようデフォルトでディレクトリの作成、コントローラに値のセットするよう変更
+- その他雑多な変更
+-- Smarty を 2.6.22 に追随
+-- アプリケーションの最終処理を行うメソッドとして、Ethna_Controller#end を追加
+-- フィルタを一貫してプラグインから取得するように変更
+
+*** bug fix
+
+- safe-mode が ON の際に、Ethna_View_Test がエラーを吐く現象を回避 (thanks:longkey1 [ethna-users:1059])
+- "ethna add-view" コマンドにて、locale 及び client encoding のデフォルト設定が誤っていたバグを修正
+- Ethna_Renderer_Rhaco.php を 1.x 系の最新バージョン 1.6.1 に追随 (thanks: id:akiraneko [ethna-users:1081])
+- 複数ファイルをアップロード(つまり配列を使用)する際、必須チェックが機能しなかったバグを修正(thanks: id:syachi5150)
+- ethna add-app-manager コマンドで生成されるアプリケーションマネージャのクラス名が、[Appid]_Controller#getManagerClassName の設定を反映するように修正。
+- smarty_modifier_unique プラグインが、仕様通り動作していなかったバグを修正
+- Ethna_PearWrapper のエラー処理が誤っていたのを修正 (thanks: id:nazo)
+-- http://wassr.jp/user/nazo/statuses/SkfJTckkN2
+- Ethna_ActionForm#getHiddenVars メソッドで、フォーム定義が配列で設定された値がスカラーの場合に警告が出ていたのを修正(thanks: maru_cc)
+-- 逆に、フォーム定義がスカラーで値が配列の場合は救いようがないので警告扱い
+- www/info.php を実行したり、www/unittest.php を実行すると、サーバが応答しなくなることがあるバグを修正
+-- アクションクラスの書き方によっては、Ethna_InfoManager が 無限ループに陥っていたため
+-- http://sourceforge.jp/tracker/index.php?func=detail&aid=10006&group_id=1343&atid=5092
+
+** 2.5.0-preview2
+
+*** features
+
+- PEAR依存を排除するための変更。依存を排除する理由は以下の通り。
+  1. PEAR が PEAR2 に移行するに伴い、APIが不安定になること
+  2. Ethna が依存している PEAR_Error は既に非推奨であること
+  3. 外部ライブラリにできうる限り依存しない方がユーザの便宜となる
+  4. PEAR に依存していると、PHPライセンスと抵触しているライセンスで配布できない
+-- Console_Getopt の代替として、Ethna_Getopt.php を追加 (Public Domain)
+-- 性質上依存せざるを得ない以下のファイルを除き、Console_Getopt への依存を排除
+--- ETHNA_BASE/bin/ethna_make_package.php
+--- ETHNA_BASE/class/Ethna_PearWrapper.php
+-- [Breaking B.C] Ethna から PEAR_Error まわりの依存を排除。これに伴い、Ethnaクラス が持っていた PEARコアコンポーネンツ の機能は使えなくなっている。
+--- Ethnaクラス に PEAR ライクなエラーチェックメソッドを追加し、それに伴う変更
+--- Ethna_Error で PEAR を呼び出していた部分を修正し、PEARに任せていたメンバ設定等を最実装
+--- PEAR.php で定義されていた OS_WINDOWS 定数の代替として、 ETHNA_OS_WINDOWS 定数を定義した
+    これは PEAR が、OS_WINDOWS 定数が再定義されているかをチェックしていないため
+- 国際化メッセージの生成支援機構として、i18n コマンドを実装
+-- gettext, Ethna組み込みのメッセージカタログに対応
+-- ethna i18n [-b|--basedir=dir] [-l|--locale] [-g|--gettext] [extdir1] [extdir2] ...
+-- メッセージファイルが存在する場合は、Ethna 組み込みのメッセージカタログの場合は、既存の翻訳
+
+
 ** 2.5.0-preview3
 
 *** features
