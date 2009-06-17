@@ -18,6 +18,20 @@
  */
 class {$project_id}_ViewClass extends Ethna_ViewClass
 {
+    /**#@+
+     *  @access protected
+     */
+
+    /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定   */
+    var $_layout_file = 'layout.tpl';
+
+    /**#@+
+     *  @access public
+     */
+
+    /** @var boolean  レイアウトテンプレートの使用フラグ       */
+    var $use_layout = true;
+
     /**
      *  set common default value.
      *
