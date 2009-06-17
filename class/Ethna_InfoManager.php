@@ -142,7 +142,7 @@ class Ethna_InfoManager extends Ethna_AppManager
         // ビュー定義省略エントリ一覧
         $implicit_forward_list = $this->_getForwardList_Implicit($forward_list, $manifest_forward_list);
 
-        $r = array_merge($manifest_forward_list, $implicit_forward_list);
+        $r = $manifest_forward_list + $implicit_forward_list;
         ksort($r);
 
         return $r;
@@ -579,6 +579,16 @@ class Ethna_InfoManager extends Ethna_AppManager
         $manifest_forward_name_list = array_keys($manifest_forward_list);
 
         foreach ($forward_list as $forward_name) {
+            //
+            //    エラー用のテンプレートはEthnaのデフォルトの命名規則に
+            //    従っていないため、暫定修正。
+            //    TODO: 2.5.0 の最終版が出るまでにこの点は改善される予定
+            //    なので、改善され次第このif文は削除すべきである。
+            //
+            if (preg_match('/error[403|404|500]/', $forward_name)) {
+                continue;
+            }
+
             if (in_array($forward_name, $manifest_forward_name_list)) {
                 continue;
             }
