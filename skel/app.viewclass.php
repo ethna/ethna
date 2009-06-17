@@ -22,14 +22,14 @@ class {$project_id}_ViewClass extends Ethna_ViewClass
      *  @access protected
      */
 
-    /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定   */
+    /** @var  string  set layout template file   */
     var $_layout_file = 'layout.tpl';
 
     /**#@+
      *  @access public
      */
 
-    /** @var boolean  レイアウトテンプレートの使用フラグ       */
+    /** @var boolean  layout template use flag   */
     var $use_layout = true;
 
     /**
