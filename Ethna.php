@@ -82,6 +82,7 @@ require_once ETHNA_BASE . '/class/Ethna_Util.php';
 require_once ETHNA_BASE . '/class/Ethna_ViewClass.php';
 require_once ETHNA_BASE . '/class/View/Ethna_View_Json.php';
 require_once ETHNA_BASE . '/class/View/Ethna_View_Redirect.php';
+require_once ETHNA_BASE . '/class/View/Ethna_View_403.php';
 require_once ETHNA_BASE . '/class/View/Ethna_View_404.php';
 require_once ETHNA_BASE . '/class/View/Ethna_View_500.php';
 require_once ETHNA_BASE . '/class/View/Ethna_View_List.php';

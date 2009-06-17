@@ -22,6 +22,7 @@
 -- 汎用ビュークラスを実装
 --- ビューへの出力時によく使われる処理を雛形として実装したもの
 --- Ethna_View_Json.php
+--- Ethna_View_403.php
 --- Ethna_View_404.php
 --- Ethna_View_500.php
 --- Ethna_View_Redirect.php
@@ -72,6 +73,14 @@
 -- 末尾のスペースを取り除く挙動も wordwrap に合わせて削除
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16839
 - フォーム定義が配列で、Ethna_ActionForm#getHiddenVars の値を Ethna_ActionForm#setAppNE した場合、クロスサイトスクリプティング脆弱性が存在するバグを修正 (thanks: shuitic)
+-- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17332
+
+** 2.5.0-preview4
+
+*** bug fix
+
+- フォーム定義が配列で、Ethna_ActionForm#getHiddenVars の値を Ethna_ActionForm#setAppNE した場合、クロスサイトスクリプティング
+脆弱性が存在するバグを修正 (thanks: shuitic)
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17332
 
 ** 2.5.0-preview3

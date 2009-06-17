@@ -118,6 +118,7 @@ class Ethna_Controller
 
     /** @var    array   デフォルトのforward定義 */
     var $forward_default = array(
+        '403' => array( 'view_name' => 'Ethna_View_403',),
         '404' => array( 'view_name' => 'Ethna_View_404',),
         '500' => array( 'view_name' => 'Ethna_View_500',), 
         'json' => array( 'view_name' => 'Ethna_View_Json',),
