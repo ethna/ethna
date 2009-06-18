@@ -73,8 +73,8 @@
 - Smarty 拡張プラグインの wordwrap_i18n にアルファベットのみを渡した場合に正しい結果が返らないバグを修正
 -- 末尾のスペースを取り除く挙動も wordwrap に合わせて削除
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16839
-- フォーム定義が配列で、Ethna_ActionForm#getHiddenVars の値を Ethna_ActionForm#setAppNE した場合、クロスサイトスクリプティング脆弱性が存在するバグを修正 (thanks: shuitic)
--- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17332
+- Ethna_Session#isAnonymous メソッドが状態を正しく取得できない場合があるバグを修正(thanks:longkey1)
+-- http://ml.ethna.jp/pipermail/users/2008-February/000899.html
 
 ** 2.5.0-preview4
 
