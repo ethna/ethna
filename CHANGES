@@ -77,6 +77,7 @@
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16839
 - Ethna_Session#isAnonymous メソッドが状態を正しく取得できない場合があるバグを修正(thanks:longkey1)
 -- http://ml.ethna.jp/pipermail/users/2008-February/000899.html
+- ethna add-test コマンドのヘルプが機能していなかったバグを修正
 
 ** 2.5.0-preview4
 
