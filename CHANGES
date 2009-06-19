@@ -45,6 +45,7 @@
 --- ethna install-plugin (削除)
 --- ethna uninstall-plugin (削除)
 --- ethna upgrade-plugin (削除)
+--- ethna list-plugin (削除)
 -- Filterは一貫してプラグインを使うように変更したため、add-project時の app/filter ディレクトリを削除。
 - Smartyに関する変更
 -- Smarty を 2.6.26 に追随
