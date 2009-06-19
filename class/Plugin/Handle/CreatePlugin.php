@@ -82,11 +82,11 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
         return <<<EOS
 ethna {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-n|--noini] plugin-name
     type is as follows (separated by comma):
-        f = Filter,
-        v = Validator,
+        f = Filter (default),
+        v = Validator (default),
+        sm = Smarty modifier (default)
         sb = Smarty block,
         sf = Smarty function,
-        sm = Smarty modifier
 EOS;
     }
     // }}}
