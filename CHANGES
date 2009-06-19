@@ -47,7 +47,7 @@
 --- ethna upgrade-plugin (削除)
 -- Filterは一貫してプラグインを使うように変更したため、add-project時の app/filter ディレクトリを削除。
 - Smartyに関する変更
--- Smarty を 2.6.25 に追随
+-- Smarty を 2.6.26 に追随
 -- 組み込みの Smarty プラグインの追加
 --- explode修正子 (文字列を，ある文字で分割して配列に変換する）
 - その他雑多な変更
