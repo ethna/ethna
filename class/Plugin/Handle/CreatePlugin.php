@@ -32,7 +32,6 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
             array(
                 'basedir=',
                 'type=',
-                'no-inifile',
                 'plugin-package',
             )
         ); 
