@@ -161,7 +161,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         // 任意に $packagexml->doSomething() するための callback
         $setting['callback'] = array(
             'addPackageDepWithChannel'
-                => array('required', 'ethna', 'pear.ethna.jp', '2.4.0'),
+                => array('optional', 'ethna', 'pear.ethna.jp', '2.5.0'),
             );
 
         // パッケージ作成
