@@ -32,7 +32,7 @@ class Ethna_Plugin_Generator_CreatePlugin extends Ethna_Plugin_Generator
     function &generate($basedir, $types = array(), $no_ini = false, $plugin_name)
     {
         //  create plugin directory
-        $plugin_dir = "$basedir/$plugin_name";
+        $plugin_dir = "$basedir/plugin";
         if (!file_exists($plugin_dir)) {
             Ethna_Util::mkdir($plugin_dir, 0755);
         } else {

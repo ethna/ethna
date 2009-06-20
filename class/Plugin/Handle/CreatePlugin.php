@@ -80,7 +80,7 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-n|--noini] plugin-name
+ethna {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-n|--no-inifile] plugin-name
     type is as follows (separated by comma):
         f = Filter (default),
         v = Validator (default),
@@ -99,7 +99,7 @@ EOS;
     {
         return <<<EOS
 make plugin package:
-    {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-n|--noini] plugin-name
+    {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-n|--no-inifile] plugin-name
 EOS;
     }
     // }}}
