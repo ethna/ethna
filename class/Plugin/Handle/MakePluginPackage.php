@@ -165,8 +165,6 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
             );
 
         // パッケージ作成
-        $this->pear =& new Ethna_PearWrapper();
-        $this->pear->init('local');
         $this->_makePackage($setting, $plugin_dir);
     }
     // }}}
