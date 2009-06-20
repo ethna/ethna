@@ -32,7 +32,8 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
             array(
                 'basedir=',
                 'type=',
-                'noini',
+                'no-inifile',
+                'plugin-package',
             )
         ); 
         if (Ethna::isError($r)) {
@@ -61,14 +62,14 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
         }
 
         //  no-ini file flag.
-        $no_ini = (isset($opt_list['noini'])) ? true : false; 
+        $forpackage = (isset($opt_list['plugin-package'])) ? true : false; 
 
-        $r = Ethna_Generator::generate('CreatePlugin', NULL, $basedir, $types, $no_ini, $plugin_name);
+        $r = Ethna_Generator::generate('CreatePlugin', NULL, $basedir, $types, $forpackage, $plugin_name);
         if (Ethna::isError($r)) {
             printf("error occurred while generating plugin skelton. please see also error messages given above\n\n");
             return $r;
         }
-        printf("\nplugin skelton for [%s] is successfully generated at [%s]\n\n", $plugin_name, "$basedir/$plugin_name");
+        printf("\nplugin skelton for [%s] is successfully generated.\n\n", $plugin_name);
         return true;
     }
     // }}}
@@ -80,13 +81,14 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-n|--no-inifile] plugin-name
-    type is as follows (separated by comma):
+ethna {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-p|--plugin-package] plugin-name
+    -t: type is as follows (separated by comma):
         f = Filter (default),
         v = Validator (default),
         sm = Smarty modifier (default)
         sb = Smarty block,
         sf = Smarty function,
+    -p: if you want to make plugin package, set this option.
 EOS;
     }
     // }}}
@@ -99,7 +101,7 @@ EOS;
     {
         return <<<EOS
 make plugin package:
-    {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-n|--no-inifile] plugin-name
+    {$this->id} [-b|--basedir=dir] [-t|--type=f,v,sb,sf,sm...] [-p|--plugin-package] plugin-name
 EOS;
     }
     // }}}
