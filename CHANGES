@@ -47,6 +47,11 @@
 --- ethna upgrade-plugin (削除)
 --- ethna list-plugin (削除)
 -- プラグインパッケージのスケルトンを生成するコマンドとして ethna create-plugin コマンドを追加
+--- 複数のtypeのプラグイン同時作成が可能に
+--- Ethnaプロジェクト内でのプラグインの自動生成が可能に
+--- ethna make-plugin-package との連動が可能に
+-- ethna create-plugin コマンドの出力から ethna make-plugin-package を実行できるようにコマンドを再実装
+--- これにより、複数のプラグインを含んだパッケージの作成が可能に
 -- Filterは一貫してプラグインを使うように変更したため、add-project時の app/filter ディレクトリを削除。
 - Smartyに関する変更
 -- Smarty を 2.6.26 に追随

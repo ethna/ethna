@@ -24,13 +24,86 @@ require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
  */
 class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
 {
+    // {{{ _parseArgList()
+    /**
+     * @access private
+     */
+    function &_parseArgList()
+    {
+        $r =& $this->_getopt(
+            array(
+                'basedir=',
+                'workdir=',
+                'ini-file-path='
+            )
+        );
+        if (Ethna::isError($r)) {
+            return $r;
+        }
+        list($opt_list, $arg_list) = $r;
+
+        //  plugin directory path 
+        $plugin_dir = array_shift($arg_list);
+        if (empty($plugin_dir)) {
+            return Ethna::raiseError('plugin directory path is not set.', 'usage');
+        }
+
+        //  basedir
+        if (isset($opt_list['basedir'])) {
+            $basedir = realpath(end($opt_list['basedir']));
+        } else {
+            $basedir = getcwd();
+        }
+        $plugin_dir = "$basedir/${plugin_dir}";
+
+        // inifile
+        $inifile = end($opt_list['ini-file_path']);
+        if (empty($inifile)) {
+            $inifiles = glob("${plugin_dir}/*.ini");
+            if (empty($inifiles)) {
+                return Ethna::raiseError(
+                    "ERROR: no inifile found on ${plugin_dir}\n"
+                  . ' please specify ini file path with [-i|--ini-file-path] option',
+                    'usage'
+                );
+            }
+            if (count($inifile) > 1) {
+                return Ethna::raiseError(
+                    'more than 2 .ini file found.'
+                  . ' please specify [-i|--ini-file-path] option',
+                    'usage'
+                );
+            }
+
+            $inifile = array_shift($inifiles);
+            $ini = parse_ini_file($inifile, true);
+            if (empty($ini)) {
+                return Ethna::raiseError(
+                    "invalid ini file: $inifile"
+                );
+            }
+        }
+
+        return array($ini, $plugin_dir);
+    }
+    // }}}
+
+
     // {{{ perform()
     /**
      * @access public
      */
     function perform()
     {
-        require_once 'PEAR/PackageFileManager.php';
+        //    required package check.
+        if (!file_exists_ex('PEAR/PackageFileManager2.php')
+         || !file_exists_ex('PEAR/PackageFileManager/File.php')) {
+            return Ethna::raiseError(
+                "ERROR: PEAR_PackageFileManager2 is not installed! please install it.\n"
+              . "usage: pear install -a pear/PackageFileManager2 "
+            );
+        }
+ 
         require_once 'PEAR/PackageFileManager2.php';
         require_once 'PEAR/PackageFileManager/File.php';
 
@@ -39,24 +112,13 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         if (Ethna::isError($args)) {
             return $args;
         }
-        list($ini, $skelfile, $workdir) = $args;
-
-        // パッケージを作るプラグインの target
-        $targets = array();
-        if ($ini['plugin']['master'] == true) {
-            $targets[] = 'master';
-        }
-        if ($ini['plugin']['local'] == true) {
-            $targets[] = 'local';
-        }
+        list($ini, $plugin_dir) = $args;
 
         // 設定用の配列を用意
         $setting = array();
 
-        // {{{ master と local で共通の設定
         // プラグイン名
-        $ptype = $ini['plugin']['type'];
-        $pname = $ini['plugin']['name'];
+        $setting['pkgname'] = $ini['plugin']['name'];
 
         // パッケージの説明
         $setting['channel']     = $ini['package']['channel'];
@@ -90,57 +152,22 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         if (isset($ini['license']['uri'])) {
             $setting['license']['uri'] = $ini['license']['uri'];
         }
-        // }}}
 
-        // まるまるコピー :-p
-        $setting = array('master' => $setting, 'local' => $setting);
-
-        // {{{ master と local で異なる部分
-        // パッケージ名
-        $setting['master']['pkgname'] = "Ethna_Plugin_{$ptype}_{$pname}";
-        $setting['local'] ['pkgname'] = "App_Plugin_{$ptype}_{$pname}";
-
-        // プラグインのファイル名
-        $setting['master']['filename'] = "Ethna_Plugin_{$ptype}_{$pname}.php";
-        $setting['local'] ['filename'] = "skel.plugin.{$ptype}_{$pname}.php";
-
-        // 入力ファイルの置換マクロ
-        $setting['master']['macro'] = array(
-            // package 時に置換
-            'application_id'    => 'Ethna',
-            'project_id'        => 'Ethna',
-            );
-        $setting['local']['macro'] = array(
-            // install 時に置換
-            );
-
-        // setOptins($config) 時に merge する設定
-        $setting['master']['config'] = array(
-            'baseinstalldir' => "Ethna/class/Plugin/{$ptype}",
-            );
-        $setting['local']['config'] = array(
-            'baseinstalldir' => '.',
+        // インストールディレクトリ
+        $setting['config'] = array(
+            'baseinstalldir' => 'Plugin',
             );
 
         // 任意に $packagexml->doSomething() するための callback
-        $setting['master']['callback'] = array(
+        $setting['callback'] = array(
             'addPackageDepWithChannel'
-                => array('optional', 'ethna', 'pear.ethna.jp', '2.3.0'),
+                => array('required', 'ethna', 'pear.ethna.jp', '2.4.0'),
             );
-        $setting['local']['callback'] = array(
-            // local 用のパッケージを master にインストールさせないための conflict
-            'addConflictingPackageDepWithChannel'
-                => array('pear', 'pear.php.net'),
-            );
-        // }}}
-
 
         // パッケージ作成
         $this->pear =& new Ethna_PearWrapper();
-        $this->pear->init('master');
-        foreach ($targets as $target) {
-            $this->_makePackage($skelfile, $setting[$target], "$workdir/$target");
-        }
+        $this->pear->init('local');
+        $this->_makePackage($setting, $plugin_dir);
     }
     // }}}
 
@@ -148,42 +175,14 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
     /**
      * @access private
      */
-    function &_makePackage($skelfile, $setting, $workdir)
+    function &_makePackage($setting, $workdir)
     {
-        if (Ethna_Util::mkdir($workdir, 0755) === false) {
-            return Ethna::raiseError("failed making working dir: $workdir.");
-        }
-
-        // プラグインの元ファイルを作成
-        $rfp = fopen($skelfile, "r");
-        if ($rfp == false) {
-            return Ethna::raiseError("failed open skelton file: $skelfile.");
-        }
-        $outputfile = $setting['filename'];
-        $wfp = fopen("$workdir/$outputfile", "w");
-        if ($rfp == false) {
-            fclose($rfp);
-            return Ethna::raiseError("failed creating working file: $outputfile.");
-        }
-        for (;;) {
-            $s = fread($rfp, 4096);
-            if (strlen($s) == 0) {
-                break;
-            }
-            foreach ($setting['macro'] as $k => $v) {
-                $s = preg_replace("/{\\\$$k}/", $v, $s);
-            }
-            fwrite($wfp, $s);
-        }
-        fclose($wfp);
-        fclose($rfp);
-
         // package.xml を作る
         $pkgconfig = array(
             'packagedirectory' => $workdir,
             'outputdirectory' => $workdir,
             'ignore' => array('CVS/', '.cvsignore', '.svn/',
-                              'package.xml', 'package.ini', $setting['pkgname'].'-*.tgz'),
+                              'package.xml', '*.ini', $setting['pkgname'].'-*.tgz'),
             'filelistgenerator' => 'file',
             'changelogoldtonew' => false,
             );
@@ -216,7 +215,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         $packagexml->addRole('sh', 'script');
         $packagexml->addRole('bat', 'script');
 
-        $packagexml->setPhpDep('4.1.0');
+        $packagexml->setPhpDep('4.3.0');
         $packagexml->setPearinstallerDep('1.3.5');
 
         $packagexml->generateContents();
@@ -230,54 +229,32 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
             return Ethna::raiseError($r->getMessage, $r->getCode());
         }
 
-        // package を作る
-        $r = $this->pear->_run('package', array(), array("$workdir/package.xml"));
+        //  finally make package
+        PEAR_Command::setFrontendType('CLI');
+        $ui =& PEAR_Command::getFrontendObject();
+        $config =& PEAR_Config::singleton();
+        $ui->setConfig($config);
+        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$ui, 'displayFatalError'));
+        $cmd =& PEAR_Command::factory('package', $config);
+        if (PEAR::isError($cmd)) {
+            return Ethna::raiseError($cmd->getMessage, $cmd->getCode());
+        }
+        $r = $cmd->run('package', array(), array("$workdir/package.xml"));
         if (PEAR::isError($r)) {
             return Ethna::raiseError($r->getMessage, $r->getCode());
-        }
-
-        if (Ethna_Util::purgeDir($workdir) === false) {
-            return Ethna::raiseError("failed cleaning up working dir: $workdir.");
         }
     }
     // }}}
 
-    // {{{ _parseArgList()
+    // {{{ getUsage()
     /**
-     * @access private
+     *  @access public
      */
-    function &_parseArgList()
+    function getUsage()
     {
-        $r =& $this->_getopt(array('inifile=', 'skelfile=', 'workdir='));
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        list($opt_list, $arg_list) = $r;
-
-        // inifile
-        if (isset($opt_list['inifile'])
-            && is_readable(end($opt_list['inifile']))) {
-            $ini = parse_ini_file(end($opt_list['inifile']), true);
-        } else {
-            return Ethna::raiseError('give a valid inifile.');
-        }
-
-        // skelfile
-        if (isset($opt_list['skelfile'])
-            && is_readable(end($opt_list['skelfile']))) {
-            $skelfile = end($opt_list['skelfile']);
-        } else {
-            return Ethna::raiseError('give a valid filename of plugin skelton file.');
-        }
-
-        // workdir
-        if (isset($opt_list['workdir'])) {
-            $workdir = end($opt_list['workdir']);
-        } else {
-            $workdir = getcwd();
-        }
-
-        return array($ini, $skelfile, $workdir);
+        return <<<EOS
+    {$this->id} [-b|--basedir=dir] [-i|--ini-file-path=file] [plugin_directory_path] 
+EOS;
     }
     // }}}
 
@@ -289,8 +266,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
     {
         return <<<EOS
 make plugin package:
-    {$this->id} [-i|--inifile=file] [-s|--skelfile=file] [-w|--workdir=dir]
-
+    {$this->id} [-b|--basedir=dir] [-i|--ini-file-path=file] [plugin_directory_path] 
 EOS;
     }
     // }}}
