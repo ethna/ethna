@@ -155,7 +155,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
 
         // インストールディレクトリ
         $setting['config'] = array(
-            'baseinstalldir' => 'Plugin',
+            'baseinstalldir' => 'Ethna/extlib/Plugin',
             );
 
         // 任意に $packagexml->doSomething() するための callback

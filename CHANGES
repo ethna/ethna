@@ -1,5 +1,11 @@
 * 変更点一覧
 
+** 2.5.0-preview6
+
+*** bug fix
+
+- ethna make-plugin-package のデフォルトインストールディレクトリが誤っていたバグを修正
+
 ** 2.5.0-preview5
 
 *** features
