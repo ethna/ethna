@@ -276,20 +276,20 @@ class Ethna_ViewClass
 
     // {{{ redirect
     /**
-     *  HTTPヘッダを送信します。
+     *  リダイレクト処理
+     *   - デフォルトのヘッダを送信しない
+     *   - レイアウトテンプレートの使用をしない
      *
-     *  @param  mixed   ヘッダを設定する値
-     *                  配列指定の場合、header => value の形式
-     *                  整数指定の場合は、HTTPステータスコード
-     *                  文字列で指定する場合は、ヘッダ出力をそのまま指定
+     *  @param  string  リダイレクト先(URL)
+     *  @param  int     HTTPステータスコード (3xx)
      *  @access public
      */
-    function redirect($url)
+    function redirect($url, $staus_code = 302)
     {
         $this->has_default_header = false;
         $this->use_layout = false;
 
-        $this->header(302);
+        $this->header($staus_code);
         $this->header(array('Location' => $url));
     }
     // }}}

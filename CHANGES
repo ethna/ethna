@@ -2,6 +2,10 @@
 
 ** 2.5.0-preview6
 
+*** features
+
+- Ethna_ViewClass#redirect にて、リダイレクト用HTTPステータスコードが302で固定だったので、オプション引数として変更可能とした
+
 *** bug fix
 
 - ethna make-plugin-package のデフォルトインストールディレクトリが誤っていたバグを修正
