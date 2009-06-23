@@ -117,6 +117,18 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
         $headers_sent = headers_list();
         $expected = 'Location: http://ethna.jp';
         $this->assertNotA(array_search($expected, $headers_sent), false);
+        $expected = 'HTTP/1.1: 302 Found';
+        $this->assertNotA(array_search($expected, $headers_sent), false);
+    }
+
+    function test_redirect_statuscode()
+    {
+        @$this->view->redirect('http://ethna.jp', 301);
+        $headers_sent = headers_list();
+        $expected = 'Location: http://ethna.jp';
+        $this->assertNotA(array_search($expected, $headers_sent), false);
+        $expected = 'HTTP/1.1: 301 Moved Permanently';
+        $this->assertNotA(array_search($expected, $headers_sent), false);
     }
 
     function test_setLayout()
