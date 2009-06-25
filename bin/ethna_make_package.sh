@@ -48,12 +48,12 @@ cd $optpkg_dir/Smarty/build
 chmod +x ./build
 ./build
 cp $optpkg_dir/Smarty/release/*.tgz $tmpdir
+mkdir $optpkg_dir/simpletest/release
 cd $optpkg_dir/simpletest/src
 tar xvfz simpletest*.tar.gz
 cd $optpkg_dir/simpletest/build
 chmod +x ./build
 ./build
-mkdir $optpkg_dir/simpletest/release
 cp $optpkg_dir/simpletest/release/*.tgz $tmpdir
 rm -rf $optpkg_dir
 cd $basedir
