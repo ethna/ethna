@@ -5,10 +5,14 @@
 *** features
 
 - Ethna_ViewClass#redirect にて、リダイレクト用HTTPステータスコードが302で固定だったので、オプション引数として変更可能とした
+- 国際化に関する変更
+-- デフォルトのタイムゾーンとして、date.timezone を 'Asia/Tokyo' に設定
+-- Ethna_I18N クラス に setTimeZone メソッドを追加 (static呼出)
 
 *** bug fix
 
 - ethna make-plugin-package のデフォルトインストールディレクトリが誤っていたバグを修正
+- iniディレクティブ date.timezone が設定されてないために、E_WARNING が PHP 5.3.0 で出ていたバグを修正
 
 ** 2.5.0-preview5
 

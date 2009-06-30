@@ -136,6 +136,14 @@ class Ethna_I18N_Test extends Ethna_UnitTestBase
         $actual = $messages['""""""'];
         $this->assertequal($expected, $actual); 
     }
+
+    function test_setTimeZone()
+    {
+        $expected = 'GMT';
+        Ethna_I18N::setTimeZone($expected);
+        $actual = ini_get('date.timezone');
+        $this->assertequal($expected, $actual); 
+    }
 }
 // }}}
 
