@@ -24,6 +24,12 @@ if (substr(PHP_OS, 0, 3) == 'WIN'
 } elseif (!defined('ETHNA_OS_WINDOWS')) {
     define('ETHNA_OS_WINDOWS', false);
 }
+//  PHP 5.1.0 以降向けの変更
+//  date.timezone が設定されていないと
+//  E_STRICT|WARNING が発生する
+if (!ini_get('date.timezone')) {
+    ini_set('date.timezone', 'Asia/Tokyo');
+}
 
 if (!defined('PATH_SEPARATOR')) {
     if (ETHNA_OS_WINDOWS) {
