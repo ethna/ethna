@@ -8,6 +8,9 @@
 - 国際化に関する変更
 -- デフォルトのタイムゾーンとして、date.timezone を 'Asia/Tokyo' に設定
 -- Ethna_I18N クラス に setTimeZone メソッドを追加 (static呼出)
+- Ethna_MailSender にて、メール送信に問題がある場合の設定として 'mail_func_workaround' を追加
+-- この値を true に設定すると、メールヘッダの改行コードを一律 CRLF にする処理を回避する
+-- $mail = new Ethna_MailSender(); $mail->setOption(array('mail_func_workaround')); でも設定可能
 
 *** bug fix
 

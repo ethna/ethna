@@ -206,7 +206,11 @@ class Ethna_MailSender
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $body = str_replace("\n", "\r\n", $body);
         }
-        $header_line = str_replace("\n", "\r\n", $header_line);
+        $wa_config = 'mail_func_workaround';
+        if ($this->config->get($wa_config) == false
+         && isset($this->options[$wa_config]) == false) {
+            $header_line = str_replace("\n", "\r\n", $header_line);
+        }
 
         // 送信
         foreach (to_array($to) as $rcpt) {
