@@ -60,6 +60,7 @@ class Ethna_Plugin
 
         // load dir_registry
         $this->_loadPluginDirList();
+
     }
 
     /**
@@ -460,6 +461,7 @@ class Ethna_Plugin
     // {{{ static な include メソッド
     /**
      *  Ethna 本体付属のプラグインのソースを include する
+     *  (B.C.) Ethna 2.5.0 perview 5 以降，このメソッドには意味がありません．Ethna_Plugin::import を使ってください
      *
      *  @access public
      *  @param  string  $type   プラグインの種類
@@ -468,8 +470,24 @@ class Ethna_Plugin
      */
     function includeEthnaPlugin($type, $name)
     {
-        Ethna_Plugin::includePlugin($type, $name, 'Ethna');
+        Ethna_Plugin::import($type, $name);
     }
+
+    /**
+     *  プラグインのソースを include する
+     *
+     *  @access public
+     *  @param  string  $type   プラグインの種類
+     *  @param  string  $name   プラグインの名前
+     *  @param  string  $appid  アプリケーションID
+     */
+    function includePlugin($type, $name = null)
+    {
+        list($class, $file) = $this->getPluginNaming($type, $name);
+        $dir = $this->_searchPluginSrcDir($type, $name);
+        $this->_includePluginSrc($class, $dir, $file);
+    }
+    // }}}
 
     /**
      *  プラグインのソースを include する
@@ -480,7 +498,8 @@ class Ethna_Plugin
      *  @param  string  $appid  アプリケーションID
      *  @static
      */
-    function includePlugin($type, $name, $appid = null)
+    // static function import($type, $name)
+    function import($type, $name = null)
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
@@ -489,9 +508,7 @@ class Ethna_Plugin
             $appid = $ctl->getAppId();
         }
 
-        list($class, $file) = $plugin->getPluginNaming($type, $name);
-        $dir = $this->_searchPluginSrcDir($type, $name);
-        $plugin->_includePluginSrc($class, $dir, $file);
+        $plugin->includePlugin($type, $name);
     }
     // }}}
 }
