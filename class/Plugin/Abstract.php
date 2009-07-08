@@ -67,17 +67,15 @@ class Ethna_Plugin_Abstract
 
         $this->action_form =& $controller->getActionForm();
         $this->af =& $this->action_form;
-        //
-        $this->type = $type;
-        $this->name = $name;
+
 
         // if constractor called without parameter $type or $name, auto detect type and name of self.
         if ($this->type === null) {
-            $this->type = $this->_detectType();
+            $this->type = $this->_detectType($type);
         }
 
         if ($this->name === null) {
-            $this->name = $this->_detectName();
+            $this->name = $this->_detectName($name);
         }
 
         // load plugin hook
@@ -128,7 +126,12 @@ class Ethna_Plugin_Abstract
             $this->config = $this->config_default;
         }
         else {
-            $this->config = array_merge($this->config_default, $plugin_config[$this->type]);
+            if ($this->name === null) {
+                $this->config = array_merge($this->config_default, $plugin_config[$this->type]);
+            }
+            else {
+                $this->config = array_merge($this->config_default, $plugin_config[$this->type][$this->name]);
+            }
         }
         return true;
     }
@@ -138,11 +141,15 @@ class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    function _detectType()
+    function _detectType($type = null)
     {
+        if ($type !== null) {
+            return strtolower($type);
+        }
+
         $type = array_shift(explode("_", str_replace("Ethna_Plugin_", "",  get_class($this))));
         if ($type !== "") {
-            return $type;
+            return strtolower($type);
         }
         else {
             return null;
@@ -154,11 +161,15 @@ class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    function _detectName()
+    function _detectName($name = null)
     {
+        if ($name !== null) {
+            return strtolower($name);
+        }
+
         $name = explode("_", str_replace("Ethna_Plugin_", "", get_class($this)));
         if (count($name) === 2) {
-            return $name[1];
+            return strtolower($name[1]);
         }
         else {
             return null;

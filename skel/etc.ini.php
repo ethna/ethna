@@ -68,30 +68,34 @@ $config = array(
 $config['plugin'] = array(
     // plugin config
     //'type' => array(
+    //    'name' => array(
+    //    ),
     //),
 
     // memcache
     // sample-1: single (or default) memcache
-    'memcache' => array(
-        // 'host' => 'localhost',
-        // 'port' => 11211,
-        // 'use_pconnect' => false,
-        // 'retry' => 3,
-        // 'timeout' => 3,
+    'cachemanager' => array(
+        //'memcache' => array(
+        //     'host' => 'localhost',
+        //     'port' => 11211,
+        //     'use_pconnect' => false,
+        //     'retry' => 3,
+        //     'timeout' => 3,
 
-        // sample-2: multiple memcache servers (distributing w/ namespace and ids)
-        'info' => array(
-           'namespace1' => array(
-               0 => array(
-                   'host' => 'cache1.example.com',
-                   'port' => 11211,
-               ),
-               1 => array(
-                   'host' => 'cache2.example.com',
-                   'port' => 11211,
-               ),
-           ),
-        ),
+        //    // sample-2: multiple memcache servers (distributing w/ namespace and ids)
+        //    //'info' => array(
+        //    //   'namespace1' => array(
+        //    //       0 => array(
+        //    //           'host' => 'cache1.example.com',
+        //    //           'port' => 11211,
+        //    //       ),
+        //    //       1 => array(
+        //    //           'host' => 'cache2.example.com',
+        //    //           'port' => 11211,
+        //    //       ),
+        //    //   ),
+        //    //),
+        //),
     ),
 );
 ?>

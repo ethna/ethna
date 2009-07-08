@@ -28,11 +28,11 @@ class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
 
     function testDetectTypeAndName()
     {
-        $this->assertEqual('Abstract', $this->abstract->getType());
+        $this->assertEqual('abstract', $this->abstract->getType());
         $this->assertEqual(null, $this->abstract->getName());
 
-        $this->assertEqual('Logwriter', $this->lw->getType());
-        $this->assertEqual('Echo', $this->lw->getName());
+        $this->assertEqual('logwriter', $this->lw->getType());
+        $this->assertEqual('echo', $this->lw->getName());
     }
 }
 ?>

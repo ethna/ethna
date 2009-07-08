@@ -14,6 +14,8 @@
 - Ethna_Plugin::import という，プラグインソースをincludeするための，staticメソッドを追加．
 - すべてのPluginの基底となる抽象クラス，Ethna_Plugin_Abstractを追加
 -- 既存のプラグインの親クラスを，Ethna_Plugin_Abstract を継承するように変更
+-- Plugin に設定を受け渡す方法を変更したため，etcのskelを変更
+--- それに伴い，Ethna_Plugin_Cachemanager_Memcacheの設定方法を変更
 
 *** bug fix
 
