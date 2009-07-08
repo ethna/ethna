@@ -37,7 +37,7 @@ class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
 
     function testGetName()
     {
-        $this->assertTrue(strlen($this->csrf->getName()), 'token name not found');
+        $this->assertTrue(strlen($this->csrf->getTokenName()), 'token name not found');
     }
 
     function testCheckCsrfSession()
@@ -49,20 +49,20 @@ class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
     function testPostRequest()
     {
         $_SERVER['REQUEST_METHOD'] = "post";
-        $_POST[$this->csrf->getName()] = "";
+        $_POST[$this->csrf->getTokenName()] = "";
         $this->assertFalse($this->csrf->isValid());
 
-        $_POST[$this->csrf->getName()] = $this->csrfid;
+        $_POST[$this->csrf->getTokenName()] = $this->csrfid;
         $this->assertTrue($this->csrf->isValid());
     }
 
     function testGetRequest()
     {
         $_SERVER['REQUEST_METHOD'] = "get";
-        $_GET[$this->csrf->getName()] = "";
+        $_GET[$this->csrf->getTokenName()] = "";
         $this->assertFalse($this->csrf->isValid());
 
-        $_GET[$this->csrf->getName()] = $this->csrfid;
+        $_GET[$this->csrf->getTokenName()] = $this->csrfid;
         $this->assertTrue($this->csrf->isValid());
     }
 
