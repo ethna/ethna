@@ -122,7 +122,8 @@ class Ethna_Plugin_Abstract
         $config =& $this->ctl->getConfig();
         $plugin_config = $config->get('plugin');
 
-        if ($plugin_config === null || !isset($plugin_config[$this->type])) {
+        if ($plugin_config === null || !isset($plugin_config[$this->type])
+            || ($this->name !== null && !isset($plugin_config[$this->type][$this->name]))) {
             $this->config = $this->config_default;
         }
         else {
@@ -130,9 +131,11 @@ class Ethna_Plugin_Abstract
                 $this->config = array_merge($this->config_default, $plugin_config[$this->type]);
             }
             else {
+
                 $this->config = array_merge($this->config_default, $plugin_config[$this->type][$this->name]);
             }
         }
+
         return true;
     }
 
