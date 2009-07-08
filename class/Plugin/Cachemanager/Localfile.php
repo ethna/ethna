@@ -238,7 +238,8 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
             $dir2 = "__dir2";
         }
 
-        $map = $this->config->get('cachemanager_localfile');
+        //$map = $this->config->get('cachemanager_localfile');
+        $map = $this->config;
         $tmp_key = $namespace . "::" . $key;
         // PHP依存:)
         $dir = "default";
