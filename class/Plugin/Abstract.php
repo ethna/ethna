@@ -23,15 +23,22 @@ class Ethna_Plugin_Abstract
      *  @access private
      */
 
+    /** @var    string  plugin type */
     var $type = null;
 
+    /** @var    string  plugin name */
     var $name = null;
-
 
     /** @var    object  Ethna_Controller    Controller Object */
     var $controller;
-    /** @var    object  Ethna_Controller    Alias */
-    var $ctl;
+    var $ctl; /* Alias */
+
+    /** @var    object  Ethna_Backend       Backend Object */
+    var $backend;
+
+    /** @var    object  Ethna_ActionForm    ActionForm Object */
+    var $action_form;
+    var $af; /* Alias */
 
     /** @var    array   plugin configure */
     var $config;
@@ -53,9 +60,13 @@ class Ethna_Plugin_Abstract
         $this->controller =& $controller;
         $this->ctl =& $this->controller;
 
-        //$this->config =& $controller->getConfig();
-        $this->logger =& $this->controller->getLogger();
+        $this->backend =& $this->controller->getBackend();
 
+        //$this->config =& $controller->getConfig();
+        $this->logger =& $controller->getLogger();
+
+        $this->action_form =& $controller->getActionForm();
+        $this->af =& $this->action_form;
         //
         $this->type = $type;
         $this->name = $name;
@@ -129,7 +140,7 @@ class Ethna_Plugin_Abstract
      */
     function _detectType()
     {
-        $type = array_shift(explode("_", str_replace("Ethna_Plugin_", get_class($this))));
+        $type = array_shift(explode("_", str_replace("Ethna_Plugin_", "",  get_class($this))));
         if ($type !== "") {
             return $type;
         }
