@@ -65,7 +65,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
         $key = $this->_generateKey();
         $this->session->set($this->token_name, $key); 
 
-        return true;       
+        return true;
     }
 
     /**
@@ -79,7 +79,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
         if (! $this->session->isStart()) {
             $this->session->start();
         }
-        
+
         return $this->session->get($this->token_name);
     }
 
@@ -93,7 +93,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
         if (! $this->session->isStart()) {
             $this->session->start();
         }
-        $this->session->remove($this->token_name);        
+        $this->session->remove($this->token_name);
     }
 }
 // }}}

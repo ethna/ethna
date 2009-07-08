@@ -19,22 +19,22 @@
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Csrf
+class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
 {
     /**#@+
      *  @access private
      */
 
-    var $controller;
+    //var $controller;
 
     /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    var $ctl;
+    //var $ctl;
 
     /** @var    object  Ethna_Config        設定オブジェクト */
-    var $config;
+    //var $config;
 
     /** @var    object  Ethna_Logger        ログオブジェクト */
-    var $logger;
+    //var $logger;
     
     /** @var    string  共有トークン名 */
     var $token_name = 'ethna_csrf';
@@ -48,6 +48,7 @@ class Ethna_Plugin_Csrf
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
      */
+    /*
     function Ethna_Plugin_Csrf(&$controller)
     {
         // オブジェクトの設定
@@ -57,6 +58,7 @@ class Ethna_Plugin_Csrf
         $this->config =& $controller->getConfig();
         $this->logger =& $this->controller->getLogger();
     }
+    */
     
     /**
      *  トークンをViewとローカルファイルにセットする
@@ -97,7 +99,7 @@ class Ethna_Plugin_Csrf
      *  @access public
      *  @return string トークン名を返す。
      */
-    function getName()
+    function getTokenName()
     {
         return $this->token_name;
     }
@@ -144,7 +146,7 @@ class Ethna_Plugin_Csrf
      */
     function _get_token()
     {
-        $token_name = $this->getName();
+        $token_name = $this->getTokenName();
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {
             return isset($_POST[$token_name]) ? $_POST[$token_name] : null;
         } else {

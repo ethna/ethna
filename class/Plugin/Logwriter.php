@@ -17,7 +17,7 @@
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Logwriter
+class Ethna_Plugin_Logwriter extends Ethna_Plugin_Abstract
 {
     /**#@+
      *  @access private
@@ -58,9 +58,11 @@ class Ethna_Plugin_Logwriter
      *  @param  string  $log_file       ログ出力先ファイル名(LOG_FILEオプションが指定されている場合のみ)
      *  @param  int     $log_option     ログオプション(LOG_FILE,LOG_FUNCTION...)
      */
+    /*
     function Ethna_Plugin_Logwriter()
     {
     }
+    */
 
     /**
      *  ログオプションを設定する

@@ -22,23 +22,23 @@ if (defined('UPLOAD_ERR_OK') == false) {
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Validator
+class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
 {
     /**#@+
      *  @access private
      */
 
     /** @var    object  Ethna_Backend   backendオブジェクト */
-    var $backend;
+    //var $backend;
 
     /** @var    object  Ethna_Logger    ログオブジェクト */
-    var $logger;
+    //var $logger;
 
     /** @var    object  Ethna_ActionForm    フォームオブジェクト */
-    var $action_form;
+    //var $action_form;
 
     /** @var    object  Ethna_ActionForm    フォームオブジェクト */
-    var $af;
+    //var $af;
 
     /** @var    bool    配列を受け取るバリデータかどうかのフラグ */
     var $accept_array = false;
@@ -51,6 +51,7 @@ class Ethna_Plugin_Validator
      *  @access public
      *  @param  object  Ethna_Controller    $controller コントローラオブジェクト
      */
+    /*
     function Ethna_Plugin_Validator(&$controller)
     {
         $this->backend =& $controller->getBackend();
@@ -58,6 +59,7 @@ class Ethna_Plugin_Validator
         $this->action_form =& $controller->getActionForm();
         $this->af =& $this->action_form;
     }
+    */
 
     /**
      *  フォーム値検証のためにActionFormから呼び出されるメソッド

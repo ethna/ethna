@@ -13,6 +13,7 @@
 -- $mail = new Ethna_MailSender(); $mail->setOption(array('mail_func_workaround')); でも設定可能
 - Ethna_Plugin::import という，プラグインソースをincludeするための，staticメソッドを追加．
 - すべてのPluginの基底となる抽象クラス，Ethna_Plugin_Abstractを追加
+-- 既存のプラグインの親クラスを，Ethna_Plugin_Abstract を継承するように変更
 
 *** bug fix
 
