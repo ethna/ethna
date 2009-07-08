@@ -33,8 +33,6 @@ class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
 
         $this->assertEqual('Logwriter', $this->lw->getType());
         $this->assertEqual('Echo', $this->lw->getName());
-
-        var_dump($this->abstract->config);
     }
 }
 ?>
