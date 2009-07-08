@@ -12,6 +12,7 @@
 -- この値を true に設定すると、メールヘッダの改行コードを一律 CRLF にする処理を回避する
 -- $mail = new Ethna_MailSender(); $mail->setOption(array('mail_func_workaround')); でも設定可能
 - Ethna_Plugin::import という，プラグインソースをincludeするための，staticメソッドを追加．
+- すべてのPluginの基底となる抽象クラス，Ethna_Plugin_Abstractを追加
 
 *** bug fix
 
