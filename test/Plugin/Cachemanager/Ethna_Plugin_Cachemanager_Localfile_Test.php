@@ -10,6 +10,29 @@
  */
 class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 {
+    var $ctl;
+    var $cm;
+
+    function setUp()
+    {
+        $ctl =& Ethna_Controller::getInstance();
+        $this->ctl =& $ctl;
+
+
+        $config = $ctl->getConfig();
+
+        $config->set('plugin',
+            array('cachemanager' => 
+                array('localfile' => array(
+                    'test::int_key' => 'miyazakiaoi',
+                )
+            )
+        ));
+
+        $plugin =& $ctl->getPlugin();
+        $this->cm = $plugin->getPlugin('Cachemanager', 'Localfile');
+    }
+
     function rm($path){
         if (is_dir($path)) {
             if ($handle = opendir($path)) {
@@ -30,47 +53,59 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         }
     }
 
-    function testCachemanagerLocalfile()
+    function testCachemanagerLocalfileConfig()
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $plugin =& $ctl->getPlugin();
-        $cm = $plugin->getPlugin('Cachemanager', 'Localfile');
+        $this->assertTrue('miyazakiaoi', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('test', 'int_key')), -4, 1)));
+        $this->assertTrue('default', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('', 'string_key')), -4, 1)));
+    }
 
-        // 文字列のキャッシュ
-        $string_key = 'string_key';
-        $string_value = "cache\ncontent";
-        $cm->set($string_key, $string_value, mktime(0, 0, 0, 7, 1, 2000));
-        $cache_string = $cm->get($string_key);
-        $this->assertTrue($cm->isCached($string_key));
-        $this->assertEqual(mktime(0, 0, 0, 7, 1, 2000), $cm->getLastModified($string_key));
-        $this->assertTrue($string_value, $cache_string);
-
+    function testCachemanagerLocalfileInt()
+    {
         // 整数のキャッシュ + namespace
         $int_key = 'int_key';
         $int_value = 777;
         $namespace = 'test';
-        $cm->set($int_key, $int_value, mktime(0, 0, 0, 7, 1, 2000), $namespace);
-        $cache_int = $cm->get($int_key, mktime(0, 0, 0, 7, 1, 2000), $namespace);
-        $this->assertTrue($cm->isCached($int_key, mktime(0, 0, 0, 7, 1, 2000), $namespace));
+        $this->cm->set($int_key, $int_value, mktime(0, 0, 0, 7, 1, 2000), $namespace);
+        $cache_int = $this->cm->get($int_key, mktime(0, 0, 0, 7, 1, 2000), $namespace);
+        $this->assertTrue($this->cm->isCached($int_key, mktime(0, 0, 0, 7, 1, 2000), $namespace));
         $this->assertTrue($int_value, $cache_int);
+    }
+
+    function testCachemanagerLocalfileString()
+    {
+        // 文字列のキャッシュ
+        $string_key = 'string_key';
+        $string_value = "cache\ncontent";
+        $this->cm->set($string_key, $string_value, mktime(0, 0, 0, 7, 1, 2000));
+        $cache_string = $this->cm->get($string_key);
+        $this->assertTrue($this->cm->isCached($string_key));
+        $this->assertEqual(mktime(0, 0, 0, 7, 1, 2000), $this->cm->getLastModified($string_key));
+        $this->assertTrue($string_value, $cache_string);
+    }
+
+    function testCachemanagerLocalfileObject()
+    {
+        $string_key = 'string_key';
+        $string_value = "cache\ncontent";
 
         // オブジェクトのキャッシュ
         $object_key = 'object_key';
-        $object_value =& $cm;
-        $cm->set($object_key, $object_value);
-        $this->assertTrue($cm->isCached($object_key));
+        $object_value =& $this->cm;
+
+        $this->cm->set($object_key, $object_value);
+        $this->assertTrue($this->cm->isCached($object_key));
         // キャッシュされたインスタンス
-        $cache_object = $cm->get($object_key);
+        $cache_object = $this->cm->get($object_key);
         $this->assertTrue($string_value, $cache_object->get($string_key));
 
         // キャッシュのクリアをテスト
-        $cm->clear($object_key);
-        $this->assertFalse($cm->isCached($object_key));
+        $this->cm->clear($object_key);
+        $this->assertFalse($this->cm->isCached($object_key));
 
         // キャッシュされていないのに呼び出そうとした場合
         $nocache_key = 'nocache_key';
-        $cm->clear($nocache_key);
-        $pear_error = $cm->get($nocache_key);
+        $this->cm->clear($nocache_key);
+        $pear_error = $this->cm->get($nocache_key);
         $this->assertEqual(E_CACHE_NO_VALUE, $pear_error->getCode());
         $this->assertEqual('fopen failed', $pear_error->getMessage());
 
@@ -78,30 +113,31 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         // PHP 4, PHP5 ともに、Windows上ではmodeをどのように設定しても
         // read権限が残るためskip.(PHP 4.4.8, 5.2.6 on Windows XP)
         if (!ETHNA_OS_WINDOWS) {
-            Ethna_Util::chmod($cm->_getCacheFile(null, $string_key), 0222);
-            $pear_error = $cm->get($string_key);
+            Ethna_Util::chmod($this->cm->_getCacheFile(null, $string_key), 0222);
+            $pear_error = $this->cm->get($string_key);
             $this->assertEqual(E_CACHE_NO_VALUE, $pear_error->getCode());
             $this->assertEqual('fopen failed', $pear_error->getMessage());
-            Ethna_Util::chmod($cm->_getCacheFile(null, $string_key), 0666);
+            Ethna_Util::chmod($this->cm->_getCacheFile(null, $string_key), 0666);
         }
 
         // lifetime切れの場合
-        $pear_error = $cm->get($string_key, 1);
+        $pear_error = $this->cm->get($string_key, 1);
         $this->assertEqual(E_CACHE_EXPIRED, $pear_error->getCode());
         $this->assertEqual('fopen failed', $pear_error->getMessage());
 
         // ディレクトリ名と同じファイルがあってディレクトリが作成できない場合
         $tmp_key = 'tmpkey';
-        $tmp_dirname = $cm->_getCacheDir(null, $tmp_key);
+        $tmp_dirname = $this->cm->_getCacheDir(null, $tmp_key);
         Ethna_Util::mkdir(dirname($tmp_dirname), 0777);
         $tmp_file = fopen($tmp_dirname, 'w');
         fclose($tmp_file);
-        $pear_error = $cm->set($tmp_key, $string_value);
+        $pear_error = $this->cm->set($tmp_key, $string_value);
         $this->assertEqual(E_USER_WARNING, $pear_error->getCode());
         $this->assertEqual("mkdir($tmp_dirname) failed", $pear_error->getMessage());
 
-        $this->rm($cm->backend->getTmpdir());
+        $this->rm($this->cm->backend->getTmpdir());
 
     }
+
 }
 ?>
