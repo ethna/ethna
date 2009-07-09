@@ -35,10 +35,10 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
 
     /** @var    object  Ethna_Logger        ログオブジェクト */
     //var $logger;
-    
+
     /** @var    string  共有トークン名 */
     var $token_name = 'ethna_csrf';
-    
+
     /**#@-*/
 
 
