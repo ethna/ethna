@@ -40,9 +40,13 @@ class Ethna_Plugin_Abstract
     var $action_form;
     var $af; /* Alias */
 
+    /** @var    object  Ethna_Session       Session Object */
+    var $session;
+
     /** @var    array   plugin configure */
     var $config;
 
+    /** @var    array   plugin configure for default */
     var $config_default = array();
 
     /** @var    object  Ethna_Logger        Logger Object */
@@ -68,6 +72,7 @@ class Ethna_Plugin_Abstract
         $this->action_form =& $controller->getActionForm();
         $this->af =& $this->action_form;
 
+        $this->session =& $controller->getSession();
 
         // if constractor called without parameter $type or $name, auto detect type and name of self.
         if ($this->type === null) {
@@ -77,6 +82,9 @@ class Ethna_Plugin_Abstract
         if ($this->name === null) {
             $this->name = $this->_detectName($name);
         }
+
+        // load config
+        $this->_loadConfig();
 
         // load plugin hook
         $this->_onLoad();
@@ -103,17 +111,16 @@ class Ethna_Plugin_Abstract
     }
 
     /**
-     *  getType
+     *  _onLoad
      *
      *  @access protected
      */
     function _onLoad()
     {
-        $this->_loadConfig();
     }
 
     /**
-     *  getType
+     *  _loadConfig
      *
      *  @access protected
      */
@@ -140,7 +147,7 @@ class Ethna_Plugin_Abstract
     }
 
     /**
-     *  getType
+     *  _detectType
      *
      *  @access protected
      */
@@ -160,7 +167,7 @@ class Ethna_Plugin_Abstract
     }
 
     /**
-     *  getType
+     *  _detectName
      *
      *  @access protected
      */
