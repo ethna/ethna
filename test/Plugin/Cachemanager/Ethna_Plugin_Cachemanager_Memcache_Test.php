@@ -53,10 +53,10 @@ class Ethna_Plugin_Cachemanager_Memcache_Test extends Ethna_UnitTestBase
     {
         $config = $this->cm->config;
 
-        $this->assertTrue(11211, $config['port']);
-        $this->assertTrue('localhost', $config['host']);
-        $this->assertTrue(4, $config['retry']);
-        $this->assertTrue(5, $config['timeout']);
+        $this->assertEqual(11211, $config['port']);
+        $this->assertEqual('localhost', $config['host']);
+        $this->assertEqual(4, $config['retry']);
+        $this->assertEqual(5, $config['timeout']);
     }
 }
 ?>
