@@ -38,7 +38,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      */
     function get($key, $lifetime = null, $namespace = null)
     {
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
 
         // ライフタイムチェック
@@ -103,7 +103,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      */
     function getLastModified($key, $namespace = null)
     {
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
 
         clearstatcache();
@@ -124,7 +124,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      */
     function isCached($key, $lifetime = null, $namespace = null)
     {
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
 
         // ライフタイムチェック
@@ -153,7 +153,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      */
     function set($key, $value, $timestamp = null, $namespace = null)
     {
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
         $dir = $this->_getCacheDir($namespace, $key);
 
         // キャッシュディレクトリチェック
@@ -207,7 +207,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      */
     function clear($key, $namespace = null)
     {
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
 
         if (file_exists($cache_file)) {

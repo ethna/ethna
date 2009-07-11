@@ -55,8 +55,17 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 
     function testCachemanagerLocalfileConfig()
     {
-        $this->assertTrue('miyazakiaoi', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('test', 'int_key')), -4, 1)));
-        $this->assertTrue('default', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('', 'string_key')), -4, 1)));
+        $this->assertEqual('miyazakiaoi', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('test', 'int_key')), -4, 1)));
+        $this->assertEqual('default', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('', 'string_key')), -4, 1)));
+    }
+
+    function testCachemanagerLocalfileNamespace()
+    {
+        $namespace = "miyazakiaoi";
+        $this->cm->setNamespace($namespace);
+        $this->assertEqual('miyazakiaoi', $this->cm->namespace);
+        $this->assertEqual('miyazakiaoi', $this->cm->getNamespace());
+        $this->cm->setNamespace("");
     }
 
     function testCachemanagerLocalfileInt()
@@ -113,11 +122,11 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         // PHP 4, PHP5 ともに、Windows上ではmodeをどのように設定しても
         // read権限が残るためskip.(PHP 4.4.8, 5.2.6 on Windows XP)
         if (!ETHNA_OS_WINDOWS) {
-            Ethna_Util::chmod($this->cm->_getCacheFile(null, $string_key), 0222);
+            Ethna_Util::chmod($this->cm->_getCacheFile($this->cm->getNamespace(), $string_key), 0222);
             $pear_error = $this->cm->get($string_key);
             $this->assertEqual(E_CACHE_NO_VALUE, $pear_error->getCode());
             $this->assertEqual('fopen failed', $pear_error->getMessage());
-            Ethna_Util::chmod($this->cm->_getCacheFile(null, $string_key), 0666);
+            Ethna_Util::chmod($this->cm->_getCacheFile($this->cm->getNamespace(), $string_key), 0666);
         }
 
         // lifetime切れの場合
@@ -127,7 +136,7 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 
         // ディレクトリ名と同じファイルがあってディレクトリが作成できない場合
         $tmp_key = 'tmpkey';
-        $tmp_dirname = $this->cm->_getCacheDir(null, $tmp_key);
+        $tmp_dirname = $this->cm->_getCacheDir($this->cm->getNamespace(), $tmp_key);
         Ethna_Util::mkdir(dirname($tmp_dirname), 0777);
         $tmp_file = fopen($tmp_dirname, 'w');
         fclose($tmp_file);

@@ -22,6 +22,7 @@
 - ethna make-plugin-package のデフォルトインストールディレクトリが誤っていたバグを修正
 - iniディレクティブ date.timezone が設定されてないために、E_WARNING が PHP 5.3.0 で出ていたバグを修正
 - Ethna_Plugin::includePlugin メソッドの実装が動作するものではなかったので変更
+- Ethna_Plugin_Cachemanager のクラスのプロパティに指定する $namespace が意味をなしていなかったので修正 (#17753)
 
 ** 2.5.0-preview5
 
