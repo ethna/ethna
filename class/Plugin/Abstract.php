@@ -66,7 +66,6 @@ class Ethna_Plugin_Abstract
 
         $this->backend =& $this->controller->getBackend();
 
-        //$this->config =& $controller->getConfig();
         $this->logger =& $controller->getLogger();
 
         $this->action_form =& $controller->getActionForm();
@@ -87,7 +86,7 @@ class Ethna_Plugin_Abstract
         $this->_loadConfig();
 
         // load plugin hook
-        $this->_onLoad();
+        $this->_load();
     }
 
     /**
@@ -111,11 +110,11 @@ class Ethna_Plugin_Abstract
     }
 
     /**
-     *  _onLoad
+     *  _load
      *
      *  @access protected
      */
-    function _onLoad()
+    function _load()
     {
     }
 
