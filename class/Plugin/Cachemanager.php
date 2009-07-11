@@ -44,6 +44,18 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
     */
 
     /**
+     *  _load
+     *
+     *  @access protected
+     */
+    function _load()
+    {
+        if (isset($this->config['namespace'])) {
+            $this->namespace = $this->config['namespace'];
+        }
+    }
+
+    /**
      *  キャッシュネームスペースを取得する
      *
      *  @access public
