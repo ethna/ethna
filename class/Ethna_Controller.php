@@ -254,6 +254,9 @@ class Ethna_Controller
         $this->plugin->setLogger($this->logger);
         $this->logger->begin();
 
+        // include Ethna_Plugin_Abstract for all plugins
+        $this->plugin->includePlugin('Abstract');
+
         // Ethnaマネージャ設定
         $this->_activateEthnaManager();
     }

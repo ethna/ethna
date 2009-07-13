@@ -16,7 +16,7 @@
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Cachemanager
+class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
 {
     /**#@+  @access private */
 
@@ -24,10 +24,10 @@ class Ethna_Plugin_Cachemanager
     var $namespace = '';
 
     /** @var    object  Ethna_Backend       backendオブジェクト */
-    var $backend;
+    //var $backend;
 
     /** @var    object  Ethna_Config        設定オブジェクト    */
-    var $config;
+    //var $config;
 
     /**#@-*/
 
@@ -36,11 +36,23 @@ class Ethna_Plugin_Cachemanager
      *
      *  @access public
      */
+    /*
     function Ethna_Plugin_Cachemanager(&$controller)
     {
-        $this->controller =& $controller;
-        $this->backend =& $this->controller->getBackend();
-        $this->config =& $this->controller->getConfig();
+        parent::Ethna_Plugin_Abstract($controller);
+    }
+    */
+
+    /**
+     *  _load
+     *
+     *  @access protected
+     */
+    function _load()
+    {
+        if (isset($this->config['namespace'])) {
+            $this->namespace = $this->config['namespace'];
+        }
     }
 
     /**
@@ -49,9 +61,14 @@ class Ethna_Plugin_Cachemanager
      *  @access public
      *  @return string  現在のキャッシュネームスペース
      */
-    function getNamespace($namespace)
+    function getNamespace($namespace = null)
     {
-        return $this->namespace;
+        if ($namespace === null) {
+            return $this->namespace;
+        }
+        else {
+            return $namespace;
+        }
     }
 
     /**

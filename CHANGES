@@ -11,11 +11,19 @@
 - Ethna_MailSender にて、メール送信に問題がある場合の設定として 'mail_func_workaround' を追加
 -- この値を true に設定すると、メールヘッダの改行コードを一律 CRLF にする処理を回避する
 -- $mail = new Ethna_MailSender(); $mail->setOption(array('mail_func_workaround')); でも設定可能
+- Ethna_Plugin::import という，プラグインソースをincludeするための，staticメソッドを追加．
+- すべてのPluginの基底となる抽象クラス，Ethna_Plugin_Abstractを追加
+-- 既存のプラグインの親クラスを，Ethna_Plugin_Abstract を継承するように変更
+-- Plugin に設定を受け渡す方法を変更したため，etcのskelを変更
+--- それに伴い，Ethna_Plugin_Cachemanager_Memcacheの設定方法を変更
+- Ethna_Plugin_Cachemanager に config からデフォルト の namespace を指定可能とした
 
 *** bug fix
 
 - ethna make-plugin-package のデフォルトインストールディレクトリが誤っていたバグを修正
 - iniディレクティブ date.timezone が設定されてないために、E_WARNING が PHP 5.3.0 で出ていたバグを修正
+- Ethna_Plugin::includePlugin メソッドの実装が動作するものではなかったので変更
+- Ethna_Plugin_Cachemanager のクラスのプロパティに指定する $namespace が意味をなしていなかったので修正 (#17753)
 
 ** 2.5.0-preview5
 

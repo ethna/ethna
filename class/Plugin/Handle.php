@@ -19,7 +19,7 @@ require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
  *  @access     public
  *  @package    Ethna
  */
-class Ethna_Plugin_Handle
+class Ethna_Plugin_Handle extends Ethna_Plugin_Abstract
 {
     /** @var    handler's id */
     var $id;
@@ -34,6 +34,8 @@ class Ethna_Plugin_Handle
      */
     function Ethna_Plugin_Handle(&$controller, $type, $name)
     {
+        parent::Ethna_Plugin_Abstract($controller, $type, $name);
+
         $id = $name;
         $id = preg_replace('/^([A-Z])/e', "strtolower('\$1')", $id);
         $id = preg_replace('/([A-Z])/e', "'-' . strtolower('\$1')", $id);

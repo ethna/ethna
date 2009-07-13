@@ -30,16 +30,24 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     /** @var bool 圧縮フラグ */
     var $compress = true;
 
+    /** @var    array   plugin configure */
+    var $config_default = array(
+        'host' => 'localhost',
+        'port' => '11211',
+        'retry' => 3,
+        'timeout' => 3,
+    );
+
     /**#@-*/
 
     /**
-     *  Memcacheクラスのコンストラクタ
+     *  _load
      *
-     *  @access public
+     *  @access protected
      */
-    function Ethna_Plugin_Cachemanager_Memcache(&$controller)
+    function _load()
     {
-        parent::Ethna_Plugin_Cachemanager($controller);
+        parent::_load();
         $this->memcache_pool = array();
     }
 
@@ -50,14 +58,9 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      */
     function _getMemcache($cache_key, $namespace = null)
     {
-        $retry = $this->config->get('memcache_retry');
-        if ($retry == "") {
-            $retry = 3;
-        }
-        $timeout = $this->config->get('memcache_timeout');
-        if ($timeout == "") {
-            $timeout = 3;
-        }
+        $retry = $this->config['retry'];
+        $timeout = $this->config['timeout'];
+
         $r = false;
 
         list($host, $port) = $this->_getMemcacheInfo($cache_key, $namespace);
@@ -69,7 +72,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         $this->memcache_pool["$host:$port"] =& new MemCache();
 
         while ($retry > 0) {
-            if ($this->config->get('memcache_use_pconnect')) {
+            if ($this->config['use_pconnect']) {
                 $r = $this->memcache_pool["$host:$port"]->pconnect($host, $port, $timeout);
             } else {
                 $r = $this->memcache_pool["$host:$port"]->connect($host, $port, $timeout);
@@ -93,21 +96,17 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  memcache接続情報を取得する
      *
      *  @access protected
+     *  @return array   array(host, port)
      *  @todo   $cache_keyから$indexを決める方法を変更できるようにする
      */
     function _getMemcacheInfo($cache_key, $namespace)
     {
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
 
-        $memcache_info = $this->config->get('memcache');
-        $default_memcache_host = $this->config->get('memcache_host');
-        if ($default_memcache_host == "") {
-            $default_memcache_host = "localhost";
-        }
-        $default_memcache_port = $this->config->get('memcache_port');
-        if ($default_memcache_port == "") {
-            $default_memcache_port = 11211;
-        }
+        $memcache_info = $this->config['info'];
+        $default_memcache_host = $this->config['host'];
+        $default_memcache_port = $this->config['port'];
+
         if ($memcache_info == null || isset($memcache_info[$namespace]) == false) {
             return array($default_memcache_host, $default_memcache_port);
         }
@@ -117,12 +116,12 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
 
         $index = $cache_key % $n;
         return array(
-            isset($memcache_info[$namespace][$index]['memcache_host']) ?
-                $memcache_info[$namespace][$index]['memcache_host'] :
-                'localhost',
-            isset($memcache_info[$namespace][$index]['memcache_port']) ?
-                $memcache_info[$namespace][$index]['memcache_port'] :
-                11211,
+            isset($memcache_info[$namespace][$index]['host']) ?
+                $memcache_info[$namespace][$index]['host'] :
+                $this->config['host'],
+            isset($memcache_info[$namespace][$index]['port']) ?
+                $memcache_info[$namespace][$index]['port'] :
+                $this->config['port'],
         );
 
         // for safe
@@ -150,7 +149,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('memcache server not available', E_CACHE_NO_VALUE);
         }
 
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
 
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
@@ -189,7 +188,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('memcache server not available', E_CACHE_NO_VALUE);
         }
 
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
 
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
@@ -232,7 +231,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('memcache server not available', E_CACHE_NO_VALUE);
         }
 
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
 
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
@@ -257,7 +256,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('memcache server not available', E_CACHE_NO_VALUE);
         }
 
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
 
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
@@ -284,7 +283,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         }
 
         // ロック用キャッシュデータを利用する
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
         $cache_key = "lock::" . $this->_getCacheKey($namespace, $key);
         $lock_lifetime = 30;
 
@@ -319,7 +318,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('memcache server not available', E_CACHE_LOCK_ERROR);
         }
 
-        $namespace = is_null($namespace) ? $this->namespace : $namespace;
+        $namespace = $this->getNamespace($namespace);
         $cache_key = "lock::" . $this->_getCacheKey($namespace, $key);
 
         $this->memcache->delete($cache_key, -1);
