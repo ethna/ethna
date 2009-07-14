@@ -184,7 +184,11 @@ class Ethna_Plugin
         $instance =& new $plugin_class($this->controller, $type, $name);
         if (is_object($instance) == false
             || strcasecmp(get_class($instance), $plugin_class) != 0) {
-            $this->logger->log(LOG_WARNING, 'plugin [%s::%s] instantiation failed', $type, $name);
+
+            if ($this->logger !== null) {
+                $this->logger->log(LOG_WARNING, 'plugin [%s::%s] instantiation failed', $type, $name);
+            }
+
             $this->obj_registry[$type][$name] = null;
             return;
         }
@@ -329,7 +333,9 @@ class Ethna_Plugin
         }
 
         if ($parent === false) {
-            $this->logger->log(LOG_DEBUG, 'plugin class [%s] is defined', $class);
+            if ($this->logger !== null) {
+                $this->logger->log(LOG_DEBUG, 'plugin class [%s] is defined', $class);
+            }
         }
         return $true;
     }
