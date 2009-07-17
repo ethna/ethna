@@ -139,11 +139,11 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
         $view = new MockProject_ViewClass($ctl, 'dummy', 'dummy.tpl');
 
         //  invalid file
-        $return = $view->setLayout('fake.tpl');
+        $return = $view->setLayout('fake');
         $this->assertTrue(Ethna::isError($return));
 
         //  valid layout file test. 
-        $return = $view->setLayout('index.tpl');
+        $return = $view->setLayout('index');
         $this->assertFalse(Ethna::isError($return));
     }
 
