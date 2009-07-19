@@ -23,7 +23,7 @@ class {$project_id}_ViewClass extends Ethna_ViewClass
      */
 
     /** @var  string  set layout template file   */
-    var $_layout_file = 'layout.tpl';
+    var $_layout_file = 'layout';
 
     /**#@+
      *  @access public

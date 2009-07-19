@@ -15,7 +15,7 @@ then
     do
         if test -f ".ethna"
         then
-            if test -d "$PWD""/lib/Ethna"
+            if test -f "$PWD""/lib/Ethna/Ethna.php"
             then
                 ETHNA_HOME="$PWD""/lib/Ethna"
                 break

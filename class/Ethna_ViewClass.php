@@ -77,8 +77,8 @@ class Ethna_ViewClass
      *  @access protected
      */
 
-    /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定   */
-    var $_layout_file = 'layout.tpl';
+    /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定(拡張子は除く)   */
+    var $_layout_file = 'layout';
 
     /**#@-*/
 
@@ -305,11 +305,11 @@ class Ethna_ViewClass
     function setLayout($filename)
     {
         // check layout file existance
-        if ($this->templateExists($filename)) {
+        if ($this->templateExists($filename . '.' . $this->ctl->ext['tpl'])) {
             $this->_layout_file = $filename;
             return true;
         } else {
-            return Ethna::raiseWarning('file "'.$filename.'" not found');
+            return Ethna::raiseWarning('file "'. $filename . '.' . $this->ctl->ext['tpl'] . '" not found');
         }
     }
     // }}}
@@ -323,7 +323,7 @@ class Ethna_ViewClass
      */
     function getLayout()
     {
-        return $this->_layout_file;
+        return $this->_layout_file . '.' . $this->ctl->ext['tpl'];
     }
     // }}}
 
