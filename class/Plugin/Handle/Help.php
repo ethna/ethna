@@ -6,7 +6,7 @@
  *  @author     Tomoyuki MARUTA <maru_cc@users.sourceforge.jp>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
- *  @version    $Id:  $
+ *  @version    $Id$
  */
 
 // {{{ Ethna_Plugin_Handle_Help

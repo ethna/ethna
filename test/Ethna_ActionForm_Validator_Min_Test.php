@@ -4,7 +4,7 @@
  *  Ethna_ActionForm_Validator_Min_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
- *  @version    $Id: Ethna_ActionForm_Test.php 494 2008-04-05 19:04:17Z mumumu-org $
+ *  @version    $Id$
  */
 
 // {{{    Ethna_ActionForm_Validator_Min_Test

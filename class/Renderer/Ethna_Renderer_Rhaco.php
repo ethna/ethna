@@ -5,7 +5,7 @@
  *  @author     TSURUOKA Naoya <tsuruoka@php.net>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
- *  @version    $Id: Ethna_Renderer_Rhaco.php,v 1.16 2007/01/17 18:38:51 ichii386 Exp $
+ *  @version    $Id$
  */
 
 set_include_path(get_include_path() . PATH_SEPARATOR . BASE . '/lib/rhaco');

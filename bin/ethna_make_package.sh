@@ -4,7 +4,7 @@
 #
 #   ...:(
 #
-#   $Id: ethna_make_package.sh 461 2007-04-19 14:50:45Z ichii386 $
+#   $Id$
 #
 tmpdir="/tmp/ethna"
 
