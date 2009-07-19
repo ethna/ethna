@@ -51,7 +51,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 }
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '2.5.0-preview5');
+define('ETHNA_VERSION', '2.5.0-preview6 $Git$');
 
 /**
  * ダミーのエラーモード
