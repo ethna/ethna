@@ -380,6 +380,12 @@ class Ethna_Plugin
     function _searchPluginSrc($type, $name)
     {
         list($class, $file) = $this->getPluginNaming($type, $name);
+
+        // 古いバージョンのプラグインの命名規則にしたがったファイルは無視
+        if (strpos($name, "_") !== false) {
+            return;
+        }
+
         if (class_exists($class)) {
             // すでにクラスが存在する場合は特別にスキップ
             if (isset($this->src_registry[$type]) == false) {
