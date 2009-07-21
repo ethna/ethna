@@ -27,6 +27,8 @@
 - PROJECT_DIR/lib/Ethna/extlib 以下にファイルを設置するタイプのプラグインを pear-local などでインストールすると、それ以後
   ethnaコマンドが使えなくな問題を修正
 - 新しいプラグインの命名規則に従っていない古いプラグインを別物として読み込もうとしてクラス名がかぶる問題を修正(#17875) thanks: id:okonomi
+- 存在しない(or 削除された) ethnaコマンドを指定すると Fatal Error が起きるバグを修正 (thanks:kondo_)
+-- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17894
 
 ** 2.5.0-preview5
 
