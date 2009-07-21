@@ -26,6 +26,7 @@
 - Ethna_Plugin_Cachemanager のクラスのプロパティに指定する $namespace が意味をなしていなかったので修正 (#17753)
 - PROJECT_DIR/lib/Ethna/extlib 以下にファイルを設置するタイプのプラグインを pear-local などでインストールすると、それ以後
   ethnaコマンドが使えなくな問題を修正
+- 新しいプラグインの命名規則に従っていない古いプラグインを別物として読み込もうとしてクラス名がかぶる問題を修正(#17875) thanks: id:okonomi
 
 ** 2.5.0-preview5
 
