@@ -6,6 +6,14 @@
 <title>{$project_id}</title>
 </head>
 <body>
+<div id="header">
+    <h1>{$project_id}</h1>
+</div>
+
 {$content}
+
+<div id="footer">
+    Powered By <a href="http://ethna.jp">Ethna</a>-{$smarty.const.ETHNA_VERSION}.
+</div>
 </body>
 </html>
