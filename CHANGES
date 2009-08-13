@@ -17,6 +17,10 @@
 -- Plugin に設定を受け渡す方法を変更したため，etcのskelを変更
 --- それに伴い，Ethna_Plugin_Cachemanager_Memcacheの設定方法を変更
 - Ethna_Plugin_Cachemanager に config からデフォルト の namespace を指定可能とした
+- Ethna_View_Redirect の挙動変更
+-- URLが指定されなかった場合，アプリのURLのトップにリダイレクトする
+-- 相対URLが指定された場合は，自分のアプリのURLに結合する
+-- 絶対URLが指定された場合，そのURLにリダイレクトする
 
 *** bug fix
 

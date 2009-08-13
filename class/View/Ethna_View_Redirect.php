@@ -34,11 +34,40 @@ class Ethna_View_Redirect extends Ethna_ViewClass
     function preforward($url = NULL)
     {
         if (is_null($url)) {
-            Ethna::raiseWarning(
-                "URL is not set! use array('redirect', $url); on ActionClass."
-            );
+            $this->redirect($this->config->get('url'));
         }
-        $this->redirect($url);
+        else {
+            if ($this->isAbsoluteUrl($url)) {
+                $this->redirect($url);
+            }
+            else {
+                if (substr($this->config->get('url'), -1) === '/') {
+                    $base = $this->config->get('url');
+                }
+                else {
+                    $base = $this->config->get('url') . '/';
+                }
+
+                if (substr($url, 0) === '/') {
+                    $suff = substr($url, 1);
+                }
+                else {
+                    $suff = $url;
+                }
+
+                $this->redirect($base . $suff);
+            }
+        }
+    }
+
+    function isAbsoluteUrl($url)
+    {
+        if (preg_match("@^(https?|ftp)://.+@", $url)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
