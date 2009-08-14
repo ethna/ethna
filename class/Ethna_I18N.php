@@ -132,7 +132,7 @@ class Ethna_I18N
      */
     function setLanguage($locale, $systemencoding = null, $clientencoding = null)
     {
-        setlocale(LC_ALL, $locale);
+        setlocale(LC_ALL, $locale . ($systemencoding !== null ? "." . $systemencoding : ""));
 
         if ($this->use_gettext) {
             bind_textdomain_codeset($locale, $clientencoding);
