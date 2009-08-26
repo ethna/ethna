@@ -426,4 +426,3 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
     // }}}
 }
 
-?>

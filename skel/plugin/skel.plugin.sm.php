@@ -12,4 +12,3 @@
 function smarty_modifier_{$plugin_name}($string)
 {
 }
-?>

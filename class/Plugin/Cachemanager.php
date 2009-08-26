@@ -187,4 +187,3 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
         return false;
     }
 }
-?>

@@ -749,4 +749,3 @@ class Ethna_InfoManager extends Ethna_AppManager
 }
 // }}}
 
-?>

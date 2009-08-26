@@ -2212,4 +2212,3 @@ function _Ethna_XmlrpcGateway($method_stub, $param)
     }
     return $r;
 }
-?>

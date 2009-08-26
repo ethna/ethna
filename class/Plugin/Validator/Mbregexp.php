@@ -49,4 +49,3 @@ class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
     }
 }
 // }}}
-?>

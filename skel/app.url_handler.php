@@ -74,4 +74,3 @@ class {$project_id}_UrlHandler extends Ethna_UrlHandler
 }
 
 // vim: foldmethod=marker tabstop=4 shiftwidth=4 autoindent
-?>

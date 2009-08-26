@@ -33,4 +33,3 @@ class Ethna_CLI_ActionClass extends Ethna_ActionClass
     }
 }
 // }}}
-?>

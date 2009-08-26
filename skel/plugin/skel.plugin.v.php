@@ -46,4 +46,3 @@ class Ethna_Plugin_Validator_{$plugin_name} extends Ethna_Plugin_Validator
     // }}}
 }
 // }}}
-?>

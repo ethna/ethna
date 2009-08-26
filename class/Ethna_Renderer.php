@@ -297,4 +297,3 @@ class Ethna_Renderer
     // }}}
 }
 // }}}
-?>

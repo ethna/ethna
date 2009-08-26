@@ -120,4 +120,3 @@ http://ethna.jp/
 EOD;
     printf($version, ETHNA_VERSION, PHP_VERSION, date('Y'));
 }
-?>

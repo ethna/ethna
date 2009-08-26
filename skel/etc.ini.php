@@ -98,4 +98,3 @@ $config['plugin'] = array(
         //),
     ),
 );
-?>

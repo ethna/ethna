@@ -56,4 +56,3 @@ class {$project_id}_ActionClass extends Ethna_ActionClass
 }
 // }}}
 
-?>

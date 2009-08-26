@@ -144,4 +144,3 @@ class Ethna_AppSearchObject
     }
 }
 // }}}
-?>

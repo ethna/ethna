@@ -97,4 +97,3 @@ class {$action_class} extends {$project_id}_ActionClass
         return '{$action_name}';
     }
 }
-?>

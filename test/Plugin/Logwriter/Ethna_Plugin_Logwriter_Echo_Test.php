@@ -74,4 +74,3 @@ class Ethna_Plugin_Logwriter_Echo_Test extends Ethna_UnitTestBase
         ob_end_clean();     // コンソールへの出力をキャプチャ終了
     }
 }
-?>

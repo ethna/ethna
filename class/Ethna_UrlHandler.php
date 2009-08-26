@@ -397,4 +397,3 @@ class Ethna_UrlHandler
     // }}}
 }
 
-?>

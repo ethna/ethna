@@ -81,4 +81,3 @@ class Ethna_Plugin_Generator_ActionTest extends Ethna_Plugin_Generator
     }
 }
 // }}}
-?>

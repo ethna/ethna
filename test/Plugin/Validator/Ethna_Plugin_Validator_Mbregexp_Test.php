@@ -52,4 +52,3 @@ class Ethna_Plugin_Validator_Mbregexp_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

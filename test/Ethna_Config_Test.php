@@ -60,4 +60,3 @@ class Ethna_Config_Test extends Ethna_UnitTestBase
         $this->assertEqual($result, 'baz');
     }
 }
-?>

@@ -61,4 +61,3 @@ class Ethna_Plugin_Handle_PearLocal_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

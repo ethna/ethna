@@ -334,4 +334,3 @@ class Ethna_UrlHandler_TestClass extends Ethna_UrlHandler
     }
 }
 
-?>

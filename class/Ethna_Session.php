@@ -322,4 +322,3 @@ class Ethna_Session
     }
 }
 // }}}
-?>

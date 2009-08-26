@@ -59,4 +59,3 @@ class Ethna_ActionForm_Validator_Regexp_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

@@ -68,4 +68,3 @@ class Ethna_Plugin_Smarty_modifier_checkbox_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

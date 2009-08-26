@@ -170,4 +170,3 @@ class Ethna_UnitTestReporter extends SimpleReporter {
         return htmlentities($message, ENT_COMPAT, $this->_character_set);
     }
 }
-?>

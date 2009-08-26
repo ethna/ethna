@@ -115,4 +115,3 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
     // }}}
 }
 
-?>

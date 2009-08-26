@@ -165,4 +165,3 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
     }
 }
 // }}}
-?>

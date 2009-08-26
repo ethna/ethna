@@ -206,4 +206,3 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 }
 // }}}
-?>

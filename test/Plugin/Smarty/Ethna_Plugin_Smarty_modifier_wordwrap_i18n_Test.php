@@ -158,4 +158,3 @@ class Ethna_Plugin_Smarty_modifier_wordwrap_i18n_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

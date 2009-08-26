@@ -148,4 +148,3 @@ class Ethna_Plugin_Validator_Min_Test extends Ethna_UnitTestBase
     // }}}
 }
 
-?>

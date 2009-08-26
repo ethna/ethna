@@ -71,4 +71,3 @@ class Ethna_ActionForm_Validator_Mbstrmax_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

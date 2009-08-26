@@ -299,4 +299,3 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
     //  }}}
 }
 
-?>

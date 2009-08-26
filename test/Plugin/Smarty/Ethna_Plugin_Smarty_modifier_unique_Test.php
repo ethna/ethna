@@ -57,4 +57,3 @@ class Ethna_Plugin_Smarty_modifier_unique_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

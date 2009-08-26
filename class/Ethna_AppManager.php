@@ -278,4 +278,3 @@ class Ethna_AppManager
     }
 }
 // }}}
-?>

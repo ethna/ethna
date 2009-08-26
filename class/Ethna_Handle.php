@@ -208,4 +208,3 @@ class Ethna_Handle
     // }}}
 }
 // }}}
-?>

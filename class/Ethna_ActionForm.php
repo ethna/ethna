@@ -1418,4 +1418,3 @@ class Ethna_ActionForm
 }
 // }}}
 
-?>

@@ -66,4 +66,3 @@ class {$view_class}_TestCase extends Ethna_UnitTestCase
         $this->fail('No Test! write Test!');
     }
 }
-?>

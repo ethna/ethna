@@ -104,4 +104,3 @@ class {$project_id}_Action_Index extends {$project_id}_ActionClass
     }
 }
 
-?>

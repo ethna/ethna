@@ -92,4 +92,3 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
 }
 // }}}
 
-?>

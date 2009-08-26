@@ -352,4 +352,3 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         $this->compress = $flag;
     }
 }
-?>

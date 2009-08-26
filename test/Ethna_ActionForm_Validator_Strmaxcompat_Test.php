@@ -72,4 +72,3 @@ class Ethna_ActionForm_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

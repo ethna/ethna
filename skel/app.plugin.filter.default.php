@@ -83,4 +83,3 @@ class Ethna_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
         print "\n<!-- page was processed in $time seconds -->\n";
     }
 }
-?>

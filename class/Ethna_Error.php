@@ -262,4 +262,3 @@ class Ethna_Error
 }
 // }}}
 
-?>

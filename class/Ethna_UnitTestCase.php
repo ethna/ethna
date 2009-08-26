@@ -178,4 +178,3 @@ class Ethna_UnitTestCase extends UnitTestCase
         $this->vc =& $this->view_class;
     }
 }
-?>

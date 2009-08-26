@@ -136,4 +136,3 @@ class {$action_class}_TestCase extends Ethna_UnitTestCase
     }
 }
 
-?>

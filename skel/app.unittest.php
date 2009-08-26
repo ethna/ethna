@@ -29,4 +29,3 @@ class {$project_id}_UnitTestManager extends Ethna_UnitTestManager
          */
     );
 }
-?>

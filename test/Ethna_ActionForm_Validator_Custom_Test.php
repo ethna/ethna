@@ -276,4 +276,3 @@ class Ethna_ActionForm_Validator_Custom_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

@@ -100,4 +100,3 @@ class Ethna_Generator
     }
 }
 // }}}
-?>

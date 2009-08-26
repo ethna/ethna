@@ -537,4 +537,3 @@ class Ethna_DB_PEAR extends Ethna_DB
     // }}}
 }
 // }}}
-?>

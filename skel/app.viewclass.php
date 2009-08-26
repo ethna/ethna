@@ -45,4 +45,3 @@ class {$project_id}_ViewClass extends Ethna_ViewClass
 }
 // }}}
 
-?>

@@ -56,4 +56,3 @@ class {$action_class} extends {$project_id}_ActionClass
     }
 }
 
-?>

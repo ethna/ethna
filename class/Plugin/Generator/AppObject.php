@@ -53,4 +53,3 @@ class Ethna_Plugin_Generator_AppObject extends Ethna_Plugin_Generator
     }
 }
 // }}}
-?>

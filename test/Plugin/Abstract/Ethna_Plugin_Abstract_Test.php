@@ -35,4 +35,3 @@ class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
         $this->assertEqual('echo', $this->lw->getName());
     }
 }
-?>

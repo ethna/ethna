@@ -551,4 +551,3 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
 }
 // }}}
 
-?>

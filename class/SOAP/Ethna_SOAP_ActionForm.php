@@ -45,4 +45,3 @@ class Ethna_SOAP_ActionForm extends Ethna_ActionForm
     }
 }
 // }}}
-?>

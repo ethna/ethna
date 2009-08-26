@@ -490,4 +490,3 @@ class Ethna_Backend
     }
 }
 // }}}
-?>

@@ -33,4 +33,3 @@ class Ethna_Mocktest extends Ethna_AppObject
     }
 }
 
-?>

@@ -55,4 +55,3 @@ class Ethna_UnitTestBase extends UnitTestCase
     }
 }
 
-?>

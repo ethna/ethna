@@ -90,4 +90,3 @@ class Ethna_ViewClass_FormHelper_Test extends Ethna_UnitTestBase
     }
 }
 
-?>

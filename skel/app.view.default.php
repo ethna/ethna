@@ -26,4 +26,3 @@ class {$project_id}_View_Index extends {$project_id}_ViewClass
     }
 }
 
-?>

@@ -35,4 +35,3 @@ class Ethna_CacheManager
         return $cache_manager;
     }
 }
-?>

@@ -123,4 +123,3 @@ if ($is_old_package) {
 } else {
     $packagexml->writePackageFile();
 }
-?>

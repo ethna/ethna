@@ -82,4 +82,3 @@ class Ethna_Plugin_Logwriter_File_Test extends Ethna_UnitTestBase
 
     }
 }
-?>

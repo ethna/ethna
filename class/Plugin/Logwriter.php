@@ -213,4 +213,3 @@ class Ethna_Plugin_Logwriter extends Ethna_Plugin_Abstract
     }
 }
 // }}}
-?>

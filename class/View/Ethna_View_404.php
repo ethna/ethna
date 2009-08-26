@@ -39,4 +39,3 @@ class Ethna_View_404 extends Ethna_ViewClass
 
 }
 // }}}
-?>

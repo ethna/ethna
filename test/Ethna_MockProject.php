@@ -224,4 +224,3 @@ class Ethna_MockProject
     }
 }
 
-?>

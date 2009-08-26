@@ -114,4 +114,3 @@ class TextDetailReporter extends SimpleReporter {
         return parent::paintCaseStart($test_name);
     }
 }
-?>

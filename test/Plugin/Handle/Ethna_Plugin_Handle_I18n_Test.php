@@ -176,4 +176,3 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

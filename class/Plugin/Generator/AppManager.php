@@ -52,4 +52,3 @@ class Ethna_Plugin_Generator_AppManager extends Ethna_Plugin_Generator
     }
 }
 // }}}
-?>

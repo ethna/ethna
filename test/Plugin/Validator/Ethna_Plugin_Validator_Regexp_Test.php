@@ -47,4 +47,3 @@ class Ethna_Plugin_Validator_Regexp_Test extends Ethna_UnitTestBase
     // }}}
 }
 
-?>

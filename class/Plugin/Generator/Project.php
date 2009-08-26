@@ -224,4 +224,3 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
 }
 // }}}
 
-?>

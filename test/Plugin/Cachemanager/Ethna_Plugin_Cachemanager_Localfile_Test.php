@@ -149,4 +149,3 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
     }
 
 }
-?>

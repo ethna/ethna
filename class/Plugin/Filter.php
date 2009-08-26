@@ -108,4 +108,3 @@ class Ethna_Plugin_Filter extends Ethna_Plugin_Abstract
     }
 }
 // }}}
-?>

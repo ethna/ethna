@@ -525,4 +525,3 @@ class Ethna_Plugin
     // }}}
 }
 // }}}
-?>

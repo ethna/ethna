@@ -6,4 +6,3 @@ require_once dirname(__FILE__) . '/../app/{$project_id}_Controller.php';
     '__ethna_unittest__',
     )
 );
-?>

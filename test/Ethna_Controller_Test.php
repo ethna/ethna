@@ -98,4 +98,3 @@ class Ethna_Controller_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

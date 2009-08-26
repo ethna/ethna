@@ -70,4 +70,3 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
     }
 }
 // }}}
-?>

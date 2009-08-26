@@ -172,4 +172,3 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
     }
 }
 
-?>

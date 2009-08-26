@@ -119,4 +119,3 @@ class Ethna_Plugin_Urlhandler extends Ethna_Plugin_Abstract
 }
 // }}}
 
-?>

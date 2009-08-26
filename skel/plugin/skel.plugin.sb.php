@@ -12,4 +12,3 @@
 function smarty_block_{$plugin_name}($params, $content, &$smarty, &$repeat)
 {
 }
-?>

@@ -29,4 +29,3 @@ class {$view_class} extends {$project_id}_ViewClass
     }
 }
 
-?>

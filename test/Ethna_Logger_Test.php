@@ -131,4 +131,3 @@ class Ethna_Logger_Test_Config extends Ethna_Config
         // do nothing.
     }
 }
-?>

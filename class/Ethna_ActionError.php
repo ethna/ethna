@@ -222,4 +222,3 @@ class Ethna_ActionError
     }
 }
 // }}}
-?>

@@ -60,4 +60,3 @@ class Ethna_Plugin_Validator_Strmin extends Ethna_Plugin_Validator
 }
 // }}}
 
-?>

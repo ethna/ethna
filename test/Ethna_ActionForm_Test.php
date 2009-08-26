@@ -186,4 +186,3 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

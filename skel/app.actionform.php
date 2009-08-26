@@ -64,4 +64,3 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
 }
 // }}}
 
-?>

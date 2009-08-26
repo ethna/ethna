@@ -1655,4 +1655,3 @@ class Ethna_AppObject
     // }}}
 }
 // }}}
-?>

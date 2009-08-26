@@ -62,4 +62,3 @@ class Ethna_ActionForm_Validator_Strmin_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

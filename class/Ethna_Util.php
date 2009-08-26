@@ -935,4 +935,3 @@ class Ethna_Util
     // }}}
 }
 // }}}
-?>

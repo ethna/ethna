@@ -90,4 +90,3 @@ class Ethna_Plugin_Handle_AddTemplate_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

@@ -147,4 +147,3 @@ class Ethna_I18N_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

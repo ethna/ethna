@@ -199,4 +199,3 @@ class Ethna_ActionForm_Filter_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

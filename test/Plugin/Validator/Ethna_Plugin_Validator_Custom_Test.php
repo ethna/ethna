@@ -192,4 +192,3 @@ class Ethna_Plugin_Validator_Custom_Test extends Ethna_UnitTestBase
     // }}}
 }
 
-?>

@@ -329,4 +329,3 @@ class Ethna_Getopt
 
 // }}}
 
-?>

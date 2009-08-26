@@ -77,4 +77,3 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
     }
 }
 
-?>

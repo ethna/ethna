@@ -59,4 +59,3 @@ class Ethna_Plugin_Cachemanager_Memcache_Test extends Ethna_UnitTestBase
         $this->assertEqual(5, $config['timeout']);
     }
 }
-?>

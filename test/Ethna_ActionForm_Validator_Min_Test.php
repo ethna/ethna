@@ -240,4 +240,3 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

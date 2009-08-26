@@ -192,4 +192,3 @@ class {$project_id}_Controller extends Ethna_Controller
     }
 }
 
-?>

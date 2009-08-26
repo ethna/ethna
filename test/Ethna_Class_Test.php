@@ -148,4 +148,3 @@ class Ethna_Class_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

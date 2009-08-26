@@ -168,4 +168,3 @@ class Ethna_AppSQL
     }
 }
 // }}}
-?>

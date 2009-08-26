@@ -63,4 +63,3 @@ class Ethna_Error_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

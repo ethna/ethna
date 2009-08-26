@@ -12,4 +12,3 @@
 function smarty_function_{$plugin_name}($params, &$smarty)
 {
 }
-?>

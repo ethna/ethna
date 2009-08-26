@@ -104,4 +104,3 @@ class Ethna_Filter
     }
 }
 // }}}
-?>

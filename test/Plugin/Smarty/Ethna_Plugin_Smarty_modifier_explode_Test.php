@@ -41,4 +41,3 @@ class Ethna_Plugin_Smarty_modifier_explode_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

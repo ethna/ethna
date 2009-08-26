@@ -250,4 +250,3 @@ class Ethna_ActionForm_Validator_Max_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

@@ -363,4 +363,3 @@ class TemplateParser_Ethna extends TemplateParser
     }
 }
 
-?>

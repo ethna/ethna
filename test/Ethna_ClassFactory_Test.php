@@ -52,4 +52,3 @@ class Ethna_ClassFactory_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

@@ -43,4 +43,3 @@ class Ethna_Plugin_Validator_Strmax_Test extends Ethna_UnitTestBase
 
 }
 
-?>

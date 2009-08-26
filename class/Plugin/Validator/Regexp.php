@@ -52,4 +52,3 @@ class Ethna_Plugin_Validator_Regexp extends Ethna_Plugin_Validator
     }
 }
 // }}}
-?>

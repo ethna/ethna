@@ -189,4 +189,3 @@ class Ethna_Session_Dummy extends Ethna_Session
 }
 // }}}
 
-?>

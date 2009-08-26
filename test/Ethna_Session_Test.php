@@ -36,4 +36,3 @@ class Ethna_Session_Test extends Ethna_UnitTestBase
     }
 }
 
-?>

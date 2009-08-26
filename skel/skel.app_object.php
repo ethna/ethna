@@ -38,4 +38,3 @@ class {$app_object} extends Ethna_AppObject
     }
 }
 
-?>

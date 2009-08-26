@@ -566,4 +566,3 @@ class Ethna_Logger extends Ethna_AppManager
     // }}}
 }
 // }}}
-?>

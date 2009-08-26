@@ -150,4 +150,3 @@ class Ethna_ActionForm_Validator_Type_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

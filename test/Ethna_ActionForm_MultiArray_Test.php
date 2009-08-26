@@ -304,4 +304,3 @@ class Ethna_ActionForm_MultiArray_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

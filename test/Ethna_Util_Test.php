@@ -120,4 +120,3 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     // }}}
 }
 
-?>

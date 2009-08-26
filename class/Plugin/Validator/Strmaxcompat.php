@@ -72,4 +72,3 @@ class Ethna_Plugin_Validator_Strmaxcompat extends Ethna_Plugin_Validator
 }
 // }}}
 
-?>

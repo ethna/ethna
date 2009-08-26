@@ -114,4 +114,3 @@ class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
     // }}}
 }
 
-?>

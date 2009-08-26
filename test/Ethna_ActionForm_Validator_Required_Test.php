@@ -528,4 +528,3 @@ class Ethna_ActionForm_Validator_Required_Test extends Ethna_UnitTestBase
 }
 // }}}
 
-?>

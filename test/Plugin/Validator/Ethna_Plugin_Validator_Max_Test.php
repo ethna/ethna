@@ -149,4 +149,3 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
     // }}}
 
 }
-?>

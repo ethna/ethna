@@ -674,4 +674,3 @@ class Ethna_PearWrapper
 }
 // }}}
 
-?>

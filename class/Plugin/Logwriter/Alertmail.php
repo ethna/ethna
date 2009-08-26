@@ -122,4 +122,3 @@ class Ethna_Plugin_Logwriter_Alertmail extends Ethna_Plugin_Logwriter
     }
 }
 // }}}
-?>

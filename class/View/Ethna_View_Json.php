@@ -49,4 +49,3 @@ class Ethna_View_Json extends Ethna_ViewClass
     }
 }
 // }}}
-?>

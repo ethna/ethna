@@ -94,4 +94,3 @@ class Ethna_ActionForm_FormTemplate_Test extends Ethna_UnitTestBase
     // }}}
 }
 // }}}
-?>

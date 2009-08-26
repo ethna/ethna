@@ -133,4 +133,3 @@ class Ethna_DB_Creole extends Ethna_DB
         return $this->db->prepareStatement($sql);
     }
 }
-?>

@@ -65,4 +65,3 @@ class Ethna_Plugin_Logwriter_Echo extends Ethna_Plugin_Logwriter
     }
 }
 // }}}
-?>

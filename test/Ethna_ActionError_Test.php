@@ -95,4 +95,3 @@ class Ethna_ActionError_Test extends Ethna_UnitTestBase
 
 }
 
-?>
