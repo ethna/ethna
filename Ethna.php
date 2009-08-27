@@ -51,7 +51,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 }
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '2.5.0-preview6 $Git$');
+define('ETHNA_VERSION', '2.5.0-preview6 Git');
 
 /**
  * ダミーのエラーモード
@@ -309,9 +309,12 @@ define('E_PLUGIN_NOTFOUND', 196);
 /** エラーコード: プラグインエラー(その他) */
 define('E_PLUGIN_GENERAL', 197);
 
+/** PHP 5との互換保持定義 */
 if (defined('E_STRICT') == false) {
-    /** PHP 5との互換保持定義 */
     define('E_STRICT', 2048);
+}
+if (defined('E_DEPRECATED') == false) {
+    define('E_DEPRECATED', 8192);
 }
 
 /** Ethnaグローバル変数: エラーコールバック関数 */
