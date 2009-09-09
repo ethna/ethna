@@ -495,6 +495,12 @@ class Ethna_Plugin
      */
     function includePlugin($type, $name = null)
     {
+        if ($name !== null) {
+            list($class, $file) = $this->getPluginNaming($type);
+            $dir = $this->_searchPluginSrcDir($type);
+            $this->_includePluginSrc($class, $dir, $file);
+        }
+
         list($class, $file) = $this->getPluginNaming($type, $name);
         $dir = $this->_searchPluginSrcDir($type, $name);
         $this->_includePluginSrc($class, $dir, $file);
@@ -515,10 +521,6 @@ class Ethna_Plugin
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
-
-        if ($appid === null) {
-            $appid = $ctl->getAppId();
-        }
 
         $plugin->includePlugin($type, $name);
     }
