@@ -347,7 +347,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前 (nullのときは親クラス)
      *  @retur  string  directory
      */
-    function _searchPluginSrcDir($type, $name)
+    function _searchPluginSrcDir($type, $name = null)
     {
         list(, $file) = $this->getPluginNaming($type, $name);
 
