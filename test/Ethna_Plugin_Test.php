@@ -32,6 +32,21 @@ class Ethna_Plugin_Test extends Ethna_UnitTestBase
         $dir = realpath($p->_searchPluginSrcDir($type, $name));
         $this->assertEqual($plugin_dir . "/Cachemanager", $dir);
 
+        $types = $p->searchAllPluginType();
+        $this->assertEqual(
+            $types,
+            array(
+                'Cachemanager',
+                'Csrf',
+                'Generator',
+                'Handle',
+                'Logwriter',
+                'Smarty',
+                'Validator',
+            )
+        );
+
+
     }
 
     function test_import()
