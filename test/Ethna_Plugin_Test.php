@@ -6,17 +6,30 @@
 
 class Ethna_Plugin_Test extends Ethna_UnitTestBase
 {
+    // plugin object
+    var $p;
+
     function setUp()
     {
+        $this->p =  $this->ctl->getPlugin();
     }
 
     function tearDown()
     {
     }
 
+    function test_import()
+    {
+        $this->assertFalse(class_exists('Ethna_Plugin_Cachemanager'));
+        $this->assertFalse(class_exists('Ethna_Plugin_Cachemanager_Localfile'));
+        Ethna_Plugin::import("Cachemanager", "Localfile");
+        $this->assertTrue(class_exists('Ethna_Plugin_Cachemanager'));
+        $this->assertTrue(class_exists('Ethna_Plugin_Cachemanager_Localfile'));
+    }
+
     function test_plugin_utility()
     {
-        $p =  $this->ctl->getPlugin();
+        $p =  $this->p;
 
         // getPluginNaming
         $type = 'Cachemanager';
@@ -34,11 +47,14 @@ class Ethna_Plugin_Test extends Ethna_UnitTestBase
 
     }
 
-    function test_import()
+    function test_getPlugin()
     {
-        Ethna_Plugin::import("Cachemanager", "Localfile");
-        $this->assertTrue(class_exists('Ethna_Plugin_Cachemanager'));
-        $this->assertTrue(class_exists('Ethna_Plugin_Cachemanager_Localfile'));
+        $p =  $this->p;
+
+        //$this->assertFalse($p->obj_registry);
+        $this->assertTrue($p->getPlugin('Cachemanager', 'Localfile') instanceof Ethna_Plugin_Cachemanager_Localfile);
+        $this->assertTrue($p->obj_registry['Cachemanager']['Localfile'] instanceof Ethna_Plugin_Cachemanager_Localfile);
     }
+
 
 }
