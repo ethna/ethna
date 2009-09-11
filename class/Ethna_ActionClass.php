@@ -53,6 +53,9 @@ class Ethna_ActionClass
     /** @var    object  Ethna_Logger    ログオブジェクト */
     var $logger;
 
+    /** @var    array   Preload plugins definition  */
+    var $plugins = array();
+
     /**#@-*/
 
     /**
@@ -77,6 +80,8 @@ class Ethna_ActionClass
         $this->session =& $this->backend->getSession();
         $this->plugin =& $this->backend->getPlugin();
         $this->logger =& $this->backend->getLogger();
+
+        $this->_preloadPlugin();
     }
 
     /**
@@ -110,6 +115,16 @@ class Ethna_ActionClass
     function perform()
     {
         return null;
+    }
+
+    /**
+     *  プラグインの読み込み
+     *
+     *  @access protected
+     */
+    function _preloadPlugin()
+    {
+
     }
 }
 // }}}
