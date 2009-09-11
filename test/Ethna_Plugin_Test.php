@@ -1,21 +1,39 @@
 <?php
-/** 
- * 
- * 
+/**
+ *  Ethna_Plugin_Test.php
+ *
+ *  @package    Ethna
+ *  @author     Sotaro Karasawa <sotaro.k /at/ gmail.com>
  */
+
+require_once ETHNA_INSTALL_BASE . '/test/Ethna_MockProject.php';
 
 class Ethna_Plugin_Test extends Ethna_UnitTestBase
 {
     // plugin object
     var $p;
 
+    // mock project
+    var $project;
+
     function setUp()
     {
         $this->p =  $this->ctl->getPlugin();
+
+        $this->project =& new Ethna_MockProject();
+        $this->project->create();
     }
 
     function tearDown()
     {
+        // unload from obj_registry because some plugin tests run after this.
+        $mock_controller = $this->project->getController();
+        $mock_controller->getPlugin()->_unloadPlugin('Cachemanager', 'Localfile');
+        $mock_controller->getPlugin()->_unloadPlugin('Cachemanager', 'Memcache');
+
+        $this->project->delete();
+        unset($GLOBALS['_Ethna_controller']);
+
     }
 
     function test_import()
@@ -45,21 +63,6 @@ class Ethna_Plugin_Test extends Ethna_UnitTestBase
         $dir = realpath($p->_searchPluginSrcDir($type, $name));
         $this->assertEqual($plugin_dir . "/Cachemanager", $dir);
 
-        $types = $p->searchAllPluginType();
-        $this->assertEqual(
-            $types,
-            array(
-                'Cachemanager',
-                'Csrf',
-                'Generator',
-                'Handle',
-                'Logwriter',
-                'Smarty',
-                'Validator',
-            )
-        );
-
-
     }
 
     function test_getPlugin()
@@ -69,6 +72,32 @@ class Ethna_Plugin_Test extends Ethna_UnitTestBase
         //$this->assertFalse($p->obj_registry);
         $this->assertTrue($p->getPlugin('Cachemanager', 'Localfile') instanceof Ethna_Plugin_Cachemanager_Localfile);
         $this->assertTrue($p->obj_registry['Cachemanager']['Localfile'] instanceof Ethna_Plugin_Cachemanager_Localfile);
+    }
+
+    function test_preloadPlugin()
+    {
+        $action_name = 'pluginpreload';
+        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.pluginpreload.php';
+        $this->project->runCmd(
+            'add-action',
+            array(
+                '-s',
+                $action_skel,
+                $action_name,
+            )
+        );
+        $result = $this->project->runMain($action_name);
+        $mock_controller = $this->project->getController();
+        $mock_actionclass = $mock_controller->getBackend()->getActionClass();
+
+        // preloader settings:
+        //   var $plugins = array(
+        //       'Cachemanager_Localfile',
+        //       'm' => 'Cachemanager_Memcache',
+        //   );
+        $this->assertTrue($mock_actionclass->plugin->Cachemanager_Localfile instanceof Ethna_Plugin_Cachemanager_Localfile);
+        $this->assertTrue($mock_actionclass->plugin->m instanceof Ethna_Plugin_Cachemanager_Memcache);
+
     }
 
 

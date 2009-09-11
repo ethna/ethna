@@ -157,6 +157,19 @@ class Ethna_Plugin
     }
 
     /**
+     *  get plugin obejct and set to property
+     *
+     *  @access public
+     *  @param  string  $plugin_alias_name  property name to set
+     *  @param  array   $plugin             array(type, name)
+     */
+    function setPlugin($plugin_alias_name, $plugin)
+    {
+        // fixme: check if conflict property name
+        $this->{$plugin_alias_name} = $this->getPlugin($plugin[0], $plugin[1]);
+    }
+
+    /**
      *  プラグインをincludeしてnewし，レジストリに登録
      *
      *  @access private

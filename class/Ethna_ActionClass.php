@@ -118,13 +118,25 @@ class Ethna_ActionClass
     }
 
     /**
-     *  プラグインの読み込み
+     *  get plugin object
      *
      *  @access protected
      */
     function _preloadPlugin()
     {
+        foreach ($this->plugins as $alias => $plugin) {
+            $plugin_alias = $alias;
+            if (is_int($alias)) {
+                $plugin_alias = $plugin;
+            }
 
+            $plugin_name = explode('_', $plugin);
+            if (count($plugin_name) === 1) {
+                $plugin_alias[] = null;
+            }
+
+            $this->plugin->setPlugin($plugin_alias, $plugin_name);
+        }
     }
 }
 // }}}
