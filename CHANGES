@@ -22,6 +22,9 @@
 -- 相対URLが指定された場合は，自分のアプリのURLに結合する
 -- 絶対URLが指定された場合，そのURLにリダイレクトする
 - PROJECT_DIR/lib/Ethna/extlib/Plugin/Smarty  をデフォルトでSmartyプラグインディレクトリに指定するように，skel に追加
+- skeleton 関係
+-- デフォルトで生成されるレイアウトテンプレートの調整
+-- cssの変更
 
 
 *** bug fix

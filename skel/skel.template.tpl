@@ -1,6 +1,3 @@
-
-<div id="main">
-    <h2>New Template</h2>
-    <p>hello, world!</p>
-</div>
+  <h2>New Template</h2>
+  <p>hello, world!</p>
 
