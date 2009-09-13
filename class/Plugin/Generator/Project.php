@@ -132,6 +132,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
 
         $realfile_maps = array(
             $locale_file    => "$basedir/locale/$locale/LC_MESSAGES/ethna_sysmsg.ini",
+            "www.htaccess" => "$basedir/www/.htaccess",
             "www.index.php" => "$basedir/www/index.php",
             "www.info.php"  => "$basedir/www/info.php",
             "www.unittest.php" => "$basedir/www/unittest.php",

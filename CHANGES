@@ -25,6 +25,7 @@
 - skeleton 関係
 -- デフォルトで生成されるレイアウトテンプレートの調整
 -- cssの変更
+-- UrlHandler と .htaccess (mod_rewrite) を利用するためのひな形を生成
 
 
 *** bug fix
