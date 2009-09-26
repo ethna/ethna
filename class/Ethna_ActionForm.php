@@ -458,8 +458,9 @@ class Ethna_ActionForm
         if (is_null($name)) {
             $this->form = $value;
         }
-
-        $this->form[$name] = $value;
+        else {
+            $this->form[$name] = $value;
+        }
     }
 
     /**
