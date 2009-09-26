@@ -183,6 +183,25 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
     }
     // }}}
 
+    function test_setDef()
+    {
+        $orig = $this->local_af->getDef();
+
+        $def = array(
+            'name' => 'hoge test',
+            'type' => VAR_TYPE_STRING,
+            'form_type'=> FORM_TYPE_TEXT,
+            'required' => true,
+        );
+        $this->local_af->setDef('hoge', $def);
+
+        $this->assertEqual($def, $this->local_af->getDef('hoge'));
+
+        $this->local_af->setDef(null, $orig);
+        $this->assertEqual($this->local_af->form['test'], $this->local_af->getDef('test'));
+        $this->assertEqual($orig['test'], $this->local_af->getDef('test'));
+        $this->assertEqual($orig, $this->local_af->getDef());
+    }
 }
 // }}}
 
