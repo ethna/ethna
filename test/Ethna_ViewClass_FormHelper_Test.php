@@ -88,5 +88,30 @@ class Ethna_ViewClass_FormHelper_Test extends Ethna_UnitTestBase
         $this->assertPattern('#<textarea name="textarea_setactval">input</textarea>#', $result);
         $this->assertPattern('#<textarea value="foo" name="textarea_settplval">foo</textarea>#', $result);
     }
+
+    function test_formhelper_FormName()
+    {
+        $action_name = $tpl_name = 'formnametest';
+        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.formhelper.php';
+        $this->project->runCmd('add-action',
+                               array(
+                                   '-s',
+                                   $action_skel,
+                                   $action_name,
+                               )
+        );
+        $tpl_skel = ETHNA_TEST_SKELTPLDIR . 'skel.template.blockform.tpl';
+        $this->project->runCmd('add-template',
+                               array(
+                                   '-s',
+                                   $tpl_skel,
+                                   $tpl_name,
+                               )
+        );
+        $result = $this->project->runMain($action_name, array());
+
+        $this->assertPattern('#<form name="hoge" method="post"><input type="hidden" name="ethna_fid" value="hoge" />#', $result);
+    }
+
 }
 
