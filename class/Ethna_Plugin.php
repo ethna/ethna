@@ -165,7 +165,11 @@ class Ethna_Plugin
      */
     function setPlugin($plugin_alias_name, $plugin)
     {
-        // fixme: check if conflict property name
+        if (isset($this->{$plugin_alias_name})) {
+            return Ethna::raiseWarning('preload plugin alias name is conflicted [alias=%s], It doesn\'t loaded.',
+                E_PLUGIN_GENERAL, $plugin_alias_name);
+        }
+
         $this->{$plugin_alias_name} = $this->getPlugin($plugin[0], $plugin[1]);
     }
 
