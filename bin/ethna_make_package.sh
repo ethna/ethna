@@ -37,16 +37,18 @@ rm -f $basedir/package.xml
 
 rm -fr $targetdir
 mkdir $targetdir
-cp -a . "$targetdir/"
+cp -pR * "$targetdir/"
 
 #  create optional package
 optpkg_dir="$targetdir/misc/optional_package"
+mkdir $optpkg_dir/Smarty/release
 cd $optpkg_dir/Smarty/src
 tar xvfz Smarty*.tar.gz
 cd $optpkg_dir/Smarty/build
 chmod +x ./build
 ./build
 cp $optpkg_dir/Smarty/release/*.tgz $tmpdir
+mkdir $optpkg_dir/simpletest/release
 cd $optpkg_dir/simpletest/src
 tar xvfz simpletest*.tar.gz
 cd $optpkg_dir/simpletest/build
