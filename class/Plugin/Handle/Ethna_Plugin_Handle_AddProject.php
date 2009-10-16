@@ -46,7 +46,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
         if (isset($opt_list['basedir'])) {
             $basedir = realpath(end($opt_list['basedir']));
         } else {
-            $basedir = getcwd();
+            $basedir = sprintf("%s/%s", getcwd(), strtolower($app_id));
         }
 
         // skeldir

@@ -65,7 +65,7 @@ class Ethna_MockProject
         $id = 'add-project';
         $options = array(
                        '-b',
-                       $this->basedir,
+                       $this->basedir . '/' . $this->project_name,
                        '-s',
                        $this->skel_dir, 
                        $this->project_name,
@@ -104,8 +104,8 @@ class Ethna_MockProject
             }
         }
         if (!$in_basedir_opt) { 
-            $options[] = '-b';
-            $options[] = $this->proj_basedir;
+            $base_opt = array('-b', $this->proj_basedir);
+            $options = array_merge($base_opt, $options);
         }
 
         $eh =& new Ethna_Handle();

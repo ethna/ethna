@@ -63,7 +63,7 @@ class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle_AddView
     {
         return <<<EOS
 add new template to project:
-    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-l|--locale] [-e|--encoding] [template]
+    {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-l|--locale=locale] [-e|--encoding] [template]
 
 EOS;
     }
@@ -74,7 +74,7 @@ EOS;
     function getUsage()
     {
         return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-l|--locale] [-e|--encoding] [template]
+ethna {$this->id} [-b|--basedir=dir] [-s|--skelfile=file] [-l|--locale=locale] [-e|--encoding] [template]
 EOS;
     }
 }

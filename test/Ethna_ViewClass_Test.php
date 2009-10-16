@@ -6,8 +6,6 @@
  *  @author halt feits <halt.feits@gmail.com>
  */
 
-//error_reporting(E_ALL);
-
 /**
  *  Ethna_ViewClassクラスのテストケース
  *

@@ -39,18 +39,10 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
         //  ロケール名がディレクトリに含まれていない場合は、
         //  ディレクトリがないためなのでそれを補正 
         $tpl_dir = $this->ctl->getTemplatedir();
-        if (!empty($locale) && strpos($tpl_dir, $locale) === false) {
-            $tpl_dir = $this->ctl->getDirectory('template');
-            $tpl_dir .= "/$locale";
-        }
-        if ($tpl_dir{strlen($tpl_dir)-1} != '/') {
-            $tpl_dir .= '/';
-        }
- 
         $tpl_path = $this->ctl->getDefaultForwardPath($forward_name);
 
         // entity
-        $entity = $tpl_dir . $tpl_path;
+        $entity = $tpl_dir . '/' . $tpl_path;
         Ethna_Util::mkdir(dirname($entity), 0755);
 
         // skelton

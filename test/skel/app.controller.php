@@ -13,11 +13,11 @@ define('BASE', dirname(dirname(__FILE__)));
 /** include_path setting (adding "/app" and "/lib" directory to include_path) */
 $app = BASE . "/app";
 $lib = BASE . "/lib";
-set_include_path(implode(PATH_SEPARATOR, array($app, $lib)) . PATH_SEPARATOR . get_include_path());
+ini_set('include_path', implode(PATH_SEPARATOR, array($app, $lib)) . PATH_SEPARATOR . ini_get('include_path'));
 
 
 /** including application library. */
-require_once 'Ethna/Ethna.php';
+require_once ETHNA_INSTALL_BASE . '/Ethna.php';
 require_once '{$project_id}_Error.php';
 require_once '{$project_id}_ActionClass.php';
 require_once '{$project_id}_ActionForm.php';
@@ -65,12 +65,7 @@ class {$project_id}_Controller extends Ethna_Controller
          *
          *  Example:
          *
-         *  'index'     => array(
-         *      'form_name' => 'Sample_Form_SomeAction',
-         *      'form_path' => 'Some/Action.php',
-         *      'class_name' => 'Sample_Action_SomeAction',
-         *      'class_path' => 'Some/Action.php',
-         *  ),
+         *  'index'     => array(),
          */
     );
 
@@ -198,17 +193,6 @@ class {$project_id}_Controller extends Ethna_Controller
     function _getDefaultLanguage()
     {
         return array('{$locale}', 'UTF-8', '{$client_enc}');
-    }
-
-    /**
-     *  テンプレートエンジンのデフォルト状態を設定する
-     *
-     *  @access protected
-     *  @param  object  Ethna_Renderer  レンダラオブジェクト
-     *  @obsolete
-     */
-    function _setDefaultTemplateEngine(&$renderer)
-    {
     }
 }
 

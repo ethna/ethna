@@ -1,11 +1,45 @@
 * 変更点一覧
 
+** 2.5.0
+
+*** features
+
+- フォーム定義に関する変更
+-- フォーム定義を動的に変更するためのAPIをさらに追加
+-- Ethna_ActionForm#setFormDef_ViewHelper
+- APPID_Controller.php のスケルトンに継承を想定したメソッドを追加
+-- skel/app.controller.php _setDefaultTemplateEngin
+- add-project 時の www 以下に出来るエントリポイントから APPID_Controller へのパスを相対パスに変更
+- ethna コマンドの挙動変更
+-- ethna help コマンドを追加
+- 指定 Action が存在しない場合い、app/action 以下を全て include する仕様を変更
+- add-project -b オプションの挙動変更
+- controller での smarty_xx_plugin の機能を削除
+
+*** bug fix
+
+- Ethna_Controller#getTemplatedir を無視してテンプレートディレクトリを決定していたバグを修正(thanks: hiko)
+-- getTemplatedirメソッドをオーバライドしても強制的にロケールが付加されていた
+-- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=15570
+- "ethna pear-local list -a" の実行結果がエラーになってしまうバグを修正
+-- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=15760
+- safe-mode が ON の際に、CacheManager_Localfile がディレクトリを生成できないので、tmp ディレクトリ直下にキャッシュファイルを作成するようにした
+-- skel/skel.app_manager.php も修正
+- APPID-ini.php が存在しない場合，またはURLが設定にない場合，デフォルトURLが HTTP_HOST で設定されていたが，末尾に / がなかったので修正
+- フォームヘルパで自動的に出力されるhiddenタグの閉じ忘れを修正(thanks: id:syachi5150)
+- ethna add-app-manager コマンドで生成されるファイル名およびクラス名が間違っていたバグを修正(thanks: id:syachi5150)
+-- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16137
+- Validatorが出力するメッセージからフォーム名の後ろのスペースを削るように修正。(thanks: id:syachi5150)
+-- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16336
+
+
 ** 2.5.0-preview4
 
 *** bug fix
 
 - フォーム定義が配列で、Ethna_ActionForm#getHiddenVars の値を Ethna_ActionForm#setAppNE した場合、クロスサイトスクリプティング脆弱性が存在するバグを修正 (thanks: shuitic)
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17332
+
 
 ** 2.5.0-preview3
 

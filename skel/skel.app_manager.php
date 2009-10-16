@@ -8,13 +8,13 @@
  */
 
 /**
- *  {$app_manager}Manager
+ *  {$app_manager}
  *
  *  @author     {$author}
  *  @access     public
  *  @package    {$project_id}
  */
-class {$app_manager}Manager extends Ethna_AppManager
+class {$app_manager} extends Ethna_AppManager
 {
 }
 ?>

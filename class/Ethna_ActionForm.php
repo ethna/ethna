@@ -1241,8 +1241,12 @@ class Ethna_ActionForm
     }
 
     /**
+     *  フォーム定義変更用、ユーザ定義ヘルパメソッド
+     *
+     *  Ethna_ActionForm#prepare() が実行される前に
      *  ユーザが動的にフォーム定義を変更したい場合に
      *  このメソッドをオーバーライドします。
+     *
      *  $this->backend も初期化済みのため、DBやセッション
      *  の値に基づいてフォーム定義を変更することができます。
      *
@@ -1251,6 +1255,26 @@ class Ethna_ActionForm
     function setFormDef_PreHelper()
     {
         //  TODO: override this method. 
+    }
+
+    /**
+     *  フォーム定義変更用、ユーザ定義ヘルパメソッド
+     *
+     *  フォームヘルパを使うときに、フォーム定義を動的に
+     *  変更したい場合に、このメソッドをオーバーライドします。
+     *
+     *  以下の定義をテンプレートで行った場合に呼び出されます。
+     *  
+     *  {form ethna_action=...} (ethna_action がない場合は呼び出されません)
+     *  {form_input action=...} (action がない場合は呼び出されません)
+     *
+     *  @access public 
+     */
+    function setFormDef_ViewHelper()
+    {
+        //   TODO: デフォルト実装は Ethna_ActionClass#prepare 前に
+        //   呼び出されるものと同じ。異なる場合にオーバライドする
+        $this->setFormDef_PreHelper(); 
     }
 
     /**

@@ -145,29 +145,40 @@ class Ethna_ViewClass
      *  helperアクションフォームオブジェクトを設定する
      *
      *  @param  string $action アクション名
+     *  @param  boolean $dynamic_helper 動的フォームヘルパを呼ぶか否か
      *  @access public
      */
-    function addActionFormHelper($action)
+    function addActionFormHelper($action, $dynamic_helper = false)
     {
+        //
+        //  既に追加されている場合は処理をしない
+        //
         if (isset($this->helper_action_form[$action])
             && is_object($this->helper_action_form[$action])) {
             return;
         }
 
+        //    現在のアクションと等しければ、対応する
+        //    アクションフォームを設定
         $ctl =& Ethna_Controller::getInstance();
         if ($action === $ctl->getCurrentActionName()) {
             $this->helper_action_form[$action] =& $this->af;
-            return;
+        } else {
+            //    アクションが異なる場合
+            $form_name = $ctl->getActionFormName($action);
+            if ($form_name === null) {
+                $this->logger->log(LOG_WARNING,
+                    'action form for the action [%s] not found.', $action);
+                return;
+            }
+            $this->helper_action_form[$action] =& new $form_name($ctl);
         }
 
-        $form_name = $ctl->getActionFormName($action);
-        if ($form_name === null) {
-            $this->logger->log(LOG_WARNING,
-                'action form for the action [%s] not found.', $action);
-            return;
+        //   動的フォームを設定するためのヘルパメソッドを呼ぶ
+        if ($dynamic_helper) {
+            $af =& $this->helper_action_form[$action];
+            $af->setFormDef_ViewHelper();
         }
-
-        $this->helper_action_form[$action] =& new $form_name($ctl);
     }
     // }}}
 

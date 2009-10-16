@@ -71,8 +71,6 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             return $r;
         }
 
-        $basedir = sprintf("%s/%s", $basedir, $id);
-
         // ディレクトリ作成
         if (is_dir($basedir) == false) {
             // confirm

@@ -35,7 +35,7 @@ $eh =& new Ethna_Handle();
 list($my_arg_list, $arg_list) = _Ethna_HandleGateway_SeparateArgList($arg_list);
 $r = $opt->getopt($my_arg_list, "v", array("version"));
 if (Ethna::isError($r)) {
-    usage($eh);
+    _Ethna_HandleGateway_ShowUsage();
     exit(1);
 }
 
@@ -48,16 +48,17 @@ foreach ($r[0] as $opt) {
 }
 
 if (count($arg_list) == 0) {
-    usage($eh);
+    _Ethna_HandleGateway_ShowUsage();
     exit(1);
 }
 
 $id = array_shift($arg_list);
 
 $handler =& $eh->getHandler($id);
+$handler->eh =& $eh;
 if (Ethna::isError($handler)) {
     printf("no such command: %s\n\n", $id);
-    usage($eh);
+    _Ethna_HandleGateway_ShowUsage();
     exit(1);
 }
 
@@ -73,18 +74,15 @@ if (Ethna::isError($r)) {
 }
 
 /**
- *  usage
+ *  show usage
  */
-function usage(&$eh)
+function _Ethna_HandleGateway_ShowUsage()
 {
-    $handler_list = $eh->getHandlerList();
-    printf("usage: ethna [option] [command] [args...]\n\n");
-    printf("available options are as follows:\n\n");
-    printf("  -v, --version    show version and exit\n");
-    printf("\navailable commands are as follows:\n\n");
-    foreach ($handler_list as $handler) {
-        printf("  %s -> %s\n", $handler->getId(), $handler->getDescription());
-    }
+    $message = <<<EOD
+Type 'ethna help' for usage.
+
+EOD;
+    echo $message;
 }
 
 /**
