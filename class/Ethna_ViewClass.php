@@ -56,7 +56,7 @@ class Ethna_ViewClass
     /** @var    array   アクションフォームオブジェクト(helper) */
     var $helper_action_form = array();
 
-    /** @var    array   helperでhtmlのattributeにはしなパラメータの一覧 */
+    /** @var    array   helperでhtmlのattributeにはしないパラメータの一覧 */
     var $helper_parameter_keys = array('default', 'option', 'separator');
 
     /** @var    object  Ethna_Session       セッションオブジェクト */
@@ -642,10 +642,8 @@ class Ethna_ViewClass
             $params['value'] = $value;
         }
 
-        // maxlength
-        if (isset($def['max']) && $def['max']) {
-            $params['maxlength'] = $def['max'];
-        }
+        //   maxlength と フォーム定義のmax連携はサポートしない
+        //   @see http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 
         return $this->_getFormInput_Html('input', $params);
     }
@@ -831,7 +829,6 @@ class Ethna_ViewClass
         $element = '';
         if (isset($params['value'])) {
             $element = $params['value'];
-            unset($params['value']);
         } else if (isset($params['default'])) {
             $element = $params['default'];
         } else if (isset($def['default'])) {
@@ -843,8 +840,6 @@ class Ethna_ViewClass
             } else {
                 $element = '';
             }
-        } else {
-            $params['value'] = $element;
         }
 
         return $this->_getFormInput_Html('textarea', $params, $element);
@@ -888,10 +883,8 @@ class Ethna_ViewClass
             $params['value'] = $value;
         }
 
-        // maxlength
-        if (isset($def['max']) && $def['max']) {
-            $params['maxlength'] = $def['max'];
-        }
+        //   maxlength と フォーム定義のmax連携はサポートしない
+        //   @see http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 
         return $this->_getFormInput_Html('input', $params);
     }

@@ -105,7 +105,7 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
 
     function test_Template()
     {
-        $skel = ETHNA_TEST_SKELDIR . 'skel.template.i18ntest.tpl';   
+        $skel = ETHNA_TEST_SKELTPLDIR . 'skel.template.i18ntest.tpl';   
         $r = $this->proj->runCmd('add-template',
                           array(
                               '-s', $skel,

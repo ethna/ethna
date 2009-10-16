@@ -15,6 +15,10 @@
 - 指定 Action が存在しない場合い、app/action 以下を全て include する仕様を変更
 - add-project -b オプションの挙動変更
 - controller での smarty_xx_plugin の機能を削除
+-- フォームヘルパのテキストエリアに value 属性を付加していた動きを修正。(thanks: syachi5150)
+---  http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16326
+-- [Breaking B.C] ルールがユーザにとって直感的ではないとの理由から、フォーム定義の max と フォームヘルパの maxlength の連携機能を削除 (thanks: syachi5150)
+--- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 
 *** bug fix
 
