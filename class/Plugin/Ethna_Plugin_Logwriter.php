@@ -163,6 +163,13 @@ class Ethna_Plugin_Logwriter
             if (isset($bt[$i]['class']) == false) {
                 $bt[$i]['class'] = null;
             }
+            if (isset($bt[$i]['file']) == false) {
+                $bt[$i]['file'] = null;
+            }
+            if (isset($bt[$i]['line']) == false) {
+                $bt[$i]['line'] = null;
+            }
+
             $skip = false;
 
             // メソッドスキップ処理

@@ -55,6 +55,7 @@
 - iniディレクティブ date.timezone が設定されてないために、E_WARNING が PHP 5.3.0 で出ていたバグを修正
 - 存在しない(or 削除された) ethnaコマンドを指定すると Fatal Error が起きるバグを修正 (thanks:kondo_)
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17894
+- Ethna_Plugin_Logwriter の debug_backtrace の一部が取得できず、E_NOTICE が出るバグを修正 (thanks: http://www.remix.gr.jp/)
 
 ** 2.5.0-preview4
 
