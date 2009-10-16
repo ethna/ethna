@@ -20,6 +20,9 @@
 -- [Breaking B.C] ルールがユーザにとって直感的ではないとの理由から、フォーム定義の max と フォームヘルパの maxlength の連携機能を削除 (thanks: syachi5150)
 --- https://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16325
 -- Windowsユーザへの便宜のため、zipアーカイブで成果物を配布するオプションを追加
+- 組み込みの Smarty プラグインの追加
+-- modifier
+--- explode (文字列を，ある文字で分割して配列に変換する）
 
 *** bug fix
 
