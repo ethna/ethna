@@ -46,3 +46,7 @@ Ethna を使っていて、バグや変な挙動を見つけた場合は、開�
 -- http://sourceforge.jp/projects/ethna/ticket/
 - バグトラッカのRSS (プロジェクトの動きをウォッチするのに役立ちます)
 -- http://sourceforge.jp/ticket/list_rss.php?group_id=1343&status[]=1&status[]=2
+- 「Ethna」をキーワードにしてブログを書く
+-- コミッタは「Ethna」をキーワードにしたブログをブログ検索でウォッチしています。
+   バグや不満や感想等、Ethnaをキーワードにしたブログを書いてみると、コミッタが見
+   て反応する可能性があります。
