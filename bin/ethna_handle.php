@@ -57,8 +57,12 @@ $handler =& $eh->getHandler($id);
 $handler->eh =& $eh;
 if (Ethna::isError($handler)) {
     printf("no such command: %s\n\n", $id);
-    _Ethna_HandleGateway_ShowUsage();
-    exit(1);
+    $id = 'help';
+    $handler =& $eh->getHandler($id);
+    $handler->eh =& $eh;
+    if (Ethna::isError($handler)) {
+       exit(1);  //  should not happen.
+    } 
 }
 
 // don't know what will happen:)

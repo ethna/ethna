@@ -53,6 +53,8 @@
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16839
 - ethna add-test コマンドのヘルプが機能していなかったバグを修正
 - iniディレクティブ date.timezone が設定されてないために、E_WARNING が PHP 5.3.0 で出ていたバグを修正
+- 存在しない(or 削除された) ethnaコマンドを指定すると Fatal Error が起きるバグを修正 (thanks:kondo_)
+-- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17894
 
 ** 2.5.0-preview4
 
