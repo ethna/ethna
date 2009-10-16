@@ -43,4 +43,6 @@ Ethna を使っていて、バグや変な挙動を見つけた場合は、開�
 - IRCチャンネル(WIDE系ネットワーク Ethna:*.jp) -> ここが一番伝わりやすいです
 - ユーザ向けメーリングリスト(ethna-users)にバグについて投稿する
 - sourceforge.jp のバグトラッカ
--- http://sourceforge.jp/tracker/index.php?group_id=1343&atid=5092&func=add
+-- http://sourceforge.jp/projects/ethna/ticket/
+- バグトラッカのRSS (プロジェクトの動きをウォッチするのに役立ちます)
+-- http://sourceforge.jp/ticket/list_rss.php?group_id=1343&status[]=1&status[]=2
