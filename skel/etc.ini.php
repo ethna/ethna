@@ -79,6 +79,9 @@ $config = array(
     // i18n
     //'use_gettext' => false,
     
+    // mail 
+    //'mail_func_workaround' => false,
+
     // csrf
     // 'csrf' => 'Session',
 );
