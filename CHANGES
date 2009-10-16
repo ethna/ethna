@@ -26,6 +26,8 @@
 -- Filterは一貫してプラグインを使うように変更したため、add-project時の app/filter ディレクトリを削除。
 - Ethna_Session#isAnonymous メソッドが状態を正しく取得できない場合があるバグを修正(thanks:longkey1)
 -- http://ml.ethna.jp/pipermail/users/2008-February/000899.html
+- 国際化に関する変更
+-- デフォルトのタイムゾーンとして、date.timezone を 'Asia/Tokyo' に設定
 
 *** bug fix
 
@@ -46,6 +48,7 @@
 -- 末尾のスペースを取り除く挙動も wordwrap に合わせて削除
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=16839
 - ethna add-test コマンドのヘルプが機能していなかったバグを修正
+- iniディレクティブ date.timezone が設定されてないために、E_WARNING が PHP 5.3.0 で出ていたバグを修正
 
 ** 2.5.0-preview4
 
