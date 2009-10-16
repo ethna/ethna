@@ -44,7 +44,11 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
 
         // basedir
         if (isset($opt_list['basedir'])) {
-            $basedir = realpath(end($opt_list['basedir']));
+            $dir = end($opt_list['basedir']);
+            $basedir = realpath($dir);
+            if ($basedir === false) {  //  e.x file does not exist
+                $basedir = $dir;
+            }
         } else {
             $basedir = sprintf("%s/%s", getcwd(), strtolower($app_id));
         }
