@@ -48,11 +48,10 @@ foreach ($r[0] as $opt) {
 }
 
 if (count($arg_list) == 0) {
-    _Ethna_HandleGateway_ShowUsage();
-    exit(1);
+    $id = 'help';
+} else {
+    $id = array_shift($arg_list);
 }
-
-$id = array_shift($arg_list);
 
 $handler =& $eh->getHandler($id);
 $handler->eh =& $eh;
@@ -71,18 +70,6 @@ if (Ethna::isError($r)) {
         $handler->usage();
     }
     exit(1);
-}
-
-/**
- *  show usage
- */
-function _Ethna_HandleGateway_ShowUsage()
-{
-    $message = <<<EOD
-Type 'ethna help' for usage.
-
-EOD;
-    echo $message;
 }
 
 /**
