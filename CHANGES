@@ -33,6 +33,7 @@
 -- この値を true に設定すると、メールヘッダの改行コードを一律 CRLF にする処理を回避する
 -- $mail = new Ethna_MailSender(); $mail->setOption(array('mail_func_workaround')); でも設定可能
 - Smarty の設定（現在はデリミタのみ）を [appid]-ini.php に書くことが出来るようにした
+- Ethna_ActionForm::setDef に渡す値によっては、空キーにフォーム定義が入ってしまうバグを修正。(thanks:tohokuaki #18856)
 
 *** bug fix
 
