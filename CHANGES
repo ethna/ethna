@@ -57,6 +57,7 @@
 -- http://sourceforge.jp/ticket/browse.php?group_id=1343&tid=17894
 - Ethna_Plugin_Logwriter の debug_backtrace の一部が取得できず、E_NOTICE が出るバグを修正 (thanks: http://www.remix.gr.jp/)
 - cli 環境で Ethna_Session::start を叩いたときに $_SERVER 変数がないために E_NOTICE が出る問題を修正
+- PHP 5.3.0 で新設された E_DEPRECATED を ON にすると Fatal Error が起きるバグを修正 (#18418)
 
 ** 2.5.0-preview4
 

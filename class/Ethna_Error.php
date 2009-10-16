@@ -20,7 +20,8 @@
  */
 function ethna_error_handler($errno, $errstr, $errfile, $errline)
 {
-    if ($errno === E_STRICT || ($errno & error_reporting()) === 0) {
+    if ($errno === E_STRICT || $errno === E_DEPRECATED
+    || ($errno & error_reporting()) === 0) {
         return;
     }
 
@@ -41,6 +42,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
     case E_NOTICE:
     case E_USER_NOTICE:
     case E_STRICT:
+    case E_DEPRECATED:
         $php_errno = 'Notice'; break;
     default:
         $php_errno = 'Unknown error'; break;
