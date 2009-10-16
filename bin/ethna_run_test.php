@@ -24,7 +24,7 @@ if (basename(ETHNA_INSTALL_BASE) != 'Ethna') {
         symlink(ETHNA_INSTALL_BASE, $symlink_filename);
     } else {
         if (!is_link($symlink_filename)
-            || readlink($symlink_filename) != ETHNA_INSTALL_BASE) {
+            || realpath($symlink_filename) != ETHNA_INSTALL_BASE) {
             echo "Base dir 'Ethna' exists and it's not ETHNA_INSTALL_BASE.\n";
             exit(1);
         }
