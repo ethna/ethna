@@ -28,6 +28,7 @@
 -- http://ml.ethna.jp/pipermail/users/2008-February/000899.html
 - 国際化に関する変更
 -- デフォルトのタイムゾーンとして、date.timezone を 'Asia/Tokyo' に設定
+-- Ethna_I18N クラス に setTimeZone メソッドを追加 (static呼出)
 
 *** bug fix
 

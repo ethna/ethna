@@ -105,6 +105,19 @@ class Ethna_I18N
 
         $this->messages = false;  //  not initialized yet.
     }
+    
+    /**
+     *  タイムゾーンを設定する
+     *
+     *  @access public
+     *  @param  string  $timezone       タイムゾーン名(e.x Asia/Tokyo)
+     *  @see    http://www.php.net/manual/ja/timezones.php
+     *  @static
+     */
+    function setTimeZone($timezone = 'UTC')
+    {
+        ini_set('date.timezone', $timezone);
+    } 
 
     /**
      *  ロケール、言語設定を設定する
