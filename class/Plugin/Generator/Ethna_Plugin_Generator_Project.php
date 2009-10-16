@@ -40,7 +40,6 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             array("app/action", 0755),
             array("app/action_cli", 0755),
             array("app/action_xmlrpc", 0755),
-            array("app/filter", 0755),
             array("app/plugin", 0755),
             array("app/plugin/Filter", 0755),
             array("app/plugin/Validator", 0755),
