@@ -42,23 +42,9 @@ function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent =
         }
 
         $s = mb_strimwidth($tmp, 0, $width, "", 'EUC_JP');
-
-        $n = strlen($s);
-        if ($n >= $width && $tmp{$n} != "" && $tmp{$n} != " ") {
-            while ((ord($s{$n-1}) & 0x80) == 0) {
-                if ($s{$n-1} == " " || $n == 0) {
-                    break;
-                }
-                $n--;
-            }
-        }
-        $s = substr($s, 0, $n);
-
-        $r .= $s . $i;
         $tmp = substr($tmp, strlen($s));
-    } while (strlen($s) > 0);
-
-    $r = preg_replace('/\s+$/', '', $r);
+        $r .= $s . ((strlen($tmp) > 0)?$i:'');
+    } while (strlen($tmp) > 0);
 
     //    最後に、クライアントエンコーディングに変換
     $r = mb_convert_encoding($r, $client_enc, 'EUC_JP');
