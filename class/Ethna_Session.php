@@ -159,6 +159,7 @@ class Ethna_Session
         session_start();
         $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
         $_SESSION['__anonymous__'] = $anonymous;
+        $this->anonymous = $anonymous;
         $this->session_start = true;
 
         return true;

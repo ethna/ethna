@@ -24,6 +24,8 @@
 -- modifier
 --- explode (文字列を，ある文字で分割して配列に変換する）
 -- Filterは一貫してプラグインを使うように変更したため、add-project時の app/filter ディレクトリを削除。
+- Ethna_Session#isAnonymous メソッドが状態を正しく取得できない場合があるバグを修正(thanks:longkey1)
+-- http://ml.ethna.jp/pipermail/users/2008-February/000899.html
 
 *** bug fix
 
