@@ -64,8 +64,10 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
         //  {form name=... }
         //  指定された場合は、submitされた {form}を識別する
         //  id をhiddenタグで指定する
+        //
+        //  $params['name'] は formタグのnameタグになるため
+        //  unset してはいけない
         $name = $params['name'];
-        unset($params['name']);
         if ($name != 'default') {
             $name_hidden = sprintf('<input type="hidden" name="ethna_fid" value="%s" />',
                                    htmlspecialchars($name, ENT_QUOTES)
