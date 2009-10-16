@@ -82,6 +82,14 @@ $config = array(
     // mail 
     //'mail_func_workaround' => false,
 
+    // Smarty
+    //'renderer' => array(
+    //    'smarty' => array(
+    //        'left_delimiter' => '{',
+    //        'right_delimiter' => '}',
+    //    ),
+    //),
+
     // csrf
     // 'csrf' => 'Session',
 );

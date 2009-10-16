@@ -29,6 +29,9 @@ class Ethna_Renderer
     /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
     var $ctl;
 
+    /** @var    array   [appid]-ini.phpのレンダラ設定 */
+    var $config;
+
     /** @var    string  template directory  */
     var $template_dir;
 
@@ -58,6 +61,8 @@ class Ethna_Renderer
         $this->template = null;
         $this->prop = array();
         $this->plugin_registry = array();
+        $config = $this->ctl->getConfig();
+        $this->config = $config->get('renderer'); 
     }
 
     /**
