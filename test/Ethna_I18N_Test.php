@@ -142,7 +142,11 @@ class Ethna_I18N_Test extends Ethna_UnitTestBase
         $expected = 'GMT';
         Ethna_I18N::setTimeZone($expected);
         $actual = ini_get('date.timezone');
-        $this->assertequal($expected, $actual); 
+        if (version_compare(PHP_VERSION, '5.1.0') === 1) { 
+            $this->assertequal($expected, $actual); 
+        } else {
+            $this->assertTrue(empty($actural));
+        }
     }
 }
 // }}}
