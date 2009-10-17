@@ -35,15 +35,14 @@ $eh =& new Ethna_Handle();
 list($my_arg_list, $arg_list) = _Ethna_HandleGateway_SeparateArgList($arg_list);
 $r = $opt->getopt($my_arg_list, "v", array("version"));
 if (Ethna::isError($r)) {
-    _Ethna_HandleGateway_ShowUsage();
-    exit(1);
-}
-
-// ad-hoc:(
-foreach ($r[0] as $opt) {
-    if ($opt[0] == "v" || $opt[0] == "--version") {
-        _Ethna_HandleGateway_ShowVersion();
-        exit(2);
+    $id = 'help';
+} else {
+    // ad-hoc:(
+    foreach ($r[0] as $opt) {
+        if ($opt[0] == "v" || $opt[0] == "--version") {
+            _Ethna_HandleGateway_ShowVersion();
+            exit(2);
+        }
     }
 }
 
