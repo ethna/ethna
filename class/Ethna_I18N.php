@@ -107,7 +107,8 @@ class Ethna_I18N
     }
     
     /**
-     *  タイムゾーンを設定する
+     *  タイムゾーンを設定する PHP 5.1.0 以前では
+     *  無意味なので呼ぶ必要がありません。
      *
      *  @access public
      *  @param  string  $timezone       タイムゾーン名(e.x Asia/Tokyo)
@@ -116,6 +117,8 @@ class Ethna_I18N
      */
     function setTimeZone($timezone = 'UTC')
     {
+        //   date.timezone 設定は PHP 5.1.0 以降でのみ
+        //   利用可能
         ini_set('date.timezone', $timezone);
     } 
 
