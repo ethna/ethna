@@ -28,6 +28,10 @@ if (basename(ETHNA_INSTALL_BASE) != 'Ethna') {
             echo "Base dir 'Ethna' exists and it's not ETHNA_INSTALL_BASE.\n";
             exit(1);
         }
+        else {
+            // もとから存在した symlink は削除しない
+            $symlink_filename = null;
+        }
     }
 }
 
