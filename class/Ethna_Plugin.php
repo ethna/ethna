@@ -157,6 +157,23 @@ class Ethna_Plugin
     }
 
     /**
+     *  get plugin obejct and set to property
+     *
+     *  @access public
+     *  @param  string  $plugin_alias_name  property name to set
+     *  @param  array   $plugin             array(type, name)
+     */
+    function setPlugin($plugin_alias_name, $plugin)
+    {
+        if (isset($this->{$plugin_alias_name})) {
+            return Ethna::raiseWarning('preload plugin alias name is conflicted [alias=%s], It doesn\'t loaded.',
+                E_PLUGIN_GENERAL, $plugin_alias_name);
+        }
+
+        $this->{$plugin_alias_name} = $this->getPlugin($plugin[0], $plugin[1]);
+    }
+
+    /**
      *  プラグインをincludeしてnewし，レジストリに登録
      *
      *  @access private
@@ -347,7 +364,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前 (nullのときは親クラス)
      *  @retur  string  directory
      */
-    function _searchPluginSrcDir($type, $name)
+    function _searchPluginSrcDir($type, $name = null)
     {
         list(, $file) = $this->getPluginNaming($type, $name);
 
@@ -491,10 +508,15 @@ class Ethna_Plugin
      *  @access public
      *  @param  string  $type   プラグインの種類
      *  @param  string  $name   プラグインの名前
-     *  @param  string  $appid  アプリケーションID
      */
     function includePlugin($type, $name = null)
     {
+        if ($name !== null) {
+            list($class, $file) = $this->getPluginNaming($type);
+            $dir = $this->_searchPluginSrcDir($type);
+            $this->_includePluginSrc($class, $dir, $file);
+        }
+
         list($class, $file) = $this->getPluginNaming($type, $name);
         $dir = $this->_searchPluginSrcDir($type, $name);
         $this->_includePluginSrc($class, $dir, $file);
@@ -507,21 +529,15 @@ class Ethna_Plugin
      *  @access public
      *  @param  string  $type   プラグインの種類
      *  @param  string  $name   プラグインの名前
-     *  @param  string  $appid  アプリケーションID
      *  @static
      */
-    // static function import($type, $name)
+    // static function import($type, $name = null)
     function import($type, $name = null)
     {
         $ctl =& Ethna_Controller::getInstance();
         $plugin =& $ctl->getPlugin();
 
-        if ($appid === null) {
-            $appid = $ctl->getAppId();
-        }
-
         $plugin->includePlugin($type, $name);
     }
-    // }}}
 }
 // }}}

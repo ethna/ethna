@@ -53,6 +53,9 @@ class Ethna_ActionClass
     /** @var    object  Ethna_Logger    ログオブジェクト */
     var $logger;
 
+    /** @var    array   Preload plugins definition  */
+    var $plugins = array();
+
     /**#@-*/
 
     /**
@@ -77,6 +80,8 @@ class Ethna_ActionClass
         $this->session =& $this->backend->getSession();
         $this->plugin =& $this->backend->getPlugin();
         $this->logger =& $this->backend->getLogger();
+
+        $this->_preloadPlugin();
     }
 
     /**
@@ -110,6 +115,28 @@ class Ethna_ActionClass
     function perform()
     {
         return null;
+    }
+
+    /**
+     *  get plugin object
+     *
+     *  @access protected
+     */
+    function _preloadPlugin()
+    {
+        foreach ($this->plugins as $alias => $plugin) {
+            $plugin_alias = $alias;
+            if (is_int($alias)) {
+                $plugin_alias = $plugin;
+            }
+
+            $plugin_name = explode('_', $plugin);
+            if (count($plugin_name) === 1) {
+                $plugin_alias[] = null;
+            }
+
+            $this->plugin->setPlugin($plugin_alias, $plugin_name);
+        }
     }
 }
 // }}}
