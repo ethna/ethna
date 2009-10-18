@@ -2091,11 +2091,11 @@ class Ethna_Controller
             return;
         }
 
-        require_once ETHNA_BASE . '/class/Ethna_InfoManager.php';
+        require_once ETHNA_BASE . '/class/InfoManager.php';
 
         // see if we have simpletest
         if (file_exists_ex('simpletest/unit_tester.php', true)) {
-            require_once ETHNA_BASE . '/class/Ethna_UnitTestManager.php';
+            require_once ETHNA_BASE . '/class/UnitTestManager.php';
         }
 
         // action設定

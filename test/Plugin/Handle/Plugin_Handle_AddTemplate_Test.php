@@ -7,7 +7,7 @@
  *  @version    $Id$
  */
 
-require_once ETHNA_BASE . '/test/Ethna_MockProject.php';
+require_once ETHNA_BASE . '/test/MockProject.php';
 
 //{{{  Ethna_Plugin_Handle_AddTemplate_Test
 /**

@@ -49,12 +49,12 @@ require_once 'Ethna/Ethna.php';
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
 require_once $test_dir . '/TextDetailReporter.php';
-require_once $test_dir . '/Ethna_UnitTestBase.php';
+require_once $test_dir . '/UnitTestBase.php';
 
 $test = &new GroupTest('Ethna All tests');
 
 // テストケースのファイルリストを取得
-require_once 'Ethna/class/Ethna_Getopt.php';
+require_once 'Ethna/class/Getopt.php';
 $opt = new Ethna_Getopt();
 $args = $opt->readPHPArgv();
 list($args, $opts) = $opt->getopt($args, '', array());
@@ -100,7 +100,7 @@ function getFileList($dir_path)
         if (is_file($full_path)){
 
             // テストケースのファイルのみ読み込む
-            if (preg_match('/^(Ethna_)(.*)(_Test.php)$/',$file_path,$matches)) {
+            if (preg_match('/^(.*)(_Test.php)$/',$file_path,$matches)) {
                 $file_list[] = $full_path;
             }
 

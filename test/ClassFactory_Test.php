@@ -7,7 +7,7 @@
  *  @version    $Id$
  */
 
-require_once ETHNA_BASE . '/test/Ethna_MocktestManager.php';
+require_once ETHNA_BASE . '/test/MocktestManager.php';
 
 //{{{    Ethna_ClassFactory_Test
 /**

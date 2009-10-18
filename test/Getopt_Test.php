@@ -7,7 +7,7 @@
  *  @version    $Id$
  */
 
-require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
+require_once ETHNA_BASE . '/class/Getopt.php';
 
 /**
  *  Test Case For Ethna_Getopt

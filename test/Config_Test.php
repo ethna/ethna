@@ -15,7 +15,7 @@ class Ethna_Config_Test extends Ethna_UnitTestBase
         // etcディレクトリを上書き
         $this->ctl->directory['etc'] = dirname(__FILE__);
         $this->config = $this->ctl->getConfig();
-        $this->filename = dirname(__FILE__) . '/mockproject-ini.php';
+        $this->filename = dirname(__FILE__) . '/ethna-ini.php';
     }
 
     function tearDown()
@@ -27,7 +27,7 @@ class Ethna_Config_Test extends Ethna_UnitTestBase
 
     function test_getConfigFile()
     {
-        $result = $this->config->_getConfigFile(); 
+        $result = $this->config->_getConfigFile();
         $this->assertEqual($result, $this->filename);
     }
 
