@@ -8,9 +8,9 @@
  *  @version    $Id$
  */
 
-require_once('simpletest/unit_tester.php');
-require_once('Ethna_UnitTestCase.php');
-require_once('Ethna_UnitTestReporter.php');
+require_once 'simpletest/unit_tester.php';
+require_once 'UnitTestCase.php';
+require_once 'UnitTestReporter.php';
 
 /**
  *  Ethnaユニットテストマネージャクラス
