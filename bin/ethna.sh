@@ -4,7 +4,7 @@
 #
 #   simple command line gateway
 #
-#   $Id: ethna.sh 439 2007-01-04 06:23:15Z ichii386 $
+#   $Id$
 #
 
 CUR_DIR="$PWD"

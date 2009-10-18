@@ -4,7 +4,7 @@
  *
  *  @author     {$author}
  *  @package    {$project_id}
- *  @version    $Id: skel.action.php 568 2008-06-07 22:55:10Z mumumu-org $
+ *  @version    $Id$
  */
 
 /**

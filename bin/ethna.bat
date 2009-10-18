@@ -5,7 +5,7 @@ rem   ethna.bat
 rem
 rem   simple command line gateway
 rem
-rem   $Id: ethna.bat 457 2007-02-07 11:14:39Z ichii386 $
+rem   $Id$
 rem
 
 if "%OS%"=="Windows_NT" @setlocal
