@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin_Handle_AddTemplate_Test.php
+ *  Plugin_Handle_AddTemplate_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$

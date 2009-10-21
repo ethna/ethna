@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_ViewClass_Test.php
+ *  ViewClass_Test.php
  *
  *  @package Ethna
  *  @author halt feits <halt.feits@gmail.com>

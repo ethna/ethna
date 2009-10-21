@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_DB_Creole.php
+ *  Creole.php
  *
  *  @package    Ethna
  *  @author     halt feits <halt.feits@gmail.com>

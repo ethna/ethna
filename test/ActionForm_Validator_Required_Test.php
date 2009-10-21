@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_ActionForm_Validator_Required_Test.php
+ *  ActionForm_Validator_Required_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$

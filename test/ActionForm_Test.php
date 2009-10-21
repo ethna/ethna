@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_ActionForm_Test.php
+ *  ActionForm_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$

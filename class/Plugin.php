@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin.php
+ *  Plugin.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>

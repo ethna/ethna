@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Plugin_Logwriter_File_Test.php
+ *  Plugin_Logwriter_File_Test.php
  */
 
 /**

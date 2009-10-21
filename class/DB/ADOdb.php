@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_DB_ADOdb.php
+ *  ADOdb.php
  *
  *  @package    Ethna
  *  @author     halt feits <halt.feits@gmail.com>

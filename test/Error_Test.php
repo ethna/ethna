@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Error_Test.php
+ *  Error_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$

@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker tabstop=4 shiftwidth=4 autoindent
 /**
- *  Ethna_UrlHandler.php
+ *  UrlHandler.php
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @package    Ethna

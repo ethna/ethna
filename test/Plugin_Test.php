@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Plugin_Test.php
+ *  Plugin_Test.php
  *
  *  @package    Ethna
  *  @author     Sotaro Karasawa <sotaro.k /at/ gmail.com>

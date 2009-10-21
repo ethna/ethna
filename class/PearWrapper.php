@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_PearWrapper.php
+ *  PearWrapper.php
  *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

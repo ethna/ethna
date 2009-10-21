@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin_Validator_Strmincompat_Test.php
+ *  Plugin_Validator_Strmincompat_Test.php
  */
 
 /**

@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Plugin_Cachemanager_Localfile_Test.php
+ *  Plugin_Cachemanager_Localfile_Test.php
  */
 
 /**

@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Renderer_Rhaco.php (experimental)
+ *  Rhaco.php (experimental)
  *
  *  @author     TSURUOKA Naoya <tsuruoka@php.net>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

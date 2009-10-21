@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Plugin_Validator_Required_Test.php
+ *  Plugin_Validator_Required_Test.php
  */
 
 /**

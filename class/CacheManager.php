@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker tabstop=4 shiftwidth=4 autoindent
 /**
- *  Ethna_CacheManager.php
+ *  CacheManager.php
  *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

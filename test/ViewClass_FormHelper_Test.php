@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_ViewClass_FormHelper_Test.php
+ *  ViewClass_FormHelper_Test.php
  *
  *  @package Ethna
  *  @author Yoshinari Takaoka <takaoka@beatcraft.com>

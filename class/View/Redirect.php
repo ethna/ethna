@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_View_Redirect.php
+ *  Redirect.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

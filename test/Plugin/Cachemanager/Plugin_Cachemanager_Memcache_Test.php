@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Plugin_Cachemanager_Memcache_Test.php
+ *  Plugin_Cachemanager_Memcache_Test.php
  */
 
 /**

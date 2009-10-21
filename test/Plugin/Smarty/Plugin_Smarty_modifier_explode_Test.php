@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Plugin_Smarty_modifier_explode_Test.php
+ *  Plugin_Smarty_modifier_explode_Test.php
  *
  *  @author     Sotaro Karasawa <sotaro.k /at/ gmail.com>
  *  @version    $Id$

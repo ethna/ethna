@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Renderer.php
+ *  Renderer.php
  *
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

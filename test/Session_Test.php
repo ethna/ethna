@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Session_Test.php
+ *  Session_Test.php
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @version    $Id$

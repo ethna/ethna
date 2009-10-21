@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_UrlHandler_Test.php
+ *  UrlHandler_Test.php
  */
 
 /**
