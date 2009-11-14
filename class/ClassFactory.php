@@ -377,7 +377,8 @@ class Ethna_ClassFactory
             }
 
             // try ethna master style
-            // Ethna_Foo_Bar -> class/Ethna/Foo/Ethna_Foo_Bar.php
+            // Ethna_Foo_Bar -> class/Ethna/Foo/Bar.php
+            $tmp = explode('_', $match[2]);
             array_unshift($tmp, 'Ethna', 'class');
             $file = sprintf('%s.%s',
                             implode(DIRECTORY_SEPARATOR, $tmp),
