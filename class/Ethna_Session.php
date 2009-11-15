@@ -38,6 +38,16 @@ class Ethna_Session
     /** @var    bool    匿名セッションフラグ */
     var $anonymous = false;
 
+    /** @var    array   Configuration for session */
+    var $config = array(
+        'handler'           => 'files',
+        'path'              => 'tmp',
+        'check_remote_addr' => true,
+        'cache_limiter'     => 'nocache',
+        'cache_expier'      => '180',
+        'suffix'            => 'SESSID',
+    );
+
     /**#@-*/
 
     /**
@@ -47,18 +57,28 @@ class Ethna_Session
      *  @param  string  $appid      アプリケーションID(セッション名として使用)
      *  @param  string  $save_dir   セッションデータを保存するディレクトリ
      */
-    function Ethna_Session($appid, $save_dir, $logger)
+    function Ethna_Session($ctl, $appid)
     {
-        $this->session_name = "${appid}SESSID";
-        $this->session_save_dir = $save_dir;
-        $this->logger =& $logger;
+        $this->ctl = $ctl;
+        $this->logger = $this->ctl->getLogger();
 
-        if ($this->session_save_dir != "") {
-            session_save_path($this->session_save_dir);
+        $config = $this->ctl->getConfig()->get('session');
+        if ($config) {
+            $this->config = array_merge($this->config, $config);
         }
 
+        $this->session_save_dir = $this->config['path'];
+        if (($dir = $this->ctl->getDirectory($this->config['path'])) !== null) {
+            $this->session_save_dir = $dir;
+        }
+        $this->session_name = $appid . $this->config['suffix'];
+
+        // set session handler
+        ini_set('session.save_handler', $this->config['handler']);
+        session_save_path($this->session_save_dir);
         session_name($this->session_name);
-        session_cache_limiter('private, must-revalidate');
+        session_cache_limiter($this->config['cache_limiter']);
+        session_cache_expire($this->config['cache_expier']);
 
         $this->session_start = false;
         if (isset($_SERVER['REQUEST_METHOD']) == false) {
@@ -83,17 +103,19 @@ class Ethna_Session
      */
     function restore()
     {
-        if (!empty($_COOKIE[$this->session_name]) ||
-        (ini_get("session.use_trans_sid") == 1 &&
-        !empty($_REQUEST[$this->session_name]))
+        if (!empty($_COOKIE[$this->session_name])
+            || (ini_get("session.use_trans_sid") == 1
+            && !empty($_REQUEST[$this->session_name]))
         ) {
             session_start();
             $this->session_start = true;
 
-            // check session
-            if ($this->isValid() == false) {
-                setcookie($this->session_name, "", 0, "/");
-                $this->session_start = false;
+            // check remote address changed
+            if ($this->config['check_remote_addr']) {
+                if ($this->isValid() == false) {
+                    setcookie($this->session_name, "", 0, "/");
+                    $this->session_start = false;
+                }
             }
 
             // check anonymous
@@ -157,10 +179,13 @@ class Ethna_Session
         session_set_cookie_params($lifetime);
         session_id(Ethna_Util::getRandom());
         session_start();
+
         $_SESSION['REMOTE_ADDR'] = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR']: false;
         $_SESSION['__anonymous__'] = $anonymous;
         $this->anonymous = $anonymous;
         $this->session_start = true;
+
+        $this->logger->log(LOG_INFO, 'Session started.');
 
         return true;
     }
@@ -176,7 +201,7 @@ class Ethna_Session
         if (!$this->session_start) {
             return true;
         }
-        
+
         session_destroy();
         $this->session_start = false;
         setcookie($this->session_name, "", 0, "/");
@@ -195,12 +220,12 @@ class Ethna_Session
         if (! $this->session_start) {
             return false;
         }
-       
+
         $tmp = $_SESSION;
 
         $this->destroy();
         $this->start($lifetime, $anonymous);
-        
+
         unset($tmp['REMOTE_ADDR']);
         unset($tmp['__anonymous__']);
         foreach ($tmp as $key => $value) {
