@@ -54,11 +54,18 @@ $config = array(
     //'log_filter_do'         => '',
     //'log_filter_ignore'     => 'Undefined index.*%%.*tpl',
 
+    'session' => array(
+        'handler'   => 'files',
+        'path'      => 'tmp',
+        'check_remote_addr'      => true,
+        //'cache_limiter' => 'private_no_expier',
+        //'cache_expier'  => '180',
+    ),
 
     // i18n
     //'use_gettext' => false,
-    
-    // mail 
+
+    // mail
     //'mail_func_workaround' => false,
 
     // Smarty
