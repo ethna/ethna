@@ -20,6 +20,7 @@
 -- デフォルトで生成されるレイアウトテンプレートの調整
 -- cssの変更
 -- UrlHandler と .htaccess (mod_rewrite) を利用するためのひな形を生成
+- pecl::memcached 版に対応した Ethna_Plugin_Cachemanager_Memcached のバンドル
 
 *** bug fix
 
