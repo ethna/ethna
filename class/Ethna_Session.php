@@ -57,7 +57,7 @@ class Ethna_Session
      *  @param  string  $appid      アプリケーションID(セッション名として使用)
      *  @param  string  $save_dir   セッションデータを保存するディレクトリ
      */
-    function Ethna_Session($ctl, $appid)
+    public function __construct($ctl, $appid)
     {
         $this->ctl = $ctl;
         $this->logger = $this->ctl->getLogger();
@@ -86,9 +86,9 @@ class Ethna_Session
         }
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-            $http_vars =& $_POST;
+            $http_vars = $_POST;
         } else {
-            $http_vars =& $_GET;
+            $http_vars = $_GET;
         }
         if (array_key_exists($this->session_name, $http_vars)
             && $http_vars[$this->session_name] != null) {

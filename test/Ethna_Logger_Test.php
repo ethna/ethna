@@ -26,7 +26,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
     function _resetLoggerSetting($config)
     {
         unset($this->ctl->class_factory->object['logger']);
-        $config_obj =& $this->ctl->class_factory->object['config'];
+        $config_obj = $this->ctl->class_factory->object['config'];
         $config_obj->config = $config;
     }
 
@@ -41,7 +41,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
             'log_option'        => 'pid,function,pos',
         );
         $this->_resetLoggerSetting($config);
-        $this->logger =& $this->ctl->getLogger();
+        $this->logger = $this->ctl->getLogger();
 
         // facility
         $facility = $this->logger->getLogFacility();
@@ -81,7 +81,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
             'log_option'            => 'pid,function,pos',
         );
         $this->_resetLoggerSetting($config);
-        $this->logger =& $this->ctl->getLogger();
+        $this->logger = $this->ctl->getLogger();
 
         // facility
         $facility = $this->logger->getLogFacility();
@@ -126,7 +126,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
 
 class Ethna_Logger_Test_Config extends Ethna_Config
 {
-    function Ethna_Logger_Test_Config()
+    public function __construct_Config()
     {
         // do nothing.
     }

@@ -29,7 +29,7 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         if (Ethna::isError($r)) {
             $this->fail($r->getMessage());    
         }
-        $this->mock_ctl =& $this->proj->getController();
+        $this->mock_ctl = $this->proj->getController();
         $locale_dir = $this->mock_ctl->getDirectory('locale');
         $locale = $this->mock_ctl->getLocale();
         $this->msg_file = $locale_dir . '/'

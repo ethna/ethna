@@ -28,11 +28,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function Ethna_Renderer_Smarty(&$controller)
+    public function __construct($controller)
     {
-        parent::Ethna_Renderer($controller);
+        parent::__construct($controller);
         
-        $this->engine =& new Smarty;
+        $this->engine = new Smarty;
         
         // ディレクトリ関連は Controllerによって実行時に設定
         // TODO: iniファイルによって上書き可にするかは要検討
@@ -107,9 +107,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function &getProp($name = null)
+    function getProp($name = null)
     {
-        $property =& $this->engine->get_template_vars($name);
+        $property = $this->engine->get_template_vars($name);
 
         if ($property !== null) {
             return $property;

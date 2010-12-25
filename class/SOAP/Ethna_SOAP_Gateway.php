@@ -33,9 +33,9 @@ class Ethna_SOAP_Gateway
      *
      *  @access public
      */
-    function Ethna_SOAP_Gateway()
+    public function __construct()
     {
-        $this->controller =& Ethna_Controller::getInstance();
+        $this->controller = Ethna_Controller::getInstance();
     }
 
     /**
@@ -56,7 +56,7 @@ class Ethna_SOAP_Gateway
      */
     function &getApp()
     {
-        $action_form =& $this->controller->getActionForm();
+        $action_form = $this->controller->getActionForm();
         return $action_form->app_vars;
     }
 
@@ -68,14 +68,14 @@ class Ethna_SOAP_Gateway
      */
     function getErrorCode()
     {
-        $action_error =& $this->controller->getActionError();
+        $action_error = $this->controller->getActionError();
         if ($action_error->count() == 0) {
             return null;
         }
         
         // 最初の1つを返す
         $error_list = $action_error->getErrorList();
-        $error =& $error_list[0];
+        $error = $error_list[0];
 
         return $error->getCode();
     }
@@ -88,7 +88,7 @@ class Ethna_SOAP_Gateway
      */
     function getErrorMessage()
     {
-        $action_error =& $this->controller->getActionError();
+        $action_error = $this->controller->getActionError();
         if ($action_error->count() == 0) {
             return null;
         }

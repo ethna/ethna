@@ -16,7 +16,7 @@ class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->plugin =& $this->ctl->getPlugin();
+        $this->plugin = $this->ctl->getPlugin();
 
         // for PHP 5, it's not enable to create instance of abstract class,
         // now this is temporary process.

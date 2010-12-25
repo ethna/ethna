@@ -25,9 +25,9 @@ class Ethna_CLI_ActionClass extends Ethna_ActionClass
      *
      *  @access public
      */
-    function Perform()
+    public function perform()
     {
-        parent::Perform();
+        parent::perform();
         $_SERVER['REMOTE_ADDR'] = "0.0.0.0";
         $_SERVER['HTTP_USER_AGENT'] = "";
     }

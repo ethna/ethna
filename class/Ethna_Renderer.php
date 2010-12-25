@@ -52,10 +52,10 @@ class Ethna_Renderer
      *
      *  @access public
      */
-    function Ethna_Renderer(&$controller)
+    public function __construct($controller)
     {
-        $this->controller =& $controller;
-        $this->ctl =& $this->controller;
+        $this->controller = $controller;
+        $this->ctl = $this->controller;
         $this->template_dir = null;
         $this->engine = null;
         $this->template = null;
@@ -107,7 +107,7 @@ class Ethna_Renderer
      * 
      *  @access public
      */
-    function &getEngine()
+    function getEngine()
     {
         return $this->engine;
     }
@@ -133,7 +133,7 @@ class Ethna_Renderer
      * 
      *  @access public
      */
-    function &getProp($name)
+    function getProp($name)
     {
         if (isset($this->prop[$name])) {
             return $this->prop[$name];
@@ -149,7 +149,7 @@ class Ethna_Renderer
      * 
      *  @access public
      */
-    function &removeProp($name)
+    function removeProp($name)
     {
         if (isset($this->prop[$name])) {
             unset($this->prop[$name]);
@@ -181,7 +181,7 @@ class Ethna_Renderer
         $count = sizeof($keys);
 
         for ($i = 0; $i < $count; $i++) {
-            $this->prop[$keys[$i]] =& $array[$keys[$i]];
+            $this->prop[$keys[$i]] = $array[$keys[$i]];
         }
     }
 
@@ -208,7 +208,7 @@ class Ethna_Renderer
      */
     function setPropByRef($name, &$value)
     {
-        $this->prop[$name] =& $value;
+        $this->prop[$name] = $value;
     }
 
     /**

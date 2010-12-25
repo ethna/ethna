@@ -16,8 +16,8 @@ define('ADODB_OUTP', 'ethna_adodb_logger'); //disable output error
 require_once 'adodb/adodb.inc.php';
 
 function ethna_adodb_logger ($msg, $newline) {
-    $c =& Ethna_Controller::getInstance();
-    $logger =& $c->getLogger();
+    $c = Ethna_Controller::getInstance();
+    $logger = $c->getLogger();
     
     $logger->log(LOG_DEBUG, strip_tags(str_replace("\n", "", $msg)));
 }
@@ -54,11 +54,11 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */
-    function Ethna_DB_ADOdb(&$controller, $dsn, $persistent)
+    public function __construct($controller, $dsn, $persistent)
     {
-        parent::Ethna_DB($controller, $dsn, $persistent);
+        parent::__construct($controller, $dsn, $persistent);
 
-        $this->logger =& $controller->getLogger();
+        $this->logger = $controller->getLogger();
     }
 
     //{{{ connect
@@ -168,7 +168,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function &query($query, $inputarr = false)
+    function query($query, $inputarr = false)
     {
         return $this->_query($query, $inputarr);
     }
@@ -182,10 +182,10 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function &_query($query, $inputarr = false)
+    function _query($query, $inputarr = false)
     {
         $this->logger->log(LOG_DEBUG, $query);
-        $r =& $this->db->execute($query, $inputarr);
+        $r = $this->db->execute($query, $inputarr);
 
         if ($r === false) {
 

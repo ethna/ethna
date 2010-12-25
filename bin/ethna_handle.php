@@ -28,7 +28,7 @@ if (Ethna::isError($arg_list)) {
 }
 array_shift($arg_list);  // remove "ethna_handle.php"
 
-$eh =& new Ethna_Handle();
+$eh = new Ethna_Handle();
 
 //  はじめの引数に - が含まれていればそれを分離する
 //  含まれていた場合、それは -v|--version でなければならない

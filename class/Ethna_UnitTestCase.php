@@ -57,17 +57,17 @@ class Ethna_UnitTestCase extends UnitTestCase
      *  Ethna_UnitTestCaseのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
+     *  @param  object  Ethna_Controller    $controller    コントローラオブジェクト
      */
-    function Ethna_UnitTestCase(&$controller)
+    public function __construct($controller)
     {
-        parent::UnitTestCase();
+        parent::__construct();
 
         // オブジェクトの設定
-        $this->controller =& $controller;
-        $this->ctl =& $this->controller;
-        $this->backend =& $this->ctl->getBackend();
-        $this->session =& $this->backend->getSession();
+        $this->controller = $controller;
+        $this->ctl = $this->controller;
+        $this->backend = $this->ctl->getBackend();
+        $this->session = $this->backend->getSession();
 
         // 変数の初期化
         $this->action_form = $this->af = null;
@@ -82,19 +82,19 @@ class Ethna_UnitTestCase extends UnitTestCase
      */
     function _createActionForm($form_name)
     {
-        $this->action_form =& new $form_name($this->ctl);
-        $this->af =& $this->action_form;
+        $this->action_form = new $form_name($this->ctl);
+        $this->af = $this->action_form;
 
         // controler&backendにafを関連付け
         $this->ctl->action_name = $this->action_name;
-        $this->ctl->action_form =& $this->af;
-        $this->backend->action_form =& $this->af;
-        $this->backend->af =& $this->af;
+        $this->ctl->action_form = $this->af;
+        $this->backend->action_form = $this->af;
+        $this->backend->af = $this->af;
 
         // action_error, validator の初期化
         // これにより、直前のテスト結果をひきずらない
         // ようにする
-        $ae =& $this->ctl->getActionError();
+        $ae = $this->ctl->getActionError();
         $ae->clear();
         unset($ae->action_form);
         unset($this->ctl->class_factory->object['plugin']->obj_registry["Validator"]);
@@ -153,12 +153,12 @@ class Ethna_UnitTestCase extends UnitTestCase
 
         // オブジェクト生成
         $action_class_name = $this->ctl->getActionClassName($this->action_name);
-        $this->action_class =& new $action_class_name($this->backend);
-        $this->ac =& $this->action_class;
+        $this->action_class = new $action_class_name($this->backend);
+        $this->ac = $this->action_class;
 
         // backendにacを関連付け
-        $this->backend->action_class =& $this->ac;
-        $this->backend->ac =& $this->ac;
+        $this->backend->action_class = $this->ac;
+        $this->backend->ac = $this->ac;
     }
 
     /**
@@ -174,7 +174,7 @@ class Ethna_UnitTestCase extends UnitTestCase
 
         // オブジェクト生成
         $view_class_name = $this->ctl->getViewClassName($this->forward_name);
-        $this->view_class =& new $view_class_name($this->backend, $this->forward_name, $this->ctl->_getForwardPath($this->forward_name));
-        $this->vc =& $this->view_class;
+        $this->view_class = new $view_class_name($this->backend, $this->forward_name, $this->ctl->_getForwardPath($this->forward_name));
+        $this->vc = $this->view_class;
     }
 }

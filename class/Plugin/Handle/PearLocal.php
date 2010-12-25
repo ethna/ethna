@@ -63,7 +63,7 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
                 ? $default_pearrc
                 : "{$base}/$app_pearrc";
         $this->conf_file = $pearrc;
-        $this->config =& PEAR_Config::singleton($pearrc);
+        $this->config = PEAR_Config::singleton($pearrc);
 
         // read local .pearrc if exists.
         if (is_file($pearrc) && is_readable($pearrc)) {
@@ -89,9 +89,9 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
         }
 
         // setup channel
-        $reg =& $this->config->getRegistry();
+        $reg = $this->config->getRegistry();
         if ($reg->channelExists($this->channel) == false) {
-            $ret =& $this->doChannelDiscover();
+            $ret = $this->doChannelDiscover();
             if (Ethna::isError($ret)) {
                 return $ret;
             }
@@ -134,7 +134,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
      */
     function &_parseArgList()
     {
-        $r =& $this->_getopt(array('basedir=', 'channel='));
+        $r = $this->_getopt(array('basedir=', 'channel='));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -167,7 +167,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
         $true = true;
 
         //   check arguments.
-        $args =& $this->_parseArgList();
+        $args = $this->_parseArgList();
         if (Ethna::isError($args)) {
             return Ethna::raiseError(
                 $args->getMessage(),
@@ -178,8 +178,8 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
         $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
         $channel = isset($args['channel']) ? $args['channel'] : 'dummy';
 
-        $pear_local =& new Ethna_PearConfig_Local();
-        $r =& $pear_local->init('local', $basedir, $channel);
+        $pear_local = new Ethna_PearConfig_Local();
+        $r = $pear_local->init('local', $basedir, $channel);
         if (Ethna::isError($r)) {
             return $r;
         }

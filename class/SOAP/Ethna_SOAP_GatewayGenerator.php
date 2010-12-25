@@ -51,12 +51,12 @@ class Ethna_SOAP_GatewayGenerator
      *
      *  @access public
      */
-    function Ethna_SOAP_GatewayGenerator()
+    public function __construct()
     {
-        $this->controller =& Ethna_Controller::getInstance();
-        $this->config =& $this->controller->getConfig();
+        $this->controller = Ethna_Controller::getInstance();
+        $this->config = $this->controller->getConfig();
         $this->action_error = null;
-        $this->ae =& $this->action_error;
+        $this->ae = $this->action_error;
         $this->gateway = "";
         $this->name = $this->controller->getAppId();
         $this->namespace = $this->_getNameSpace();
@@ -117,7 +117,7 @@ class Ethna_SOAP_GatewayGenerator
         $entry = "";
         foreach ($this->controller->soap_action as $k => $v) {
             $action_form_name = $this->controller->getActionFormName($k);
-            $form =& new $action_form_name($this->controller);
+            $form = new $action_form_name($this->controller);
             $arg_list = array_keys($form->form);
 
             $entry .= "  function $k(";
@@ -137,7 +137,7 @@ class Ethna_SOAP_GatewayGenerator
             
             $entry .= "    \$this->dispatch();\n";
 
-            $entry .= "    \$app =& \$this->getApp();\n";
+            $entry .= "    \$app = \$this->getApp();\n";
             $entry .= "    \$errorcode = \$this->getErrorCode();\n";
             $entry .= "    \$errormessage = \$this->getErrorMessage();\n";
             $entry .= "    \$retval = array();\n";

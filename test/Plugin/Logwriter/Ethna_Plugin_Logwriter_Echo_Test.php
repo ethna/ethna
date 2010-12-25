@@ -15,7 +15,7 @@ class Ethna_Plugin_Logwriter_Echo_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->plugin =& $this->ctl->getPlugin();
+        $this->plugin = $this->ctl->getPlugin();
         $this->lw = $this->plugin->getPlugin('Logwriter', 'Echo');
 
         $option = array(

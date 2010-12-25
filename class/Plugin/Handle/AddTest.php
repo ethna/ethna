@@ -80,7 +80,7 @@ EOS;
         $baseDir = isset($optlist['basedir']) ? $optlist['basedir'] : getcwd();
         $name = $arglist[0];
         
-        $r =& Ethna_Generator::generate(
+        $r = Ethna_Generator::generate(
             'Test', $baseDir, $skelfile, $name
         );
         if (Ethna::isError($r)) {

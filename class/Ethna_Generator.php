@@ -29,27 +29,27 @@ class Ethna_Generator
      *  @param  mixed   residue     プラグインのgenerate()にそのまま渡す
      *  @static
      */
-    function &generate()
+    public static function generate()
     {
         $arg_list   = func_get_args();
         $type       = array_shift($arg_list);
         $app_dir    = array_shift($arg_list);
 
         if ($app_dir === null) {
-            $ctl =& Ethna_Handle::getEthnaController();
+            $ctl = Ethna_Handle::getEthnaController();
         } else {
-            $ctl =& Ethna_Handle::getAppController($app_dir);
+            $ctl = Ethna_Handle::getAppController($app_dir);
         }
         if (Ethna::isError($ctl)) {
             return $ctl;
         }
 
-        $plugin_manager =& $ctl->getPlugin();
+        $plugin_manager = $ctl->getPlugin();
         if (Ethna::isError($plugin_manager)) {
             return $plugin_manager;
         }
 
-        $generator =& $plugin_manager->getPlugin('Generator', $type);
+        $generator = $plugin_manager->getPlugin('Generator', $type);
         if (Ethna::isError($generator)) {
             return $generator;
         }
@@ -69,27 +69,27 @@ class Ethna_Generator
      *  @param  mixed   residue     プラグインのremove()にそのまま渡す
      *  @static
      */
-    function &remove()
+    public static function remove()
     {
         $arg_list   = func_get_args();
         $type       = array_shift($arg_list);
         $app_dir    = array_shift($arg_list);
 
         if ($app_dir === null) {
-            $ctl =& Ethna_Handle::getEthnaController();
+            $ctl = Ethna_Handle::getEthnaController();
         } else {
-            $ctl =& Ethna_Handle::getAppController($app_dir);
+            $ctl = Ethna_Handle::getAppController($app_dir);
         }
         if (Ethna::isError($ctl)) {
             return $ctl;
         }
 
-        $plugin_manager =& $ctl->getPlugin();
+        $plugin_manager = $ctl->getPlugin();
         if (Ethna::isError($plugin_manager)) {
             return $plugin_manager;
         }
 
-        $generator =& $plugin_manager->getPlugin('Generator', $type);
+        $generator = $plugin_manager->getPlugin('Generator', $type);
         if (Ethna::isError($generator)) {
             return $generator;
         }

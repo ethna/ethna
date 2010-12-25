@@ -14,7 +14,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->url_handler =& new Ethna_UrlHandler_TestClass($this);
+        $this->url_handler = new Ethna_UrlHandler_TestClass($this);
     }
 
     // {{{ $_simple_map

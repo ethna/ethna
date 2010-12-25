@@ -109,23 +109,23 @@ class Ethna_ViewClass
      *  @param  string  $forward_name   ビューに関連付けられている遷移名
      *  @param  string  $forward_path   ビューに関連付けられているテンプレートファイル名
      */
-    function Ethna_ViewClass(&$backend, $forward_name, $forward_path)
+    public function __construct(&$backend, $forward_name, $forward_path)
     {
-        $c =& $backend->getController();
-        $this->ctl =& $c;
-        $this->backend =& $backend;
-        $this->config =& $this->backend->getConfig();
-        $this->i18n =& $this->backend->getI18N();
-        $this->logger =& $this->backend->getLogger();
-        $this->plugin =& $this->backend->getPlugin();
+        $c = $backend->getController();
+        $this->ctl = $c;
+        $this->backend = $backend;
+        $this->config = $this->backend->getConfig();
+        $this->i18n = $this->backend->getI18N();
+        $this->logger = $this->backend->getLogger();
+        $this->plugin = $this->backend->getPlugin();
 
-        $this->action_error =& $this->backend->getActionError();
-        $this->ae =& $this->action_error;
+        $this->action_error = $this->backend->getActionError();
+        $this->ae = $this->action_error;
 
-        $this->action_form =& $this->backend->getActionForm();
-        $this->af =& $this->action_form;
+        $this->action_form = $this->backend->getActionForm();
+        $this->af = $this->action_form;
 
-        $this->session =& $this->backend->getSession();
+        $this->session = $this->backend->getSession();
 
         $this->forward_name = $forward_name;
         $this->forward_path = $forward_path;
@@ -164,7 +164,7 @@ class Ethna_ViewClass
      */
     function forward()
     {
-        $renderer =& $this->_getRenderer();
+        $renderer = $this->_getRenderer();
         $this->_setDefault($renderer);
 
         if ($this->has_default_header) {
@@ -193,7 +193,13 @@ class Ethna_ViewClass
                 }
 
                 $renderer->setProp('content', $content);
-                $renderer->perform($layout, serialize($_SERVER['REQUEST_URI']));
+                if (isset($_SERVER['REQUEST_URI'])) {
+                    $uri_hash = md5($_SERVER['REQUEST_URI']);
+                    $renderer->perform($layout, $uri_hash);
+                }
+                else {
+                    $renderer->perform($layout);
+                }
             } else {
                 return Ethna::raiseWarning('file "'.$layout.'" not found');
             }
@@ -386,9 +392,9 @@ class Ethna_ViewClass
 
         //    現在のアクションと等しければ、対応する
         //    アクションフォームを設定
-        $ctl =& Ethna_Controller::getInstance();
+        $ctl = Ethna_Controller::getInstance();
         if ($action === $ctl->getCurrentActionName()) {
-            $this->helper_action_form[$action] =& $this->af;
+            $this->helper_action_form[$action] = $this->af;
         } else {
             //    アクションが異なる場合
             $form_name = $ctl->getActionFormName($action);
@@ -397,12 +403,12 @@ class Ethna_ViewClass
                     'action form for the action [%s] not found.', $action);
                 return;
             }
-            $this->helper_action_form[$action] =& new $form_name($ctl);
+            $this->helper_action_form[$action] = new $form_name($ctl);
         }
 
         //   動的フォームを設定するためのヘルパメソッドを呼ぶ
         if ($dynamic_helper) {
-            $af =& $this->helper_action_form[$action];
+            $af = $this->helper_action_form[$action];
             $af->setFormDef_ViewHelper();
         }
     }
@@ -431,7 +437,7 @@ class Ethna_ViewClass
      *  @param  string  name    定義されていることを期待するフォーム名
      *  @return object  Ethna_ActionFormまたは継承オブジェクト
      */
-    function &_getHelperActionForm($action = null, $name = null)
+    function _getHelperActionForm($action = null, $name = null)
     {
         // $action が指定されている場合
         if ($action !== null) {
@@ -457,7 +463,7 @@ class Ethna_ViewClass
             if (is_object($this->helper_action_form[$action]) === false) {
                 continue;
             }
-            $af =& $this->helper_action_form[$action];
+            $af = $this->helper_action_form[$action];
             $def = $af->getDef($name);
             if (is_null($def) === false) {
                 return $af;
@@ -491,7 +497,7 @@ class Ethna_ViewClass
      */
     function getFormName($name, $action, $params)
     {
-        $af =& $this->_getHelperActionForm($action, $name);
+        $af = $this->_getHelperActionForm($action, $name);
         if ($af === null) {
             return $name;
         }
@@ -530,7 +536,7 @@ class Ethna_ViewClass
      */
     function getFormInput($name, $action, $params)
     {
-        $af =& $this->_getHelperActionForm($action, $name);
+        $af = $this->_getHelperActionForm($action, $name);
         if ($af === null) {
             return '';
         }
@@ -664,7 +670,7 @@ class Ethna_ViewClass
             }
         } else {
             // マネージャから取得
-            $mgr =& $this->backend->getManager($split[0]);
+            $mgr = $this->backend->getManager($split[0]);
             $attr_list = $mgr->getAttrList($split[1]);
             if (is_array($attr_list)) {
                 foreach ($attr_list as $key => $val) {
@@ -1158,14 +1164,14 @@ class Ethna_ViewClass
      *  @access protected
      *  @return object  Ethna_Renderer  レンダラオブジェクト
      */
-    function &_getRenderer()
+    function _getRenderer()
     {
-        $c =& $this->backend->getController();
-        $renderer =& $c->getRenderer();
+        $c = $this->backend->getController();
+        $renderer = $c->getRenderer();
 
-        $form_array =& $this->af->getArray();
-        $app_array =& $this->af->getAppArray();
-        $app_ne_array =& $this->af->getAppNEArray();
+        $form_array = $this->af->getArray();
+        $app_array = $this->af->getAppArray();
+        $app_ne_array = $this->af->getAppNEArray();
         $renderer->setPropByRef('form', $form_array);
         $renderer->setPropByRef('app', $app_array);
         $renderer->setPropByRef('app_ne', $app_ne_array);

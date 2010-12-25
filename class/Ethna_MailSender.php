@@ -54,10 +54,10 @@ class Ethna_MailSender
      *  @access public
      *  @param  object  Ethna_Backend   &$backend       backendオブジェクト
      */
-    function Ethna_MailSender(&$backend)
+    public function __construct(&$backend)
     {
-        $this->backend =& $backend;
-        $this->config =& $this->backend->getConfig();
+        $this->backend = $backend;
+        $this->config = $this->backend->getConfig();
     }
 
     /**
@@ -98,7 +98,7 @@ class Ethna_MailSender
         if ($template === MAILSENDER_TYPE_DIRECT) {
             $mail = $macro;
         } else {
-            $renderer =& $this->getTemplateEngine();
+            $renderer = $this->getTemplateEngine();
 
             // 基本情報設定
             $env_datetime = _et('%Y/%m/%d %H:%M:%S');
@@ -272,7 +272,7 @@ class Ethna_MailSender
      */
     function &getRenderer()
     {
-        $_ret_object =& $this->getTemplateEngine();
+        $_ret_object = $this->getTemplateEngine();
         return $_ret_object;
     }
 
@@ -284,8 +284,8 @@ class Ethna_MailSender
      */
     function &getTemplateEngine()
     {
-        $c =& $this->backend->getController();
-        $renderer =& $c->getRenderer();
+        $c = $this->backend->getController();
+        $renderer = $c->getRenderer();
         return $renderer;
     }
 }

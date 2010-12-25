@@ -52,12 +52,12 @@ class Ethna_SOAP_WsdlGenerator
     /**
      *  Ethna_SOAP_WsdlGeneratorクラスのコンストラクタ
      */
-    function Ethna_SOAP_WsdlGenerator($gateway)
+    public function __construct($gateway)
     {
-        $this->controller =& Ethna_Controller::getInstance();
-        $this->config =& $this->controller->getConfig();
+        $this->controller = Ethna_Controller::getInstance();
+        $this->config = $this->controller->getConfig();
         $this->action_error = null;
-        $this->ae =& $this->action_error;
+        $this->ae = $this->action_error;
         $this->wsdl = "";
         $this->name = $this->controller->getAppId();
         $this->namespace = $this->_getNameSpace();
@@ -149,7 +149,7 @@ EOD;
         // アクション固有
         foreach ($this->controller->soap_action as $k => $v) {
             $action_form_name = $this->controller->getActionFormName($k);
-            $form =& new $action_form_name($this->controller);
+            $form = new $action_form_name($this->controller);
             if ($form->retval == null) {
                 continue;
             }
@@ -363,7 +363,7 @@ EOD;
     function _serializeMessage($name, $serno)
     {
         $action_form_name = $this->controller->getActionFormName($name);
-        $form =& new $action_form_name($this->controller);
+        $form = new $action_form_name($this->controller);
 
         /* SoapIn */
         $message = " <message name=\"${name}${serno}SoapIn\">\n";
@@ -372,7 +372,7 @@ EOD;
             $keys = array_keys($form->form);
         }
         foreach ($keys as $key) {
-            $type_id =& $form->form[$key]['type'];
+            $type_id = $form->form[$key]['type'];
             if (is_array($type_id)) {
                 $type_keys = array_keys($type_id);
                 $type = "tns:" . Ethna_SOAP_Util::getArrayTypeName($type_id[$type_keys[0]]);
@@ -407,7 +407,7 @@ EOD;
     function _serializePortType($name, $serno)
     {
         $action_form_name = $this->controller->getActionFormName($name);
-        $form =& new $action_form_name($this->controller);
+        $form = new $action_form_name($this->controller);
 
         $args = null;
         if (is_array($form->form)) {

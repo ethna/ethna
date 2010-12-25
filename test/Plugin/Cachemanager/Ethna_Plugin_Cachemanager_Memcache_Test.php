@@ -15,8 +15,8 @@ class Ethna_Plugin_Cachemanager_Memcache_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $plugin =& $ctl->getPlugin();
+        $ctl = Ethna_Controller::getInstance();
+        $plugin = $ctl->getPlugin();
 
         $config = $ctl->getConfig();
 

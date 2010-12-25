@@ -22,7 +22,7 @@
  */
 function smarty_modifier_wordwrap_i18n($string, $width, $break = "\n", $indent = 0)
 {
-    $ctl =& Ethna_Controller::getInstance();
+    $ctl = Ethna_Controller::getInstance();
     $client_enc = $ctl->getClientEncoding();
 
     //    いわゆる半角を単位にしてwrapする位置を測るため、いったん

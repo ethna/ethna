@@ -48,18 +48,6 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
      */
-    /*
-    function Ethna_Plugin_Csrf(&$controller)
-    {
-        // オブジェクトの設定
-        $this->controller =& $controller;
-        $this->ctl =& $this->controller;
-
-        $this->config =& $controller->getConfig();
-        $this->logger =& $this->controller->getLogger();
-    }
-    */
-    
     /**
      *  トークンをViewとローカルファイルにセットする
      *

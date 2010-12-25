@@ -37,9 +37,9 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @access public
      */
     /*
-    function Ethna_Plugin_Cachemanager(&$controller)
+    function Ethna_Plugin_Cachemanager($controller)
     {
-        parent::Ethna_Plugin_Abstract($controller);
+        parent::__construct($controller);
     }
     */
 

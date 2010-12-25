@@ -43,9 +43,9 @@ class Ethna_DB_Creole extends Ethna_DB
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */
-    function Ethna_DB_Creole(&$controller, $dsn, $persistent)
+    public function __construct(&$controller, $dsn, $persistent)
     {
-        parent::Ethna_DB($controller, $dsn, $persistent);
+        parent::__construct($controller, $dsn, $persistent);
     }
 
     /**

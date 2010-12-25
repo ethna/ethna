@@ -27,7 +27,7 @@ class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle_AddView
      */
     function perform()
     {
-        $r =& $this->_getopt(
+        $r = $this->_getopt(
                   array('basedir=',
                         'skelfile=',
                         'locale=',
@@ -44,13 +44,13 @@ class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle_AddView
         if ($template == null) {
             return Ethna::raiseError('template name isn\'t set.', 'usage');
         }
-        $r =& Ethna_Controller::checkViewName($template); // XXX: use checkViewName().
+        $r = Ethna_Controller::checkViewName($template); // XXX: use checkViewName().
         if (Ethna::isError($r)) {
             return $r;
         }
 
         // add template
-        $ret =& $this->_performTemplate($template, $opt_list);
+        $ret = $this->_performTemplate($template, $opt_list);
         return $ret;
     }
 

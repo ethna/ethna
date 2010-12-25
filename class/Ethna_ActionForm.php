@@ -89,16 +89,16 @@ class Ethna_ActionForm
      *  Ethna_ActionFormクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    controllerオブジェクト
+     *  @param  object  Ethna_Controller    $controller    controllerオブジェクト
      */
-    function Ethna_ActionForm(&$controller)
+    public function __construct($controller)
     {
-        $this->backend =& $controller->getBackend();
-        $this->action_error =& $controller->getActionError();
-        $this->ae =& $this->action_error;
-        $this->i18n =& $controller->getI18N();
-        $this->logger =& $controller->getLogger();
-        $this->plugin =& $controller->getPlugin();
+        $this->backend = $controller->getBackend();
+        $this->action_error = $controller->getActionError();
+        $this->ae = $this->action_error;
+        $this->i18n = $controller->getI18N();
+        $this->logger = $controller->getLogger();
+        $this->plugin = $controller->getPlugin();
 
         if (isset($_SERVER['REQUEST_METHOD']) == false) {
             return;
@@ -112,7 +112,7 @@ class Ethna_ActionForm
             if (is_object($value)) {
                 continue;
             }
-            $this->helper_app_object[$key] =& $this->_getHelperAppObject($key);
+            $this->helper_app_object[$key] = $this->_getHelperAppObject($key);
         }
 
         // フォーム値定義の設定
@@ -306,9 +306,9 @@ class Ethna_ActionForm
         if (isset($_SERVER['REQUEST_METHOD']) == false) {
             return;
         } else if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-            $http_vars =& $_POST;
+            $http_vars = $_POST;
         } else {
-            $http_vars =& $_GET;
+            $http_vars = $_GET;
         }
 
         //
@@ -470,7 +470,7 @@ class Ethna_ActionForm
      *  @param  bool    $escape HTMLエスケープフラグ(true:エスケープする)
      *  @return array   フォーム値を格納した配列
      */
-    function &getArray($escape = true)
+    public function getArray($escape = true)
     {
         $retval = array();
 
@@ -513,7 +513,7 @@ class Ethna_ActionForm
      *  @param  boolean $escape HTMLエスケープフラグ(true:エスケープする)
      *  @return array   フォーム値を格納した配列
      */
-    function &getAppArray($escape = true)
+    public function getAppArray($escape = true)
     {
         $retval = array();
 
@@ -556,7 +556,7 @@ class Ethna_ActionForm
      *  @param  boolean $escape HTMLエスケープフラグ(true:エスケープする)
      *  @return array   フォーム値を格納した配列
      */
-    function &getAppNEArray($escape = false)
+    public function getAppNEArray($escape = false)
     {
         $retval = array();
 
@@ -681,7 +681,7 @@ class Ethna_ActionForm
 
                 // プラグイン取得
                 unset($v);
-                $v =& $this->plugin->getPlugin('Validator',
+                $v = $this->plugin->getPlugin('Validator',
                                                ucfirst(strtolower($name)));
                 if (Ethna::isError($v)) {
                     continue;
@@ -689,7 +689,7 @@ class Ethna_ActionForm
 
                 // バリデーション実行
                 unset($r);
-                $r =& $v->validate($form_name, $form_vars, $plugin[$name]);
+                $r = $v->validate($form_name, $form_vars, $plugin[$name]);
 
                 // エラー処理
                 if ($r !== true) {
@@ -716,7 +716,7 @@ class Ethna_ActionForm
 
             // プラグイン取得
             unset($v);
-            $v =& $this->plugin->getPlugin('Validator', ucfirst(strtolower($name)));
+            $v = $this->plugin->getPlugin('Validator', ucfirst(strtolower($name)));
             if (Ethna::isError($v)) {
                 continue;
             }
@@ -725,7 +725,7 @@ class Ethna_ActionForm
             if (isset($v->accept_array) && $v->accept_array == true) {
                 // バリデーション実行
                 unset($r);
-                $r =& $v->validate($form_name, $form_vars, $plugin[$name]);
+                $r = $v->validate($form_name, $form_vars, $plugin[$name]);
 
                 // エラー処理
                 if (Ethna::isError($r)) {
@@ -741,7 +741,7 @@ class Ethna_ActionForm
             foreach ($valid_keys as $key) {
                 // バリデーション実行
                 unset($r);
-                $r =& $v->validate($form_name, $form_vars[$key], $plugin[$name]);
+                $r = $v->validate($form_name, $form_vars[$key], $plugin[$name]);
 
                 // エラー処理
                 if (Ethna::isError($r)) {
@@ -768,8 +768,8 @@ class Ethna_ActionForm
         }
 
         // Ethna_Backendの設定
-        $c =& Ethna_Controller::getInstance();
-        $this->backend =& $c->getBackend();
+        $c = Ethna_Controller::getInstance();
+        $this->backend = $c->getBackend();
 
         return to_array($this->get($name));
     }
@@ -781,7 +781,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム項目名
      *  @return object  Ethna_Error エラーオブジェクト(エラーが無い場合はnull)
      */
-    function &checkVendorChar($name)
+    public function checkVendorChar($name)
     {
         $null = null;
         $string = $this->get($name);
@@ -816,7 +816,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム項目名
      *  @return object  Ethna_Error エラーオブジェクト(エラーが無い場合はnull)
      */
-    function &checkBoolean($name)
+    public function checkBoolean($name)
     {
         $null = null;
         $form_vars = $this->check($name);
@@ -845,7 +845,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム項目名
      *  @return object  Ethna_Error エラーオブジェクト(エラーが無い場合はnull)
      */
-    function &checkMailaddress($name)
+    public function checkMailaddress($name)
     {
         $null = null;
         $form_vars = $this->check($name);
@@ -874,7 +874,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム項目名
      *  @return object  Ethna_Error エラーオブジェクト(エラーが無い場合はnull)
      */
-    function &checkURL($name)
+    public function checkURL($name)
     {
         $null = null;
         $form_vars = $this->check($name);
@@ -1287,7 +1287,7 @@ class Ethna_ActionForm
     function _setFormDef_HelperObj()
     {
         foreach (array_keys($this->helper_app_object) as $key) {
-            $object =& $this->helper_app_object[$key];
+            $object = $this->helper_app_object[$key];
             $prop_def = $object->getDef();
 
             foreach ($prop_def as $key => $value) {
@@ -1411,9 +1411,9 @@ class Ethna_ActionForm
      *
      *  @access protected
      */
-    function &_getHelperAppObject($key)
+    function _getHelperAppObject($key)
     {
-        $app_object =& $this->backend->getObject($key);
+        $app_object = $this->backend->getObject($key);
         return $app_object;
     }
 }

@@ -30,7 +30,7 @@ class Ethna_Plugin_Generator_Test extends Ethna_Plugin_Generator
     function &generate($skelfile, $name)
     {
         // Controllerを取得
-        $ctl =& $this->ctl;
+        $ctl = $this->ctl;
         
         // テストを生成するディレクトリがあるか？
         // なければ app/test がデフォルト。

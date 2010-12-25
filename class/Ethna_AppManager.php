@@ -69,23 +69,23 @@ class Ethna_AppManager
      *  Ethna_AppManagerのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend   backendオブジェクト
+     *  @param  object  Ethna_Backend   $backend   backendオブジェクト
      */
-    function Ethna_AppManager(&$backend)
+    public function __construct($backend)
     {
         // 基本オブジェクトの設定
-        $this->backend =& $backend;
-        $this->config =& $backend->getConfig();
-        $this->i18n =& $backend->getI18N();
-        $this->action_form =& $backend->getActionForm();
-        $this->af =& $this->action_form;
-        $this->session =& $backend->getSession();
+        $this->backend = $backend;
+        $this->config = $backend->getConfig();
+        $this->i18n = $backend->getI18N();
+        $this->action_form = $backend->getActionForm();
+        $this->af = $this->action_form;
+        $this->session = $backend->getSession();
 
         $db_list = $backend->getDBList();
         if (Ethna::isError($db_list) == false) {
             foreach ($db_list as $elt) {
                 $varname = $elt['varname'];
-                $this->$varname =& $elt['db'];
+                $this->$varname = $elt['db'];
             }
         }
     }
@@ -117,7 +117,7 @@ class Ethna_AppManager
         if (is_array($this->$varname) == false) {
             return null;
         }
-        $list =& $this->$varname;
+        $list = $this->$varname;
         if (isset($list[$id]) == false) {
             return null;
         }
@@ -138,7 +138,7 @@ class Ethna_AppManager
         if (is_array($this->$varname) == false) {
             return null;
         }
-        $list =& $this->$varname;
+        $list = $this->$varname;
         if (isset($list[$id]['long_name']) == false) {
             return null;
         }
@@ -178,7 +178,7 @@ class Ethna_AppManager
                 = $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key];
         } else {
             // キャッシュ更新
-            $tmp =& new $class_name($this->backend);
+            $tmp = new $class_name($this->backend);
             list($length, $prop_list)
                 = $tmp->searchProp(null, $filter, $order, $offset, $count);
             $_ETHNA_APP_MANAGER_OL_CACHE[$cache_class][$cache_key]
@@ -186,7 +186,7 @@ class Ethna_AppManager
         }
 
         foreach ($prop_list as $prop) {
-            $object =& new $class_name($this->backend, null, null, $prop);
+            $object = new $class_name($this->backend, null, null, $prop);
             $object_list[] = $object;
         }
 
@@ -230,7 +230,7 @@ class Ethna_AppManager
             // skip
         } else {
             // キャッシュ更新
-            $tmp =& new $class_name($this->backend);
+            $tmp = new $class_name($this->backend);
             $_ETHNA_APP_MANAGER_OPL_CACHE[$cache_class][$cache_key]
                 = $tmp->searchProp($keys, $filter, $order, $offset, $count);
         }
@@ -268,7 +268,7 @@ class Ethna_AppManager
             // skip
         } else {
             // キャッシュ更新
-            $tmp =& new $class_name($this->backend);
+            $tmp = new $class_name($this->backend);
             list(, $prop) = $tmp->searchProp($keys, $filter);
             $_ETHNA_APP_MANAGER_OP_CACHE[$cache_class][$cache_key]
                 = count($prop) > 0 ? $prop[0] : null;

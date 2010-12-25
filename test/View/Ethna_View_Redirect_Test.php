@@ -22,8 +22,8 @@ class Ethna_View_Redirect_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->test_ctl =& new Ethna_Controller();
-        $this->test_backend =& $this->test_ctl->getBackend();
+        $this->test_ctl = new Ethna_Controller();
+        $this->test_backend = $this->test_ctl->getBackend();
         $this->view_redirect = new Ethna_View_Redirect($this->test_backend, 'redirect', NULL);
     }
 
@@ -48,7 +48,7 @@ class Ethna_View_Redirect_Test extends Ethna_UnitTestBase
 
     function test_redirect_action()
     {
-        $project =& new Ethna_MockProject();
+        $project = new Ethna_MockProject();
         $project->create();
 
         //   add mock action for redirect

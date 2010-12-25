@@ -15,8 +15,8 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $this->ctl =& $ctl;
+        $ctl = Ethna_Controller::getInstance();
+        $this->ctl = $ctl;
 
 
         $config = $ctl->getConfig();
@@ -29,7 +29,7 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
             )
         ));
 
-        $plugin =& $ctl->getPlugin();
+        $plugin = $ctl->getPlugin();
         $this->cm = $plugin->getPlugin('Cachemanager', 'Localfile');
     }
 
@@ -55,8 +55,11 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 
     function testCachemanagerLocalfileConfig()
     {
-        $this->assertEqual('miyazakiaoi', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('test', 'int_key')), -4, 1)));
-        $this->assertEqual('default', array_shift(array_slice(explode('/', $this->cm->_getCacheDir('', 'string_key')), -4, 1)));
+        $array = array_slice(explode('/', $this->cm->_getCacheDir('test', 'int_key')), -4, 1);
+        $this->assertEqual('miyazakiaoi', array_shift($array));
+
+        $array = array_slice(explode('/', $this->cm->_getCacheDir('', 'string_key')), -4, 1);
+        $this->assertEqual('default', array_shift($array));
     }
 
     function testCachemanagerLocalfileNamespace()
@@ -99,7 +102,7 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 
         // オブジェクトのキャッシュ
         $object_key = 'object_key';
-        $object_value =& $this->cm;
+        $object_value = $this->cm;
 
         $this->cm->set($object_key, $object_value);
         $this->assertTrue($this->cm->isCached($object_key));

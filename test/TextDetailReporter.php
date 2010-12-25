@@ -15,7 +15,7 @@ class TextDetailReporter extends SimpleReporter {
      *    be sent on the first test start.
      *    @access public
      */
-    function TextDetailReporter()
+    public function __construct()
     {
         $this->SimpleReporter();
     }

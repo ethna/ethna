@@ -56,7 +56,7 @@ class Ethna_InfoManager extends Ethna_AppManager
      *  @access public
      *  @param  object  Ethna_Backend   &$backend   Ethna_Backendオブジェクト
      */
-    function Ethna_InfoManager(&$backend)
+    public function __construct($backend)
     {
         $this->form_type_list = array(
                                     FORM_TYPE_TEXT => array('name' => _et('TextBox')),
@@ -78,9 +78,9 @@ class Ethna_InfoManager extends Ethna_AppManager
                                     VAR_TYPE_FILE       => array('name' => _et('File')),
                                );
 
-        parent::Ethna_AppManager($backend);
-        $this->ctl =& Ethna_Controller::getInstance();
-        $this->class_factory =& $this->ctl->getClassFactory();
+        parent::__construct($backend);
+        $this->ctl = Ethna_Controller::getInstance();
+        $this->class_factory = $this->ctl->getClassFactory();
 
         // アクションスクリプト解析結果キャッシュ取得
         $this->cache_class_list_file = sprintf('%s/ethna_info_class_list',
@@ -443,7 +443,7 @@ class Ethna_InfoManager extends Ethna_AppManager
             if (class_exists($form_name) == false) {
                 continue;
             }
-            $af =& new $form_name($this->ctl);
+            $af = new $form_name($this->ctl);
 
             $form = array();
             foreach ($af->getDef() as $name => $def) {

@@ -64,22 +64,22 @@ class Ethna_ActionClass
      *  @access public
      *  @param  object  Ethna_Backend   $backend    backendオブジェクト
      */
-    function Ethna_ActionClass(&$backend)
+    public function __construct(&$backend)
     {
-        $c =& $backend->getController();
-        $this->backend =& $backend;
-        $this->config =& $this->backend->getConfig();
-        $this->i18n =& $this->backend->getI18N();
+        $c = $backend->getController();
+        $this->backend = $backend;
+        $this->config = $this->backend->getConfig();
+        $this->i18n = $this->backend->getI18N();
 
-        $this->action_error =& $this->backend->getActionError();
-        $this->ae =& $this->action_error;
+        $this->action_error = $this->backend->getActionError();
+        $this->ae = $this->action_error;
 
-        $this->action_form =& $this->backend->getActionForm();
-        $this->af =& $this->action_form;
+        $this->action_form = $this->backend->getActionForm();
+        $this->af = $this->action_form;
 
-        $this->session =& $this->backend->getSession();
-        $this->plugin =& $this->backend->getPlugin();
-        $this->logger =& $this->backend->getLogger();
+        $this->session = $this->backend->getSession();
+        $this->plugin = $this->backend->getPlugin();
+        $this->logger = $this->backend->getLogger();
 
         $this->_preloadPlugin();
     }

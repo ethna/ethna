@@ -26,10 +26,10 @@ function mb_enabled()
  *  @return string  ロケールに適合するメッセージ
  *  @see    Ethna_I18N#get
  */
-function _et($message) 
+function _et($message)
 {
-    $ctl =& Ethna_Controller::getInstance();
-    $i18n =& $ctl->getI18N();
+    $ctl = Ethna_Controller::getInstance();
+    $i18n = $ctl->getI18N();
     return $i18n->get($message);
 }
 // }}}
@@ -84,14 +84,14 @@ class Ethna_I18N
      *  @param  string  $locale_dir プロジェクトのロケールディレクトリ
      *  @param  string  $appid      アプリケーションID
      */
-    function Ethna_I18N($locale_dir, $appid)
+    public function __construct($locale_dir, $appid)
     {
         $this->locale_dir = $locale_dir;
         $this->appid = $appid;
 
-        $this->ctl =& Ethna_Controller::getInstance();
-        $config =& $this->ctl->getConfig();
-        $this->logger =& $this->ctl->getLogger();
+        $this->ctl = Ethna_Controller::getInstance();
+        $config = $this->ctl->getConfig();
+        $this->logger = $this->ctl->getLogger();
         $this->use_gettext = $config->get('use_gettext') ? true : false;
 
         //    gettext load check. 
@@ -115,7 +115,7 @@ class Ethna_I18N
      *  @see    http://www.php.net/manual/ja/timezones.php
      *  @static
      */
-    function setTimeZone($timezone = 'UTC')
+    public static function setTimeZone($timezone = 'UTC')
     {
         //   date.timezone 設定は PHP 5.1.0 以降でのみ
         //   利用可能

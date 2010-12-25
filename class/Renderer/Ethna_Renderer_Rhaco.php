@@ -46,16 +46,16 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
      *
      *  @access public
      */
-    function Ethna_Renderer_Rhaco(&$controller)
+    public function __construct($controller)
     {
-        parent::Ethna_Renderer($controller);
+        parent::__construct($controller);
         
         $this->template_dir = $controller->getTemplatedir() . '/';
         $this->compile_dir = $controller->getDirectory('template_c');
 
         Rhaco::constant('TEMPLATE_PATH', $this->template_dir);
         
-        $this->engine =& new TemplateParser_Ethna();
+        $this->engine = new TemplateParser_Ethna();
 
         /*
         $this->setTemplateDir($template_dir);
@@ -112,9 +112,9 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
      *  @param string $name  変数名
      *  @return mixed　変数
      */
-    function &getProp($name = null)
+    function getProp($name = null)
     {
-        $property =& $this->engine->variables[$name];
+        $property = $this->engine->variables[$name];
 
         if ($property !== null) {
             return $property;

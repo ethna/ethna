@@ -60,7 +60,7 @@ class Ethna_PearWrapper
      *
      *  @access public
      */
-    function Ethna_PearWrapper()
+    public function __construct()
     {
         $this->channel = null;
         $this->config = null;
@@ -90,7 +90,7 @@ class Ethna_PearWrapper
 
         // setup PEAR_Frontend
         PEAR_Command::setFrontendType('CLI');
-        $this->ui =& PEAR_Command::getFrontendObject();
+        $this->ui = PEAR_Command::getFrontendObject();
 
         // set PEAR's error handling
         // TODO: if PEAR/Command/Install.php is newer than 1.117, displayError goes well.
@@ -108,9 +108,9 @@ class Ethna_PearWrapper
 
         // set target controller
         if ($target == 'master') {
-            $this->target_ctl =& Ethna_Handle::getEthnaController();
+            $this->target_ctl = Ethna_Handle::getEthnaController();
         } else {
-            $this->target_ctl =& Ethna_Handle::getAppController($app_dir);
+            $this->target_ctl = Ethna_Handle::getAppController($app_dir);
         }
         if (Ethna::isError($this->target_ctl)) {
             return $this->target_ctl;
@@ -118,9 +118,9 @@ class Ethna_PearWrapper
 
         // setup PEAR_Config
         if ($target == 'master') {
-            $ret =& $this->_setMasterConfig();
+            $ret = $this->_setMasterConfig();
         } else {
-            $ret =& $this->_setLocalConfig();
+            $ret = $this->_setLocalConfig();
         }
         if (Ethna::isError($ret)) {
             return $ret;
@@ -128,7 +128,7 @@ class Ethna_PearWrapper
         $this->ui->setConfig($this->config);
 
         // setup PEAR_Registry
-        $this->registry =& $this->config->getRegistry();
+        $this->registry = $this->config->getRegistry();
 
         return $true;
     }
@@ -144,12 +144,12 @@ class Ethna_PearWrapper
         $true = true;
 
         // setup config
-        $this->config =& PEAR_Config::singleton();
+        $this->config = PEAR_Config::singleton();
 
         // setup channel
-        $reg =& $this->config->getRegistry();
+        $reg = $this->config->getRegistry();
         if ($reg->channelExists($this->channel) == false) {
-            $ret =& $this->doChannelDiscover();
+            $ret = $this->doChannelDiscover();
             if (Ethna::isError($ret)) {
                 return $ret;
             }
@@ -192,7 +192,7 @@ class Ethna_PearWrapper
         }
 
         $pearrc = "{$base}/skel/.pearrc";
-        $this->config =& PEAR_Config::singleton($pearrc);
+        $this->config = PEAR_Config::singleton($pearrc);
 
         // read local .pearrc if exists.
         if (is_file($pearrc) && is_readable($pearrc)) {
@@ -205,9 +205,9 @@ class Ethna_PearWrapper
         }
 
         // setup channel
-        $reg =& $this->config->getRegistry();
+        $reg = $this->config->getRegistry();
         if ($reg->channelExists($this->channel) == false) {
-            $ret =& $this->doChannelDiscover();
+            $ret = $this->doChannelDiscover();
             if (Ethna::isError($ret)) {
                 return $ret;
             }
@@ -230,7 +230,7 @@ class Ethna_PearWrapper
     function &doClearCache()
     {
         $true = true;
-        $r =& $this->_run('clear-cache', array(), array());
+        $r = $this->_run('clear-cache', array(), array());
         if (PEAR::isError($r)) {
             return $r;
         }
@@ -247,7 +247,7 @@ class Ethna_PearWrapper
     function &doChannelDiscover()
     {
         $true = true;
-        $r =& $this->_run('channel-discover', array(), array($this->channel));
+        $r = $this->_run('channel-discover', array(), array($this->channel));
         if (PEAR::isError($r)) {
             return $r;
         }
@@ -277,12 +277,12 @@ class Ethna_PearWrapper
     {
         $true = true;
         if ($this->isChannelExists() == false) {
-            $r =& $this->doChannelDiscover();
+            $r = $this->doChannelDiscover();
             if (PEAR::isError($r)) {
                 return $r;
             }
         }
-        $r =& $this->_run('channel-update', array(), array($this->channel));
+        $r = $this->_run('channel-update', array(), array($this->channel));
         if (PEAR::isError($r)) {
             return $r;
         }
@@ -302,7 +302,7 @@ class Ethna_PearWrapper
     function &_doInstallOrUpgrade($command, $package)
     {
         $true = true;
-        $r =& $this->_run($command, array(), array($package));
+        $r = $this->_run($command, array(), array($package));
         if (PEAR::isError($r)) {
             return $r;
         }
@@ -324,7 +324,7 @@ class Ethna_PearWrapper
         if ($state !== null) {
             $pkg = "{$pkg}-{$state}";
         }
-        $r =& $this->_doInstallOrUpgrade('install', $pkg); 
+        $r = $this->_doInstallOrUpgrade('install', $pkg); 
         return $r;
     }
     // }}}
@@ -338,7 +338,7 @@ class Ethna_PearWrapper
      */
     function &doInstallFromTgz($pkg_file)
     {
-        $r =& $this->_doInstallOrUpgrade('install', $pkg_file); 
+        $r = $this->_doInstallOrUpgrade('install', $pkg_file); 
         return $r;
     }
     // }}}
@@ -357,7 +357,7 @@ class Ethna_PearWrapper
         if ($state !== null) {
             $pkg = "{$pkg}-{$state}";
         }
-        $r =& $this->_doInstallOrUpgrade('upgrade', $pkg);
+        $r = $this->_doInstallOrUpgrade('upgrade', $pkg);
         return $r;
     }
     // }}}
@@ -371,7 +371,7 @@ class Ethna_PearWrapper
      */
     function &doUpgradeFromTgz($pkg_file)
     {
-        $r =& $this->_doInstallOrUpgrade('upgrade', $pkg_file); 
+        $r = $this->_doInstallOrUpgrade('upgrade', $pkg_file); 
         return $r;
     }
     // }}}
@@ -398,7 +398,7 @@ class Ethna_PearWrapper
      */
     function getVersion($package)
     {
-        $pobj =& $this->registry->getPackage($package, $this->channel);
+        $pobj = $this->registry->getPackage($package, $this->channel);
         return $pobj->getVersion();
     }
     // }}}
@@ -412,7 +412,7 @@ class Ethna_PearWrapper
      */
     function getState($package)
     {
-        $pobj =& $this->registry->getPackage($package, $this->channel);
+        $pobj = $this->registry->getPackage($package, $this->channel);
         return $pobj->getState();
     }
     // }}}
@@ -429,7 +429,7 @@ class Ethna_PearWrapper
         if ($this->isInstalled($package) == false) {
             return Ethna::raiseNotice("{$this->channel}/{$package} is not installed.");
         }
-        $r =& $this->_run('uninstall', array(), array("{$this->channel}/{$package}"));
+        $r = $this->_run('uninstall', array(), array("{$this->channel}/{$package}"));
         if (PEAR::isError($r)) {
             return $r;
         }
@@ -451,9 +451,9 @@ class Ethna_PearWrapper
      */
     function &getPackageNameFromTgz($filename)
     {
-        $config =& PEAR_Config::singleton();
-        $packagefile =& new PEAR_PackageFile($config);
-        $info =& $packagefile->fromTgzFile($filename, PEAR_VALIDATE_NORMAL);
+        $config = PEAR_Config::singleton();
+        $packagefile = new PEAR_PackageFile($config);
+        $info = $packagefile->fromTgzFile($filename, PEAR_VALIDATE_NORMAL);
         if (PEAR::isError($info)) {
             return $info;
         }
@@ -475,7 +475,7 @@ class Ethna_PearWrapper
         if ($this->isInstalled($package) == false) {
             return Ethna::raiseNotice("{$this->channel}/{$package} is not installed.");
         }
-        $pobj =& $this->registry->getPackage($package, $this->channel);
+        $pobj = $this->registry->getPackage($package, $this->channel);
         $cname = $pobj->getName();
         return $cname;
     }
@@ -579,7 +579,7 @@ class Ethna_PearWrapper
 
         $true = true;
 
-        $cmd =& PEAR_Command::factory($command, $this->config);
+        $cmd = PEAR_Command::factory($command, $this->config);
         if (PEAR::isError($cmd)) {
             return $cmd;
         }

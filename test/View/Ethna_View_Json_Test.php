@@ -20,8 +20,8 @@ class Ethna_View_Json_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->test_ctl =& new Ethna_Controller();
-        $this->test_backend =& $this->test_ctl->getBackend();
+        $this->test_ctl = new Ethna_Controller();
+        $this->test_backend = $this->test_ctl->getBackend();
         $this->view_json = new Ethna_View_Json($this->test_backend, 'json', NULL);
     }
 
@@ -64,7 +64,7 @@ class Ethna_View_Json_Test extends Ethna_UnitTestBase
 
     function test_json_action()
     {
-        $project =& new Ethna_MockProject();
+        $project = new Ethna_MockProject();
         $project->create();
 
         //   add mock action for redirect
