@@ -33,7 +33,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-    function &validate($name, $var, $params)
+    function validate($name, $var, $params)
     {
         $true = true;
         if (isset($params['required']) && $params['required'] == false) {

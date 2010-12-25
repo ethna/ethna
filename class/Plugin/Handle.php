@@ -32,7 +32,7 @@ class Ethna_Plugin_Handle extends Ethna_Plugin_Abstract
      *
      *  @access public
      */
-    function Ethna_Plugin_Handle(&$controller, $type, $name)
+    function Ethna_Plugin_Handle($controller, $type, $name)
     {
         parent::Ethna_Plugin_Abstract($controller, $type, $name);
 
@@ -89,7 +89,7 @@ class Ethna_Plugin_Handle extends Ethna_Plugin_Abstract
      * @return  array   list($opts, $args)
      * @access  protected
      */
-    function &_getopt($lopts = array())
+    function _getopt($lopts = array())
     {
         // create opts
         // ex: $lopts = array('foo', 'bar=');

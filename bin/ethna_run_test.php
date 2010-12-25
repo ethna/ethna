@@ -51,7 +51,7 @@ require_once 'simpletest/reporter.php';
 require_once $test_dir . '/TextDetailReporter.php';
 require_once $test_dir . '/Ethna_UnitTestBase.php';
 
-$test = &new GroupTest('Ethna All tests');
+$test = new GroupTest('Ethna All tests');
 
 // テストケースのファイルリストを取得
 require_once 'Ethna/class/Ethna_Getopt.php';

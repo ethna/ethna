@@ -109,8 +109,8 @@ class Ethna_MockProject
             $options = array_merge($base_opt, $options);
         }
 
-        $eh =& new Ethna_Handle();
-        $handler =& $eh->getHandler($id);
+        $eh = new Ethna_Handle();
+        $handler = $eh->getHandler($id);
         if (Ethna::isError($handler)) {
             return $r;
         }
@@ -125,9 +125,9 @@ class Ethna_MockProject
         }
 
         //  set plain ActionForm
-        $ctl =& $this->getController();
-        $backend =& $ctl->getBackend();
-        $af =& new Ethna_ActionForm($ctl);
+        $ctl = $this->getController();
+        $backend = $ctl->getBackend();
+        $af = new Ethna_ActionForm($ctl);
         $backend->setActionForm($af);
 
         return true;
@@ -151,7 +151,7 @@ class Ethna_MockProject
         $_POST["action_${action_name}"] = true;
         $_POST = array_merge($_POST, $submit_value);
 
-        $c =& $this->getController();
+        $c = $this->getController();
         $c->setGateway(GATEWAY_WWW);
         ob_start();
         @$c->trigger($action_name, "");  // suppress header related error.
@@ -176,10 +176,10 @@ class Ethna_MockProject
         if (($r = $this->create_ifnot_exists()) !== true) {
             return $r;
         }
-        $ctl =& Ethna_Handle::getAppController($this->proj_basedir);
+        $ctl = Ethna_Handle::getAppController($this->proj_basedir);
 
         //   キャッシュが返されるため、$GLOBALSが設定されない場合がある
-        $GLOBALS['_Ethna_controller'] =& $ctl;
+        $GLOBALS['_Ethna_controller'] = $ctl;
         return $ctl;
     }
 

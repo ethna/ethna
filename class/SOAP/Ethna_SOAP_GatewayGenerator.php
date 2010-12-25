@@ -117,7 +117,7 @@ class Ethna_SOAP_GatewayGenerator
         $entry = "";
         foreach ($this->controller->soap_action as $k => $v) {
             $action_form_name = $this->controller->getActionFormName($k);
-            $form =& new $action_form_name($this->controller);
+            $form = new $action_form_name($this->controller);
             $arg_list = array_keys($form->form);
 
             $entry .= "  function $k(";

@@ -20,7 +20,7 @@ class Ethna_Plugin_Test extends Ethna_UnitTestBase
     {
         $this->p =  $this->ctl->getPlugin();
 
-        $this->project =& new Ethna_MockProject();
+        $this->project = new Ethna_MockProject();
         $this->project->create();
     }
 

@@ -345,7 +345,7 @@ class Ethna
      *                を含む場合のみ TRUEを返します。
      *  @static
      */
-    function isError($data, $msgcode = NULL)
+    public static function isError($data, $msgcode = NULL)
     {
         if (!is_object($data)) {
             return false;
@@ -372,7 +372,7 @@ class Ethna
      *  @param  int     $code               エラーコード
      *  @static
      */
-    function &raiseError($message, $code = E_GENERAL)
+    public static function raiseError($message, $code = E_GENERAL)
     {
         $userinfo = null;
         if (func_num_args() > 2) {
@@ -393,7 +393,7 @@ class Ethna
      *  @param  int     $code               エラーコード
      *  @static
      */
-    function &raiseWarning($message, $code = E_GENERAL)
+    public static function raiseWarning($message, $code = E_GENERAL)
     {
         $userinfo = null;
         if (func_num_args() > 2) {
@@ -415,7 +415,7 @@ class Ethna
      *  @param  int     $code               エラーコード
      *  @static
      */
-    function &raiseNotice($message, $code = E_GENERAL)
+    public static function raiseNotice($message, $code = E_GENERAL)
     {
         $userinfo = null;
         if (func_num_args() > 2) {
@@ -436,7 +436,7 @@ class Ethna
      *  @param  mixed   string:コールバック関数名 array:コールバッククラス(名|オブジェクト)+メソッド名
      *  @static
      */
-    function setErrorCallback($callback)
+    public static function setErrorCallback($callback)
     {
         $GLOBALS['_Ethna_error_callback_list'][] = $callback;
     }
@@ -447,7 +447,7 @@ class Ethna
      *  @access public
      *  @static
      */
-    function clearErrorCallback()
+    public static function clearErrorCallback()
     {
         $GLOBALS['_Ethna_error_callback_list'] = array();
     }
@@ -459,7 +459,7 @@ class Ethna
      *  @param  object  Ethna_Error     Ethna_Errorオブジェクト
      *  @static
      */
-    function handleError(&$error)
+    public static function handleError(&$error)
     {
         for ($i = 0; $i < count($GLOBALS['_Ethna_error_callback_list']); $i++) {
             $callback =& $GLOBALS['_Ethna_error_callback_list'][$i];

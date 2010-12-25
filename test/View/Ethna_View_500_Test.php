@@ -22,8 +22,8 @@ class Ethna_View_500_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->test_ctl =& new Ethna_Controller();
-        $this->test_backend =& $this->test_ctl->getBackend();
+        $this->test_ctl = new Ethna_Controller();
+        $this->test_backend = $this->test_ctl->getBackend();
         $this->view_500 = new Ethna_View_500($this->test_backend, '500', NULL);
     }
 
@@ -34,7 +34,7 @@ class Ethna_View_500_Test extends Ethna_UnitTestBase
 
     function test_redirect_500()
     {
-        $project =& new Ethna_MockProject();
+        $project = new Ethna_MockProject();
         $project->create();
 
         //   add mock action for redirect

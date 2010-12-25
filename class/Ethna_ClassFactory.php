@@ -57,8 +57,8 @@ class Ethna_ClassFactory
      */
     function Ethna_ClassFactory(&$controller, $class)
     {
-        $this->controller =& $controller;
-        $this->ctl =& $controller;
+        $this->controller = $controller;
+        $this->ctl = $controller;
         $this->class = $class;
     }
 
@@ -124,13 +124,13 @@ class Ethna_ClassFactory
         if (in_array("getinstance", $this->method_list[$class_name])) {
             $obj = call_user_func(array($class_name, 'getInstance'));
         } else {
-            $backend =& $this->controller->getBackend();
-            $obj =& new $class_name($backend);
+            $backend = $this->controller->getBackend();
+            $obj = new $class_name($backend);
         }
 
         //  生成したオブジェクトはとりあえずキャッシュする
         if (isset($this->manager[$type]) == false || is_object($this->manager[$type]) == false) {
-            $this->manager[$type] =& $obj;
+            $this->manager[$type] = $obj;
         }
 
         return $obj;
@@ -174,8 +174,8 @@ class Ethna_ClassFactory
         //  AppObject をはじめに扱う 
         //  AppObject はキャッシュされないことに注意
         if (isset($this->class[$key]) == false) {
-            $backend =& $this->controller->getBackend();
-            $object =& new $class_name($backend, $key_type, $key_value, $prop);
+            $backend = $this->controller->getBackend();
+            $object = new $class_name($backend, $key_type, $key_value, $prop);
             return $object;
         }
 
@@ -204,17 +204,17 @@ class Ethna_ClassFactory
         //  インスタンス化のヘルパがあればそれを使う
         $method = sprintf('_getObject_%s', ucfirst($key));
         if (method_exists($this, $method)) {
-            $object =& $this->$method($class_name);
+            $object = $this->$method($class_name);
         } else if (in_array("getinstance", $this->method_list[$class_name])) {
             $object = call_user_func(array($class_name, 'getInstance'));
         } else {
-            $object =& new $class_name();
+            $object = new $class_name();
         }
 
         //  クラスキーに定められたクラスのインスタンスは
         //  とりあえずキャッシュする
         if (isset($this->object[$key]) == false || is_object($this->object[$key]) == false) {
-            $this->object[$key] =& $object;
+            $this->object[$key] = $object;
         }
 
         return $object;
@@ -245,7 +245,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_Backend($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl);
+        $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
     }
 
@@ -258,7 +258,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_Config($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl);
+        $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
     }
 
@@ -271,7 +271,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_I18n($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl->getDirectory('locale'), $this->ctl->getAppId());
+        $_ret_object = new $class_name($this->ctl->getDirectory('locale'), $this->ctl->getAppId());
         return $_ret_object;
     }
 
@@ -284,7 +284,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_Logger($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl);
+        $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
     }
 
@@ -297,7 +297,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_Plugin($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl);
+        $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
     }
 
@@ -310,7 +310,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_Renderer($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl);
+        $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
     }
 
@@ -323,7 +323,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_Session($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl, $this->ctl->getAppId());
+        $_ret_object = new $class_name($this->ctl, $this->ctl->getAppId());
         return $_ret_object;
     }
 
@@ -336,7 +336,7 @@ class Ethna_ClassFactory
      */
     function &_getObject_Sql($class_name)
     {
-        $_ret_object =& new $class_name($this->ctl);
+        $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
     }
 

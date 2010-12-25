@@ -452,7 +452,7 @@ class Ethna_PearWrapper
     function &getPackageNameFromTgz($filename)
     {
         $config =& PEAR_Config::singleton();
-        $packagefile =& new PEAR_PackageFile($config);
+        $packagefile = new PEAR_PackageFile($config);
         $info =& $packagefile->fromTgzFile($filename, PEAR_VALIDATE_NORMAL);
         if (PEAR::isError($info)) {
             return $info;

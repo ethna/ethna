@@ -110,9 +110,9 @@ class Ethna_Logger extends Ethna_AppManager
      */
     function Ethna_Logger(&$controller)
     {
-        $this->controller =& $controller;
-        $this->ctl =& $this->controller;
-        $config =& $controller->getConfig();
+        $this->controller = $controller;
+        $this->ctl = $this->controller;
+        $config = $controller->getConfig();
 
         // ログファシリティテーブル補完(LOCAL0〜LOCAL8)
         for ($i = 0; $i < 8; $i++) {
@@ -249,10 +249,10 @@ class Ethna_Logger extends Ethna_AppManager
     {
         // LogWriterクラスの生成
         foreach ($this->facility as $f) {
-            $this->writer[$f] =& $this->_getLogWriter($this->option[$f], $f);
+            $this->writer[$f] = $this->_getLogWriter($this->option[$f], $f);
             if (Ethna::isError($this->writer[$f])) {
                 // use default
-                $this->writer[$f] =& $this->_getLogWriter($this->option[$f],
+                $this->writer[$f] = $this->_getLogWriter($this->option[$f],
                                                           "default");
             }
         }
@@ -356,7 +356,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @param  string  $facility   ログファシリティ
      *  @return object  LogWriter   LogWriterオブジェクト
      */
-    function &_getLogWriter($option, $facility = null)
+    function _getLogWriter($option, $facility = null)
     {
         if ($facility == null) {
             $facility = $this->getLogFacility();
@@ -378,7 +378,7 @@ class Ethna_Logger extends Ethna_AppManager
             $plugin = $facility;
         }
 
-        $plugin_manager =& $this->controller->getPlugin();
+        $plugin_manager = $this->controller->getPlugin();
         $plugin_object = $plugin_manager->getPlugin('Logwriter',
                                                     ucfirst(strtolower($plugin)));
         if (Ethna::isError($plugin_object)) {

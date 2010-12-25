@@ -28,11 +28,11 @@ class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
 
     function testMakeInstance()
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $plugin =& $ctl->getPlugin();
-        $this->csrf =& $plugin->getPlugin('Csrf', 'Session');
+        $ctl = Ethna_Controller::getInstance();
+        $plugin = $ctl->getPlugin();
+        $this->csrf = $plugin->getPlugin('Csrf', 'Session');
         $this->assertTrue(is_object($this->csrf), 'getPlugin failed');
-        $this->csrf->session =& new Ethna_Session_Dummy($ctl->appid, '',  $ctl->getLogger());
+        $this->csrf->session = new Ethna_Session_Dummy($ctl, $ctl->appid);
     }
 
     function testGetName()

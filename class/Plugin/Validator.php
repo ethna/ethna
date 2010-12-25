@@ -69,7 +69,7 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-    function &validate($name, $var, $params)
+    function validate($name, $var, $params)
     {
         die('override!');
     }

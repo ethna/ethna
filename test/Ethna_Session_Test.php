@@ -18,7 +18,7 @@ class Ethna_Session_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->local_session =& new Ethna_Session($this->ctl, "ETHNA_TEST");
+        $this->local_session = new Ethna_Session($this->ctl, "ETHNA_TEST");
     }
 
     function tearDown()

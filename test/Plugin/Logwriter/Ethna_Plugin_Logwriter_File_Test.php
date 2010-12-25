@@ -12,8 +12,8 @@ class Ethna_Plugin_Logwriter_File_Test extends Ethna_UnitTestBase
 {
     function testLogwriterFile()
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $plugin =& $ctl->getPlugin();
+        $ctl = Ethna_Controller::getInstance();
+        $plugin = $ctl->getPlugin();
         $lw = $plugin->getPlugin('Logwriter', 'File');
 
         $option = array(

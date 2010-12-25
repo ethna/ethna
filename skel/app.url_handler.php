@@ -38,9 +38,9 @@ class {$project_id}_UrlHandler extends Ethna_UrlHandler
      *
      *  @access public
      */
-    function &getInstance($class_name = null)
+    public static function getInstance($class_name = null)
     {
-        $instance =& parent::getInstance(__CLASS__);
+        $instance = parent::getInstance(__CLASS__);
         return $instance;
     }
 

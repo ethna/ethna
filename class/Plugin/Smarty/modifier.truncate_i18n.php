@@ -15,7 +15,7 @@
  */
 function smarty_modifier_truncate_i18n($string, $len = 80, $postfix = "...")
 {
-    $ctl =& Ethna_Controller::getInstance();
+    $ctl = Ethna_Controller::getInstance();
     $client_enc = $ctl->getClientEncoding();
 
     //    いわゆる半角を単位にしてwrapする位置を測るため、いったん

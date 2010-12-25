@@ -25,12 +25,11 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
         foreach ($fail_words as $word) {
             $this->assertFalse(Ethna_Util::checkMailAddress($word));
         }
-        
-        $util = new Ethna_Util;
-        $result = $util->checkMailAddress('hogefuga.net');
+
+        $result = Ethna_Util::checkMailAddress('hogefuga.net');
         $this->assertFalse($result);
 
-        $result = $util->checkMailAddress('hoge@fuga.net');
+        $result = Ethna_Util::checkMailAddress('hoge@fuga.net');
         $this->assertTrue($result);
     }
     // }}}
@@ -72,18 +71,17 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     {
         $this->assertTrue(DIRECTORY_SEPARATOR);
 
-        $util = new Ethna_Util;
         if (ETHNA_OS_WINDOWS) {
-            $this->assertTrue($util->isRootDir("C:\\"));
-            $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge\\fuga.txt"));
-            $this->assertFalse($util->isRootDir("C:\\Program Files\\hoge"));
-            $this->assertFalse($util->isRootDir("C:\\hoge\\"));
-            $this->assertFalse($util->isRootDir("C:\\hoge.txt"));
+            $this->assertTrue (Ethna_Util::isRootDir("C:\\"));
+            $this->assertFalse(Ethna_Util::isRootDir("C:\\Program Files\\hoge\\fuga.txt"));
+            $this->assertFalse(Ethna_Util::isRootDir("C:\\Program Files\\hoge"));
+            $this->assertFalse(Ethna_Util::isRootDir("C:\\hoge\\"));
+            $this->assertFalse(Ethna_Util::isRootDir("C:\\hoge.txt"));
         } else {
-            $this->assertFalse($util->isRootDir("/home/ethna/test.txt"));
-            $this->assertFalse($util->isRootDir("/home/ethna/"));
-            $this->assertFalse($util->isRootDir("/home/ethna"));
-            $this->assertFalse($util->isRootDir("/test.txt"));
+            $this->assertFalse(Ethna_Util::isRootDir("/home/ethna/test.txt"));
+            $this->assertFalse(Ethna_Util::isRootDir("/home/ethna/"));
+            $this->assertFalse(Ethna_Util::isRootDir("/home/ethna"));
+            $this->assertFalse(Ethna_Util::isRootDir("/test.txt"));
         }
     }
     // }}}
@@ -103,7 +101,7 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     function testGetEra()
     {
         unset($GLOBALS['_Ethna_controller']);
-        $tmp_ctl =& new Ethna_Controller();
+        $tmp_ctl = new Ethna_Controller();
         
         //  昭和63年
         $last_showa_t = mktime(0,0,0,12,31,1988);

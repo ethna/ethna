@@ -55,7 +55,7 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
 
         Rhaco::constant('TEMPLATE_PATH', $this->template_dir);
         
-        $this->engine =& new TemplateParser_Ethna();
+        $this->engine = new TemplateParser_Ethna();
 
         /*
         $this->setTemplateDir($template_dir);

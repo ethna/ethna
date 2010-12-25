@@ -54,8 +54,8 @@ class Ethna_Plugin
      */
     function Ethna_Plugin(&$controller)
     {
-        $this->controller =& $controller;
-        $this->ctl =& $this->controller;
+        $this->controller = $controller;
+        $this->ctl = $this->controller;
         $this->logger = null;
 
         // load dir_registry
@@ -75,7 +75,7 @@ class Ethna_Plugin
     function setLogger(&$logger)
     {
         if ($this->logger === null && is_object($logger)) {
-            $this->logger =& $logger;
+            $this->logger = $logger;
         }
     }
     // }}}
@@ -113,7 +113,7 @@ class Ethna_Plugin
             if (is_null($value)) {
                 continue;
             }
-            $plugin_list[$name] =& $this->getPlugin($type, $name);
+            $plugin_list[$name] = $this->getPlugin($type, $name);
         }
         return $plugin_list;
     }
@@ -191,14 +191,14 @@ class Ethna_Plugin
         list($plugin_class, $plugin_dir, $plugin_file) = $plugin_src_registry;
 
         // プラグインのファイルを読み込み
-        $r =& $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
+        $r = $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
         if (Ethna::isError($r)) {
             $this->obj_registry[$type][$name] = null;
             return;
         }
 
         // プラグイン作成
-        $instance =& new $plugin_class($this->controller, $type, $name);
+        $instance = new $plugin_class($this->controller, $type, $name);
         if (is_object($instance) == false
             || strcasecmp(get_class($instance), $plugin_class) != 0) {
 
@@ -209,7 +209,7 @@ class Ethna_Plugin
             $this->obj_registry[$type][$name] = null;
             return;
         }
-        $this->obj_registry[$type][$name] =& $instance;
+        $this->obj_registry[$type][$name] = $instance;
     }
 
     /**
@@ -497,7 +497,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前
      *  @static
      */
-    function includeEthnaPlugin($type, $name)
+    public static function includeEthnaPlugin($type, $name)
     {
         Ethna_Plugin::import($type, $name);
     }
@@ -532,10 +532,10 @@ class Ethna_Plugin
      *  @static
      */
     // static function import($type, $name = null)
-    function import($type, $name = null)
+    public static function import($type, $name = null)
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $plugin =& $ctl->getPlugin();
+        $ctl = Ethna_Controller::getInstance();
+        $plugin = $ctl->getPlugin();
 
         $plugin->includePlugin($type, $name);
     }

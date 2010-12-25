@@ -443,7 +443,7 @@ class Ethna_InfoManager extends Ethna_AppManager
             if (class_exists($form_name) == false) {
                 continue;
             }
-            $af =& new $form_name($this->ctl);
+            $af = new $form_name($this->ctl);
 
             $form = array();
             foreach ($af->getDef() as $name => $def) {

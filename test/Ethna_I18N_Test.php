@@ -19,8 +19,8 @@ class Ethna_I18N_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $this->i18n =& $ctl->getI18N();
+        $ctl = Ethna_Controller::getInstance();
+        $this->i18n = $ctl->getI18N();
     }
 
     // {{{  test_get_ja_JP

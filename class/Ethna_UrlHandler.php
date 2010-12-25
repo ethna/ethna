@@ -48,7 +48,7 @@ class Ethna_UrlHandler
      *
      *  @access public
      */
-    function &getInstance($name = null)
+    public static function getInstance($name = null)
     {
         static $instance = array();
         if ($name === null) {
@@ -62,9 +62,9 @@ class Ethna_UrlHandler
             $instance[$name] = &new $name();
         } else {
             // get instance with plugin
-            $ctl = &Ethna_Controller::getInstance();
-            $plugin = &$ctl->getPlugin();
-            $instance[$name] = &$plugin->getPlugin('Urlhandler', $name);
+            $ctl = Ethna_Controller::getInstance();
+            $plugin = $ctl->getPlugin();
+            $instance[$name] = $plugin->getPlugin('Urlhandler', $name);
         }
 
         return $instance[$name];

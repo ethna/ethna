@@ -15,8 +15,8 @@ class Ethna_Plugin_Validator_Mbstrmax_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $ctl =& Ethna_Controller::getInstance();
-        $plugin =& $ctl->getPlugin();
+        $ctl = Ethna_Controller::getInstance();
+        $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Mbstrmax');
     }
 

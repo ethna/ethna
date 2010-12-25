@@ -40,14 +40,14 @@ class Ethna_Handle
      *
      *  @access public
      */
-    function Ethna_Handle()
+    public function Ethna_Handle()
     {
-        $this->controller =& new Ethna_Controller(GATEWAY_CLI);
+        $this->controller = new Ethna_Controller(GATEWAY_CLI);
         Ethna::clearErrorCallback();
         Ethna::setErrorCallback(array('Ethna_Handle', 'handleError'));
 
-        $this->ctl =& $this->controller;
-        $this->plugin =& $this->controller->getPlugin();
+        $this->ctl = $this->controller;
+        $this->plugin = $this->controller->getPlugin();
     }
     // }}}
 
@@ -57,10 +57,10 @@ class Ethna_Handle
      *
      *  @access public
      */
-    function &getHandler($id)
+    public function getHandler($id)
     {
         $name = preg_replace('/\-(.)/e', "strtoupper('\$1')", ucfirst($id));
-        $handler =& $this->plugin->getPlugin('Handle', $name);
+        $handler = $this->plugin->getPlugin('Handle', $name);
         if (Ethna::isError($handler)) {
             return $handler;
         }
@@ -75,7 +75,7 @@ class Ethna_Handle
      *
      *  @access public
      */
-    function getHandlerList()
+    public static function getHandlerList()
     {
         $handler_list = $this->plugin->getPluginList('Handle');
         usort($handler_list, array($this, "_handler_sort_callback"));
@@ -86,7 +86,7 @@ class Ethna_Handle
     /**
      *  sort callback method
      */
-    function _handler_sort_callback($a, $b)
+    public static function _handler_sort_callback($a, $b)
     {
         return strcmp($a->getId(), $b->getId());
     }
@@ -100,7 +100,7 @@ class Ethna_Handle
      *  @access public
      *  @static
      */
-    function &getEthnaController()
+    public static function getEthnaController()
     {
         return Ethna_Controller::getInstance();
     }
@@ -113,7 +113,7 @@ class Ethna_Handle
      *  @access public
      *  @static
      */
-    function &getAppController($app_dir = null)
+    public static function getAppController($app_dir = null)
     {
         static $app_controller = array();
 
@@ -157,9 +157,9 @@ class Ethna_Handle
             return Ethna::raiseError("no such class $class");
         }
 
-        $global_controller =& $GLOBALS['_Ethna_controller'];
-        $app_controller[$app_dir] =& new $class(GATEWAY_CLI);
-        $GLOBALS['_Ethna_controller'] =& $global_controller;
+        $global_controller = $GLOBALS['_Ethna_controller'];
+        $app_controller[$app_dir] = new $class(GATEWAY_CLI);
+        $GLOBALS['_Ethna_controller'] = $global_controller;
         Ethna::clearErrorCallback();
         Ethna::setErrorCallback(array('Ethna_Handle', 'handleError'));
 
@@ -174,7 +174,7 @@ class Ethna_Handle
      *  @param  $section    ini ファイルの section
      *  @access public
      */
-    function &getMasterSetting($section = null)
+    public static function getMasterSetting($section = null)
     {
         static $setting = null;
         if ($setting === null) {
@@ -201,7 +201,7 @@ class Ethna_Handle
     /**
      *  Ethna コマンドでのエラーハンドリング
      */
-    function handleError(&$eobj)
+    public static function handleError(&$eobj)
     {
         // do nothing.
     }

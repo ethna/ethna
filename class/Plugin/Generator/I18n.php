@@ -365,8 +365,8 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
     function _analyzeTemplate($file)
     {
         //  デフォルトはSmartyのテンプレートと看做す
-        $renderer =& $this->ctl->getRenderer();
-        $engine =& $renderer->getEngine();
+        $renderer = $this->ctl->getRenderer();
+        $engine = $renderer->getEngine();
         $engine_name = get_class($engine);
         if (strncasecmp('Smarty', $engine_name, 6) !== 0) {
             return Ethna::raiseError(
@@ -483,7 +483,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *                                  false ならEthna組み込みのカタログ生成
      *  @return true|Ethna_Error true:成功 Ethna_Error:失敗
      */
-    function _generateFile()
+    function _generateFile($skel = null, $entity = null, $macro = null, $overwrite = false)
     {
         $outfile_path = $this->_get_output_file();
 

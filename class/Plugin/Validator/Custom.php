@@ -30,7 +30,7 @@ class Ethna_Plugin_Validator_Custom extends Ethna_Plugin_Validator
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-    function &validate($name, $var, $params)
+    function validate($name, $var, $params)
     {
         $true = true;
         $false = false;
@@ -42,7 +42,7 @@ class Ethna_Plugin_Validator_Custom extends Ethna_Plugin_Validator
 
         foreach ($method_list as $method) {
             if (method_exists($this->af, $method)) {
-                $ret =& $this->af->$method($name);
+                $ret = $this->af->$method($name);
                 if (Ethna::isError($ret)) {
                     // このエラーはすでに af::checkSomething() で ae::add()
                     // してある

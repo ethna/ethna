@@ -19,8 +19,8 @@
  */
 function smarty_modifier_form_value($string)
 {
-    $c =& Ethna_Controller::getInstance();
-    $af =& $c->getActionForm();
+    $c = Ethna_Controller::getInstance();
+    $af = $c->getActionForm();
 
     $elts = explode(".", $string);
     $r = $af->get($elts[0]);

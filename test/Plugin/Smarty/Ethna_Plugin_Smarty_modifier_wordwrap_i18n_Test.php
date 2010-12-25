@@ -19,7 +19,7 @@ class Ethna_Plugin_Smarty_modifier_wordwrap_i18n_Test extends Ethna_UnitTestBase
 {
     function tearDown()
     {
-        $ctl =& new Ethna_Controller();
+        $ctl = new Ethna_Controller();
         $ctl->setClientEncoding('UTF-8');
     }
 
@@ -130,13 +130,13 @@ class Ethna_Plugin_Smarty_modifier_wordwrap_i18n_Test extends Ethna_UnitTestBase
     {
         unset($GLOBALS['_Ethna_controller']);
 
-        $ctl =& new Ethna_Controller();
+        $ctl = new Ethna_Controller();
         $actual = smarty_modifier_wordwrap_i18n($input_str, $width, $break, $indent);
         $this->assertEqual($expected, $actual);
         unset($GLOBALS['_Ethna_controller']);
 
         //     SJIS
-        $ctl =& new Ethna_Controller();
+        $ctl = new Ethna_Controller();
         $ctl->setClientEncoding('SJIS');
 
         $sjis_input = mb_convert_encoding($input_str, 'SJIS', 'UTF-8');
@@ -146,7 +146,7 @@ class Ethna_Plugin_Smarty_modifier_wordwrap_i18n_Test extends Ethna_UnitTestBase
         unset($GLOBALS['_Ethna_controller']);
 
         //     EUC-JP
-        $ctl =& new Ethna_Controller();
+        $ctl = new Ethna_Controller();
         $ctl->setClientEncoding('EUC-JP');
 
         $eucjp_input = mb_convert_encoding($input_str, 'EUC-JP', 'UTF-8');

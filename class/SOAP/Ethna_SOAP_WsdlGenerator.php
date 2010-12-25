@@ -149,7 +149,7 @@ EOD;
         // アクション固有
         foreach ($this->controller->soap_action as $k => $v) {
             $action_form_name = $this->controller->getActionFormName($k);
-            $form =& new $action_form_name($this->controller);
+            $form = new $action_form_name($this->controller);
             if ($form->retval == null) {
                 continue;
             }
@@ -363,7 +363,7 @@ EOD;
     function _serializeMessage($name, $serno)
     {
         $action_form_name = $this->controller->getActionFormName($name);
-        $form =& new $action_form_name($this->controller);
+        $form = new $action_form_name($this->controller);
 
         /* SoapIn */
         $message = " <message name=\"${name}${serno}SoapIn\">\n";
@@ -407,7 +407,7 @@ EOD;
     function _serializePortType($name, $serno)
     {
         $action_form_name = $this->controller->getActionFormName($name);
-        $form =& new $action_form_name($this->controller);
+        $form = new $action_form_name($this->controller);
 
         $args = null;
         if (is_array($form->form)) {

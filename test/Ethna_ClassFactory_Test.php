@@ -21,8 +21,8 @@ class Ethna_ClassFactory_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $ctl =& new Ethna_Controller();
-        $this->cf =& $ctl->getClassFactory();
+        $ctl = new Ethna_Controller();
+        $this->cf = $ctl->getClassFactory();
     }
 
     //    Ethna_Controller と Ethna_ClassFactory は

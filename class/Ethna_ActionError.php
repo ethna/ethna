@@ -39,7 +39,7 @@ class Ethna_ActionError
      *
      *  @access public
      */
-    function Ethna_ActionError()
+    public function Ethna_ActionError()
     {
     }
 
@@ -52,13 +52,13 @@ class Ethna_ActionError
      *  @param  int     $code       エラーコード
      *  @return Ethna_Error エラーオブジェクト
      */
-    function &add($name, $message, $code = null)
+    public function add($name, $message, $code = null)
     {
         if (func_num_args() > 3) {
             $userinfo = array_slice(func_get_args(), 3);
-            $error =& Ethna::raiseNotice($message, $code, $userinfo);
+            $error = Ethna::raiseNotice($message, $code, $userinfo);
         } else {
-            $error =& Ethna::raiseNotice($message, $code);
+            $error = Ethna::raiseNotice($message, $code);
         }
         $this->addObject($name, $error);
         return $error;
@@ -71,16 +71,16 @@ class Ethna_ActionError
      *  @param  string              $name   エラーに対応するフォーム項目名(不要ならnull)
      *  @param  object  Ethna_Error $error  エラーオブジェクト
      */
-    function addObject($name, &$error)
+    public function addObject($name, $error)
     {
         $elt = array();
         $elt['name'] = $name;
-        $elt['object'] =& $error;
+        $elt['object'] = $error;
         $this->error_list[] = $elt;
 
         // ログ出力(補足)
-        $af =& $this->_getActionForm();
-        $logger =& $this->_getLogger();
+        $af = $this->_getActionForm();
+        $logger = $this->_getLogger();
         $logger->log(LOG_NOTICE, '{form} -> [%s]', $this->action_form->getName($name));
     }
 
@@ -90,7 +90,7 @@ class Ethna_ActionError
      *  @access public
      *  @return int     エラーオブジェクトの数
      */
-    function count()
+    public function count()
     {
         return count($this->error_list);
     }
@@ -101,7 +101,7 @@ class Ethna_ActionError
      *  @access public
      *  @return int     エラーオブジェクトの数
      */
-    function length()
+    public function length()
     {
         return count($this->error_list);
     }
@@ -111,7 +111,7 @@ class Ethna_ActionError
      *
      *  @access public
      */
-    function clear()
+    public function clear()
     {
         $this->error_list = array();
     }
@@ -123,7 +123,7 @@ class Ethna_ActionError
      *  @param  string  $name   フォーム項目名
      *  @return bool    true:エラーが発生している false:エラーが発生していない
      */
-    function isError($name)
+    public function isError($name)
     {
         foreach ($this->error_list as $error) {
             if (strcasecmp($error['name'], $name) == 0) {
@@ -186,7 +186,7 @@ class Ethna_ActionError
      */
     function _getMessage(&$error)
     {
-        $af =& $this->_getActionForm();
+        $af = $this->_getActionForm();
         $form_name = $af->getName($error['name']);
         return str_replace("{form}", $form_name, $error['object']->getMessage());
     }
@@ -197,11 +197,11 @@ class Ethna_ActionError
      *  @access private
      *  @return object  Ethna_ActionForm
      */
-    function &_getActionForm()
+    private function _getActionForm()
     {
         if (isset($this->action_form) == false) {
-            $controller =& Ethna_Controller::getInstance();
-            $this->action_form =& $controller->getActionForm();
+            $controller = Ethna_Controller::getInstance();
+            $this->action_form = $controller->getActionForm();
         }
         return $this->action_form;
     }
@@ -212,11 +212,11 @@ class Ethna_ActionError
      *  @access private
      *  @return object  Ethna_Logger
      */
-    function &_getLogger()
+    private function _getLogger()
     {
         if (is_null($this->logger)) {
-            $controller =& Ethna_Controller::getInstance();
-            $this->logger =& $controller->getLogger();
+            $controller = Ethna_Controller::getInstance();
+            $this->logger = $controller->getLogger();
         }
         return $this->logger;
     }

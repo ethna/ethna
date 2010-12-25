@@ -22,7 +22,7 @@ class Ethna_ViewClass_FormHelper_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->project =& new Ethna_MockProject();
+        $this->project = new Ethna_MockProject();
         $this->project->create();
     }
 

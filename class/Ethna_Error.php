@@ -59,9 +59,9 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
     }
 
     // $logger->log()
-    $c =& Ethna_Controller::getInstance();
+    $c = Ethna_Controller::getInstance();
     if ($c !== null) {
-        $logger =& $c->getLogger();
+        $logger = $c->getLogger();
         $logger->log($level, sprintf("[PHP] %s: %s in %s on line %d",
                                      $name, $errstr, $errfile, $errline));
     }
@@ -71,7 +71,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
         $is_debug = true;
         $has_echo = false;
         if ($c !== null) {
-            $config =& $c->getConfig();
+            $config = $c->getConfig();
             $is_debug = $config->get('debug');
             $facility = $logger->getLogFacility();
             $has_echo = is_array($facility)
@@ -146,9 +146,9 @@ class Ethna_Error
      */
     function Ethna_Error($message = null, $code = null, $mode = null, $options = null)
     {
-        $controller =& Ethna_Controller::getInstance();
+        $controller = Ethna_Controller::getInstance();
         if ($controller !== null) {
-            $this->i18n =& $controller->getI18N();
+            $this->i18n = $controller->getI18N();
         }
 
         // $options 以降の引数 -> $userinfo

@@ -62,7 +62,7 @@ class Ethna_ActionForm_FormTemplate_Test extends Ethna_UnitTestBase
         //   REQUEST_METHOD を設定しないと
         //   フォームテンプレートが初期化されない
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->local_af =& new Ethna_FormTemplateTest_ActionForm($this->ctl); 
+        $this->local_af = new Ethna_FormTemplateTest_ActionForm($this->ctl); 
     }
 
     function tearDown()

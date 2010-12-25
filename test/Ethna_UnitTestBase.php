@@ -33,7 +33,7 @@ class Ethna_UnitTestBase extends UnitTestCase
         // controller
         $this->ctl =& Ethna_Controller::getInstance();
         if ($this->ctl === null) {
-            $this->ctl =& new Ethna_Controller();
+            $this->ctl = new Ethna_Controller();
         }
         $this->controller =& $this->ctl;
 
@@ -42,7 +42,7 @@ class Ethna_UnitTestBase extends UnitTestCase
 
         // actionform, actionerror.
         if ($this->ctl->action_form === null) {
-            $this->ctl->action_form =& new Ethna_ActionForm($this->ctl);
+            $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
             $this->backend->setActionForm($this->ctl->action_form);
         }
         $this->af =& $this->ctl->action_form;
@@ -50,7 +50,7 @@ class Ethna_UnitTestBase extends UnitTestCase
 
         // viewclass
         if ($this->ctl->view === null) {
-            $this->ctl->view =& new Ethna_ViewClass($this->backend, '', '');
+            $this->ctl->view = new Ethna_ViewClass($this->backend, '', '');
         }
     }
 }

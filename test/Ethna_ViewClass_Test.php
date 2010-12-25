@@ -25,7 +25,7 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->view =& $this->ctl->getView();
+        $this->view = $this->ctl->getView();
     }
 
     function test_forward()

@@ -185,7 +185,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
             'changelogoldtonew' => false,
             );
 
-        $packagexml =& new PEAR_PackageFileManager2();
+        $packagexml = new PEAR_PackageFileManager2();
 
         $pkgconfig = array_merge($pkgconfig, $setting['config']);
         $packagexml->setOptions($pkgconfig);

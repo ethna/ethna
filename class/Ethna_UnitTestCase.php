@@ -82,7 +82,7 @@ class Ethna_UnitTestCase extends UnitTestCase
      */
     function _createActionForm($form_name)
     {
-        $this->action_form =& new $form_name($this->ctl);
+        $this->action_form = new $form_name($this->ctl);
         $this->af =& $this->action_form;
 
         // controler&backendにafを関連付け
@@ -153,7 +153,7 @@ class Ethna_UnitTestCase extends UnitTestCase
 
         // オブジェクト生成
         $action_class_name = $this->ctl->getActionClassName($this->action_name);
-        $this->action_class =& new $action_class_name($this->backend);
+        $this->action_class = new $action_class_name($this->backend);
         $this->ac =& $this->action_class;
 
         // backendにacを関連付け
@@ -174,7 +174,7 @@ class Ethna_UnitTestCase extends UnitTestCase
 
         // オブジェクト生成
         $view_class_name = $this->ctl->getViewClassName($this->forward_name);
-        $this->view_class =& new $view_class_name($this->backend, $this->forward_name, $this->ctl->_getForwardPath($this->forward_name));
+        $this->view_class = new $view_class_name($this->backend, $this->forward_name, $this->ctl->_getForwardPath($this->forward_name));
         $this->vc =& $this->view_class;
     }
 }

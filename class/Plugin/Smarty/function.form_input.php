@@ -15,8 +15,8 @@ function smarty_function_form_input($params, &$smarty)
     }
 
     // view object
-    $c =& Ethna_Controller::getInstance();
-    $view =& $c->getView();
+    $c = Ethna_Controller::getInstance();
+    $view = $c->getView();
     if ($view === null) {
         return null;
     }
@@ -58,7 +58,7 @@ function smarty_function_form_input($params, &$smarty)
     //
     // 1. {form name=...} の値が設定されていないか、submitされていないとき
     // 2. {form name=...} の値と、submitされたそれが等しいとき
-    $af =& $c->getActionForm();
+    $af = $c->getActionForm();
     $val = $af->get($name);
     $form_id = $block_params['name'];     // {form name=... }
     $cur_form_id = $af->get('ethna_fid'); // submitされたフォームID

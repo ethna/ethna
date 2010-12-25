@@ -19,7 +19,7 @@ class Ethna_Controller_Test extends Ethna_UnitTestBase
 
     function setUp()
     {
-        $this->test_ctl =& new Ethna_Controller();
+        $this->test_ctl = new Ethna_Controller();
     }
 
     function tearDown()

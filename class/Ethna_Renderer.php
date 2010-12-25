@@ -149,7 +149,7 @@ class Ethna_Renderer
      * 
      *  @access public
      */
-    function &removeProp($name)
+    function removeProp($name)
     {
         if (isset($this->prop[$name])) {
             unset($this->prop[$name]);

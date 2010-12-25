@@ -32,7 +32,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     {
         parent::Ethna_Renderer($controller);
         
-        $this->engine =& new Smarty;
+        $this->engine = new Smarty;
         
         // ディレクトリ関連は Controllerによって実行時に設定
         // TODO: iniファイルによって上書き可にするかは要検討
