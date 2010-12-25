@@ -46,9 +46,9 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
      *
      *  @access public
      */
-    function Ethna_Renderer_Rhaco(&$controller)
+    public function __construct($controller)
     {
-        parent::Ethna_Renderer($controller);
+        parent::__construct($controller);
         
         $this->template_dir = $controller->getTemplatedir() . '/';
         $this->compile_dir = $controller->getDirectory('template_c');

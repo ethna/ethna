@@ -60,7 +60,7 @@ class Ethna_PearWrapper
      *
      *  @access public
      */
-    function Ethna_PearWrapper()
+    public function __construct()
     {
         $this->channel = null;
         $this->config = null;

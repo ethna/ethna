@@ -28,9 +28,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function Ethna_Renderer_Smarty(&$controller)
+    public function __construct($controller)
     {
-        parent::Ethna_Renderer($controller);
+        parent::__construct($controller);
         
         $this->engine = new Smarty;
         

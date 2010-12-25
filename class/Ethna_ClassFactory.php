@@ -55,7 +55,7 @@ class Ethna_ClassFactory
      *  @param  object  Ethna_Controller    &$controller    controllerオブジェクト
      *  @param  array                       $class          クラス定義
      */
-    function Ethna_ClassFactory(&$controller, $class)
+    public function __construct(&$controller, $class)
     {
         $this->controller = $controller;
         $this->ctl = $controller;

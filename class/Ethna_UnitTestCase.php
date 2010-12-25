@@ -59,9 +59,9 @@ class Ethna_UnitTestCase extends UnitTestCase
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
      */
-    function Ethna_UnitTestCase(&$controller)
+    public function __construct(&$controller)
     {
-        parent::UnitTestCase();
+        parent::__construct();
 
         // オブジェクトの設定
         $this->controller =& $controller;

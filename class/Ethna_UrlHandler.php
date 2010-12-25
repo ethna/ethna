@@ -36,7 +36,7 @@ class Ethna_UrlHandler
      *
      *  @access public
      */
-    function Ethna_UrlHandler()
+    public function __construct()
     {
     }
 

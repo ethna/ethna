@@ -172,7 +172,7 @@ class Ethna_Controller
      *
      *  @access     public
      */
-    function Ethna_Controller($gateway = GATEWAY_WWW)
+    public function __construct($gateway = GATEWAY_WWW)
     {
         $GLOBALS['_Ethna_controller'] = $this;
         if ($this->base === "") {

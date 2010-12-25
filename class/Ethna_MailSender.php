@@ -54,7 +54,7 @@ class Ethna_MailSender
      *  @access public
      *  @param  object  Ethna_Backend   &$backend       backendオブジェクト
      */
-    function Ethna_MailSender(&$backend)
+    public function __construct(&$backend)
     {
         $this->backend =& $backend;
         $this->config =& $this->backend->getConfig();

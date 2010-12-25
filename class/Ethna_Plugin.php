@@ -52,7 +52,7 @@ class Ethna_Plugin
      *  @access public
      *  @param  object  Ethna_Controller    $controller コントローラオブジェクト
      */
-    function Ethna_Plugin(&$controller)
+    public function __construct(&$controller)
     {
         $this->controller = $controller;
         $this->ctl = $this->controller;

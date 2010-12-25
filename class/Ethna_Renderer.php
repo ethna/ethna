@@ -52,7 +52,7 @@ class Ethna_Renderer
      *
      *  @access public
      */
-    function Ethna_Renderer(&$controller)
+    public function __construct(&$controller)
     {
         $this->controller =& $controller;
         $this->ctl =& $this->controller;

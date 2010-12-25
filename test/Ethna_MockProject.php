@@ -33,7 +33,7 @@ class Ethna_MockProject
      *  @param $skel_dir スケルトンディレクトリ
      *  @access public
      */
-    function Ethna_MockProject($basedir = ETHNA_TEST_DIR,
+    public function __construct($basedir = ETHNA_TEST_DIR,
                                $project_name = ETHNA_TEST_PROJECT,
                                $skel_dir = ETHNA_TEST_SKELDIR)
     {

@@ -51,7 +51,7 @@ class Ethna_SOAP_GatewayGenerator
      *
      *  @access public
      */
-    function Ethna_SOAP_GatewayGenerator()
+    public function __construct()
     {
         $this->controller =& Ethna_Controller::getInstance();
         $this->config =& $this->controller->getConfig();

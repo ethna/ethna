@@ -33,7 +33,7 @@ class Ethna_SOAP_Gateway
      *
      *  @access public
      */
-    function Ethna_SOAP_Gateway()
+    public function __construct()
     {
         $this->controller =& Ethna_Controller::getInstance();
     }

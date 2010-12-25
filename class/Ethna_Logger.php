@@ -108,7 +108,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @access public
      *  @param  object  Ethna_Controller    $controller controllerオブジェクト
      */
-    function Ethna_Logger(&$controller)
+    public function __construct(&$controller)
     {
         $this->controller = $controller;
         $this->ctl = $this->controller;

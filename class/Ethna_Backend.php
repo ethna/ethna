@@ -77,7 +77,7 @@ class Ethna_Backend
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
      */
-    function Ethna_Backend(&$controller)
+    public function __construct(&$controller)
     {
         // オブジェクトの設定
         $this->controller = $controller;

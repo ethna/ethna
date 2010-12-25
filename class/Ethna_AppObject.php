@@ -84,7 +84,7 @@ class Ethna_AppObject
      *  @param  array   $prop       プロパティ(レコードの値)一覧
      *  @return mixed   0:正常終了 -1:キー/プロパティ未指定 Ethna_Error:エラー
      */
-    function Ethna_AppObject(&$backend, $key_type = null, $key = null, $prop = null)
+    public function __construct(&$backend, $key_type = null, $key = null, $prop = null)
     {
         $this->backend =& $backend;
         $this->config =& $backend->getConfig();

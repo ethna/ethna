@@ -63,9 +63,9 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */
-    function Ethna_DB_PEAR(&$controller, $dsn, $persistent)
+    public function __construct(&$controller, $dsn, $persistent)
     {
-        parent::Ethna_DB($controller, $dsn, $persistent);
+        parent::__construct($controller, $dsn, $persistent);
 
         $this->db = null;
         $this->logger =& $controller->getLogger();

@@ -144,7 +144,7 @@ class Ethna_Error
      *  @param  array   $userinfo           エラー追加情報($options より後の全ての引数)
      *  @see http://pear.php.net/manual/ja/core.pear.pear-error.pear-error.php
      */
-    function Ethna_Error($message = null, $code = null, $mode = null, $options = null)
+    public function __construct($message = null, $code = null, $mode = null, $options = null)
     {
         $controller = Ethna_Controller::getInstance();
         if ($controller !== null) {

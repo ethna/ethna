@@ -43,7 +43,7 @@ class Ethna_DB
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */
-    function Ethna_DB(&$controller, $dsn, $persistent)
+    public function __construct(&$controller, $dsn, $persistent)
     {
         $this->dsn = $dsn;
         $this->persistent = $persistent;

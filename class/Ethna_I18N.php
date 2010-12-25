@@ -84,7 +84,7 @@ class Ethna_I18N
      *  @param  string  $locale_dir プロジェクトのロケールディレクトリ
      *  @param  string  $appid      アプリケーションID
      */
-    function Ethna_I18N($locale_dir, $appid)
+    public function __construct($locale_dir, $appid)
     {
         $this->locale_dir = $locale_dir;
         $this->appid = $appid;

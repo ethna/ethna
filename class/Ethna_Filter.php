@@ -48,7 +48,7 @@ class Ethna_Filter
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
      */
-    function Ethna_Filter(&$controller)
+    public function __construct(&$controller)
     {
         // オブジェクトの設定
         $this->controller =& $controller;

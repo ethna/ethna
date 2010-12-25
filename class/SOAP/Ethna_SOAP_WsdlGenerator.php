@@ -52,7 +52,7 @@ class Ethna_SOAP_WsdlGenerator
     /**
      *  Ethna_SOAP_WsdlGeneratorクラスのコンストラクタ
      */
-    function Ethna_SOAP_WsdlGenerator($gateway)
+    public function __construct($gateway)
     {
         $this->controller =& Ethna_Controller::getInstance();
         $this->config =& $this->controller->getConfig();

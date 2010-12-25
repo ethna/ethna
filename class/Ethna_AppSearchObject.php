@@ -73,7 +73,7 @@ class Ethna_AppSearchObject
      *  @param  string  $value      検索値
      *  @param  int     $condition  検索条件(OBJECT_CONDITION_NE,...)
      */
-    function Ethna_AppSearchObject($value, $condition)
+    public function __construct($value, $condition)
     {
         $this->value = $value;
         $this->condition = $condition;

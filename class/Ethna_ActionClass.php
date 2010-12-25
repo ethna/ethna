@@ -64,7 +64,7 @@ class Ethna_ActionClass
      *  @access public
      *  @param  object  Ethna_Backend   $backend    backendオブジェクト
      */
-    function Ethna_ActionClass(&$backend)
+    public function __construct(&$backend)
     {
         $c = $backend->getController();
         $this->backend = $backend;

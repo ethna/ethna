@@ -109,7 +109,7 @@ class Ethna_ViewClass
      *  @param  string  $forward_name   ビューに関連付けられている遷移名
      *  @param  string  $forward_path   ビューに関連付けられているテンプレートファイル名
      */
-    function Ethna_ViewClass(&$backend, $forward_name, $forward_path)
+    public function __construct(&$backend, $forward_name, $forward_path)
     {
         $c = $backend->getController();
         $this->ctl = $c;

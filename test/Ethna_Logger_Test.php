@@ -126,7 +126,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
 
 class Ethna_Logger_Test_Config extends Ethna_Config
 {
-    function Ethna_Logger_Test_Config()
+    public function __construct_Config()
     {
         // do nothing.
     }

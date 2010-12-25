@@ -71,7 +71,7 @@ class Ethna_AppManager
      *  @access public
      *  @param  object  Ethna_Backend   $backend   backendオブジェクト
      */
-    function Ethna_AppManager($backend)
+    public function __construct($backend)
     {
         // 基本オブジェクトの設定
         $this->backend = $backend;

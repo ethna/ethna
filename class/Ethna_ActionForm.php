@@ -91,7 +91,7 @@ class Ethna_ActionForm
      *  @access public
      *  @param  object  Ethna_Controller    $controller    controllerオブジェクト
      */
-    function Ethna_ActionForm($controller)
+    public function __construct($controller)
     {
         $this->backend = $controller->getBackend();
         $this->action_error = $controller->getActionError();
