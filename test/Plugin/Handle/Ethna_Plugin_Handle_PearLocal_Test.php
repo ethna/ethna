@@ -18,19 +18,25 @@ require_once ETHNA_BASE . '/test/Ethna_MockProject.php';
 class Ethna_Plugin_Handle_PearLocal_Test extends Ethna_UnitTestBase 
 {
     var $proj;
+    protected $er;
 
     function setUp()
     {
+        // disable PEAR's deprecated error
+        $this->er = error_reporting();
+        error_reporting(E_ALL ^ E_DEPRECATED);
+
         $this->proj = new Ethna_MockProject();
         $r = $this->proj->create();
         if (Ethna::isError($r)) {
-            $this->fail($r->getMessage());    
+            $this->fail($r->getMessage());
         }
     }
 
     function tearDown()
     {
         $this->proj->delete();
+        error_reporting($this->er);
     }
 
     function test_cmd_option()
