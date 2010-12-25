@@ -112,9 +112,9 @@ class Ethna_Renderer_Rhaco extends Ethna_Renderer
      *  @param string $name  変数名
      *  @return mixed　変数
      */
-    function &getProp($name = null)
+    function getProp($name = null)
     {
-        $property =& $this->engine->variables[$name];
+        $property = $this->engine->variables[$name];
 
         if ($property !== null) {
             return $property;

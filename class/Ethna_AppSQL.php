@@ -34,9 +34,9 @@ class Ethna_AppSQL
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    controllerオブジェクト
      */
-    public function __construct(&$controller)
+    public function __construct($controller)
     {
-        $this->controller =& $controller;
+        $this->controller = $controller;
     }
 
     /**
@@ -61,7 +61,7 @@ class Ethna_AppSQL
      *  @param  mixed   &$var   エスケープする値
      *  @static
      */
-    function escapeSQL(&$var, $type = null)
+    public static function escapeSQL(&$var, $type = null)
     {
         if (!is_array($var)) {
             if (is_null($var)) {
@@ -87,7 +87,7 @@ class Ethna_AppSQL
      *  @param  mixed   &$var   エスケープを復帰する値
      *  @static
      */
-    function unescapeSQL(&$var, $type = null)
+    public static function unescapeSQL(&$var, $type = null)
     {
         if (!is_array($var)) {
             if ($var == 'NULL') {

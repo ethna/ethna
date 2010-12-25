@@ -59,7 +59,7 @@ class Ethna_UrlHandler
         }
 
         if (strpos($name, '_') !== false) {
-            $instance[$name] = &new $name();
+            $instance[$name] = new $name();
         } else {
             // get instance with plugin
             $ctl = Ethna_Controller::getInstance();

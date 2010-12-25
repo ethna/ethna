@@ -30,7 +30,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
      */
     function &_parseArgList()
     {
-        $r =& $this->_getopt(
+        $r = $this->_getopt(
             array(
                 'basedir=',
                 'workdir=',
@@ -108,7 +108,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         require_once 'PEAR/PackageFileManager/File.php';
 
         // 引数の評価
-        $args =& $this->_parseArgList();
+        $args = $this->_parseArgList();
         if (Ethna::isError($args)) {
             return $args;
         }
@@ -229,11 +229,11 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
 
         //  finally make package
         PEAR_Command::setFrontendType('CLI');
-        $ui =& PEAR_Command::getFrontendObject();
-        $config =& PEAR_Config::singleton();
+        $ui = PEAR_Command::getFrontendObject();
+        $config = PEAR_Config::singleton();
         $ui->setConfig($config);
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$ui, 'displayFatalError'));
-        $cmd =& PEAR_Command::factory('package', $config);
+        $cmd = PEAR_Command::factory('package', $config);
         if (PEAR::isError($cmd)) {
             return Ethna::raiseError($cmd->getMessage, $cmd->getCode());
         }

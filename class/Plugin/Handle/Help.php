@@ -26,7 +26,7 @@ class Ethna_Plugin_Handle_Help extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r =& $this->_getopt();
+        $r = $this->_getopt();
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -47,7 +47,7 @@ class Ethna_Plugin_Handle_Help extends Ethna_Plugin_Handle
         }
 
         // getHandler
-        $handler =& $this->eh->getHandler($handle_name);
+        $handler = $this->eh->getHandler($handle_name);
         if (Ethna::isError($handler) || $handler === false) { 
             // command not found
             return Ethna::raiseError('command not found.', 'usage');

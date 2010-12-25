@@ -77,21 +77,21 @@ class Ethna_AppObject
      *  Ethna_AppObjectクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend   Ethna_Backendオブジェクト
+     *  @param  object  Ethna_Backend   $backend   Ethna_Backendオブジェクト
      *  @param  mixed   $key_type   レコードを特定するためのカラム名
      *                              (通常はプライマリーキーのフィールド)
      *  @param  mixed   $key        レコードを特定するためのカラム値
      *  @param  array   $prop       プロパティ(レコードの値)一覧
      *  @return mixed   0:正常終了 -1:キー/プロパティ未指定 Ethna_Error:エラー
      */
-    public function __construct(&$backend, $key_type = null, $key = null, $prop = null)
+    public function __construct($backend, $key_type = null, $key = null, $prop = null)
     {
-        $this->backend =& $backend;
-        $this->config =& $backend->getConfig();
-        $this->action_form =& $backend->getActionForm();
-        $this->af =& $this->action_form;
-        $this->session =& $backend->getSession();
-        $ctl =& $backend->getController();
+        $this->backend = $backend;
+        $this->config = $backend->getConfig();
+        $this->action_form = $backend->getActionForm();
+        $this->af = $this->action_form;
+        $this->session = $backend->getSession();
+        $ctl = $backend->getController();
 
         // DBオブジェクトの設定
         $db_list = $this->_getDBList();
@@ -102,8 +102,8 @@ class Ethna_AppObject
                 "Ethna_AppObjectを利用するにはデータベース設定が必要です",
                 E_DB_NODSN);
         }
-        $this->my_db_rw =& $db_list['rw'];
-        $this->my_db_ro =& $db_list['ro'];
+        $this->my_db_rw = $db_list['rw'];
+        $this->my_db_ro = $db_list['ro'];
         // XXX: app objはdb typeを知らなくても動くべき
         $this->my_db_type = $this->my_db_rw->getType();
 
@@ -431,7 +431,7 @@ class Ethna_AppObject
         //    INSERT 文を取得し、実行
         $sql = $this->_getSQL_Add();
         for ($i = 0; $i < 4; $i++) {
-            $r =& $this->my_db_rw->query($sql);
+            $r = $this->my_db_rw->query($sql);
             //   エラーの場合 -> 重複キーエラーの場合はリトライ
             if (Ethna::isError($r)) {
                 if ($r->getCode() == E_DB_DUPENT) {
@@ -505,7 +505,7 @@ class Ethna_AppObject
         $sql = $this->_getSQL_Update();
         //   エラーの場合 -> 重複キーエラーの場合はリトライ(4回)
         for ($i = 0; $i < 4; $i++) {  //  magic number
-            $r =& $this->my_db_rw->query($sql);
+            $r = $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
                 if ($r->getCode() == E_DB_DUPENT) {
                     // 重複エラーキーの判別
@@ -596,7 +596,7 @@ class Ethna_AppObject
     function remove()
     {
         $sql = $this->_getSQL_Remove();
-        $r =& $this->my_db_rw->query($sql);
+        $r = $this->my_db_rw->query($sql);
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -629,7 +629,7 @@ class Ethna_AppObject
        //   プライマリーキー件数検索
        if (is_null($offset) == false || is_null($count) == false) {
             $sql = $this->_getSQL_SearchLength($filter);
-            $r =& $this->my_db_ro->query($sql);
+            $r = $this->my_db_ro->query($sql);
             if (Ethna::isError($r)) {
                 return $r;
             }
@@ -641,7 +641,7 @@ class Ethna_AppObject
 
         $id_list = array();
         $sql = $this->_getSQL_SearchId($filter, $order, $offset, $count);
-        $r =& $this->my_db_ro->query($sql);
+        $r = $this->my_db_ro->query($sql);
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -685,7 +685,7 @@ class Ethna_AppObject
         //   プライマリーキー件数検索
         if (is_null($offset) == false || is_null($count) == false) {
             $sql = $this->_getSQL_SearchLength($filter);
-            $r =& $this->my_db_ro->query($sql);
+            $r = $this->my_db_ro->query($sql);
             if (Ethna::isError($r)) {
                 return $r;
             }
@@ -697,7 +697,7 @@ class Ethna_AppObject
 
         $prop_list = array();
         $sql = $this->_getSQL_SearchProp($keys, $filter, $order, $offset, $count);
-        $r =& $this->my_db_ro->query($sql);
+        $r = $this->my_db_ro->query($sql);
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -775,7 +775,7 @@ class Ethna_AppObject
         $sql = $this->_getSQL_Select($key_type, $key);
 
         // プロパティ取得
-        $r =& $this->my_db_ro->query($sql);
+        $r = $this->my_db_ro->query($sql);
         if (Ethna::isError($r)) {
             return;
         }
@@ -857,7 +857,7 @@ class Ethna_AppObject
         // プライマリキーはmulti columnsになり得るので別扱い
         if ($check_pkey) {
             $sql = $this->_getSQL_Duplicate($this->id_def);
-            $r =& $this->my_db_rw->query($sql);
+            $r = $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
                 return $r;
             } else if ($r->numRows() > 0) {
@@ -872,7 +872,7 @@ class Ethna_AppObject
                 continue;
             }
             $sql = $this->_getSQL_Duplicate($k);
-            $r =& $this->my_db_rw->query($sql);
+            $r = $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
                 return $r;
             } else if ($r->NumRows() > 0) {
@@ -1521,16 +1521,16 @@ class Ethna_AppObject
             $varname = $elt['varname'];
 
             // for B.C.
-            $this->$varname =& $elt['db'];
+            $this->$varname = $elt['db'];
 
             if ($elt['type'] == DB_TYPE_RW) {
-                $r['rw'] =& $elt['db'];
+                $r['rw'] = $elt['db'];
             } else if ($elt['type'] == DB_TYPE_RO) {
-                $r['ro'] =& $elt['db'];
+                $r['ro'] = $elt['db'];
             }
         }
         if ($r['ro'] == null && $r['rw'] != null) {
-            $r['ro'] =& $r['rw'];
+            $r['ro'] = $r['rw'];
         }
 
         return $r;
@@ -1583,7 +1583,7 @@ class Ethna_AppObject
             break;
         }
 
-        $cache_manager =& Ethna_CacheManager::getInstance('localfile');
+        $cache_manager = Ethna_CacheManager::getInstance('localfile');
         $cache_manager->setNamespace('ethna_app_object');
         $cache_key = md5($this->my_db_ro->getDSN() . '-' . $table_name);
 

@@ -21,30 +21,6 @@
  */
 class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
 {
-    /**#@+
-     *  @access private
-     */
-
-    /** @var    object  Ethna_Session    セッションオブジェクト */
-    //var $session;
-    
-    /**#@-*/
-
-
-    /**
-     *  Ethna_Plugin_Csrfのコンストラクタ
-     *
-     *  @access public
-     *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
-     */
-    //function __construct($controller)
-    //{
-    //    parent::__construct($controller);
-
-    //    // オブジェクトの設定
-    //    $this->session =& $this->controller->getSession();
-    //}
-
     /**
      *  トークンをViewとローカルファイルにセットする
      *

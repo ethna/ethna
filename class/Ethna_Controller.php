@@ -1249,9 +1249,9 @@ class Ethna_Controller
         }
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-            $http_vars =& $_POST;
+            $http_vars = $_POST;
         } else {
-            $http_vars =& $_GET;
+            $http_vars = $_GET;
         }
 
         // フォーム値からリクエストされたアクション名を取得する
@@ -1757,7 +1757,7 @@ class Ethna_Controller
      *  @param  object  Ethna_Renderer  レンダラオブジェクト
      *  @obsolete
      */
-    function _setDefaultTemplateEngine(&$renderer)
+    function _setDefaultTemplateEngine($renderer)
     {
     }
 

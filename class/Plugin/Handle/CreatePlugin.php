@@ -28,7 +28,7 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r =& $this->_getopt(
+        $r = $this->_getopt(
             array(
                 'basedir=',
                 'type=',

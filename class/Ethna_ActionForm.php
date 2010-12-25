@@ -306,9 +306,9 @@ class Ethna_ActionForm
         if (isset($_SERVER['REQUEST_METHOD']) == false) {
             return;
         } else if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-            $http_vars =& $_POST;
+            $http_vars = $_POST;
         } else {
-            $http_vars =& $_GET;
+            $http_vars = $_GET;
         }
 
         //

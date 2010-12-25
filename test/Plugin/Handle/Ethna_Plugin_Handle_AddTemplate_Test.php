@@ -35,7 +35,7 @@ class Ethna_Plugin_Handle_AddTemplate_Test extends Ethna_UnitTestBase
 
     function test_template_dir_exists()
     {
-        $ctl =& $this->proj->getController(); 
+        $ctl = $this->proj->getController(); 
 
         //    default locale 
         $r = $this->proj->runCmd('add-template', array('test'));

@@ -86,9 +86,9 @@ class Ethna_Session
         }
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-            $http_vars =& $_POST;
+            $http_vars = $_POST;
         } else {
-            $http_vars =& $_GET;
+            $http_vars = $_GET;
         }
         if (array_key_exists($this->session_name, $http_vars)
             && $http_vars[$this->session_name] != null) {

@@ -54,10 +54,10 @@ class Ethna_SOAP_WsdlGenerator
      */
     public function __construct($gateway)
     {
-        $this->controller =& Ethna_Controller::getInstance();
-        $this->config =& $this->controller->getConfig();
+        $this->controller = Ethna_Controller::getInstance();
+        $this->config = $this->controller->getConfig();
         $this->action_error = null;
-        $this->ae =& $this->action_error;
+        $this->ae = $this->action_error;
         $this->wsdl = "";
         $this->name = $this->controller->getAppId();
         $this->namespace = $this->_getNameSpace();
@@ -372,7 +372,7 @@ EOD;
             $keys = array_keys($form->form);
         }
         foreach ($keys as $key) {
-            $type_id =& $form->form[$key]['type'];
+            $type_id = $form->form[$key]['type'];
             if (is_array($type_id)) {
                 $type_keys = array_keys($type_id);
                 $type = "tns:" . Ethna_SOAP_Util::getArrayTypeName($type_id[$type_keys[0]]);

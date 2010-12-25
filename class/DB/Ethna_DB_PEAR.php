@@ -59,17 +59,17 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  Ethna_DB_PEARクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
+     *  @param  object  Ethna_Controller    $controller    コントローラオブジェクト
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */
-    public function __construct(&$controller, $dsn, $persistent)
+    public function __construct($controller, $dsn, $persistent)
     {
         parent::__construct($controller, $dsn, $persistent);
 
         $this->db = null;
-        $this->logger =& $controller->getLogger();
-        $this->sql =& $controller->getSQL();
+        $this->logger = $controller->getLogger();
+        $this->sql = $controller->getSQL();
 
         $this->dsninfo = DB::parseDSN($dsn);
         $this->dsninfo['new_link'] = true;
@@ -86,7 +86,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      */
     function connect()
     {
-        $this->db =& DB::connect($this->dsninfo, $this->persistent);
+        $this->db = DB::connect($this->dsninfo, $this->persistent);
         if (DB::isError($this->db)) {
             $error = Ethna::raiseError('DB Connection Error: %s',
                 E_DB_CONNECT,
@@ -215,9 +215,9 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $table  テーブル名
      *  @return mixed   array: PEAR::DBに準じたメタデータ Ethna_Error::エラー
      */
-    function &getMetaData($table)
+    function getMetaData($table)
     {
-        $def =& $this->db->tableInfo($table);
+        $def = $this->db->tableInfo($table);
         if (is_array($def) === false) {
             return $def;
         }
@@ -301,7 +301,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function &query($query)
+    function query($query)
     {
         return $this->_query($query);
     }
@@ -358,9 +358,9 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @access public
      *  @return int     更新行数
      */
-    function &fetchRow(&$res, $fetchmode = DB_FETCHMODE_DEFAULT, $rownum = null)
+    function fetchRow(&$res, $fetchmode = DB_FETCHMODE_DEFAULT, $rownum = null)
     {
-        $row =& $res->fetchRow($fetchmode, $rownum);
+        $row = $res->fetchRow($fetchmode, $rownum);
         if (is_array($row) === false) {
             return $row;
         }
@@ -437,7 +437,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $sqlid      SQL-ID(+引数)
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function &sqlquery($sqlid)
+    function sqlquery($sqlid)
     {
         $args = func_get_args();
         array_shift($args);
@@ -511,10 +511,10 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function &_query($query)
+    function _query($query)
     {
         $this->logger->log(LOG_DEBUG, "$query");
-        $r =& $this->db->query($query);
+        $r = $this->db->query($query);
         if (DB::isError($r)) {
             if ($r->getCode() == DB_ERROR_ALREADY_EXISTS) {
                 $error = Ethna::raiseNotice('Unique Constraint Error SQL[%s]',

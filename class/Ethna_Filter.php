@@ -51,11 +51,11 @@ class Ethna_Filter
     public function __construct(&$controller)
     {
         // オブジェクトの設定
-        $this->controller =& $controller;
-        $this->ctl =& $this->controller;
+        $this->controller = $controller;
+        $this->ctl = $this->controller;
 
-        $this->config =& $controller->getConfig();
-        $this->logger =& $this->controller->getLogger();
+        $this->config = $controller->getConfig();
+        $this->logger = $this->controller->getLogger();
     }
 
     /**

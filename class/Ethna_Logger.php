@@ -222,7 +222,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @return array   ログレベル(LOG_NOTICE,...), エラーレベル表示名("E_NOTICE"...)
      *  @static
      */
-    function errorLevelToLogLevel($errno)
+    public static function errorLevelToLogLevel($errno)
     {
         switch ($errno) {
         case E_ERROR:           $code = "E_ERROR"; $level = LOG_ERR; break;

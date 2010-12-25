@@ -91,7 +91,7 @@ class Ethna_AppSearchObject
     {
         $tmp = array();
         $tmp['name'] = $name;
-        $tmp['object'] =& $search_object;
+        $tmp['object'] = $search_object;
         $tmp['condition'] = $condition;
         $this->object_list[] = $tmp;
     }

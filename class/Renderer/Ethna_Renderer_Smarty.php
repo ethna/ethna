@@ -107,9 +107,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function &getProp($name = null)
+    function getProp($name = null)
     {
-        $property =& $this->engine->get_template_vars($name);
+        $property = $this->engine->get_template_vars($name);
 
         if ($property !== null) {
             return $property;

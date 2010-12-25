@@ -48,7 +48,7 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
             header("Pragma: no-cache");
         }
 
-        $ctl =& Ethna_Controller::getInstance();
+        $ctl = Ethna_Controller::getInstance();
 
         // cores
         $this->af->setApp('app_id', $ctl->getAppId());

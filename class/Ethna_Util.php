@@ -35,8 +35,8 @@ function to_array($v)
  */
 function is_error($name = null)
 {
-    $c =& Ethna_Controller::getInstance();
-    $action_error =& $c->getActionError();
+    $c = Ethna_Controller::getInstance();
+    $action_error = $c->getActionError();
     if ($name !== null) {
         return $action_error->isError($name);
     } else {
@@ -794,7 +794,7 @@ class Ethna_Util
      */
     public static function purgeTmp($prefix, $timeout)
     {
-        $c =& Ethna_Controller::getInstance();
+        $c = Ethna_Controller::getInstance();
 
         $dh = opendir($c->getDirectory('tmp'));
         if ($dh) {

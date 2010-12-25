@@ -40,7 +40,7 @@ class Ethna_Config
      */
     public function __construct(&$controller)
     {
-        $this->controller =& $controller;
+        $this->controller = $controller;
 
         // 設定ファイルの読み込み
         $r = $this->_getConfig();

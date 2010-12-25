@@ -35,7 +35,7 @@ class Ethna_View_Info extends Ethna_ViewClass
      */
     function preforward()
     {
-        $ctl =& Ethna_Controller::getInstance();
+        $ctl = Ethna_Controller::getInstance();
         $em = new Ethna_InfoManager($this->backend);
 
         // cores
