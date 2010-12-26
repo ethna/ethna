@@ -23,53 +23,53 @@ class Ethna_ViewClass
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    Controllerオブジェクト */
-    var $ctl;
+    /** @protected    object  Ethna_Controller    Controllerオブジェクト */
+    protected $ctl;
 
-    /** @var    object  Ethna_Backend       backendオブジェクト */
-    var $backend;
+    /** @protected    object  Ethna_Backend       backendオブジェクト */
+    protected $backend;
 
-    /** @var    object  Ethna_Config        設定オブジェクト    */
-    var $config;
+    /** @protected    object  Ethna_Config        設定オブジェクト    */
+    protected $config;
 
-    /** @var    object  Ethna_I18N          i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N          i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_Logger    ログオブジェクト */
-    var $logger;
+    /** @protected    object  Ethna_Logger    ログオブジェクト */
+    protected $logger;
 
-    /** @var    object  Ethna_Plugin    プラグインオブジェクト */
-    var $plugin;
+    /** @protected    object  Ethna_Plugin    プラグインオブジェクト */
+    public $plugin;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト */
-    var $action_error;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト */
+    protected $action_error;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
-    var $ae;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
+    protected $ae;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    var $action_form;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
+    protected $action_form;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
-    var $af;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
+    protected $af;
 
-    /** @var    array   アクションフォームオブジェクト(helper) */
-    var $helper_action_form = array();
+    /** @protected    array   アクションフォームオブジェクト(helper) */
+    protected $helper_action_form = array();
 
-    /** @var    array   helperでhtmlのattributeにはしないパラメータの一覧 */
-    var $helper_parameter_keys = array('default', 'option', 'separator');
+    /** @protected    array   helperでhtmlのattributeにはしないパラメータの一覧 */
+    protected $helper_parameter_keys = array('default', 'option', 'separator');
 
-    /** @var    object  Ethna_Session       セッションオブジェクト */
-    var $session;
+    /** @protected    object  Ethna_Session       セッションオブジェクト */
+    protected $session;
 
-    /** @var    string  遷移名 */
-    var $forward_name;
+    /** @protected    string  遷移名 */
+    public $forward_name;
 
-    /** @var    string  遷移先テンプレートファイル名 */
-    var $forward_path;
+    /** @protected    string  遷移先テンプレートファイル名 */
+    protected $forward_path;
 
-    /** @var    boolean  配列フォームを呼んだカウンタをリセットするか否か */
-    var $reset_counter = false;
+    /** @protected    boolean  配列フォームを呼んだカウンタをリセットするか否か */
+    protected $reset_counter = false;
 
     /**#@-*/
 
@@ -109,7 +109,7 @@ class Ethna_ViewClass
      *  @param  string  $forward_name   ビューに関連付けられている遷移名
      *  @param  string  $forward_path   ビューに関連付けられているテンプレートファイル名
      */
-    public function __construct(&$backend, $forward_name, $forward_path)
+    public function __construct($backend, $forward_name, $forward_path)
     {
         $c = $backend->getController();
         $this->ctl = $c;

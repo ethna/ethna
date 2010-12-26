@@ -33,7 +33,7 @@ class {$action_form} extends {$project_id}_ActionForm
 class {$action_class} extends {$project_id}_ActionClass
 {
 
-    var $plugins = array(
+    protected $plugins = array(
         'Cachemanager_Localfile',
         'm' => 'Cachemanager_Memcache',
     );

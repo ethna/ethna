@@ -23,38 +23,38 @@ class Ethna_ActionClass
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend       backendオブジェクト */
-    var $backend;
+    /** @protected    object  Ethna_Backend       backendオブジェクト */
+    protected $backend;
 
-    /** @var    object  Ethna_Config        設定オブジェクト    */
-    var $config;
+    /** @protected    object  Ethna_Config        設定オブジェクト    */
+    protected $config;
 
-    /** @var    object  Ethna_I18N          i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N          i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト */
-    var $action_error;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト */
+    protected $action_error;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
-    var $ae;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
+    protected $ae;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    var $action_form;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
+    protected $action_form;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
-    var $af;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
+    protected $af;
 
-    /** @var    object  Ethna_Session       セッションオブジェクト */
-    var $session;
+    /** @protected    object  Ethna_Session       セッションオブジェクト */
+    protected $session;
 
-    /** @var    object  Ethna_Plugin        プラグインオブジェクト */
-    var $plugin;
+    /** @public    object  Ethna_Plugin        プラグインオブジェクト */
+    public $plugin;
 
-    /** @var    object  Ethna_Logger    ログオブジェクト */
-    var $logger;
+    /** @protected    object  Ethna_Logger    ログオブジェクト */
+    protected $logger;
 
-    /** @var    array   Preload plugins definition  */
-    var $plugins = array();
+    /** @protected    array   Preload plugins definition  */
+    protected $plugins = array();
 
     /**#@-*/
 
@@ -64,7 +64,7 @@ class Ethna_ActionClass
      *  @access public
      *  @param  object  Ethna_Backend   $backend    backendオブジェクト
      */
-    public function __construct(&$backend)
+    public function __construct($backend)
     {
         $c = $backend->getController();
         $this->backend = $backend;
@@ -81,7 +81,7 @@ class Ethna_ActionClass
         $this->plugin = $this->backend->getPlugin();
         $this->logger = $this->backend->getLogger();
 
-        $this->_preloadPlugin();
+        $this->preloadPlugin();
     }
 
     /**
@@ -90,7 +90,7 @@ class Ethna_ActionClass
      *  @access public
      *  @return string  遷移名(nullなら正常終了, falseなら処理終了)
      */
-    function authenticate()
+    public function authenticate()
     {
         return null;
     }
@@ -101,7 +101,7 @@ class Ethna_ActionClass
      *  @access public
      *  @return string  遷移名(nullなら正常終了, falseなら処理終了)
      */
-    function prepare()
+    public function prepare()
     {
         return null;
     }
@@ -112,7 +112,7 @@ class Ethna_ActionClass
      *  @access public
      *  @return string  遷移名(nullなら遷移は行わない)
      */
-    function perform()
+    public function perform()
     {
         return null;
     }
@@ -122,7 +122,7 @@ class Ethna_ActionClass
      *
      *  @access protected
      */
-    function _preloadPlugin()
+    protected function preloadPlugin()
     {
         foreach ($this->plugins as $alias => $plugin) {
             $plugin_alias = $alias;

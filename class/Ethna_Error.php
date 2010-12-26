@@ -78,12 +78,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
                         ? in_array('echo', $facility) : $facility === 'echo';
         }
         if ($is_debug == true && $has_echo === false) {
-            if ($c !== null && $c->getGateway() === GATEWAY_WWW) {
-                $format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
-            } else {
-                $format = "%s: %s in %s on line %d\n";
-            }
-            printf($format, $php_errno, $errstr, $errfile, $errline);
+            return true;
         }
     }
 }
@@ -192,7 +187,7 @@ class Ethna_Error
      *
      * @return integer - エラー番号
      */
-    function getCode()
+    public function getCode()
     {
         return $this->code;
     }
@@ -203,7 +198,7 @@ class Ethna_Error
      *  @access public
      *  @return int     エラーレベル
      */
-    function getLevel()
+    public function getLevel()
     {
         return $this->level;
     }
@@ -218,7 +213,7 @@ class Ethna_Error
      *  @access public
      *  @return string  エラーメッセージ
      */
-    function getMessage()
+    public function getMessage()
     {
         $tmp_message = $this->i18n ? $this->i18n->get($this->message) : $this->message;
         $tmp_userinfo = to_array($this->userinfo);
@@ -238,7 +233,7 @@ class Ethna_Error
      *  @param  int     $n      エラー追加情報のインデックス(省略可)
      *  @return mixed   message引数
      */
-    function getUserInfo($n = null)
+    public function getUserInfo($n = null)
     {
         if (is_null($n)) {
             return $this->userinfo;
@@ -257,7 +252,7 @@ class Ethna_Error
      *  @access public
      *  @param  string  $info   追加するエラー情報
      */
-    function addUserInfo($info)
+    public function addUserInfo($info)
     {
         $this->userinfo[] = $info;
     }

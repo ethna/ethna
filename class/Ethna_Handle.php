@@ -36,11 +36,11 @@ class Ethna_Handle
 
     // {{{ constructor
     /**
-     *  Ethna_Handle constructor (stub for php4)
+     *  Ethna_Handle constructor
      *
      *  @access public
      */
-    public function Ethna_Handle()
+    public function __construct()
     {
         $this->controller = new Ethna_Controller(GATEWAY_CLI);
         Ethna::clearErrorCallback();
@@ -75,7 +75,7 @@ class Ethna_Handle
      *
      *  @access public
      */
-    public static function getHandlerList()
+    public function getHandlerList()
     {
         $handler_list = $this->plugin->getPluginList('Handle');
         usort($handler_list, array($this, "_handler_sort_callback"));
@@ -201,7 +201,7 @@ class Ethna_Handle
     /**
      *  Ethna コマンドでのエラーハンドリング
      */
-    public static function handleError(&$eobj)
+    public static function handleError($eobj)
     {
         // do nothing.
     }
