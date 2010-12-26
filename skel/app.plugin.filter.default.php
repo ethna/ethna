@@ -1,6 +1,6 @@
 <?php
 /**
- *  Ethna_Plugin_Filter_ExecutionTime.php
+ *  ExecutionTime.php
  *
  *  @author     {$author}
  *  @package    {$project_id}

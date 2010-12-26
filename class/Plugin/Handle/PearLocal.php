@@ -10,7 +10,7 @@
  */
 
 require_once 'PEAR/Config.php';
-require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
+require_once ETHNA_BASE . '/class/PearWrapper.php';
 
 // {{{ Ethna_PearConfig_Local
 /**
