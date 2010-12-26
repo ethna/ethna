@@ -47,7 +47,7 @@ class Ethna_AppSQL
      *  @param  array   $args       引数一覧
      *  @return string  エスケープされたSQL文
      */
-    function get($sqlid, $args)
+    public function get($sqlid, $args)
     {
         Ethna_AppSQL::escapeSQL($args);
 
@@ -112,7 +112,7 @@ class Ethna_AppSQL
      *  @return string  検索条件文
      *  @static
      */
-    function getCondition($field, $value, $condition = OBJECT_CONDITION_EQ)
+    public static function getCondition($field, $value, $condition = OBJECT_CONDITION_EQ)
     {
         switch ($condition) {
         case OBJECT_CONDITION_EQ:

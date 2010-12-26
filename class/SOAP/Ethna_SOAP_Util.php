@@ -27,7 +27,7 @@ class Ethna_SOAP_Util
      *  @return bool    true:オブジェクト型配列 false:それ以外の型
      *  @static
      */
-    function isArrayOfObject($def)
+    public static function isArrayOfObject($def)
     {
         if (is_array($def) == false) {
             return false;
@@ -47,7 +47,7 @@ class Ethna_SOAP_Util
      *  @return bool    true:スカラー型配列 false:それ以外の型
      *  @static
      */
-    function isArrayOfScalar($def)
+    public static function isArrayOfScalar($def)
     {
         if (is_array($def) == false) {
             return false;
@@ -66,7 +66,7 @@ class Ethna_SOAP_Util
      *  @return string  型名
      *  @static
      */
-    function getScalarTypeName($def)
+    public static function getScalarTypeName($def)
     {
         $name = null;
         switch ($def) {
@@ -97,7 +97,7 @@ class Ethna_SOAP_Util
      *  @return string  型名
      *  @static
      */
-    function getArrayTypeName($def)
+    public static function getArrayTypeName($def)
     {
         $name = null;
         switch ($def) {
@@ -127,7 +127,7 @@ class Ethna_SOAP_Util
      *  @param  array   $retval 戻り値型定義
      *  @static
      */
-    function fixRetval(&$retval)
+    public static function fixRetval(&$retval)
     {
         $retval['errorcode'] = VAR_TYPE_INT;
         $retval['errormessage'] = VAR_TYPE_STRING;

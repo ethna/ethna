@@ -78,7 +78,7 @@ class Ethna_PearWrapper
      *  @param  string|null $channel    channel for the package repository.
      *  @return true|Ethna_Error
      */
-    function &init($target, $app_dir = null, $channel = null)
+    public function init($target, $app_dir = null, $channel = null)
     {
         $true = true;
         if ($target == 'master') {
@@ -139,7 +139,7 @@ class Ethna_PearWrapper
      *  @return true|Ethna_Error
      *  @access private 
      */
-    function &_setMasterConfig()
+    private function _setMasterConfig()
     {
         $true = true;
 
@@ -162,9 +162,9 @@ class Ethna_PearWrapper
      *  config for local.
      *
      *  @return true|Ethna_Error
-     *  @access private 
+     *  @access protected
      */
-    function &_setLocalConfig()
+    protected function _setLocalConfig()
     {
         $true = true;
 
@@ -227,7 +227,7 @@ class Ethna_PearWrapper
      *
      *  @return true|Ethna_Error
      */
-    function &doClearCache()
+    public function doClearCache()
     {
         $true = true;
         $r = $this->_run('clear-cache', array(), array());
@@ -244,7 +244,7 @@ class Ethna_PearWrapper
      *
      *  @return true|Ethna_Error
      */
-    function &doChannelDiscover()
+    public function doChannelDiscover()
     {
         $true = true;
         $r = $this->_run('channel-discover', array(), array($this->channel));
@@ -261,7 +261,7 @@ class Ethna_PearWrapper
      *
      *  @return bool
      */
-    function isChannelExists()
+    public function isChannelExists()
     {
         return $this->registry->channelExists($this->channel);
     }
@@ -273,7 +273,7 @@ class Ethna_PearWrapper
      *
      *  @return true|Ethna_Error
      */
-    function &doChannelUpdate()
+    public function doChannelUpdate()
     {
         $true = true;
         if ($this->isChannelExists() == false) {
@@ -299,7 +299,7 @@ class Ethna_PearWrapper
      *  @return true|Ethna_Error
      *  @access private 
      */
-    function &_doInstallOrUpgrade($command, $package)
+    private function _doInstallOrUpgrade($command, $package)
     {
         $true = true;
         $r = $this->_run($command, array(), array($package));
@@ -318,7 +318,7 @@ class Ethna_PearWrapper
      *  @param  string  $state      package state.
      *  @return true|Ethna_Error
      */
-    function &doInstall($pkg_name, $state = null)
+    public function doInstall($pkg_name, $state = null)
     {
         $pkg = "{$this->channel}/{$pkg_name}";
         if ($state !== null) {
@@ -336,7 +336,7 @@ class Ethna_PearWrapper
      *  @param  string  $pkg_file   package filename
      *  @return true|Ethna_Error
      */
-    function &doInstallFromTgz($pkg_file)
+    public function doInstallFromTgz($pkg_file)
     {
         $r = $this->_doInstallOrUpgrade('install', $pkg_file); 
         return $r;
@@ -351,7 +351,7 @@ class Ethna_PearWrapper
      *  @param  string  $state      package state.
      *  @return true|Ethna_Error
      */
-    function &doUpgrade($pkg_name, $state = null)
+    public function doUpgrade($pkg_name, $state = null)
     {
         $pkg = "{$this->channel}/{$pkg_name}";
         if ($state !== null) {
@@ -369,7 +369,7 @@ class Ethna_PearWrapper
      *  @param  string  $pkg_file   package filename
      *  @return true|Ethna_Error
      */
-    function &doUpgradeFromTgz($pkg_file)
+    public function doUpgradeFromTgz($pkg_file)
     {
         $r = $this->_doInstallOrUpgrade('upgrade', $pkg_file); 
         return $r;
@@ -383,7 +383,7 @@ class Ethna_PearWrapper
      *  @param  string  $package package name
      *  @return bool
      */
-    function isInstalled($package)
+    public function isInstalled($package)
     {
         return $this->registry->packageExists($package, $this->channel);
     }
@@ -396,7 +396,7 @@ class Ethna_PearWrapper
      *  @param  string  $package package name
      *  @return string  version string
      */
-    function getVersion($package)
+    public function getVersion($package)
     {
         $pobj = $this->registry->getPackage($package, $this->channel);
         return $pobj->getVersion();
@@ -410,7 +410,7 @@ class Ethna_PearWrapper
      *  @param  string  $package package name
      *  @return string  version string
      */
-    function getState($package)
+    public function getState($package)
     {
         $pobj = $this->registry->getPackage($package, $this->channel);
         return $pobj->getState();
@@ -423,7 +423,7 @@ class Ethna_PearWrapper
      *
      *  @return true|Ethna_Error
      */
-    function &doUninstall($package)
+    public function doUninstall($package)
     {
         $true = true;
         if ($this->isInstalled($package) == false) {
@@ -449,7 +449,7 @@ class Ethna_PearWrapper
      *  @access public
      *  @static
      */
-    function &getPackageNameFromTgz($filename)
+    public function getPackageNameFromTgz($filename)
     {
         $config = PEAR_Config::singleton();
         $packagefile = new PEAR_PackageFile($config);
@@ -470,7 +470,7 @@ class Ethna_PearWrapper
      *  @return string  canonical name
      *  @access public
      */
-    function &getCanonicalPackageName($package)
+    public function getCanonicalPackageName($package)
     {
         if ($this->isInstalled($package) == false) {
             return Ethna::raiseNotice("{$this->channel}/{$package} is not installed.");
@@ -488,7 +488,7 @@ class Ethna_PearWrapper
      *  @return array   installed package list
      *  @access public
      */
-    function &getInstalledPackageList()
+    public function getInstalledPackageList()
     {
         $ret = array();
         foreach ($this->registry->listPackages($this->channel) as $pkg) {
@@ -505,7 +505,7 @@ class Ethna_PearWrapper
      *  @param  string  $package    package name.
      *  @return true|Ethna_Error
      */
-    function &doInfo($package)
+    public function doInfo($package)
     {
         return $this->_run('info', array(), array("{$this->channel}/{$package}"));
     }
@@ -518,7 +518,7 @@ class Ethna_PearWrapper
      *  @param  string  $package    package name.
      *  @return true|Ethna_Error
      */
-    function &doRemoteInfo($package)
+    public function doRemoteInfo($package)
     {
         return $this->_run('remote-info', array(), array("{$this->channel}/{$package}"));
     }
@@ -530,7 +530,7 @@ class Ethna_PearWrapper
      *
      *  @return true|Ethna_Error
      */
-    function &doUpgradeAll()
+    public function doUpgradeAll()
     {
         return $this->_run('upgrade-all', array('channel' => "{$this->channel}"), array());
     }
@@ -542,7 +542,7 @@ class Ethna_PearWrapper
      *
      *  @return true|Ethna_Error
      */
-    function &doList()
+    public function doList()
     {
         return $this->_run('list', array('channel' => $this->channel), array());
     }
@@ -554,7 +554,7 @@ class Ethna_PearWrapper
      *
      *  @return true|Ethna_Error
      */
-    function &doRemoteList()
+    public function doRemoteList()
     {
         return $this->_run('remote-list', array('channel' => $this->channel), array());
     }
@@ -571,7 +571,7 @@ class Ethna_PearWrapper
      *  @access private 
      *  @see PEAR_Command_Common::run, etc.
      */
-    function &_run($command, $options, $params)
+    protected function _run($command, $options, $params)
     {
         if ($this->config === null) {
             return Ethna::raiseError('configuration not initialized.');
@@ -604,7 +604,7 @@ class Ethna_PearWrapper
      *  @return bool
      *  @access public
      */
-    function confirmDialog($message, $default = 'yes')
+    public function confirmDialog($message, $default = 'yes')
     {
         $ret = $this->ui->userConfirm($message);
         return $ret;
@@ -617,7 +617,7 @@ class Ethna_PearWrapper
      *  @param  array   $rows       rows which have the same size as headline's.
      *  @access public
      */
-    function displayTable($caption, $headline, $rows)
+    public function displayTable($caption, $headline, $rows)
     {
         // spacing
         foreach (array_keys($headline) as $k) {
@@ -635,7 +635,7 @@ class Ethna_PearWrapper
      *  (experimental)
      *  @access public
      */
-    function setPearOpt($pearopt)
+    public function setPearOpt($pearopt)
     {
         $this->_pearopt = $pearopt;
     }
@@ -644,7 +644,7 @@ class Ethna_PearWrapper
      *  (experimental)
      *  @return array
      */
-    function _getPearOpt(&$cmd_obj, $cmd_str, $opt_array)
+    private function _getPearOpt(&$cmd_obj, $cmd_str, $opt_array)
     {
         $short_args = $long_args = null;
         PEAR_Command::getGetOptArgs($cmd_str, $short_args, $long_args);

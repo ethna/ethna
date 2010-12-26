@@ -4,10 +4,11 @@
 
 *** features
 
-- PHP 5.3
--- remove DEPRECATED syntax
---- unneccesary reference
-
+- PHP 5.3 対応のための変更 (B.C. PHP 4 非対応となります)
+-- 非推奨シンタックスの除去 (Remove DEPRECATED syntax)
+--- 不要な参照渡し、new演算子の参照代入の除去
+--- アクセス修飾子、static修飾子の導入(一部)
+--- コンストラクタメソッド名の変更(クラス名から__construct()へ)
 - Ethna_ViewClass#redirect にて、リダイレクト用HTTPステータスコードが302で固定だったので、オプション引数として変更可能とした
 - Ethna_Plugin::import という，プラグインソースをincludeするための，staticメソッドを追加．
 - すべてのPluginの基底となる抽象クラス，Ethna_Plugin_Abstractを追加
