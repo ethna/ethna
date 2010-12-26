@@ -42,7 +42,7 @@ class Ethna_Plugin_Generator_EntryPoint extends Ethna_Plugin_Generator
                               $action_name, $this->ctl->getExt('php'));
             break;
         default:
-            $ret =& Ethna::raiseError(
+            $ret = Ethna::raiseError(
                 'add-entry-point accepts only GATEWAY_WWW or GATEWAY_CLI.');
             return $ret;
         }

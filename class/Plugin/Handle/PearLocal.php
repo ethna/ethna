@@ -10,7 +10,7 @@
  */
 
 require_once 'PEAR/Config.php';
-require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
+require_once ETHNA_BASE . '/class/PearWrapper.php';
 
 // {{{ Ethna_PearConfig_Local
 /**
@@ -21,7 +21,7 @@ require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
  *  @access     private
  *  @package    Ethna
  */
-class Ethna_PearConfig_Local extends Ethna_PearWrapper 
+class Ethna_PearConfig_Local extends Ethna_PearWrapper
 {
 
     // {{{ _setLocalConfig 
@@ -31,7 +31,7 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
      *  @return true|Ethna_Error
      *  @access private 
      */
-    function &_setLocalConfig()
+    protected function _setLocalConfig()
     {
         $true = true;
 
@@ -63,7 +63,7 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
                 ? $default_pearrc
                 : "{$base}/$app_pearrc";
         $this->conf_file = $pearrc;
-        $this->config =& PEAR_Config::singleton($pearrc);
+        $this->config = PEAR_Config::singleton($pearrc);
 
         // read local .pearrc if exists.
         if (is_file($pearrc) && is_readable($pearrc)) {
@@ -89,9 +89,9 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
         }
 
         // setup channel
-        $reg =& $this->config->getRegistry();
+        $reg = $this->config->getRegistry();
         if ($reg->channelExists($this->channel) == false) {
-            $ret =& $this->doChannelDiscover();
+            $ret = $this->doChannelDiscover();
             if (Ethna::isError($ret)) {
                 return $ret;
             }
@@ -134,7 +134,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
      */
     function &_parseArgList()
     {
-        $r =& $this->_getopt(array('basedir=', 'channel='));
+        $r = $this->_getopt(array('basedir=', 'channel='));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -162,12 +162,12 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
      *  @access public
      *  @todo   deal with the package including some plugins.
      */
-    function perform()
+    public function perform()
     {
         $true = true;
 
         //   check arguments.
-        $args =& $this->_parseArgList();
+        $args = $this->_parseArgList();
         if (Ethna::isError($args)) {
             return Ethna::raiseError(
                 $args->getMessage(),
@@ -178,8 +178,8 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
         $basedir = isset($args['basedir']) ? realpath($args['basedir']) : getcwd();
         $channel = isset($args['channel']) ? $args['channel'] : 'dummy';
 
-        $pear_local =& new Ethna_PearConfig_Local();
-        $r =& $pear_local->init('local', $basedir, $channel);
+        $pear_local = new Ethna_PearConfig_Local();
+        $r = $pear_local->init('local', $basedir, $channel);
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -228,7 +228,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
     /**
      *  @access public
      */
-    function getDescription()
+    public function getDescription()
     {
         return <<<EOS
 install pear package to {base_dir}/lib, {base_dir}/bin ... :
@@ -243,7 +243,7 @@ EOS;
     /**
      *  @access public
      */
-    function getUsage()
+    public function getUsage()
     {
         return <<<EOS
 ethna {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [pear command ...]

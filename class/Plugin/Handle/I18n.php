@@ -58,7 +58,7 @@ class Ethna_Plugin_Handle_I18n extends Ethna_Plugin_Handle
         $use_gettext = (isset($opt_list['gettext'])) ? true : false;
 
         //  generate message catalog.
-        $ret =& Ethna_Generator::generate('I18n', $basedir, $locale, $use_gettext, $arg_list);
+        $ret = Ethna_Generator::generate('I18n', $basedir, $locale, $use_gettext, $arg_list);
         if (Ethna::isError($ret)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
             return $ret;

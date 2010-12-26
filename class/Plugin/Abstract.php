@@ -59,19 +59,19 @@ class Ethna_Plugin_Abstract
      *  @param  object  Ethna_Controller    &$controller    Controller Object
      */
     // function __construct(&$controller)
-    function Ethna_Plugin_Abstract(&$controller, $type = null, $name = null)
+    function Ethna_Plugin_Abstract($controller, $type = null, $name = null)
     {
-        $this->controller =& $controller;
-        $this->ctl =& $this->controller;
+        $this->controller = $controller;
+        $this->ctl = $this->controller;
 
-        $this->backend =& $this->controller->getBackend();
+        $this->backend = $this->controller->getBackend();
 
-        $this->logger =& $controller->getLogger();
+        $this->logger = $controller->getLogger();
 
-        $this->action_form =& $controller->getActionForm();
-        $this->af =& $this->action_form;
+        $this->action_form = $controller->getActionForm();
+        $this->af = $this->action_form;
 
-        $this->session =& $controller->getSession();
+        $this->session = $controller->getSession();
 
         // if constractor called without parameter $type or $name, auto detect type and name of self.
         if ($this->type === null) {
@@ -125,7 +125,7 @@ class Ethna_Plugin_Abstract
      */
     function _loadConfig()
     {
-        $config =& $this->ctl->getConfig();
+        $config = $this->ctl->getConfig();
         $plugin_config = $config->get('plugin');
 
         if ($plugin_config === null || !isset($plugin_config[$this->type])

@@ -32,20 +32,6 @@ class Ethna_Plugin_Urlhandler extends Ethna_Plugin_Abstract
     /**#@-*/
 
     /**
-     *  Urlhandlerクラスのコンストラクタ
-     *
-     *  @access public
-     *  @param  object  Ethna_Controller    $controller コントローラオブジェクト
-     */
-    /*
-    function Ethna_Plugin_Urlhandler(&$controller)
-    {
-        $this->backend =& $controller->getBackend();
-        $this->logger =& $controller->getLogger();
-    }
-    */
-
-    /**
      *  アクションをユーザリクエストに変換する
      *
      *  @param string $action

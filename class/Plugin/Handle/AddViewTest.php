@@ -27,7 +27,7 @@ class Ethna_Plugin_Handle_AddViewTest extends Ethna_Plugin_Handle_AddView
      */
     function perform()
     {
-        $r =& $this->_getopt(array('basedir=', 'skelfile='));
+        $r = $this->_getopt(array('basedir=', 'skelfile='));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -38,12 +38,12 @@ class Ethna_Plugin_Handle_AddViewTest extends Ethna_Plugin_Handle_AddView
         if ($view_name == null) {
             return Ethna::raiseError('view name isn\'t set.', 'usage');
         }
-        $r =& Ethna_Controller::checkViewName($view_name);
+        $r = Ethna_Controller::checkViewName($view_name);
         if (Ethna::isError($r)) {
             return $r;
         }
 
-        $ret =& $this->_perform('ViewTest', $view_name, $opt_list);
+        $ret = $this->_perform('ViewTest', $view_name, $opt_list);
         return $ret;
     }
 

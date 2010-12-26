@@ -54,10 +54,10 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
     /*
     function Ethna_Plugin_Validator(&$controller)
     {
-        $this->backend =& $controller->getBackend();
-        $this->logger =& $controller->getLogger();
-        $this->action_form =& $controller->getActionForm();
-        $this->af =& $this->action_form;
+        $this->backend = $controller->getBackend();
+        $this->logger = $controller->getLogger();
+        $this->action_form = $controller->getActionForm();
+        $this->af = $this->action_form;
     }
     */
 
@@ -69,7 +69,7 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-    function &validate($name, $var, $params)
+    function validate($name, $var, $params)
     {
         die('override!');
     }

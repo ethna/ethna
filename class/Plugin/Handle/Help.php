@@ -1,7 +1,7 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_Plugin_Handle_Help.php
+ *  Plugin_Handle_Help.php
  *
  *  @author     Tomoyuki MARUTA <maru_cc@users.sourceforge.jp>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -26,7 +26,7 @@ class Ethna_Plugin_Handle_Help extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r =& $this->_getopt();
+        $r = $this->_getopt();
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -47,7 +47,7 @@ class Ethna_Plugin_Handle_Help extends Ethna_Plugin_Handle
         }
 
         // getHandler
-        $handler =& $this->eh->getHandler($handle_name);
+        $handler = $this->eh->getHandler($handle_name);
         if (Ethna::isError($handler) || $handler === false) { 
             // command not found
             return Ethna::raiseError('command not found.', 'usage');

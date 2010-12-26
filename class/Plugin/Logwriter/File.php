@@ -138,7 +138,7 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
      */
     function _getLogFile()
     {
-        $controller =& Ethna_Controller::getInstance();
+        $controller = Ethna_Controller::getInstance();
 
         if (array_key_exists("dir", $this->option)) {
             $dir = $this->option['dir'];

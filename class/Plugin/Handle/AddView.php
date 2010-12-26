@@ -34,7 +34,7 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
         //  -t and -s option are reserved by add-[action|view] handle
         //  and Ethna_Getopt cannot interpret two-character option.
         //
-        $r =& $this->_getopt(
+        $r = $this->_getopt(
                   array('basedir=',
                         'skelfile=',
                         'with-unittest',
@@ -54,20 +54,20 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
         if ($view_name == null) {
             return Ethna::raiseError('view name isn\'t set.', 'usage');
         }
-        $r =& Ethna_Controller::checkViewName($view_name);
+        $r = Ethna_Controller::checkViewName($view_name);
         if (Ethna::isError($r)) {
             return $r;
         }
 
         // add view(invoke parent class method)
-        $ret =& $this->_perform('View', $view_name, $opt_list);
+        $ret = $this->_perform('View', $view_name, $opt_list);
         if (Ethna::isError($ret) || $ret === false) { 
             return $ret;
         }
 
         // add template
         if (isset($opt_list['template'])) {
-            $ret =& $this->_performTemplate($view_name, $opt_list);
+            $ret = $this->_performTemplate($view_name, $opt_list);
             if (Ethna::isError($ret) || $ret === false) { 
                 return $ret;
             }
@@ -83,7 +83,7 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
      *  @param  array  $opt_list    Option List.
      *  @access protected
      */
-    function &_performTemplate($target_name, $opt_list)
+    function _performTemplate($target_name, $opt_list)
     {
         // basedir
         if (isset($opt_list['basedir'])) {
@@ -100,7 +100,7 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
         }
 
         // locale
-        $ctl =& Ethna_Handle::getAppController(getcwd());
+        $ctl = Ethna_Handle::getAppController(getcwd());
         if (isset($opt_list['locale'])) {
             $locale = end($opt_list['locale']);
             if (!preg_match('/^[A-Za-z_]+$/', $locale)) {
@@ -131,7 +131,7 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
             }
         }
 
-        $r =& Ethna_Generator::generate('Template', $basedir,
+        $r = Ethna_Generator::generate('Template', $basedir,
                                         $target_name, $skelfile, $locale, $encoding);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");

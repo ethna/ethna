@@ -28,7 +28,7 @@ class Ethna_Plugin_Handle_AddEntryPoint extends Ethna_Plugin_Handle_AddAction
      */
     function perform()
     {
-        $r =& $this->_getopt(array('basedir=', 'skelfile=', 'gateway='));
+        $r = $this->_getopt(array('basedir=', 'skelfile=', 'gateway='));
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -39,19 +39,19 @@ class Ethna_Plugin_Handle_AddEntryPoint extends Ethna_Plugin_Handle_AddAction
         if ($action_name == null) {
             return Ethna::raiseError('action name isn\'t set.', 'usage');
         }
-        $r =& Ethna_Controller::checkActionName($action_name);
+        $r = Ethna_Controller::checkActionName($action_name);
         if (Ethna::isError($r)) {
             return $r;
         }
 
         // add entry point
-        $ret =& $this->_perform('EntryPoint', $action_name, $opt_list);
+        $ret = $this->_perform('EntryPoint', $action_name, $opt_list);
         if (Ethna::isError($ret) || $ret === false) { 
             return $ret;
         }
 
         // add action (no effects if already exists.)
-        $ret =& $this->_perform('Action', $action_name, $opt_list);
+        $ret = $this->_perform('Action', $action_name, $opt_list);
         if (Ethna::isError($ret) || $ret === false) { 
             return $ret;
         }

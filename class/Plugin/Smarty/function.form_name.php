@@ -15,8 +15,8 @@ function smarty_function_form_name($params, &$smarty)
     }
 
     // view object
-    $c =& Ethna_Controller::getInstance();
-    $view =& $c->getView();
+    $c = Ethna_Controller::getInstance();
+    $view = $c->getView();
     if ($view === null) {
         return null;
     }

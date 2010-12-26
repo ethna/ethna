@@ -50,12 +50,12 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
         if ($action_name == null) {
             return Ethna::raiseError('action name isn\'t set.', 'usage');
         }
-        $r =& Ethna_Controller::checkActionName($action_name);
+        $r = Ethna_Controller::checkActionName($action_name);
         if (Ethna::isError($r)) {
             return $r;
         }
 
-        $ret =& $this->_perform('Action', $action_name, $opt_list);
+        $ret = $this->_perform('Action', $action_name, $opt_list);
         return $ret;
     }
 
@@ -91,7 +91,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
         }
         
         //  possible target is Action, View.
-        $r =& Ethna_Generator::generate($target, $basedir,
+        $r = Ethna_Generator::generate($target, $basedir,
                                         $target_name, $skelfile, $gateway);
         if (Ethna::isError($r)) {
             printf("error occurred while generating skelton. please see also following error message(s)\n\n");
@@ -106,7 +106,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
             $testskel = (isset($opt_list['unittestskel']))
                       ? end($opt_list['unittestskel'])
                       : null;
-            $r =& Ethna_Generator::generate("{$target}Test", $basedir, $target_name, $testskel, $gateway);
+            $r = Ethna_Generator::generate("{$target}Test", $basedir, $target_name, $testskel, $gateway);
             if (Ethna::isError($r)) {
                 printf("error occurred while generating action test skelton. please see also following error message(s)\n\n");
                 return $r;

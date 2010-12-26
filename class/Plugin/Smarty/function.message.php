@@ -18,8 +18,8 @@ function smarty_function_message($params, &$smarty)
         return '';
     }
 
-    $c =& Ethna_Controller::getInstance();
-    $action_error =& $c->getActionError();
+    $c = Ethna_Controller::getInstance();
+    $action_error = $c->getActionError();
 
     $message = $action_error->getMessage($params['name']);
     if ($message === null) {

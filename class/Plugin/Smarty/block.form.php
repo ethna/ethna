@@ -8,8 +8,8 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
         // {form}: ブロック内部に進む前の処理
 
         // 配列指定のフォームヘルパ用カウンタをリセットする
-        $c =& Ethna_Controller::getInstance();
-        $view =& $c->getView();
+        $c = Ethna_Controller::getInstance();
+        $view = $c->getView();
         $view->resetFormCounter();
 
         // {form default=... }
@@ -17,11 +17,11 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             // 指定なしのときは $form を使う
             // 1テンプレートに複数 {form} を指定する場合は、
             // default を指定することが必要
-            $af =& $c->getActionForm();
+            $af = $c->getActionForm();
 
             // c.f. http://smarty.net/manual/en/plugins.block.functions.php
             $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['default']
-                =& $af->getArray(false);
+                = $af->getArray(false);
         }
 
         // {form name=... }
@@ -35,7 +35,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
         // 動的フォームヘルパを呼ぶ
         if (isset($params['ethna_action'])) {
             $ethna_action = $params['ethna_action'];
-            $view =& $c->getView();
+            $view = $c->getView();
             $view->addActionFormHelper($ethna_action, true);
         }  
 
@@ -45,8 +45,8 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
     } else {
         // {/form}: ブロック全体を出力
 
-        $c =& Ethna_Controller::getInstance();
-        $view =& $c->getView();
+        $c = Ethna_Controller::getInstance();
+        $view = $c->getView();
         if ($view === null) {
             return null;
         }

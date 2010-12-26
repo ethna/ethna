@@ -31,7 +31,7 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r =& $this->_getopt(array('basedir=', 
+        $r = $this->_getopt(array('basedir=', 
                                    'any-tmp-files', 'smarty', 'pear', 'cachemanager'));
         if (Ethna::isError($r)) {
             return $r;
@@ -39,7 +39,7 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
         list($args,) = $r;
 
         $basedir = isset($args['basedir']) ? realpath(end($args['basedir'])) : getcwd();
-        $controller =& Ethna_Handle::getAppController($basedir);
+        $controller = Ethna_Handle::getAppController($basedir);
         if (Ethna::isError($controller)) {
             return $controller;
         }
@@ -47,7 +47,7 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
 
         if (isset($args['smarty']) || isset($args['any-tmp-files'])) {
             echo "cleaning smarty caches, compiled templates...";
-            $renderer =& $controller->getRenderer();
+            $renderer = $controller->getRenderer();
             if (strtolower(get_class($renderer)) == "ethna_renderer_smarty") {
                 $renderer->engine->clear_all_cache();
                 $renderer->engine->clear_compiled_tpl();

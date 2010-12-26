@@ -15,12 +15,12 @@
  */
 function smarty_function_csrfid($params, &$smarty)
 {
-    $c =& Ethna_Controller::getInstance();
+    $c = Ethna_Controller::getInstance();
     $name = $c->config->get('csrf');
     if (is_null($name)) {
         $name = 'Session';
     }
-    $plugin =& $c->getPlugin();
+    $plugin = $c->getPlugin();
     $csrf = $plugin->getPlugin('Csrf', $name);
     $csrfid = $csrf->get();
     $token_name = $csrf->getName();

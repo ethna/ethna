@@ -20,7 +20,7 @@ class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-    function &validate($name, $var, $params)
+    function validate($name, $var, $params)
     {
         $true = true;
         $type = $this->getFormType($name);
@@ -29,7 +29,7 @@ class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
             return $true;
         }
 
-        $ctl =& $this->backend->getController();
+        $ctl = $this->backend->getController();
         $cli_enc = $ctl->getClientEncoding();
         $encoding = (isset($params['encoding']))
                   ? $params['encoding']

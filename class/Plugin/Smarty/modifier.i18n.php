@@ -15,9 +15,9 @@
  */
 function smarty_modifier_i18n($string)
 {
-    $c =& Ethna_Controller::getInstance();
+    $c = Ethna_Controller::getInstance();
 
-    $i18n =& $c->getI18N();
+    $i18n = $c->getI18N();
 
     return $i18n->get($string);
 }

@@ -51,7 +51,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 }
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '2.5.0-preview6 Git');
+define('ETHNA_VERSION', '2.6.0-beta1');
 
 /**
  * ダミーのエラーモード
@@ -62,46 +62,46 @@ define('ETHNA_ERROR_DUMMY', 'dummy');
 /** Ethnaベースディレクトリ定義 */
 define('ETHNA_BASE', dirname(__FILE__));
 
-require_once ETHNA_BASE . '/class/Ethna_ActionClass.php';
-require_once ETHNA_BASE . '/class/Ethna_ActionError.php';
-require_once ETHNA_BASE . '/class/Ethna_ActionForm.php';
-require_once ETHNA_BASE . '/class/Ethna_AppManager.php';
-require_once ETHNA_BASE . '/class/Ethna_AppObject.php';
-require_once ETHNA_BASE . '/class/Ethna_AppSQL.php';
-require_once ETHNA_BASE . '/class/Ethna_AppSearchObject.php';
-require_once ETHNA_BASE . '/class/Ethna_Backend.php';
-require_once ETHNA_BASE . '/class/Ethna_CacheManager.php';
-require_once ETHNA_BASE . '/class/Ethna_Config.php';
-require_once ETHNA_BASE . '/class/Ethna_Controller.php';
-require_once ETHNA_BASE . '/class/Ethna_ClassFactory.php';
-require_once ETHNA_BASE . '/class/Ethna_DB.php';
-require_once ETHNA_BASE . '/class/Ethna_Error.php';
-require_once ETHNA_BASE . '/class/Ethna_Filter.php';
-require_once ETHNA_BASE . '/class/Ethna_Handle.php';
-require_once ETHNA_BASE . '/class/Ethna_I18N.php';
-require_once ETHNA_BASE . '/class/Ethna_Logger.php';
-require_once ETHNA_BASE . '/class/Ethna_MailSender.php';
-require_once ETHNA_BASE . '/class/Ethna_Session.php';
-require_once ETHNA_BASE . '/class/Ethna_Generator.php';
-require_once ETHNA_BASE . '/class/Ethna_UrlHandler.php';
-require_once ETHNA_BASE . '/class/Ethna_Util.php';
-require_once ETHNA_BASE . '/class/Ethna_ViewClass.php';
-require_once ETHNA_BASE . '/class/View/Ethna_View_Json.php';
-require_once ETHNA_BASE . '/class/View/Ethna_View_Redirect.php';
-require_once ETHNA_BASE . '/class/View/Ethna_View_403.php';
-require_once ETHNA_BASE . '/class/View/Ethna_View_404.php';
-require_once ETHNA_BASE . '/class/View/Ethna_View_500.php';
-require_once ETHNA_BASE . '/class/View/Ethna_View_List.php';
-require_once ETHNA_BASE . '/class/Ethna_Plugin.php';
-require_once ETHNA_BASE . '/class/Ethna_Renderer.php';
-require_once ETHNA_BASE . '/class/CLI/Ethna_CLI_ActionClass.php';
+require_once ETHNA_BASE . '/class/ActionClass.php';
+require_once ETHNA_BASE . '/class/ActionError.php';
+require_once ETHNA_BASE . '/class/ActionForm.php';
+require_once ETHNA_BASE . '/class/AppManager.php';
+require_once ETHNA_BASE . '/class/AppObject.php';
+require_once ETHNA_BASE . '/class/AppSQL.php';
+require_once ETHNA_BASE . '/class/AppSearchObject.php';
+require_once ETHNA_BASE . '/class/Backend.php';
+require_once ETHNA_BASE . '/class/CacheManager.php';
+require_once ETHNA_BASE . '/class/Config.php';
+require_once ETHNA_BASE . '/class/Controller.php';
+require_once ETHNA_BASE . '/class/ClassFactory.php';
+require_once ETHNA_BASE . '/class/DB.php';
+require_once ETHNA_BASE . '/class/Error.php';
+require_once ETHNA_BASE . '/class/Filter.php';
+require_once ETHNA_BASE . '/class/Handle.php';
+require_once ETHNA_BASE . '/class/I18N.php';
+require_once ETHNA_BASE . '/class/Logger.php';
+require_once ETHNA_BASE . '/class/MailSender.php';
+require_once ETHNA_BASE . '/class/Session.php';
+require_once ETHNA_BASE . '/class/Generator.php';
+require_once ETHNA_BASE . '/class/UrlHandler.php';
+require_once ETHNA_BASE . '/class/Util.php';
+require_once ETHNA_BASE . '/class/ViewClass.php';
+require_once ETHNA_BASE . '/class/View/Json.php';
+require_once ETHNA_BASE . '/class/View/Redirect.php';
+require_once ETHNA_BASE . '/class/View/403.php';
+require_once ETHNA_BASE . '/class/View/404.php';
+require_once ETHNA_BASE . '/class/View/500.php';
+require_once ETHNA_BASE . '/class/View/List.php';
+require_once ETHNA_BASE . '/class/Plugin.php';
+require_once ETHNA_BASE . '/class/Renderer.php';
+require_once ETHNA_BASE . '/class/CLI/ActionClass.php';
 
 if (extension_loaded('soap')) {
-    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_ActionForm.php';
-    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Gateway.php';
-    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_GatewayGenerator.php';
-    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_Util.php';
-    require_once ETHNA_BASE . '/class/SOAP/Ethna_SOAP_WsdlGenerator.php';
+    require_once ETHNA_BASE . '/class/SOAP/ActionForm.php';
+    require_once ETHNA_BASE . '/class/SOAP/Gateway.php';
+    require_once ETHNA_BASE . '/class/SOAP/GatewayGenerator.php';
+    require_once ETHNA_BASE . '/class/SOAP/Util.php';
+    require_once ETHNA_BASE . '/class/SOAP/WsdlGenerator.php';
 }
 
 /** ゲートウェイ: WWW */
@@ -345,7 +345,7 @@ class Ethna
      *                を含む場合のみ TRUEを返します。
      *  @static
      */
-    function isError($data, $msgcode = NULL)
+    public static function isError($data, $msgcode = NULL)
     {
         if (!is_object($data)) {
             return false;
@@ -372,7 +372,7 @@ class Ethna
      *  @param  int     $code               エラーコード
      *  @static
      */
-    function &raiseError($message, $code = E_GENERAL)
+    public static function raiseError($message, $code = E_GENERAL)
     {
         $userinfo = null;
         if (func_num_args() > 2) {
@@ -393,7 +393,7 @@ class Ethna
      *  @param  int     $code               エラーコード
      *  @static
      */
-    function &raiseWarning($message, $code = E_GENERAL)
+    public static function raiseWarning($message, $code = E_GENERAL)
     {
         $userinfo = null;
         if (func_num_args() > 2) {
@@ -415,7 +415,7 @@ class Ethna
      *  @param  int     $code               エラーコード
      *  @static
      */
-    function &raiseNotice($message, $code = E_GENERAL)
+    public static function raiseNotice($message, $code = E_GENERAL)
     {
         $userinfo = null;
         if (func_num_args() > 2) {
@@ -436,7 +436,7 @@ class Ethna
      *  @param  mixed   string:コールバック関数名 array:コールバッククラス(名|オブジェクト)+メソッド名
      *  @static
      */
-    function setErrorCallback($callback)
+    public static function setErrorCallback($callback)
     {
         $GLOBALS['_Ethna_error_callback_list'][] = $callback;
     }
@@ -447,7 +447,7 @@ class Ethna
      *  @access public
      *  @static
      */
-    function clearErrorCallback()
+    public static function clearErrorCallback()
     {
         $GLOBALS['_Ethna_error_callback_list'] = array();
     }
@@ -459,7 +459,7 @@ class Ethna
      *  @param  object  Ethna_Error     Ethna_Errorオブジェクト
      *  @static
      */
-    function handleError(&$error)
+    public static function handleError(&$error)
     {
         for ($i = 0; $i < count($GLOBALS['_Ethna_error_callback_list']); $i++) {
             $callback =& $GLOBALS['_Ethna_error_callback_list'][$i];

@@ -17,7 +17,7 @@ $base = dirname(dirname(dirname(__FILE__)));
 ini_set('include_path', $base.PATH_SEPARATOR.ini_get('include_path'));
 
 require_once 'Ethna/Ethna.php';
-require_once ETHNA_BASE . '/class/Ethna_Getopt.php';
+require_once ETHNA_BASE . '/class/Getopt.php';
 
 // fetch arguments
 $opt = new Ethna_Getopt();
@@ -28,7 +28,7 @@ if (Ethna::isError($arg_list)) {
 }
 array_shift($arg_list);  // remove "ethna_handle.php"
 
-$eh =& new Ethna_Handle();
+$eh = new Ethna_Handle();
 
 //  はじめの引数に - が含まれていればそれを分離する
 //  含まれていた場合、それは -v|--version でなければならない

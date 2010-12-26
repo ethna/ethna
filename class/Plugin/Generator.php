@@ -19,23 +19,6 @@
  */
 class Ethna_Plugin_Generator extends Ethna_Plugin_Abstract
 {
-    /** @var    object  Ethna_Controller    スケルトン生成に使うコントローラ */
-    //var $ctl;
-
-    /**
-     *  コンストラクタ
-     *
-     *  @access public
-     */
-    /*
-    function Ethna_Plugin_Generator(&$controller, $type, $name)
-    {
-        // Ethna_Generatorでpluginを取得するときに使ったコントローラ
-        // ex, add-projectではEthna_Controller, add-actionではApp_Controller
-        $this->ctl =& $controller;
-    }
-    */
-
     /**
      *  スケルトンファイルの絶対パスを解決する
      *
