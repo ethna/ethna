@@ -10,7 +10,7 @@
  */
 
 require_once 'PEAR/Config.php';
-require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
+require_once ETHNA_BASE . '/class/PearWrapper.php';
 
 // {{{ Ethna_PearConfig_Local
 /**
@@ -21,7 +21,7 @@ require_once ETHNA_BASE . '/class/Ethna_PearWrapper.php';
  *  @access     private
  *  @package    Ethna
  */
-class Ethna_PearConfig_Local extends Ethna_PearWrapper 
+class Ethna_PearConfig_Local extends Ethna_PearWrapper
 {
 
     // {{{ _setLocalConfig 
@@ -31,7 +31,7 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
      *  @return true|Ethna_Error
      *  @access private 
      */
-    function &_setLocalConfig()
+    protected function _setLocalConfig()
     {
         $true = true;
 
@@ -162,7 +162,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
      *  @access public
      *  @todo   deal with the package including some plugins.
      */
-    function perform()
+    public function perform()
     {
         $true = true;
 
@@ -228,7 +228,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
     /**
      *  @access public
      */
-    function getDescription()
+    public function getDescription()
     {
         return <<<EOS
 install pear package to {base_dir}/lib, {base_dir}/bin ... :
@@ -243,7 +243,7 @@ EOS;
     /**
      *  @access public
      */
-    function getUsage()
+    public function getUsage()
     {
         return <<<EOS
 ethna {$this->id} [-c|--channel=channel] [-b|--basedir=dir] [pear command ...]
