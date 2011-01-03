@@ -89,10 +89,7 @@ $packagexml->addPackageDepWithChannel('optional', 'DB', 'pear.php.net');
 $packagexml->addPackageDepWithChannel('optional', 'Smarty', $ethna_channel);
 $packagexml->addPackageDepWithChannel('optional', 'simpletest', $ethna_channel);
 
-$packagexml->addMaintainer('lead', 'fujimoto' , 'Masaki Fujimoto', 'fujimoto@php.net');
-$packagexml->addMaintainer('lead', 'halt' , 'halt feits', 'halt.feits@gmail.com');
-$packagexml->addMaintainer('lead', 'cocoitiban', 'Keita Arai', 'cocoiti@comio.info');
-$packagexml->addMaintainer('lead', 'ichii386', 'ICHII Takashi', 'ichii386@schweetheart.jp');
+$packagexml->addMaintainer('lead', 'sotarok' , 'Sotaro Karasawa', 'sotaro.k@gmail.com');
 
 $packagexml->setLicense('The BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
 

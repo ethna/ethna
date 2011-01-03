@@ -113,6 +113,7 @@ Copyright (c) 2004-%s,
   nozzzzz <nozzzzz@gmail.com>
   cocoitiban <cocoiti@comio.info>
   Yoshinari Takaoka <takaoka@beatcraft.com>
+  Sotaro Karasawa <sotaro.k@gmail.com>
 
 http://ethna.jp/
 
