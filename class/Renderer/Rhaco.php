@@ -12,7 +12,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . BASE . '/lib/rhaco');
 
 require_once 'rhaco/Rhaco.php';
 require_once 'rhaco/tag/TemplateParser.php';
-require_once ETHNA_BASE . '/class/Ethna_SmartyPlugin.php';
+require_once ETHNA_BASE . '/class/SmartyPlugin.php';
 
 /**
  *  Rhacoレンダラクラス

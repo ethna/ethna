@@ -44,8 +44,12 @@ class Ethna_Renderer
     /** @var    string  テンプレート変数 */
     var $prop;
     
-    /** @var    string  レンダラプラグイン(Ethna_Pluginとは関係なし) */
-    var $plugin_registry;
+    /** @protected    string  レンダラプラグイン(Ethna_Pluginとは関係なし) */
+    protected $plugin_registry;
+
+    /** @protected    object  Ethna_Logger    ログオブジェクト */
+    protected $logger;
+
     
     /**
      *  Ethna_Rendererクラスのコンストラクタ
@@ -63,6 +67,7 @@ class Ethna_Renderer
         $this->plugin_registry = array();
         $config = $this->ctl->getConfig();
         $this->config = $config->get('renderer'); 
+        $this->logger = $this->controller->getBackend()->getLogger();
     }
 
     /**

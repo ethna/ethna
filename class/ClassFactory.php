@@ -72,7 +72,7 @@ class Ethna_ClassFactory
      *  @param  bool    $weak   オブジェクトが未生成の場合の強制生成フラグ(default: false)
      *  @return object  Ethna_AppManager    マネージャオブジェクト
      */
-    function &getManager($type, $weak = false)
+    function getManager($type, $weak = false)
     {
         $obj = null;
 
@@ -147,7 +147,7 @@ class Ethna_ClassFactory
      *  @param  bool    $ext    オブジェクトが未生成の場合の強制生成フラグ(default: false)
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &getObject($key, $ext = false)
+    function getObject($key, $ext = false)
     {
         $object = null;
 
@@ -243,7 +243,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_Backend($class_name)
+    function _getObject_Backend($class_name)
     {
         $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
@@ -256,7 +256,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_Config($class_name)
+    function _getObject_Config($class_name)
     {
         $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
@@ -269,7 +269,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_I18n($class_name)
+    function _getObject_I18n($class_name)
     {
         $_ret_object = new $class_name($this->ctl->getDirectory('locale'), $this->ctl->getAppId());
         return $_ret_object;
@@ -282,7 +282,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_Logger($class_name)
+    function _getObject_Logger($class_name)
     {
         $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
@@ -295,7 +295,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_Plugin($class_name)
+    function _getObject_Plugin($class_name)
     {
         $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
@@ -308,7 +308,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_Renderer($class_name)
+    function _getObject_Renderer($class_name)
     {
         $_ret_object = new $class_name($this->ctl);
         return $_ret_object;
@@ -321,7 +321,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_Session($class_name)
+    function _getObject_Session($class_name)
     {
         $_ret_object = new $class_name($this->ctl, $this->ctl->getAppId());
         return $_ret_object;
@@ -334,7 +334,7 @@ class Ethna_ClassFactory
      *  @param  string  $class_name     クラス名
      *  @return object  生成されたオブジェクト(エラーならnull)
      */
-    function &_getObject_Sql($class_name)
+    function _getObject_Sql($class_name)
     {
         $_ret_object = new $class_name($this->ctl);
         return $_ret_object;

@@ -1,62 +1,62 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Smarty.php
+ *  Smarty3.php
  *
- *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
+ *  @author     Sotaro Karasawa <sotaro.k@gmail.com>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
  *  @version    $Id$
  */
+
 require_once 'Smarty/Smarty.class.php';
 
-// {{{ Ethna_Renderer_Smarty
+// {{{ Ethna_Renderer_Smarty3
 /**
- *  Smartyレンダラクラス（Mojaviのまね）
+ *  Smarty 3.x
  *
- *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
- *  @access     public
+ *  @author     Sotaro Karasawa <sotaro.k@gmail.com>
  *  @package    Ethna
  */
-class Ethna_Renderer_Smarty extends Ethna_Renderer
+class Ethna_Renderer_Smarty3 extends Ethna_Renderer
 {
     /** @var    string compile directory  */
     var $compile_dir;
-    
+
     /**
-     *  Ethna_Renderer_Smartyクラスのコンストラクタ
+     *  Constructor for Ethna_Renderer_Smarty3
      *
      *  @access public
      */
     public function __construct($controller)
     {
         parent::__construct($controller);
-        
-        $this->engine = new Smarty;
-        
-        // ディレクトリ関連は Controllerによって実行時に設定
-        // TODO: iniファイルによって上書き可にするかは要検討
+
+        $this->engine = new Smarty();
+
+        // Configurerd by controller
         $template_dir = $controller->getTemplatedir();
         $compile_dir = $controller->getDirectory('template_c');
 
         $this->setTemplateDir($template_dir);
         $this->compile_dir = $compile_dir;
-        $this->engine->template_dir = $this->template_dir;
-        $this->engine->compile_dir = $this->compile_dir;
+
+        $this->engine->template_dir = $template_dir;
+        $this->engine->compile_dir = $compile_dir;
         $this->engine->compile_id = md5($this->template_dir);
 
         //  デリミタは Ethna_Config を見る
-        $smarty_config = isset($this->config['smarty'])
-                       ? $this->config['smarty']
+        $smarty_config = isset($this->config['smarty3'])
+                       ? $this->config['smarty3']
                        : array();
-        if (array_key_exists('left_delimiter', $smarty_config)) {
+        if (isset($smarty_config['left_delimiter'])) {
             $this->engine->left_delimiter = $smarty_config['left_delimiter'];
         }
-        if (array_key_exists('right_delimiter', $smarty_config)) {
+        if (isset($smarty_config['right_delimiter'])) {
             $this->engine->right_delimiter = $smarty_config['right_delimiter'];
         }
 
-        // コンパイルディレクトリは必須なので一応がんばってみる
+        // make compile dir
         if (is_dir($this->engine->compile_dir) === false) {
             Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
@@ -66,16 +66,16 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
         );
     }
-    
+
     /**
-     *  ビューを出力する
+     *  Display the template
      *
-     *  @param  string  $template   テンプレート名
-     *  @param  bool    $capture    true ならば出力を表示せずに返す
+     *  @param  string  $template   template name
+     *  @param  bool    $capture    if true, not display but return as string
      *
      *  @access public
      */
-    function perform($template = null, $capture = false)
+    public function perform($template = null, $capture = false)
     {
         if ($template === null && $this->template === null) {
             return Ethna::raiseWarning('template is not defined');
@@ -85,29 +85,32 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             $this->template = $template;
         }
 
-        if ((is_absolute_path($this->template) && is_readable($this->template))
-            || is_readable($this->template_dir . $this->template)) {
-                if ($capture === true) {
-                    $captured = $this->engine->fetch($this->template);
-                    return $captured;
-                } else {
-                    $this->engine->display($this->template);
-                }
-        } else {
-            return Ethna::raiseWarning('template not found ' . $this->template, 500);
+        try {
+            if ((is_absolute_path($this->template) && is_readable($this->template))
+                || is_readable($this->template_dir . $this->template)) {
+                    if ($capture === true) {
+                        $captured = $this->engine->fetch($this->template);
+                        return $captured;
+                    } else {
+                        $this->engine->display($this->template);
+                    }
+            } else {
+                return Ethna::raiseWarning('template not found ' . $this->template);
+            }
+        } catch (SmartyCompilerException $e) {
+            $this->logger->log(LOG_ERR, "smarty compile error: msg='{$e->getMessage()}'");
+            return Ethna::raiseError("smarty compile error: msg='{$e->getMessage()}'", 500);
         }
     }
-    
+
     /**
-     * テンプレート変数を取得する
-     * 
-     *  @param string $name  変数名
+     * get tamplate variable
      *
-     *  @return mixed　変数
-     *
-     *  @access public
+     *  @param      string      $name  variable name
+     *  @return     mixed       variables
+     *  @access     public
      */
-    function getProp($name = null)
+    public function getProp($name = null)
     {
         $property = $this->engine->get_template_vars($name);
 
@@ -118,77 +121,76 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     }
 
     /**
-     *  テンプレート変数を削除する
-     * 
-     *  @param name    変数名
-     * 
+     *  remove template variable
+     *
+     *  @param  name    variable name
+     *
      *  @access public
      */
-    function removeProp($name)
+    public function removeProp($name)
     {
         $this->engine->clear_assign($name);
     }
 
     /**
-     *  テンプレート変数に配列を割り当てる
-     * 
-     *  @param array $array
-     * 
+     *  set array to template variable
+     *
+     *  @param  array   $array
+     *
      *  @access public
      */
-    function setPropArray($array)
+    public function setPropArray($array)
     {
         $this->engine->assign($array);
     }
 
     /**
-     *  テンプレート変数に配列を参照として割り当てる
-     * 
-     *  @param array $array
-     * 
+     *  set array to template variable by reference
+     *
+     *  @param  array   $array
      *  @access public
      */
-    function setPropArrayByRef(&$array)
+    public function setPropArrayByRef(&$array)
     {
-        $this->engine->assign_by_ref($array);
+        $this->engine->assignByRef($array);
     }
 
     /**
-     *  テンプレート変数を割り当てる
-     * 
-     *  @param string $name 変数名
-     *  @param mixed $value 値
-     * 
+     *  set template variable
+     *
+     *  @param  string  $name   variable name
+     *  @param  mixed   $value  value
+     *
      *  @access public
      */
-    function setProp($name, $value)
+    public function setProp($name, $value)
     {
         $this->engine->assign($name, $value);
     }
 
     /**
-     *  テンプレート変数に参照を割り当てる
-     * 
-     *  @param string $name 変数名
-     *  @param mixed $value 値
-     * 
+     *  set template variable by reference
+     *
+     *  @param  string  $name   variable name
+     *  @param  mixed   $value  value
+     *
      *  @access public
      */
-    function setPropByRef($name, &$value)
+    public function setPropByRef($name, &$value)
     {
-        $this->engine->assign_by_ref($name, $value);
+        $this->engine->assignByRef($name, $value);
     }
 
     /**
      *  プラグインをセットする
-     * 
-     *  @param string $name　プラグイン名
-     *  @param string $type プラグインタイプ
-     *  @param mixed $plugin プラグイン本体
-     * 
+     *
+     *  @param  string  $name   plugin name
+     *  @param  string  $type   plugin type
+     *  @param  mixed   $plugin plugin
+     *  @TODO   i don't know whether this is working or not
      *  @access public
      */
-    function setPlugin($name, $type, $plugin) 
+    public function setPlugin($name, $type, $plugin)
     {
         //プラグイン関数の有無をチェック
         if (is_callable($plugin) === false) {
@@ -207,12 +209,12 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             $this->engine->$register_method($plugin);
             return;
         }
-        
+
         // プラグインの名前をチェック
         if ($name === '') {
             return Ethna::raiseWarning('Please set plugin name');
         }
-       
+
         // プラグインを登録する
         parent::setPlugin($name, $type, $plugin);
         $this->engine->$register_method($name, $plugin);
