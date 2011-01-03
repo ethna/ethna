@@ -195,16 +195,21 @@ class Ethna_ViewClass
                 $renderer->setProp('content', $content);
                 if (isset($_SERVER['REQUEST_URI'])) {
                     $uri_hash = md5($_SERVER['REQUEST_URI']);
-                    $renderer->perform($layout, $uri_hash);
+                    $e = $renderer->perform($layout, $uri_hash);
                 }
                 else {
-                    $renderer->perform($layout);
+                    $e = $renderer->perform($layout);
                 }
             } else {
                 return Ethna::raiseWarning('file "'.$layout.'" not found');
             }
         } else {
-            $renderer->perform($this->forward_path);
+            $e = $renderer->perform($this->forward_path);
+        }
+
+        if (Ethna::isError($e)) {
+            echo '<h1>Rendering error:</h1>';
+            echo '<h2>Message: ' . $e->getMessage() . '</h2>';
         }
     }
     // }}}

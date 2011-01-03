@@ -94,7 +94,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
                     $this->engine->display($this->template);
                 }
         } else {
-            return Ethna::raiseWarning('template not found ' . $this->template);
+            return Ethna::raiseWarning('template not found ' . $this->template, 500);
         }
     }
     
