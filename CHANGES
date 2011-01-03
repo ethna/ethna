@@ -38,6 +38,9 @@
 -- UrlHandler と .htaccess (mod_rewrite) を利用するためのひな形を生成
 - pecl::memcached 版に対応した Ethna_Plugin_Cachemanager_Memcached のバンドル
 - セッションハンドラのなど，セッションに関する設定の変更をするための記述を APPID-ini.php にできるようになりました．
+- Renderer
+-- Smarty3 追加
+-- Rhaco 削除: rhacoテンプレートレンダラは以後サポートしません(いつのrhacoのバージョンで動くのかもわかりませんでした)
 
 *** bug fix
 
