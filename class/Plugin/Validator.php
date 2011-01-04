@@ -28,38 +28,10 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend   backendオブジェクト */
-    //var $backend;
-
-    /** @var    object  Ethna_Logger    ログオブジェクト */
-    //var $logger;
-
-    /** @var    object  Ethna_ActionForm    フォームオブジェクト */
-    //var $action_form;
-
-    /** @var    object  Ethna_ActionForm    フォームオブジェクト */
-    //var $af;
-
     /** @var    bool    配列を受け取るバリデータかどうかのフラグ */
-    var $accept_array = false;
+    public $accept_array = false;
 
     /**#@-*/
-
-    /**
-     *  コンストラクタ
-     *
-     *  @access public
-     *  @param  object  Ethna_Controller    $controller コントローラオブジェクト
-     */
-    /*
-    function Ethna_Plugin_Validator(&$controller)
-    {
-        $this->backend = $controller->getBackend();
-        $this->logger = $controller->getLogger();
-        $this->action_form = $controller->getActionForm();
-        $this->af = $this->action_form;
-    }
-    */
 
     /**
      *  フォーム値検証のためにActionFormから呼び出されるメソッド
@@ -69,7 +41,7 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-    function validate($name, $var, $params)
+    public function validate($name, $var, $params)
     {
         die('override!');
     }
@@ -80,7 +52,7 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
      *  @access public
      *  @param  string  $name       フォームの名前
      */
-    function getFormDef($name)
+    public function getFormDef($name)
     {
         return $this->af->getDef($name);
     }
@@ -91,7 +63,7 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
      *  @access public
      *  @param  string  $name       フォームの名前
      */
-    function getFormType($name)
+    public function getFormType($name)
     {
         $def = $this->af->getDef($name);
         if (isset($def['type'])) {
@@ -112,7 +84,7 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
      *  @param  mixed   $var       フォームの値 (配列フォームの場合は各要素)
      *  @param  int     $type      フォームのtype
      */
-    function isEmpty($var, $type)
+    protected function isEmpty($var, $type)
     {
         if ($type == VAR_TYPE_FILE) {
             if (isset($var['error']) == false || $var['error'] != UPLOAD_ERR_OK) {
@@ -133,25 +105,25 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
     }
 
     /**
-     *  true を参照で返す
+     *  return true
      *
      *  @access protected
      */
-    function &ok()
+    protected function ok()
     {
         $true = true;
         return $true;
     }
 
     /**
-     *  エラーを返す
+     *  return error
      *
      *  @access protected
      *  @param  string  $msg        エラーメッセージ
      *  @param  int     $code       エラーコード
      *  @param  mixed   $info       エラーメッセージにsprintfで渡すパラメータ
      */
-    function &error($msg, $code, $info = null)
+    protected function error($msg, $code, $info = null)
     {
         if ($info != null) {
             if (is_array($info)) {
