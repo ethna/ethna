@@ -44,7 +44,7 @@ class Ethna_Session
         'path'              => 'tmp',
         'check_remote_addr' => true,
         'cache_limiter'     => 'nocache',
-        'cache_expier'      => '180',
+        'cache_expire'      => '180',
         'suffix'            => 'SESSID',
     );
 
@@ -78,7 +78,7 @@ class Ethna_Session
         session_save_path($this->session_save_dir);
         session_name($this->session_name);
         session_cache_limiter($this->config['cache_limiter']);
-        session_cache_expire($this->config['cache_expier']);
+        session_cache_expire($this->config['cache_expire']);
 
         $this->session_start = false;
         if (isset($_SERVER['REQUEST_METHOD']) == false) {

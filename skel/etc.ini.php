@@ -58,8 +58,8 @@ $config = array(
         'handler'   => 'files',
         'path'      => 'tmp',
         'check_remote_addr'      => true,
-        //'cache_limiter' => 'private_no_expier',
-        //'cache_expier'  => '180',
+        //'cache_limiter' => 'private_no_expire',
+        //'cache_expire'  => '180',
     ),
 
     // i18n
