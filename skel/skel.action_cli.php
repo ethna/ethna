@@ -17,10 +17,10 @@
 class {$action_form} extends {$project_id}_ActionForm
 {
     /**
-     *  @access private
+     *  @access protected
      *  @var    array   form definition.
      */
-    var $form = array(
+    protected $form = array(
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -57,7 +57,7 @@ class {$action_form} extends {$project_id}_ActionForm
      *  @return mixed           Converted result.
      */
     /*
-    function _filter_sample($value)
+    protected function _filter_sample($value)
     {
         //  convert to upper case.
         return strtoupper($value);
@@ -81,7 +81,7 @@ class {$action_class} extends {$project_id}_ActionClass
      *  @return string    forward name(null: success.
      *                                false: in case you want to exit.)
      */
-    function prepare()
+    public function prepare()
     {
         return null;
     }
@@ -92,7 +92,7 @@ class {$action_class} extends {$project_id}_ActionClass
      *  @access public
      *  @return string  forward name.
      */
-    function perform()
+    public function perform()
     {
         return null;
     }
