@@ -17,14 +17,14 @@
 class {$view_class} extends {$project_id}_ViewClass
 {
     /** @var boolean  layout template use flag   */
-    var $use_layout = true;
+    public $use_layout = true;
 
     /**
      *  preprocess before forwarding.
      *
      *  @access public
      */
-    function preforward()
+    public function preforward()
     {
     }
 }

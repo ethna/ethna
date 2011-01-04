@@ -78,7 +78,7 @@ class Ethna_ViewClass
      */
 
     /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定(拡張子は除く)   */
-    var $_layout_file = 'layout';
+    protected $_layout_file = 'layout';
 
     /**#@-*/
 
@@ -87,15 +87,15 @@ class Ethna_ViewClass
      */
 
     /** @var boolean  レイアウトテンプレートの使用フラグ       */
-    var $use_layout = true;
+    public $use_layout = true;
 
     /** @var  boolean  デフォルトのヘッダ出力を使用するか否か  */
     /**                ヘッダ出力を改造する場合はfalseにする   */
-    var $has_default_header = true;
+    public $has_default_header = true;
 
     /** @var  array    デフォルトのヘッダ出力を使用するか否か  */
     /**                ヘッダ出力を改造する場合はfalseにする   */
-    var $default_header = array(
+    public $default_header = array(
         'Pragma' => 'no-cache',
         'Cache-Control' => 'no-cache, no-store, must-revalidate',
     );
@@ -148,7 +148,7 @@ class Ethna_ViewClass
      *                          array('forward_name', $param) の形でアクション
      *                          から値を返すことで、$params に値が渡されます。
      */
-    function preforward($params = NULL)
+    public function preforward($params = NULL)
     {
     }
     // }}}
@@ -162,7 +162,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function forward()
+    public function forward()
     {
         $renderer = $this->_getRenderer();
         $this->_setDefault($renderer);
