@@ -38,7 +38,7 @@ class Ethna_Plugin_Validator_Strmaxcompat extends Ethna_Plugin_Validator
      *  @param  array   $params     プラグインのパラメータ
      *  @return true: 成功  Ethna_Error: エラー
      */
-    function validate($name, $var, $params)
+    public function validate($name, $var, $params)
     {
         $true = true;
         $type = $this->getFormType($name);

@@ -19,7 +19,7 @@ class Ethna_ActionForm_Validator_Max_Test extends Ethna_UnitTestBase
     {
         $this->af->use_validator_plugin = false;
         $this->af->clearFormVars();
-        $this->af->form = array();
+        $this->af->setDef(null, array());
         $this->ae->clear();
     }
 

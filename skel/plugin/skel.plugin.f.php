@@ -24,7 +24,7 @@ class Ethna_Plugin_Filter_{$plugin_name} extends Ethna_Plugin_Filter
      *
      *  @access public
      */
-    function preFilter()
+    public function preFilter()
     {
     }
 
@@ -37,7 +37,7 @@ class Ethna_Plugin_Filter_{$plugin_name} extends Ethna_Plugin_Filter
      *                string: if you return string, it will be interpreted
      *                        as Action name which will be executed immediately.
      */
-    function preActionFilter($action_name)
+    public function preActionFilter($action_name)
     {
     }
 
@@ -51,7 +51,7 @@ class Ethna_Plugin_Filter_{$plugin_name} extends Ethna_Plugin_Filter
      *                string: if you return string, it will be interpreted
      *                        as Forward name.
      */
-    function postActionFilter($action_name, $forward_name)
+    public function postActionFilter($action_name, $forward_name)
     {
     }
 
@@ -60,7 +60,7 @@ class Ethna_Plugin_Filter_{$plugin_name} extends Ethna_Plugin_Filter
      *
      *  @access public
      */
-    function postFilter()
+    public function postFilter()
     {
     }
 }

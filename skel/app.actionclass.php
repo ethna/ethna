@@ -25,7 +25,7 @@ class {$project_id}_ActionClass extends Ethna_ActionClass
      *  @return string  Forward name.
      *                  (null if no errors. false if we have something wrong.)
      */
-    function authenticate()
+    public function authenticate()
     {
         return parent::authenticate();
     }
@@ -37,7 +37,7 @@ class {$project_id}_ActionClass extends Ethna_ActionClass
      *  @return string  Forward name.
      *                  (null if no errors. false if we have something wrong.)
      */
-    function prepare()
+    public function prepare()
     {
         return parent::prepare();
     }
@@ -49,7 +49,7 @@ class {$project_id}_ActionClass extends Ethna_ActionClass
      *  @return string  Forward name.
      *                  (we does not forward if returns null.)
      */
-    function perform()
+    public function perform()
     {
         return parent::perform();
     }
