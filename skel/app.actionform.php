@@ -19,11 +19,11 @@
 class {$project_id}_ActionForm extends Ethna_ActionForm
 {
     /**#@+
-     *  @access private
+     *  @access protected
      */
 
     /** @var    array   form definition (default) */
-    var $form_template = array();
+    protected $form_template = array();
 
     /**#@-*/
 
@@ -34,7 +34,7 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
      *  @param  string      $name   form item name.
      *  @param  int         $code   error code.
      */
-    function handleError($name, $code)
+    public function handleError($name, $code)
     {
         return parent::handleError($name, $code);
     }
@@ -46,7 +46,7 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
      *  @param  array   $form_template  form template
      *  @return array   form template after setting.
      */
-    function _setFormTemplate($form_template)
+    protected function _setFormTemplate($form_template)
     {
         return parent::_setFormTemplate($form_template);
     }
@@ -56,7 +56,7 @@ class {$project_id}_ActionForm extends Ethna_ActionForm
      *
      *  @access protected
      */
-    function _setFormDef()
+    protected function _setFormDef()
     {
         return parent::_setFormDef();
     }

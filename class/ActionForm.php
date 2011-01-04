@@ -27,61 +27,61 @@ define('FILTER_FW', 'kana_hantozen,ntrim');
 class Ethna_ActionForm
 {
     /**#@+
-     *  @access private
+     *  @access protected
      */
 
     /** @var    array   フォーム値定義(デフォルト) */
-    var $form_template = array();
+    protected $form_template = array();
 
     /** @var    array   フォーム値定義 */
-    var $form = array();
+    protected $form = array();
 
-    /** @var    array   フォーム値 */
-    var $form_vars = array();
+    /** @FIXME @protected    array   フォーム値 */
+    public $form_vars = array();
 
-    /** @var    array   アプリケーション設定値 */
-    var $app_vars = array();
+    /** @protected    array   アプリケーション設定値 */
+    protected $app_vars = array();
 
-    /** @var    array   アプリケーション設定値(自動エスケープなし) */
-    var $app_ne_vars = array();
+    /** @protected    array   アプリケーション設定値(自動エスケープなし) */
+    protected $app_ne_vars = array();
 
-    /** @var    object  Ethna_Backend       バックエンドオブジェクト */
-    var $backend;
+    /** @protected    object  Ethna_Backend       バックエンドオブジェクト */
+    protected $backend;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト */
-    var $action_error;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト */
+    protected $action_error;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
-    var $ae;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
+    protected $ae;
 
-    /** @var    object  Ethna_I18N  i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N  i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_Logger    ログオブジェクト */
-    var $logger;
+    /** @protected    object  Ethna_Logger    ログオブジェクト */
+    protected $logger;
 
-    /** @var    object  Ethna_Plugin    プラグインオブジェクト */
-    var $plugin;
+    /** @protected    object  Ethna_Plugin    プラグインオブジェクト */
+    protected $plugin;
 
     /** @var    array   フォーム定義要素 */
-    var $def = array('name', 'required', 'max', 'min', 'regexp', 'mbregexp',
+    protected $def = array('name', 'required', 'max', 'min', 'regexp', 'mbregexp',
                      'custom', 'filter', 'form_type', 'type');
 
-    /** @var    array   フォーム定義のうち非プラグイン要素とみなすprefix */
-    var $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter',
+    /** @protected    array   フォーム定義のうち非プラグイン要素とみなすprefix */
+    protected $def_noplugin = array('type', 'form', 'name', 'plugin', 'filter',
                               'option', 'default');
 
-    /** @var    bool    追加検証強制フラグ */
-    var $force_validate_plus = false;
+    /** @protected    bool    追加検証強制フラグ */
+    protected $force_validate_plus = false;
 
-    /** @var    array   アプリケーションオブジェクト(helper) */
-    var $helper_app_object = array();
+    /** @protected    array   アプリケーションオブジェクト(helper) */
+    protected $helper_app_object = array();
 
-    /** @var    array   アプリケーションオブジェクト(helper)で利用しないフォーム名 */
-    var $helper_skip_form = array();
+    /** @protected    array   アプリケーションオブジェクト(helper)で利用しないフォーム名 */
+    protected $helper_skip_form = array();
 
-    /** @var    int   フォーム配列で使用可能な深さの上限 */
-    var $max_form_deps = 10;
+    /** @protected    int   フォーム配列で使用可能な深さの上限 */
+    protected $max_form_deps = 10;
 
     /**#@-*/
 
@@ -136,7 +136,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム値の名称
      *  @return mixed   フォーム値
      */
-    function get($name)
+    public function get($name)
     {
         return $this->_getVarsByFormName($this->form_vars, $name);
     }
@@ -148,7 +148,7 @@ class Ethna_ActionForm
      *  @param  string  $name   取得するフォーム名(nullなら全ての定義を取得)
      *  @return array   フォーム値定義
      */
-    function getDef($name = null)
+    public function getDef($name = null)
     {
         if (is_null($name)) {
             return $this->form;
@@ -168,7 +168,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム値の名称
      *  @return mixed   フォーム値の表示名
      */
-    function getName($name)
+    public function getName($name)
     {
         if (isset($this->form[$name]) == false) {
             return null;
@@ -181,7 +181,7 @@ class Ethna_ActionForm
         // try message catalog
         return $this->i18n->get($name);
     }
-    
+
     /**
      *  フォーム名に対応するキーの配列を返す
      *
@@ -189,7 +189,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム名
      *  @return array   キーの配列
      */
-    function _getFormNameArray($name)
+    private function _getFormNameArray($name)
     {
         // 多次元配列を指定した場合
         if (preg_match('/^.*\[[^\]]+\]$/', $name)) { 
@@ -211,7 +211,7 @@ class Ethna_ActionForm
      *  @param  string  $nane       キー
      *  @return string  指定された要素
      */
-    function _getVarsByFormName(&$target, $name)
+    private function _getVarsByFormName(&$target, $name)
     {
         $keys = $this->_getFormNameArray($name);
         return $this->_getVarsByKeys($target, $keys);
@@ -226,12 +226,12 @@ class Ethna_ActionForm
      *  @param  string  $nane       キー
      *  @param  mixde   $value      登録する値
      */
-    function _setVarsByFormName(&$target, $name, $vars)
+    private function _setVarsByFormName(&$target, $name, $vars)
     {
         $keys = $this->_getFormNameArray($name);
         $this->_setVarsByKeys($target, $keys, $vars);
     }
-    
+
     /**
      *  配列の中からキーで指定された要素を取り出す
      *
@@ -240,7 +240,7 @@ class Ethna_ActionForm
      *  @param  array   $keys       キーの配列
      *  @return string  指定された要素
      */
-    function _getVarsByKeys(&$target, $keys)
+    private function _getVarsByKeys(&$target, $keys)
     {
         $count = count($keys);
         if ($count == 0) { // 探索完了
@@ -257,7 +257,7 @@ class Ethna_ActionForm
         return null;
     }
 
-    function _setVarsByKeys(&$target, $keys, &$var)
+    private function _setVarsByKeys(&$target, $keys, &$var)
     {
         $count = count($keys);
         if ($count == 0) { // 探索完了
@@ -289,7 +289,7 @@ class Ethna_ActionForm
      *  @param  string  $key        $_FILESに含まれる項目(tmp_name等)
      *  @return string  指定された要素
      */
-    function _getFilesInfoByFormName(&$target, $name, $key)
+    private function _getFilesInfoByFormName(&$target, $name, $key)
     {
         $form_keys = $this->_getFormNameArray($name);
         array_splice($form_keys, 1, 0, $key);
@@ -301,7 +301,7 @@ class Ethna_ActionForm
      *
      *  @access public
      */
-    function setFormVars()
+    public function setFormVars()
     {
         if (isset($_SERVER['REQUEST_METHOD']) == false) {
             return;
@@ -428,7 +428,7 @@ class Ethna_ActionForm
      *
      *  @access public
      */
-    function clearFormVars()
+    public function clearFormVars()
     {
         $this->form_vars = array();
     }
@@ -440,7 +440,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム値の名称
      *  @param  string  $value  設定する値
      */
-    function set($name, $value)
+    public function set($name, $value)
     {
         $this->_setVarsByFormName($this->form_vars, $name, $value);
     }
@@ -453,7 +453,7 @@ class Ethna_ActionForm
      *  @param  array   $value  設定するフォーム値定義
      *  @return array   フォーム値定義
      */
-    function setDef($name, $value)
+    public function setDef($name, $value)
     {
         if (is_null($name)) {
             $this->form = $value;
@@ -486,7 +486,7 @@ class Ethna_ActionForm
      *  @param  string  $name   キー
      *  @return mixed   アプリケーション設定値
      */
-    function getApp($name)
+    public function getApp($name)
     {
         if (isset($this->app_vars[$name]) == false) {
             return null;
@@ -501,7 +501,7 @@ class Ethna_ActionForm
      *  @param  string  $name   キー
      *  @param  mixed   $value  値
      */
-    function setApp($name, $value)
+    public function setApp($name, $value)
     {
         $this->app_vars[$name] = $value;
     }
@@ -529,7 +529,7 @@ class Ethna_ActionForm
      *  @param  string  $name   キー
      *  @return mixed   アプリケーション設定値
      */
-    function getAppNE($name)
+    public function getAppNE($name)
     {
         if (isset($this->app_ne_vars[$name]) == false) {
             return null;
@@ -544,7 +544,7 @@ class Ethna_ActionForm
      *  @param  string  $name   キー
      *  @param  mixed   $value  値
      */
-    function setAppNE($name, $value)
+    public function setAppNE($name, $value)
     {
         $this->app_ne_vars[$name] = $value;
     }
@@ -573,7 +573,7 @@ class Ethna_ActionForm
      *  @param  array   &$retval    配列への変換結果
      *  @param  bool    $escape     HTMLエスケープフラグ(true:エスケープする)
      */
-    function _getArray(&$vars, &$retval, $escape)
+    public function _getArray(&$vars, &$retval, $escape)
     {
         foreach (array_keys($vars) as $name) {
             if (is_array($vars[$name])) {
@@ -592,7 +592,7 @@ class Ethna_ActionForm
      *  @access public
      *  @return bool    true:追加検証強制 false:追加検証非強制
      */
-    function isForceValidatePlus()
+    public function isForceValidatePlus()
     {
         return $this->force_validate_plus;
     }
@@ -603,7 +603,7 @@ class Ethna_ActionForm
      *  @access public
      *  @param  $force_validate_plus    追加検証強制フラグ
      */
-    function setForceValidatePlus($force_validate_plus)
+    public function setForceValidatePlus($force_validate_plus)
     {
         $this->force_validate_plus = $force_validate_plus;
     }
@@ -614,7 +614,7 @@ class Ethna_ActionForm
      *  @access public
      *  @return int     発生したエラーの数
      */
-    function validate()
+    public function validate()
     {
         foreach ($this->form as $name => $def) {
             $this->_validateWithPlugin($name);
@@ -635,11 +635,11 @@ class Ethna_ActionForm
      *  @param  string  $form_name  フォームの名前
      *  @todo   ae 側に $key を与えられるようにする
      */
-    function _validateWithPlugin($form_name)
+    private function _validateWithPlugin($form_name)
     {
         // (pre) filter
         if ($this->form[$form_name]['type'] != VAR_TYPE_FILE) {
-            
+
             //    入力値とフィルタ定義を取り出す
             $form_var = $this->get($form_name);
             $filter = (isset($this->form[$form_name]['filter']))
@@ -761,7 +761,7 @@ class Ethna_ActionForm
      *  @param  string  $name   フォーム項目名
      *  @return array   チェック対象のフォーム値(エラーが無い場合はnull)
      */
-    function check($name)
+    public function check($name)
     {
         if (is_null($this->get($name)) || $this->get($name) === "") {
             return null;
@@ -904,7 +904,7 @@ class Ethna_ActionForm
      *  @param  array   $exclude_list   配列が指定された場合、その配列に含まれないフォーム項目のみが対象となる
      *  @return string  hiddenタグとして記述されたHTML
      */
-    function getHiddenVars($include_list = null, $exclude_list = null)
+    public function getHiddenVars($include_list = null, $exclude_list = null)
     {
         $hidden_vars = "";
         foreach ($this->form as $key => $value) {
@@ -916,7 +916,7 @@ class Ethna_ActionForm
                 && in_array($key, $exclude_list) == true) {
                 continue;
             }
-            
+
             $type = is_array($value['type']) ? $value['type'][0] : $value['type'];
             if ($type == VAR_TYPE_FILE) {
                 continue;
@@ -970,7 +970,7 @@ class Ethna_ActionForm
      *  @param  string      $name   フォーム項目名
      *  @param  int         $code   エラーコード
      */
-    function handleError($name, $code)
+    public function handleError($name, $code)
     {
         $def = $this->getDef($name);
 
@@ -1095,7 +1095,7 @@ class Ethna_ActionForm
      *
      *  @access protected
      */
-    function _validatePlus()
+    protected function _validatePlus()
     {
     }
 
@@ -1106,7 +1106,7 @@ class Ethna_ActionForm
      *  @param  string  $method_list    カスタムメソッド名(カンマ区切り)
      *  @param  string  $name           フォーム項目名
      */
-    function _validateCustom($method_list, $name)
+    protected function _validateCustom($method_list, $name)
     {
         $method_list = preg_split('/\s*,\s*/', $method_list,
                                   -1, PREG_SPLIT_NO_EMPTY);
@@ -1121,12 +1121,12 @@ class Ethna_ActionForm
     /**
      *  フォーム値に変換フィルタを適用する
      *
-     *  @access private
+     *  @access protected
      *  @param  mixed   $value  フォーム値
      *  @param  int     $filter フィルタ定義
      *  @return mixed   変換結果
      */
-    function _filter($value, $filter)
+    protected function _filter($value, $filter)
     {
         if (is_null($filter)) {
             return $value;
@@ -1152,7 +1152,7 @@ class Ethna_ActionForm
      *  @param  mixed   $value  フォーム値
      *  @return mixed   変換結果
      */
-    function _filter_alnum_zentohan($value)
+    protected function _filter_alnum_zentohan($value)
     {
         return mb_convert_kana($value, "a");
     }
@@ -1164,7 +1164,7 @@ class Ethna_ActionForm
      *  @param  mixed   $value  フォーム値
      *  @return mixed   変換結果
      */
-    function _filter_numeric_zentohan($value)
+    protected function _filter_numeric_zentohan($value)
     {
         return mb_convert_kana($value, "n");
     }
@@ -1176,7 +1176,7 @@ class Ethna_ActionForm
      *  @param  mixed   $value  フォーム値
      *  @return mixed   変換結果
      */
-    function _filter_alphabet_zentohan($value)
+    protected function _filter_alphabet_zentohan($value)
     {
         return mb_convert_kana($value, "r");
     }
@@ -1188,7 +1188,7 @@ class Ethna_ActionForm
      *  @param  mixed   $value  フォーム値
      *  @return mixed   変換結果
      */
-    function _filter_ltrim($value)
+    protected function _filter_ltrim($value)
     {
         return ltrim($value);
     }
@@ -1200,7 +1200,7 @@ class Ethna_ActionForm
      *  @param  mixed   $value  フォーム値
      *  @return mixed   変換結果
      */
-    function _filter_rtrim($value)
+    protected function _filter_rtrim($value)
     {
         return rtrim($value);
     }
@@ -1212,7 +1212,7 @@ class Ethna_ActionForm
      *  @param  mixed   $value  フォーム値
      *  @return mixed   変換結果
      */
-    function _filter_ntrim($value)
+    protected function _filter_ntrim($value)
     {
         return str_replace("\x00", "", $value);
     }
@@ -1224,7 +1224,7 @@ class Ethna_ActionForm
      *  @param  mixed   $value  フォーム値
      *  @return mixed   変換結果
      */
-    function _filter_kana_hantozen($value)
+    protected function _filter_kana_hantozen($value)
     {
         return mb_convert_kana($value, "K");
     }
@@ -1236,7 +1236,7 @@ class Ethna_ActionForm
      *  @param  array   $form_template  フォーム値テンプレート
      *  @return array   フォーム値テンプレート
      */
-    function _setFormTemplate($form_template)
+    protected function _setFormTemplate($form_template)
     {
         return $form_template;
     }
@@ -1253,7 +1253,7 @@ class Ethna_ActionForm
      *
      *  @access public 
      */
-    function setFormDef_PreHelper()
+    public function setFormDef_PreHelper()
     {
         //  TODO: override this method. 
     }
@@ -1271,7 +1271,7 @@ class Ethna_ActionForm
      *
      *  @access public 
      */
-    function setFormDef_ViewHelper()
+    public function setFormDef_ViewHelper()
     {
         //   TODO: デフォルト実装は Ethna_ActionClass#prepare 前に
         //   呼び出されるものと同じ。異なる場合にオーバライドする
@@ -1284,7 +1284,7 @@ class Ethna_ActionForm
      *
      *  @access protected
      */
-    function _setFormDef_HelperObj()
+    protected function _setFormDef_HelperObj()
     {
         foreach (array_keys($this->helper_app_object) as $key) {
             $object = $this->helper_app_object[$key];
@@ -1322,7 +1322,7 @@ class Ethna_ActionForm
      *
      *  @access protected
      */
-    function _setFormDef()
+    protected function _setFormDef()
     {
         foreach ($this->form as $key => $value) {
             if (is_numeric($key)) {
@@ -1349,7 +1349,7 @@ class Ethna_ActionForm
      *  @access protected
      *  @param  string  $form_name   プラグインの定義リストを取得するフォームの名前
      */
-    function _getPluginDef($form_name)
+    protected function _getPluginDef($form_name)
     {
         //  $def = array(
         //               'name'         => 'number',
@@ -1411,7 +1411,7 @@ class Ethna_ActionForm
      *
      *  @access protected
      */
-    function _getHelperAppObject($key)
+    protected function _getHelperAppObject($key)
     {
         $app_object = $this->backend->getObject($key);
         return $app_object;
