@@ -70,9 +70,15 @@ $config = array(
 
     // Smarty
     //'renderer' => array(
+    //    // if smarty:
     //    'smarty' => array(
-    //        'left_delimiter' => '{',
-    //        'right_delimiter' => '}',
+    //        'left_delimiter' => '{{',
+    //        'right_delimiter' => '}}',
+    //    ),
+    //    // if smarty3:
+    //    'smarty3' => array(
+    //        'left_delimiter' => '{{',
+    //        'right_delimiter' => '}}',
     //    ),
     //),
 
