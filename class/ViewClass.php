@@ -148,7 +148,7 @@ class Ethna_ViewClass
      *                          array('forward_name', $param) の形でアクション
      *                          から値を返すことで、$params に値が渡されます。
      */
-    public function preforward($params = NULL)
+    public function preforward()
     {
     }
     // }}}
@@ -224,7 +224,7 @@ class Ethna_ViewClass
      *                  文字列で指定する場合は、ヘッダ出力をそのまま指定
      *  @access public
      */
-    function header($status)
+    public function header($status)
     {
         if (is_array($status)) {
             foreach ($status as $key => $status) {
@@ -295,7 +295,7 @@ class Ethna_ViewClass
      *  @param  int     HTTPステータスコード (3xx)
      *  @access public
      */
-    function redirect($url, $staus_code = 302)
+    public function redirect($url, $staus_code = 302)
     {
         $this->has_default_header = false;
         $this->use_layout = false;
@@ -313,7 +313,7 @@ class Ethna_ViewClass
      *  @param string $filename  レイアウトファイル名
      *  @access public
      */
-    function setLayout($filename)
+    public function setLayout($filename)
     {
         // check layout file existance
         if ($this->templateExists($filename . '.' . $this->ctl->ext['tpl'])) {
@@ -332,7 +332,7 @@ class Ethna_ViewClass
      *  @return string  レイアウトテンプレートのファイル名
      *  @access public
      */
-    function getLayout()
+    public function getLayout()
     {
         return $this->_layout_file . '.' . $this->ctl->ext['tpl'];
     }
@@ -1205,7 +1205,7 @@ class Ethna_ViewClass
      *  @access protected
      *  @param  object  Ethna_Renderer  レンダラオブジェクト
      */
-    function _setDefault(&$renderer)
+    protected function _setDefault($renderer)
     {
     }
     // }}}

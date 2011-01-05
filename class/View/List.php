@@ -45,7 +45,7 @@ class Ethna_View_List extends Ethna_ViewClass
      *
      *  @access public
      */
-    function preforward()
+    public function preforward()
     {
         // 表示オフセット/件数設定
         $this->offset = $this->af->get('offset');

@@ -23,14 +23,14 @@ class {$project_id}_ViewClass extends Ethna_ViewClass
      */
 
     /** @var  string  set layout template file   */
-    var $_layout_file = 'layout';
+    protected $_layout_file = 'layout';
 
     /**#@+
      *  @access public
      */
 
     /** @var boolean  layout template use flag   */
-    var $use_layout = true;
+    public $use_layout = true;
 
     /**
      *  set common default value.
@@ -38,7 +38,7 @@ class {$project_id}_ViewClass extends Ethna_ViewClass
      *  @access protected
      *  @param  object  {$project_id}_Renderer  Renderer object.
      */
-    function _setDefault(&$renderer)
+    protected function _setDefault($renderer)
     {
     }
 

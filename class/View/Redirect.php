@@ -31,7 +31,7 @@ class Ethna_View_Redirect extends Ethna_ViewClass
      *  @access public
      *  @param  string  $url  リダイレクト先のURL
      */
-    function preforward($url = NULL)
+    public function preforward($url = NULL)
     {
         if (is_null($url)) {
             $this->redirect($this->config->get('url'));
