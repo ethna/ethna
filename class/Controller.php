@@ -22,26 +22,26 @@
 class Ethna_Controller
 {
     /**#@+
-     *  @access private
+     *  @access protected
      */
 
     /** @var    string      アプリケーションID */
-    var $appid = 'ETHNA';
+    protected $appid = 'ETHNA';
 
     /** @var    string      アプリケーションベースディレクトリ */
-    var $base = '';
+    protected $base = '';
 
-    /** @var    string      アプリケーションベースURL */
-    var $url = '';
+    /** @protected    string      アプリケーションベースURL */
+    protected $url = '';
 
-    /** @var    string      アプリケーションDSN(Data Source Name) */
-    var $dsn;
+    /** @protected    string      アプリケーションDSN(Data Source Name) */
+    protected $dsn;
 
-    /** @var    array       アプリケーションディレクトリ */
-    var $directory = array();
+    /** @protected    array       アプリケーションディレクトリ */
+    protected $directory = array();
 
-    /** @var    array       アプリケーションディレクトリ(デフォルト) */
-    var $directory_default = array(
+    /** @protected    array       アプリケーションディレクトリ(デフォルト) */
+    protected $directory_default = array(
         'action'        => 'app/action',
         'action_cli'    => 'app/action_cli',
         'action_xmlrpc' => 'app/action_xmlrpc',
@@ -61,22 +61,22 @@ class Ethna_Controller
         'test'          => 'app/test',
     );
 
-    /** @var    array       DBアクセス定義 */
-    var $db = array(
+    /** @protected    array       DBアクセス定義 */
+    protected $db = array(
         ''              => DB_TYPE_RW,
     );
 
-    /** @var    array       拡張子設定 */
-    var $ext = array(
+    /** @protected    array       拡張子設定 */
+    protected $ext = array(
         'php'           => 'php',
         'tpl'           => 'tpl',
     );
 
-    /** @var    array       クラス設定 */
-    var $class = array();
+    /** @protected    array       クラス設定 */
+    protected $class = array();
 
-    /** @var    array       クラス設定(デフォルト) */
-    var $class_default = array(
+    /** @protected    array       クラス設定(デフォルト) */
+    protected $class_default = array(
         'class'         => 'Ethna_ClassFactory',
         'backend'       => 'Ethna_Backend',
         'config'        => 'Ethna_Config',
@@ -93,31 +93,31 @@ class Ethna_Controller
         'url_handler'   => 'Ethna_UrlHandler',
     );
 
-    /** @var    array       フィルタ設定 */
-    var $filter = array(
+    /** @protected    array       フィルタ設定 */
+    protected $filter = array(
     );
 
-    /** @var    string      使用ロケール設定 */
-    var $locale;
+    /** @protected    string      使用ロケール設定 */
+    protected $locale;
 
-    /** @var    string      システム側エンコーディング */
-    var $system_encoding;
+    /** @protected    string      システム側エンコーディング */
+    protected $system_encoding;
 
-    /** @var    string      クライアント側エンコーディング */
+    /** @protected    string      クライアント側エンコーディング */
     /**                     ブラウザからのエンコーディングを指す  */
-    var $client_encoding;
+    protected $client_encoding;
 
-    /** @var    string  現在実行中のアクション名 */
-    var $action_name;
+    /** @protected    string  現在実行中のアクション名 */
+    protected $action_name;
 
-    /** @var    string  現在実行中のXMLRPCメソッド名 */
-    var $xmlrpc_method_name;
+    /** @protected    string  現在実行中のXMLRPCメソッド名 */
+    protected $xmlrpc_method_name;
 
-    /** @var    array   forward定義 */
-    var $forward = array();
+    /** @protected    array   forward定義 */
+    protected $forward = array();
 
-    /** @var    array   デフォルトのforward定義 */
-    var $forward_default = array(
+    /** @protected    array   デフォルトのforward定義 */
+    protected $forward_default = array(
         '403' => array( 'view_name' => 'Ethna_View_403',),
         '404' => array( 'view_name' => 'Ethna_View_404',),
         '500' => array( 'view_name' => 'Ethna_View_500',), 
@@ -125,44 +125,44 @@ class Ethna_Controller
         'redirect' => array( 'view_name' => 'Ethna_View_Redirect',),
     );
 
-    /** @var    array   action定義 */
-    var $action = array();
+    /** @protected    array   action定義 */
+    protected $action = array();
 
-    /** @var    array   action(CLI)定義 */
-    var $action_cli = array();
+    /** @protected    array   action(CLI)定義 */
+    protected $action_cli = array();
 
-    /** @var    array   action(XMLRPC)定義 */
-    var $action_xmlrpc = array();
+    /** @protected    array   action(XMLRPC)定義 */
+    protected $action_xmlrpc = array();
 
-    /** @var    array   アプリケーションマネージャ定義 */
-    var $manager = array();
+    /** @protected    array   アプリケーションマネージャ定義 */
+    protected $manager = array();
 
-    /** @var    object  レンダラー */
-    var $renderer = null;
+    /** @protected    object  レンダラー */
+    protected $renderer = null;
 
-    /** @var    array   フィルターチェイン(Ethna_Filterオブジェクトの配列) */
-    var $filter_chain = array();
+    /** @protected    array   フィルターチェイン(Ethna_Filterオブジェクトの配列) */
+    protected $filter_chain = array();
 
-    /** @var    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
-    var $class_factory = null;
+    /** @protected    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
+    protected $class_factory = null;
 
-    /** @var    object  Ethna_ActionForm    フォームオブジェクト */
-    var $action_form = null;
+    /** @protected    object  Ethna_ActionForm    フォームオブジェクト */
+    protected $action_form = null;
 
-    /** @var    object  Ethna_View          ビューオブジェクト */
-    var $view = null;
+    /** @protected    object  Ethna_View          ビューオブジェクト */
+    protected $view = null;
 
-    /** @var    object  Ethna_Config        設定オブジェクト */
-    var $config = null;
+    /** @protected    object  Ethna_Config        設定オブジェクト */
+    protected $config = null;
 
-    /** @var    object  Ethna_Logger        ログオブジェクト */
-    var $logger = null;
+    /** @protected    object  Ethna_Logger        ログオブジェクト */
+    protected $logger = null;
 
-    /** @var    object  Ethna_Plugin        プラグインオブジェクト */
-    var $plugin = null;
+    /** @protected    object  Ethna_Plugin        プラグインオブジェクト */
+    protected $plugin = null;
 
-    /** @var    string  リクエストのゲートウェイ(www/cli/rest/xmlrpc/soap...) */
-    var $gateway = GATEWAY_WWW;
+    /** @protected    string  リクエストのゲートウェイ(www/cli/rest/xmlrpc/soap...) */
+    protected $gateway = GATEWAY_WWW;
 
     /**#@-*/
 
@@ -1722,7 +1722,7 @@ class Ethna_Controller
      *  @access public
      *  @return object  Ethna_Renderer  レンダラオブジェクト
      */
-    function getRenderer()
+    public function getRenderer()
     {
         $_ret_object = $this->getTemplateEngine();
         return $_ret_object;
@@ -1735,7 +1735,7 @@ class Ethna_Controller
      *  @return object  Ethna_Renderer  レンダラオブジェクト
      *  @obsolete
      */
-    function getTemplateEngine()
+    public function getTemplateEngine()
     {
         if (is_object($this->renderer)) {
             return $this->renderer;
@@ -1757,7 +1757,7 @@ class Ethna_Controller
      *  @param  object  Ethna_Renderer  レンダラオブジェクト
      *  @obsolete
      */
-    function _setDefaultTemplateEngine($renderer)
+    protected function _setDefaultTemplateEngine($renderer)
     {
     }
 
@@ -1774,7 +1774,7 @@ class Ethna_Controller
      *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html
      *  @see    Ethna_Controller#_getDefaultLanguage
      */
-    function _setLanguage($locale, $system_encoding = null, $client_encoding = null)
+    protected function _setLanguage($locale, $system_encoding = null, $client_encoding = null)
     {
         $this->locale = $locale;
         $this->system_encoding = $system_encoding;
@@ -1803,7 +1803,7 @@ class Ethna_Controller
      *              ィングとして設定されます。つまり、クライアントエンコーディングで
      *              ブラウザからの入力は入ってくるものと想定しています！
      */
-    function _getDefaultLanguage()
+    protected function _getDefaultLanguage()
     {
         return array('ja_JP', 'UTF-8', 'UTF-8');
     }
@@ -1814,7 +1814,7 @@ class Ethna_Controller
      *  @access protected
      *  @return int     ゲートウェイ定義(GATEWAY_WWW, GATEWAY_CLI...)
      */
-    function _getDefaultGateway($gateway)
+    protected function _getDefaultGateway($gateway)
     {
         if (is_null($GLOBALS['_Ethna_gateway']) == false) {
             return $GLOBALS['_Ethna_gateway'];
@@ -1829,7 +1829,7 @@ class Ethna_Controller
      *  @param  string  $gateway    ゲートウェイ
      *  @return string  ゲートウェイクラスプレフィクス
      */
-    function _getGatewayPrefix($gateway = null)
+    protected function _getGatewayPrefix($gateway = null)
     {
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
         switch ($gateway) {
@@ -1857,7 +1857,7 @@ class Ethna_Controller
      *  @param  string  $name   マネージャキー
      *  @return string  マネージャクラス名
      */
-    function getManagerClassName($name)
+    public function getManagerClassName($name)
     {
         //   アプリケーションIDと、渡された名前のはじめを大文字にして、
         //   組み合わせたものが返される
@@ -1872,7 +1872,7 @@ class Ethna_Controller
      *  @param  string  $name   アプリケーションオブジェクトキー
      *  @return string  マネージャクラス名
      */
-    function getObjectClassName($name)
+    public function getObjectClassName($name)
     {
         //  引数のはじめの一文字目と、アンダーバー直後の
         //  1文字を必ず大文字にする。アンダーバーは削除される。
@@ -1892,7 +1892,7 @@ class Ethna_Controller
      *  @param  array   $action_obj     アクション定義
      *  @param  string  $action_name    アクション名
      */
-    function _includeActionScript($action_obj, $action_name)
+    protected function _includeActionScript($action_obj, $action_name)
     {
         $class_path = $form_path = null;
 
@@ -1967,7 +1967,7 @@ class Ethna_Controller
      *  @param  array   $forward_obj    遷移定義
      *  @param  string  $forward_name   遷移名
      */
-    function _includeViewScript($forward_obj, $forward_name)
+    protected function _includeViewScript($forward_obj, $forward_name)
     {
         $view_dir = $this->getViewdir();
 
@@ -2003,7 +2003,7 @@ class Ethna_Controller
      *
      *  @access private
      */
-    function _includeDirectory($dir)
+    protected function _includeDirectory($dir)
     {
         $ext = "." . $this->ext['php'];
         $ext_len = strlen($ext);
@@ -2035,7 +2035,7 @@ class Ethna_Controller
      *  @access protected
      *  @return array   DSN定義(array('DBキー1' => 'dsn1', 'DBキー2' => 'dsn2', ...))
      */
-    function _prepareDSN()
+    protected function _prepareDSN()
     {
         $r = array();
 
@@ -2064,7 +2064,7 @@ class Ethna_Controller
      *  @param  array   $dsn_list   DSN一覧
      *  @return string  選択されたDSN
      */
-    function _selectDSN($type, $dsn_list)
+    protected function _selectDSN($type, $dsn_list)
     {
         if (is_array($dsn_list) == false) {
             return $dsn_list;
@@ -2085,7 +2085,7 @@ class Ethna_Controller
      *
      *  @access protected
      */
-    function _activateEthnaManager()
+    protected function _activateEthnaManager()
     {
         if ($this->config->get('debug') == false) {
             return;
@@ -2139,7 +2139,7 @@ class Ethna_Controller
      *
      *  @access private
      */
-    function _ethnaManagerEnabledCheck($action_name)
+    protected function _ethnaManagerEnabledCheck($action_name)
     {
         if ($this->config->get('debug') == false
          && ($action_name == '__ethna_info__' || $action_name == '__ethna_unittest__')) {
@@ -2155,7 +2155,7 @@ class Ethna_Controller
      *
      *  @access protected
      */
-     function ethnaManagerCheckErrorMsg($action_name)
+     protected function ethnaManagerCheckErrorMsg($action_name)
      {
          $appid = strtolower($this->getAppId());
          $run_action = ($action_name == '__ethna_info__')
@@ -2175,7 +2175,7 @@ class Ethna_Controller
      *  @return bool    CLI実行中フラグ
      *  @obsolete
      */
-    function getCLI()
+    public function getCLI()
     {
         return $this->gateway == GATEWAY_CLI ? true : false;
     }
@@ -2187,7 +2187,7 @@ class Ethna_Controller
      *  @param  bool    CLI実行中フラグ
      *  @obsolete
      */
-    function setCLI($cli)
+    public function setCLI($cli)
     {
         $this->gateway = $cli ? GATEWAY_CLI : $this->_getDefaultGateway();
     }
