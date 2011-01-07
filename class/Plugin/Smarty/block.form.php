@@ -12,6 +12,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
         $view = $c->getView();
         $view->resetFormCounter();
 
+        $tag_stack = $smarty->_tag_stack;
         // {form default=... }
         if (isset($params['default']) === false) {
             // 指定なしのときは $form を使う
@@ -20,16 +21,16 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             $af = $c->getActionForm();
 
             // c.f. http://smarty.net/manual/en/plugins.block.functions.php
-            $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['default']
-                = $af->getArray(false);
+            $tag_stack[count($tag_stack)-1][1]['default'] = $af->getArray(false);
+            $smarty->_tag_stack = $tag_stack;
         }
 
         // {form name=... }
         // 複数 {form} が置かれた場合に、それぞれを識別する役割を果たす
         if (isset($params['name']) === false) {
             // c.f. http://smarty.php.net/manual/en/plugins.block.functions.php
-            $smarty->_tag_stack[count($smarty->_tag_stack)-1][1]['name']
-                = 'default';
+            $tag_stack[count($tag_stack)-1][1]['name'] = 'default';
+            $smarty->_tag_stack = $tag_stack;
         }
 
         // 動的フォームヘルパを呼ぶ
