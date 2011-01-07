@@ -61,6 +61,7 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
             Ethna_Util::mkdir($this->engine->compile_dir, 0755);
         }
 
+        $this->engine->inheritance = true;
         $this->engine->plugins_dir = array_merge(
             $controller->getDirectory('plugins'),
             array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
@@ -98,8 +99,7 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
                 return Ethna::raiseWarning('template not found ' . $this->template);
             }
         } catch (SmartyCompilerException $e) {
-            $this->logger->log(LOG_ERR, "smarty compile error: msg='{$e->getMessage()}'");
-            return Ethna::raiseError("smarty compile error: msg='{$e->getMessage()}'", 500);
+            return Ethna::raiseWarning("smarty compile error: msg='{$e->getMessage()}'", 500);
         }
     }
 
