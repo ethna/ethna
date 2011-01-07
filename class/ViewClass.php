@@ -316,11 +316,11 @@ class Ethna_ViewClass
     public function setLayout($filename)
     {
         // check layout file existance
-        if ($this->templateExists($filename . '.' . $this->ctl->ext['tpl'])) {
+        if ($this->templateExists($filename . '.' . $this->ctl->getExt('tpl'))) {
             $this->_layout_file = $filename;
             return true;
         } else {
-            return Ethna::raiseWarning('file "'. $filename . '.' . $this->ctl->ext['tpl'] . '" not found');
+            return Ethna::raiseWarning('file "'. $filename . '.' . $this->ctl->getExt('tpl') . '" not found');
         }
     }
     // }}}
@@ -334,7 +334,19 @@ class Ethna_ViewClass
      */
     public function getLayout()
     {
-        return $this->_layout_file . '.' . $this->ctl->ext['tpl'];
+        return $this->_layout_file . '.' . $this->ctl->getExt('tpl');
+    }
+    // }}}
+
+    // {{{ getCurrentForwardName()
+    /**
+     *  getCurrentForwardName
+     *
+     *  @access public
+     */
+    public function getCurrentForwardName()
+    {
+        return $this->forward_name;
     }
     // }}}
 
@@ -368,7 +380,6 @@ class Ethna_ViewClass
      */
     function error($code)
     {
-        $this->has_default_header = false;
         $this->header($code);
 
         // template 以下に error404.tpl とかがあれば， 
