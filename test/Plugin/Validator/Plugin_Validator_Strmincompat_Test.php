@@ -18,7 +18,7 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
     {
         $ctl = new Ethna_Controller();
         $ctl->setClientEncoding('EUC-JP');
-        $ctl->action_form = new Ethna_ActionForm($ctl);
+        $ctl->setActionForm(new Ethna_ActionForm($ctl));
         $this->local_ctl = $ctl;
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Strmincompat');

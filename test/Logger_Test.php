@@ -25,8 +25,8 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
 
     function _resetLoggerSetting($config)
     {
-        unset($this->ctl->class_factory->object['logger']);
-        $config_obj = $this->ctl->class_factory->object['config'];
+        unset($this->ctl->getClassFactory()->object['logger']);
+        $config_obj = $this->ctl->getClassFactory()->object['config'];
         $config_obj->config = $config;
     }
 

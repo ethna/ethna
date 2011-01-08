@@ -41,16 +41,16 @@ class Ethna_UnitTestBase extends UnitTestCase
         $this->backend = $this->ctl->getBackend();
 
         // actionform, actionerror.
-        if ($this->ctl->action_form === null) {
-            $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
-            $this->backend->setActionForm($this->ctl->action_form);
+        if ($this->ctl->getActionForm() === null) {
+            $this->ctl->setActionForm(new Ethna_ActionForm($this->ctl));
+            $this->backend->setActionForm($this->ctl->getActionForm());
         }
-        $this->af = $this->ctl->action_form;
+        $this->af = $this->ctl->getActionForm();
         $this->ae = $this->ctl->getActionError();
 
         // viewclass
-        if ($this->ctl->view === null) {
-            $this->ctl->view = new Ethna_ViewClass($this->backend, '', '');
+        if ($this->ctl->getView() === null) {
+            $this->ctl->setView(new Ethna_ViewClass($this->backend, '', ''));
         }
     }
 }

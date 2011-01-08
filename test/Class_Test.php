@@ -11,7 +11,7 @@ class Dummy_Ethna_Error extends Ethna_Error
     //  nothing defined.
 }
 
-function dummy_error_callback_global(&$error)
+function dummy_error_callback_global($error)
 {
     $GLOBALS['_dummy_error_callback_global'] = $error->getMessage();
 }

@@ -455,14 +455,14 @@ class Ethna
      *  @param  object  Ethna_Error     Ethna_Errorオブジェクト
      *  @static
      */
-    public static function handleError(&$error)
+    public static function handleError($error)
     {
         for ($i = 0; $i < count($GLOBALS['_Ethna_error_callback_list']); $i++) {
-            $callback =& $GLOBALS['_Ethna_error_callback_list'][$i];
+            $callback = $GLOBALS['_Ethna_error_callback_list'][$i];
             if (is_array($callback) == false) {
                 call_user_func($callback, $error);
             } else if (is_object($callback[0])) {
-                $object =& $callback[0];
+                $object = $callback[0];
                 $method = $callback[1];
 
                 // perform some more checks?
