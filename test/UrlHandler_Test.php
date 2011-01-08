@@ -81,7 +81,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             'param3'            => 'value3',
         );
 
-        $this->url_handler->action_map = $this->_simple_map;
+        $this->url_handler->setActionMap($this->_simple_map);
         $injected = $this->url_handler->requestToAction($http_vars);
 
         // action を受け取る
@@ -95,7 +95,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
 
 
         // action を受け取る
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
         $injected = $this->url_handler->requestToAction($http_vars);
 
         $diff = array_diff($injected, $http_vars);
@@ -114,7 +114,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             '__url_info__'      => null,
         );
 
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
         $injected = $this->url_handler->requestToAction($http_vars);
 
         // 変化なし
@@ -133,13 +133,13 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         );
 
         // 一致する action_map がない: エラーとして array() を返す
-        $this->url_handler->action_map = $this->_simple_map;
+        $this->url_handler->setActionMap($this->_simple_map);
         $injected = $this->url_handler->requestToAction($http_vars);
         $this->assertEqual(count($injected), 0);
 
 
         // action とパラメータ param1 を受け取る
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
         $injected = $this->url_handler->requestToAction($http_vars);
 
         $diff = array_diff($injected, $http_vars);
@@ -158,7 +158,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             '__url_info__'      => '/foo/bar/aaa/bbb',
         );
 
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
         $injected = $this->url_handler->requestToAction($http_vars);
 
         $diff = array_diff($injected, $http_vars);
@@ -178,7 +178,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             '__url_info__'      => '/foo/bar/aaa/bbb/ccc',
         );
 
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
         $injected = $this->url_handler->requestToAction($http_vars);
         $this->assertEqual(count($injected), 0);
     }
@@ -191,7 +191,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $http_vars = array(
             '__url_handler__'   => 'entrypoint',
         );
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
 
         // 余分な slash が前後についている
         $http_vars['__url_info__'] = '///foo///bar///value1///';
@@ -236,7 +236,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             'param3'            => 'value3',
         );
 
-        $this->url_handler->action_map = $this->_prefix_suffix_map;
+        $this->url_handler->setActionMap($this->_prefix_suffix_map);
         $injected = $this->url_handler->requestToAction($http_vars);
         $diff = array_diff($injected, $http_vars);
         $this->assertEqual($diff['action_test_foo_bar'], true);
@@ -252,7 +252,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             'hoge' => 'fuga',
         );
 
-        $this->url_handler->action_map = $this->_simple_map;
+        $this->url_handler->setActionMap($this->_simple_map);
         $ret = $this->url_handler->actionToRequest($action, $param);
         $this->assertFalse(is_null($ret));
         list($path, $path_key) = $ret;
@@ -271,7 +271,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             'hoge' => 'fuga',
         );
 
-        $this->url_handler->action_map = $this->_simple_map;
+        $this->url_handler->setActionMap($this->_simple_map);
         $ret = $this->url_handler->actionToRequest($action, $param);
         $this->assertTrue(is_null($ret));
     }
@@ -286,7 +286,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             'param1' => 'value1',
         );
 
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
         list($path, $path_key) = $this->url_handler->actionToRequest($action, $param);
         $this->assertEqual($path, 'entrypoint/foo/bar/value1');
         $this->assertTrue($path_key == array('param1'));
@@ -303,7 +303,7 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
             'param2' => 'value2',
         );
 
-        $this->url_handler->action_map = $this->_complex_map;
+        $this->url_handler->setActionMap($this->_complex_map);
         list($path, $path_key) = $this->url_handler->actionToRequest($action, $param);
         $this->assertEqual($path, 'entrypoint/foo/bar/value1/value2');
         $this->assertEqual($path_key, array('param1', 'param2'));
@@ -331,6 +331,11 @@ class Ethna_UrlHandler_TestClass extends Ethna_UrlHandler
     function _output_filter_Test($output)
     {
         return strtoupper($output);
+    }
+
+    public function setActionMap($am)
+    {
+        $this->action_map = $am;
     }
 }
 
