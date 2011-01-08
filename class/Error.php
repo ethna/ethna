@@ -89,7 +89,8 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
             $has_echo = is_array($facility)
                         ? in_array('echo', $facility) : $facility === 'echo';
         }
-        if ($is_debug == true && $has_echo === false) {
+        if ($is_debug == true && $has_echo === false
+            && $errno !== E_DEPRECATED) {
             return false;
         }
     }
