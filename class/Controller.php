@@ -203,7 +203,7 @@ class Ethna_Controller
         $this->class_factory = new $class_factory($this, $this->class);
 
         // エラーハンドラの設定
-        Ethna::setErrorCallback(array(&$this, 'handleError'));
+        Ethna::setErrorCallback(array($this, 'handleError'));
 
         // ディレクトリ名の設定(相対パス->絶対パス)
         foreach ($this->directory as $key => $value) {
