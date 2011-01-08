@@ -18,6 +18,7 @@ then
             if test -f "$PWD""/lib/Ethna/Ethna.php"
             then
                 ETHNA_HOME="$PWD""/lib/Ethna"
+                DOT_ETHNA="$PWD""/.ethna"
                 break
             fi
         fi
@@ -29,6 +30,7 @@ then
             else
                 ETHNA_HOME="@PEAR-DIR@/Ethna"
             fi
+            DOT_ETHNA=""
             break
         fi
         cd ..
@@ -54,4 +56,4 @@ then
     export PHP_CLASSPATH
 fi
 
-$PHP_COMMAND -d html_errors=off -d error_reporting="E_ALL & ~E_DEPRECATED" -qC $ETHNA_HOME/bin/ethna_handle.php $*
+DOT_ETHNA=$DOT_ETHNA $PHP_COMMAND -d html_errors=off -d error_reporting="E_ALL & ~E_DEPRECATED" -qC $ETHNA_HOME/bin/ethna_handle.php $*

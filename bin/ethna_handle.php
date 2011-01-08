@@ -29,6 +29,10 @@ if (Ethna::isError($arg_list)) {
 array_shift($arg_list);  // remove "ethna_handle.php"
 
 $eh = new Ethna_Handle();
+if ($dot_ethna = getenv('DOT_ETHNA')) {
+    $app_controller = Ethna_Handle::getAppController(dirname($dot_ethna));
+}
+
 
 //  はじめの引数に - が含まれていればそれを分離する
 //  含まれていた場合、それは -v|--version でなければならない
