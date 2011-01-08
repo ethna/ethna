@@ -73,10 +73,10 @@ class Ethna_Controller
     );
 
     /** @protected    array       クラス設定 */
-    protected $class = array();
+    public $class = array();
 
     /** @protected    array       クラス設定(デフォルト) */
-    protected $class_default = array(
+    public $class_default = array(
         'class'         => 'Ethna_ClassFactory',
         'backend'       => 'Ethna_Backend',
         'config'        => 'Ethna_Config',
@@ -523,6 +523,18 @@ class Ethna_Controller
         }
         return $this->directory[$key];
     }
+    /**
+     *  アプリケーションディレクトリ設定を返す
+     *
+     *  @access public
+     *  @param  string  $key    type
+     *  @return string  $key    directory
+     */
+    function setDirectory($key, $value)
+    {
+        $this->directory[$key] = $value;
+    }
+
 
     /**
      *  アプリケーション拡張子設定を返す
@@ -562,27 +574,61 @@ class Ethna_Controller
     }
 
     /**
-     *  アクションフォームオブジェクトのアクセサ
+     *  Accessor for ActionForm
      *
      *  @access public
      *  @return object  Ethna_ActionForm    アクションフォームオブジェクト
      */
-    function getActionForm()
+    public function getActionForm()
     {
         // 明示的にクラスファクトリを利用していない
         return $this->action_form;
     }
 
     /**
-     *  ビューオブジェクトのアクセサ
+     *  Setter for ActionForm
+     *  if the ::$action_form class is not null, then cannot set the view
+     *
+     *  @access public
+     *  @return object  Ethna_ActionForm    アクションフォームオブジェクト
+     */
+    public function setActionForm($af)
+    {
+        if ($this->action_form !== null) {
+            return false;
+        }
+        $this->action_form = $af;
+        return true;
+    }
+
+
+    /**
+     *  Accessor for ViewClass
      *
      *  @access public
      *  @return object  Ethna_View          ビューオブジェクト
      */
-    function getView()
+    public function getView()
     {
         // 明示的にクラスファクトリを利用していない
         return $this->view;
+    }
+
+    /**
+     *  Setter for ViewClass
+     *  if the ::$view class is not null, then cannot set the view
+     *
+     *  @access public
+     *  @param  $view object  Ethna_ViewClass
+     *  @return boolean
+     */
+    public function setView($view)
+    {
+        if ($this->view !== null) {
+            return false;
+        }
+        $this->view = $view;
+        return true;
     }
 
     /**
@@ -591,7 +637,7 @@ class Ethna_Controller
      *  @access public
      *  @return object  Ethna_Backend   backendオブジェクト
      */
-    function getBackend()
+    public function getBackend()
     {
         return $this->class_factory->getObject('backend');
     }
@@ -919,7 +965,7 @@ class Ethna_Controller
      *  @param  mixed   $fallback_action_name   アクション名が決定できなかった場合に実行されるアクション名
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function _trigger_WWW($default_action_name = "", $fallback_action_name = "")
+    private function _trigger_WWW($default_action_name = "", $fallback_action_name = "")
     {
         // アクション名の取得
         $action_name = $this->_getActionName($default_action_name, $fallback_action_name);
@@ -1009,7 +1055,7 @@ class Ethna_Controller
      *  @param  mixed   $default_action_name    指定のアクション名
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function _trigger_CLI($default_action_name = "")
+    private function _trigger_CLI($default_action_name = "")
     {
         return $this->_trigger_WWW($default_action_name);
     }
@@ -1021,7 +1067,7 @@ class Ethna_Controller
      *  @param  mixed   $action_name    指定のアクション名
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function _trigger_XMLRPC($action_name = "")
+    private function _trigger_XMLRPC($action_name = "")
     {
         // prepare xmlrpc server
         $xmlrpc_gateway_method_name = "_Ethna_XmlrpcGateway";
@@ -1073,7 +1119,7 @@ class Ethna_Controller
      *
      *  @access public
      */
-    function trigger_XMLRPC($method, $param)
+    private function trigger_XMLRPC($method, $param)
     {
         // アクション定義の取得
         $action_obj = $this->_getAction($method);
