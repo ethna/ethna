@@ -38,13 +38,14 @@ foreach ($r[0] as $opt) {
 $description = 'Ethna Web Application Framework';
 $package = 'Ethna';
 
-// x.0.y -> beta
-// x.1.y -> stable
-$major_version = "2.6";
-$minor_version = "0";
+require_once dirname(__FILE__) . '/../Ethna.php';
+
+$version_array = explode('.', ETHNA_VERSION);
+$major_version = implode('.', array_slice($version_array, 0, 2));
+$minor_version = implode('', array_slice(explode('-', $version_array[2]), 0, 1));
 
 if ($state == 'alpha' || $state == 'beta') {
-    $version = $major_version . strftime('.%Y%m%d%H');
+    $version = $major_version . "." . $minor_version . $state . strftime('%Y%m%d%H');
 } else {
     $version = $major_version . "." . $minor_version;
 }
@@ -83,7 +84,7 @@ $packagexml->setPackageType('php');
 
 $packagexml->addRole('*', 'php');
 
-$packagexml->setPhpDep('4.1.0');
+$packagexml->setPhpDep('5.2.0');
 $packagexml->setPearinstallerDep('1.3.5');
 $packagexml->addPackageDepWithChannel('optional', 'DB', 'pear.php.net');
 $packagexml->addPackageDepWithChannel('optional', 'Smarty', $ethna_channel);
