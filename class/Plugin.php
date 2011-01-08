@@ -89,7 +89,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前
      *  @return object  プラグインのインスタンス
      */
-    function &getPlugin($type, $name)
+    function getPlugin($type, $name)
     {
         return $this->_getPlugin($type, $name);
     }
@@ -128,7 +128,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前
      *  @return object  プラグインのインスタンス
      */
-    function &_getPlugin($type, $name)
+    function _getPlugin($type, $name)
     {
         if (isset($this->obj_registry[$type]) == false) {
             $this->obj_registry[$type] = array();
