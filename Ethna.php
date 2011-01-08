@@ -309,10 +309,6 @@ define('E_PLUGIN_NOTFOUND', 196);
 /** エラーコード: プラグインエラー(その他) */
 define('E_PLUGIN_GENERAL', 197);
 
-/** PHP 5との互換保持定義 */
-if (defined('E_STRICT') == false) {
-    define('E_STRICT', 2048);
-}
 if (defined('E_DEPRECATED') == false) {
     define('E_DEPRECATED', 8192);
 }
