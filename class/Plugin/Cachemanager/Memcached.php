@@ -39,7 +39,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *
      *  @access protected
      */
-    function _load()
+    protected function _load()
     {
         parent::_load();
 
@@ -75,7 +75,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  namespace
      *  @return mixed   value
      */
-    function get($key, $lifetime = null, $namespace = null)
+    public function get($key, $lifetime = null, $namespace = null)
     {
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
@@ -118,7 +118,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  cache namespace
      *  @return int     unixtime
      */
-    function getLastModified($key, $namespace = null)
+    public function getLastModified($key, $namespace = null)
     {
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
@@ -141,7 +141,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @param  int     $lifetime   lifetime
      *  @param  string  $namespace  namespace
      */
-    function isCached($key, $lifetime = null, $namespace = null)
+    public function isCached($key, $lifetime = null, $namespace = null)
     {
         $r = $this->get($key, $lifetime, $namespace);
 
@@ -158,7 +158,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  namespace
      *  @param  int     $lifetime   expiration
      */
-    function set($key, $value, $timestamp = null, $namespace = null, $expiration = null)
+    public function set($key, $value, $timestamp = null, $namespace = null, $expiration = null)
     {
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key === null) {
@@ -210,7 +210,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return bool    true:成功 false:失敗
      */
-    function lock($key, $timeout = 5, $namespace = null)
+    public function lock($key, $timeout = 5, $namespace = null)
     {
         // not supported
         return true;
@@ -224,7 +224,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return bool    true:成功 false:失敗
      */
-    function unlock($key, $namespace = null)
+    public function unlock($key, $namespace = null)
     {
         // not supported
         return true;
@@ -239,7 +239,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @return bool
      *  @see http://jp.php.net/manual/memcached.setoption.php
      */
-    function setMemcachedOption($opt, $value)
+    public function setMemcachedOption($opt, $value)
     {
         return $this->m->setOption($opt, $value);
     }
@@ -252,7 +252,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *  @return mixed
      *  @see http://jp.php.net/manual/memcached.getoption.php
      */
-    function getMemcachedOption($opt)
+    public function getMemcachedOption($opt)
     {
         return $this->m->getOption($opt);
     }

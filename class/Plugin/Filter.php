@@ -31,7 +31,7 @@ class Ethna_Plugin_Filter extends Ethna_Plugin_Abstract
      *  @access public
      *  @return Ethna_Error:実行中止 any:正常終了
      */
-    function preFilter()
+    public function preFilter()
     {
     }
 
@@ -42,7 +42,7 @@ class Ethna_Plugin_Filter extends Ethna_Plugin_Abstract
      *  @param  string  $action_name    実行されるアクション名
      *  @return string  null:正常終了 (string):実行するアクション名を変更
      */
-    function preActionFilter($action_name)
+    public function preActionFilter($action_name)
     {
         return null;
     }
@@ -55,7 +55,7 @@ class Ethna_Plugin_Filter extends Ethna_Plugin_Abstract
      *  @param  string  $forward_name   実行されたアクションからの戻り値
      *  @return string  null:正常終了 (string):遷移名を変更
      */
-    function postActionFilter($action_name, $forward_name)
+    public function postActionFilter($action_name, $forward_name)
     {
         return null;
     }
@@ -66,7 +66,7 @@ class Ethna_Plugin_Filter extends Ethna_Plugin_Abstract
      *  @access public
      *  @return Ethna_Error:実行中止 any:正常終了
      */
-    function postFilter()
+    public function postFilter()
     {
     }
 }
