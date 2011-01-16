@@ -60,7 +60,7 @@ class Ethna_View_Redirect extends Ethna_ViewClass
         }
     }
 
-    function isAbsoluteUrl($url)
+    public function isAbsoluteUrl($url)
     {
         if (preg_match("@^(https?|ftp)://.+@", $url)) {
             return true;
@@ -75,7 +75,7 @@ class Ethna_View_Redirect extends Ethna_ViewClass
      *
      *  @access public
      */
-    function forward()
+    public function forward()
     {
          // do nothing.
     }

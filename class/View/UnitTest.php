@@ -22,7 +22,7 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
      */
 
     /** @var boolean  レイアウトテンプレートの使用フラグ       */
-    var $use_layout = false;
+    public $use_layout = false;
 
     /**#@-*/
 
@@ -31,7 +31,7 @@ class Ethna_View_UnitTest extends Ethna_ViewClass
      *
      *  @access public
      */
-    function preforward()
+    public function preforward()
     {
         // タイムアウトしないように変更
         if (!ini_get('safe_mode')) {
