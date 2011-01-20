@@ -55,6 +55,7 @@
 -- 検索用のアプリケーションIDを削除した
 -- ファイル名の命名規則を変更
 -- extlibの設置
+--- Debugtoolbar同梱 (extlibのサンプルとして。本体に取り込むほどのクオリティでもないためこちらに追加)
 - プラグイン関連のethnaコマンドを整理し、インストール、アンインストール関連コマンドは ethna pear-local コマンドに一本化
 -- ethna channel-update (削除)
 -- ethna info-plugin (削除)
