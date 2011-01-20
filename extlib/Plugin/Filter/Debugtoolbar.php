@@ -737,17 +737,19 @@ EOF;
                 echo "</td>";
             }
             else {
+                $key = $k . "_mapping";
+                $ar = isset($this->$key) ? $this->$key : array();
                 if (is_bool($v)) {
                     echo "<td>" . ($v ? '<span style="color: #090;">true</span>' : '<span style="color: #900;">false</span>')  . "</td>";
                 }
-                else if ($k === 'type' || $k === 'form_type') {
+                else if (($k === 'type' || $k === 'form_type')
+                    && isset($ar[$v]))
+                {
                     echo "<td>";
                     if ($v === null) {
                         echo "Undefined";
                     }
                     else {
-                        $key = $k . "_mapping";
-                        $ar = $this->$key;
                         echo $ar[$v];
                     }
 
