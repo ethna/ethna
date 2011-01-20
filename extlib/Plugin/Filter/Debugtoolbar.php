@@ -115,7 +115,7 @@ class Ethna_Plugin_Filter_Debugtoolbar extends Ethna_Plugin_Filter
 }
 .ethna-debug-title ,
 .ethna-debug-subtitle {
-  font-family: Verdana, "ヒラギノ角ゴ Pro W3", "メイリオ" !important;
+  font-family: Verdana, "Hiragino Kaku Gothic Pro W3", "Meiryo" !important;
   font-size: 18px;
   font-weight: bold;
   line-height: 2.6em;
@@ -155,7 +155,7 @@ class Ethna_Plugin_Filter_Debugtoolbar extends Ethna_Plugin_Filter
   bottom: 0px;
   left: 0px;
   font-size: 14px;
-  font-family: Verdana, "ヒラギノ角ゴ Pro W3", "メイリオ";
+  font-family: Verdana, "Hiragino Kaku Gothic Pro W3", "Meiryo" !important;
   opacity: 0.8;
 }
 #ethna-debug-switch-outline li {
@@ -171,7 +171,7 @@ li.ethna-debug-switch {
 }
 li.ethna-debug-switch:hover {
   background-color: #fff !important;
-  color: #333;
+  color: #333 !important;
 }
 
 li#ethna-debug-switch-EthnaClose {
