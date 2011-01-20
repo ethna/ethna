@@ -17,7 +17,7 @@
  *  @package    Ethna
  */
 // abstract class Ethna_Plugin_Abstract
-class Ethna_Plugin_Abstract
+abstract class Ethna_Plugin_Abstract
 {
     /**#@+
      *  @access private
@@ -58,8 +58,7 @@ class Ethna_Plugin_Abstract
      *  @access public
      *  @param  object  Ethna_Controller    &$controller    Controller Object
      */
-    // function __construct(&$controller)
-    function Ethna_Plugin_Abstract($controller, $type = null, $name = null)
+    public function __construct($controller, $type = null, $name = null)
     {
         $this->controller = $controller;
         $this->ctl = $this->controller;
@@ -94,7 +93,7 @@ class Ethna_Plugin_Abstract
      *
      *  @access public
      */
-    function getType()
+    public function getType()
     {
         return $this->type;
     }
@@ -104,7 +103,7 @@ class Ethna_Plugin_Abstract
      *
      *  @access public
      */
-    function getName()
+    public function getName()
     {
         return $this->name;
     }
@@ -114,7 +113,7 @@ class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    function _load()
+    protected function _load()
     {
     }
 
@@ -123,7 +122,7 @@ class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    function _loadConfig()
+    protected function _loadConfig()
     {
         $config = $this->ctl->getConfig();
         $plugin_config = $config->get('plugin');
@@ -150,7 +149,7 @@ class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    function _detectType($type = null)
+    protected function _detectType($type = null)
     {
         if ($type !== null) {
             return strtolower($type);
@@ -170,7 +169,7 @@ class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    function _detectName($name = null)
+    protected function _detectName($name = null)
     {
         if ($name !== null) {
             return strtolower($name);

@@ -45,7 +45,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *
      *  @access protected
      */
-    function _load()
+    protected function _load()
     {
         parent::_load();
         $this->memcache_pool = array();
@@ -56,7 +56,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *
      *  @access protected
      */
-    function _getMemcache($cache_key, $namespace = null)
+    protected function _getMemcache($cache_key, $namespace = null)
     {
         $retry = $this->config['retry'];
         $timeout = $this->config['timeout'];
@@ -99,7 +99,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @return array   array(host, port)
      *  @todo   $cache_keyから$indexを決める方法を変更できるようにする
      */
-    function _getMemcacheInfo($cache_key, $namespace)
+    protected function _getMemcacheInfo($cache_key, $namespace)
     {
         $namespace = $this->getNamespace($namespace);
 
@@ -142,7 +142,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return array   キャッシュ値
      */
-    function get($key, $lifetime = null, $namespace = null)
+    public function get($key, $lifetime = null, $namespace = null)
     {
         $this->_getMemcache($key, $namespace);
         if ($this->memcache == null) {
@@ -181,7 +181,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return int     最終更新日時(unixtime)
      */
-    function getLastModified($key, $namespace = null)
+    public function getLastModified($key, $namespace = null)
     {
         $this->_getMemcache($key, $namespace);
         if ($this->memcache == null) {
@@ -208,7 +208,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @param  int     $lifetime   キャッシュ有効期間
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function isCached($key, $lifetime = null, $namespace = null)
+    public function isCached($key, $lifetime = null, $namespace = null)
     {
         $r = $this->get($key, $lifetime, $namespace);
 
@@ -224,7 +224,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @param  int     $timestamp  キャッシュ最終更新時刻(unixtime)
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function set($key, $value, $timestamp = null, $namespace = null)
+    public  function set($key, $value, $timestamp = null, $namespace = null)
     {
         $this->_getMemcache($key, $namespace);
         if ($this->memcache == null) {
@@ -249,7 +249,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @param  string  $key        キャッシュキー
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function clear($key, $namespace = null)
+    public function clear($key, $namespace = null)
     {
         $this->_getMemcache($key, $namespace);
         if ($this->memcache == null) {
@@ -275,7 +275,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return bool    true:成功 false:失敗
      */
-    function lock($key, $timeout = 5, $namespace = null)
+    public function lock($key, $timeout = 5, $namespace = null)
     {
         $this->_getMemcache($key, $namespace);
         if ($this->memcache == null) {
@@ -311,7 +311,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return bool    true:成功 false:失敗
      */
-    function unlock($key, $namespace = null)
+    public function unlock($key, $namespace = null)
     {
         $this->_getMemcache($key, $namespace);
         if ($this->memcache == null) {
@@ -329,7 +329,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    function _getCacheKey($namespace, $key)
+    private function _getCacheKey($namespace, $key)
     {
         // 少し乱暴だけど...
         $key = str_replace(":", "_", $key);
@@ -348,7 +348,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      * @access public
      * @param bool $flag フラグ
      */
-    function setCompress($flag) {
+    public function setCompress($flag) {
         $this->compress = $flag;
     }
 }
