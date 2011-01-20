@@ -535,7 +535,7 @@ EOL;
         echo "</div> \n";
 
         echo '<div class="ethna-debug-subtitle">Action/View/Forward</div>';
-        echo '<div id="ethna-debug-info-env" style="">';
+        echo '<div id="ethna-debug-info-actionenv" style="">';
         $info = array(
             'action' => $this->ctl->getCurrentActionName(),
             'action_form' => get_class($this->ctl->getActionForm()),
