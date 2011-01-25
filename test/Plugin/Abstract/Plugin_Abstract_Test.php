@@ -3,6 +3,8 @@
  *  Plugin_Abstract_Test.php
  */
 
+require_once ETHNA_BASE . '/class/Plugin/Abstract.php';
+
 /**
  *  Ethna_Plugin_Abstract クラスのテストケース
  *
@@ -10,17 +12,12 @@
  */
 class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
 {
-    var $plugin;
-    var $lw;
-    var $abstract;
+    protected $plugin;
+    protected $lw;
 
     function setUp()
     {
         $this->plugin = $this->ctl->getPlugin();
-
-        // for PHP 5, it's not enable to create instance of abstract class,
-        // now this is temporary process.
-        $this->abstract = $this->plugin->getPlugin('Abstract', null);
 
         $this->lw = $this->plugin->getPlugin('Logwriter', 'Echo');
 
@@ -28,10 +25,8 @@ class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
 
     function testDetectTypeAndName()
     {
-        $this->assertEqual('abstract', $this->abstract->getType());
-        $this->assertEqual(null, $this->abstract->getName());
-
         $this->assertEqual('logwriter', $this->lw->getType());
         $this->assertEqual('echo', $this->lw->getName());
     }
 }
+
