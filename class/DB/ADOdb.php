@@ -18,7 +18,7 @@ require_once 'adodb/adodb.inc.php';
 function ethna_adodb_logger ($msg, $newline) {
     $c = Ethna_Controller::getInstance();
     $logger = $c->getLogger();
-    
+
     $logger->log(LOG_DEBUG, strip_tags(str_replace("\n", "", $msg)));
 }
 
@@ -37,11 +37,14 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @access private
      */
 
-    /** @var    object  DB              DBオブジェクト */
-    var $db;
+    /**
+     * @XXX stay public because of B.C.
+     * @protected    object  DB              DBオブジェクト
+     */
+    public $db;
 
-    /** @var    string   dsn */
-    var $dsn;
+    /** @protected    string   dsn */
+    protected $dsn;
 
     /**#@-*/
 
@@ -71,7 +74,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
     function connect()
     {
         $dsn = $this->parseDSN($this->dsn);
-        
+
         if ($dsn['phptype'] == 'sqlite') {
             $path = $dsn['database'];
             $this->db = ADONewConnection("sqlite");
@@ -85,7 +88,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
             return true;
         } else {
             return false;
-        }    
+        }
     }
     //}}}
 
@@ -173,7 +176,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
         return $this->_query($query, $inputarr);
     }
     //}}}
-    
+
     //{{{ _query
     /**
      *  クエリを発行する
@@ -257,7 +260,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
         return $this->db->AutoExecute($table, $fields, $mode, $where, $forceUpdate, $magicq);
     }
     //}}}
-    
+
     //{{{ pageExecute
     /**
      * pageExecute
