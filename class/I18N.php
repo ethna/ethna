@@ -48,32 +48,32 @@ class Ethna_I18N
      *  @access private
      */
 
-    /** @var    Ethna_Controller  コントローラーオブジェクト  */
-    var $ctl;
+    /** @protected    Ethna_Controller  コントローラーオブジェクト  */
+    protected $ctl;
 
-    /** @var    bool    gettextフラグ */
-    var $use_gettext;
+    /** @protected    bool    gettextフラグ */
+    protected $use_gettext;
 
-    /** @var    string  ロケール */
-    var $locale;
+    /** @protected    string  ロケール */
+    protected $locale;
 
-    /** @var    string  プロジェクトのロケールディレクトリ */
-    var $locale_dir;
+    /** @protected    string  プロジェクトのロケールディレクトリ */
+    protected $locale_dir;
 
-    /** @var    string  アプリケーションID */
-    var $appid;
+    /** @protected    string  アプリケーションID */
+    protected $appid;
 
-    /** @var    string  システム側エンコーディング */
-    var $systemencoding;
+    /** @protected    string  システム側エンコーディング */
+    protected $systemencoding;
 
-    /** @var    string  クライアント側エンコーディング */
-    var $clientencoding;
+    /** @protected    string  クライアント側エンコーディング */
+    protected $clientencoding;
 
-    /** @var    mixed   Ethna独自のメッセージカタログ */
-    var $messages;
+    /** @protected    mixed   Ethna独自のメッセージカタログ */
+    protected $messages;
 
-    /** @var    mixed   ロガーオブジェクト */
-    var $logger;
+    /** @protected    mixed   ロガーオブジェクト */
+    protected $logger;
 
     /**#@-*/
 
@@ -133,7 +133,7 @@ class Ethna_I18N
      *                                  (=テンプレートのエンコーディングと考えてよい)
      *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html 
      */
-    function setLanguage($locale, $systemencoding = null, $clientencoding = null)
+    public function setLanguage($locale, $systemencoding = null, $clientencoding = null)
     {
         setlocale(LC_ALL, $locale . ($systemencoding !== null ? "." . $systemencoding : ""));
 
@@ -160,7 +160,7 @@ class Ethna_I18N
      *  @param  string  $msg    メッセージ
      *  @return string  ロケールに適合するメッセージ
      */
-    function get($msg)
+    public function get($msg)
     {
 
         if ($this->use_gettext) {
@@ -225,7 +225,7 @@ class Ethna_I18N
      *  @access  private 
      *  @return  array     読み込んだメッセージカタログ。失敗した場合は空の配列 
      */
-    function _makeEthnaMsgCatalog()
+    private function _makeEthnaMsgCatalog()
     {
         $ret_messages = array();
 
@@ -271,7 +271,7 @@ class Ethna_I18N
      *  @param   string    メッセージカタログファイル名
      *  @return  array     読み込んだメッセージカタログ。失敗した場合は空の配列 
      */
-    function parseEthnaMsgCatalog($file)
+    public function parseEthnaMsgCatalog($file)
     {
         $messages = array();
 
