@@ -52,16 +52,16 @@ class Ethna_AppSearchObject
      *  @access private
      */
 
-    /** @var    string  検索値 */
-    var $value;
+    /** @protected    string  検索値 */
+    protected $value;
 
-    /** @var    int     検索条件 */
-    var $condition;
+    /** @protected    int     検索条件 */
+    protected $condition;
 
     /**
-     *  @var    array   追加検索条件を保持したEthna_AppSearchObjectの一覧
+     *  @protected    array   追加検索条件を保持したEthna_AppSearchObjectの一覧
      */
-    var $object_list = array();
+    protected $object_list = array();
 
     /**#@-*/
 
