@@ -23,26 +23,26 @@ class Ethna_Renderer
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    var $ctl;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
+    protected $ctl;
 
-    /** @var    array   [appid]-ini.phpのレンダラ設定 */
-    var $config;
+    /** @protected    array   [appid]-ini.phpのレンダラ設定 */
+    protected $config;
 
-    /** @var    string  template directory  */
-    var $template_dir;
+    /** @protected    string  template directory  */
+    protected $template_dir;
 
-    /** @var    string  template engine */
-    var $engine;
+    /** @protected    string  template engine */
+    protected $engine;
 
-    /** @var    string  template file */
-    var $template;
+    /** @protected    string  template file */
+    protected $template;
 
-    /** @var    string  テンプレート変数 */
-    var $prop;
+    /** @protected    string  テンプレート変数 */
+    protected $prop;
     
     /** @protected    string  レンダラプラグイン(Ethna_Pluginとは関係なし) */
     protected $plugin_registry;

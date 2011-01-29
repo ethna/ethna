@@ -680,7 +680,7 @@ EOF;
 
         // get template directory
         $r = $c->getRenderer();
-        $smarty = $r->engine;
+        $smarty = $r->getEngine();
 
         $vars = Smarty_Internal_Debug::get_debug_vars($smarty);
 
