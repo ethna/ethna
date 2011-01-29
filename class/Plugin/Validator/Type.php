@@ -20,7 +20,7 @@
 class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
 {
     /** @var    bool    配列を受け取るかフラグ */
-    var $accept_array = false;
+    public $accept_array = false;
 
     /**
      *  フォーム値の型チェックを行う

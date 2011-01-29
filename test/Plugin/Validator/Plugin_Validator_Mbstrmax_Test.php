@@ -11,13 +11,16 @@
  */
 class Ethna_Plugin_Validator_Mbstrmax_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Mbstrmax');
+
+        $this->ctl = $ctl;
     }
 
     // {{{ test max mbstr 
@@ -28,7 +31,8 @@ class Ethna_Plugin_Validator_Mbstrmax_Test extends Ethna_UnitTestBase
                           'required'      => true,
                           'mbstrmax'      => '3',
                           );
-        $this->vld->af->setDef('namae_mbstr', $form_mbstr);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_mbstr', $form_mbstr);
 
         $pear_error = $this->vld->validate('namae_mbstr', 'あいう', $form_mbstr);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));

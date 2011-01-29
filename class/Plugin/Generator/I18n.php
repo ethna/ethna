@@ -3,7 +3,7 @@
 /**
  *  I18n.php
  *
- *  @author     Yoshinari Takaoka <takaoka@beatcraft.com> 
+ *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
  *  @version    $Id$
@@ -13,30 +13,30 @@
 /**
  *  i18n 向け、メッセージカタログ生成クラスのスーパークラス
  *
- *  @author     Yoshinari Takaoka <takaoka@beatcraft.com> 
+ *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @access     public
  *  @package    Ethna
  */
 class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
 {
     /**#@+
-     *  @access protected 
+     *  @access protected
      */
 
-    /** @var    array  解析済みトークン  */ 
-    var $tokens = array();
+    /** @protected    array  解析済みトークン  */
+    protected $tokens = array();
 
-    /** @var    string   ロケール名  */ 
-    var $locale;
+    /** @protected    string   ロケール名  */
+    protected $locale;
 
-    /** @var    boolean  gettext利用フラグ  */ 
-    var $use_gettext;
-   
-    /** @var    boolean  既存ファイルが存在した場合にtrue */ 
-    var $file_exists;
+    /** @protected    boolean  gettext利用フラグ  */
+    protected $use_gettext;
 
-    /** @var    string   実行時のUnix Time(ファイル名生成用) */ 
-    var $time;
+    /** @protected    boolean  既存ファイルが存在した場合にtrue */
+    protected $file_exists;
+
+    /** @protected    string   実行時のUnix Time(ファイル名生成用) */
+    protected $time;
 
     /**
      *  プロジェクトのメッセージカタログを生成する
@@ -63,7 +63,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         //  1. Ethna 組み込みのカタログの場合、既存のiniファイル
         //  の中身を抽出し、既存の翻訳を可能な限りマージする
         //  2. gettext 利用の場合は、新たにファイルを作らせ、
-        //  既存翻訳とのマージは msgmergeプログラムを使わせる 
+        //  既存翻訳とのマージは msgmergeプログラムを使わせる
         //
         if ($this->file_exists) {
             $msg = ($this->use_gettext)
@@ -75,7 +75,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                   . "This is overwritten and existing translation is merged automatically.\n");
              print "\n-------------------------------\n"
                  . $msg
-                 . "-------------------------------\n\n"; 
+                 . "-------------------------------\n\n";
         }
 
         // app ディレクトリとテンプレートディレクトリを
@@ -97,7 +97,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
             if (Ethna::isError($r)) {
                 return $r;
             }
-        } 
+        }
 
         //  解析済みトークンを元に、カタログファイルを生成
         $r = $this->_generateFile();
@@ -110,7 +110,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
     }
 
     /**
-     *  出力ファイル名を取得します。 
+     *  出力ファイル名を取得します。
      *
      *  @access private
      *  @return string  出力ファイル名
@@ -136,12 +136,12 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
 
         return $outfile_path;
     }
- 
+
     /**
      *  指定されたディレクトリを再帰的に走査します。
      *
      *  @access protected
-     *  @param  string  $dir     走査対象ディレクトリ 
+     *  @param  string  $dir     走査対象ディレクトリ
      *  @return true|Ethna_Error true:成功 Ethna_Error:失敗
      */
     function _analyzeDirectory($dir)
@@ -153,11 +153,11 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                    );
         }
 
-        //  走査対象はテンプレートとPHPスクリプト 
+        //  走査対象はテンプレートとPHPスクリプト
         $php_ext = $this->ctl->getExt('php');
         $tpl_ext = $this->ctl->getExt('tpl');
         $r = NULL;
-    
+
         //  ディレクトリなら再帰的に走査
         //  ファイルならトークンを解析する
         while(($file = readdir($dh)) !== false) {
@@ -188,7 +188,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *
      *  NOTICE: このメソッドは、指定ファイルがPHPスクリプト
      *          (テンプレートファイル)として正しいものかどう
-     *          かはチェックしません。 
+     *          かはチェックしません。
      *
      *  @access protected
      *  @param  string  $file     走査対象ファイル
@@ -213,7 +213,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                            file_get_contents($file_path)
                        );
         $token_num = count($file_tokens);
-        $in_et_function = false;   
+        $in_et_function = false;
 
         //  アクションディレクトリは特別扱いするため、それ
         //  を取得
@@ -237,11 +237,11 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                 //  @see http://www.php.net/token_get_all
                 if (version_compare(PHP_VERSION, '5.2.2') >= 0) {
                     $token_linenum = array_shift($token);
-                } 
+                }
                 //  i18n 呼び出し関数の場合、フラグを立てる
                 if ($token_idx == T_STRING && $token_str == '_et') {
                     $in_et_function = true;
-                    continue; 
+                    continue;
                 }
                 //  i18n 呼び出しの後、定数文字列が来たら、
                 //  それを引数と看做す。PHPの文法的にvalid
@@ -271,13 +271,13 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         }
         if (preg_match("#$action_dir_regex#", $file_path)
         && !preg_match("#.*Test\.${php_ext}$#", $file_path)) {
-            $this->_analyzeActionForm($file_path); 
+            $this->_analyzeActionForm($file_path);
         }
 
         //  Ethna組み込みのメッセージカタログであれば翻訳をマージする
         $this->_mergeEthnaMessageCatalog();
 
-        return true; 
+        return true;
     }
 
     /**
@@ -285,7 +285,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *  箇所を取得します。
      *
      *  NOTICE: このメソッドは、指定ファイルがPHPスクリプトとして
-     *          正しいものかどうかはチェックしません。 
+     *          正しいものかどうかはチェックしません。
      *
      *  @access protected
      *  @param  string  $file_path  走査対象ファイル
@@ -293,7 +293,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      */
     function _analyzeActionForm($file_path)
     {
-        //   アクションスクリプトのトークンを取得 
+        //   アクションスクリプトのトークンを取得
         $tokens = token_get_all(
                       file_get_contents($file_path)
                   );
@@ -301,12 +301,12 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         //   クラスのトークンのみを取り出す
         $class_names = array();
         $class_started = false;
-        for ($i = 0; $i < count($tokens); $i++) { 
+        for ($i = 0; $i < count($tokens); $i++) {
             $token = $tokens[$i];
             if (is_array($token)) {
                 $token_name = array_shift($token);
                 $token_str = array_shift($token);
-                
+
                 if ($token_name == T_CLASS) {  //  クラス定義開始
                     $class_started = true;
                     continue;
@@ -315,7 +315,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                 if ($class_started === true && $token_name == T_STRING) {
                     $class_started = false;
                     $class_names[] = $token_str;
-                } 
+                }
             }
         }
 
@@ -340,10 +340,10 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         foreach ($form_def as $key => $def) {
             //    対象となるのは name, *_error
             //    但し、定義されていた場合のみ対象にする
-            //    @see http://ethna.jp/ethna-document-dev_guide-form-message.html 
+            //    @see http://ethna.jp/ethna-document-dev_guide-form-message.html
             foreach ($translatable_code as $code) {
                 if (array_key_exists($code, $def)) {
-                    $token_str = $def[$code]; 
+                    $token_str = $def[$code];
                     $this->tokens[$file_path][] = array(
                                                       'token_str' => $token_str,
                                                       'linenum' => false, // 行番号は取得しない
@@ -351,7 +351,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                                                   );
                 }
             }
-        } 
+        }
     }
 
     /**
@@ -359,7 +359,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *  の呼び出し箇所を取得します。
      *
      *  @access protected
-     *  @param  string  $file    走査対象ファイル 
+     *  @param  string  $file    走査対象ファイル
      *  @return true|Ethna_Error true:成功 Ethna_Error:失敗
      */
     function _analyzeTemplate($file)
@@ -371,13 +371,13 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         if (strncasecmp('Smarty', $engine_name, 6) !== 0) {
             return Ethna::raiseError(
                        "You seems to use template engine other than Smarty ... : $engine_name"
-                   ); 
+                   );
         }
 
         printf("Analyzing Template file ... %s\n", $file);
 
         //  use smarty internal function :)
-        $compile_path = $engine->_get_compile_path($file);        
+        $compile_path = $engine->_get_compile_path($file);
         $compile_result = NULL;
         if ($engine->_is_compiled($file, $compile_path)
          || $engine->_compile_resource($file, $compile_path)) {
@@ -387,18 +387,18 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
         if (empty($compile_result)) {
             return Ethna::raiseError(
                        "could not compile template file : $file"
-                   ); 
+                   );
         }
 
         //  コンパイル済みのテンプレートを解析する
         $tokens = token_get_all($compile_result);
 
-        for ($i = 0; $i < count($tokens); $i++) { 
+        for ($i = 0; $i < count($tokens); $i++) {
             $token = $tokens[$i];
             if (is_array($token)) {
                 $token_name = array_shift($token);
                 $token_str = array_shift($token);
-                
+
                 if ($token_name == T_STRING
                  && strcmp($token_str, 'smarty_modifier_i18n') === 0) {
                     $i18n_str = $this->_find_template_i18n($tokens, $i);
@@ -422,7 +422,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *
      *  @param $tokens 解析対象トークン
      *  @param $index  インデックス
-     *  @access private 
+     *  @access private
      */
     function _find_template_i18n($tokens, $index)
     {
@@ -432,12 +432,12 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
             if (is_array($tmp_token)) {
                 $tmp_token_name = array_shift($tmp_token);
                 $tmp_token_str = array_shift($tmp_token);
-                if ($tmp_token_name == T_CONSTANT_ENCAPSED_STRING 
+                if ($tmp_token_name == T_CONSTANT_ENCAPSED_STRING
                  && !preg_match('#^["\']i18n["\']$#', $tmp_token_str)) {
                     $prev_token = $tokens[$j - 1];
                     if (!is_array($prev_token) && $prev_token == '=') {
                         return $tmp_token_str;
-                    } 
+                    }
                 }
             }
         }
@@ -476,7 +476,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *  ルを生成します。 生成先は以下のパスになる。
      *  [appid]/[locale_dir]/[locale_name]/LC_MESSAGES/[locale_name].[ini|po]
      *
-     *  @access protected 
+     *  @access protected
      *  @param  string  $locale         生成するカタログのロケール
      *  @param  int     $use_gettext    gettext 使用フラグ
      *                                  true ならgettext のカタログ生成
@@ -519,7 +519,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                         "#: ${file_path}${token_line}\n"
                       . "msgid \"${token_str}\"\n"
                       . "msgstr \"${translation}\"\n\n"
-                    ); 
+                    );
                 } else {
                     if ($is_first_loop === false) {
                         $contents .= "\n; ${file_path}\n";
@@ -528,7 +528,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                     $contents .= "\"${token_str}\" = \"${translation}\"\n";
                 }
             }
-        } 
+        }
 
         //  finally write.
         $outfile_dir = dirname($outfile_path);

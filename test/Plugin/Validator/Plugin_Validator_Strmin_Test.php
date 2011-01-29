@@ -11,13 +11,16 @@
  */
 class Ethna_Plugin_Validator_Strmin_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Strmin');
+
+        $this->ctl = $ctl;
     }
 
     // {{{ test min str 
@@ -28,7 +31,8 @@ class Ethna_Plugin_Validator_Strmin_Test extends Ethna_UnitTestBase
                           'required'      => true,
                           'strmin'      => '3',
                           );
-        $this->vld->af->setDef('namae_str', $form_str);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_str', $form_str);
 
         $pear_error = $this->vld->validate('namae_str', 'abc', $form_str);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));

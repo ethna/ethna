@@ -11,8 +11,8 @@
  */
 class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
 {
-    var $vld;
-    var $local_ctl;
+    private $vld;
+    private $local_ctl;
 
     function setUp()
     {
@@ -34,32 +34,33 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
     {
         if (extension_loaded('mbstring')) {
             $form_str = array(
-                              'type'          => VAR_TYPE_STRING,
-                              'required'      => true,
-                              'strmincompat'  => '4',  // 半角4、全角2文字
-                        );
-            $this->vld->af->setDef('namae_str', $form_str);
-    
+                'type'          => VAR_TYPE_STRING,
+                'required'      => true,
+                'strmincompat'  => '4',  // 半角4、全角2文字
+            );
+            $af = $this->local_ctl->getActionForm();
+            $af->setDef('namae_str', $form_str);
+
             //    ascii.
             $input_str = 'abcd';
             $pear_error = $this->vld->validate('namae_str', $input_str, $form_str);
-            $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+            $this->assertFalse($pear_error instanceof Ethna_Error);
+
             $error_str = 'abc';
             $pear_error = $this->vld->validate('namae_str', $error_str, $form_str);
-            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
-            $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
+            $this->assertTrue($pear_error instanceof Ethna_Error);
+            $this->assertEqual(E_FORM_MIN_STRING, $pear_error->getCode());
 
             //    multibyte string
             $input_str = 'あい';
             $input_str_euc = mb_convert_encoding($input_str, 'EUC-JP', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $input_str_euc, $form_str);
             $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+
             $error_str = 'あ';
             $error_str_euc = mb_convert_encoding($error_str, 'EUC-JP', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $error_str_euc, $form_str);
-            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
+            $this->assertTrue($pear_error instanceof Ethna_Error);
             $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
         } else {
@@ -67,7 +68,7 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
         }
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 
     // {{{ test min str (compatible class, SJIS)
@@ -82,28 +83,29 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
                               'required'      => true,
                               'strmincompat'  => '4',  // 半角4、全角2文字
                         );
-            $this->vld->af->setDef('namae_str', $form_str);
-    
+            $af = $this->local_ctl->getActionForm();
+            $af->setDef('namae_str', $form_str);
+
             //    ascii.
             $input_str = 'abcd';
             $pear_error = $this->vld->validate('namae_str', $input_str, $form_str);
-            $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+            $this->assertFalse($pear_error instanceof Ethna_Error);
+
             $error_str = 'abc';
             $pear_error = $this->vld->validate('namae_str', $error_str, $form_str);
-            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
+            $this->assertTrue($pear_error instanceof Ethna_Error);
             $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
             //    multibyte string(sjis)
             $input_str = 'あい';
             $input_str_sjis = mb_convert_encoding($input_str, 'SJIS', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $input_str_sjis, $form_str);
-            $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+            $this->assertFalse($pear_error instanceof Ethna_Error);
+
             $error_str = 'あ';
             $error_str_sjis = mb_convert_encoding($error_str, 'SJIS', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $error_str_sjis, $form_str);
-            $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
+            $this->assertTrue($pear_error instanceof Ethna_Error);
             $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
         } else {
@@ -111,7 +113,7 @@ class Ethna_Plugin_Validator_Strmincompat_Test extends Ethna_UnitTestBase
         }
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 }
 

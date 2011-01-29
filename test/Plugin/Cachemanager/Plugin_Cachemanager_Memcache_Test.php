@@ -51,7 +51,10 @@ class Ethna_Plugin_Cachemanager_Memcache_Test extends Ethna_UnitTestBase
 
     function testMemcacheConfig()
     {
-        $config = $this->cm->config;
+        $ref_cm = new ReflectionClass($this->cm);
+        $config = $ref_cm->getProperty('config')->getValue();
+
+        //$config = $this->cm->config;
 
         $this->assertEqual(11211, $config['port']);
         $this->assertEqual('localhost', $config['host']);

@@ -11,13 +11,16 @@
  */
 class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Required');
+
+        $this->ctl = $ctl;
     }
 
     // {{{ test form type text.
@@ -29,7 +32,8 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                              'required'      => false,
                              'form_type'     => FORM_TYPE_TEXT,
                              );
-        $this->vld->af->setDef('namae_string', $form_string);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_string', $form_string);
 
         $pear_error = $this->vld->validate('namae_string', 10, $form_string);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -50,7 +54,8 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                              'form_type'     => FORM_TYPE_TEXT,
                              'error'         => 'フォーム値必須エラー'
                              );
-        $this->vld->af->setDef('namae_string', $form_string);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_string', $form_string);
 
         $pear_error = $this->vld->validate('namae_string', 10, $form_string);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -80,7 +85,8 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                              'form_type'     => FORM_TYPE_SELECT,
                              'error'         => 'フォーム値必須エラー'
                              );
-        $this->vld->af->setDef('namae_select', $form_select);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_select', $form_select);
 
         $pear_error = $this->vld->validate('namae_select', 'selection', $form_select);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -100,7 +106,8 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                              'form_type'     => FORM_TYPE_SELECT,
                              'error'         => 'フォーム値必須エラー'
                              );
-        $this->vld->af->setDef('namae_select', $form_select);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_select', $form_select);
 
         $pear_error = $this->vld->validate('namae_select', 'selection', $form_select);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -132,7 +139,8 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                             'form_type'     => FORM_TYPE_RADIO,
                             'error'         => 'フォーム値必須エラー'
                             );
-        $this->vld->af->setDef('namae_radio', $form_radio);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_radio', $form_radio);
 
         $pear_error = $this->vld->validate('namae_radio', 'radio', $form_radio);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -153,7 +161,8 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                             'form_type'     => FORM_TYPE_RADIO,
                             'error'         => 'フォーム値必須エラー'
                             );
-        $this->vld->af->setDef('namae_radio', $form_radio);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_radio', $form_radio);
 
         $pear_error = $this->vld->validate('namae_radio', 'radio', $form_radio);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -185,7 +194,8 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                                'type'          => array(VAR_TYPE_BOOLEAN),
                                'error'         => 'フォーム値必須エラー',
                                );
-        $this->vld->af->setDef('namae_checkbox', $form_checkbox);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_checkbox', $form_checkbox);
 
         $checks = array(
                         '1st' => 0,
@@ -213,7 +223,7 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                                'type'          => array(VAR_TYPE_BOOLEAN),
                                'error'         => 'フォーム値必須エラー',
                                );
-        $this->vld->af->setDef('namae_checkbox', $form_checkbox);
+        $af->setDef('namae_checkbox', $form_checkbox);
 
         $checks = array(
                         '1st' => 0,
@@ -250,7 +260,7 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
                                'key'           => '4th',
                                'num'           => 4,
                                );
-        $this->vld->af->setDef('namae_checkbox', $form_checkbox);
+        $af->setDef('namae_checkbox', $form_checkbox);
 
         $checks = array(
                         '1st' => 0,

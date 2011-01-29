@@ -10,7 +10,7 @@
 class Ethna_Plugin_Validator_Mbregexp extends Ethna_Plugin_Validator
 {
     /** @var    bool    配列を受け取るかフラグ */
-    var $accept_array = false;
+    public $accept_array = false;
 
     /**
      *  正規表現によるフォーム値のチェックを行う(マルチバイト対応）

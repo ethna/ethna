@@ -11,13 +11,16 @@
  */
 class Ethna_Plugin_Validator_Custom_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Custom');
+
+        $this->ctl = $ctl;
     }
 
     // {{{ checkMailAddress
@@ -29,36 +32,37 @@ class Ethna_Plugin_Validator_Custom_Test extends Ethna_UnitTestBase
                              'required'      => true,
                              'custom' => 'checkMailaddress',
                              );
-        $this->vld->af->form_vars['namae_string'] = 'hoge@fuga.net';
+        $af = $this->ctl->getActionForm();
+        $af->form_vars['namae_string'] = 'hoge@fuga.net';
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = '-hoge@fuga.net';
+        $af->form_vars['namae_string'] = '-hoge@fuga.net';
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = '.hoge@fuga.net';
+        $af->form_vars['namae_string'] = '.hoge@fuga.net';
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = '+hoge@fuga.net';
+        $af->form_vars['namae_string'] = '+hoge@fuga.net';
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
         // @がない
-        $this->vld->af->form_vars['namae_string'] = 'hogefuga.net';
+        $af->form_vars['namae_string'] = 'hogefuga.net';
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
 
         // @の前に文字がない
-        $this->vld->af->form_vars['namae_string'] = '@hogefuga.net';
+        $af->form_vars['namae_string'] = '@hogefuga.net';
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
 
         // @の後に文字がない
-        $this->vld->af->form_vars['namae_string'] = 'hogefuga.net@';
+        $af->form_vars['namae_string'] = 'hogefuga.net@';
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
 
         // 先頭文字が許されていない
-        $this->vld->af->form_vars['namae_string'] = '%hoge@fuga.net';
+        $af->form_vars['namae_string'] = '%hoge@fuga.net';
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
 
         // 末尾文字が許されていない
-        $this->vld->af->form_vars['namae_string'] = 'hoge@fuga.net.';
+        $af->form_vars['namae_string'] = 'hoge@fuga.net.';
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
     }
     // }}}
@@ -79,24 +83,25 @@ class Ethna_Plugin_Validator_Custom_Test extends Ethna_UnitTestBase
                               'required'      => true,
                               'custom' => 'checkBoolean',
                               );
+        $af = $this->ctl->getActionForm();
 
-        $this->vld->af->form_vars['namae_boolean'] = true;
+        $af->form_vars['namae_boolean'] = true;
         $this->assertTrue($this->vld->validate('namae_boolean', '', $form_boolean));
 
-        $this->vld->af->form_vars['namae_boolean'] = false;
+        $af->form_vars['namae_boolean'] = false;
         $this->assertTrue($this->vld->validate('namae_boolean', '', $form_boolean));
 
-        $this->vld->af->form_vars['namae_boolean'] = '';
+        $af->form_vars['namae_boolean'] = '';
         $this->assertTrue($this->vld->validate('namae_boolean', '', $form_boolean));
 
-        $this->vld->af->form_vars['namae_boolean'] = array();
+        $af->form_vars['namae_boolean'] = array();
         $this->assertTrue($this->vld->validate('namae_boolean', '', $form_boolean));
 
-        $this->vld->af->form_vars['namae_boolean'] = array(true);
+        $af->form_vars['namae_boolean'] = array(true);
         $this->assertTrue($this->vld->validate('namae_boolean', '', $form_boolean));
 
         // 0,1以外の値
-        $this->vld->af->form_vars['namae_boolean'] = 3;
+        $af->form_vars['namae_boolean'] = 3;
         $this->assertFalse($this->vld->validate('namae_boolean', '', $form_boolean));
     }
     // }}}
@@ -115,27 +120,29 @@ class Ethna_Plugin_Validator_Custom_Test extends Ethna_UnitTestBase
                           'required'      => true,
                           'custom' => 'checkURL',
                           );
-        $this->vld->af->form_vars['namae_url'] = 'http://uga.net';
+        $af = $this->ctl->getActionForm();
+
+        $af->form_vars['namae_url'] = 'http://uga.net';
         $this->assertTrue($this->vld->validate('namae_url', '', $form_url));
 
-        $this->vld->af->form_vars['namae_url'] = 'https://uga.net';
+        $af->form_vars['namae_url'] = 'https://uga.net';
         $this->assertTrue($this->vld->validate('namae_url', '', $form_url));
 
-        $this->vld->af->form_vars['namae_url'] = 'ftp://uga.net';
+        $af->form_vars['namae_url'] = 'ftp://uga.net';
         $this->assertTrue($this->vld->validate('namae_url', '', $form_url));
 
-        $this->vld->af->form_vars['namae_url'] = 'http://';
+        $af->form_vars['namae_url'] = 'http://';
         $this->assertTrue($this->vld->validate('namae_url', '', $form_url));
 
-        $this->vld->af->form_vars['namae_url'] = '';
+        $af->form_vars['namae_url'] = '';
         $this->assertTrue($this->vld->validate('namae_url', '', $form_url));
 
         // '/'が足りない
-        $this->vld->af->form_vars['namae_url'] = 'http:/';
+        $af->form_vars['namae_url'] = 'http:/';
         $this->assertFalse($this->vld->validate('namae_url', '', $form_url));
 
         // 接頭辞がない
-        $this->vld->af->form_vars['namae_url'] = 'hoge@fuga.net';
+        $af->form_vars['namae_url'] = 'hoge@fuga.net';
         $this->assertFalse($this->vld->validate('namae_url', '', $form_url));
     }
     // }}}
@@ -148,45 +155,47 @@ class Ethna_Plugin_Validator_Custom_Test extends Ethna_UnitTestBase
                              'required'      => true,
                              'custom' => 'checkVendorChar',
                              );
-        $this->vld->af->form_vars['namae_string'] = 'http://uga.net';
+        $af = $this->ctl->getActionForm();
+
+        $af->form_vars['namae_string'] = 'http://uga.net';
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0x00);
+        $af->form_vars['namae_string'] = chr(0x00);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0x79);
+        $af->form_vars['namae_string'] = chr(0x79);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0x80);
+        $af->form_vars['namae_string'] = chr(0x80);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0x8e);
+        $af->form_vars['namae_string'] = chr(0x8e);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0x8f);
+        $af->form_vars['namae_string'] = chr(0x8f);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0xae);
+        $af->form_vars['namae_string'] = chr(0xae);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0xf8);
+        $af->form_vars['namae_string'] = chr(0xf8);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0xfd);
+        $af->form_vars['namae_string'] = chr(0xfd);
         $this->assertTrue($this->vld->validate('namae_string', '', $form_string));
 
         /* IBM拡張文字 / NEC選定IBM拡張文字 */
         //$c == 0xad || ($c >= 0xf9 && $c <= 0xfc)
-        $this->vld->af->form_vars['namae_string'] = chr(0xad);
+        $af->form_vars['namae_string'] = chr(0xad);
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0xf9);
+        $af->form_vars['namae_string'] = chr(0xf9);
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0xfa);
+        $af->form_vars['namae_string'] = chr(0xfa);
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
 
-        $this->vld->af->form_vars['namae_string'] = chr(0xfc);
+        $af->form_vars['namae_string'] = chr(0xfc);
         $this->assertFalse($this->vld->validate('namae_string', '', $form_string));
     }
     // }}}

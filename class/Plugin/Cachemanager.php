@@ -21,13 +21,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
     /**#@+  @access private */
 
     /** @var    string  現在のネームスペース */
-    var $namespace = '';
-
-    /** @var    object  Ethna_Backend       backendオブジェクト */
-    //var $backend;
-
-    /** @var    object  Ethna_Config        設定オブジェクト    */
-    //var $config;
+    protected $namespace = '';
 
     /**#@-*/
 
