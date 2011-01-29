@@ -31,7 +31,7 @@ class Ethna_View_Json extends Ethna_ViewClass
      *  @access public
      *  @param  array  $encode_param  出力するJSONにエンコードする値
      */
-    function preforward($encode_param = array())
+    public function preforward($encode_param = array())
     {
         $client_enc = $this->ctl->getClientEncoding();
         if (mb_enabled() && strcasecmp('UTF-8', $client_enc) != 0) {
@@ -43,7 +43,7 @@ class Ethna_View_Json extends Ethna_ViewClass
         echo $encoded_param;
     }
 
-    function forward()
+    public function forward()
     {
         // do nothing.
     }

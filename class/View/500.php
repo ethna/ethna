@@ -32,7 +32,7 @@ class Ethna_View_500 extends Ethna_ViewClass
      *  @access public
      *  @param  array  $param  出力に必要なユーザー定義パラメータ
      */
-    function preforward($param = array())
+    public function preforward($param = array())
     {
         $this->error(500);
     }
