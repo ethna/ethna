@@ -20,7 +20,7 @@ class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
 
         // for PHP 5, it's not enable to create instance of abstract class,
         // now this is temporary process.
-        $this->abstract = $this->plugin->getPlugin('Abstract', null);
+        //$this->abstract = $this->plugin->getPlugin('Abstract', null);
 
         $this->lw = $this->plugin->getPlugin('Logwriter', 'Echo');
 
@@ -28,8 +28,8 @@ class Ethna_Plugin_Abstract_Test extends Ethna_UnitTestBase
 
     function testDetectTypeAndName()
     {
-        $this->assertEqual('abstract', $this->abstract->getType());
-        $this->assertEqual(null, $this->abstract->getName());
+        //$this->assertEqual('abstract', $this->abstract->getType());
+        //$this->assertEqual(null, $this->abstract->getName());
 
         $this->assertEqual('logwriter', $this->lw->getType());
         $this->assertEqual('echo', $this->lw->getName());
