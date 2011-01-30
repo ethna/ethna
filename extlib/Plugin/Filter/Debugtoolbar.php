@@ -160,6 +160,7 @@ class Ethna_Plugin_Filter_Debugtoolbar extends Ethna_Plugin_Filter
 }
 #ethna-debug-switch-outline li {
   padding: 7px 10px 7px 22px;
+  margin: 0;
   float:left;
   list-style:none;
   z-index: 1000;
@@ -181,9 +182,12 @@ li#ethna-debug-switch-EthnaClose {
   text-indent: -9999px;
 }
 li#ethna-debug-switch-Ethna {
-  padding-right: 0;
+  padding-right: 4px;;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAABUSURBVHjaYvz//z8DKYCJgVSA34b/YPC+zO0/DLAQo40iJzECzWZkZMRqw4dyd5x++I8XIPuBZCdBPQ10FZFhiM8P1AmlQaiB5FBiISkhAQFAgAEA1FBb2xYZTGEAAAAASUVORK5CYII=");
   /* background-image: url(../images/ethna-debug-switch-Ethna.png); */
+}
+#ethna-debug-switch-outline li.ethna-debug-switch:nth-of-type(2) {
+  padding: 7px 10px;
 }
 #ethna-debug-switch-Timer {
   background-image: url("data:image/png;base64,");
@@ -631,7 +635,8 @@ EOF;
         echo '<div class="ethna-debug-subtitle">Definition</div>';
         echo "<div class=\"ethna-debug-log\">";
         //var_dump($this->controller->action_form->getArray());
-        self::dumpArray($this->controller->getActionForm()->getDef());
+        $action_form_def = $this->controller->getActionForm()->getDef();
+        self::dumpArray($action_form_def);
         echo "</div> \n";
         echo '<div class="ethna-debug-subtitle">$_GET</div>';
         echo "<div class=\"ethna-debug-log\">";
@@ -720,6 +725,12 @@ EOF;
             echo "<tr>\n";
             echo "<th>Scalar</th>";
             echo "<td>{$array}</td>";
+            echo "</tr>\n";
+        }
+        elseif (is_null($array)) {
+            echo "<tr>\n";
+            echo "<th>NULL</th>";
+            echo "<td>NULL</td>";
             echo "</tr>\n";
         }
         elseif (is_object($array)) {
