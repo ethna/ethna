@@ -628,26 +628,40 @@ EOF;
         }
         echo '<div class="ethna-debug" id="ethna-debug-afwindow">';
         echo '<div class="ethna-debug-title">ActionForm</div>';
+
         echo '<div class="ethna-debug-subtitle">Posted Value</div>';
         echo "<div class=\"ethna-debug-log\">";
         self::dumpArray($this->ctl->getActionForm()->getArray());
         echo "</div> \n";
+
         echo '<div class="ethna-debug-subtitle">Definition</div>';
         echo "<div class=\"ethna-debug-log\">";
-        //var_dump($this->controller->action_form->getArray());
         $action_form_def = $this->controller->getActionForm()->getDef();
         self::dumpArray($action_form_def);
         echo "</div> \n";
+
+        echo '<div class="ethna-debug-subtitle">App</div>';
+        echo "<div class=\"ethna-debug-log\">";
+        $app_vars = $this->controller->getActionForm()->getAppArray();
+        self::dumpArray($app_vars);
+        echo "</div> \n";
+
+        echo '<div class="ethna-debug-subtitle">AppNe</div>';
+        echo "<div class=\"ethna-debug-log\">";
+        $app_ne_vars = $this->controller->getActionForm()->getAppNEArray();
+        self::dumpArray($app_ne_vars);
+        echo "</div> \n";
+
         echo '<div class="ethna-debug-subtitle">$_GET</div>';
         echo "<div class=\"ethna-debug-log\">";
-        //var_dump($this->controller->action_form->getArray());
         self::dumpArray($_GET);
         echo "</div> \n";
+
         echo '<div class="ethna-debug-subtitle">$_POST</div>';
         echo "<div class=\"ethna-debug-log\">";
-        //var_dump($this->controller->action_form->getArray());
         self::dumpArray($_POST);
         echo "</div> \n";
+
         echo '</div>';
     }
 
@@ -698,16 +712,17 @@ EOF;
         echo '<div class="ethna-debug-subtitle">Smarty template vars</div>';
         echo "<div class=\"ethna-debug-log\">";
         foreach ($vars->tpl_vars as $k => $v) {
-            echo "$k<br />";
-            self::dumpArray($v->value);
+            $v = array($k => $v->value);
+            self::dumpArray($v);
         }
         echo "</div> \n";
 
         echo '<div class="ethna-debug-subtitle">Smarty config vars</div>';
         echo "<div class=\"ethna-debug-log\">";
         foreach ($vars->config_vars as $k => $v) {
-            echo "$k<br />";
-            self::dumpArray($v->value);
+            $v = array($k => $v->value);
+            self::dumpArray($v);
+            //self::dumpArray($v->value);
         }
         echo "</div> \n";
 
