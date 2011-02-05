@@ -721,25 +721,7 @@ EOF;
     function dumpArray(&$array)
     {
         echo "<table class=\"ethna-debug-table\">";
-        if (is_scalar($array)) {
-            echo "<tr>\n";
-            echo "<th>Scalar</th>";
-            echo "<td>{$array}</td>";
-            echo "</tr>\n";
-        }
-        elseif (is_null($array)) {
-            echo "<tr>\n";
-            echo "<th>NULL</th>";
-            echo "<td>NULL</td>";
-            echo "</tr>\n";
-        }
-        elseif (is_object($array)) {
-            echo "<tr>\n";
-            echo "<th>Object</th>";
-            echo "<td>" . get_class($array) . "</td>";
-            echo "</tr>\n";
-        }
-        else foreach ($array as $k => $v) {
+        foreach ($array as $k => $v) {
             echo "<tr>\n";
             echo "<th>{$k}</th>";
             if (is_array($v)) {
@@ -747,28 +729,37 @@ EOF;
                 self::dumpArray($v);
                 echo "</td>";
             }
-            else {
+            elseif (is_scalar($v)) {
+                // form type mapping check
                 $key = $k . "_mapping";
                 $ar = isset($this->$key) ? $this->$key : array();
-                if (is_bool($v)) {
-                    echo "<td>" . ($v ? '<span style="color: #090;">true</span>' : '<span style="color: #900;">false</span>')  . "</td>";
-                }
-                else if (($k === 'type' || $k === 'form_type')
+
+                if (($k === 'type' || $k === 'form_type')
                     && isset($ar[$v]))
                 {
                     echo "<td>";
                     if ($v === null) {
                         echo "Undefined";
-                    }
-                    else {
+                    } else {
                         echo $ar[$v];
                     }
-
                     echo "</td>";
                 }
                 else {
                     echo "<td>{$v}</td>";
                 }
+            }
+            elseif (is_null($array)) {
+                echo "<td>NULL</td>";
+            }
+            elseif (is_bool($v)) {
+                echo "<td>" . ($v ? '<span style="color: #090;">true</span>' : '<span style="color: #900;">false</span>')  . "</td>";
+            }
+            elseif (is_object($v)) {
+                echo "<td>(Object) " . get_class($v) . "</td>";
+            }
+            else {
+                echo "<td>" . gettype($v) . "</td>";
             }
             echo "</tr>\n";
         }
