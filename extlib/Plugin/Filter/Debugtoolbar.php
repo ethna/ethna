@@ -160,6 +160,7 @@ class Ethna_Plugin_Filter_Debugtoolbar extends Ethna_Plugin_Filter
 }
 #ethna-debug-switch-outline li {
   padding: 7px 10px 7px 22px;
+  margin: 0;
   float:left;
   list-style:none;
   z-index: 1000;
@@ -181,9 +182,12 @@ li#ethna-debug-switch-EthnaClose {
   text-indent: -9999px;
 }
 li#ethna-debug-switch-Ethna {
-  padding-right: 0;
+  padding-right: 4px;;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAABUSURBVHjaYvz//z8DKYCJgVSA34b/YPC+zO0/DLAQo40iJzECzWZkZMRqw4dyd5x++I8XIPuBZCdBPQ10FZFhiM8P1AmlQaiB5FBiISkhAQFAgAEA1FBb2xYZTGEAAAAASUVORK5CYII=");
   /* background-image: url(../images/ethna-debug-switch-Ethna.png); */
+}
+#ethna-debug-switch-outline li.ethna-debug-switch:nth-of-type(2) {
+  padding: 7px 10px;
 }
 #ethna-debug-switch-Timer {
   background-image: url("data:image/png;base64,");
@@ -634,7 +638,7 @@ EOF;
         echo '<div class="ethna-debug-subtitle">Definition</div>';
         echo "<div class=\"ethna-debug-log\">";
         //var_dump($this->controller->action_form->getArray());
-        $action_form_dev = $this->controller->getActionForm()->getDef();
+        $action_form_def = $this->controller->getActionForm()->getDef();
         self::dumpArray($action_form_def);
         echo "</div> \n";
         echo '<div class="ethna-debug-subtitle">$_GET</div>';
@@ -720,19 +724,7 @@ EOF;
     function dumpArray(&$array)
     {
         echo "<table class=\"ethna-debug-table\">";
-        if (is_scalar($array)) {
-            echo "<tr>\n";
-            echo "<th>Scalar</th>";
-            echo "<td>{$array}</td>";
-            echo "</tr>\n";
-        }
-        elseif (is_object($array)) {
-            echo "<tr>\n";
-            echo "<th>Object</th>";
-            echo "<td>" . get_class($array) . "</td>";
-            echo "</tr>\n";
-        }
-        else foreach ($array as $k => $v) {
+        foreach ($array as $k => $v) {
             echo "<tr>\n";
             echo "<th>{$k}</th>";
             if (is_array($v)) {
@@ -740,28 +732,37 @@ EOF;
                 self::dumpArray($v);
                 echo "</td>";
             }
-            else {
+            elseif (is_scalar($v)) {
+                // form type mapping check
                 $key = $k . "_mapping";
                 $ar = isset($this->$key) ? $this->$key : array();
-                if (is_bool($v)) {
-                    echo "<td>" . ($v ? '<span style="color: #090;">true</span>' : '<span style="color: #900;">false</span>')  . "</td>";
-                }
-                else if (($k === 'type' || $k === 'form_type')
+
+                if (($k === 'type' || $k === 'form_type')
                     && isset($ar[$v]))
                 {
                     echo "<td>";
                     if ($v === null) {
                         echo "Undefined";
-                    }
-                    else {
+                    } else {
                         echo $ar[$v];
                     }
-
                     echo "</td>";
                 }
                 else {
                     echo "<td>{$v}</td>";
                 }
+            }
+            elseif (is_null($array)) {
+                echo "<td>NULL</td>";
+            }
+            elseif (is_bool($v)) {
+                echo "<td>" . ($v ? '<span style="color: #090;">true</span>' : '<span style="color: #900;">false</span>')  . "</td>";
+            }
+            elseif (is_object($v)) {
+                echo "<td>(Object) " . get_class($v) . "</td>";
+            }
+            else {
+                echo "<td>" . gettype($v) . "</td>";
             }
             echo "</tr>\n";
         }
