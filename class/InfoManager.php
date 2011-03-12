@@ -369,11 +369,18 @@ class Ethna_InfoManager extends Ethna_AppManager
                 if (class_exists($action['class_name']) == false) {
                     $elt['action_class_info'] = array('undef' => true);
                 }
+                else {
+                    $elt['action_class_info'] = array('undef' => false);
+                }
             }
+
             if (isset($elt['action_form']) == false && $action['form_name'] != 'Ethna_ActionForm') {
                 $elt['action_form'] = $action['form_name'];
                 if (class_exists($action['form_name']) == false) {
                     $elt['action_form_info'] = array('undef' => true);
+                }
+                else {
+                    $elt['action_form_info'] = array('undef' => false);
                 }
             }
             $manifest_action_list[$action_name] = $elt;
@@ -536,10 +543,14 @@ class Ethna_InfoManager extends Ethna_AppManager
             if (file_exists(sprintf("%s/%s", $this->ctl->getTemplatedir(), $elt['template_file'])) == false) {
                 $elt['template_file_info'] = array('undef' => true);
             }
+            else {
+                $elt['template_file_info'] = array('undef' => false);
+            }
 
             $elt['view_class'] = $this->ctl->getViewClassName($forward_name);
             if ($elt['view_class'] == 'Ethna_ViewClass') {
                 $elt['view_class'] = null;
+                $elt['view_class_info'] = array('undef' => false);
             } else if (class_exists($elt['view_class']) == false) {
                 $elt['view_class_info'] = array('undef' => true);
             }
