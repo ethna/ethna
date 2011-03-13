@@ -23,50 +23,50 @@ class Ethna_Backend
      *  @access     private
      */
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    var $ctl;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
+    protected $ctl;
 
-    /** @var    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
-    var $class_factory;
+    /** @protected    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
+    protected $class_factory;
 
-    /** @var    object  Ethna_Config        設定オブジェクト */
-    var $config;
+    /** @protected    object  Ethna_Config        設定オブジェクト */
+    protected $config;
 
-    /** @var    object  Ethna_I18N          i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N          i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト */
-    var $action_error;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト */
+    protected $action_error;
 
-    /** @var    object  Ethna_ActionError   アクションエラーオブジェクト($action_errorの省略形) */
-    var $ae;
+    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト($action_errorの省略形) */
+    protected $ae;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    var $action_form;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
+    protected $action_form;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト($action_formの省略形) */
-    var $af;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト($action_formの省略形) */
+    protected $af;
 
-    /** @var    object  Ethna_ActionClass   アクションクラスオブジェクト */
-    var $action_class;
+    /** @protected    object  Ethna_ActionClass   アクションクラスオブジェクト */
+    protected $action_class;
 
-    /** @var    object  Ethna_ActionClass   アクションクラスオブジェクト($action_classの省略形) */
-    var $ac;
+    /** @protected    object  Ethna_ActionClass   アクションクラスオブジェクト($action_classの省略形) */
+    protected $ac;
 
-    /** @var    object  Ethna_Session       セッションオブジェクト */
-    var $session;
+    /** @protected    object  Ethna_Session       セッションオブジェクト */
+    protected $session;
 
-    /** @var    object  Ethna_Plugin        プラグインオブジェクト */
-    var $plugin;
+    /** @protected    object  Ethna_Plugin        プラグインオブジェクト */
+    protected $plugin;
 
-    /** @var    array   Ethna_DBオブジェクトを格納した配列 */
-    var $db_list;
+    /** @protected    array   Ethna_DBオブジェクトを格納した配列 */
+    protected $db_list;
 
-    /** @var    object  Ethna_Logger        ログオブジェクト */
-    var $logger;
+    /** @protected    object  Ethna_Logger        ログオブジェクト */
+    protected $logger;
 
     /**#@-*/
 

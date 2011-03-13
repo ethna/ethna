@@ -27,23 +27,23 @@ class Ethna_ClassFactory
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト(省略形) */
-    var $ctl;
-    
-    /** @var    array   クラス定義 */
-    var $class = array();
+    /** @protected    object  Ethna_Controller    controllerオブジェクト(省略形) */
+    protected $ctl;
 
-    /** @var    array   生成済みオブジェクトキャッシュ */
-    var $object = array();
+    /** @protected    array   クラス定義 */
+    protected $class = array();
 
-    /** @var    array   生成済みアプリケーションマネージャオブジェクトキャッシュ */
-    var $manager = array();
+    /** @FIXME @protected    array   生成済みオブジェクトキャッシュ */
+    public $object = array();
 
-    /** @var    array   メソッド一覧キャッシュ */
-    var $method_list = array();
+    /** @protected    array   生成済みアプリケーションマネージャオブジェクトキャッシュ */
+    protected $manager = array();
+
+    /** @protected    array   メソッド一覧キャッシュ */
+    protected $method_list = array();
 
     /**#@-*/
 
@@ -94,7 +94,7 @@ class Ethna_ClassFactory
             return $obj;  //  include 失敗。戻り値はNULL。
         }
 
-        //  メソッド情報を集める 
+        //  メソッド情報を集める
         if (isset($this->method_list[$class_name]) == false) {
             $this->method_list[$class_name] = get_class_methods($class_name);
             for ($i = 0; $i < count($this->method_list[$class_name]); $i++) {
@@ -113,7 +113,7 @@ class Ethna_ClassFactory
         //  1. メソッドに getInstance があればキャッシュを利用可能と判断する
         //     この場合、シングルトンかどうかは getInstance 次第
         //  2. weak が true であれば、キャッシュは利用不能と判断してオブジェクトを再生成
-        //  3. weak が false であれば、キャッシュは利用可能と判断する(デフォルト) 
+        //  3. weak が false であれば、キャッシュは利用可能と判断する(デフォルト)
         if ($this->_isCacheAvailable($class_name, $this->method_list[$class_name], $weak)) {
             if (isset($this->manager[$type]) && is_object($this->manager[$type])) {
                 return $this->manager[$type];
@@ -142,7 +142,7 @@ class Ethna_ClassFactory
      *
      *  @access public
      *  @param  string  $key    [Appid]_Controller#class に定められたクラスキー
-     *                          このキーは大文字小文字を区別する 
+     *                          このキーは大文字小文字を区別する
      *                          (配列のキーとして使われているため)
      *  @param  bool    $ext    オブジェクトが未生成の場合の強制生成フラグ(default: false)
      *  @return object  生成されたオブジェクト(エラーならnull)
@@ -171,7 +171,7 @@ class Ethna_ClassFactory
             }
         }
 
-        //  AppObject をはじめに扱う 
+        //  AppObject をはじめに扱う
         //  AppObject はキャッシュされないことに注意
         if (isset($this->class[$key]) == false) {
             $backend = $this->controller->getBackend();
@@ -180,7 +180,7 @@ class Ethna_ClassFactory
         }
 
         //  Ethna_Controllerで定義されたクラスキーの場合
-        //  はメソッド情報を集める 
+        //  はメソッド情報を集める
         if (isset($this->method_list[$class_name]) == false) {
             $this->method_list[$class_name] = get_class_methods($class_name);
             for ($i = 0; $i < count($this->method_list[$class_name]); $i++) {
@@ -194,7 +194,7 @@ class Ethna_ClassFactory
         //  1. メソッドに getInstance があればキャッシュを利用可能と判断する
         //     この場合、シングルトンかどうかは getInstance 次第
         //  2. weak が true であれば、キャッシュは利用不能と判断してオブジェクトを再生成
-        //  3. weak が false であれば、キャッシュは利用可能と判断する(デフォルト) 
+        //  3. weak が false であれば、キャッシュは利用可能と判断する(デフォルト)
         if ($this->_isCacheAvailable($class_name, $this->method_list[$class_name], $weak)) {
             if (isset($this->object[$key]) && is_object($this->object[$key])) {
                 return $this->object[$key];

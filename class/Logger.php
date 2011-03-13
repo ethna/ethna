@@ -34,8 +34,8 @@ class Ethna_Logger extends Ethna_AppManager
      *  @access private
      */
 
-    /** @var    array   ログファシリティ一覧 */
-    var $log_facility_list = array(
+    /** @protected    array   ログファシリティ一覧 */
+    protected $log_facility_list = array(
         'auth'      => array('name' => 'LOG_AUTH'),
         'cron'      => array('name' => 'LOG_CRON'),
         'daemon'    => array('name' => 'LOG_DAEMON'),
@@ -50,8 +50,8 @@ class Ethna_Logger extends Ethna_AppManager
         'echo'      => array('name' => 'LOG_ECHO'),
     );
 
-    /** @var    array   ログレベル一覧 */
-    var $log_level_list = array(
+    /** @protected    array   ログレベル一覧 */
+    protected $log_level_list = array(
         'emerg'     => array('name' => 'LOG_EMERG',     'value' => 7),
         'alert'     => array('name' => 'LOG_ALERT',     'value' => 6),
         'crit'      => array('name' => 'LOG_CRIT',      'value' => 5),
@@ -62,41 +62,41 @@ class Ethna_Logger extends Ethna_AppManager
         'debug'     => array('name' => 'LOG_DEBUG',     'value' => 0),
     );
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    var $ctl;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
+    protected $ctl;
 
-    /** @var    array   ログファシリティ */
-    var $facility = array();
+    /** @protected    array   ログファシリティ */
+    protected $facility = array();
 
-    /** @var    array   ログレベル */
-    var $level = array();
+    /** @protected    array   ログレベル */
+    protected $level = array();
 
-    /** @var    array   ログオプション */
-    var $option = array();
+    /** @protected    array   ログオプション */
+    protected $option = array();
 
-    /** @var    array   メッセージフィルタ(出力) */
-    var $message_filter_do = array();
+    /** @protected    array   メッセージフィルタ(出力) */
+    protected $message_filter_do = array();
 
-    /** @var    array   メッセージフィルタ(無視) */
-    var $message_filter_ignore = array();
+    /** @protected    array   メッセージフィルタ(無視) */
+    protected $message_filter_ignore = array();
 
-    /** @var    int     アラートレベル */
-    var $alert_level;
+    /** @protected    int     アラートレベル */
+    protected $alert_level;
 
-    /** @var    string  アラートメールアドレス */
-    var $alert_mailaddress;
+    /** @protected    string  アラートメールアドレス */
+    protected $alert_mailaddress;
 
-    /** @var    array   Ethna_LogWriter ログ出力オブジェクト */
-    var $writer = array();
+    /** @protected    array   Ethna_LogWriter ログ出力オブジェクト */
+    protected $writer = array();
 
-    /** @var    bool    ログ出力開始フラグ */
-    var $is_begin = false;
+    /** @protected    bool    ログ出力開始フラグ */
+    protected $is_begin = false;
 
-    /** @var    array   ログスタック(begin()前にlog()が呼び出された場合のスタック) */
-    var $log_stack = array();
+    /** @protected    array   ログスタック(begin()前にlog()が呼び出された場合のスタック) */
+    protected $log_stack = array();
 
     /**#@-*/
     // }}}
@@ -108,7 +108,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @access public
      *  @param  object  Ethna_Controller    $controller controllerオブジェクト
      */
-    public function __construct(&$controller)
+    public function __construct($controller)
     {
         $this->controller = $controller;
         $this->ctl = $this->controller;
@@ -200,7 +200,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @return mixed   ログファシリティ(ファシリティが1つ以下ならscalar、
      *                  2つ以上なら配列を返す for B.C.)
      */
-    function getLogFacility()
+    public function getLogFacility()
     {
         if (is_array($this->facility)) {
             if (count($this->facility) == 0) {
@@ -245,7 +245,7 @@ class Ethna_Logger extends Ethna_AppManager
      *
      *  @access public
      */
-    function begin()
+    public function begin()
     {
         // LogWriterクラスの生成
         foreach ($this->facility as $f) {
@@ -285,7 +285,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @param  int     $level      ログレベル(LOG_DEBUG, LOG_NOTICE...)
      *  @param  string  $message    ログメッセージ(+引数)
      */
-    function log($level, $message)
+    public function log($level, $message)
     {
         if ($this->is_begin == false) {
             $args = func_get_args();
@@ -337,7 +337,7 @@ class Ethna_Logger extends Ethna_AppManager
      *
      *  @access public
      */
-    function end()
+    public function end()
     {
         foreach (array_keys($this->writer) as $key) {
             $this->writer[$key]->end();
@@ -356,7 +356,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @param  string  $facility   ログファシリティ
      *  @return object  LogWriter   LogWriterオブジェクト
      */
-    function _getLogWriter($option, $facility = null)
+    protected function _getLogWriter($option, $facility = null)
     {
         if ($facility == null) {
             $facility = $this->getLogFacility();
@@ -406,7 +406,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @return int     0:正常終了
      *  @deprecated
      */
-    function _alert($message)
+    protected function _alert($message)
     {
         restore_error_handler();
 
@@ -449,7 +449,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @param  string  $message    ログメッセージ
      *  @return mixed   true:match, null:skip
      */
-    function _evalMessageMask($filter, $message)
+    private  function _evalMessageMask($filter, $message)
     {
         $regexp = sprintf("/%s/", $filter);
 
@@ -470,7 +470,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @param  int     $dst    ログレベル
      *  @return bool    true:閾値以下 false:閾値以上
      */
-    function _evalLevelMask($src, $dst)
+    private function _evalLevelMask($src, $dst)
     {
         static $log_level_table = null;
 
@@ -509,7 +509,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @return array   解析された設定ファイル値(アラート通知メールアドレス,
      *                  アラート対象ログレベル, ログオプション)
      */
-    function _parseLogOption($option)
+    private function _parseLogOption($option)
     {
         if (is_null($option)) {
             return null;
@@ -539,7 +539,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @param  string  $facility   ログファシリティ(設定ファイル値)
      *  @return array   ログファシリティ(LOG_LOCAL0, LOG_FILE...)を格納した配列
      */
-    function _parseLogFacility($facility)
+    private function _parseLogFacility($facility)
     {
         $facility_list = preg_split('/\s*,\s*/', $facility, -1, PREG_SPLIT_NO_EMPTY);
         return $facility_list;
@@ -554,7 +554,7 @@ class Ethna_Logger extends Ethna_AppManager
      *  @param  string  $level  ログレベル(設定ファイル値)
      *  @return int     ログレベル(LOG_DEBUG, LOG_NOTICE...)
      */
-    function _parseLogLevel($level)
+    private function _parseLogLevel($level)
     {
         if (isset($this->log_level_list[strtolower($level)]) == false) {
             return null;

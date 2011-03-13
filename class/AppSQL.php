@@ -23,8 +23,8 @@ class Ethna_AppSQL
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
 
     /**#@-*/
 

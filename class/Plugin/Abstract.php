@@ -23,34 +23,34 @@ abstract class Ethna_Plugin_Abstract
      *  @access private
      */
 
-    /** @var    string  plugin type */
-    var $type = null;
+    /** @protected    string  plugin type */
+    protected $type = null;
 
-    /** @var    string  plugin name */
-    var $name = null;
+    /** @protected    string  plugin name */
+    protected $name = null;
 
-    /** @var    object  Ethna_Controller    Controller Object */
-    var $controller;
-    var $ctl; /* Alias */
+    /** @protected    object  Ethna_Controller    Controller Object */
+    protected $controller;
+    protected $ctl; /* Alias */
 
-    /** @var    object  Ethna_Backend       Backend Object */
-    var $backend;
+    /** @protected    object  Ethna_Backend       Backend Object */
+    protected $backend;
 
-    /** @var    object  Ethna_ActionForm    ActionForm Object */
-    var $action_form;
-    var $af; /* Alias */
+    /** @protected    object  Ethna_ActionForm    ActionForm Object */
+    protected $action_form;
+    protected $af; /* Alias */
 
-    /** @var    object  Ethna_Session       Session Object */
-    var $session;
+    /** @protected    object  Ethna_Session       Session Object */
+    protected $session;
 
-    /** @var    array   plugin configure */
-    var $config;
+    /** @protected    array   plugin configure */
+    protected $config;
 
-    /** @var    array   plugin configure for default */
-    var $config_default = array();
+    /** @protected    array   plugin configure for default */
+    protected $config_default = array();
 
-    /** @var    object  Ethna_Logger        Logger Object */
-    var $logger;
+    /** @protected    object  Ethna_Logger        Logger Object */
+    protected $logger;
 
     /**
      *  Constructor

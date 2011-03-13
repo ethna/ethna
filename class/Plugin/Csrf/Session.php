@@ -27,7 +27,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
      *  @access public
      *  @return boolean  成功か失敗か
      */
-    function set()
+    public function set()
     {
         if (! $this->session->isStart()) {
             $this->session->start();
@@ -50,7 +50,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
      *  @access public
      *  @return string トークンIDを返す。
      */
-    function get()
+    public function get()
     {
         if (! $this->session->isStart()) {
             $this->session->start();
@@ -64,7 +64,7 @@ class Ethna_Plugin_Csrf_Session extends Ethna_Plugin_Csrf
      *
      *  @access public
      */
-    function remove()
+    public function remove()
     {
         if (! $this->session->isStart()) {
             $this->session->start();

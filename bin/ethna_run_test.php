@@ -45,6 +45,10 @@ ini_set('include_path', realpath(dirname(ETHNA_INSTALL_BASE)) . PATH_SEPARATOR .
 /** Ethna関連クラスのインクルード */
 require_once 'Ethna/Ethna.php';
 
+// simpletest を使っているため、E_DEPRECATED, E_STRICT は解除
+error_reporting(error_reporting() ^ E_DEPRECATED ^ E_STRICT);
+
+
 /** SimpleTestのインクルード */
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';

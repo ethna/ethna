@@ -15,27 +15,31 @@
  */
 class Ethna_Plugin_Validator_Mbregexp_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Mbregexp');
+
+        $this->ctl = $ctl;
     }
 
-    // {{{ Validator Mbregexp. 
+    // {{{ Validator Mbregexp.
     function test_Validate_Mbregexp()
     {
         $form_def = array(
-                        'type' => VAR_TYPE_STRING,
-                        'form_type' => FORM_TYPE_TEXT,
-                        'required' => true,
-                        'mbregexp' => '^[あ-ん]+$',  // 全角ひらがなonly
-                        'mbregexp_encoding' => 'UTF-8',
-                    );        
+            'type' => VAR_TYPE_STRING,
+            'form_type' => FORM_TYPE_TEXT,
+            'required' => true,
+            'mbregexp' => '^[あ-ん]+$',  // 全角ひらがなonly
+            'mbregexp_encoding' => 'UTF-8',
+        );
+        $af = $this->ctl->getActionForm();
+        $af->setDef('input', $form_def);
 
-        $this->vld->af->setDef('input', $form_def);
         $pear_error = $this->vld->validate('input', 9, $form_def);
         $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
 

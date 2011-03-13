@@ -116,32 +116,32 @@ class Ethna_Error
      *  @access private
      */
 
-    /** @var    object  Ethna_I18N  i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N  i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_Logger    loggerオブジェクト */
-    var $logger;
+    /** @protected    object  Ethna_Logger    loggerオブジェクト */
+    protected $logger;
 
-    /** @var    string  エラーメッセージ */
-    var $message;
+    /** @protected    string  エラーメッセージ */
+    protected $message;
 
-    /** @var    integer エラーコード */
-    var $code;
+    /** @protected    integer エラーコード */
+    protected $code;
 
-    /** @var    integer エラーモード */
-    var $mode;
-    
-    /** @var    array   エラーモード依存のオプション */
-    var $options;
+    /** @protected    integer エラーモード */
+    protected $mode;
 
-    /** @var    string  ユーザー定義もしくはデバッグ関連の追加情報を記した文字列。 */
-    var $userinfo;
+    /** @protected    array   エラーモード依存のオプション */
+    protected $options;
+
+    /** @protected    string  ユーザー定義もしくはデバッグ関連の追加情報を記した文字列。 */
+    protected $userinfo;
 
     /**#@-*/
 
     /**
      *  Ethna_Errorクラスのコンストラクタ
-     *  $userinfo は第5引数に設定すること。 
+     *  $userinfo は第5引数に設定すること。
      *
      *  @access public
      *  @param  string  $message            エラーメッセージ
@@ -188,7 +188,7 @@ class Ethna_Error
         //  その他メンバ変数設定
         $this->code = $code;
         $this->mode = $mode;
-        $this->options = $options; 
+        $this->options = $options;
         $this->level = ($this->options === NULL) ? E_USER_NOTICE : $options;
 
         //  Ethnaフレームワークのエラーハンドラ(callback)

@@ -24,14 +24,14 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
 {
     /**#@+  @access private */
 
-    /** @var    object  MemCache    MemCacheオブジェクト */
-    var $memcache = null;
+    /** @var    object  Memcache    Memcacheオブジェクト */
+    private $memcache = null;
 
     /** @var bool 圧縮フラグ */
-    var $compress = true;
+    protected $compress = true;
 
     /** @var    array   plugin configure */
-    var $config_default = array(
+    protected $config_default = array(
         'host' => 'localhost',
         'port' => '11211',
         'retry' => 3,
