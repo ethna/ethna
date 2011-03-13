@@ -1354,7 +1354,7 @@ class Ethna_Controller
      *  @param  string  $action_name    アクション名
      *  @return array   アクション定義
      */
-    private function _getAction($action_name, $gateway = null)
+    public function _getAction($action_name, $gateway = null)
     {
         $action = array();
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
@@ -1745,7 +1745,7 @@ class Ethna_Controller
      *  @param  string  $forward_name   forward名
      *  @return string  テンプレートファイルのパス名
      */
-    protected function _getForwardPath($forward_name)
+    public function _getForwardPath($forward_name)
     {
         $forward_obj = null;
 

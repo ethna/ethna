@@ -54,5 +54,13 @@ class Ethna_View_Info extends Ethna_ViewClass
         // plugins
         $this->af->setApp('plugin_list', $em->getPluginList());
     }
+
+    protected function _setDefault($renderer)
+    {
+        $smarty = $renderer->getEngine();
+
+        $smarty->left_delimiter = '{';
+        $smarty->right_delimiter = '}';
+    }
 }
 // }}}
