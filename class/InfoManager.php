@@ -341,8 +341,8 @@ class Ethna_InfoManager extends Ethna_AppManager
     {
         $manifest_action_list = array();
         $manifest_class_list = array();
-        foreach ($this->ctl->action as $action_name => $action) {
-            if ($action_name == '__ethna_info__') {
+        foreach ($this->_getInvisibleProperty($this->ctl, 'action') as $action_name => $action) {
+            if ($action_name == '__ethna_info__' || $action_name == '__ethna_unittest__') {
                 continue;
             }
             $action = $this->ctl->_getAction($action_name);
@@ -533,8 +533,8 @@ class Ethna_InfoManager extends Ethna_AppManager
     function _getForwardList_Manifest()
     {
         $manifest_forward_list = array();
-        foreach ($this->ctl->forward as $forward_name => $forward) {
-            if ($forward_name == '__ethna_info__') {
+        foreach ($this->_getInvisibleProperty($this->ctl, 'forward') as $forward_name => $forward) {
+            if ($forward_name == '__ethna_info__' || $forward_name == '__ethna_unittest__') {
                 continue;
             }
 
@@ -659,7 +659,7 @@ class Ethna_InfoManager extends Ethna_AppManager
         // DB
         $elts = array();
         $db_list = array();
-        foreach ($this->ctl->db as $key => $db) {
+        foreach ($dbl = $this->_getInvisibleProperty($this->ctl, 'db') as $key => $db) {
             if ($key == "") {
                 $tmp = '$db';
             } else {
@@ -709,7 +709,7 @@ class Ethna_InfoManager extends Ethna_AppManager
         // filter
         $elts = array();
         $n = 1;
-        foreach ($this->ctl->filter as $filter) {
+        foreach ($this->_getInvisibleProperty($this->ctl, 'filter') as $filter) {
             $key = sprintf(_et('Filter(%d)'), $n);
             if (class_exists($filter)) {
                 $elts[$key] = $filter;
@@ -742,9 +742,10 @@ class Ethna_InfoManager extends Ethna_AppManager
         $plugin = $this->ctl->getPlugin();
         foreach ($plugin->searchAllPluginType() as $type) {
             $plugin->searchAllPluginSrc($type);
-            if (isset($plugin->src_registry[$type])) {
+            $src_registry = $this->_getInvisibleProperty($plugin, 'src_registry');
+            if (isset($src_registry[$type])) {
                 $elts = array();
-                foreach ($plugin->src_registry[$type] as $name => $src) {
+                foreach ($src_registry[$type] as $name => $src) {
                     if (empty($src)) {
                         continue;
                     }
@@ -756,6 +757,15 @@ class Ethna_InfoManager extends Ethna_AppManager
         }
         ksort($r);
         return $r;
+    }
+
+    private function _getInvisibleProperty($obj, $prop_name)
+    {
+        $ref = new ReflectionClass($obj);
+        $prop = $ref->getProperty($prop_name);
+        $prop->setAccessible(true);
+        $prop_ret = $prop->getValue($obj);
+        return $prop_ret;
     }
 }
 // }}}
