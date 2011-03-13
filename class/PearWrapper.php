@@ -30,26 +30,26 @@ class Ethna_PearWrapper
      *  @access     private
      */
 
-    /** @var    string  channel url of ethna repositry */
-    var $channel;
+    /** @protected    string  channel url of ethna repositry */
+    protected $channel;
 
-    /** @var    string  target, 'master' or 'local' */
-    var $target;
+    /** @protected    string  target, 'master' or 'local' */
+    protected $target;
 
-    /** @var    object  controller object collesponding to the target */
-    var $target_ctl;
+    /** @protected    object  controller object collesponding to the target */
+    protected $target_ctl;
 
-    /** @var    object  PEAR_Config     PEAR_Config object */
-    var $config;
+    /** @protected    object  PEAR_Config     PEAR_Config object */
+    protected $config;
 
-    /** @var    object  PEAR_Registry   PEAR_Registry object */
-    var $registry;
+    /** @protected    object  PEAR_Registry   PEAR_Registry object */
+    protected $registry;
 
-    /** @var    object  PEAR_Frontend   PEAR_Frontend(_CLI) object */
-    var $ui;
+    /** @protected    object  PEAR_Frontend   PEAR_Frontend(_CLI) object */
+    protected $ui;
 
-    /** @var    array   options for pearcmd */
-    var $_pearopt;
+    /** @protected    array   options for pearcmd */
+    protected $_pearopt;
 
     /**#@-*/
     // }}}
