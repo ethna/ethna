@@ -987,7 +987,7 @@ class Ethna_ViewClass
         } else if (isset($def['default'])) {
             $current_value = $def['default'];
         } else {
-            $current_value = array();
+            $current_value = array(0 => 0,);
         }
         $current_value = array_map('strval', to_array($current_value));
 
