@@ -8,11 +8,10 @@
  *  @package    Ethna
  *  @version    $Id$
  */
-require_once 'Smarty/Smarty.class.php';
 
 // {{{ Ethna_Renderer_Smarty
 /**
- *  Smartyレンダラクラス（Mojaviのまね）
+ *  Smarty rendere class
  *
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @access     public

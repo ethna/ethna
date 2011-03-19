@@ -11,7 +11,7 @@
 
 // {{{ Ethna_Renderer
 /**
- *  レンダラクラス（Mojaviのまね）
+ *  Template Renderer
  *
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @access     public
