@@ -69,7 +69,7 @@ class Ethna_Renderer
         $this->prop = array();
         $this->plugin_registry = array();
         $config = $this->ctl->getConfig();
-        $this->config = $config->get('renderer'); 
+        $this->config = $config->get('renderer');
         $this->logger = $this->controller->getBackend()->getLogger();
     }
 
@@ -287,6 +287,7 @@ class Ethna_Renderer
     {
         $this->setProp($name, $value);
     }
+    // }}}
 
     /**
      *  テンプレート変数に参照を割り当てる(後方互換)

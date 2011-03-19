@@ -59,24 +59,24 @@ class Ethna_InfoManager extends Ethna_AppManager
     public function __construct($backend)
     {
         $this->form_type_list = array(
-                                    FORM_TYPE_TEXT => array('name' => _et('TextBox')),
-                                    FORM_TYPE_PASSWORD  => array('name' => _et('Password')),
-                                    FORM_TYPE_TEXTAREA  => array('name' => _et('TextArea')),
-                                    FORM_TYPE_SELECT    => array('name' => _et('SelectBox')),
-                                    FORM_TYPE_RADIO     => array('name' => _et('RadioButton')),
-                                    FORM_TYPE_CHECKBOX  => array('name' => _et('CheckBox')),
-                                    FORM_TYPE_SUBMIT    => array('name' => _et('SubmitButton')),
-                                    FORM_TYPE_FILE      => array('name' => _et('File')),
-                                );
+            FORM_TYPE_TEXT      => array('name' => _et('TextBox')),
+            FORM_TYPE_PASSWORD  => array('name' => _et('Password')),
+            FORM_TYPE_TEXTAREA  => array('name' => _et('TextArea')),
+            FORM_TYPE_SELECT    => array('name' => _et('SelectBox')),
+            FORM_TYPE_RADIO     => array('name' => _et('RadioButton')),
+            FORM_TYPE_CHECKBOX  => array('name' => _et('CheckBox')),
+            FORM_TYPE_SUBMIT    => array('name' => _et('SubmitButton')),
+            FORM_TYPE_FILE      => array('name' => _et('File')),
+        );
 
         $this->var_type_list = array(
-                                    VAR_TYPE_INT        => array('name' => _et('Integer')),
-                                    VAR_TYPE_FLOAT      => array('name' => _et('Float')),
-                                    VAR_TYPE_STRING     => array('name' => _et('String')),
-                                    VAR_TYPE_DATETIME   => array('name' => _et('Datetime')),
-                                    VAR_TYPE_BOOLEAN    => array('name' => _et('Boolean')),
-                                    VAR_TYPE_FILE       => array('name' => _et('File')),
-                               );
+            VAR_TYPE_INT        => array('name' => _et('Integer')),
+            VAR_TYPE_FLOAT      => array('name' => _et('Float')),
+            VAR_TYPE_STRING     => array('name' => _et('String')),
+            VAR_TYPE_DATETIME   => array('name' => _et('Datetime')),
+            VAR_TYPE_BOOLEAN    => array('name' => _et('Boolean')),
+            VAR_TYPE_FILE       => array('name' => _et('File')),
+        );
 
         parent::__construct($backend);
         $this->ctl = Ethna_Controller::getInstance();
@@ -84,10 +84,12 @@ class Ethna_InfoManager extends Ethna_AppManager
 
         // アクションスクリプト解析結果キャッシュ取得
         $this->cache_class_list_file = sprintf('%s/ethna_info_class_list',
-                                               $this->ctl->getDirectory('tmp')
-                                       );
+            $this->ctl->getDirectory('tmp')
+        );
+
         if (file_exists($this->cache_class_list_file)
-         && filesize($this->cache_class_list_file) > 0) {
+            && filesize($this->cache_class_list_file) > 0)
+        {
             $fp = fopen($this->cache_class_list_file, 'r');
             $s = fread($fp, filesize($this->cache_class_list_file));
             fclose($fp);

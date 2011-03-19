@@ -73,7 +73,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
         );
     }
-    
+
     /**
      *  ビューを出力する
      *

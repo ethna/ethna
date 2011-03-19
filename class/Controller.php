@@ -2193,7 +2193,8 @@ class Ethna_Controller
     protected function _ethnaManagerEnabledCheck($action_name)
     {
         if ($this->config->get('debug') == false
-         && ($action_name == '__ethna_info__' || $action_name == '__ethna_unittest__')) {
+            && ($action_name == '__ethna_info__' || $action_name == '__ethna_unittest__'))
+        {
             $this->ethnaManagerCheckErrorMsg($action_name);
             exit(0);
         }
