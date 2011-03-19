@@ -1,6 +1,6 @@
 * 変更点一覧
 
-** 2.6.0 beta (beta1 .. beta2)
+** 2.6.0 beta (beta1 .. beta3)
 
 - Ethna 2.5.0 preview5 に含まれていて、Ethna 2.5.0 に含まれなかった変更点について、CHANGES の整理 (多少重複します)
 -- 2.6.0 の変更点一覧が、preview5 からの差分となっていたため、preview5 -> (元)preview6 での fix事項等はCHANGESから削除
@@ -40,6 +40,10 @@
 -- デフォルトは template/{locale_name}/layout.tpl に置かれている。
 -- この機能はデフォルトで有効になっている。無効にしたければ、[appid]_ViewClass.php の $use_layout を false にする(既存プロジェクトをEthna 2.6に移行する場合、こうすれば動作するはず)
 - PROJECT_DIR/lib/Ethna/extlib/Plugin/Smarty  をデフォルトでSmartyプラグインディレクトリに指定するように，skel に追加
+- renderer の設定を config に書けるようになりました (一部、かつ、実装は renderer 依存)
+-- Smarty2 の場合 'smarty', Smarty3 の場合 'smarty3' をキーとした配列に、left/right delimiter の設定を記述できます
+-- 'path' として、include するファイルの path を指定できるようになりました
+-- Ethna Info は、Smarty2 を利用するため、Smarty3 を使う場合でも Ethna Info を見るみは Smarty2 が必要です
 
 **** プラグイン機構に関する変更点
 
