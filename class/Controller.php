@@ -1770,6 +1770,11 @@ class Ethna_Controller
      */
     public function getRenderer()
     {
+        // if action is __ethna_info__, the renderer must be Smarty2
+        if ($this->action_name == '__ethna_info__') {
+            require_once ETHNA_BASE . '/class/Renderer/Smarty.php';
+            return new Ethna_Renderer_Smarty($this);
+        }
         $_ret_object = $this->getTemplateEngine();
         return $_ret_object;
     }

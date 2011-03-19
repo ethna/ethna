@@ -38,19 +38,22 @@ class Ethna_Renderer
     /** @protected    string  template engine */
     protected $engine;
 
+    /** @protected    string  path of template engine */
+    protected $engine_path = false;
+
     /** @protected    string  template file */
     protected $template;
 
     /** @protected    string  テンプレート変数 */
     protected $prop;
-    
+
     /** @protected    string  レンダラプラグイン(Ethna_Pluginとは関係なし) */
     protected $plugin_registry;
 
     /** @protected    object  Ethna_Logger    ログオブジェクト */
     protected $logger;
 
-    
+
     /**
      *  Ethna_Rendererクラスのコンストラクタ
      *
@@ -303,6 +306,29 @@ class Ethna_Renderer
     function display($template = null)
     {
         return $this->perform($template);
+    }
+    // }}}
+
+    // {{{ loadEngine
+    /**
+     *  ビューを出力する
+     *
+     *  @access public
+     */
+    protected function loadEngine(array $config)
+    {
+        // load template engine
+        $engine_path = isset($config['path'])
+            ? $config['path']
+            : $this->engine_path;
+        if ($engine_path) {
+            if (file_exists_ex($engine_path)) {
+                require_once $engine_path;
+            }
+            else {
+                trigger_error("template engine is not available: path=" . $engine_path, E_USER_ERROR);
+            }
+        }
     }
     // }}}
 }
