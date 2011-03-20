@@ -610,7 +610,9 @@ EOF;
         $info = ob_get_contents();
         ob_end_clean();
 
-        $info_html = @simplexml_import_dom(DOMDOcument::loadHTML($info));
+        $dom = new DOMDocument();
+        $dom->loadHTML($info);
+        $info_html = @simplexml_import_dom($dom);
         $body = $info_html->xpath("//body");
         return preg_replace("/<table/", "<table class=\"ethna-debug-table ethna-debug-table-info\"", $body[0]->asXML());
     }
@@ -631,7 +633,8 @@ EOF;
 
         echo '<div class="ethna-debug-subtitle">Posted Value</div>';
         echo "<div class=\"ethna-debug-log\">";
-        self::dumpArray($this->ctl->getActionForm()->getArray());
+        $action_form_array = $this->ctl->getActionForm()->getArray();
+        self::dumpArray($action_form_array);
         echo "</div> \n";
 
         echo '<div class="ethna-debug-subtitle">Definition</div>';
@@ -682,7 +685,7 @@ EOF;
         if (!defined('Smarty::SMARTY_VERSION')) {
             return ;
         }
-        $c =& Ethna_Controller::getInstance();
+        $c = Ethna_Controller::getInstance();
         $debug_tpl = $c->getDirectory('template') . "/smarty_debug.tpl";
 
         //if smarty2
@@ -695,7 +698,7 @@ EOF;
 
         // get template directory
         $r = $c->getRenderer();
-        $smarty = $r->engine;
+        $smarty = $r->getEngine();
 
         $vars = Smarty_Internal_Debug::get_debug_vars($smarty);
 

@@ -11,24 +11,28 @@
  */
 class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Type');
+
+        $this->ctl = $ctl;
     }
 
     // {{{ check Type Integer
     function test_Check_Type_Integer()
     {
         $form_int = array(
-                          'type'          => VAR_TYPE_INT,
-                          'required'      => true,
-                          'error'         => '{form}には数字(整数)を入力して下さい'
-                          );
-        $this->vld->af->setDef('namae_int', $form_int);
+            'type'          => VAR_TYPE_INT,
+            'required'      => true,
+            'error'         => '{form}には数字(整数)を入力して下さい'
+        );
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_int', $form_int);
 
         $pear_error = $this->vld->validate('namae_int', 10, $form_int);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -61,7 +65,8 @@ class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
                             'required'      => true,
                             'error'         => '{form}には数字(小数)を入力して下さい'
                             );
-        $this->vld->af->setDef('namae_float', $form_float);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_float', $form_float);
 
         $pear_error = $this->vld->validate('namae_float', 10.1, $form_float);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -88,7 +93,8 @@ class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
                              'required'      => true,
                              'error'         => '{form}には1または0のみ入力できます'
                              );
-        $this->vld->af->setDef('namae_boolean', $form_boolean);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_boolean', $form_boolean);
 
         $pear_error = $this->vld->validate('namae_boolean', 1, $form_boolean);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -117,11 +123,12 @@ class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
     function test_Check_Type_Datetime()
     { 
         $form_datetime = array(
-                               'type'          => VAR_TYPE_DATETIME,
-                               'required'      => true,
-                               'error'         => '{form}には日付を入力して下さい'
-                               );
-        $this->vld->af->setDef('namae_datetime', $form_datetime);
+            'type'          => VAR_TYPE_DATETIME,
+            'required'      => true,
+            'error'         => '{form}には日付を入力して下さい'
+        );
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_datetime', $form_datetime);
 
         // 正常な日付
         $pear_error = $this->vld->validate('namae_datetime', "July 1, 2000 00:00:00 UTC", $form_datetime);

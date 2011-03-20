@@ -70,7 +70,6 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
     {
         $namespace = "miyazakiaoi";
         $this->cm->setNamespace($namespace);
-        $this->assertEqual('miyazakiaoi', $this->cm->namespace);
         $this->assertEqual('miyazakiaoi', $this->cm->getNamespace());
         $this->cm->setNamespace("");
     }

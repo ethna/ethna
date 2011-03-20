@@ -26,11 +26,14 @@ class Ethna_DB_Creole extends Ethna_DB
      *  @access private
      */
 
-    /** @var    object  DB              DBオブジェクト */
-    var $db;
+    /**
+     * @XXX stay public because of B.C.
+     * @protected    object  DB              DBオブジェクト
+     */
+    public $db;
 
-    /** @var    string   dsn */
-    var $dsn;
+    /** @protected    string   dsn */
+    protected $dsn;
 
     /**#@-*/
 

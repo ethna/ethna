@@ -23,14 +23,14 @@ class Ethna_Handle
      *  @access     private
      */
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    var $ctl;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
+    protected $ctl;
 
-    /** @var    object  Ethna_Pluguin       pluginオブジェクト */
-    var $plugin;
+    /** @protected    object  Ethna_Pluguin       pluginオブジェクト */
+    protected $plugin;
 
     /**#@-*/
 

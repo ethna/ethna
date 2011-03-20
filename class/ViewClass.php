@@ -93,8 +93,7 @@ class Ethna_ViewClass
     /**                ヘッダ出力を改造する場合はfalseにする   */
     public $has_default_header = true;
 
-    /** @var  array    デフォルトのヘッダ出力を使用するか否か  */
-    /**                ヘッダ出力を改造する場合はfalseにする   */
+    /** @var  array    default header */
     public $default_header = array(
         'Pragma' => 'no-cache',
         'Cache-Control' => 'no-cache, no-store, must-revalidate',
@@ -987,7 +986,7 @@ class Ethna_ViewClass
         } else if (isset($def['default'])) {
             $current_value = $def['default'];
         } else {
-            $current_value = array();
+            $current_value = array(0 => 0,);
         }
         $current_value = array_map('strval', to_array($current_value));
 

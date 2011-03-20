@@ -11,13 +11,16 @@
  */
 class Ethna_Plugin_Validator_Regexp_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Regexp');
+
+        $this->ctl = $ctl;
     }
 
     // {{{  test regexp string
@@ -29,7 +32,8 @@ class Ethna_Plugin_Validator_Regexp_Test extends Ethna_UnitTestBase
                              'regexp'        => '/^[a-zA-Z]+$/',
                              'error'         => '{form}を正しく入力してください'
                              );
-        $this->vld->af->setDef('namae_string', $form_string);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_string', $form_string);
 
         $pear_error = $this->vld->validate('namae_string', 'fromA', $form_string);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));

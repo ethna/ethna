@@ -155,7 +155,6 @@ class Ethna_MockProject
         $c->setGateway(GATEWAY_WWW);
         ob_start();
         @$c->trigger($action_name, "");  // suppress header related error.
-        $c->end();
         $result = ob_get_contents();
         ob_end_clean();
 
@@ -171,7 +170,7 @@ class Ethna_MockProject
      *  @return Ethna_Controller コントローラクラスのインスタンス
      *          失敗したらEthna_Error 
      */
-    function &getController()
+    public function getController()
     {
         if (($r = $this->create_ifnot_exists()) !== true) {
             return $r;

@@ -25,30 +25,33 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @access private
      */
 
-    /** @var    object  DB              PEAR DBオブジェクト */
-    var $db;
+    /**
+     * @XXX stay public because of B.C.
+     * @protected    object  DB              DBオブジェクト
+     */
+    public $db;
 
-    /** @var    array   トランザクション管理スタック */
-    var $transaction = array();
+    /** @protected    array   トランザクション管理スタック */
+    protected $transaction = array();
 
 
-    /** @var    object  Ethna_Logger    ログオブジェクト */
-    var $logger;
+    /** @protected    object  Ethna_Logger    ログオブジェクト */
+    protected $logger;
 
-    /** @var    object  Ethna_AppSQL    SQLオブジェクト */
-    var $sql;
+    /** @protected    object  Ethna_AppSQL    SQLオブジェクト */
+    protected $sql;
 
-    /** @var    string  DBタイプ(mysql, pgsql...) */
-    var $type;
+    /** @protected    string  DBタイプ(mysql, pgsql...) */
+    protected $type;
 
-    /** @var    string  DSN */
-    var $dsn;
+    /** @protected    string  DSN */
+    protected $dsn;
 
-    /** @var    array   DSN (DB::parseDSN()の返り値) */
-    var $dsninfo;
+    /** @protected    array   DSN (DB::parseDSN()の返り値) */
+    protected $dsninfo;
 
-    /** @var    bool    持続接続フラグ */
-    var $persistent;
+    /** @protected    bool    持続接続フラグ */
+    protected $persistent;
 
     /**#@-*/
     // }}}

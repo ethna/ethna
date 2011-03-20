@@ -8,11 +8,10 @@
  *  @package    Ethna
  *  @version    $Id$
  */
-require_once 'Smarty/Smarty.class.php';
 
 // {{{ Ethna_Renderer_Smarty
 /**
- *  Smartyレンダラクラス（Mojaviのまね）
+ *  Smarty rendere class
  *
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @access     public
@@ -20,9 +19,12 @@ require_once 'Smarty/Smarty.class.php';
  */
 class Ethna_Renderer_Smarty extends Ethna_Renderer
 {
-    /** @var    string compile directory  */
-    var $compile_dir;
-    
+    /** @private    string compile directory  */
+    private $compile_dir;
+
+    /** @protected  engine path (library) */
+    protected $engine_path = 'Smarty/Smarty.class.php';
+
     /**
      *  Ethna_Renderer_Smartyクラスのコンストラクタ
      *
@@ -31,9 +33,17 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     public function __construct($controller)
     {
         parent::__construct($controller);
-        
+
+        // get renderer config
+        $smarty_config = isset($this->config['smarty'])
+            ? $this->config['smarty']
+            : array();
+
+        // load template engine
+        $this->loadEngine($smarty_config);
+
         $this->engine = new Smarty;
-        
+
         // ディレクトリ関連は Controllerによって実行時に設定
         // TODO: iniファイルによって上書き可にするかは要検討
         $template_dir = $controller->getTemplatedir();
@@ -45,10 +55,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->engine->compile_dir = $this->compile_dir;
         $this->engine->compile_id = md5($this->template_dir);
 
-        //  デリミタは Ethna_Config を見る
-        $smarty_config = isset($this->config['smarty'])
-                       ? $this->config['smarty']
-                       : array();
+        // delimiter setting
         if (array_key_exists('left_delimiter', $smarty_config)) {
             $this->engine->left_delimiter = $smarty_config['left_delimiter'];
         }
@@ -66,7 +73,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
         );
     }
-    
+
     /**
      *  ビューを出力する
      *

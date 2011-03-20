@@ -48,7 +48,9 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
         $this->assertEqual($facility, 'echo'); // not array, but string (for B.C.)
 
         // level
-        $level_echo = $this->logger->level['echo'];
+        $log_ref = new ReflectionClass($this->logger);
+        $level = $log_ref->getProperty('level')->getValue();
+        $level_echo = $level['echo'];
         $this->assertEqual($level_echo, LOG_WARNING);
 
         // option
@@ -88,11 +90,13 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
         $this->assertEqual($facility, array('echo', 'file', 'alertmail'));
 
         // level
-        $level_echo = $this->logger->level['echo'];
+        $log_ref = new ReflectionClass($this->logger);
+        $level = $log_ref->getProperty('level')->getValue();
+        $level_echo = $level['echo'];
         $this->assertEqual($level_echo, LOG_WARNING);
-        $level_file = $this->logger->level['file'];
+        $level_file = $level['file'];
         $this->assertEqual($level_file, LOG_NOTICE);
-        $level_alertmail = $this->logger->level['alertmail'];
+        $level_alertmail = $level['alertmail'];
         $this->assertEqual($level_alertmail, LOG_ERR);
 
         // option
