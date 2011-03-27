@@ -2142,44 +2142,44 @@ class Ethna_Controller
             return;
         }
 
-        require_once ETHNA_BASE . '/class/InfoManager.php';
+        if ($this->getCurrentActionName() == '__ethna_info__') {
+            require_once ETHNA_BASE . '/class/InfoManager.php';
 
-        // see if we have simpletest
-        if (file_exists_ex('simpletest/unit_tester.php', true)) {
-            require_once ETHNA_BASE . '/class/UnitTestManager.php';
+            // action設定
+            $this->action['__ethna_info__'] = array(
+                'form_name' =>  'Ethna_Form_Info',
+                'form_path' =>  sprintf('%s/class/Action/Info.php', ETHNA_BASE),
+                'class_name' => 'Ethna_Action_Info',
+                'class_path' => sprintf('%s/class/Action/Info.php', ETHNA_BASE),
+            );
+
+            // forward設定
+            $this->forward['__ethna_info__'] = array(
+                'forward_path'  => sprintf('%s/tpl/info.tpl', ETHNA_BASE),
+                'view_name'     => 'Ethna_View_Info',
+                'view_path'     => sprintf('%s/class/View/Info.php', ETHNA_BASE),
+            );
         }
+        elseif ($this->getCurrentActionName() == '__ethna_unittest__') {
+            // see if we have simpletest
+            if (file_exists_ex('simpletest/unit_tester.php', true)) {
+            }
+            require_once ETHNA_BASE . '/class/UnitTestManager.php';
+            // action設定
+            $this->action['__ethna_unittest__'] = array(
+                'form_name' =>  'Ethna_Form_UnitTest',
+                'form_path' =>  sprintf('%s/class/Action/UnitTest.php', ETHNA_BASE),
+                'class_name' => 'Ethna_Action_UnitTest',
+                'class_path' => sprintf('%s/class/Action/UnitTest.php', ETHNA_BASE),
+            );
 
-        // action設定
-        $this->action['__ethna_info__'] = array(
-            'form_name' =>  'Ethna_Form_Info',
-            'form_path' =>  sprintf('%s/class/Action/Info.php', ETHNA_BASE),
-            'class_name' => 'Ethna_Action_Info',
-            'class_path' => sprintf('%s/class/Action/Info.php', ETHNA_BASE),
-        );
-
-        // forward設定
-        $this->forward['__ethna_info__'] = array(
-            'forward_path'  => sprintf('%s/tpl/info.tpl', ETHNA_BASE),
-            'view_name'     => 'Ethna_View_Info',
-            'view_path'     => sprintf('%s/class/View/Info.php', ETHNA_BASE),
-        );
-
-
-        // action設定
-        $this->action['__ethna_unittest__'] = array(
-            'form_name' =>  'Ethna_Form_UnitTest',
-            'form_path' =>  sprintf('%s/class/Action/UnitTest.php', ETHNA_BASE),
-            'class_name' => 'Ethna_Action_UnitTest',
-            'class_path' => sprintf('%s/class/Action/UnitTest.php', ETHNA_BASE),
-        );
-
-        // forward設定
-        $this->forward['__ethna_unittest__'] = array(
-            'forward_path'  => sprintf('%s/tpl/unittest.tpl', ETHNA_BASE),
-            'view_name'     => 'Ethna_View_UnitTest',
-            'view_path'     => sprintf('%s/class/View/UnitTest.php', ETHNA_BASE),
-        );
-
+            // forward設定
+            $this->forward['__ethna_unittest__'] = array(
+                'forward_path'  => sprintf('%s/tpl/unittest.tpl', ETHNA_BASE),
+                'view_name'     => 'Ethna_View_UnitTest',
+                'view_path'     => sprintf('%s/class/View/UnitTest.php', ETHNA_BASE),
+            );
+        }
     }
 
     /**
