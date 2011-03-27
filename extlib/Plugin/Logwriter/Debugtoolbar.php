@@ -81,10 +81,12 @@ class Ethna_Plugin_Logwriter_Debugtoolbar extends Ethna_Plugin_Logwriter
     function end()
     {
         $ctl = Ethna_Controller::getInstance();
-        if (!is_null($view = $ctl->getView()) && !$view->has_default_header) {
+        if ((!is_null($view = $ctl->getView()) && !$view->has_default_header)
+            || $ctl->getGateway() != GATEWAY_WWW) {
             $this->log_array = array();
             return null;
         }
+
         echo '<div class="ethna-debug" id="ethna-debug-logwindow">';
         echo '<div class="ethna-debug-title">Log</div>';
         foreach ($this->log_array as $log) {
@@ -98,6 +100,13 @@ class Ethna_Plugin_Logwriter_Debugtoolbar extends Ethna_Plugin_Logwriter
     public function __destruct()
     {
         if (!empty($this->log_array)) {
+            $ctl = Ethna_Controller::getInstance();
+            if ((!is_null($view = $ctl->getView()) && !$view->has_default_header)
+                || $ctl->getGateway() != GATEWAY_WWW) {
+                $this->log_array = array();
+                return null;
+            }
+
             echo "<h1>Script shutdown unexpectedly</h1>";
             if (is_array($this->log_array)) foreach ($this->log_array as $log) {
                 echo $log;
