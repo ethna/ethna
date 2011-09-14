@@ -47,6 +47,9 @@ require_once 'Ethna/Ethna.php';
 
 // simpletest を使っているため、E_DEPRECATED, E_STRICT は解除
 error_reporting(error_reporting() ^ E_DEPRECATED ^ E_STRICT);
+if (extension_loaded('xdebug')) {
+    ini_set('xdebug.scream', 0);
+}
 
 
 /** SimpleTestのインクルード */
