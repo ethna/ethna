@@ -358,7 +358,7 @@ class Ethna_ViewClass
      * @return  boolean 指定したテンプレートファイルが存在すればtrue
      *                  存在しなければfalse
      */
-    function templateExists($filename)
+    public function templateExists($filename)
     {
         $renderer = $this->_getRenderer();
         if ($renderer->templateExists($filename)) {
@@ -377,7 +377,7 @@ class Ethna_ViewClass
      *  @param  int  HTTPステータスコード
      *  @access public
      */
-    function error($code)
+    public function error($code)
     {
         $this->header($code);
 
@@ -395,7 +395,7 @@ class Ethna_ViewClass
      *  @param  boolean $dynamic_helper 動的フォームヘルパを呼ぶか否か
      *  @access public
      */
-    function addActionFormHelper($action, $dynamic_helper = false)
+    public function addActionFormHelper($action, $dynamic_helper = false)
     {
         //
         //  既に追加されている場合は処理をしない
@@ -435,7 +435,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function clearActionFormHelper($action)
+    public function clearActionFormHelper($action)
     {
         unset($this->helper_action_form[$action]);
     }
@@ -452,7 +452,7 @@ class Ethna_ViewClass
      *  @param  string  name    定義されていることを期待するフォーム名
      *  @return object  Ethna_ActionFormまたは継承オブジェクト
      */
-    function _getHelperActionForm($action = null, $name = null)
+    protected function _getHelperActionForm($action = null, $name = null)
     {
         // $action が指定されている場合
         if ($action !== null) {
@@ -498,7 +498,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function resetFormCounter()
+    public function resetFormCounter()
     {
         $this->reset_counter = true;
     }
@@ -510,7 +510,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function getFormName($name, $action, $params)
+    public function getFormName($name, $action, $params)
     {
         $af = $this->_getHelperActionForm($action, $name);
         if ($af === null) {
@@ -533,7 +533,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function getFormSubmit($params)
+    public function getFormSubmit($params)
     {
         if (isset($params['type']) === false) {
             $params['type'] = 'submit';
@@ -549,7 +549,7 @@ class Ethna_ViewClass
      *  @access public
      *  @todo   JavaScript対応
      */
-    function getFormInput($name, $action, $params)
+    public function getFormInput($name, $action, $params)
     {
         $af = $this->_getHelperActionForm($action, $name);
         if ($af === null) {
@@ -638,7 +638,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function getFormBlock($content, $params)
+    public function getFormBlock($content, $params)
     {
         // method
         if (isset($params['method']) === false) {
@@ -655,7 +655,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getSelectorOptions(&$af, $def, $params)
+    protected function _getSelectorOptions(&$af, $def, $params)
     {
         // $params, $def の順で調べる
         $source = null;
@@ -711,7 +711,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Button($name, $def, $params)
+    protected function _getFormInput_Button($name, $def, $params)
     {
         $params['type'] = 'button';
         
@@ -739,7 +739,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Checkbox($name, $def, $params)
+    protected function _getFormInput_Checkbox($name, $def, $params)
     {
         $params['type'] = 'checkbox';
         if (isset($def['type'])) {
