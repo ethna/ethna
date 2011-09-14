@@ -17,7 +17,7 @@ class TextDetailReporter extends SimpleReporter {
      */
     public function __construct()
     {
-        $this->SimpleReporter();
+        parent::__construct();
     }
 
     /**
@@ -26,7 +26,7 @@ class TextDetailReporter extends SimpleReporter {
      *    @access public
      */
     function paintHeader($test_name) {
-        if (!SimpleReporter::inCli()) {
+        if (!self::inCli()) {
             header('Content-type: text/plain');
         }
         print "{$test_name}\n";
@@ -90,18 +90,13 @@ class TextDetailReporter extends SimpleReporter {
 
     function paintMethodStart($test_name)
     {
-        //print "Start {$test_name} Test\n";
         print "  |--- {$test_name}";
-        $this->before_fails = $this->_fails;
     }
 
-    var $before_fails = 0;
-    
     function paintMethodEnd($test_name)
     {
-        //print "End {$test_name} Test\n";
-        if ($this->before_fails != $this->_fails) {
-            print " - NG";
+        if ($this->getFailCount() != 0) {
+            print " - [41;37mNG[0m";
         } else {
             print " - OK";
         }

@@ -57,7 +57,7 @@ require_once 'simpletest/reporter.php';
 require_once $test_dir . '/TextDetailReporter.php';
 require_once $test_dir . '/UnitTestBase.php';
 
-$test = new GroupTest('Ethna All tests');
+$test = new TestSuite('Ethna All tests');
 
 // テストケースのファイルリストを取得
 require_once 'Ethna/class/Getopt.php';
@@ -73,7 +73,7 @@ if (count($opts) > 0) {
 
 // テストケースを登録
 foreach ($file_list as $file) {
-    $test->addTestFile($file);
+    $test->addFile($file);
 }
 
 // 結果をコマンドラインに出力
