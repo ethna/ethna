@@ -39,7 +39,7 @@ class Ethna_ActionError
      *
      *  @access public
      */
-    public function Ethna_ActionError()
+    public function __construct()
     {
     }
 
