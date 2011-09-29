@@ -20,7 +20,7 @@ class {$action_form} extends {$project_id}_ActionForm
      *  @access private
      *  @var    array   form definition.
      */
-    var $form = array();
+    protected $form = array();
 }
 
 /**
@@ -45,7 +45,7 @@ class {$action_class} extends {$project_id}_ActionClass
      *  @return string    forward name(null: success.
      *                                false: in case you want to exit.)
      */
-    function prepare()
+    public function prepare()
     {
         return null;
     }
@@ -56,7 +56,7 @@ class {$action_class} extends {$project_id}_ActionClass
      *  @access public
      *  @return string  forward name.
      */
-    function perform()
+    public function perform()
     {
         return null;
     }

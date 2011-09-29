@@ -122,7 +122,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array   class definition.
      */
-    protected $class = array(
+    public $class = array(
         /*
          *  TODO: When you override Configuration class, Logger class,
          *        SQL class, don't forget to change definition as follows!

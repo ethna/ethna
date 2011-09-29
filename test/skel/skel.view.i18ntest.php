@@ -23,7 +23,7 @@ class {$view_class} extends {$project_id}_ViewClass
      *
      *  @access public
      */
-    function preforward()
+    public function preforward()
     {
         _et('view prepare');
         _et("view
