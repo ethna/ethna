@@ -1,5 +1,6 @@
-Ethna ![Project status](http://stillmaintained.com/ethna/ethna.png)
-=====
+Ethna
+=======
+.. image:: http://stillmaintained.com/ethna/ethna.png
 
 Ethna(えすな)は、PHPを利用したウェブアプリケーションフレームワークで、
 似たようなコードを書かなくてよいことを目標としています。
@@ -10,9 +11,11 @@ Requirements
 --------------
 
 * Ethna 2.5.x
+
     * PHP 4系、PHP 5.x
 
 * Ethna 2.6.x
+
     * PHP 5.2.6 以上
 
 
@@ -61,8 +64,9 @@ IRC
 ^^^^^^^
 
 freenode の `#Ethna` でEthnaの使い方や開発について議論しています。コミッタもいますので、バグなどについて文句を言うのはここが一番伝わりやすいかもしれません。
-    * サーバ: irc.freenode.com
-    * チャネル: #Ethna
+
+* サーバ: irc.freenode.com
+* チャネル: #Ethna
 
 IRCって何? という方は、IRC普及委員会 を参照して下さい。:
     http://irc.nahi.to/
@@ -99,7 +103,9 @@ Pull Request
 バグ修正などの Pull Request など大歓迎です。
 
 * 最新の develop から任意の名前で branch を切り、develop ブランチに対して pull request を送ってください。
+
     * ブランチを切ってから時間が立ったなどで差分が生じている場合かならず手元で rebase してください
+
 * master ブランチへは直接 merge しません。
 
 
