@@ -32,7 +32,7 @@ if (!defined('ETHNA_OPTVALUE_IS_OPTIONAL')) {
 class Ethna_Getopt
 {
     /**
-     *  PHP 設定を考慮して、$argv 配列を読みます。 
+     *  PHP 設定を考慮して、$argv 配列を読みます。
      *  ini ディレクティブ中の register_argc_argv を考慮します。
      *
      *  注意： PHP 4.2.0 以前では、$argv を読むためには
@@ -44,7 +44,7 @@ class Ethna_Getopt
      *  @return array - オプションとパラメータを含む配列、
      *                  もしくは Ethna_Error
      */
-    function readPHPArgv()
+    public function readPHPArgv()
     {
         global $argv;
 
@@ -64,9 +64,9 @@ class Ethna_Getopt
      *  @param array  $longoptions - 使用できる長いオプション目録を指定します。
      *
      *  @return array - パースされたオプションと非オプションのコマンドライン引数
-     *                  の 2つの要素からなる配列、もしくは Ethna_Error 。 
+     *                  の 2つの要素からなる配列、もしくは Ethna_Error 。
      */
-    function getopt($args, $shortoptions, $longoptions = NULL)
+    public function getopt($args, $shortoptions, $longoptions = NULL)
     {
         $shortopts = $this->_parseShortOption($shortoptions);
         if (Ethna::isError($shortopts)) {
@@ -107,8 +107,8 @@ class Ethna_Getopt
                  if (!array_key_exists($opt, $longopts)) {
                      return Ethna::raiseError("unrecognized option --$opt");
                  }
-                 
-                 //  オプションの値を取り出す 
+
+                 //  オプションの値を取り出す
                  $required = $longopts[$opt];
                  $value = NULL;
                  if (count($opt_and_value) == 2) {
@@ -123,7 +123,7 @@ class Ethna_Getopt
                      }
                  }
 
-                 //  オプション設定チェック 
+                 //  オプション設定チェック
                  switch ($required) {
                      case ETHNA_OPTVALUE_IS_REQUIRED:
                          if ($value === NULL) {
@@ -137,7 +137,7 @@ class Ethna_Getopt
                              return Ethna::raiseError(
                                         "option --$opt doesn't allow an argument"
                                     );
-                         }    
+                         }
                          break;
                  }
 
@@ -170,7 +170,7 @@ class Ethna_Getopt
                  //
                  //  TODO: ambiguous なオプションを検出できるようにする
                  //
- 
+
                  $sopt = str_replace('-', '', $arg);
                  $sopt_len = strlen($sopt);
 
@@ -197,7 +197,7 @@ class Ethna_Getopt
                                 //  残りの文字を値として解釈
                                 $value = substr($sopt, $sopt_pos + 1);
                                 $value = (empty($value)) ? NULL : $value;
-                            } 
+                            }
                             if ($required == ETHNA_OPTVALUE_IS_REQUIRED
                               && empty($value)) {
                                  return Ethna::raiseError(
@@ -225,7 +225,7 @@ class Ethna_Getopt
                      if ($do_next_arg === true) {
                          break;
                      }
-                 } 
+                 }
 
              } else {  // オプションとして解釈されない
 
@@ -241,7 +241,7 @@ class Ethna_Getopt
                  break;
              }
         }
-  
+
         return array($parsed_arguments, $nonparsed_arguments);
     }
 
@@ -251,9 +251,9 @@ class Ethna_Getopt
      *  @param  string $sopts 短いオプション目録
      *  @return array  オプションと引数指定種別の配列
      *                 エラーの場合は Ethna_Error
-     *  @access private
+     *  @access protected
      */
-    function _parseShortOption($sopts)
+    protected function _parseShortOption($sopts)
     {
         if (empty($sopts)) {
             return array();
@@ -281,7 +281,7 @@ class Ethna_Getopt
             //   $sopts[$pos] is character.
             if ($next_char == ':' && $next2_char == ':') {
                 $analyze_result[$char] = ETHNA_OPTVALUE_IS_OPTIONAL; // 値は任意
-            } elseif ($next_char == ':' && $next2_char != ':') { 
+            } elseif ($next_char == ':' && $next2_char != ':') {
                 $analyze_result[$char] = ETHNA_OPTVALUE_IS_REQUIRED; // 値は必須
             } else {
                 $analyze_result[$char] = ETHNA_OPTVALUE_IS_DISABLED; // 値は不要
@@ -297,9 +297,9 @@ class Ethna_Getopt
      *  @param  array $lopts 長いオプション目録
      *  @return array オプションと引数指定種別の配列
      *                エラーの場合は Ethna_Error
-     *  @access private
+     *  @access protected
      */
-    function _parseLongOption($lopts)
+    protected function _parseLongOption($lopts)
     {
         if (empty($lopts)) {
             return array();
@@ -310,13 +310,13 @@ class Ethna_Getopt
         }
 
         $analyze_result = array();
-         
+
         foreach ($lopts as $opt) {
             if (preg_match('/==$/', $opt) > 0) {
-                $opt = substr($opt, 0, -2); 
+                $opt = substr($opt, 0, -2);
                 $analyze_result[$opt] = ETHNA_OPTVALUE_IS_OPTIONAL; // 値は任意
             } elseif (preg_match('/=$/', $opt) > 0) {
-                $opt = substr($opt, 0, -1); 
+                $opt = substr($opt, 0, -1);
                 $analyze_result[$opt] = ETHNA_OPTVALUE_IS_REQUIRED; // 値は必須
             } else {
                 $analyze_result[$opt] = ETHNA_OPTVALUE_IS_DISABLED; // 値は不要
