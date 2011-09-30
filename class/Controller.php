@@ -1009,9 +1009,9 @@ class Ethna_Controller
         // フォーム定義、フォーム値設定
         $form_name = $this->getActionFormName($action_name);
         $this->action_form = new $form_name($this);
+        $backend->setActionForm($this->action_form);
         $this->action_form->setFormDef_PreHelper();
         $this->action_form->setFormVars();
-        $backend->setActionForm($this->action_form);
 
         // バックエンド処理実行
         $forward_name = $backend->perform($action_name);
