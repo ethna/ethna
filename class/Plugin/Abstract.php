@@ -109,6 +109,16 @@ abstract class Ethna_Plugin_Abstract
     }
 
     /**
+     *  getConfig
+     *
+     *  @return array   $config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
      *  _load
      *
      *  @access protected
