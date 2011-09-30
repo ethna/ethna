@@ -96,6 +96,20 @@ GitHub の Issues または Pull Request
 
 * `gitFlow <https://github.com/nvie/gitflow>`_ を利用しています。また、ブランチ運用ルールも基本的にこれに沿っています。
 
+テスト実行
+^^^^^^^^^^^^^^^^
+
+simpletest によるテストの実行は次のようにします。 ::
+
+    $ php bin/ethna_run_test.php
+
+詳細出力 ::
+
+    $ php bin/ethna_run_test.php --verbose
+
+テストを指定して実行 ::
+
+    $ php bin/ethna_run_test.php test/Logger_Test.php
 
 Pull Request
 ^^^^^^^^^^^^^^^^
