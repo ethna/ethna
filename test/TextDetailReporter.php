@@ -29,7 +29,7 @@ class TextDetailReporter extends SimpleReporter {
         if (!self::inCli()) {
             header('Content-type: text/plain');
         }
-        print "{$test_name}\n";
+        echo "{$test_name}\n";
         flush();
     }
 
@@ -41,15 +41,15 @@ class TextDetailReporter extends SimpleReporter {
      */
     function paintFooter($test_name) {
         if ($this->getFailCount() + $this->getExceptionCount() == 0) {
-            print "\nAll OK\n";
+            echo "\nAll OK\n";
         } else {
-            print "\nFAILURES!!!\n";
+            echo "\n[41;37mFAILURES!!![0m\n";
         }
-        print "Test cases run: " . $this->getTestCaseProgress() .
+        echo "Test cases run: " . $this->getTestCaseProgress() .
             "/" . $this->getTestCaseCount() .
             ", Passes: " . $this->getPassCount() .
             ", Failures: " . $this->getFailCount() .
-            ", Exceptions: " . $this->getExceptionCount() . "\n";
+            ", Exceptions: " . $this->getExceptionCount() . PHP_EOL;
     }
 
     /**
@@ -60,11 +60,11 @@ class TextDetailReporter extends SimpleReporter {
      */
     function paintFail($message) {
         parent::paintFail($message);
-        print "\n\t" . $this->getFailCount() . ") $message\n";
+        echo "\n\t" . $this->getFailCount() . ") $message\n";
         $breadcrumb = $this->getTestList();
         array_shift($breadcrumb);
-        print "\tin " . implode("\n\tin ", array_reverse($breadcrumb));
-        print "\n";
+        echo "\tin " . implode("\n\tin ", array_reverse($breadcrumb));
+        echo PHP_EOL;
     }
 
     /**
@@ -75,7 +75,16 @@ class TextDetailReporter extends SimpleReporter {
      */
     function paintError($message) {
         parent::paintError($message);
-        print "Exception " . $this->getExceptionCount() . "!\n$message\n";
+        echo PHP_EOL;
+        echo "       Error ", $this->getExceptionCount(), "!", PHP_EOL;
+        echo "       $message";
+    }
+
+    function paintException($message) {
+        parent::paintException($message);
+        echo PHP_EOL;
+        echo "       Exception ", $this->getExceptionCount(), "!", PHP_EOL;
+        echo "       {$message->getMessage()}";
     }
 
     /**
@@ -84,28 +93,30 @@ class TextDetailReporter extends SimpleReporter {
      *    @access public
      */
     function paintFormattedMessage($message) {
-        print "$message\n";
+        echo "$message\n";
         flush();
     }
 
+    protected $before_fails = 0;
     function paintMethodStart($test_name)
     {
-        print "  |--- {$test_name}";
+        echo "  |--- {$test_name}";
+        $this->before_fails = $this->getFailCount() + $this->getExceptionCount();
     }
 
     function paintMethodEnd($test_name)
     {
-        if ($this->getFailCount() != 0) {
-            print " - [41;37mNG[0m";
+        if ($this->before_fails != $this->getFailCount() + $this->getExceptionCount()) {
+            echo " - [41;37mNG[0m";
         } else {
-            print " - OK";
+            echo " - OK";
         }
-        print "\n";
+        echo PHP_EOL;
     }
 
     function paintCaseStart($test_name)
     {
-        print "\n {$test_name}\n";
+        echo "\n {$test_name}\n";
         return parent::paintCaseStart($test_name);
     }
 }

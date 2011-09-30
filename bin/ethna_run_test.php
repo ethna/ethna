@@ -54,6 +54,7 @@ if (extension_loaded('xdebug')) {
 /** SimpleTestのインクルード */
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
+require_once $test_dir . '/TextSimpleReporter.php';
 require_once $test_dir . '/TextDetailReporter.php';
 require_once $test_dir . '/UnitTestBase.php';
 
@@ -63,8 +64,20 @@ $test = new TestSuite('Ethna All tests');
 require_once 'Ethna/class/Getopt.php';
 $opt = new Ethna_Getopt();
 $args = $opt->readPHPArgv();
-list($args, $opts) = $opt->getopt($args, '', array());
-array_shift($opts);
+array_shift($args);
+$opt_ret = $opt->getopt($args, "", array('verbose'));
+if (Ethna::isError($opt_ret)) {
+    echo $opt_ret->getMessage(), PHP_EOL;
+    exit(255);
+}
+list($args, $opts) = $opt_ret;
+
+// verbose mode ?
+$verbose = false;
+if (isset($args[0]) && $args[0][0] == '--verbose') {
+    $verbose = true;
+}
+
 if (count($opts) > 0) {
     $file_list = $opts;
 } else {
@@ -77,7 +90,11 @@ foreach ($file_list as $file) {
 }
 
 // 結果をコマンドラインに出力
-$test->run(new TextDetailReporter());
+if ($verbose) {
+    $test->run(new TextDetailReporter());
+} else {
+    $test->run(new TextSimpleReporter());
+}
 
 if ($symlink_filename !== null && is_link($symlink_filename)) {
     unlink($symlink_filename);
