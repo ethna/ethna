@@ -32,7 +32,7 @@ class Ethna_Plugin_Handle extends Ethna_Plugin_Abstract
      *
      *  @access public
      */
-    function Ethna_Plugin_Handle($controller, $type, $name)
+    public function __construct($controller, $type, $name)
     {
         parent::__construct($controller, $type, $name);
 
