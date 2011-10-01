@@ -36,9 +36,9 @@ class Ethna_Config
      *  Ethna_Configクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    controllerオブジェクト
+     *  @param  object  Ethna_Controller    $controller    controllerオブジェクト
      */
-    public function __construct(&$controller)
+    public function __construct($controller)
     {
         $this->controller = $controller;
 

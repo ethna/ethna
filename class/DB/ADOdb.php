@@ -53,7 +53,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  コンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
+     *  @param  object  Ethna_Controller    $controller    コントローラオブジェクト
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */

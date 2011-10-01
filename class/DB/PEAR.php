@@ -361,7 +361,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @access public
      *  @return int     更新行数
      */
-    function fetchRow(&$res, $fetchmode = DB_FETCHMODE_DEFAULT, $rownum = null)
+    function fetchRow($res, $fetchmode = DB_FETCHMODE_DEFAULT, $rownum = null)
     {
         $row = $res->fetchRow($fetchmode, $rownum);
         if (is_array($row) === false) {

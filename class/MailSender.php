@@ -52,9 +52,9 @@ class Ethna_MailSender
      *  Ethna_MailSenderクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend       backendオブジェクト
+     *  @param  object  Ethna_Backend   $backend       backendオブジェクト
      */
-    public function __construct(&$backend)
+    public function __construct($backend)
     {
         $this->backend = $backend;
         $this->config = $this->backend->getConfig();
@@ -270,7 +270,7 @@ class Ethna_MailSender
      *  @access public
      *  @return object  Ethna_Renderer  レンダラオブジェクト
      */
-    function &getRenderer()
+    function getRenderer()
     {
         $_ret_object = $this->getTemplateEngine();
         return $_ret_object;
@@ -282,7 +282,7 @@ class Ethna_MailSender
      *  @access public
      *  @return object  Ethna_Renderer  レンダラオブジェクト
      */
-    function &getTemplateEngine()
+    function getTemplateEngine()
     {
         $c = $this->backend->getController();
         $renderer = $c->getRenderer();

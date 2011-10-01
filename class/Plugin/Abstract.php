@@ -56,7 +56,7 @@ abstract class Ethna_Plugin_Abstract
      *  Constructor
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    Controller Object
+     *  @param  object  Ethna_Controller    $controller    Controller Object
      */
     public function __construct($controller, $type = null, $name = null)
     {
