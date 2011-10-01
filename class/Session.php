@@ -64,7 +64,6 @@ class Ethna_Session
      *
      *  @access public
      *  @param  object  $ctl        コントローラ
-     *  @param  string  $save_dir   セッションデータを保存するディレクトリ
      */
     public function __construct($ctl)
     {
