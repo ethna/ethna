@@ -94,7 +94,7 @@ class Ethna_PearWrapper
 
         // set PEAR's error handling
         // TODO: if PEAR/Command/Install.php is newer than 1.117, displayError goes well.
-        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$this->ui, 'displayFatalError'));
+        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($this->ui, 'displayFatalError'));
 
         // set channel
         $master_setting = Ethna_Handle::getMasterSetting('repositry');
@@ -644,7 +644,7 @@ class Ethna_PearWrapper
      *  (experimental)
      *  @return array
      */
-    private function _getPearOpt(&$cmd_obj, $cmd_str, $opt_array)
+    private function _getPearOpt($cmd_obj, $cmd_str, $opt_array)
     {
         $short_args = $long_args = null;
         PEAR_Command::getGetOptArgs($cmd_str, $short_args, $long_args);

@@ -29,7 +29,7 @@ class Ethna_Plugin_Generator_CreatePlugin extends Ethna_Plugin_Generator
      *  @param  string  $plugin_name    プラグイン名 
      *  @return true|Ethna_Error        true:成功 Ethna_Error:失敗
      */
-    function &generate($basedir, $types = array(), $forpackage = false, $plugin_name)
+    function generate($basedir, $types = array(), $forpackage = false, $plugin_name)
     {
         $plugin_dir = "$basedir/plugin";
         if (!$forpackage) {

@@ -132,7 +132,7 @@ class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
     /**
      * @access private
      */
-    function &_parseArgList()
+    function _parseArgList()
     {
         $r = $this->_getopt(array('basedir=', 'channel='));
         if (Ethna::isError($r)) {

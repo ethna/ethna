@@ -49,7 +49,7 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
      *  @param  array   $ext_dirs       走査する追加のディレクトリの配列
      *  @return true|Ethna_Error        true:成功 Ethna_Error:失敗
      */
-    function &generate($locale, $use_gettext, $ext_dirs = array())
+    function generate($locale, $use_gettext, $ext_dirs = array())
     {
         $this->time = time();
         $this->locale = $locale;

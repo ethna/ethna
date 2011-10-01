@@ -1182,7 +1182,7 @@ class Ethna_Controller
      *  @access public
      *  @param  object  Ethna_Error     エラーオブジェクト
      */
-    public function handleError(&$error)
+    public function handleError($error)
     {
         // ログ出力
         list ($log_level, $dummy) = $this->logger->errorLevelToLogLevel($error->getLevel());
