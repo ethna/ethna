@@ -69,9 +69,9 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  DBに接続する
      *
      *  @access public
-     *  @return mixed   0:正常終了 Ethna_Error:エラー
+     *  @return bool   true:成功 false:失敗
      */
-    function connect()
+    public function connect()
     {
         $dsn = $this->parseDSN($this->dsn);
 
@@ -98,7 +98,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *
      *  @access public
      */
-    function disconnect()
+    public function disconnect()
     {
         //$this->db->close();
         return 0;
@@ -112,7 +112,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @access public
      *  @return bool    true:正常(接続済み) false:エラー/未接続
      */
-    function isValid()
+    public function isValid()
     {
         if ( is_object($this->db) ) {
             return true;
@@ -129,7 +129,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function begin()
+    public function begin()
     {
         return $this->db->BeginTrans();
     }
@@ -142,7 +142,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function rollback()
+    public function rollback()
     {
         $this->db->RollbackTrans();
         return 0;
@@ -156,7 +156,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function commit()
+    public function commit()
     {
         $this->db->CommitTrans();
         return 0;
@@ -171,7 +171,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function query($query, $inputarr = false)
+    public function query($query, $inputarr = false)
     {
         return $this->_query($query, $inputarr);
     }
@@ -185,7 +185,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    function _query($query, $inputarr = false)
+    private function _query($query, $inputarr = false)
     {
         $this->logger->log(LOG_DEBUG, $query);
         $r = $this->db->execute($query, $inputarr);
@@ -208,11 +208,14 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
     //{{{ getAll
     /**
-     * getAll
+     *  結果レコードセットを返す
      *
-     * @access public
+     *  @access public
+     *  @param  string $query  SQL
+     *  @param  mixed  $inputarr  プレースホルダ(スカラまたは配列)
+     *  @return array  $rows   連想配列のリスト
      */
-    function getAll($query, $inputarr = false)
+    public function getAll($query, $inputarr = false)
     {
         $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
         return $this->db->getAll($query, $inputarr);
@@ -220,42 +223,65 @@ class Ethna_DB_ADOdb extends Ethna_DB
     //}}}
 
     //{{{ getOne
-    function getOne($query, $inputarr = false)
+    /**
+     *  結果レコードセットのうち第１行第１列目の値を返す
+     *
+     *  @access public
+     *  @param  string  $query  SQL
+     *  @param  mixed   $inputarr  プレースホルダ(スカラまたは配列)
+     *  @return string  $val
+     */
+    public function getOne($query, $inputarr = false)
     {
         return $this->db->GetOne($query, $inputarr);
     }
     //}}}
 
     //{{{ getRow
-    function getRow($query, $inputarr = false)
+    /**
+     *  結果レコードセットのうち第１行目を返す
+     *
+     *  @access  public
+     *  @param   string $query  SQL
+     *  @param   mixed  $inputarr  プレースホルダ(スカラまたは配列)
+     *  @return  array  $row  連想配列
+     */
+    public function getRow($query, $inputarr = false)
     {
         return $this->db->GetRow($query, $inputarr);
     }
     //}}}
 
     //{{{ getCol
-    function getCol($query, $inputarr = false)
+    /**
+     *  結果レコードセットのうち第１列目の値リストを返す
+     *
+     *  @param   string $query  SQL
+     *  @param   mixed  $inputarr  プレースホルダ(スカラまたは配列)
+     *  @return  array  $col
+     */
+    public function getCol($query, $inputarr = false)
     {
         return $this->db->GetCol($query, $inputarr);
     }
     //}}}
 
     //{{{ execute
-    function execute($query, $inputarr = false)
+    public function execute($query, $inputarr = false)
     {
         return $this->db->Execute($query, $inputarr);
     }
     //}}}
 
     //{{{ replace
-    function replace($table, $arrFields, $keyCols, $autoQuote = false)
+    public function replace($table, $arrFields, $keyCols, $autoQuote = false)
     {
         return $this->db->Replace($table, $arrFields, $keyCols, $autoQuote);
     }
     //}}}
 
     //{{{ autoExecute
-    function autoExecute($table, $fields, $mode, $where = false, $forceUpdate = true, $magicq = false)
+    public function autoExecute($table, $fields, $mode, $where = false, $forceUpdate = true, $magicq = false)
     {
         return $this->db->AutoExecute($table, $fields, $mode, $where, $forceUpdate, $magicq);
     }
@@ -270,7 +296,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      * @param integer $page
      * @param array $inputarr
      */
-    function pageExecute($query, $nrows, $page, $inputarr = false)
+    public function pageExecute($query, $nrows, $page, $inputarr = false)
     {
         return $this->db->PageExecute($query, $nrows, $page, $inputarr);
     }
@@ -312,7 +338,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  + username: User name for login
      *  + password: Password for login
      */
-    function parseDSN($dsn)
+    public function parseDSN($dsn)
     {
         $parsed = array(
             'phptype'  => false,
