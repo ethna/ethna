@@ -229,7 +229,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @access public
      *  @param  string  $query  SQL
      *  @param  mixed   $inputarr  プレースホルダ(スカラまたは配列)
-     *  @return string  $val
+     *  @return string  $value
      */
     public function getOne($query, $inputarr = false)
     {
@@ -258,7 +258,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *
      *  @param   string $query  SQL
      *  @param   mixed  $inputarr  プレースホルダ(スカラまたは配列)
-     *  @return  array  $col
+     *  @return  array  $values 値リスト
      */
     public function getCol($query, $inputarr = false)
     {
