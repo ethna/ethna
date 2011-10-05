@@ -29,7 +29,7 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
      *  @param  string  $encoding       エンコーディング
      *  @return true|Ethna_Error        true:成功 Ethna_Error:失敗
      */
-    function &generate($forward_name, $skelton = null, $locale, $encoding)
+    function generate($forward_name, $skelton = null, $locale, $encoding)
     {
         //  ロケールが指定された場合は、それを優先する 
         if (!empty($locale)) {

@@ -54,7 +54,7 @@ class Ethna_InfoManager extends Ethna_AppManager
      *  Ethna_InfoManagerのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend   Ethna_Backendオブジェクト
+     *  @param  object  Ethna_Backend   $backend   Ethna_Backendオブジェクト
      */
     public function __construct($backend)
     {

@@ -31,7 +31,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
      *  Ethna_UnitTestManagerのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend   Ethna_Backendオブジェクト
+     *  @param  object  Ethna_Backend   $backend   Ethna_Backendオブジェクト
      */
     public function __construct($backend)
     {

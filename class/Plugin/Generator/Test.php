@@ -27,7 +27,7 @@ class Ethna_Plugin_Generator_Test extends Ethna_Plugin_Generator
      * @return mixed TRUE; OK
      *               Ethna_Error: エラー発生
      */
-    function &generate($skelfile, $name)
+    function generate($skelfile, $name)
     {
         // Controllerを取得
         $ctl = $this->ctl;

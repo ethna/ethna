@@ -28,7 +28,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
     /**
      * @access private
      */
-    function &_parseArgList()
+    function _parseArgList()
     {
         $r = $this->_getopt(
             array(
@@ -173,7 +173,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
     /**
      * @access private
      */
-    function &_makePackage($setting, $workdir)
+    function _makePackage($setting, $workdir)
     {
         // package.xml を作る
         $pkgconfig = array(
@@ -219,7 +219,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         $packagexml->generateContents();
 
         foreach ($setting['callback'] as $method => $params) {
-            $r = call_user_func_array(array(&$packagexml, $method), $params);
+            $r = call_user_func_array(array($packagexml, $method), $params);
         }
 
         $r = $packagexml->writePackageFile();
@@ -232,7 +232,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         $ui = PEAR_Command::getFrontendObject();
         $config = PEAR_Config::singleton();
         $ui->setConfig($config);
-        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$ui, 'displayFatalError'));
+        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ui, 'displayFatalError'));
         $cmd = PEAR_Command::factory('package', $config);
         if (PEAR::isError($cmd)) {
             return Ethna::raiseError($cmd->getMessage, $cmd->getCode());

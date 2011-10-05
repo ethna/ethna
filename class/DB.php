@@ -42,11 +42,11 @@ class Ethna_DB
      *  Ethna_DBクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
+     *  @param  object  Ethna_Controller    $controller    コントローラオブジェクト
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */
-    public function __construct(&$controller, $dsn, $persistent)
+    public function __construct($controller, $dsn, $persistent)
     {
         $this->dsn = $dsn;
         $this->persistent = $persistent;

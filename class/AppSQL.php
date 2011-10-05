@@ -51,7 +51,7 @@ class Ethna_AppSQL
     {
         Ethna_AppSQL::escapeSQL($args);
 
-        return call_user_func_array(array(&$this, $sqlid), $args);
+        return call_user_func_array(array($this, $sqlid), $args);
     }
 
     /**
