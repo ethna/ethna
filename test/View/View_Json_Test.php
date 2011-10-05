@@ -68,7 +68,7 @@ class Ethna_View_Json_Test extends Ethna_UnitTestBase
         $project->create();
 
         //   add mock action for redirect
-        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.json.php';   
+        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.json.php';
         $project->runCmd('add-action',
                          array(
                              '-s', $action_skel,
@@ -77,6 +77,8 @@ class Ethna_View_Json_Test extends Ethna_UnitTestBase
         );
 
         $out = $project->runMain('json');
-        $this->assertEqual('["a","b"]', $out); 
+        $this->assertEqual('["a","b"]', $out);
+
+        $project->delete();
     }
 }

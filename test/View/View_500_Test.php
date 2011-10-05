@@ -38,7 +38,7 @@ class Ethna_View_500_Test extends Ethna_UnitTestBase
         $project->create();
 
         //   add mock action for redirect
-        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.500.php';   
+        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.500.php';
         $project->runCmd('add-action',
                          array(
                              '-s', $action_skel,
@@ -47,6 +47,8 @@ class Ethna_View_500_Test extends Ethna_UnitTestBase
         );
 
         $out = $project->runMain('return500');
-        $this->assertPattern("/500 Internal Server Error/", $out); 
+        $this->assertPattern("/500 Internal Server Error/", $out);
+
+        $project->delete();
     }
 }
