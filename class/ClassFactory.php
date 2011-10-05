@@ -52,10 +52,10 @@ class Ethna_ClassFactory
      *  Ethna_ClassFactoryクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    controllerオブジェクト
+     *  @param  object  Ethna_Controller    $controller    controllerオブジェクト
      *  @param  array                       $class          クラス定義
      */
-    public function __construct(&$controller, $class)
+    public function __construct($controller, $class)
     {
         $this->controller = $controller;
         $this->ctl = $controller;

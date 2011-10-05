@@ -75,9 +75,9 @@ class Ethna_Backend
      *  Ethna_Backendクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    コントローラオブジェクト
+     *  @param  object  Ethna_Controller    $controller    コントローラオブジェクト
      */
-    public function __construct(&$controller)
+    public function __construct($controller)
     {
         // オブジェクトの設定
         $this->controller = $controller;
@@ -414,7 +414,7 @@ class Ethna_Backend
             return $r;
         }
 
-        register_shutdown_function(array(&$this, 'shutdownDB'));
+        register_shutdown_function(array($this, 'shutdownDB'));
 
         return $this->db_list[$db_varname];
     }

@@ -655,7 +655,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    protected function _getSelectorOptions(&$af, $def, $params)
+    protected function _getSelectorOptions($af, $def, $params)
     {
         // $params, $def の順で調べる
         $source = null;

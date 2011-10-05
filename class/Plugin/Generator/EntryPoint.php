@@ -27,7 +27,7 @@ class Ethna_Plugin_Generator_EntryPoint extends Ethna_Plugin_Generator
      *  @param  int     $gateway    ゲートウェイ
      *  @return true|Ethna_Error    true:成功 Ethna_Error:失敗
      */
-    function &generate($action_name, $skelton = null, $gateway = GATEWAY_WWW)
+    function generate($action_name, $skelton = null, $gateway = GATEWAY_WWW)
     {
         $true = true;
 
