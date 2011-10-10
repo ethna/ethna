@@ -48,16 +48,12 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
         $this->assertEqual($facility, 'echo'); // not array, but string (for B.C.)
 
         // level
-        $ref = new ReflectionProperty('Ethna_Logger', 'level');
-        $ref->setAccessible(true);
-        $level = $ref->getValue($this->logger);
+        $level = $this->getNonpublicProperty($this->logger, 'level');
         $level_echo = $level['echo'];
         $this->assertEqual($level_echo, LOG_WARNING);
 
         // option
-        $ref = new ReflectionProperty('Ethna_Logger', 'option');
-        $ref->setAccessible(true);
-        $option = $ref->getValue($this->logger);
+        $option = $this->getNonpublicProperty($this->logger, 'option');
         $option_echo = $option['echo'];
         $this->assertEqual($option_echo['pid'], true);
         $this->assertEqual($option_echo['function'], true);
@@ -94,9 +90,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
         $this->assertEqual($facility, array('echo', 'file', 'alertmail'));
 
         // level
-        $ref = new ReflectionProperty('Ethna_Logger', 'level');
-        $ref->setAccessible(true);
-        $level = $ref->getValue($this->logger);
+        $level = $this->getNonpublicProperty($this->logger, 'level');
         $level_echo = $level['echo'];
         $this->assertEqual($level_echo, LOG_WARNING);
         $level_file = $level['file'];
@@ -105,9 +99,7 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
         $this->assertEqual($level_alertmail, LOG_ERR);
 
         // option
-        $ref = new ReflectionProperty('Ethna_Logger', 'option');
-        $ref->setAccessible(true);
-        $option = $ref->getValue($this->logger);
+        $option = $this->getNonpublicProperty($this->logger, 'option');
 
         $option_echo = $option['echo'];
         $this->assertEqual($option_echo['pid'], true);

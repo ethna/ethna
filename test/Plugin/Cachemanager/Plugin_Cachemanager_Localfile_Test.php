@@ -155,9 +155,7 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_USER_WARNING, $pear_error->getCode());
         $this->assertEqual("mkdir($tmp_dirname) failed", $pear_error->getMessage());
 
-        $ref = new ReflectionProperty($this->cm, 'backend');
-        $ref->setAccessible(true);
-        $this->rm($ref->getValue($this->cm)->getTmpdir());
+        $this->rm($this->getNonpublicProperty($this->cm, 'backend')->getTmpdir());
 
     }
 
