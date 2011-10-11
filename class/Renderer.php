@@ -327,7 +327,7 @@ class Ethna_Renderer
                 require_once $engine_path;
             }
             else {
-                trigger_error("template engine is not available: path=" . $engine_path, E_USER_ERROR);
+                throw new Exception("template engine is not available: path=" . $engine_path);
             }
         }
     }
