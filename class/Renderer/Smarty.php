@@ -104,10 +104,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             return Ethna::raiseWarning('template not found ' . $this->template, 500);
         }
     }
-    
+
     /**
      * テンプレート変数を取得する
-     * 
+     *
      *  @param string $name  変数名
      *
      *  @return mixed　変数
@@ -126,9 +126,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数を削除する
-     * 
+     *
      *  @param name    変数名
-     * 
+     *
      *  @access public
      */
     function removeProp($name)
@@ -138,9 +138,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数に配列を割り当てる
-     * 
+     *
      *  @param array $array
-     * 
+     *
      *  @access public
      */
     function setPropArray($array)
@@ -150,9 +150,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数に配列を参照として割り当てる
-     * 
+     *
      *  @param array $array
-     * 
+     *
      *  @access public
      */
     function setPropArrayByRef(&$array)
@@ -162,10 +162,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数を割り当てる
-     * 
+     *
      *  @param string $name 変数名
      *  @param mixed $value 値
-     * 
+     *
      *  @access public
      */
     function setProp($name, $value)
@@ -175,10 +175,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数に参照を割り当てる
-     * 
+     *
      *  @param string $name 変数名
      *  @param mixed $value 値
-     * 
+     *
      *  @access public
      */
     function setPropByRef($name, &$value)
@@ -188,14 +188,14 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  プラグインをセットする
-     * 
+     *
      *  @param string $name　プラグイン名
      *  @param string $type プラグインタイプ
      *  @param mixed $plugin プラグイン本体
-     * 
+     *
      *  @access public
      */
-    function setPlugin($name, $type, $plugin) 
+    function setPlugin($name, $type, $plugin)
     {
         //プラグイン関数の有無をチェック
         if (is_callable($plugin) === false) {
@@ -214,12 +214,12 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             $this->engine->$register_method($plugin);
             return;
         }
-        
+
         // プラグインの名前をチェック
         if ($name === '') {
             return Ethna::raiseWarning('Please set plugin name');
         }
-       
+
         // プラグインを登録する
         parent::setPlugin($name, $type, $plugin);
         $this->engine->$register_method($name, $plugin);
