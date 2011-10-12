@@ -1763,24 +1763,41 @@ class Ethna_Controller
     }
 
     /**
-     *  レンダラを取得する(getTemplateEngine()はそのうち廃止されgetRenderer()に統合される予定)
+     *  レンダラを取得する
      *
      *  @access public
      *  @return object  Ethna_Renderer  レンダラオブジェクト
      */
     public function getRenderer()
     {
+        if ($this->renderer instanceof Ethna_Renderer) {
+            return $this->renderer;
+        }
+
         // if action is __ethna_info__, the renderer must be Smarty2
         if ($this->action_name == '__ethna_info__') {
             require_once ETHNA_BASE . '/class/Renderer/Smarty.php';
-            return new Ethna_Renderer_Smarty($this);
+            // force update delimiter setting
+            $renderer_setting = $this->getConfig()->get('renderer');
+            $smarty_setting = (isset($renreder_setting['smarty']) ? $renderer_setting['smarty'] : array());
+            $this->getConfig()->set('renderer', array_merge(
+                $smarty_setting,
+                array('smarty' => array(
+                    'left_delimiter' => '{',
+                    'right_delimiter' => '}',
+                )
+            )));
+            $this->renderer = new Ethna_Renderer_Smarty($this);
+        } else {
+            $this->renderer = $this->class_factory->getObject('renderer');
         }
-        $_ret_object = $this->getTemplateEngine();
-        return $_ret_object;
+        $this->_setDefaultTemplateEngine($this->renderer);
+        return $this->renderer;
     }
 
     /**
-     *  テンプレートエンジン取得する
+     *  テンプレートエンジン取得する (DEPRECATED)
+     *  getRenderer() を使ってください
      *
      *  @access public
      *  @return object  Ethna_Renderer  レンダラオブジェクト
@@ -1788,17 +1805,8 @@ class Ethna_Controller
      */
     public function getTemplateEngine()
     {
-        if (is_object($this->renderer)) {
-            return $this->renderer;
-        }
-
-        $this->renderer = $this->class_factory->getObject('renderer');
-
-        //テンプレートエンジンのデフォルトの設定
-        $this->_setDefaultTemplateEngine($this->renderer);
-        // }}}
-
-        return $this->renderer;
+        trigger_error('Method ' . __METHOD__ . ' is depreacted. Use getRenderer() instead.', E_USER_DEPRECATED);
+        return $this->getRenderer();
     }
 
     /**
