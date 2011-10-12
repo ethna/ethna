@@ -53,5 +53,26 @@ class Ethna_UnitTestBase extends UnitTestCase
             $this->ctl->setView(new Ethna_ViewClass($this->backend, '', ''));
         }
     }
+
+    function getNonpublicProperty($object, $property_name)
+    {
+        if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+            $ref = new ReflectionProperty(get_class($object), $property_name);
+            $ref->setAccessible(true);
+            return $ref->getValue($object);
+        } else {
+            $arr = (array)$object;
+            $key = $property_name;
+
+            $ref = new ReflectionProperty(get_class($object), $property_name);
+            if ($ref->isProtected()) {
+                $key = "\0*\0".$key;
+            } elseif ($ref->isPrivate()) {
+                $key = "\0".get_class($object)."\0".$key;
+            }
+
+            return $arr[$key];
+        }
+    }
 }
 
