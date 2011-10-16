@@ -1774,8 +1774,9 @@ class Ethna_Controller
             return $this->renderer;
         }
 
-        // if action is __ethna_info__, the renderer must be Smarty2
-        if ($this->action_name == '__ethna_info__') {
+        // if action is __ethna_info__ or __ethna_unittest__, the renderer must be Smarty2
+        if ($this->action_name == '__ethna_info__'
+            || $this->action_name == '__ethna_unittest__') {
             require_once ETHNA_BASE . '/class/Renderer/Smarty.php';
             // force update delimiter setting
             $renderer_setting = $this->getConfig()->get('renderer');
