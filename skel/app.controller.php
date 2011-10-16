@@ -22,6 +22,7 @@ require_once '{$project_id}_Error.php';
 require_once '{$project_id}_ActionClass.php';
 require_once '{$project_id}_ActionForm.php';
 require_once '{$project_id}_ViewClass.php';
+require_once '{$project_id}_UrlHandler.php';
 
 /**
  *  {$project_id} application Controller definition.
@@ -154,7 +155,7 @@ class {$project_id}_Controller extends Ethna_Controller
     protected $filter = array(
         /*
          *  TODO: when you use filter, write filter plugin name here.
-         *  (If you specify class name, Ethna reads filter class in 
+         *  (If you specify class name, Ethna reads filter class in
          *   filter directory)
          *
          *  Example:
