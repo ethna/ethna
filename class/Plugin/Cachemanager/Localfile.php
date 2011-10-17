@@ -45,11 +45,11 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
-            return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
+            return Ethna::raiseError("No such cache (key=%s, file=%s)", E_CACHE_NO_VALUE, $key, $cache_file);
         }
         if (is_null($lifetime) == false) {
             if (($st[9]+$lifetime) < time()) {
-                return Ethna::raiseError('fopen failed', E_CACHE_EXPIRED);
+                return Ethna::raiseError("Cache expired (key=%s, file=%s)", E_CACHE_EXPIRED, $key, $cache_file);
             }
         }
 
