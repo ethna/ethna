@@ -266,6 +266,19 @@ class Ethna_DB_ADOdb extends Ethna_DB
     }
     //}}}
 
+    /**
+     *  結果レコードセットを連想配列の連想配列にして返す
+     *
+     *  @param string $query  SQL
+     *  @param mixed  $inputarr  プレースホルダ(スカラまたは配列)
+     *  @return array $rows 第一カラムの値をキーとする連想配列
+     */
+    public function getAssoc($query, $inputarr = false)
+    {
+        return $this->db->GetAssoc($query, $inputarr);
+    }
+
+
     //{{{ execute
     public function execute($query, $inputarr = false)
     {
