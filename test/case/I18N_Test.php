@@ -80,7 +80,7 @@ class Ethna_I18N_Test extends Ethna_UnitTestBase
     // {{{ test_parseEthnaMsgCatalog
     function test_parseEthnaMsgCatalog()
     {
-        $file = ETHNA_BASE . '/test/test_message_catalog.ini';
+        $file = ETHNA_BASE . '/test/fixture/test_message_catalog.ini';
         $messages = $this->i18n->parseEthnaMsgCatalog($file);
 
         //   正常な翻訳行 (1行) 

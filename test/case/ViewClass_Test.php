@@ -7,7 +7,7 @@
  *  @author Yoshinari Takaoka <takaoka@beatcraft.com>
  */
 
-require_once ETHNA_INSTALL_BASE . '/test/MockProject.php';
+require_once ETHNA_INSTALL_BASE . '/test/lib/MockProject.php';
 
 /**
  *  Ethna_ViewClass のテストケース

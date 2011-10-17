@@ -6,7 +6,7 @@
  *  @author     Sotaro Karasawa <sotaro.k /at/ gmail.com>
  */
 
-require_once ETHNA_INSTALL_BASE . '/test/MockProject.php';
+require_once ETHNA_INSTALL_BASE . '/test/lib/MockProject.php';
 
 class Ethna_Plugin_Test extends Ethna_UnitTestBase
 {

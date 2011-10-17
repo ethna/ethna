@@ -9,7 +9,7 @@
 
 define('ETHNA_TEST_DIR', ETHNA_BASE . '/test');
 define('ETHNA_TEST_PROJECT', 'mockproject');
-define('ETHNA_TEST_SKELDIR', ETHNA_TEST_DIR . '/skel/');
+define('ETHNA_TEST_SKELDIR', ETHNA_TEST_DIR . '/fixture/skel/');
 define('ETHNA_TEST_SKELTPLDIR', ETHNA_TEST_SKELDIR . '/template/');
 
 /**

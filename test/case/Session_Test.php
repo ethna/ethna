@@ -6,7 +6,7 @@
  *  @version    $Id$
  */
 
-require_once ETHNA_INSTALL_BASE . '/test/MockProject.php';
+require_once ETHNA_INSTALL_BASE . '/test/lib/MockProject.php';
 
 //{{{  Ethna_Session_Test
 /**
