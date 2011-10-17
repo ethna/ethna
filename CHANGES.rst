@@ -36,6 +36,9 @@ Ethna本体に関する変更点
 DB に関する変更点
     * Creole 削除: メンテナンスされていないため、Creole は以後サポートしません。
 
+UrlHandler に関する変更点
+    * path_regexp が定義されている場合、path の定義は必須ではなくなりました (sf#19237)
+
 Renderer/View に関する変更点
     * Smarty3 追加
     * Rhaco 削除: rhacoテンプレートレンダラは以後サポートしません(いつのrhacoのバージョンで動くのかもわかりませんでした)

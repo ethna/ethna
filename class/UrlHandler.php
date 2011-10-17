@@ -222,29 +222,30 @@ class Ethna_UrlHandler
         $action_match = null;
         $action_regexp_index = null;
         foreach ($action_map as $key => $value) {
-            $match_length = strlen($value['path']);
+            if (isset($value['path'])) {
+                $match_length = strlen($value['path']);
 
-            // check necessary match
-            if (strncmp($path, $value['path'], $match_length) != 0) {
-                continue;
+                // check necessary match
+                if (strncmp($path, $value['path'], $match_length) != 0) {
+                    continue;
+                }
+
+                // try exact match
+                if ($path == $value['path']) {
+                    $action = $key;
+                    break;
+                }
+
+                // continue in case w/ incomplete match
+                if ($path != "" && $match_length > 0 && $path{$match_length} != "/") {
+                    continue;
+                }
+                if ($is_slash && $path{strlen($path)-1} == "/") {
+                    continue;
+                }
             }
 
-            // try exact match
-            if ($path == $value['path']) {
-                $action = $key;
-                break;
-            }
-
-            // continue in case w/ incomplete match
-            if ($path != "" && $match_length > 0 && $path{$match_length} != "/") {
-                continue;
-            }
-            if ($is_slash && $path{strlen($path)-1} == "/") {
-                continue;
-            }
-
-            // try regexp
-            if ($value['path_regexp']) {
+            if (isset($value['path_regexp']) && $value['path_regexp']) {
                 if (is_array($value['path_regexp'])) {
                     foreach ($value['path_regexp'] as $index => $regexp) {
                         if (preg_match($regexp, $path, $tmp)) {
@@ -262,6 +263,8 @@ class Ethna_UrlHandler
                     }
                 }
             }
+
+            // else, continue
         }
         if (is_null($action)) {
             return array();
