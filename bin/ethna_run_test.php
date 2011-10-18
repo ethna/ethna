@@ -10,6 +10,18 @@
  *  @version    $Id$
  */
 
+require_once 'PHP/CodeCoverage.php';
+
+$base = dirname(dirname(__FILE__));
+
+$filter = PHP_CodeCoverage_Filter::getInstance();
+$filter->addDirectoryToBlacklist($base.'/test');
+$filter->addFileToBlacklist(__FILE__);
+
+$coverage = new PHP_CodeCoverage();
+$coverage->start('ethna');
+
+
 /** Ethnaインストールルートディレクトリ */
 define('ETHNA_INSTALL_BASE', dirname(dirname(__FILE__)));
 
@@ -99,6 +111,13 @@ if ($verbose) {
 if ($symlink_filename !== null && is_link($symlink_filename)) {
     unlink($symlink_filename);
 }
+
+$coverage->stop();
+
+require 'PHP/CodeCoverage/Report/HTML.php';
+$writer = new PHP_CodeCoverage_Report_HTML();
+$writer->process($coverage, getcwd().'/coverage');
+
 
 //{{{ getFileList
 /**
