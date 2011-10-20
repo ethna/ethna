@@ -10,7 +10,6 @@
  *  @version    $Id$
  */
 
-
 /** Ethnaインストールルートディレクトリ */
 define('ETHNA_INSTALL_BASE', dirname(dirname(__FILE__)));
 
@@ -87,7 +86,6 @@ foreach ($args as $arg) {
     }
 }
 
-
 if (count($opts) > 0) {
     $file_list = $opts;
 } else {
@@ -98,7 +96,6 @@ if (count($opts) > 0) {
 foreach ($file_list as $file) {
     $test->addFile($file);
 }
-
 
 if ($coverage) {
     // カバレッジ計測開始
