@@ -10,17 +10,6 @@
  *  @version    $Id$
  */
 
-require_once 'PHP/CodeCoverage.php';
-
-$base = dirname(dirname(__FILE__));
-
-$filter = PHP_CodeCoverage_Filter::getInstance();
-$filter->addDirectoryToBlacklist($base.'/test');
-$filter->addFileToBlacklist(__FILE__);
-
-$code_coverage = new PHP_CodeCoverage();
-$code_coverage->start('ethna');
-
 
 /** Ethnaインストールルートディレクトリ */
 define('ETHNA_INSTALL_BASE', dirname(dirname(__FILE__)));
@@ -110,6 +99,21 @@ foreach ($file_list as $file) {
     $test->addFile($file);
 }
 
+
+if ($coverage) {
+    // カバレッジ計測開始
+    require_once 'PHP/CodeCoverage.php';
+
+    $base = dirname(dirname(__FILE__));
+
+    $filter = PHP_CodeCoverage_Filter::getInstance();
+    $filter->addDirectoryToBlacklist($base.'/test');
+    $filter->addFileToBlacklist(__FILE__);
+
+    $code_coverage = new PHP_CodeCoverage();
+    $code_coverage->start('ethna');
+}
+
 // 結果をコマンドラインに出力
 if ($verbose) {
     $test->run(new TextDetailReporter());
@@ -121,11 +125,14 @@ if ($symlink_filename !== null && is_link($symlink_filename)) {
     unlink($symlink_filename);
 }
 
-$code_coverage->stop();
+if ($coverage) {
+    // カバレッジ計測終了
+    $code_coverage->stop();
 
-require 'PHP/CodeCoverage/Report/HTML.php';
-$writer = new PHP_CodeCoverage_Report_HTML();
-$writer->process($code_coverage, getcwd().'/coverage');
+    require 'PHP/CodeCoverage/Report/HTML.php';
+    $writer = new PHP_CodeCoverage_Report_HTML();
+    $writer->process($code_coverage, getcwd().'/coverage');
+}
 
 
 //{{{ getFileList
