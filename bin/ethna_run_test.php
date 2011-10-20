@@ -18,8 +18,8 @@ $filter = PHP_CodeCoverage_Filter::getInstance();
 $filter->addDirectoryToBlacklist($base.'/test');
 $filter->addFileToBlacklist(__FILE__);
 
-$coverage = new PHP_CodeCoverage();
-$coverage->start('ethna');
+$code_coverage = new PHP_CodeCoverage();
+$code_coverage->start('ethna');
 
 
 /** Ethnaインストールルートディレクトリ */
@@ -77,18 +77,27 @@ require_once 'Ethna/class/Getopt.php';
 $opt = new Ethna_Getopt();
 $args = $opt->readPHPArgv();
 array_shift($args);
-$opt_ret = $opt->getopt($args, "", array('verbose'));
+$opt_ret = $opt->getopt($args, "", array('coverage', 'verbose'));
 if (Ethna::isError($opt_ret)) {
     echo $opt_ret->getMessage(), PHP_EOL;
     exit(255);
 }
 list($args, $opts) = $opt_ret;
 
-// verbose mode ?
+$coverage = false;
 $verbose = false;
-if (isset($args[0]) && $args[0][0] == '--verbose') {
-    $verbose = true;
+foreach ($args as $arg) {
+    switch ($arg[0]) {
+    case '--coverage':
+        $coverage = true;
+        break;
+
+    case '--verbose':
+        $verbose = true;
+        break;
+    }
 }
+
 
 if (count($opts) > 0) {
     $file_list = $opts;
@@ -112,11 +121,11 @@ if ($symlink_filename !== null && is_link($symlink_filename)) {
     unlink($symlink_filename);
 }
 
-$coverage->stop();
+$code_coverage->stop();
 
 require 'PHP/CodeCoverage/Report/HTML.php';
 $writer = new PHP_CodeCoverage_Report_HTML();
-$writer->process($coverage, getcwd().'/coverage');
+$writer->process($code_coverage, getcwd().'/coverage');
 
 
 //{{{ getFileList
