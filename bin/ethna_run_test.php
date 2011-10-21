@@ -65,17 +65,25 @@ require_once 'Ethna/class/Getopt.php';
 $opt = new Ethna_Getopt();
 $args = $opt->readPHPArgv();
 array_shift($args);
-$opt_ret = $opt->getopt($args, "", array('verbose'));
+$opt_ret = $opt->getopt($args, "", array('coverage', 'verbose'));
 if (Ethna::isError($opt_ret)) {
     echo $opt_ret->getMessage(), PHP_EOL;
     exit(255);
 }
 list($args, $opts) = $opt_ret;
 
-// verbose mode ?
+$coverage = false;
 $verbose = false;
-if (isset($args[0]) && $args[0][0] == '--verbose') {
-    $verbose = true;
+foreach ($args as $arg) {
+    switch ($arg[0]) {
+    case '--coverage':
+        $coverage = true;
+        break;
+
+    case '--verbose':
+        $verbose = true;
+        break;
+    }
 }
 
 if (count($opts) > 0) {
@@ -89,6 +97,27 @@ foreach ($file_list as $file) {
     $test->addFile($file);
 }
 
+if ($coverage) {
+    // カバレッジ計測開始
+    require_once 'PHP/CodeCoverage.php';
+
+    $base = dirname(dirname(__FILE__));
+
+    $filter = PHP_CodeCoverage_Filter::getInstance();
+    $filter->addDirectoryToBlacklist($base.'/test');
+    $filter->addDirectoryToBlacklist($base . '/src');
+    $filter->addDirectoryToBlacklist($base . '/bin');
+    $filter->addFileToBlacklist(__FILE__);
+
+    require_once 'PEAR/Config.php';
+    $pear_config = PEAR_Config::singleton();
+    $pear_dir = $pear_config->get('php_dir');
+    $filter->addDirectoryToBlacklist($pear_dir);
+
+    $code_coverage = new PHP_CodeCoverage();
+    $code_coverage->start('ethna');
+}
+
 // 結果をコマンドラインに出力
 if ($verbose) {
     $test->run(new TextDetailReporter());
@@ -99,6 +128,16 @@ if ($verbose) {
 if ($symlink_filename !== null && is_link($symlink_filename)) {
     unlink($symlink_filename);
 }
+
+if ($coverage) {
+    // カバレッジ計測終了
+    $code_coverage->stop();
+
+    require 'PHP/CodeCoverage/Report/HTML.php';
+    $writer = new PHP_CodeCoverage_Report_HTML();
+    $writer->process($code_coverage, getcwd().'/coverage');
+}
+
 
 //{{{ getFileList
 /**
