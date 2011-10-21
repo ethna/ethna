@@ -18,11 +18,11 @@ class Ethna_UrlHandler_Simple
 {
     /** @var    array   アクションマッピング */
     protected $action_map = array(
-        // '/' => 'homepage',
-        // '/wozozo' => 'wozozo_index',
-        // '/wozozo/{message}' => 'wozozo_message',
-        // '/message/{id}' => array(
-        //     'action' => 'message_show',
+        // 'index' => '/',
+        // 'wozozo_index' => '/wozozo',
+        // 'wozozo_message' => '/wozozo/{message}',
+        // 'message_show' => array(
+        //     'path' => '/message/{id}',
         //     'patterns' => array(
         //         'id' => '\d+',
         //     ),
@@ -37,13 +37,16 @@ class Ethna_UrlHandler_Simple
      *
      *  @access public
      */
-    public function actionToRequest($action, $param)
+    public function actionToRequest($action, $param=array())
     {
         $ret = null;
+        $action_map = $this->getActionMap();
 
-        foreach ($this->getActionMap() as $pattern => $def) {
-            if ($action === $def['action']) {
-                if (strpos($pattern, '{') && preg_match_all('/\{(.*?)\}/', $pattern, $matches)) {
+        if (isset($action_map[$action])) {
+            $def = $action_map[$action];
+
+            foreach ($def['path'] as $path) {
+                if (strpos($path, '{') && preg_match_all('/\{(.*?)\}/', $path, $matches)) {
                     $keys = array_unique($matches[1]);
                     $replaces = array();
 
@@ -62,10 +65,10 @@ class Ethna_UrlHandler_Simple
                         }
                     }
 
-                    $ret = array(str_replace(array_keys($replaces), array_values($replaces), $pattern), $keys);
+                    $ret = array(str_replace(array_keys($replaces), array_values($replaces), $path), $keys);
                     break;
                 } else {
-                    $ret = array($pattern, array());
+                    $ret = array($path, array());
                     break;
                 }
             }
@@ -87,22 +90,19 @@ class Ethna_UrlHandler_Simple
             $path = $http_vars['__url_info__'];
         }
 
-        foreach ($this->getActionMap() as $pattern => $def) {
-            if (!isset($def['action'])) {
-                continue;
-            }
-            $action = $def['action'];
+        foreach ($this->getActionMap() as $action => $def) {
+            foreach ($def['path'] as $pattern) {
+                if (strpos($pattern, '{')) {
+                    $action = $this->getActionByRegex($path, $action, $def, $http_vars);
 
-            if (strpos($pattern, '{')) {
-                $action = $this->getActionByRegex($path, $pattern, $def, $http_vars);
-
-                if (!is_null($action)) {
-                    $http_vars['action_'.$action] = true;
-                }
-            } else {
-                if ($path === $pattern) {
-                    $http_vars['action_'.$action] = true;
-                    break;
+                    if (!is_null($action)) {
+                        $http_vars['action_'.$action] = true;
+                    }
+                } else {
+                    if ($path === $pattern) {
+                        $http_vars['action_'.$action] = true;
+                        break;
+                    }
                 }
             }
         }
@@ -114,45 +114,47 @@ class Ethna_UrlHandler_Simple
      * 正規表現でマッチさせる
      *
      * @param string $path
-     * @param string $pattern
+     * @param string $action
      * @param array $def
      * @param array $http_vars
      */
-    protected function getActionByRegex($path, $pattern, $def, &$http_vars)
+    protected function getActionByRegex($path, $action, $def, &$http_vars)
     {
-        $action = null;
+        $ret_action = null;
         $regex_pattern = array();
         $request_keys = array();
 
-        if (preg_match_all('/\{(.*?)\}/', $pattern, $matches)) {
-            $request_keys = $matches[1];
+        foreach ($def['path'] as $pattern) {
+            if (preg_match_all('/\{(.*?)\}/', $pattern, $matches)) {
+                $request_keys = $matches[1];
 
-            $replaces = array();
-            foreach ($matches[0] as $i => $from) {
-                $key = $matches[1][$i];
-                $to = '(.+?)';
+                $replaces = array();
+                foreach ($matches[0] as $i => $from) {
+                    $key = $matches[1][$i];
+                    $to = '(.+?)';
 
-                if (isset($def['patterns']) && isset($def['patterns'][$key])) {
-                    $to = '('.$def['patterns'][$key].')';
+                    if (isset($def['patterns']) && isset($def['patterns'][$key])) {
+                        $to = '('.$def['patterns'][$key].')';
+                    }
+
+                    $replaces[preg_quote($from, '/')] = $to;
                 }
 
-                $replaces[preg_quote($from, '/')] = $to;
-            }
+                $regex_pattern = '/^'.str_replace(array_keys($replaces), array_values($replaces), preg_quote($pattern, '/')).'$/';
 
-            $regex_pattern = '/^'.str_replace(array_keys($replaces), array_values($replaces), preg_quote($pattern, '/')).'$/';
+                if (preg_match($regex_pattern, $path, $match)) {
+                    $ret_action = $action;
 
-            if (preg_match($regex_pattern, $path, $match)) {
-                $action = $def['action'];
-
-                foreach ($request_keys as $i => $key) {
-                    if (isset($match[$i+1])) {
-                        $http_vars[$key] = $match[$i+1];
+                    foreach ($request_keys as $i => $key) {
+                        if (isset($match[$i+1])) {
+                            $http_vars[$key] = $match[$i+1];
+                        }
                     }
                 }
             }
         }
 
-        return $action;
+        return $ret_action;
     }
 
     /**
@@ -196,8 +198,10 @@ class Ethna_UrlHandler_Simple
         foreach ($this->action_map as &$def) {
             if (is_string($def)) {
                 $def = array(
-                    'action' => $def,
+                    'path' => array($def),
                 );
+            } else if (is_array($def) && isset($def['path']) && is_string($def['path'])) {
+                $def['path'] = array($def['path']);
             }
         }
 
