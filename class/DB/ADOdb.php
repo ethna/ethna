@@ -247,9 +247,9 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  @param mixed  $inputarr  プレースホルダ(スカラまたは配列)
      *  @return array $rows 第一カラムの値をキーとする連想配列
      */
-    public function getAssoc($query, $inputarr = false)
+    public function getAssoc($sql, $inputarr = false, $force_array = false, $first2cols = false)
     {
-        return $this->db->GetAssoc($query, $inputarr);
+        return $this->db->GetAssoc($sql, $inputarr, $force_array, $first2cols);
     }
 
 
