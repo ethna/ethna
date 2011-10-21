@@ -74,9 +74,9 @@ Renderer/View に関する変更点
   * Ethna_Plugin::import という，プラグインソースをincludeするための，staticメソッドを追加．
   * すべてのPluginの基底となる抽象クラス，Ethna_Plugin_Abstractを追加
 
-      * 既存のプラグインの親クラスを，Ethna_Plugin_Abstract を継承するように変更
-      * Plugin に設定を受け渡す方法を変更したため，etcのskelを変更。
-      * また、それに伴い，Ethna_Plugin_Cachemanager_Memcacheの設定方法を変更
+    * 既存のプラグインの親クラスを，Ethna_Plugin_Abstract を継承するように変更
+    * Plugin に設定を受け渡す方法を変更したため，etcのskelを変更。
+    * また、それに伴い，Ethna_Plugin_Cachemanager_Memcacheの設定方法を変更
 
   * Ethna_Plugin_Cachemanager に config からデフォルト の namespace を指定可能とした
   * pecl::memcached 版に対応した Ethna_Plugin_Cachemanager_Memcached のバンドル
@@ -84,28 +84,28 @@ Renderer/View に関する変更点
   * [Breaking B.C] プラグインに関する変更
   * [Breaking B.C] プラグインから名前空間を除去することで、複数アプリケーションでの利用を可能に
 
-      * 検索用のアプリケーションIDを削除した
-      * ファイル名の命名規則を変更
-      * extlibの設置
+    * 検索用のアプリケーションIDを削除した
+    * ファイル名の命名規則を変更
+    * extlibの設置
 
   * プラグイン関連のethnaコマンドを整理し、インストール、アンインストール関連コマンドは ethna pear-local コマンドに一本化
 
-      * channel-update (削除)
-      * info-plugin (削除)
-      * install-plugin (削除)
-      * uninstall-plugin (削除)
-      * upgrade-plugin (削除)
-      * list-plugin (削除)
+    * channel-update (削除)
+    * info-plugin (削除)
+    * install-plugin (削除)
+    * uninstall-plugin (削除)
+    * upgrade-plugin (削除)
+    * list-plugin (削除)
 
   * プラグインパッケージのスケルトンを生成するコマンドとして ethna create-plugin コマンドを追加
 
-      * 複数のtypeのプラグイン同時作成が可能に
-      * Ethnaプロジェクト内でのプラグインの自動生成が可能に
-      * ethna make-plugin-package との連動が可能に
+    * 複数のtypeのプラグイン同時作成が可能に
+    * Ethnaプロジェクト内でのプラグインの自動生成が可能に
+    * ethna make-plugin-package との連動が可能に
 
   * ethna create-plugin コマンドの出力から ethna make-plugin-package を実行できるようにコマンドを再実装
 
-      * これにより、複数のプラグインを含んだパッケージの作成が可能に
+    * これにより、複数のプラグインを含んだパッケージの作成が可能に
 
   * Debugtoolbar同梱 (extlibのサンプルとして。本体に取り込むほどのクオリティでもないためこちらに追加)
 
