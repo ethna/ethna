@@ -45,7 +45,9 @@ class Ethna_UrlHandler_Simple
         if (isset($action_map[$action])) {
             $def = $action_map[$action];
 
-            foreach ($def['path'] as $path) {
+            $paths = $this->sortPaths($def['path'], SORT_DESC);
+
+            foreach ($paths as $path) {
                 if (strpos($path, '{') && preg_match_all('/\{(.*?)\}/', $path, $matches)) {
                     $keys = array_unique($matches[1]);
                     $replaces = array();
@@ -61,7 +63,7 @@ class Ethna_UrlHandler_Simple
                         if (!is_null($val)) {
                             $replaces['{'.$key.'}'] = $val;
                         } else {
-                            continue;
+                            continue 2;
                         }
                     }
 
@@ -85,9 +87,10 @@ class Ethna_UrlHandler_Simple
     public function requestToAction($http_vars)
     {
         $path = '/';
+        $detected_action = null;
 
         if (isset($http_vars['__url_info__'])) {
-            $path = $http_vars['__url_info__'];
+            $path = $this->normalizePath($http_vars['__url_info__']);
         }
 
         foreach ($this->getActionMap() as $action => $def) {
@@ -96,15 +99,22 @@ class Ethna_UrlHandler_Simple
                     $action = $this->getActionByRegex($path, $action, $def, $http_vars);
 
                     if (!is_null($action)) {
-                        $http_vars['action_'.$action] = true;
+                        $detected_action = $action;
+                        break;
                     }
                 } else {
                     if ($path === $pattern) {
-                        $http_vars['action_'.$action] = true;
+                        $detected_action = $action;
                         break;
                     }
                 }
             }
+        }
+
+        if (is_null($detected_action)) {
+            $http_vars = array();
+        } else {
+            $http_vars = $this->buildActionParameter($http_vars, $detected_action);
         }
 
         return $http_vars;
@@ -131,7 +141,7 @@ class Ethna_UrlHandler_Simple
                 $replaces = array();
                 foreach ($matches[0] as $i => $from) {
                     $key = $matches[1][$i];
-                    $to = '(.+?)';
+                    $to = '([^\/]+?)';
 
                     if (isset($def['patterns']) && isset($def['patterns'][$key])) {
                         $to = '('.$def['patterns'][$key].')';
@@ -206,6 +216,57 @@ class Ethna_UrlHandler_Simple
         }
 
         return $this->action_map;
+    }
+
+    /**
+     *  ゲートウェイパスを正規化する
+     *
+     *  @access protected
+     */
+    protected function normalizePath($path)
+    {
+        if ($path == "") {
+            return array($path, false);
+        }
+
+        $path = preg_replace('|/+|', '/', $path);
+        $path = '/'.trim($path, '/');
+
+        return $path;
+    }
+
+    /**
+     * 引数順にソートする
+     *
+     * @access protected
+     */
+    protected function sortPaths(array $paths, $sort = SORT_ASC)
+    {
+        $counts = array();
+        foreach ($paths as $path) {
+            $counts[] = substr_count($path, '{');
+        }
+
+        array_multisort($paths, $sort, $counts);
+
+        return $paths;
+    }
+
+    /**
+     *  アクションをリクエストパラメータに変換する
+     *
+     *  @access protected
+     */
+    protected function buildActionParameter($http_vars, $action)
+    {
+        if ($action == "") {
+            return $http_vars;
+        }
+
+        $key = sprintf('action_%s', $action);
+        $http_vars[$key] = 'true';
+
+        return $http_vars;
     }
 }
 
