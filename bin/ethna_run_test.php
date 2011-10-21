@@ -105,7 +105,14 @@ if ($coverage) {
 
     $filter = PHP_CodeCoverage_Filter::getInstance();
     $filter->addDirectoryToBlacklist($base.'/test');
+    $filter->addDirectoryToBlacklist($base . '/src');
+    $filter->addDirectoryToBlacklist($base . '/bin');
     $filter->addFileToBlacklist(__FILE__);
+
+    require_once 'PEAR/Config.php';
+    $pear_config = PEAR_Config::singleton();
+    $pear_dir = $pear_config->get('php_dir');
+    $filter->addDirectoryToBlacklist($pear_dir);
 
     $code_coverage = new PHP_CodeCoverage();
     $code_coverage->start('ethna');
