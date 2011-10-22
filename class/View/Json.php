@@ -22,6 +22,7 @@ class Ethna_View_Json extends Ethna_ViewClass
     /**#@+
      *  @access private
      */
+    public $has_default_header = false;
 
     /**#@-*/
 
@@ -31,7 +32,7 @@ class Ethna_View_Json extends Ethna_ViewClass
      *  @access public
      *  @param  array  $encode_param  出力するJSONにエンコードする値
      */
-    public function preforward($encode_param = array())
+    public function preforward($encode_param = array(), $header = false)
     {
         $client_enc = $this->ctl->getClientEncoding();
         if (mb_enabled() && strcasecmp('UTF-8', $client_enc) != 0) {
@@ -39,7 +40,11 @@ class Ethna_View_Json extends Ethna_ViewClass
         }
         $encoded_param = json_encode($encode_param);
 
-        $this->header(array('Content-Type' => 'application/json; charset=UTF-8'));
+        if (!$header) {
+            $this->header(array('Content-Type' => 'application/json; charset=UTF-8'));
+        } else {
+            $this->header($header);
+        }
         echo $encoded_param;
     }
 
