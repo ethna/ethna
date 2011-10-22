@@ -35,9 +35,11 @@ Ethna本体に関する変更点
 
 DB に関する変更点
   * Creole 削除: メンテナンスされていないため、Creole は以後サポートしません。
+  * これまではADOdbのみで使われていたDSNのパースを、公式スペックとしました(PEAR_DBには直接渡されていたため)。ただし、このパーサが使われるかどうかは各DBドライバに依存します。
 
 UrlHandler に関する変更点
   * path_regexp が定義されている場合、path の定義は必須ではなくなりました (sf#19237)
+  * UrlHandler_Simple という軽量 UrlHandler を同梱しました (thx. riaf #17 on GitHub)
 
 Renderer/View に関する変更点
   * Smarty3 追加
@@ -108,6 +110,10 @@ Renderer/View に関する変更点
     * これにより、複数のプラグインを含んだパッケージの作成が可能に
 
   * Debugtoolbar同梱 (extlibのサンプルとして。本体に取り込むほどのクオリティでもないためこちらに追加)
+
+その他の変更
+  * Config に URL が設定されていない場合、アクセスされたURLから自動的に検出されるようになりました。(Ethna_Util::getUrlFromRequestUri())
+
 
 bug fix
 ^^^^^^^
