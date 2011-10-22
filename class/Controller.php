@@ -240,6 +240,10 @@ class Ethna_Controller
         $this->config = $this->getConfig();
         $this->dsn = $this->_prepareDSN();
         $this->url = $this->config->get('url');
+        if (empty($this->url) && PHP_SAPI != 'cli') {
+            $this->url = Ethna_Util::getUrlFromRequestUri();
+            $this->config->set('url', $this->url);
+        }
 
         // プラグインオブジェクトの用意
         $this->plugin = $this->getPlugin();

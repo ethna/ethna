@@ -933,5 +933,23 @@ class Ethna_Util
         return $r;
     }
     // }}}
+
+    /**
+     *  Site url from request uri (instead of a config)
+     */
+    public static function getUrlFromRequestUri()
+    {
+        if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)
+          || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
+        ) {
+          $protocol = 'https://';
+        }
+        else {
+          $protocol = 'http://';
+        }
+
+        $url = $protocol . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
+        return $url;
+    }
 }
 // }}}

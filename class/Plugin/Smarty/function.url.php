@@ -32,7 +32,7 @@ function smarty_function_url($params, &$smarty)
     }
     $query = $url_handler->buildQueryParameter($query);
 
-    $url = sprintf('%s%s', $config->get('url'), $path);
+    $url = sprintf('%s%s', $c->getUrl(), $path);
 
     if (preg_match('|^(\w+)://(.*)$|', $url, $match)) {
         if ($scheme) {
