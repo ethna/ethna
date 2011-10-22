@@ -51,7 +51,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 }
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '2.6.0-beta2');
+define('ETHNA_VERSION', '2.6.0-beta3');
 
 /**
  * ダミーのエラーモード
@@ -335,7 +335,7 @@ class Ethna
      *  またはそのサブクラスのオブジェクトかどうかチェックします。
      *
      *  @param mixed  $data    チェックする変数
-     *  @param mixed  $msgcode チェックするエラーメッセージまたはエラーコード  
+     *  @param mixed  $msgcode チェックするエラーメッセージまたはエラーコード
      *  @return mixed 変数が、Ethna_Error の場合に TRUEを返します。
      *                第2引数が設定された場合は、さらに 所与された $msgcode
      *                を含む場合のみ TRUEを返します。
@@ -450,7 +450,7 @@ class Ethna
 
     /**
      *  エラー発生時の処理を行う(コールバック関数/メソッドを呼び出す)
-     *  
+     *
      *  @access public
      *  @param  object  Ethna_Error     Ethna_Errorオブジェクト
      *  @static
@@ -467,7 +467,7 @@ class Ethna
 
                 // perform some more checks?
                 $object->$method($error);
-            } else {  
+            } else {
                 //  call statically
                 call_user_func($callback, $error);
             }
