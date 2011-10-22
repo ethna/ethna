@@ -57,7 +57,7 @@ class Ethna_DB
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function connect()
+    public function connect()
     {
     }
 
@@ -66,7 +66,7 @@ class Ethna_DB
      *
      *  @access public
      */
-    function disconnect()
+    public function disconnect()
     {
     }
 
@@ -76,7 +76,7 @@ class Ethna_DB
      *  @access public
      *  @return bool    true:正常(接続済み) false:エラー/未接続
      */
-    function isValid()
+    public function isValid()
     {
     }
 
@@ -86,7 +86,7 @@ class Ethna_DB
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function begin()
+    public function begin()
     {
     }
 
@@ -96,7 +96,7 @@ class Ethna_DB
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function rollback()
+    public function rollback()
     {
     }
 
@@ -106,7 +106,7 @@ class Ethna_DB
      *  @access public
      *  @return mixed   0:正常終了 Ethna_Error:エラー
      */
-    function commit()
+    public function commit()
     {
     }
 
@@ -117,7 +117,7 @@ class Ethna_DB
      *  @return mixed   array: PEAR::DBに準じたメタデータ
      *                  Ethna_Error::エラー
      */
-    function getMetaData()
+    public function getMetaData()
     {
         //   このメソッドはAppObject
         //   との連携に必要。
@@ -129,7 +129,7 @@ class Ethna_DB
      *  @access public
      *  @return string  DSN
      */
-    function getDSN()
+    public function getDSN()
     {
         return $this->dsn;
     }
