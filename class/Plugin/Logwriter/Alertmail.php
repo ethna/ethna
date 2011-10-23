@@ -38,7 +38,7 @@ class Ethna_Plugin_Logwriter_Alertmail extends Ethna_Plugin_Logwriter
     function setOption($option)
     {
         parent::setOption($option);
-        
+
         if (isset($option['mailaddress'])) {
             $this->mailaddress = preg_split('/\s*,\s*/',
                                             $option['mailaddress'],
@@ -110,7 +110,7 @@ class Ethna_Plugin_Logwriter_Alertmail extends Ethna_Plugin_Logwriter
             $bt = debug_backtrace();
             $message .= sprintf("--- [backtrace] ---\n%s\n", Ethna_Util::FormatBacktrace($bt));
         }
-        
+
         foreach ($this->mailaddress as $address) {
             mail($address,
                  $subject,

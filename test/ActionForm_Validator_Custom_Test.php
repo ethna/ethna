@@ -40,46 +40,46 @@ class Ethna_ActionForm_Validator_Custom_Test extends Ethna_UnitTestBase
         $this->af->set('input', 'hoge@fuga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', '-hoge@fuga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', '.hoge@fuga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', '+hoge@fuga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // @がない
         $this->af->set('input', 'hogefuga.et');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // @の前に文字がない
         $this->af->set('input', '@hogefuga.et');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // @の後に文字がない
         $this->af->set('input', 'hogefuga.net@');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // 先頭文字が許されていない
         $this->af->set('input', '%hoge@fuga.net');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // 末尾文字が許されていない
         $this->af->set('input', 'hoge@fuga.net.');
@@ -104,33 +104,33 @@ class Ethna_ActionForm_Validator_Custom_Test extends Ethna_UnitTestBase
 
         //   HTML フォームから入ってくる値は
         //   文字列型である。
-        //   @see http://www.php.net/manual/en/types.comparisons.php  
+        //   @see http://www.php.net/manual/en/types.comparisons.php
         $this->af->set('input', '0');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', '1');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         //   空文字列は false と見做すのが仕様
         $this->af->set('input', '');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // 0,1, 空文字列以外の値は全てエラー
         $this->af->set('input', 3);
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', "true");
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', "false");
         $this->af->validate();
@@ -155,34 +155,34 @@ class Ethna_ActionForm_Validator_Custom_Test extends Ethna_UnitTestBase
         $this->af->set('input', 'http://uga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', 'https://uga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', 'ftp://uga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', 'http://');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         //    空文字列はエラーにしないのが仕様
         $this->af->set('input', '');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // '/'が足りない
         $this->af->set('input', 'http:/');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         // 接頭辞がない
         $this->af->set('input', 'hoge@fuga.net');
@@ -208,64 +208,64 @@ class Ethna_ActionForm_Validator_Custom_Test extends Ethna_UnitTestBase
         $this->af->set('input', 'http://uga.net');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0x00));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0x79));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0x80));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0x8e));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0x8f));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0xae));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0xf8));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0xfd));
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         /* IBM拡張文字 / NEC選定IBM拡張文字 */
         //$c == 0xad || ($c >= 0xf9 && $c <= 0xfc)
         $this->af->set('input', chr(0xad));
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0xf9));
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0xfa));
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
+        $this->ae->clear();
 
         $this->af->set('input', chr(0xfc));
         $this->af->validate();

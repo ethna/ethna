@@ -3,7 +3,7 @@
 /**
  *  AddTemplate.php
  *
- *  @author     nnno <nnno@nnno.jp> 
+ *  @author     nnno <nnno@nnno.jp>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
  */
@@ -21,7 +21,7 @@ require_once 'Ethna/class/Plugin/Handle/AddView.php';
 class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle_AddView
 {
     /**
-     *  add template 
+     *  add template
      *
      *  @access public
      */
@@ -33,7 +33,7 @@ class Ethna_Plugin_Handle_AddTemplate extends Ethna_Plugin_Handle_AddView
                         'locale=',
                         'encoding=',
                   )
-              ); 
+              );
         if (Ethna::isError($r)) {
             return $r;
         }

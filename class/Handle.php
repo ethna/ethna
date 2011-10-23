@@ -138,7 +138,7 @@ class Ethna_Handle
         if ($ini_file === null) {
             return Ethna::raiseError('no .ethna file found');
         }
-        
+
         $macro = parse_ini_file($ini_file);
         if (isset($macro['controller_file']) == false
             || isset($macro['controller_class']) == false) {

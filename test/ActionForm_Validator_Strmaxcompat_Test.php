@@ -23,7 +23,7 @@ class Ethna_ActionForm_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
         $this->ae->clear();
     }
 
-    // {{{ Validator Max string(2.3.x compatible). 
+    // {{{ Validator Max string(2.3.x compatible).
     function test_Validate_Max_String_Compatible()
     {
         $form_def = array(
@@ -31,11 +31,11 @@ class Ethna_ActionForm_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
                           'form_type'     => FORM_TYPE_TEXT,
                           'required'      => true,
                           'strmaxcompat'  => '4',  // 半角4文字、全角2文字
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         //   in ascii.
-        $this->af->set('input', 'abcd'); 
+        $this->af->set('input', 'abcd');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();

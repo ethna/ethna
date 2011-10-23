@@ -23,7 +23,7 @@ class Ethna_Plugin_Validator_Strmin_Test extends Ethna_UnitTestBase
         $this->ctl = $ctl;
     }
 
-    // {{{ test min str 
+    // {{{ test min str
     function test_min_str()
     {
         $form_str = array(
@@ -42,7 +42,7 @@ class Ethna_Plugin_Validator_Strmin_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 
 }

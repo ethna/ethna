@@ -3,7 +3,7 @@
 /**
  *  CreatePlugin.php
  *
- *  @author     Yoshinari Takaoka <takaoka@beatcraft.com> 
+ *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
  *  @version    $Id$
@@ -13,7 +13,7 @@
 /**
  *  プラグインパッケージスケルトン生成クラス
  *
- *  @author     Yoshinari Takaoka <takaoka@beatcraft.com> 
+ *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @access     public
  *  @package    Ethna
  */
@@ -25,8 +25,8 @@ class Ethna_Plugin_Generator_CreatePlugin extends Ethna_Plugin_Generator
      *  @access public
      *  @param  string  $basedir        ベースディレクトリ
      *  @param  array   $types          プラグインのtype (Validator, Handle等)
-     *  @param  string  $forpackage     iniファイル生成フラグ 
-     *  @param  string  $plugin_name    プラグイン名 
+     *  @param  string  $forpackage     iniファイル生成フラグ
+     *  @param  string  $plugin_name    プラグイン名
      *  @return true|Ethna_Error        true:成功 Ethna_Error:失敗
      */
     function generate($basedir, $types = array(), $forpackage = false, $plugin_name)
@@ -69,7 +69,7 @@ class Ethna_Plugin_Generator_CreatePlugin extends Ethna_Plugin_Generator
         }
 
         //
-        //   Generate Plugin PHP File   
+        //   Generate Plugin PHP File
         //
         $plugin_name = ucfirst(strtolower($plugin_name));
         $lplugin_name = strtolower($plugin_name);
@@ -78,7 +78,7 @@ class Ethna_Plugin_Generator_CreatePlugin extends Ethna_Plugin_Generator
             $ltype = strtolower($type);
             $macro['plugin_type'] = $type;
             $plugin_file_skel = "plugin/skel.plugin.${ltype}.php";
-        
+
             //   create directory
             switch ($type) {
             case 'f':
@@ -120,14 +120,14 @@ class Ethna_Plugin_Generator_CreatePlugin extends Ethna_Plugin_Generator
             } else {
                 printf("plugin php file successfully created [%s]\n", $type_file_path);
             }
-        } 
+        }
 
         //   generate ini file
         if ($forpackage) {
             $ini_skel = 'plugin/skel.plugin.ini';
             $ini_file = strtolower($plugin_name) . '.ini';
             $ini_path = "$plugin_dir/$ini_file";
-        
+
             if (file_exists($ini_path)) {
                 printf("file [%s] already exists -> skip\n", $ini_file);
             } else if ($this->_generateFile($ini_skel, $ini_path, $macro) == false) {

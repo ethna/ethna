@@ -28,7 +28,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
     {
         global $argv;
         $argv = array('test.php', 'a', '-b=c', '--c=d', 'e');
-        
+
         $r = $this->opt->readPHPArgv();
         $this->assertEqual('test.php', $argv[0]);
         $this->assertEqual('a', $argv[1]);
@@ -46,7 +46,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $shortopt = 'a:';
         $r = $this->opt->getopt($args, $shortopt);
         $this->assertFalse(Ethna::isError($r));
- 
+
         // option -a is defined, but no args.
         $args = array('-a');
         $shortopt = 'a:';
@@ -54,7 +54,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $this->assertTrue(Ethna::isError($r));
         $this->assertEqual('option -a requires an argument', $r->getMessage());
 
-        // unknown option 
+        // unknown option
         $args = array('-c'); // -c is unknown.
         $shortopt = 'a:';
         $r = $this->opt->getopt($args, $shortopt);
@@ -100,7 +100,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $shortopt = 'a::';
         $r = $this->opt->getopt($args, $shortopt);
         $this->assertFalse(Ethna::isError($r));
- 
+
         // option -a is defined, but no args.
         $args = array('-a');
         $shortopt = 'a::';
@@ -119,7 +119,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
 
         $nonparsed_arg = array_shift($r);
         $this->assertEqual('e', $nonparsed_arg[0]);
- 
+
         // -a option value is none. b, c is nonparsed.
         $args = array('-a', 'b', 'c');
         $shortopt = 'a::';
@@ -141,7 +141,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $shortopt = 'a';
         $r = $this->opt->getopt($args, $shortopt);
         $this->assertFalse(Ethna::isError($r));
- 
+
         // option -a is defined, but no args.
         $args = array('-a');
         $shortopt = 'a';
@@ -181,7 +181,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $parsed_arg = array_shift($r);
         $this->assertEqual('a', $parsed_arg[0][0]);
         $this->assertNULL($parsed_arg[0][1]);
- 
+
         $nonparsed_arg = array_shift($r);
         $this->assertEqual('b', $nonparsed_arg[0]);
         $this->assertEqual('-c', $nonparsed_arg[1]);
@@ -241,7 +241,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $longopt = array("foo=");
         $r = $this->opt->getopt($args, $shortopt, $longopt);
         $this->assertFalse(Ethna::isError($r));
-    
+
         // option -a is defined, but no args.
         $args = array('--foo');
         $shortopt = NULL;
@@ -274,7 +274,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $this->assertTrue(Ethna::isError($r));
         $this->assertEqual('unrecognized option -a', $r->getMessage());
 
-        // --foo option value is bar. hoge is nonparsed. 
+        // --foo option value is bar. hoge is nonparsed.
         $args = array('--foo=bar', 'hoge');
         $shortopt = NULL;
         $longopt = array("foo=");
@@ -287,7 +287,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
 
         $nonparsed_arg = array_shift($r);
         $this->assertEqual('hoge', $nonparsed_arg[0]);
- 
+
         // --foo option value is bar. hoge, -fuga is nonparsed.
         $args = array('--foo', 'bar', 'hoge', '-fuga');
         $shortopt = NULL;
@@ -312,7 +312,7 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $longopt = array("foo==");
         $r = $this->opt->getopt($args, $shortopt, $longopt);
         $this->assertFalse(Ethna::isError($r));
- 
+
         // option --foo is defined, but no args.
         $args = array('--foo');
         $shortopt = NULL;
@@ -405,11 +405,11 @@ class Ethna_Getopt_Test extends Ethna_UnitTestBase
         $args = array();
         $r = $this->opt->getopt($args, $shortopt, $longopt);
         $this->assertFalse(Ethna::isError($r));
-        
+
         $args = array('-a', '--foo', 'bar', '--bar=moge', 'hoge', '--hoge');
         $r = $this->opt->getopt($args, $shortopt, $longopt);
         $this->assertFalse(Ethna::isError($r));
- 
+
         $parsed_arg = array_shift($r);
         $this->assertequal('a', $parsed_arg[0][0]);
         $this->assertNull($parsed_arg[0][1]);

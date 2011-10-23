@@ -14,10 +14,10 @@
  *  最大値チェックプラグイン
  *  (マルチバイト文字列(EUC_JP)用. Ethna 2.3.x までの互換性保持用)
  *
- *  NOTE: 
+ *  NOTE:
  *    - EUC_JP 専用のプラグインです。
- *    - クライアントエンコーディングがEUC_JP以外の場合は、入力を無条件でEUC_JPに変換します 
- *      (但し mbstringが入っていない場合は除く) 
+ *    - クライアントエンコーディングがEUC_JP以外の場合は、入力を無条件でEUC_JPに変換します
+ *      (但し mbstringが入っていない場合は除く)
  *    - エラーメッセージは、全角半角を区別したものが出力されます。
  *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>

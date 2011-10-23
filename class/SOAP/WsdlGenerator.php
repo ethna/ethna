@@ -145,7 +145,7 @@ EOD;
     </s:sequence>
    </s:complexType>\n
 EOD;
-        
+
         // アクション固有
         foreach ($this->controller->soap_action as $k => $v) {
             $action_form_name = $this->controller->getActionFormName($k);

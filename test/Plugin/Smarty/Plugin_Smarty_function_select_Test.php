@@ -37,7 +37,7 @@ class Ethna_Plugin_Smarty_function_select_Test extends Ethna_UnitTestBase
         ob_start();
         smarty_function_select($params, $dummy_smarty);
         $actual = ob_get_clean();
-        $this->assertEqual($expected, $actual); 
+        $this->assertEqual($expected, $actual);
 
         $params['empty'] = '-- please select --';
         $expected = "<select name=\"name\">\n"
@@ -48,7 +48,7 @@ class Ethna_Plugin_Smarty_function_select_Test extends Ethna_UnitTestBase
         ob_start();
         smarty_function_select($params, $dummy_smarty);
         $actual = ob_get_clean();
-        $this->assertEqual($expected, $actual); 
+        $this->assertEqual($expected, $actual);
     }
     // }}}
 }

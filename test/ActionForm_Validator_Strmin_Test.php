@@ -23,7 +23,7 @@ class Ethna_ActionForm_Validator_Strmin_Test extends Ethna_UnitTestBase
         $this->ae->clear();
     }
 
-    // {{{ Validator Min Single byte String. 
+    // {{{ Validator Min Single byte String.
     function test_Validate_SingleByteMin_String()
     {
         $form_def = array(
@@ -31,11 +31,11 @@ class Ethna_ActionForm_Validator_Strmin_Test extends Ethna_UnitTestBase
                           'form_type'     => FORM_TYPE_TEXT,
                           'required'      => true,
                           'strmin'      => '3',
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         //   in ascii.
-        $this->af->set('input', 'abc'); 
+        $this->af->set('input', 'abc');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();

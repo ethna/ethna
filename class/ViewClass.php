@@ -143,7 +143,7 @@ class Ethna_ViewClass
      *  ここで設定する(例:セレクトボックス等)
      *
      *  @access public
-     *  @param  mixed  $params  アクションクラスから返された引数 
+     *  @param  mixed  $params  アクションクラスから返された引数
      *                          array('forward_name', $param) の形でアクション
      *                          から値を返すことで、$params に値が渡されます。
      */
@@ -308,7 +308,7 @@ class Ethna_ViewClass
     /**
      *  レイアウトテンプレートのファイル名を設定します。
      *  レイアウトテンプレートは、HTML の外枠を設定するのに使用します。
-     *  
+     *
      *  @param string $filename  レイアウトファイル名
      *  @access public
      */
@@ -327,7 +327,7 @@ class Ethna_ViewClass
     // {{{ getLayout
     /**
      *  レイアウトテンプレートファイル名を取得します。
-     *  
+     *
      *  @return string  レイアウトテンプレートのファイル名
      *  @access public
      */
@@ -370,7 +370,7 @@ class Ethna_ViewClass
     }
     // }}}
 
-    // {{{ error 
+    // {{{ error
     /**
      *  エラーページ出力用のHTTPステータスコードを指定します。
      *
@@ -381,7 +381,7 @@ class Ethna_ViewClass
     {
         $this->header($code);
 
-        // template 以下に error404.tpl とかがあれば， 
+        // template 以下に error404.tpl とかがあれば，
         // preforward で $this->error(404); とかすればいい
         $this->forward_path = "error{$code}.tpl";
     }
@@ -671,7 +671,7 @@ class Ethna_ViewClass
         } else if (is_array($source)) {
             return $source;
         }
-        
+
         // 選択肢を取得
         $options = null;
         $split = array_map("trim", explode(',', $source));
@@ -714,7 +714,7 @@ class Ethna_ViewClass
     protected function _getFormInput_Button($name, $def, $params)
     {
         $params['type'] = 'button';
-        
+
         if (isset($def['type'])) {
             $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
         } else {

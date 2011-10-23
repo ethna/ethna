@@ -110,9 +110,9 @@ class Ethna_Renderer
 
     /**
      *  テンプレートエンジンを取得する
-     * 
+     *
      *  @return object   Template Engine.
-     * 
+     *
      *  @access public
      */
     function getEngine()
@@ -122,9 +122,9 @@ class Ethna_Renderer
 
     /**
      *  テンプレートディレクトリを取得する
-     * 
+     *
      *  @return string   Template Directory
-     * 
+     *
      *  @access public
      */
     function getTemplateDir()
@@ -134,11 +134,11 @@ class Ethna_Renderer
 
     /**
      *  テンプレート変数を取得する
-     * 
+     *
      *  @param string $name  変数名
-     * 
+     *
      *  @return mixed    変数
-     * 
+     *
      *  @access public
      */
     function getProp($name)
@@ -152,9 +152,9 @@ class Ethna_Renderer
 
     /**
      *  テンプレート変数を削除する
-     * 
+     *
      *  @param name    変数名
-     * 
+     *
      *  @access public
      */
     function removeProp($name)
@@ -166,9 +166,9 @@ class Ethna_Renderer
 
     /**
      *  テンプレート変数に配列を割り当てる
-     * 
+     *
      *  @param array $array
-     * 
+     *
      *  @access public
      */
     function setPropArray($array)
@@ -178,9 +178,9 @@ class Ethna_Renderer
 
     /**
      *  テンプレート変数に配列を参照として割り当てる
-     * 
+     *
      *  @param array $array
-     * 
+     *
      *  @access public
      */
     function setPropArrayByRef(&$array)
@@ -195,10 +195,10 @@ class Ethna_Renderer
 
     /**
      * テンプレート変数を割り当てる
-     * 
+     *
      * @param string $name 変数名
      * @param mixed $value 値
-     * 
+     *
      * @access public
      */
     function setProp($name, $value)
@@ -208,10 +208,10 @@ class Ethna_Renderer
 
     /**
      *  テンプレート変数に参照を割り当てる
-     * 
+     *
      *  @param string $name 変数名
      *  @param mixed $value 値
-     * 
+     *
      *  @access public
      */
     function setPropByRef($name, &$value)
@@ -221,9 +221,9 @@ class Ethna_Renderer
 
     /**
      *  テンプレートを割り当てる
-     * 
+     *
      *  @param string $template テンプレート名
-     * 
+     *
      *  @access public
      */
     function setTemplate($template)
@@ -233,9 +233,9 @@ class Ethna_Renderer
 
     /**
      *  テンプレートディレクトリを割り当てる
-     * 
+     *
      *  @param string $dir ディレクトリ名
-     * 
+     *
      *  @access public
      */
     function setTemplateDir($dir)
@@ -246,12 +246,12 @@ class Ethna_Renderer
             $this->template_dir .= '/';
         }
     }
-    
+
     /**
      *  テンプレートの有無をチェックする
-     * 
+     *
      *  @param string $template テンプレート名
-     * 
+     *
      *  @access public
      */
     function templateExists($template)
@@ -265,11 +265,11 @@ class Ethna_Renderer
 
     /**
      *  プラグインをセットする
-     * 
+     *
      *  @param string $name　プラグイン名
      *  @param string $type プラグインタイプ
      *  @param string $plugin プラグイン本体
-     * 
+     *
      *  @access public
      */
     function setPlugin($name, $type, $plugin)

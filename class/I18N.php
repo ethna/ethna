@@ -33,7 +33,7 @@ function _et($message)
     return $i18n->get($message);
 }
 // }}}
- 
+
 // {{{ Ethna_I18N
 /**
  *  i18n関連の処理を行うクラス
@@ -94,7 +94,7 @@ class Ethna_I18N
         $this->logger = $this->ctl->getLogger();
         $this->use_gettext = $config->get('use_gettext') ? true : false;
 
-        //    gettext load check. 
+        //    gettext load check.
         if ($this->use_gettext === true
          && !extension_loaded("gettext")) {
             $this->logger->log(LOG_WARNING,
@@ -105,7 +105,7 @@ class Ethna_I18N
 
         $this->messages = false;  //  not initialized yet.
     }
-    
+
     /**
      *  タイムゾーンを設定する PHP 5.1.0 以前では
      *  無意味なので呼ぶ必要がありません。
@@ -120,7 +120,7 @@ class Ethna_I18N
         //   date.timezone 設定は PHP 5.1.0 以降でのみ
         //   利用可能
         ini_set('date.timezone', $timezone);
-    } 
+    }
 
     /**
      *  ロケール、言語設定を設定する
@@ -131,7 +131,7 @@ class Ethna_I18N
      *  @param  string  $systemencoding システムエンコーディング名
      *  @param  string  $clientencoding クライアントエンコーディング名
      *                                  (=テンプレートのエンコーディングと考えてよい)
-     *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html 
+     *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html
      */
     public function setLanguage($locale, $systemencoding = null, $clientencoding = null)
     {
@@ -196,7 +196,7 @@ class Ethna_I18N
                 //  setting IS NOT UTF-8.
                 //
                 //  @see Ethna_Controller#_getDefaultLanguage
-                // 
+                //
                 if (strcasecmp($this->clientencoding, 'UTF-8') !== 0) {
                     return mb_convert_encoding($ret_message, $this->clientencoding, 'UTF-8');
                 }
@@ -221,9 +221,9 @@ class Ethna_I18N
      *     するのであれば、potファイルを生成する。
      *  4. ethna_sysmsg.ini は単純な ini ファイル形式とし、
      *     "msgid" = "translation" の形式とする。エンコーディングは一律 UTF-8
-     * 
-     *  @access  private 
-     *  @return  array     読み込んだメッセージカタログ。失敗した場合は空の配列 
+     *
+     *  @access  private
+     *  @return  array     読み込んだメッセージカタログ。失敗した場合は空の配列
      */
     private function _makeEthnaMsgCatalog()
     {
@@ -243,13 +243,13 @@ class Ethna_I18N
             //   use skelton.
             $this->logger->log(LOG_NOTICE,
                                "Message directory was not found!! : $msg_dir,"
-                             . " Use skelton file Instead"); 
+                             . " Use skelton file Instead");
             $msg_dir = sprintf("%s/skel/locale/%s", ETHNA_BASE, $this->locale);
             if (!file_exists($msg_dir)) {  // last fallback.
                 $msg_dir = sprintf("%s/skel/locale", ETHNA_BASE);
             }
         }
-                     
+
         //  localeディレクトリ内のファイルを読み込み、parseする
         $msg_dh = opendir($msg_dir);
         while (($file = readdir($msg_dh)) !== false) {
@@ -260,7 +260,7 @@ class Ethna_I18N
             $messages = $this->parseEthnaMsgCatalog($msg_file);
             $ret_messages = array_merge($ret_messages, $messages);
         }
-        
+
         return $ret_messages;
     }
 
@@ -269,7 +269,7 @@ class Ethna_I18N
      *
      *  @access  public
      *  @param   string    メッセージカタログファイル名
-     *  @return  array     読み込んだメッセージカタログ。失敗した場合は空の配列 
+     *  @return  array     読み込んだメッセージカタログ。失敗した場合は空の配列
      */
     public function parseEthnaMsgCatalog($file)
     {
@@ -288,7 +288,7 @@ class Ethna_I18N
             return $messages;
         }
 
-        $quote = 0;                   // ダブルクオートの数 
+        $quote = 0;                   // ダブルクオートの数
         $in_translation_line = false; // 翻訳行をパース中か否か
         $before_is_quote = false;     // 直前の文字がクォート文字(\)か否か
         $equal_op = 0;                // 等値演算子の数
@@ -322,11 +322,11 @@ class Ethna_I18N
                                          // for文に戻る = 次の文字へ
                         }
                         //  クォートされた「"」
-                        $before_is_quote = false;         
-                        break; 
+                        $before_is_quote = false;
+                        break;
                     case '=':
                         //  等値演算子は文法的にvalidかどうかを確
-                        //  認する手段でしかない 
+                        //  認する手段でしかない
                         if ($quote == 2) {
                             $equal_op++;
                         }
@@ -341,7 +341,7 @@ class Ethna_I18N
                             $before_is_quote = false;
                         }
                         if ($quote == 4) {
-                            $is_end = true;   
+                            $is_end = true;
                         }
                 }
 
@@ -358,33 +358,33 @@ class Ethna_I18N
                     $msgstr .= $line[$pos];
                 }
             }
-        
+
             //  一行分のパース終了
             if ($is_end == false) {
                 //  翻訳行がまだ終わってない場合次の行へ
                 continue;
-            } elseif ($equal_op != 1 || $quote != 4) { 
+            } elseif ($equal_op != 1 || $quote != 4) {
                 //  終わっているが、valid な翻訳行でない場合
                 $this->logger->log(LOG_WARNING,
                                    "invalid message catalog in {$file}, line " . ($idx + 1)
                 );
-                continue; 
-            } 
+                continue;
+            }
 
             //  カタログに追加
             $msgid = preg_replace('#\\\"#', '"', $msgid);
             $msgstr = preg_replace('#\\\"#', '"', $msgstr);
-            $messages[$msgid] = $msgstr; 
+            $messages[$msgid] = $msgstr;
 
             //  パース用変数をリセット
-            $quote = 0;                   
+            $quote = 0;
             $in_translation_line = false;
             $before_is_quote = false;
             $equal_op = 0;
             $is_end = false;
             $msgid = $msgstr = '';
         }
-        
+
         return $messages;
     }
 }

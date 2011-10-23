@@ -31,13 +31,13 @@ class Ethna_Plugin_Generator_Template extends Ethna_Plugin_Generator
      */
     function generate($forward_name, $skelton = null, $locale, $encoding)
     {
-        //  ロケールが指定された場合は、それを優先する 
+        //  ロケールが指定された場合は、それを優先する
         if (!empty($locale)) {
             $this->ctl->setLocale($locale);
         }
 
         //  ロケール名がディレクトリに含まれていない場合は、
-        //  ディレクトリがないためなのでそれを補正 
+        //  ディレクトリがないためなのでそれを補正
         $tpl_dir = $this->ctl->getTemplatedir();
         $tpl_path = $this->ctl->getDefaultForwardPath($forward_name);
 

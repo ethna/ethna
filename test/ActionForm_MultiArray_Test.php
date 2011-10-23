@@ -9,7 +9,7 @@
 
 // {{{  Ethna_MultiArrayTest_ActionForm
 /**
- *  Test ActionForm (MultiDimentional Array) 
+ *  Test ActionForm (MultiDimentional Array)
  *
  *  @access public
  */
@@ -55,13 +55,13 @@ class Ethna_MultiArrayTest_ActionForm extends Ethna_ActionForm
         ),
 
         //  自動で番号を割り当てるフォームには
-        //  対応していない 
+        //  対応していない
         //
         //  [] でフォーム定義をすると、数字としては解釈されず、
         //  空のキーとして解釈される
         //  数値を補正しようとすると、他に[]として定義されている
         //  全フォーム定義を調べなければならなくなる上、順番も保証
-        //  できないため、対応していないのは仕様とする 
+        //  できないため、対応していないのは仕様とする
         'invalid[][data1][data2]' => array(
             'name'          => '対応していない多次元フォーム定義',
             'required'      => true,
@@ -94,7 +94,7 @@ class Ethna_MultiArrayTest_ActionForm extends Ethna_ActionForm
         ),
     );
 }
-// }}} 
+// }}}
 
 // {{{  Ethna_ActionForm_MultiArray_Test
 class Ethna_ActionForm_MultiArray_Test extends Ethna_UnitTestBase
@@ -104,7 +104,7 @@ class Ethna_ActionForm_MultiArray_Test extends Ethna_UnitTestBase
     function setUp()
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->local_af = new Ethna_MultiArrayTest_ActionForm($this->ctl); 
+        $this->local_af = new Ethna_MultiArrayTest_ActionForm($this->ctl);
         $this->local_af->clearFormVars();
         $this->ae->clear();
     }
@@ -169,7 +169,7 @@ class Ethna_ActionForm_MultiArray_Test extends Ethna_UnitTestBase
         $this->assertEqual($artist0, '宮崎あおい');
         $this->assertEqual($artist1, 'PHPの貴公子');
         $this->assertEqual($artist2, '北海道の若頭');
-        
+
         //  2. 階層の途中から値を取り出す
         $artists = $this->local_af->get('Artist[name]');
         $this->assertEqual($artists[0], '宮崎あおい');
@@ -221,7 +221,7 @@ class Ethna_ActionForm_MultiArray_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{  set 
+    // {{{  set
     function test_set()
     {
         // 1. 最下層のキーまで指定して値をセットする

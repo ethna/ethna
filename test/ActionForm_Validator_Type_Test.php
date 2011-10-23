@@ -23,25 +23,25 @@ class Ethna_ActionForm_Validator_Type_Test extends Ethna_UnitTestBase
         $this->ae->clear();
     }
 
-    // {{{ Validator Type Integer. 
+    // {{{ Validator Type Integer.
     function test_Validate_Type_Integer()
     {
         $form_def = array(
                         'type' => VAR_TYPE_INT,
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         $this->af->set('input', 5);
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();
 
         //    null の値はTypeではチェックしない
-        $this->af->set('input', null); 
+        $this->af->set('input', null);
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();
- 
+
         $this->af->set('input', 6.5);
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
@@ -53,15 +53,15 @@ class Ethna_ActionForm_Validator_Type_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ Validator Type Float. 
+    // {{{ Validator Type Float.
     function test_Validate_Type_Float()
     {
         $form_def = array(
                         'type' => VAR_TYPE_FLOAT,
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
-        $this->af->set('input', 4.999999); 
+
+        $this->af->set('input', 4.999999);
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();
@@ -83,15 +83,15 @@ class Ethna_ActionForm_Validator_Type_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ Validator Type Datetime. 
+    // {{{ Validator Type Datetime.
     function test_Validate_Type_DateTime()
     {
         $form_def = array(
                         'type' => VAR_TYPE_DATETIME,
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
-        $this->af->set('input', '1999-12-31'); 
+
+        $this->af->set('input', '1999-12-31');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();
@@ -114,16 +114,16 @@ class Ethna_ActionForm_Validator_Type_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ Validator Type String. 
+    // {{{ Validator Type String.
     function test_Validate_Min_String()
     {
         $form_def = array(
                         'type' => VAR_TYPE_STRING,
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         //   in ascii.
-        $this->af->set('input', 'abcd'); 
+        $this->af->set('input', 'abcd');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();

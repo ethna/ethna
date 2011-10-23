@@ -17,7 +17,7 @@ if (defined('UPLOAD_ERR_OK') == false) {
 // {{{ Ethna_Plugin_Validator
 /**
  *  バリデータプラグインの基底クラス
- *  
+ *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @access     public
  *  @package    Ethna

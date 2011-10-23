@@ -72,7 +72,7 @@ class Ethna_SOAP_Gateway
         if ($action_error->count() == 0) {
             return null;
         }
-        
+
         // 最初の1つを返す
         $error_list = $action_error->getErrorList();
         $error = $error_list[0];

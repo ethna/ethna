@@ -57,7 +57,7 @@ class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ check Type Float 
+    // {{{ check Type Float
     function test_Check_Type_Float()
     {
         $form_float = array(
@@ -85,7 +85,7 @@ class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ check Type Boolean 
+    // {{{ check Type Boolean
     function test_Check_Type_Boolean()
     {
         $form_boolean = array(
@@ -119,9 +119,9 @@ class Ethna_Plugin_Validator_Type_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ check Type Datetime 
+    // {{{ check Type Datetime
     function test_Check_Type_Datetime()
-    { 
+    {
         $form_datetime = array(
             'type'          => VAR_TYPE_DATETIME,
             'required'      => true,

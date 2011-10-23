@@ -76,7 +76,7 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ test form type select 
+    // {{{ test form type select
     function test_formselect()
     {
         $form_select = array(
@@ -185,7 +185,7 @@ class Ethna_Plugin_Validator_Required_Test extends Ethna_UnitTestBase
     }
     //  }}}
 
-    // {{{ test form type checkbox 
+    // {{{ test form type checkbox
     function test_formcheckbox()
     {
         $form_checkbox = array(

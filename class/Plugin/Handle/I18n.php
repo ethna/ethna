@@ -3,7 +3,7 @@
 /**
  *  I18n.php
  *
- *  @author     Yoshinari Takaoka <takaoka@beatcraft.com> 
+ *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *  @package    Ethna
  *  @version    $Id$
@@ -51,7 +51,7 @@ class Ethna_Plugin_Handle_I18n extends Ethna_Plugin_Handle
                 return Ethna::raiseError("You specified locale, but invalid : $locale", 'usage');
             }
         } else {
-            $locale = 'ja_JP';  //  default locale. 
+            $locale = 'ja_JP';  //  default locale.
         }
 
         //  use gettext ?

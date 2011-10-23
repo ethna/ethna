@@ -68,7 +68,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 return $true;
             }
         }
-                
+
         // 配列の場合
         $valid_keys = array();
         if ($var != null) {

@@ -48,7 +48,7 @@ class Ethna_Plugin_Handle_Help extends Ethna_Plugin_Handle
 
         // getHandler
         $handler = $this->eh->getHandler($handle_name);
-        if (Ethna::isError($handler) || $handler === false) { 
+        if (Ethna::isError($handler) || $handler === false) {
             // command not found
             return Ethna::raiseError('command not found.', 'usage');
         }

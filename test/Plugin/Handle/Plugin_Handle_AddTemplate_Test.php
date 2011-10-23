@@ -15,7 +15,7 @@ require_once ETHNA_BASE . '/test/MockProject.php';
  *
  *  @access public
  */
-class Ethna_Plugin_Handle_AddTemplate_Test extends Ethna_UnitTestBase 
+class Ethna_Plugin_Handle_AddTemplate_Test extends Ethna_UnitTestBase
 {
     var $proj;
 
@@ -24,7 +24,7 @@ class Ethna_Plugin_Handle_AddTemplate_Test extends Ethna_UnitTestBase
         $this->proj = new Ethna_MockProject();
         $r = $this->proj->create();
         if (Ethna::isError($r)) {
-            $this->fail($r->getMessage());    
+            $this->fail($r->getMessage());
         }
     }
 
@@ -35,14 +35,14 @@ class Ethna_Plugin_Handle_AddTemplate_Test extends Ethna_UnitTestBase
 
     function test_template_dir_exists()
     {
-        $ctl = $this->proj->getController(); 
+        $ctl = $this->proj->getController();
 
-        //    default locale 
+        //    default locale
         $r = $this->proj->runCmd('add-template', array('test'));
         $template_dir = $ctl->getTemplatedir();
         $this->assertTrue(file_exists($template_dir));
 
-        //    new locale 
+        //    new locale
         $r = $this->proj->runCmd('add-template', array('-l', 'en_US', 'test'));
         $template_dir = $ctl->getTemplatedir();
         $this->assertTrue(file_exists($template_dir));

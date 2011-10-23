@@ -42,7 +42,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
         }
         list($opt_list, $arg_list) = $r;
 
-        //  plugin directory path 
+        //  plugin directory path
         $plugin_dir = array_shift($arg_list);
         if (empty($plugin_dir)) {
             return Ethna::raiseError('plugin directory path is not set.', 'usage');
@@ -103,7 +103,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
               . "usage: pear install -a pear/PackageFileManager2 "
             );
         }
- 
+
         require_once 'PEAR/PackageFileManager2.php';
         require_once 'PEAR/PackageFileManager/File.php';
 
@@ -251,7 +251,7 @@ class Ethna_Plugin_Handle_MakePluginPackage extends Ethna_Plugin_Handle
     function getUsage()
     {
         return <<<EOS
-    {$this->id} [-b|--basedir=dir] [-i|--ini-file-path=file] [plugin_directory_path] 
+    {$this->id} [-b|--basedir=dir] [-i|--ini-file-path=file] [plugin_directory_path]
 EOS;
     }
     // }}}
@@ -264,7 +264,7 @@ EOS;
     {
         return <<<EOS
 make plugin package:
-    {$this->id} [-b|--basedir=dir] [-i|--ini-file-path=file] [plugin_directory_path] 
+    {$this->id} [-b|--basedir=dir] [-i|--ini-file-path=file] [plugin_directory_path]
 EOS;
     }
     // }}}

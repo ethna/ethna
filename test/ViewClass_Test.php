@@ -93,7 +93,7 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
         $headers_sent = headers_list();
         $expected = 'X-PHP-Framework: Ethna 3000';
         $this->assertNotA(array_search($expected, $headers_sent), false);
-        
+
     }
 
     function test_header_string()
@@ -142,7 +142,7 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
         $return = $view->setLayout('fake');
         $this->assertTrue(Ethna::isError($return));
 
-        //  valid layout file test. 
+        //  valid layout file test.
         $return = $view->setLayout('index');
         $this->assertFalse(Ethna::isError($return));
     }
@@ -159,7 +159,7 @@ class Ethna_ViewClass_Test extends Ethna_UnitTestBase
         $project->create();
         $ctl = $project->getController()->getBackend();
         $view = new MockProject_ViewClass($ctl, 'dummy', 'dummy.tpl');
-        
+
         $this->assertTrue($view->templateExists('index.tpl'));
         $this->assertFalse($view->templateExists('dummy.tpl'));
 

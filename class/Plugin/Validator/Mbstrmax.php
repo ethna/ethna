@@ -16,7 +16,7 @@
  *  NOTE:
  *      - mbstring を有効にしておく必要があります。
  *      - エラーメッセージは、全角半角を区別しません。
- * 
+ *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @access     public
  *  @package    Ethna

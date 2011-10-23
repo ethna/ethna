@@ -13,10 +13,10 @@
 /**
  *  最小値チェックプラグイン (シングルバイト文字列用)
  *
- *  NOTE: 
+ *  NOTE:
  *    - mbstring 不要
  *    - エラーメッセージは、全角半角を区別しません。
- * 
+ *
  *  @author     Yoshinari Takaoka <takaoka@beatcraft.com>
  *  @access     public
  *  @package    Ethna

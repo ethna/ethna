@@ -108,7 +108,7 @@ class Ethna_View_List extends Ethna_ViewClass
     {
         return $value;
     }
-    
+
     /**
      *  ナビゲーション情報を取得する
      *

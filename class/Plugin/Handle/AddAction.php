@@ -77,7 +77,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
         } else {
             $skelfile = null;
         }
-        
+
         // gateway
         if (isset($opt_list['gateway'])) {
             $gateway = 'GATEWAY_' . strtoupper(end($opt_list['gateway']));
@@ -89,7 +89,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
         } else {
             $gateway = GATEWAY_WWW;
         }
-        
+
         //  possible target is Action, View.
         $r = Ethna_Generator::generate($target, $basedir,
                                         $target_name, $skelfile, $gateway);
@@ -111,7 +111,7 @@ class Ethna_Plugin_Handle_AddAction extends Ethna_Plugin_Handle
                 printf("error occurred while generating action test skelton. please see also following error message(s)\n\n");
                 return $r;
             }
-        }  
+        }
 
         $true = true;
         return $true;

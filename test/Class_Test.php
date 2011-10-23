@@ -78,10 +78,10 @@ class Ethna_Class_Test extends Ethna_UnitTestBase
         $error = Ethna::raiseError('Error!!!!!');
         $this->assertEqual('Error!!!!!', $error->getMessage());
         $this->assertEqual(E_USER_ERROR, $error->getLevel());
-        $this->assertEqual(E_GENERAL, $error->getCode());     
+        $this->assertEqual(E_GENERAL, $error->getCode());
 
         $error = Ethna::raiseError('Error', E_CACHE_GENERAL);
-        $this->assertEqual(E_CACHE_GENERAL, $error->getCode());     
+        $this->assertEqual(E_CACHE_GENERAL, $error->getCode());
     }
     // }}}
 
@@ -91,10 +91,10 @@ class Ethna_Class_Test extends Ethna_UnitTestBase
         $error = Ethna::raiseWarning('Error!!!!!');
         $this->assertEqual('Error!!!!!', $error->getMessage());
         $this->assertEqual(E_USER_WARNING, $error->getLevel());
-        $this->assertEqual(E_GENERAL, $error->getCode());     
+        $this->assertEqual(E_GENERAL, $error->getCode());
 
         $error = Ethna::raiseWarning('Error!!!!!', E_CACHE_GENERAL);
-        $this->assertEqual(E_CACHE_GENERAL, $error->getCode());     
+        $this->assertEqual(E_CACHE_GENERAL, $error->getCode());
     }
     // }}}
 
@@ -104,10 +104,10 @@ class Ethna_Class_Test extends Ethna_UnitTestBase
         $error = Ethna::raiseNotice('Error!!!!!');
         $this->assertEqual('Error!!!!!', $error->getMessage());
         $this->assertEqual(E_USER_NOTICE, $error->getLevel());
-        $this->assertEqual(E_GENERAL, $error->getCode());     
+        $this->assertEqual(E_GENERAL, $error->getCode());
 
         $error = Ethna::raiseNotice('Error!!!!!', E_CACHE_GENERAL);
-        $this->assertEqual(E_CACHE_GENERAL, $error->getCode());     
+        $this->assertEqual(E_CACHE_GENERAL, $error->getCode());
     }
     // }}}
 
@@ -129,7 +129,7 @@ class Ethna_Class_Test extends Ethna_UnitTestBase
         $this->assertNULL($GLOBALS['_dummy_error_callback_global']);
         $this->assertNULL($this->dummy_error_value_class);
 
-        //   string の場合はグローバル関数 
+        //   string の場合はグローバル関数
         Ethna::setErrorCallback('dummy_error_callback_global');
         Ethna::raiseError('dummy_error_global!!!');
         $this->assertEqual('dummy_error_global!!!', $GLOBALS['_dummy_error_callback_global']);
@@ -137,7 +137,7 @@ class Ethna_Class_Test extends Ethna_UnitTestBase
 
     function test_error_callback_mixed()
     {
-        //   string の場合はグローバル関数 
+        //   string の場合はグローバル関数
         Ethna::setErrorCallback('dummy_error_callback_global');
         Ethna::setErrorCallback(array(&$this, 'dummy_error_callback_obj'));
         Ethna::raiseError('dummy_error_global!!!');

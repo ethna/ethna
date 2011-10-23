@@ -52,7 +52,7 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
         $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
         $this->assertEqual(E_FORM_MAX_INT,$pear_error->getCode());
         $this->assertEqual($form_int['error'], $pear_error->getMessage());
-    } 
+    }
     // }}}
 
     // {{{ test max float
@@ -120,7 +120,7 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
         // multibyte string.
         $pear_error = $this->vld->validate('namae_string', 'ああ', $form_string);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
- 
+
         $pear_error = $this->vld->validate('namae_string', 'あああ', $form_string);
         $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
     }

@@ -46,13 +46,13 @@ class Ethna_Plugin_Handle_AddEntryPoint extends Ethna_Plugin_Handle_AddAction
 
         // add entry point
         $ret = $this->_perform('EntryPoint', $action_name, $opt_list);
-        if (Ethna::isError($ret) || $ret === false) { 
+        if (Ethna::isError($ret) || $ret === false) {
             return $ret;
         }
 
         // add action (no effects if already exists.)
         $ret = $this->_perform('Action', $action_name, $opt_list);
-        if (Ethna::isError($ret) || $ret === false) { 
+        if (Ethna::isError($ret) || $ret === false) {
             return $ret;
         }
 

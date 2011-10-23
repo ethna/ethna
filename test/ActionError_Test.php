@@ -25,9 +25,9 @@ class Ethna_ActionError_Test extends Ethna_UnitTestBase
     {
         $this->ae = new Ethna_ActionError();
         $this->error_form_name = "hoge";
-        $this->message = "test error";    
+        $this->message = "test error";
         $this->error_form_name1 = "tititi";
-        $this->message1 = "test error1";    
+        $this->message1 = "test error1";
 
         $this->error_obj = new Ethna_Error(
                                $this->message1,
@@ -81,8 +81,8 @@ class Ethna_ActionError_Test extends Ethna_UnitTestBase
                          $this->error_form_name1
                      );
 
-        $this->assertEqual($this->message, $error_msg); 
-        $this->assertEqual($this->message1, $error_msg1); 
+        $this->assertEqual($this->message, $error_msg);
+        $this->assertEqual($this->message1, $error_msg1);
     }
 
     function test_clear()

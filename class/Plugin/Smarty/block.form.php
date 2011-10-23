@@ -38,7 +38,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
             $ethna_action = $params['ethna_action'];
             $view = $c->getView();
             $view->addActionFormHelper($ethna_action, true);
-        }  
+        }
 
         // ここで返す値は出力されない
         return '';

@@ -70,7 +70,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
         // エラーコードの検査
         $msg = '';
         switch ($var['error']) {
-        case UPLOAD_ERR_INI_SIZE: 
+        case UPLOAD_ERR_INI_SIZE:
             $msg = _et("Uploaded file size exceeds php.ini's upload_max_filesize directive.");
             break;
         case UPLOAD_ERR_FORM_SIZE:
@@ -140,7 +140,7 @@ class Ethna_Plugin_Validator_File extends Ethna_Plugin_Validator
                 $wanted_mime = explode('/', $type, 2);
                 $test = (count($wanted_mime) == 1)
                         ? (strcasecmp($wanted_mime[0], $posted_mime[0]) == 0)
-                : (strcasecmp($type, $var['type']) == 0);  
+                : (strcasecmp($type, $var['type']) == 0);
                 if ($test == true) {
                     break;
                 }

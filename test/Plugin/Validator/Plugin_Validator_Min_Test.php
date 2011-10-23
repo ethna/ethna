@@ -86,7 +86,7 @@ class Ethna_Plugin_Validator_Min_Test extends Ethna_UnitTestBase
         $this->assertEqual($form_float['error'], $pear_error->getMessage());
     }
     // }}}
-    
+
     // {{{ test min string
     function test_min_string()
     {

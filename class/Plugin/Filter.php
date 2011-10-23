@@ -15,7 +15,7 @@
  *
  *  Plugin実装により，Ethna_Filterの後継として，
  *  Ethna_Plugin_Filterに追加しました．基本的にEthna_Filterと同じです．
- *  
+ *
  *  Mojaviの真似です（きっぱり）。アクション実行前に各種処理を行うことが
  *  出来ます。
  *
