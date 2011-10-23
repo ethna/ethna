@@ -72,7 +72,7 @@ class {$project_id}_UrlHandler extends Ethna_UrlHandler
      */
     // }}}
 
-    // {{{ filter 
+    // {{{ filter
     // }}}
 }
 

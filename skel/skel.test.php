@@ -1,15 +1,15 @@
 <?php
 /**
  * {$file_path}
- * 
+ *
  * @author    {$author}
  * @package   {$project_id}.Test
  * @version   $Id$
  */
 
 /**
- * {$name} TestCase 
- * 
+ * {$name} TestCase
+ *
  * @author    {$author}
  * @package   {$project_id}.Test
  */
@@ -17,7 +17,7 @@ class {$name}_TestCase extends Ethna_UnitTestCase
 {
     /**
      * initialize test.
-     * 
+     *
      * @access public
      */
     function setUp()
@@ -25,10 +25,10 @@ class {$name}_TestCase extends Ethna_UnitTestCase
         // TODO: write test initialization code.
         // Example: read test data from database.
     }
-    
+
     /**
      *  clean up testcase.
-     * 
+     *
      *  @access public
      */
     function tearDown()
@@ -36,10 +36,10 @@ class {$name}_TestCase extends Ethna_UnitTestCase
         // TODO: write testcase cleanup code.
         // Example: restore database data for development.
     }
-    
+
     /**
      * sample testcase.
-     * 
+     *
      * @access public
      */
     function test_{$name}()
