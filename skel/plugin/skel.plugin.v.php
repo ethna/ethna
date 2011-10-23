@@ -15,9 +15,9 @@
  *
  *  @author     yourname <yourname@example.com>
  *  @access     public
- *  @package    Ethna_Plugin 
+ *  @package    Ethna_Plugin
  */
-class Ethna_Plugin_Validator_{$plugin_name} extends Ethna_Plugin_Validator 
+class Ethna_Plugin_Validator_{$plugin_name} extends Ethna_Plugin_Validator
 {
     /** @var    bool    配列を受け取るかフラグ */
     var $accept_array = true;

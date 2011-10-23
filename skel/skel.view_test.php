@@ -50,7 +50,7 @@ class {$view_class}_TestCase extends Ethna_UnitTestCase
     function test_viewSample()
     {
         /*
-        // setting form input. 
+        // setting form input.
         $this->af->set('id', 1);
 
         // {$forward_name} preprocess.

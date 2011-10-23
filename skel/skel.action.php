@@ -32,14 +32,14 @@ class {$action_form} extends {$project_id}_ActionForm
         *      'type'        => VAR_TYPE_INT,    // Input type
         *      'form_type'   => FORM_TYPE_TEXT,  // Form type
         *      'name'        => 'Sample',        // Display name
-        *  
+        *
         *      //  Validator (executes Validator by written order.)
         *      'required'    => true,            // Required Option(true/false)
         *      'min'         => null,            // Minimum value
         *      'max'         => null,            // Maximum value
         *      'regexp'      => null,            // String by Regexp
         *      'mbregexp'    => null,            // Multibype string by Regexp
-        *      'mbregexp_encoding' => 'UTF-8',   // Matching encoding when using mbregexp 
+        *      'mbregexp_encoding' => 'UTF-8',   // Matching encoding when using mbregexp
         *
         *      //  Filter
         *      'filter'      => 'sample',        // Optional Input filter to convert input
