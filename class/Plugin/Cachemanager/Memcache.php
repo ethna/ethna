@@ -263,7 +263,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('invalid cache key (too long?)', E_CACHE_NO_VALUE);
         }
 
-        $this->memcache->delete($cache_key, -1);
+        $this->memcache->delete($cache_key);
     }
 
     /**
