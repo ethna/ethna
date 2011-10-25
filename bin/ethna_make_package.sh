@@ -37,7 +37,7 @@ rm -f $basedir/package.xml
 
 rm -fr $targetdir
 mkdir $targetdir
-git checkout-index -a -f --prefix="$targetdir/"
+cp -pR * "$targetdir/"
 
 #  create optional package
 optpkg_dir="$targetdir/misc/optional_package"
@@ -81,7 +81,7 @@ cp $optpkg_dir/simpletest1.1/release/*.tgz $tmpdir
 rm -rf $optpkg_dir
 cd $basedir
 
-find $targetdir -name "CVS" -o -name ".svn" -o -name ".git*" | xargs rm -fr
+find $targetdir -name "CVS" -o -name ".git*" | xargs rm -fr
 
 # create package for php 5
 php $basedir/bin/ethna_make_package.php $beta
