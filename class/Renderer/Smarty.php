@@ -82,7 +82,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function perform($template = null, $capture = false)
+    public function perform($template = null, $capture = false)
     {
         if ($template === null && $this->template === null) {
             return Ethna::raiseWarning('template is not defined');
@@ -114,7 +114,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function getProp($name = null)
+    public function getProp($name = null)
     {
         $property = $this->engine->get_template_vars($name);
 
@@ -131,7 +131,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function removeProp($name)
+    public function removeProp($name)
     {
         $this->engine->clear_assign($name);
     }
@@ -143,7 +143,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPropArray($array)
+    public function setPropArray($array)
     {
         $this->engine->assign($array);
     }
@@ -155,7 +155,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPropArrayByRef(&$array)
+    public function setPropArrayByRef(&$array)
     {
         $this->engine->assign_by_ref($array);
     }
@@ -168,7 +168,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setProp($name, $value)
+    public function setProp($name, $value)
     {
         $this->engine->assign($name, $value);
     }
@@ -181,7 +181,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPropByRef($name, &$value)
+    public function setPropByRef($name, &$value)
     {
         $this->engine->assign_by_ref($name, $value);
     }
@@ -195,7 +195,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPlugin($name, $type, $plugin)
+    public function setPlugin($name, $type, $plugin)
     {
         //プラグイン関数の有無をチェック
         if (is_callable($plugin) === false) {
