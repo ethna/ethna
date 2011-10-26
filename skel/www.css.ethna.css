@@ -10,7 +10,7 @@ body {
   margin: 0;
   padding: 0 40px;
   font-size: 16px;
-  background: url("http://ethna.jp/image/pagebg.gif");
+  background: url("../images/pagebg.gif");
   font-family: Arial,Verdana,Helvetica,'MS UI Gothic',sans-serif;
 }
 
@@ -19,11 +19,11 @@ div#header {
   margin-bottom: 1em;
   padding: 0px 20px;
   height: 40px;
-  background: url("http://ethna.jp/image/navbg.gif") repeat-x;
+  background: url("../images/navbg.gif") repeat-x;
 }
 
 div#header h1 {
-  background: url("http://ethna.jp/image/navlogo.gif") right no-repeat;
+  background: url("../images/navlogo.gif") right no-repeat;
 }
 
 div#footer {
