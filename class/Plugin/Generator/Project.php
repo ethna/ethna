@@ -61,6 +61,7 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             array("www", 0755),
             array("www/css", 0755),
             array("www/js", 0755),
+            array("www/images", 0755),
         );
 
         // double check.
@@ -138,6 +139,9 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
             "www.unittest.php" => "$basedir/www/unittest.php",
             "www.xmlrpc.php" => "$basedir/www/xmlrpc.php",
             "www.css.ethna.css" => "$basedir/www/css/ethna.css",
+            "www.images.navbg.gif" => "$basedir/www/images/navbg.gif",
+            "www.images.navlogo.gif" => "$basedir/www/images/navlogo.gif",
+            "www.images.pagebg.gif" => "$basedir/www/images/pagebg.gif",
             "dot.ethna" => "$basedir/.ethna",
             "app.controller.php" => sprintf("$basedir/app/%s_Controller.php", $macro['project_id']),
             "app.error.php" => sprintf("$basedir/app/%s_Error.php", $macro['project_id']),
