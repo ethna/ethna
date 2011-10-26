@@ -87,7 +87,14 @@ foreach ($args as $arg) {
 }
 
 if (count($opts) > 0) {
-    $file_list = $opts;
+    $file_list = array();
+    foreach ($opts as $opt) {
+        if (is_dir($opt)) {
+            $file_list += getFileList($opt);
+        } else {
+            $file_list[] = $opt;
+        }
+    }
 } else {
     $file_list = getFileList($test_dir);
 }
