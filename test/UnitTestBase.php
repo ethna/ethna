@@ -41,16 +41,37 @@ class Ethna_UnitTestBase extends UnitTestCase
         $this->backend = $this->ctl->getBackend();
 
         // actionform, actionerror.
-        if ($this->ctl->action_form === null) {
-            $this->ctl->action_form = new Ethna_ActionForm($this->ctl);
-            $this->backend->setActionForm($this->ctl->action_form);
+        if ($this->ctl->getActionForm() === null) {
+            $this->ctl->setActionForm(new Ethna_ActionForm($this->ctl));
+            $this->backend->setActionForm($this->ctl->getActionForm());
         }
-        $this->af = $this->ctl->action_form;
+        $this->af = $this->ctl->getActionForm();
         $this->ae = $this->ctl->getActionError();
 
         // viewclass
-        if ($this->ctl->view === null) {
-            $this->ctl->view = new Ethna_ViewClass($this->backend, '', '');
+        if ($this->ctl->getView() === null) {
+            $this->ctl->setView(new Ethna_ViewClass($this->backend, '', ''));
+        }
+    }
+
+    function getNonpublicProperty($object, $property_name)
+    {
+        if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+            $ref = new ReflectionProperty(get_class($object), $property_name);
+            $ref->setAccessible(true);
+            return $ref->getValue($object);
+        } else {
+            $arr = (array)$object;
+            $key = $property_name;
+
+            $ref = new ReflectionProperty(get_class($object), $property_name);
+            if ($ref->isProtected()) {
+                $key = "\0*\0".$key;
+            } elseif ($ref->isPrivate()) {
+                $key = "\0".get_class($object)."\0".$key;
+            }
+
+            return $arr[$key];
         }
     }
 }

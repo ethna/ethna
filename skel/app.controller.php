@@ -22,6 +22,7 @@ require_once '{$project_id}_Error.php';
 require_once '{$project_id}_ActionClass.php';
 require_once '{$project_id}_ActionForm.php';
 require_once '{$project_id}_ViewClass.php';
+require_once '{$project_id}_UrlHandler.php';
 
 /**
  *  {$project_id} application Controller definition.
@@ -33,18 +34,18 @@ require_once '{$project_id}_ViewClass.php';
 class {$project_id}_Controller extends Ethna_Controller
 {
     /**#@+
-     *  @access private
+     *  @access protected
      */
 
     /**
      *  @var    string  Application ID(appid)
      */
-    var $appid = '{$application_id}';
+    protected $appid = '{$application_id}';
 
     /**
      *  @var    array   forward definition.
      */
-    var $forward = array(
+    protected $forward = array(
         /*
          *  TODO: write forward definition here.
          *
@@ -59,7 +60,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array   action definition.
      */
-    var $action = array(
+    protected $action = array(
         /*
          *  TODO: write action definition here.
          *
@@ -77,7 +78,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array   SOAP action definition.
      */
-    var $soap_action = array(
+    protected $soap_action = array(
         /*
          *  TODO: write action definition for SOAP application here.
          *  Example:
@@ -89,7 +90,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array       application directory.
      */
-    var $directory = array(
+    protected $directory = array(
         'action'        => 'app/action',
         'action_cli'    => 'app/action_cli',
         'action_xmlrpc' => 'app/action_xmlrpc',
@@ -112,14 +113,14 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array       database access definition.
      */
-    var $db = array(
+    protected $db = array(
         ''              => DB_TYPE_RW,
     );
 
     /**
      *  @var    array       extention(.php, etc) configuration.
      */
-    var $ext = array(
+    protected $ext = array(
         'php'           => 'php',
         'tpl'           => 'tpl',
     );
@@ -127,7 +128,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array   class definition.
      */
-    var $class = array(
+    public $class = array(
         /*
          *  TODO: When you override Configuration class, Logger class,
          *        SQL class, don't forget to change definition as follows!
@@ -151,10 +152,10 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array       filter definition.
      */
-    var $filter = array(
+    protected $filter = array(
         /*
          *  TODO: when you use filter, write filter plugin name here.
-         *  (If you specify class name, Ethna reads filter class in 
+         *  (If you specify class name, Ethna reads filter class in
          *   filter directory)
          *
          *  Example:
@@ -175,7 +176,7 @@ class {$project_id}_Controller extends Ethna_Controller
      *                  client encoding name(= template encoding)
      *                  (locale name is "ll_cc" format. ll = language code. cc = country code.)
      */
-    function _getDefaultLanguage()
+    protected function _getDefaultLanguage()
     {
         return array('{$locale}', 'UTF-8', '{$client_enc}');
     }
@@ -187,7 +188,7 @@ class {$project_id}_Controller extends Ethna_Controller
      *  @param  object  Ethna_Renderer  レンダラオブジェクト
      *  @obsolete
      */
-    function _setDefaultTemplateEngine(&$renderer)
+    protected function _setDefaultTemplateEngine($renderer)
     {
     }
 }

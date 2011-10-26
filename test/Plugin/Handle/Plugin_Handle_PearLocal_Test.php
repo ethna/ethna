@@ -15,7 +15,7 @@ require_once ETHNA_BASE . '/test/MockProject.php';
  *
  *  @access public
  */
-class Ethna_Plugin_Handle_PearLocal_Test extends Ethna_UnitTestBase 
+class Ethna_Plugin_Handle_PearLocal_Test extends Ethna_UnitTestBase
 {
     var $proj;
     protected $er;
@@ -24,7 +24,7 @@ class Ethna_Plugin_Handle_PearLocal_Test extends Ethna_UnitTestBase
     {
         // disable PEAR's deprecated error
         $this->er = error_reporting();
-        error_reporting(E_ALL ^ E_DEPRECATED);
+        error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 
         $this->proj = new Ethna_MockProject();
         $r = $this->proj->create();

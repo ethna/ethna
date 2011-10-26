@@ -8,11 +8,10 @@
  *  @package    Ethna
  *  @version    $Id$
  */
-require_once 'Smarty/Smarty.class.php';
 
 // {{{ Ethna_Renderer_Smarty
 /**
- *  Smartyレンダラクラス（Mojaviのまね）
+ *  Smarty rendere class
  *
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @access     public
@@ -20,9 +19,12 @@ require_once 'Smarty/Smarty.class.php';
  */
 class Ethna_Renderer_Smarty extends Ethna_Renderer
 {
-    /** @var    string compile directory  */
-    var $compile_dir;
-    
+    /** @private    string compile directory  */
+    private $compile_dir;
+
+    /** @protected  engine path (library) */
+    protected $engine_path = 'Smarty/Smarty.class.php';
+
     /**
      *  Ethna_Renderer_Smartyクラスのコンストラクタ
      *
@@ -31,9 +33,17 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     public function __construct($controller)
     {
         parent::__construct($controller);
-        
+
+        // get renderer config
+        $smarty_config = isset($this->config['smarty'])
+            ? $this->config['smarty']
+            : array();
+
+        // load template engine
+        $this->loadEngine($smarty_config);
+
         $this->engine = new Smarty;
-        
+
         // ディレクトリ関連は Controllerによって実行時に設定
         // TODO: iniファイルによって上書き可にするかは要検討
         $template_dir = $controller->getTemplatedir();
@@ -45,10 +55,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->engine->compile_dir = $this->compile_dir;
         $this->engine->compile_id = md5($this->template_dir);
 
-        //  デリミタは Ethna_Config を見る
-        $smarty_config = isset($this->config['smarty'])
-                       ? $this->config['smarty']
-                       : array();
+        // delimiter setting
         if (array_key_exists('left_delimiter', $smarty_config)) {
             $this->engine->left_delimiter = $smarty_config['left_delimiter'];
         }
@@ -66,7 +73,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
         );
     }
-    
+
     /**
      *  ビューを出力する
      *
@@ -97,10 +104,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             return Ethna::raiseWarning('template not found ' . $this->template, 500);
         }
     }
-    
+
     /**
      * テンプレート変数を取得する
-     * 
+     *
      *  @param string $name  変数名
      *
      *  @return mixed　変数
@@ -119,9 +126,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数を削除する
-     * 
+     *
      *  @param name    変数名
-     * 
+     *
      *  @access public
      */
     function removeProp($name)
@@ -131,9 +138,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数に配列を割り当てる
-     * 
+     *
      *  @param array $array
-     * 
+     *
      *  @access public
      */
     function setPropArray($array)
@@ -143,9 +150,9 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数に配列を参照として割り当てる
-     * 
+     *
      *  @param array $array
-     * 
+     *
      *  @access public
      */
     function setPropArrayByRef(&$array)
@@ -155,10 +162,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数を割り当てる
-     * 
+     *
      *  @param string $name 変数名
      *  @param mixed $value 値
-     * 
+     *
      *  @access public
      */
     function setProp($name, $value)
@@ -168,10 +175,10 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  テンプレート変数に参照を割り当てる
-     * 
+     *
      *  @param string $name 変数名
      *  @param mixed $value 値
-     * 
+     *
      *  @access public
      */
     function setPropByRef($name, &$value)
@@ -181,14 +188,14 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
 
     /**
      *  プラグインをセットする
-     * 
+     *
      *  @param string $name　プラグイン名
      *  @param string $type プラグインタイプ
      *  @param mixed $plugin プラグイン本体
-     * 
+     *
      *  @access public
      */
-    function setPlugin($name, $type, $plugin) 
+    function setPlugin($name, $type, $plugin)
     {
         //プラグイン関数の有無をチェック
         if (is_callable($plugin) === false) {
@@ -207,12 +214,12 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             $this->engine->$register_method($plugin);
             return;
         }
-        
+
         // プラグインの名前をチェック
         if ($name === '') {
             return Ethna::raiseWarning('Please set plugin name');
         }
-       
+
         // プラグインを登録する
         parent::setPlugin($name, $type, $plugin);
         $this->engine->$register_method($name, $plugin);

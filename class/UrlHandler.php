@@ -18,7 +18,7 @@
 class Ethna_UrlHandler
 {
     /** @var    array   アクションマッピング */
-    var $action_map = array(
+    protected $action_map = array(
         /*
          * 'user'   => array(
          *  'user_login' => array(
@@ -75,7 +75,7 @@ class Ethna_UrlHandler
      *
      *  @access public
      */
-    function actionToRequest($action, $param)
+    public function actionToRequest($action, $param)
     {
         $url_handler = null;
         $action_value = null;
@@ -192,7 +192,7 @@ class Ethna_UrlHandler
      *
      *  @access public
      */
-    function requestToAction($http_vars)
+    public function requestToAction($http_vars)
     {
         if (isset($http_vars['__url_handler__']) == false
             || isset($this->action_map[$http_vars['__url_handler__']]) == false) {
@@ -222,29 +222,30 @@ class Ethna_UrlHandler
         $action_match = null;
         $action_regexp_index = null;
         foreach ($action_map as $key => $value) {
-            $match_length = strlen($value['path']);
+            if (isset($value['path'])) {
+                $match_length = strlen($value['path']);
 
-            // check necessary match
-            if (strncmp($path, $value['path'], $match_length) != 0) {
-                continue;
+                // check necessary match
+                if (strncmp($path, $value['path'], $match_length) != 0) {
+                    continue;
+                }
+
+                // try exact match
+                if ($path == $value['path']) {
+                    $action = $key;
+                    break;
+                }
+
+                // continue in case w/ incomplete match
+                if ($path != "" && $match_length > 0 && $path{$match_length} != "/") {
+                    continue;
+                }
+                if ($is_slash && $path{strlen($path)-1} == "/") {
+                    continue;
+                }
             }
 
-            // try exact match
-            if ($path == $value['path']) {
-                $action = $key;
-                break;
-            }
-
-            // continue in case w/ incomplete match
-            if ($path != "" && $match_length > 0 && $path{$match_length} != "/") {
-                continue;
-            }
-            if ($is_slash && $path{strlen($path)-1} == "/") {
-                continue;
-            }
-
-            // try regexp
-            if ($value['path_regexp']) {
+            if (isset($value['path_regexp']) && $value['path_regexp']) {
                 if (is_array($value['path_regexp'])) {
                     foreach ($value['path_regexp'] as $index => $regexp) {
                         if (preg_match($regexp, $path, $tmp)) {
@@ -262,6 +263,8 @@ class Ethna_UrlHandler
                     }
                 }
             }
+
+            // else, continue
         }
         if (is_null($action)) {
             return array();
@@ -325,7 +328,7 @@ class Ethna_UrlHandler
      *
      *  @access private
      */
-    function _normalizePath($path)
+    protected function _normalizePath($path)
     {
         if ($path == "") {
             return array($path, false);
@@ -350,7 +353,7 @@ class Ethna_UrlHandler
      *
      *  @access public
      */
-    function buildActionParameter($http_vars, $action)
+    public function buildActionParameter($http_vars, $action)
     {
         if ($action == "") {
             return $http_vars;
@@ -365,7 +368,7 @@ class Ethna_UrlHandler
      *
      *  @access public
      */
-    function buildQueryParameter($query)
+    public function buildQueryParameter($query)
     {
         $param = '';
 

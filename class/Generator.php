@@ -55,7 +55,7 @@ class Ethna_Generator
         }
         
         // 引数はプラグイン依存とする
-        $ret = call_user_func_array(array(&$generator, 'generate'), $arg_list);
+        $ret = call_user_func_array(array($generator, 'generate'), $arg_list);
         return $ret;
     }
 
@@ -95,7 +95,7 @@ class Ethna_Generator
         }
         
         // 引数はプラグイン依存とする
-        $ret = call_user_func_array(array(&$generator, 'remove'), $arg_list);
+        $ret = call_user_func_array(array($generator, 'remove'), $arg_list);
         return $ret;
     }
 }

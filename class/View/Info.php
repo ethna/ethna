@@ -24,7 +24,7 @@ class Ethna_View_Info extends Ethna_ViewClass
      */
 
     /** @var boolean  レイアウトテンプレートの使用フラグ       */
-    var $use_layout = false;
+    public $use_layout = false;
 
     /**#@-*/
 
@@ -33,7 +33,7 @@ class Ethna_View_Info extends Ethna_ViewClass
      *
      *  @access public
      */
-    function preforward()
+    public function preforward()
     {
         $ctl = Ethna_Controller::getInstance();
         $em = new Ethna_InfoManager($this->backend);
@@ -53,6 +53,10 @@ class Ethna_View_Info extends Ethna_ViewClass
 
         // plugins
         $this->af->setApp('plugin_list', $em->getPluginList());
+    }
+
+    protected function _setDefault($renderer)
+    {
     }
 }
 // }}}

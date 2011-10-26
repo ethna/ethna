@@ -13,7 +13,7 @@ class Ethna_Config_Test extends Ethna_UnitTestBase
     function setUp()
     {
         // etcディレクトリを上書き
-        $this->ctl->directory['etc'] = dirname(__FILE__);
+        $this->ctl->setDirectory('etc', dirname(__FILE__));
         $this->config = $this->ctl->getConfig();
         $this->filename = dirname(__FILE__) . '/ethna-ini.php';
     }

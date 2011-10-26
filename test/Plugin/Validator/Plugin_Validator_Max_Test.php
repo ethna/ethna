@@ -11,13 +11,16 @@
  */
 class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
 {
-    var $vld;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = Ethna_Controller::getInstance();
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Max');
+
+        $this->ctl = $ctl;
     }
 
     // {{{ test max integer
@@ -29,7 +32,8 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
                           'max'           => '10',
                           'error'         => '{form}には10以下の数字(整数)を入力して下さい'
                           );
-        $this->vld->af->setDef('namae_int', $form_int);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_int', $form_int);
 
         $pear_error = $this->vld->validate('namae_int', 9, $form_int);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -60,7 +64,8 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
                             'max'           => '10.000000',
                             'error'         => '{form}には10.000000以下の数字(小数)を入力して下さい'
                             );
-        $this->vld->af->setDef('namae_float', $form_float);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_float', $form_float);
 
         $pear_error = $this->vld->validate('namae_float', 10, $form_float);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -91,7 +96,8 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
                              'max'           => '2',
                              'error'         => '{form}は全角2文字以下(半角1文字以下)で入力して下さい'
                              );
-        $this->vld->af->setDef('namae_string', $form_string);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_string', $form_string);
 
         $pear_error = $this->vld->validate('namae_string', '', $form_string);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
@@ -129,7 +135,8 @@ class Ethna_Plugin_Validator_Max_Test extends Ethna_UnitTestBase
                                'max'           => '-1 day',
                                'error'         => '{form}には-1 day以前の日付を入力して下さい'
                                );
-        $this->vld->af->setDef('namae_datetime', $form_datetime);
+        $af = $this->ctl->getActionForm();
+        $af->setDef('namae_datetime', $form_datetime);
 
         $pear_error = $this->vld->validate('namae_datetime', '-2 day', $form_datetime);
         $this->assertFalse(is_a($pear_error, 'Ethna_Error'));

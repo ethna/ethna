@@ -21,34 +21,16 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
     /**#@+  @access private */
 
     /** @var    string  現在のネームスペース */
-    var $namespace = '';
-
-    /** @var    object  Ethna_Backend       backendオブジェクト */
-    //var $backend;
-
-    /** @var    object  Ethna_Config        設定オブジェクト    */
-    //var $config;
+    protected $namespace = '';
 
     /**#@-*/
-
-    /**
-     *  Cachemanagerクラスのコンストラクタ
-     *
-     *  @access public
-     */
-    /*
-    function Ethna_Plugin_Cachemanager($controller)
-    {
-        parent::__construct($controller);
-    }
-    */
 
     /**
      *  _load
      *
      *  @access protected
      */
-    function _load()
+    protected function _load()
     {
         if (isset($this->config['namespace'])) {
             $this->namespace = $this->config['namespace'];
@@ -61,7 +43,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @access public
      *  @return string  現在のキャッシュネームスペース
      */
-    function getNamespace($namespace = null)
+    public function getNamespace($namespace = null)
     {
         if ($namespace === null) {
             return $this->namespace;
@@ -77,7 +59,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @access public
      *  @param  string  $namespace  ネームスペース
      */
-    function setNamespace($namespace)
+    public function setNamespace($namespace)
     {
         $this->namespace = $namespace;
     }
@@ -96,7 +78,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return mixed   キャッシュ値
      */
-    function get($key, $lifetime = null, $namespace = null)
+    public function get($key, $lifetime = null, $namespace = null)
     {
     }
 
@@ -108,7 +90,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return int     最終更新日時(unixtime)
      */
-    function getLastModified($key, $namespace = null)
+    public function getLastModified($key, $namespace = null)
     {
     }
 
@@ -121,7 +103,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @param  int     $timestamp  キャッシュ最終更新時刻(unixtime)
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function set($key, $value, $timestamp = null, $namespace = null)
+    public function set($key, $value, $timestamp = null, $namespace = null)
     {
     }
 
@@ -133,7 +115,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @param  int     $lifetime   キャッシュ有効期間
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function isCached($key, $timestamp = null, $namespace = null)
+    public function isCached($key, $timestamp = null, $namespace = null)
     {
     }
 
@@ -144,7 +126,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @param  string  $key        キャッシュキー
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function clear($key, $namespace = null)
+    public function clear($key, $namespace = null)
     {
     }
 
@@ -157,7 +139,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return bool    true:成功 false:失敗
      */
-    function lock($key, $timeout = 5, $namespace = null)
+    public function lock($key, $timeout = 5, $namespace = null)
     {
         return false;
     }
@@ -170,7 +152,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return bool    true:成功 false:失敗
      */
-    function unlock($key, $namespace = null)
+    public function unlock($key, $namespace = null)
     {
         return false;
     }
@@ -183,7 +165,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      * @access public
      * @param bool $flag フラグ
      */
-    function setCompress($flag) {
+    public function setCompress($flag) {
         return false;
     }
 }

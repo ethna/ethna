@@ -23,8 +23,8 @@ class Ethna_AppSQL
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
 
     /**#@-*/
 
@@ -51,7 +51,7 @@ class Ethna_AppSQL
     {
         Ethna_AppSQL::escapeSQL($args);
 
-        return call_user_func_array(array(&$this, $sqlid), $args);
+        return call_user_func_array(array($this, $sqlid), $args);
     }
 
     /**

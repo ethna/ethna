@@ -23,20 +23,20 @@ class Ethna_Plugin_Logwriter extends Ethna_Plugin_Abstract
      *  @access private
      */
 
-    /** @var    string  ログアイデンティティ文字列 */
-    var $ident;
+    /** @protected    string  ログアイデンティティ文字列 */
+    protected $ident;
 
-    /** @var    int     ログファシリティ */
-    var $facility;
+    /** @protected    int     ログファシリティ */
+    protected $facility;
 
-    /** @var    int     ログオプション */
-    var $option;
+    /** @protected    int     ログオプション */
+    protected $option;
 
-    /** @var    bool    バックトレースが取得可能かどうか */
-    var $have_backtrace;
+    /** @protected    bool    バックトレースが取得可能かどうか */
+    protected $have_backtrace;
 
-    /** @var    array   ログレベル名テーブル */
-    var $level_name_table = array(
+    /** @protected    array   ログレベル名テーブル */
+    protected $level_name_table = array(
         LOG_EMERG   => 'EMERG',
         LOG_ALERT   => 'ALERT',
         LOG_CRIT    => 'CRIT',
@@ -49,20 +49,6 @@ class Ethna_Plugin_Logwriter extends Ethna_Plugin_Abstract
 
     /**#@-*/
 
-    /**
-     *  Logwriterクラスのコンストラクタ
-     *
-     *  @access public
-     *  @param  string  $log_ident      ログアイデンティティ文字列(プロセス名等)
-     *  @param  int     $log_facility   ログファシリティ
-     *  @param  string  $log_file       ログ出力先ファイル名(LOG_FILEオプションが指定されている場合のみ)
-     *  @param  int     $log_option     ログオプション(LOG_FILE,LOG_FUNCTION...)
-     */
-    /*
-    function Ethna_Plugin_Logwriter()
-    {
-    }
-    */
 
     /**
      *  ログオプションを設定する

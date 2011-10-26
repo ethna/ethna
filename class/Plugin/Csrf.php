@@ -25,19 +25,8 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access private
      */
 
-    //var $controller;
-
-    /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    //var $ctl;
-
-    /** @var    object  Ethna_Config        設定オブジェクト */
-    //var $config;
-
-    /** @var    object  Ethna_Logger        ログオブジェクト */
-    //var $logger;
-
     /** @var    string  共有トークン名 */
-    var $token_name = 'ethna_csrf';
+    protected $token_name = 'ethna_csrf';
 
     /**#@-*/
 
@@ -54,7 +43,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return string  トークンのKey
      */
-    function set()
+    public function set()
     {
 
     }
@@ -65,7 +54,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return string トークンIDを返す。
      */
-    function get()
+    public function get()
     {
 
     }
@@ -76,7 +65,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return string トークンIDを返す。
      */
-    function remove()
+    public function remove()
     {
 
     }
@@ -87,7 +76,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return string トークン名を返す。
      */
-    function getTokenName()
+    public function getTokenName()
     {
         return $this->token_name;
     }
@@ -98,7 +87,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return mixed  正常の場合はtrue, 不正の場合はfalse
      */
-    function isValid()
+    public function isValid()
     {
         $token = $this->_get_token();
 
@@ -121,7 +110,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return string  keyname
      */
-    function _generateKey()
+    protected function _generateKey()
     {
         return Ethna_Util::getRandom(32);
     }
@@ -132,7 +121,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return mixed  正常の場合はトークン名, 不正の場合はfalse
      */
-    function _get_token()
+    protected function _get_token()
     {
         $token_name = $this->getTokenName();
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {

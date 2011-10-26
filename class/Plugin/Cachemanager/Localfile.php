@@ -36,7 +36,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return array   キャッシュ値
      */
-    function get($key, $lifetime = null, $namespace = null)
+    public function get($key, $lifetime = null, $namespace = null)
     {
         $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
@@ -45,11 +45,11 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
-            return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
+            return Ethna::raiseError("No such cache (key=%s, file=%s)", E_CACHE_NO_VALUE, $key, $cache_file);
         }
         if (is_null($lifetime) == false) {
             if (($st[9]+$lifetime) < time()) {
-                return Ethna::raiseError('fopen failed', E_CACHE_EXPIRED);
+                return Ethna::raiseError("Cache expired (key=%s, file=%s)", E_CACHE_EXPIRED, $key, $cache_file);
             }
         }
 
@@ -101,7 +101,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *  @param  string  $namespace  キャッシュネームスペース
      *  @return int     最終更新日時(unixtime)
      */
-    function getLastModified($key, $namespace = null)
+    public function getLastModified($key, $namespace = null)
     {
         $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
@@ -122,7 +122,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *  @param  int     $lifetime   キャッシュ有効期間
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function isCached($key, $lifetime = null, $namespace = null)
+    public function isCached($key, $lifetime = null, $namespace = null)
     {
         $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
@@ -151,7 +151,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *  @param  int     $timestamp  キャッシュ最終更新時刻(unixtime)
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function set($key, $value, $timestamp = null, $namespace = null)
+    public function set($key, $value, $timestamp = null, $namespace = null)
     {
         $namespace = $this->getNamespace($namespace);
         $dir = $this->_getCacheDir($namespace, $key);
@@ -205,7 +205,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *  @param  string  $key        キャッシュキー
      *  @param  string  $namespace  キャッシュネームスペース
      */
-    function clear($key, $namespace = null)
+    public function clear($key, $namespace = null)
     {
         $namespace = $this->getNamespace($namespace);
         $cache_file = $this->_getCacheFile($namespace, $key);
@@ -220,7 +220,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    function _getCacheDir($namespace, $key)
+    private function _getCacheDir($namespace, $key)
     {
         $safe_mode = ini_get('safe_mode');
         if ($safe_mode) {
@@ -260,7 +260,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    function _getCacheFile($namespace, $key)
+    private function _getCacheFile($namespace, $key)
     {
         $safe_mode = ini_get('safe_mode');
         if ($safe_mode) {
@@ -275,7 +275,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    function _escape($string)
+    private function _escape($string)
     {
         return preg_replace('/([^0-9A-Za-z_])/e', "sprintf('%%%02X', ord('\$1'))", $string);
     }

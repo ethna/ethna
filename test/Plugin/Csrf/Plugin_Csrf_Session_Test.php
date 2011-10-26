@@ -15,24 +15,28 @@ class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
      * @var     Ethna_Plugin_Csrf_Session
      * @access  private
      */
-    var $csrf;
+    public $csrf;
 
     function setUp()
     {
+        if (isset($GLOBALS['_Ethna_controller'])) {
+            unset($GLOBALS['_Ethna_controller']);
+        }
     }
 
     function tearDown()
     {
-        $_SERVER['REQUEST_METHOD'] = NULL;
+        $_SERVER['REQUEST_METHOD'] = null;
+        unset($GLOBALS['_Ethna_controller']);
     }
 
     function testMakeInstance()
     {
-        $ctl = Ethna_Controller::getInstance();
+        $ctl = new CsrfTest_Ethna_Controller();
         $plugin = $ctl->getPlugin();
         $this->csrf = $plugin->getPlugin('Csrf', 'Session');
         $this->assertTrue(is_object($this->csrf), 'getPlugin failed');
-        $this->csrf->session = new Ethna_Session_Dummy($ctl, $ctl->appid);
+        //$this->csrf->session = new Ethna_Session_Dummy($ctl, $ctl->getAppId());
     }
 
     function testGetName()
@@ -73,7 +77,7 @@ class Ethna_Plugin_Csrf_Session_Test extends Ethna_UnitTestBase
  *
  *  @access public
  */
-// {{{ Ethna_Session
+// {{{ Ethna_Session_Dummy
 /**
  *  セッションクラスのダミー
  *
@@ -189,3 +193,15 @@ class Ethna_Session_Dummy extends Ethna_Session
 }
 // }}}
 
+/**
+ *
+ */
+// {{{ CsrfTest_Ethna_Controller
+class CsrfTest_Ethna_Controller
+    extends Ethna_Controller
+{
+    public $class = array(
+        'session'       => 'Ethna_Session_Dummy',
+    );
+}
+// }}}

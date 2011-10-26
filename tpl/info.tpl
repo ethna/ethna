@@ -15,6 +15,7 @@
             a:link {color: #000099; text-decoration: none; background-color: #ffffff;}
             a:hover {text-decoration: underline;}
             table { margin: auto; border-collapse: collapse;}
+            table table { margin: 5px;}
             .center {text-align: center;}
             .center table { text-align: left;}
             .center th { text-align: center !important; }
@@ -159,13 +160,13 @@
                         {if !$smarty.foreach.return_prepare.first}<tr>{/if}
                         <td class="v" colspan="2">{$forward}</td>
                         {if !$smarty.foreach.return_prepare.last}</tr>{/if}
-                    
+
                     {foreachelse}
-                        
+
                         <td class="v" colspan="2"></td>
-                    
+
                     {/foreach}
-                
+
                 </tr>
                 <tr>
                     {if $action.action_class_info.return.perform|@count == 0}

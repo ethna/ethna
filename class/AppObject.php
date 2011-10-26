@@ -27,47 +27,47 @@ class Ethna_AppObject
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend       backendオブジェクト */
-    var $backend;
+    /** @protected    object  Ethna_Backend       backendオブジェクト */
+    protected $backend;
 
-    /** @var    object  Ethna_Config        設定オブジェクト */
-    var $config;
+    /** @protected    object  Ethna_Config        設定オブジェクト */
+    protected $config;
 
-    /** @var    object  Ethna_I18N          i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N          i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    var $action_form;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
+    protected $action_form;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
-    var $af;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
+    protected $af;
 
-    /** @var    object  Ethna_Session       セッションオブジェクト */
-    var $session;
+    /** @protected    object  Ethna_Session       セッションオブジェクト */
+    protected $session;
 
-    /** @var    string  DB定義プレフィクス */
-    var $db_prefix = null;
+    /** @protected    string  DB定義プレフィクス */
+    protected $db_prefix = null;
 
-    /** @var    array   テーブル定義。対応するDB上のテーブル名を指定します。*/
-    var $table_def = null;
+    /** @protected    array   テーブル定義。対応するDB上のテーブル名を指定します。*/
+    protected $table_def = null;
 
-    /** @var    array   プロパティ定義。テーブルのカラム定義を記述します。 */
-    var $prop_def = null;
+    /** @protected    array   プロパティ定義。テーブルのカラム定義を記述します。 */
+    protected $prop_def = null;
 
-    /** @var    array   プロパティ。各カラムに対応する実際の値です。 */
-    var $prop = null;
+    /** @protected    array   プロパティ。各カラムに対応する実際の値です。 */
+    protected $prop = null;
 
-    /** @var    array   プロパティ(バックアップ) */
-    var $prop_backup = null;
+    /** @protected    array   プロパティ(バックアップ) */
+    protected $prop_backup = null;
 
-    /** @var    int     プロパティ定義キャッシュ有効期間(sec) */
-    var $prop_def_cache_lifetime = 86400;
+    /** @protected    int     プロパティ定義キャッシュ有効期間(sec) */
+    protected $prop_def_cache_lifetime = 86400;
 
-    /** @var    array   プライマリキー定義 */
-    var $id_def = null;
+    /** @protected    array   プライマリキー定義 */
+    protected $id_def = null;
 
-    /** @var    int     オブジェクトID (プライマリーキーの値) */
-    var $id = null;
+    /** @protected    int     オブジェクトID (プライマリーキーの値) */
+    protected $id = null;
 
     /**#@-*/
     // }}}

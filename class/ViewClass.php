@@ -78,7 +78,7 @@ class Ethna_ViewClass
      */
 
     /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定(拡張子は除く)   */
-    var $_layout_file = 'layout';
+    protected $_layout_file = 'layout';
 
     /**#@-*/
 
@@ -87,15 +87,14 @@ class Ethna_ViewClass
      */
 
     /** @var boolean  レイアウトテンプレートの使用フラグ       */
-    var $use_layout = true;
+    public $use_layout = true;
 
     /** @var  boolean  デフォルトのヘッダ出力を使用するか否か  */
     /**                ヘッダ出力を改造する場合はfalseにする   */
-    var $has_default_header = true;
+    public $has_default_header = true;
 
-    /** @var  array    デフォルトのヘッダ出力を使用するか否か  */
-    /**                ヘッダ出力を改造する場合はfalseにする   */
-    var $default_header = array(
+    /** @var  array    default header */
+    public $default_header = array(
         'Pragma' => 'no-cache',
         'Cache-Control' => 'no-cache, no-store, must-revalidate',
     );
@@ -148,7 +147,7 @@ class Ethna_ViewClass
      *                          array('forward_name', $param) の形でアクション
      *                          から値を返すことで、$params に値が渡されます。
      */
-    function preforward($params = NULL)
+    public function preforward()
     {
     }
     // }}}
@@ -162,7 +161,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function forward()
+    public function forward()
     {
         $renderer = $this->_getRenderer();
         $this->_setDefault($renderer);
@@ -224,7 +223,7 @@ class Ethna_ViewClass
      *                  文字列で指定する場合は、ヘッダ出力をそのまま指定
      *  @access public
      */
-    function header($status)
+    public function header($status)
     {
         if (is_array($status)) {
             foreach ($status as $key => $status) {
@@ -295,7 +294,7 @@ class Ethna_ViewClass
      *  @param  int     HTTPステータスコード (3xx)
      *  @access public
      */
-    function redirect($url, $staus_code = 302)
+    public function redirect($url, $staus_code = 302)
     {
         $this->has_default_header = false;
         $this->use_layout = false;
@@ -313,14 +312,14 @@ class Ethna_ViewClass
      *  @param string $filename  レイアウトファイル名
      *  @access public
      */
-    function setLayout($filename)
+    public function setLayout($filename)
     {
         // check layout file existance
-        if ($this->templateExists($filename . '.' . $this->ctl->ext['tpl'])) {
+        if ($this->templateExists($filename . '.' . $this->ctl->getExt('tpl'))) {
             $this->_layout_file = $filename;
             return true;
         } else {
-            return Ethna::raiseWarning('file "'. $filename . '.' . $this->ctl->ext['tpl'] . '" not found');
+            return Ethna::raiseWarning('file "'. $filename . '.' . $this->ctl->getExt('tpl') . '" not found');
         }
     }
     // }}}
@@ -332,9 +331,21 @@ class Ethna_ViewClass
      *  @return string  レイアウトテンプレートのファイル名
      *  @access public
      */
-    function getLayout()
+    public function getLayout()
     {
-        return $this->_layout_file . '.' . $this->ctl->ext['tpl'];
+        return $this->_layout_file . '.' . $this->ctl->getExt('tpl');
+    }
+    // }}}
+
+    // {{{ getCurrentForwardName()
+    /**
+     *  getCurrentForwardName
+     *
+     *  @access public
+     */
+    public function getCurrentForwardName()
+    {
+        return $this->forward_name;
     }
     // }}}
 
@@ -347,7 +358,7 @@ class Ethna_ViewClass
      * @return  boolean 指定したテンプレートファイルが存在すればtrue
      *                  存在しなければfalse
      */
-    function templateExists($filename)
+    public function templateExists($filename)
     {
         $renderer = $this->_getRenderer();
         if ($renderer->templateExists($filename)) {
@@ -366,9 +377,8 @@ class Ethna_ViewClass
      *  @param  int  HTTPステータスコード
      *  @access public
      */
-    function error($code)
+    public function error($code)
     {
-        $this->has_default_header = false;
         $this->header($code);
 
         // template 以下に error404.tpl とかがあれば， 
@@ -385,7 +395,7 @@ class Ethna_ViewClass
      *  @param  boolean $dynamic_helper 動的フォームヘルパを呼ぶか否か
      *  @access public
      */
-    function addActionFormHelper($action, $dynamic_helper = false)
+    public function addActionFormHelper($action, $dynamic_helper = false)
     {
         //
         //  既に追加されている場合は処理をしない
@@ -425,7 +435,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function clearActionFormHelper($action)
+    public function clearActionFormHelper($action)
     {
         unset($this->helper_action_form[$action]);
     }
@@ -442,7 +452,7 @@ class Ethna_ViewClass
      *  @param  string  name    定義されていることを期待するフォーム名
      *  @return object  Ethna_ActionFormまたは継承オブジェクト
      */
-    function _getHelperActionForm($action = null, $name = null)
+    protected function _getHelperActionForm($action = null, $name = null)
     {
         // $action が指定されている場合
         if ($action !== null) {
@@ -488,7 +498,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function resetFormCounter()
+    public function resetFormCounter()
     {
         $this->reset_counter = true;
     }
@@ -500,7 +510,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function getFormName($name, $action, $params)
+    public function getFormName($name, $action, $params)
     {
         $af = $this->_getHelperActionForm($action, $name);
         if ($af === null) {
@@ -523,7 +533,7 @@ class Ethna_ViewClass
      *
      *  @access public
      */
-    function getFormSubmit($params)
+    public function getFormSubmit($params)
     {
         if (isset($params['type']) === false) {
             $params['type'] = 'submit';
@@ -539,7 +549,7 @@ class Ethna_ViewClass
      *  @access public
      *  @todo   JavaScript対応
      */
-    function getFormInput($name, $action, $params)
+    public function getFormInput($name, $action, $params)
     {
         $af = $this->_getHelperActionForm($action, $name);
         if ($af === null) {
@@ -628,7 +638,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function getFormBlock($content, $params)
+    public function getFormBlock($content, $params)
     {
         // method
         if (isset($params['method']) === false) {
@@ -645,7 +655,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getSelectorOptions(&$af, $def, $params)
+    protected function _getSelectorOptions($af, $def, $params)
     {
         // $params, $def の順で調べる
         $source = null;
@@ -701,7 +711,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Button($name, $def, $params)
+    protected function _getFormInput_Button($name, $def, $params)
     {
         $params['type'] = 'button';
         
@@ -729,7 +739,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Checkbox($name, $def, $params)
+    protected function _getFormInput_Checkbox($name, $def, $params)
     {
         $params['type'] = 'checkbox';
         if (isset($def['type'])) {
@@ -976,7 +986,7 @@ class Ethna_ViewClass
         } else if (isset($def['default'])) {
             $current_value = $def['default'];
         } else {
-            $current_value = array();
+            $current_value = array(0 => 0,);
         }
         $current_value = array_map('strval', to_array($current_value));
 
@@ -1205,7 +1215,7 @@ class Ethna_ViewClass
      *  @access protected
      *  @param  object  Ethna_Renderer  レンダラオブジェクト
      */
-    function _setDefault(&$renderer)
+    protected function _setDefault($renderer)
     {
     }
     // }}}

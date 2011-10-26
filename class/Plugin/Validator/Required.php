@@ -20,7 +20,7 @@
 class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
 {
     /** @var    bool    配列を受け取るかフラグ */
-    var $accept_array = true;
+    public $accept_array = true;
 
     /**
      *  フォームに値が入力されているかを検証する
@@ -33,7 +33,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
      *  @param  mixed   $var        フォームの値
      *  @param  array   $params     プラグインのパラメータ
      */
-    function validate($name, $var, $params)
+    public function validate($name, $var, $params)
     {
         $true = true;
         if (isset($params['required']) && $params['required'] == false) {

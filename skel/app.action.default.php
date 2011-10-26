@@ -18,10 +18,11 @@
 class {$project_id}_Form_Index extends {$project_id}_ActionForm
 {
     /**
-     *  @access   private
+     *  @access   protected
+     *
      *  @var      array   form definition.
      */
-    var $form = array(
+    protected $form = array(
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -58,7 +59,7 @@ class {$project_id}_Form_Index extends {$project_id}_ActionForm
      *  @return mixed           Converted result.
      */
     /*
-    function _filter_sample($value)
+    protected function _filter_sample($value)
     {
         //  convert to upper case.
         return strtoupper($value);
@@ -81,10 +82,11 @@ class {$project_id}_Action_Index extends {$project_id}_ActionClass
      *  @access    public
      *  @return    string  Forward name (null if no errors.)
      */
-    function prepare()
+    public function prepare()
     {
         /**
         if ($this->af->validate() > 0) {
+            // forward to error view (this is sample)
             return 'error';
         }
         $sample = $this->af->get('sample');
@@ -98,7 +100,7 @@ class {$project_id}_Action_Index extends {$project_id}_ActionClass
      *  @access    public
      *  @return    string  Forward Name.
      */
-    function perform()
+    public function perform()
     {
         return 'index';
     }

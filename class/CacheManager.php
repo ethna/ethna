@@ -25,7 +25,7 @@ class Ethna_CacheManager
      *  @return object  Ethna_Plugin_CacheMaanger   Cachemanager プラグインのインスタンス
      *  @access public
      */
-    function &getInstance($type)
+    public static function getInstance($type)
     {
         $controller = Ethna_Controller::getInstance();
         $plugin = $controller->getPlugin();

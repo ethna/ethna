@@ -45,20 +45,47 @@ ini_set('include_path', realpath(dirname(ETHNA_INSTALL_BASE)) . PATH_SEPARATOR .
 /** Ethna関連クラスのインクルード */
 require_once 'Ethna/Ethna.php';
 
+// simpletest を使っているため、E_DEPRECATED, E_STRICT は解除
+error_reporting(error_reporting() & ~E_DEPRECATED & ~E_STRICT);
+if (extension_loaded('xdebug')) {
+    ini_set('xdebug.scream', 0);
+}
+
 /** SimpleTestのインクルード */
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
+require_once $test_dir . '/TextSimpleReporter.php';
 require_once $test_dir . '/TextDetailReporter.php';
 require_once $test_dir . '/UnitTestBase.php';
 
-$test = new GroupTest('Ethna All tests');
+$test = new TestSuite('Ethna All tests');
 
 // テストケースのファイルリストを取得
 require_once 'Ethna/class/Getopt.php';
 $opt = new Ethna_Getopt();
 $args = $opt->readPHPArgv();
-list($args, $opts) = $opt->getopt($args, '', array());
-array_shift($opts);
+array_shift($args);
+$opt_ret = $opt->getopt($args, "", array('coverage', 'verbose'));
+if (Ethna::isError($opt_ret)) {
+    echo $opt_ret->getMessage(), PHP_EOL;
+    exit(255);
+}
+list($args, $opts) = $opt_ret;
+
+$coverage = false;
+$verbose = false;
+foreach ($args as $arg) {
+    switch ($arg[0]) {
+    case '--coverage':
+        $coverage = true;
+        break;
+
+    case '--verbose':
+        $verbose = true;
+        break;
+    }
+}
+
 if (count($opts) > 0) {
     $file_list = $opts;
 } else {
@@ -67,15 +94,50 @@ if (count($opts) > 0) {
 
 // テストケースを登録
 foreach ($file_list as $file) {
-    $test->addTestFile($file);
+    $test->addFile($file);
+}
+
+if ($coverage) {
+    // カバレッジ計測開始
+    require_once 'PHP/CodeCoverage.php';
+
+    $base = dirname(dirname(__FILE__));
+
+    $filter = PHP_CodeCoverage_Filter::getInstance();
+    $filter->addDirectoryToBlacklist($base.'/test');
+    $filter->addDirectoryToBlacklist($base . '/src');
+    $filter->addDirectoryToBlacklist($base . '/bin');
+    $filter->addFileToBlacklist(__FILE__);
+
+    require_once 'PEAR/Config.php';
+    $pear_config = PEAR_Config::singleton();
+    $pear_dir = $pear_config->get('php_dir');
+    $filter->addDirectoryToBlacklist($pear_dir);
+
+    $code_coverage = new PHP_CodeCoverage();
+    $code_coverage->start('ethna');
 }
 
 // 結果をコマンドラインに出力
-$test->run(new TextDetailReporter());
+if ($verbose) {
+    $test->run(new TextDetailReporter());
+} else {
+    $test->run(new TextSimpleReporter());
+}
 
 if ($symlink_filename !== null && is_link($symlink_filename)) {
     unlink($symlink_filename);
 }
+
+if ($coverage) {
+    // カバレッジ計測終了
+    $code_coverage->stop();
+
+    require 'PHP/CodeCoverage/Report/HTML.php';
+    $writer = new PHP_CodeCoverage_Report_HTML();
+    $writer->process($code_coverage, getcwd().'/coverage');
+}
+
 
 //{{{ getFileList
 /**

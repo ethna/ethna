@@ -42,26 +42,26 @@ class Ethna_AppManager
      *  @access private
      */
 
-    /** @var    object  Ethna_Backend       backendオブジェクト */
-    var $backend;
+    /** @protected    object  Ethna_Backend       backendオブジェクト */
+    protected $backend;
 
-    /** @var    object  Ethna_Config        設定オブジェクト */
-    var $config;
+    /** @protected    object  Ethna_Config        設定オブジェクト */
+    protected $config;
 
-    /**  @var    object  Ethna_DB      DBオブジェクト */
-    var $db;
+    /**  @protected    object  Ethna_DB      DBオブジェクト */
+    protected $db;
 
-    /** @var    object  Ethna_I18N          i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N          i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    var $action_form;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
+    protected $action_form;
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
-    var $af;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
+    protected $af;
 
-    /** @var    object  Ethna_Session       セッションオブジェクト */
-    var $session;
+    /** @protected    object  Ethna_Session       セッションオブジェクト */
+    protected $session;
 
     /**#@-*/
 

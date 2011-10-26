@@ -31,14 +31,14 @@ class Ethna_UnitTestManager extends Ethna_AppManager
      *  Ethna_UnitTestManagerのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Backend   &$backend   Ethna_Backendオブジェクト
+     *  @param  object  Ethna_Backend   $backend   Ethna_Backendオブジェクト
      */
     public function __construct($backend)
     {
         parent::__construct($backend);
         $this->ctl = Ethna_Controller::getInstance();
         $this->class_factory = $this->ctl->getClassFactory();
-        $this->testcase = array_merge($this->testcase, $this->_getTestCaseList()); 
+        $this->testcase = array_merge($this->testcase, $this->_getTestCaseList());
     }
 
     /**
@@ -364,9 +364,8 @@ class Ethna_UnitTestManager extends Ethna_AppManager
         $test->run($reporter);
 
         // ActionFormのリストア
-        $this->ctl->action_form = $af;
-        $this->backend->action_form = $af;
-        $this->backend->af = $af;
+        $this->ctl->setActionForm($af);
+        $this->backend->setActionForm($af);
 
         return array($reporter->report, $reporter->result);
     }

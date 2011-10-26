@@ -1,6 +1,6 @@
 * 変更点一覧
 
-** 2.6.0 beta (beta1 .. beta2)
+** 2.6.0 beta (beta1 .. beta3)
 
 - Ethna 2.5.0 preview5 に含まれていて、Ethna 2.5.0 に含まれなかった変更点について、CHANGES の整理 (多少重複します)
 -- 2.6.0 の変更点一覧が、preview5 からの差分となっていたため、preview5 -> (元)preview6 での fix事項等はCHANGESから削除
@@ -20,6 +20,7 @@
 -- cssの変更
 -- UrlHandler と .htaccess (mod_rewrite) を利用するためのひな形を生成
 - セッションハンドラのなど，セッションに関する設定の変更をするための記述を APPID-ini.php にできるようになりました．
+- 本体テスト環境のsimpletest 1.1系への対応
 
 **** Renderer/View に関する変更点
 
@@ -40,6 +41,10 @@
 -- デフォルトは template/{locale_name}/layout.tpl に置かれている。
 -- この機能はデフォルトで有効になっている。無効にしたければ、[appid]_ViewClass.php の $use_layout を false にする(既存プロジェクトをEthna 2.6に移行する場合、こうすれば動作するはず)
 - PROJECT_DIR/lib/Ethna/extlib/Plugin/Smarty  をデフォルトでSmartyプラグインディレクトリに指定するように，skel に追加
+- renderer の設定を config に書けるようになりました (一部、かつ、実装は renderer 依存)
+-- Smarty2 の場合 'smarty', Smarty3 の場合 'smarty3' をキーとした配列に、left/right delimiter の設定を記述できます
+-- 'path' として、include するファイルの path を指定できるようになりました
+-- Ethna Info は、Smarty2 を利用するため、Smarty3 を使う場合でも Ethna Info を見るみは Smarty2 が必要です
 
 **** プラグイン機構に関する変更点
 
@@ -55,6 +60,7 @@
 -- 検索用のアプリケーションIDを削除した
 -- ファイル名の命名規則を変更
 -- extlibの設置
+--- Debugtoolbar同梱 (extlibのサンプルとして。本体に取り込むほどのクオリティでもないためこちらに追加)
 - プラグイン関連のethnaコマンドを整理し、インストール、アンインストール関連コマンドは ethna pear-local コマンドに一本化
 -- ethna channel-update (削除)
 -- ethna info-plugin (削除)
@@ -75,9 +81,14 @@
 - Ethna_Plugin_Cachemanager のクラスのプロパティに指定する $namespace が意味をなしていなかったので修正 (#17753)
 - PROJECT_DIR/lib/Ethna/extlib 以下にファイルを設置するタイプのプラグインを pear-local などでインストールすると、それ以後ethnaコマンドが使えなくなる問題を修正
 - 新しいプラグインの命名規則に従っていない古いプラグインを別物として読み込もうとしてクラス名がかぶる問題を修正(#17875) thanks: id:okonomi
+- checkMailAddress でメールアドレスの@以前に/が含まれる場合にvalidationに引っかかる問題を修正 (#3 thx. DQNEO) https://github.com/ethna/ethna/pull/3
+- setFormDef_PreHelper() 内で $this->af がセットされていない問題の修正 (#4 thx. DQNEO) https://github.com/ethna/ethna/pull/4
 
 **** beta1 .. beta2
 - require のパスを修正 (thx. seiya, https://github.com/sotarok/ethna/issues/#issue/1)
+
+**** beta2 .. beta3
+-
 
 
 ** 2.5.0
@@ -313,14 +324,14 @@
 *** bug fix
 
 - テストディレクトリの変更のタイミングによっては、Ethna_UnitTestMangerがWARNINGを出す問題を回避 (thanks: maru_cc)
-- selected="selected" の修正漏れを修正 (thanks:maru_cc) 
+- selected="selected" の修正漏れを修正 (thanks:maru_cc)
 - [Breaking B.C] Ethna_Plugin_CacheManager_Memcache の接続デフォルトが persistent になっていたのを通常接続に変更
 -- [appid]/etc/[appid]-ini.php の memcache_use_connect 設定を memcache_use_pconnect に変更
 - プラグインのクラス名にアンダーバーを許していなかったが、PHPのクラス名的に正当な文字であればOKにするように変更(thanks:maru_cc)
 - Ethna_I18N.php で、メッセージをパースする際に空行を見逃していたバグを修正
 - Ethna_MailSender にてメールを送信する際、テンプレートが存在しなかった場合にも空メールを送ってしまうバグを修正 (thanks: ryosuke@sekido.info -> [ethna-users:1053])
 - smarty_modifier_checkbox が仕様に反する動作をしていたバグを修正し、仕様を厳密化した(thanks: maru_cc)
--- checked が付くのはスカラーで、0 と空文字列、null, false 以外の場合とする 
+-- checked が付くのはスカラーで、0 と空文字列、null, false 以外の場合とする
 - Ethna_ActionError#_getActionForm で、E_NOTICE が出る問題を回避
 
 ** 2.5.0-preview1
@@ -492,7 +503,7 @@ hanks: maru_cc)
 - ethna_make_packageで.svnに対応
 - Ethna_Plugin_Validator_Mbregexp　追加 (thx: mumumu)
 -- mb_eregを使ったマルチバイト対応正規表現プラグイン
-- Ethna_Plugin_Handle_PearLocal　追加 
+- Ethna_Plugin_Handle_PearLocal　追加
 -- PEARパッケージを各プロジェクト毎に管理できるプラグイン
 - View のユニットテストができなくなっていたバグを修正(thx: sfio, ethna-users:0651)
 

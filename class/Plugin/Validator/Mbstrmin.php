@@ -24,7 +24,7 @@
 class Ethna_Plugin_Validator_Mbstrmin extends Ethna_Plugin_Validator
 {
     /** @var    bool    配列を受け取るかフラグ */
-    var $accept_array = false;
+    public $accept_array = false;
 
     /**
      *  最小値のチェックを行う
@@ -35,7 +35,7 @@ class Ethna_Plugin_Validator_Mbstrmin extends Ethna_Plugin_Validator
      *  @param  array   $params     プラグインのパラメータ
      *  @return true: 成功  Ethna_Error: エラー
      */
-    function validate($name, $var, $params)
+    public function validate($name, $var, $params)
     {
         $true = true;
         $type = $this->getFormType($name);

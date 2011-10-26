@@ -21,7 +21,7 @@ class Ethna_Plugin_Cachemanager_Memcache_Test extends Ethna_UnitTestBase
         $config = $ctl->getConfig();
 
         $config->set('plugin',
-            array('cachemanager' => 
+            array('cachemanager' =>
                 array('memcache' => array(
                      'host' => 'localhost',
                      'port' => 11211,
@@ -51,7 +51,9 @@ class Ethna_Plugin_Cachemanager_Memcache_Test extends Ethna_UnitTestBase
 
     function testMemcacheConfig()
     {
-        $config = $this->cm->config;
+        $config = $this->cm->getConfig();
+
+        //$config = $this->cm->config;
 
         $this->assertEqual(11211, $config['port']);
         $this->assertEqual('localhost', $config['host']);

@@ -21,18 +21,18 @@ require_once ETHNA_BASE . '/class/Getopt.php';
  */
 class Ethna_Plugin_Handle extends Ethna_Plugin_Abstract
 {
-    /** @var    handler's id */
-    var $id;
+    /** @protected    handler's id */
+    protected $id;
 
-    /** @var    command line arguments */
-    var $arg_list;
+    /** @protected    command line arguments */
+    protected $arg_list;
 
     /**
      *  Ethna_Handle constructor (stub for php4)
      *
      *  @access public
      */
-    function Ethna_Plugin_Handle($controller, $type, $name)
+    public function __construct($controller, $type, $name)
     {
         parent::__construct($controller, $type, $name);
 

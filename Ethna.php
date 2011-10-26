@@ -51,7 +51,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 }
 
 /** バージョン定義 */
-define('ETHNA_VERSION', '2.6.0-beta2');
+define('ETHNA_VERSION', '2.6.0-beta3');
 
 /**
  * ダミーのエラーモード
@@ -309,10 +309,6 @@ define('E_PLUGIN_NOTFOUND', 196);
 /** エラーコード: プラグインエラー(その他) */
 define('E_PLUGIN_GENERAL', 197);
 
-/** PHP 5との互換保持定義 */
-if (defined('E_STRICT') == false) {
-    define('E_STRICT', 2048);
-}
 if (defined('E_DEPRECATED') == false) {
     define('E_DEPRECATED', 8192);
 }
@@ -339,7 +335,7 @@ class Ethna
      *  またはそのサブクラスのオブジェクトかどうかチェックします。
      *
      *  @param mixed  $data    チェックする変数
-     *  @param mixed  $msgcode チェックするエラーメッセージまたはエラーコード  
+     *  @param mixed  $msgcode チェックするエラーメッセージまたはエラーコード
      *  @return mixed 変数が、Ethna_Error の場合に TRUEを返します。
      *                第2引数が設定された場合は、さらに 所与された $msgcode
      *                を含む場合のみ TRUEを返します。
@@ -454,24 +450,24 @@ class Ethna
 
     /**
      *  エラー発生時の処理を行う(コールバック関数/メソッドを呼び出す)
-     *  
+     *
      *  @access public
      *  @param  object  Ethna_Error     Ethna_Errorオブジェクト
      *  @static
      */
-    public static function handleError(&$error)
+    public static function handleError($error)
     {
         for ($i = 0; $i < count($GLOBALS['_Ethna_error_callback_list']); $i++) {
-            $callback =& $GLOBALS['_Ethna_error_callback_list'][$i];
+            $callback = $GLOBALS['_Ethna_error_callback_list'][$i];
             if (is_array($callback) == false) {
                 call_user_func($callback, $error);
             } else if (is_object($callback[0])) {
-                $object =& $callback[0];
+                $object = $callback[0];
                 $method = $callback[1];
 
                 // perform some more checks?
                 $object->$method($error);
-            } else {  
+            } else {
                 //  call statically
                 call_user_func($callback, $error);
             }

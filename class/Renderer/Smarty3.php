@@ -9,8 +9,6 @@
  *  @version    $Id$
  */
 
-require_once 'Smarty/Smarty.class.php';
-
 // {{{ Ethna_Renderer_Smarty3
 /**
  *  Smarty 3.x
@@ -20,8 +18,11 @@ require_once 'Smarty/Smarty.class.php';
  */
 class Ethna_Renderer_Smarty3 extends Ethna_Renderer
 {
-    /** @var    string compile directory  */
-    var $compile_dir;
+    /** @private    string compile directory  */
+    private $compile_dir;
+
+    /** @protected  string path of smarty3 */
+    protected $engine_path = 'Smarty3/Smarty.class.php';
 
     /**
      *  Constructor for Ethna_Renderer_Smarty3
@@ -31,6 +32,12 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
     public function __construct($controller)
     {
         parent::__construct($controller);
+
+        // get renderer config
+        $smarty_config = isset($this->config['smarty3'])
+            ? $this->config['smarty3']
+            : array();
+        $this->loadEngine($smarty_config);
 
         $this->engine = new Smarty();
 
@@ -45,10 +52,6 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
         $this->engine->compile_dir = $compile_dir;
         $this->engine->compile_id = md5($this->template_dir);
 
-        //  デリミタは Ethna_Config を見る
-        $smarty_config = isset($this->config['smarty3'])
-                       ? $this->config['smarty3']
-                       : array();
         if (isset($smarty_config['left_delimiter'])) {
             $this->engine->left_delimiter = $smarty_config['left_delimiter'];
         }
@@ -98,8 +101,7 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
                 return Ethna::raiseWarning('template not found ' . $this->template);
             }
         } catch (SmartyCompilerException $e) {
-            $this->logger->log(LOG_ERR, "smarty compile error: msg='{$e->getMessage()}'");
-            return Ethna::raiseError("smarty compile error: msg='{$e->getMessage()}'", 500);
+            return Ethna::raiseWarning("smarty compile error: msg='{$e->getMessage()}'", 500);
         }
     }
 

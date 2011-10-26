@@ -13,7 +13,7 @@ define('BASE', dirname(dirname(__FILE__)));
 /** include_path setting (adding "/app" and "/lib" directory to include_path) */
 $app = BASE . "/app";
 $lib = BASE . "/lib";
-ini_set('include_path', implode(PATH_SEPARATOR, array($app, $lib)) . PATH_SEPARATOR . ini_get('include_path'));
+set_include_path(implode(PATH_SEPARATOR, array($app, $lib)) . PATH_SEPARATOR . get_include_path());
 
 
 /** including application library. */
@@ -39,12 +39,12 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    string  Application ID(appid)
      */
-    var $appid = '{$application_id}';
+    protected $appid = '{$application_id}';
 
     /**
      *  @var    array   forward definition.
      */
-    var $forward = array(
+    protected $forward = array(
         /*
          *  TODO: write forward definition here.
          *
@@ -59,7 +59,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array   action definition.
      */
-    var $action = array(
+    protected $action = array(
         /*
          *  TODO: write action definition here.
          *
@@ -72,7 +72,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array   SOAP action definition.
      */
-    var $soap_action = array(
+    protected $soap_action = array(
         /*
          *  TODO: write action definition for SOAP application here.
          *  Example:
@@ -84,7 +84,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array       application directory.
      */
-    var $directory = array(
+    protected $directory = array(
         'action'        => 'app/action',
         'action_cli'    => 'app/action_cli',
         'action_xmlrpc' => 'app/action_xmlrpc',
@@ -107,14 +107,14 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array       database access definition.
      */
-    var $db = array(
+    protected $db = array(
         ''              => DB_TYPE_RW,
     );
 
     /**
      *  @var    array       extention(.php, etc) configuration.
      */
-    var $ext = array(
+    protected $ext = array(
         'php'           => 'php',
         'tpl'           => 'tpl',
     );
@@ -122,7 +122,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array   class definition.
      */
-    var $class = array(
+    public $class = array(
         /*
          *  TODO: When you override Configuration class, Logger class,
          *        SQL class, don't forget to change definition as follows!
@@ -146,7 +146,7 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array       list of application id where Ethna searches plugin.
      */
-    var $plugin_search_appids = array(
+    protected $plugin_search_appids = array(
         /*
          *  write list of application id where Ethna searches plugin.
          *
@@ -166,10 +166,10 @@ class {$project_id}_Controller extends Ethna_Controller
     /**
      *  @var    array       filter definition.
      */
-    var $filter = array(
+    protected $filter = array(
         /*
          *  TODO: when you use filter, write filter plugin name here.
-         *  (If you specify class name, Ethna reads filter class in 
+         *  (If you specify class name, Ethna reads filter class in
          *   filter directory)
          *
          *  Example:
@@ -190,7 +190,7 @@ class {$project_id}_Controller extends Ethna_Controller
      *                  client encoding name(= template encoding)
      *                  (locale name is "ll_cc" format. ll = language code. cc = country code.)
      */
-    function _getDefaultLanguage()
+    protected function _getDefaultLanguage()
     {
         return array('{$locale}', 'UTF-8', '{$client_enc}');
     }

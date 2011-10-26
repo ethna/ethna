@@ -21,11 +21,13 @@ function smarty_function_form_input($params, &$smarty)
         return null;
     }
 
+    $tag_stack = $smarty->_tag_stack;
+
     // 現在の{form_input}を囲むform blockがあればパラメータを取得しておく
     $block_params = null;
-    for ($i = count($smarty->_tag_stack); $i >= 0; --$i) {
-        if ($smarty->_tag_stack[$i][0] === 'form') {
-            $block_params = $smarty->_tag_stack[$i][1];
+    for ($i = count($tag_stack) - 1; $i >= 0; --$i) {
+        if ($tag_stack[$i][0] === 'form') {
+            $block_params = $tag_stack[$i][1];
             break;
         }
     }

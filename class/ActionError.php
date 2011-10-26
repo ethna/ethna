@@ -24,14 +24,14 @@ class Ethna_ActionError
      *  @access private
      */
 
-    /** @var    array   エラーオブジェクトの一覧 */
-    var $error_list = array();
+    /** @protected    array   エラーオブジェクトの一覧 */
+    protected $error_list = array();
 
-    /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    var $action_form = null;
+    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
+    protected $action_form = null;
 
-    /** @var    object  Ethna_Logger        ログオブジェクト */
-    var $logger = null;
+    /** @protected    object  Ethna_Logger        ログオブジェクト */
+    protected $logger = null;
     /**#@-*/
 
     /**
@@ -39,7 +39,7 @@ class Ethna_ActionError
      *
      *  @access public
      */
-    public function Ethna_ActionError()
+    public function __construct()
     {
     }
 

@@ -25,8 +25,8 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
 
     function _resetLoggerSetting($config)
     {
-        unset($this->ctl->class_factory->object['logger']);
-        $config_obj = $this->ctl->class_factory->object['config'];
+        unset($this->ctl->getClassFactory()->object['logger']);
+        $config_obj = $this->ctl->getClassFactory()->object['config'];
         $config_obj->config = $config;
     }
 
@@ -48,11 +48,13 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
         $this->assertEqual($facility, 'echo'); // not array, but string (for B.C.)
 
         // level
-        $level_echo = $this->logger->level['echo'];
+        $level = $this->getNonpublicProperty($this->logger, 'level');
+        $level_echo = $level['echo'];
         $this->assertEqual($level_echo, LOG_WARNING);
 
         // option
-        $option_echo = $this->logger->option['echo'];
+        $option = $this->getNonpublicProperty($this->logger, 'option');
+        $option_echo = $option['echo'];
         $this->assertEqual($option_echo['pid'], true);
         $this->assertEqual($option_echo['function'], true);
         $this->assertEqual($option_echo['pos'], true);
@@ -88,27 +90,30 @@ class Ethna_Logger_Test extends Ethna_UnitTestBase
         $this->assertEqual($facility, array('echo', 'file', 'alertmail'));
 
         // level
-        $level_echo = $this->logger->level['echo'];
+        $level = $this->getNonpublicProperty($this->logger, 'level');
+        $level_echo = $level['echo'];
         $this->assertEqual($level_echo, LOG_WARNING);
-        $level_file = $this->logger->level['file'];
+        $level_file = $level['file'];
         $this->assertEqual($level_file, LOG_NOTICE);
-        $level_alertmail = $this->logger->level['alertmail'];
+        $level_alertmail = $level['alertmail'];
         $this->assertEqual($level_alertmail, LOG_ERR);
 
         // option
-        $option_echo = $this->logger->option['echo'];
+        $option = $this->getNonpublicProperty($this->logger, 'option');
+
+        $option_echo = $option['echo'];
         $this->assertEqual($option_echo['pid'], true);
         $this->assertEqual($option_echo['function'], true);
         $this->assertEqual($option_echo['pos'], true);
 
-        $option_file = $this->logger->option['file'];
+        $option_file = $option['file'];
         $this->assertEqual($option_file['pid'], true);
         $this->assertEqual($option_file['function'], true);
         $this->assertEqual($option_file['pos'], true);
         $this->assertEqual($option_file['file'], '/var/log/Ethna.log');
         $this->assertEqual($option_file['mode'], 0666);
 
-        $option_alertmail = $this->logger->option['alertmail'];
+        $option_alertmail = $option['alertmail'];
         $this->assertEqual($option_alertmail['pid'], true);
         $this->assertEqual($option_alertmail['function'], true);
         $this->assertEqual($option_alertmail['pos'], true);

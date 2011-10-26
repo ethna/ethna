@@ -11,17 +11,18 @@
  */
 class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
 {
-    var $vld;
-    var $local_ctl;
+    public $vld;
+    public $ctl;
 
     function setUp()
     {
         $ctl = new Ethna_Controller();
         $ctl->setClientEncoding('EUC-JP');
-        $ctl->action_form = new Ethna_ActionForm($ctl);
-        $this->local_ctl = $ctl;
+        $ctl->setActionForm(new Ethna_ActionForm($ctl));
         $plugin = $ctl->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Strmaxcompat');
+
+        $this->ctl = $ctl;
     }
 
     function tearDown()
@@ -38,13 +39,14 @@ class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
                               'required'      => true,
                               'strmaxcompat'  => '4',  // 半角4、全角2文字
                         );
-            $this->vld->af->setDef('namae_str', $form_str);
-    
+            $af = $this->ctl->getActionForm();
+            $af->setDef('namae_str', $form_str);
+
             //    ascii.
             $input_str = 'abcd';
             $pear_error = $this->vld->validate('namae_str', $input_str, $form_str);
             $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+
             $error_str = 'abcde';
             $pear_error = $this->vld->validate('namae_str', $error_str, $form_str);
             $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
@@ -55,7 +57,7 @@ class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
             $input_str_euc = mb_convert_encoding($input_str, 'EUC-JP', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $input_str_euc, $form_str);
             $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+
             $error_str = 'あいう';
             $error_str_euc = mb_convert_encoding($error_str, 'EUC-JP', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $error_str_euc, $form_str);
@@ -67,7 +69,7 @@ class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
         }
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 
     // {{{ test max str (compatible class, SJIS)
@@ -75,19 +77,20 @@ class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
     {
         if (extension_loaded('mbstring')) {
 
-            $this->local_ctl->setClientEncoding('SJIS');
+            $this->ctl->setClientEncoding('SJIS');
             $form_str = array(
                               'type'          => VAR_TYPE_STRING,
                               'required'      => true,
                               'strmaxcompat'  => '4',  // 半角4、全角2文字
                         );
-            $this->vld->af->setDef('namae_str', $form_str);
-    
+            $af = $this->ctl->getActionForm();
+            $af->setDef('namae_str', $form_str);
+
             //    ascii.
             $input_str = 'abcd';
             $pear_error = $this->vld->validate('namae_str', $input_str, $form_str);
             $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+
             $error_str = 'abcde';
             $pear_error = $this->vld->validate('namae_str', $error_str, $form_str);
             $this->assertTrue(is_a($pear_error, 'Ethna_Error'));
@@ -98,7 +101,7 @@ class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
             $input_str_sjis = mb_convert_encoding($input_str, 'SJIS', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $input_str_sjis, $form_str);
             $this->assertFalse(is_a($pear_error, 'Ethna_Error'));
-    
+
             $error_str = 'あいう';
             $error_str_sjis = mb_convert_encoding($error_str, 'SJIS', 'UTF-8');
             $pear_error = $this->vld->validate('namae_str', $error_str_sjis, $form_str);
@@ -110,7 +113,7 @@ class Ethna_Plugin_Validator_Strmaxcompat_Test extends Ethna_UnitTestBase
         }
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 }
 

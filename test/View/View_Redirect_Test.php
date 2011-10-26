@@ -52,7 +52,7 @@ class Ethna_View_Redirect_Test extends Ethna_UnitTestBase
         $project->create();
 
         //   add mock action for redirect
-        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.redirect.php';   
+        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.redirect.php';
         $project->runCmd('add-action',
                          array(
                              '-s', $action_skel,
@@ -61,7 +61,7 @@ class Ethna_View_Redirect_Test extends Ethna_UnitTestBase
         );
 
         $out = $project->runMain('redirect');
-        $this->assertEqual("", $out); 
+        $this->assertEqual("", $out);
 
         if (version_compare(PHP_VERSION, '5.0.0', '>')) {
             $headers_sent = headers_list();
@@ -70,5 +70,7 @@ class Ethna_View_Redirect_Test extends Ethna_UnitTestBase
                 false
             );
         }
+
+        $project->delete();
     }
 }

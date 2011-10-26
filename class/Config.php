@@ -23,11 +23,11 @@ class Ethna_Config
      *  @access private
      */
 
-    /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
-    
-    /** @var    array   設定内容 */
-    var $config = null;
+    /** @protected    object  Ethna_Controller    controllerオブジェクト */
+    protected $controller;
+
+    /** @FIXME @protected    array   設定内容 */
+    public $config = null;
 
     /**#@-*/
 
@@ -36,9 +36,9 @@ class Ethna_Config
      *  Ethna_Configクラスのコンストラクタ
      *
      *  @access public
-     *  @param  object  Ethna_Controller    &$controller    controllerオブジェクト
+     *  @param  object  Ethna_Controller    $controller    controllerオブジェクト
      */
-    public function __construct(&$controller)
+    public function __construct($controller)
     {
         $this->controller = $controller;
 

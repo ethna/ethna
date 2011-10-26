@@ -20,23 +20,23 @@
 class Ethna_View_List extends Ethna_ViewClass
 {
     /**#@+
-     *  @access private
+     *  @access protected
      */
 
-    /** @var    int     表示開始オフセット */
-    var $offset = 0;
+    /** @protected    int     表示開始オフセット */
+    protected $offset = 0;
 
-    /** @var    int     表示件数 */
-    var $count = 25;
+    /** @protected    int     表示件数 */
+    protected $count = 25;
 
-    /** @var    array   検索対象項目一覧 */
-    var $search_list = array();
+    /** @protected    array   検索対象項目一覧 */
+    protected $search_list = array();
 
-    /** @var    string  検索マネージャクラス名 */
-    var $manager_name = null;
+    /** @protected    string  検索マネージャクラス名 */
+    protected $manager_name = null;
 
-    /** @var    string  表示対象クラス名 */
-    var $class_name = null;
+    /** @protected    string  表示対象クラス名 */
+    protected $class_name = null;
 
     /**#@-*/
 
@@ -45,7 +45,7 @@ class Ethna_View_List extends Ethna_ViewClass
      *
      *  @access public
      */
-    function preforward()
+    public function preforward()
     {
         // 表示オフセット/件数設定
         $this->offset = $this->af->get('offset');
@@ -104,7 +104,7 @@ class Ethna_View_List extends Ethna_ViewClass
      *
      *  @access protected
      */
-    function _fixNameObject($value, $obj)
+    protected function _fixNameObject($value, $obj)
     {
         return $value;
     }
@@ -117,7 +117,7 @@ class Ethna_View_List extends Ethna_ViewClass
      *  @param  array   $list       検索結果
      *  @return array   ナビゲーション情報を格納した配列
      */
-    function _getNavigation($total, &$list)
+    protected function _getNavigation($total, &$list)
     {
         $nav = array();
         $nav['offset'] = $this->offset;
@@ -148,7 +148,7 @@ class Ethna_View_List extends Ethna_ViewClass
      *
      *  @access protected
      */
-    function _setQueryOption()
+    protected function _setQueryOption()
     {
     }
 
@@ -159,7 +159,7 @@ class Ethna_View_List extends Ethna_ViewClass
      *  @param  array   $search_list    検索対象一覧
      *  @return string  検索内容を格納したGET引数
      */
-    function _getQueryParameter()
+    protected function _getQueryParameter()
     {
         $query = "";
 

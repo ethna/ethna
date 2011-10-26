@@ -38,13 +38,14 @@ foreach ($r[0] as $opt) {
 $description = 'Ethna Web Application Framework';
 $package = 'Ethna';
 
-// x.0.y -> beta
-// x.1.y -> stable
-$major_version = "2.6";
-$minor_version = "0";
+require_once dirname(__FILE__) . '/../Ethna.php';
+
+$version_array = explode('.', ETHNA_VERSION);
+$major_version = implode('.', array_slice($version_array, 0, 2));
+$minor_version = implode('', array_slice(explode('-', $version_array[2]), 0, 1));
 
 if ($state == 'alpha' || $state == 'beta') {
-    $version = $major_version . strftime('.%Y%m%d%H');
+    $version = $major_version . "." . $minor_version . $state . strftime('%Y%m%d%H');
 } else {
     $version = $major_version . "." . $minor_version;
 }
@@ -58,7 +59,10 @@ $config = array(
     'baseinstalldir' => 'Ethna',
     'packagedirectory' => dirname(dirname(__FILE__)),
     'filelistgenerator' => 'file',
-    'ignore' => array('CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh', '*optional_package*', ),
+    'ignore' => array(
+        'CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh', '*optional_package*', 'coverage/',
+        '.gitignore', '.gitattributes',
+    ),
     'changelogoldtonew' => false,
     'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc',),
     'description' => $description,
@@ -66,7 +70,7 @@ $config = array(
     'installexceptions' => array('bin/ethna.sh' => '/', 'bin/ethna.bat' => '/'),
     'installas' => array('bin/ethna.sh' => 'ethna', 'bin/ethna.bat' => 'ethna.bat'),
 );
- 
+
 $ethna_channel = 'pear.ethna.jp';
 $packagexml = new PEAR_PackageFileManager2();
 $packagexml->setOptions($config);
@@ -83,11 +87,12 @@ $packagexml->setPackageType('php');
 
 $packagexml->addRole('*', 'php');
 
-$packagexml->setPhpDep('4.1.0');
-$packagexml->setPearinstallerDep('1.3.5');
+$packagexml->setPhpDep('5.2.0');
+$packagexml->setPearinstallerDep('1.9.0');
 $packagexml->addPackageDepWithChannel('optional', 'DB', 'pear.php.net');
 $packagexml->addPackageDepWithChannel('optional', 'Smarty', $ethna_channel);
 $packagexml->addPackageDepWithChannel('optional', 'simpletest', $ethna_channel);
+$packagexml->addPackageDepWithChannel('optional', 'Smarty3', $ethna_channel);
 
 $packagexml->addMaintainer('lead', 'sotarok' , 'Sotaro Karasawa', 'sotaro.k@gmail.com');
 

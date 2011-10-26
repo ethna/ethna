@@ -20,8 +20,7 @@
  */
 function ethna_error_handler($errno, $errstr, $errfile, $errline)
 {
-    if ($errno === E_STRICT || $errno === E_DEPRECATED
-    || ($errno & error_reporting()) === 0) {
+    if (($errno & error_reporting()) === 0) {
         return;
     }
 
@@ -42,8 +41,13 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
     case E_NOTICE:
     case E_USER_NOTICE:
     case E_STRICT:
-    case E_DEPRECATED:
         $php_errno = 'Notice'; break;
+    case E_USER_DEPRECATED:
+    case E_DEPRECATED:
+        $php_errno = 'Deprecated'; break;
+    case E_RECOVERABLE_ERROR:
+        $php_errno = 'Recoverable error'; break;
+        break;
     default:
         $php_errno = 'Unknown error'; break;
     }
@@ -66,6 +70,14 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
                                      $name, $errstr, $errfile, $errline));
     }
 
+    // ignore these errors because so many errors occurs in external libraries (like PEAR)
+    if ($errno === E_STRICT) {
+        return true;
+    }
+    if ($errno === E_RECOVERABLE_ERROR) {
+        return true;
+    }
+
     // printf()
     if (ini_get('display_errors')) {
         $is_debug = true;
@@ -77,8 +89,9 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
             $has_echo = is_array($facility)
                         ? in_array('echo', $facility) : $facility === 'echo';
         }
-        if ($is_debug == true && $has_echo === false) {
-            return true;
+        if ($is_debug == true && $has_echo === false
+            && $errno !== E_DEPRECATED) {
+            return false;
         }
     }
 }
@@ -103,32 +116,32 @@ class Ethna_Error
      *  @access private
      */
 
-    /** @var    object  Ethna_I18N  i18nオブジェクト */
-    var $i18n;
+    /** @protected    object  Ethna_I18N  i18nオブジェクト */
+    protected $i18n;
 
-    /** @var    object  Ethna_Logger    loggerオブジェクト */
-    var $logger;
+    /** @protected    object  Ethna_Logger    loggerオブジェクト */
+    protected $logger;
 
-    /** @var    string  エラーメッセージ */
-    var $message;
+    /** @protected    string  エラーメッセージ */
+    protected $message;
 
-    /** @var    integer エラーコード */
-    var $code;
+    /** @protected    integer エラーコード */
+    protected $code;
 
-    /** @var    integer エラーモード */
-    var $mode;
-    
-    /** @var    array   エラーモード依存のオプション */
-    var $options;
+    /** @protected    integer エラーモード */
+    protected $mode;
 
-    /** @var    string  ユーザー定義もしくはデバッグ関連の追加情報を記した文字列。 */
-    var $userinfo;
+    /** @protected    array   エラーモード依存のオプション */
+    protected $options;
+
+    /** @protected    string  ユーザー定義もしくはデバッグ関連の追加情報を記した文字列。 */
+    protected $userinfo;
 
     /**#@-*/
 
     /**
      *  Ethna_Errorクラスのコンストラクタ
-     *  $userinfo は第5引数に設定すること。 
+     *  $userinfo は第5引数に設定すること。
      *
      *  @access public
      *  @param  string  $message            エラーメッセージ
@@ -175,7 +188,7 @@ class Ethna_Error
         //  その他メンバ変数設定
         $this->code = $code;
         $this->mode = $mode;
-        $this->options = $options; 
+        $this->options = $options;
         $this->level = ($this->options === NULL) ? E_USER_NOTICE : $options;
 
         //  Ethnaフレームワークのエラーハンドラ(callback)

@@ -38,7 +38,7 @@ class Ethna_View_404_Test extends Ethna_UnitTestBase
         $project->create();
 
         //   add mock action for redirect
-        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.404.php';   
+        $action_skel = ETHNA_TEST_SKELDIR . 'skel.action.404.php';
         $project->runCmd('add-action',
                          array(
                              '-s', $action_skel,
@@ -47,6 +47,8 @@ class Ethna_View_404_Test extends Ethna_UnitTestBase
         );
 
         $out = $project->runMain('return404');
-        $this->assertPattern("/404 Not Found/", $out); 
+        $this->assertPattern("/404 Not Found/", $out);
+
+        $project->delete();
     }
 }
