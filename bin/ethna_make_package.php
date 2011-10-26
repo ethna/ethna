@@ -59,7 +59,10 @@ $config = array(
     'baseinstalldir' => 'Ethna',
     'packagedirectory' => dirname(dirname(__FILE__)),
     'filelistgenerator' => 'file',
-    'ignore' => array('CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh', '*optional_package*', ),
+    'ignore' => array(
+        'CVS/', '.svn/', 'package.xml', 'ethna_make_package.php', 'ethna_make_package.sh', '*optional_package*', 'coverage/',
+        '.gitignore', '.gitattributes',
+    ),
     'changelogoldtonew' => false,
     'exceptions' => array('README' => 'doc', 'LICENSE' => 'doc', 'CHANGES' => 'doc',),
     'description' => $description,
@@ -67,7 +70,7 @@ $config = array(
     'installexceptions' => array('bin/ethna.sh' => '/', 'bin/ethna.bat' => '/'),
     'installas' => array('bin/ethna.sh' => 'ethna', 'bin/ethna.bat' => 'ethna.bat'),
 );
- 
+
 $ethna_channel = 'pear.ethna.jp';
 $packagexml = new PEAR_PackageFileManager2();
 $packagexml->setOptions($config);
@@ -85,10 +88,11 @@ $packagexml->setPackageType('php');
 $packagexml->addRole('*', 'php');
 
 $packagexml->setPhpDep('5.2.0');
-$packagexml->setPearinstallerDep('1.3.5');
+$packagexml->setPearinstallerDep('1.9.0');
 $packagexml->addPackageDepWithChannel('optional', 'DB', 'pear.php.net');
 $packagexml->addPackageDepWithChannel('optional', 'Smarty', $ethna_channel);
 $packagexml->addPackageDepWithChannel('optional', 'simpletest', $ethna_channel);
+$packagexml->addPackageDepWithChannel('optional', 'Smarty3', $ethna_channel);
 
 $packagexml->addMaintainer('lead', 'sotarok' , 'Sotaro Karasawa', 'sotaro.k@gmail.com');
 
