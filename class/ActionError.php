@@ -81,7 +81,7 @@ class Ethna_ActionError
         // ログ出力(補足)
         $af = $this->_getActionForm();
         $logger = $this->_getLogger();
-        $logger->log(LOG_NOTICE, '{form} -> [%s]', $this->action_form->getName($name));
+        $logger->log(LOG_INFO, '{form} -> [%s]', $this->action_form->getName($name));
     }
 
     /**
