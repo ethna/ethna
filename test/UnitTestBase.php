@@ -54,7 +54,7 @@ class Ethna_UnitTestBase extends UnitTestCase
         }
     }
 
-    function getNonpublicProperty($object, $property_name)
+    protected function getNonpublicProperty($object, $property_name)
     {
         if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
             $ref = new ReflectionProperty(get_class($object), $property_name);
