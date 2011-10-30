@@ -87,7 +87,11 @@ class Ethna_DB_ADOdb extends Ethna_DB
             $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
             return true;
         } else {
-            return false;
+            $error = Ethna::raiseError('DB Connection Error: %s',
+                E_DB_CONNECT,
+                $this->dsn);
+            $this->db = null;
+            return $error;
         }
     }
     //}}}
