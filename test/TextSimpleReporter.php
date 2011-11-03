@@ -66,7 +66,8 @@ class TextSimpleReporter extends SimpleReporter
             "/" . $this->getTestCaseCount() .
             ", Passes: " . $this->getPassCount() .
             ", Failures: " . $this->getFailCount() .
-            ", Exceptions: " . $this->getExceptionCount() . PHP_EOL;
+            ", Exceptions: " . $this->getExceptionCount() . PHP_EOL
+            ;
     }
 
     /**
@@ -152,6 +153,13 @@ class TextSimpleReporter extends SimpleReporter
             $exception->getMessage(),
             $exception
         );
+    }
+
+    function paintSkip($message)
+    {
+        // TODO : increment skip count and stack skip messages.
+        // echo $message, PHP_EOL;
+        throw new Exception('This unit tester is not support skip method.');
     }
 
     /**
