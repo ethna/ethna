@@ -70,6 +70,11 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
         ));
     }
 
+    public function getName()
+    {
+        return 'smarty3';
+    }
+
     /**
      *  Display the template
      *

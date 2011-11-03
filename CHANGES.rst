@@ -72,6 +72,19 @@ Renderer/View に関する変更点
     * 'path' として、include するファイルの path を指定できるようになりました
     * Ethna Info は、Smarty2 を利用するため、Smarty3 を使う場合でも Ethna Info を見るみは Smarty2 が必要です
 
+  * Ethna_Renderer の仕様変更 (Breaking B.C.)
+
+    * レンダラとしての Ethna_Renderer の仕様変更
+
+      * Smarty 以外にも実は PHP などで利用できる Ethna_Renderer でしたが、以下のように仕様を変更しました。
+      * テンプレートは何度でも render 可能になりました (これまで include_once だったので1度しか render できませんでした)
+      * setProp() された変数(assignされた変数) は、$assign名 でアクセスできるようになりました。
+
+    * レンダラエンジンの親クラスとしての Ethna_Renderer (Renderer プラグイン開発者向け情報)
+
+      * 今後エンジンは getName() を実装し、エンジン名を返す必要があります
+      * Renderer の $config プロパティには、iniで定義された配列 $config の、$config['renderer'][エンジン名] が入ります
+
 プラグイン機構に関する変更点
   * Ethna_Plugin::import という，プラグインソースをincludeするための，staticメソッドを追加．
   * すべてのPluginの基底となる抽象クラス，Ethna_Plugin_Abstractを追加

@@ -25,6 +25,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     /** @protected  engine path (library) */
     protected $engine_path = 'Smarty/Smarty.class.php';
 
+    protected $config_default = array(
+        'left_delimiter' => '{',
+        'right_delimiter' => '}',
+    );
+
     /**
      *  Ethna_Renderer_Smartyクラスのコンストラクタ
      *
@@ -45,7 +50,6 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->engine = new Smarty;
 
         // ディレクトリ関連は Controllerによって実行時に設定
-        // TODO: iniファイルによって上書き可にするかは要検討
         $template_dir = $controller->getTemplatedir();
         $compile_dir = $controller->getDirectory('template_c');
 
@@ -72,6 +76,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
             $controller->getDirectory('plugins'),
             array(ETHNA_BASE . '/class/Plugin/Smarty', SMARTY_DIR . 'plugins')
         );
+    }
+
+    public function getName()
+    {
+        return 'smarty';
     }
 
     /**
