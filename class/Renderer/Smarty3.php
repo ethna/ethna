@@ -34,9 +34,7 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
         parent::__construct($controller);
 
         // get renderer config
-        $smarty_config = isset($this->config['smarty3'])
-            ? $this->config['smarty3']
-            : array();
+        $smarty_config = $this->config;
         $this->loadEngine($smarty_config);
 
         $this->engine = new Smarty();
@@ -52,12 +50,8 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
         $this->engine->setCompileDir($compile_dir);
         $this->engine->compile_id = md5($this->template_dir);
 
-        if (isset($smarty_config['left_delimiter'])) {
-            $this->engine->left_delimiter = $smarty_config['left_delimiter'];
-        }
-        if (isset($smarty_config['right_delimiter'])) {
-            $this->engine->right_delimiter = $smarty_config['right_delimiter'];
-        }
+        $this->engine->left_delimiter = $smarty_config['left_delimiter'];
+        $this->engine->right_delimiter = $smarty_config['right_delimiter'];
 
         // make compile dir
         if (is_dir($this->engine->getCompileDir()) === false) {
