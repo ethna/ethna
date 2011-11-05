@@ -514,7 +514,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    protected _query($query)
+    protected function _query($query)
     {
         $this->logger->log(LOG_DEBUG, "$query");
         $r = $this->db->query($query);
