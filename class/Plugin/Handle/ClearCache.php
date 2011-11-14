@@ -49,8 +49,8 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
             echo "cleaning smarty caches, compiled templates...";
             $renderer = $controller->getRenderer();
             if (strtolower(get_class($renderer)) == "ethna_renderer_smarty") {
-                $renderer->engine->clear_all_cache();
-                $renderer->engine->clear_compiled_tpl();
+                $renderer->getEngine()->clear_all_cache();
+                $renderer->getEngine()->clear_compiled_tpl();
             }
             echo " done\n";
         }
