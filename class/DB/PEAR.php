@@ -220,7 +220,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      */
     public function getMetaData($table)
     {
-        $def = $this->db->tableInfo($table);
+        $def = $this->db->tableInfo($this->db->quoteIdentifier($table));
         if (is_array($def) === false) {
             return $def;
         }
