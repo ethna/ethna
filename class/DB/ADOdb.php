@@ -69,7 +69,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  DBに接続する
      *
      *  @access public
-     *  @return bool   true:成功 false:失敗
+     *  @return mixed   0:成功 Ethna_Error:エラー
      */
     public function connect()
     {
@@ -85,7 +85,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
         if ( $this->db ) {
             $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
-            return true;
+            return 0;
         } else {
             $error = Ethna::raiseError('DB Connection Error: %s',
                 E_DB_CONNECT,
