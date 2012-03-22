@@ -143,3 +143,17 @@ beta1 .. beta2
 ^^^^^^^^^^^^^^
 * require のパスを修正 (thx. seiya, https://github.com/sotarok/ethna/issues/#issue/1)
 
+beta3 .. beta4
+^^^^^^^^^^^^^^
+* Ethna_DB_PEAR のバグ修正 (thx. polidog, #40)
+* clear-cache コマンドのバグ修正 (thx. ucchee, #41)
+* Ethna_Plugin_CacheManager_Memcache の修正。
+
+  * delete コマンド
+  * 複数サーバのバランシングができていなかった件を修正 (thx. DQNEO #30)
+
+* Ethna_DB_ADOdb のエラーハンドリング, Ethna_DB_* の実装・コメントの修正
+
+  * thx. ryuzo98 #38, DQNEO #48
+
+* その他テストの追加、アクセし修飾子の修正など (thx. okonomi)
