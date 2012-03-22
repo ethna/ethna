@@ -346,7 +346,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      * 圧縮フラグを立てる
      *
      * MySQLなどいくつかの子クラスで有効
-     * 
+     *
      * @access public
      * @param bool $flag フラグ
      */

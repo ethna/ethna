@@ -87,7 +87,7 @@ class Ethna_Plugin_Generator_EntryPoint extends Ethna_Plugin_Generator
             // is needed?
             //$ret = Ethna_Util::chmod($entity, 0777);
         }
-            
+
 
         return $true;
     }

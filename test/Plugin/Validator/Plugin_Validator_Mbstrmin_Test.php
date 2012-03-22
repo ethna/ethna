@@ -23,7 +23,7 @@ class Ethna_Plugin_Validator_Mbstrmin_Test extends Ethna_UnitTestBase
         $this->ctl = $ctl;
     }
 
-    // {{{ test min mbstr 
+    // {{{ test min mbstr
     function test_min_mbstr()
     {
         $form_mbstr = array(
@@ -42,7 +42,7 @@ class Ethna_Plugin_Validator_Mbstrmin_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_MIN_STRING,$pear_error->getCode());
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 
 }

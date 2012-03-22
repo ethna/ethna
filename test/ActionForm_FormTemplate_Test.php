@@ -9,7 +9,7 @@
 
 // {{{  Ethna_FormTemplate_ActionForm
 /**
- *  Test ActionForm (Form Template) 
+ *  Test ActionForm (Form Template)
  *
  *  @access public
  */
@@ -34,7 +34,7 @@ class Ethna_FormTemplate_ActionForm extends Ethna_ActionForm
 
 // {{{  Ethna_FormTemplateTest_ActionForm
 /**
- *  Test ActionForm (Form Template) 
+ *  Test ActionForm (Form Template)
  *
  *  @access public
  */
@@ -62,7 +62,7 @@ class Ethna_ActionForm_FormTemplate_Test extends Ethna_UnitTestBase
         //   REQUEST_METHOD を設定しないと
         //   フォームテンプレートが初期化されない
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->local_af = new Ethna_FormTemplateTest_ActionForm($this->ctl); 
+        $this->local_af = new Ethna_FormTemplateTest_ActionForm($this->ctl);
     }
 
     function tearDown()
@@ -82,7 +82,7 @@ class Ethna_ActionForm_FormTemplate_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ syntax sugar 
+    // {{{ syntax sugar
     function test_formtemplate_syntaxsugar()
     {
         $syntax_sugar_def = $this->local_af->getDef('syntax_sugar');

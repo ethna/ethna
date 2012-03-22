@@ -192,7 +192,7 @@ class Ethna_ActionForm
     private function _getFormNameArray($name)
     {
         // 多次元配列を指定した場合
-        if (preg_match('/^.*\[[^\]]+\]$/', $name)) { 
+        if (preg_match('/^.*\[[^\]]+\]$/', $name)) {
             $buff = preg_replace('/\]\[/', '[', $name); // hoge[foo][bar] => hoge[foo[bar]
             $buff = preg_replace('/\]/', "", $buff);    // hoge][foo[bar] => hoge[foo[bar
             $ret = explode('[', $buff);                 // hoge[foo[bar   => array('hoge', 'foo', 'var')
@@ -1050,7 +1050,7 @@ class Ethna_ActionForm
             return;
         } else if ($code == E_FORM_MIN_FILE) {
             $this->ae->add($name,
-                _et('Please specify file whose size is more than %d KB.'), 
+                _et('Please specify file whose size is more than %d KB.'),
                 $code, $def['min']);
             return;
         } else if ($code == E_FORM_MIN_STRING) {
@@ -1075,7 +1075,7 @@ class Ethna_ActionForm
             return;
         } else if ($code == E_FORM_MAX_FILE) {
             $this->ae->add($name,
-                _et('Please specify file whose size is less than %d KB to {form}.'), 
+                _et('Please specify file whose size is less than %d KB to {form}.'),
                 $code, $def['max']);
             return;
         } else if ($code == E_FORM_MAX_STRING) {
@@ -1251,11 +1251,11 @@ class Ethna_ActionForm
      *  $this->backend も初期化済みのため、DBやセッション
      *  の値に基づいてフォーム定義を変更することができます。
      *
-     *  @access public 
+     *  @access public
      */
     public function setFormDef_PreHelper()
     {
-        //  TODO: override this method. 
+        //  TODO: override this method.
     }
 
     /**
@@ -1265,17 +1265,17 @@ class Ethna_ActionForm
      *  変更したい場合に、このメソッドをオーバーライドします。
      *
      *  以下の定義をテンプレートで行った場合に呼び出されます。
-     *  
+     *
      *  {form ethna_action=...} (ethna_action がない場合は呼び出されません)
      *  {form_input action=...} (action がない場合は呼び出されません)
      *
-     *  @access public 
+     *  @access public
      */
     public function setFormDef_ViewHelper()
     {
         //   TODO: デフォルト実装は Ethna_ActionClass#prepare 前に
         //   呼び出されるものと同じ。異なる場合にオーバライドする
-        $this->setFormDef_PreHelper(); 
+        $this->setFormDef_PreHelper();
     }
 
     /**

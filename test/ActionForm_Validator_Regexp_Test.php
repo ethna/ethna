@@ -23,7 +23,7 @@ class Ethna_ActionForm_Validator_Regexp_Test extends Ethna_UnitTestBase
         $this->ae->clear();
     }
 
-    // {{{ Validator Regexp. 
+    // {{{ Validator Regexp.
     function test_Validate_Regexp()
     {
         $form_def = array(
@@ -31,9 +31,9 @@ class Ethna_ActionForm_Validator_Regexp_Test extends Ethna_UnitTestBase
                         'form_type' => FORM_TYPE_TEXT,
                         'required' => true,
                         'regexp' => '/^[A-Za-z0-9]+$/',
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         $this->af->set('input', 'a5A4Pgw9');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
@@ -44,7 +44,7 @@ class Ethna_ActionForm_Validator_Regexp_Test extends Ethna_UnitTestBase
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear();
 
-        $this->af->set('input', 1459); 
+        $this->af->set('input', 1459);
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();

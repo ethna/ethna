@@ -50,7 +50,7 @@ class Ethna_Plugin_Logwriter_File extends Ethna_Plugin_Logwriter
     function setOption($option)
     {
         parent::setOption($option);
-        
+
         if (isset($option['file'])) {
             $this->file = $option['file'];
         } else {

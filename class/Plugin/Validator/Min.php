@@ -108,7 +108,7 @@ class Ethna_Plugin_Validator_Min extends Ethna_Plugin_Validator
                        || strcasecmp('eucJP-win', $client_enc == 0)) {
                     $plugin_name = 'Strmincompat';
                     $params['strmincompat'] = $params['min'];
-                } else { 
+                } else {
                     $plugin_name = 'Strmin';
                     $params['strmin'] = $params['min'];
                 }

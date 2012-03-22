@@ -141,7 +141,7 @@ class Ethna_AppObject
                 $this->id_def = array($this->id_def, $k);
             }
         }
-        
+
         // キー妥当性チェック
         if (is_null($key_type) && is_null($key) && is_null($prop)) {
             // perhaps for adding object
@@ -276,7 +276,7 @@ class Ethna_AppObject
      *  プロパティ値と、表示用の値が違う場合 (「県」等）に、
      *  オーバーライドして下さい。
      *
-     *  表示用の値を返す形で実装します。 
+     *  表示用の値を返す形で実装します。
      *
      *  @access public
      *  @param  string  $key    プロパティ(カラム)名
@@ -461,7 +461,7 @@ class Ethna_AppObject
 
         // last insert idの取得: (mysql, sqliteのみ)
         // primary key の 'seq' フラグがある(最初の)プロパティに入れる
-        $insert_id = $this->my_db_rw->getInsertId(); 
+        $insert_id = $this->my_db_rw->getInsertId();
         if ($insert_id !== null && $insert_id >= 0) {
             foreach (to_array($this->id_def) as $id_def) {
                 if (isset($this->prop_def[$id_def]['seq'])
@@ -560,7 +560,7 @@ class Ethna_AppObject
     {
         $sql = $this->_getSQL_Select($this->getIdDef(), $this->getId());
 
-        //   重複機ーエラーの場合はリトライ(4回) 
+        //   重複機ーエラーの場合はリトライ(4回)
         for ($i = 0; $i < 3; $i++) {  // magic number
             $r = $this->my_db_rw->query($sql);
             if (Ethna::isError($r)) {
@@ -580,7 +580,7 @@ class Ethna_AppObject
                 }
             }
         }
-        
+
         return $r;
     }
     // }}}
@@ -828,7 +828,7 @@ class Ethna_AppObject
     {
         $tables = array_keys($this->table_def);
         $table = $tables[0];
-        
+
         return $table;
     }
     // }}}
@@ -1635,7 +1635,7 @@ class Ethna_AppObject
                 'table'     => $table_name,
             );
         }
-        
+
         $cache_manager->set($cache_key, $prop_def);
 
         return $prop_def;

@@ -65,7 +65,7 @@ class Ethna_Plugin_Generator_ActionTest extends Ethna_Plugin_Generator
             printf("[!!!!warning!!!!] original action script was not found.\n");
             printf("[!!!!warning!!!!] You must generate it by the following command :\n");
             printf("[!!!!warning!!!!] ethna add-action %s\n\n", $action_name);
-        } 
+        }
 
         // generate
         if (file_exists($entity)) {

@@ -24,12 +24,12 @@ require_once ETHNA_BASE . '/class/PearWrapper.php';
 class Ethna_PearConfig_Local extends Ethna_PearWrapper
 {
 
-    // {{{ _setLocalConfig 
+    // {{{ _setLocalConfig
     /**
      *  config for local.
      *
      *  @return true|Ethna_Error
-     *  @access private 
+     *  @access private
      */
     protected function _setLocalConfig()
     {
@@ -105,7 +105,7 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
     }
     // }}}
 
-    // {{{ getConfFile 
+    // {{{ getConfFile
     /**
      *    return local config filename.
      */
@@ -128,7 +128,7 @@ class Ethna_PearConfig_Local extends Ethna_PearWrapper
  */
 class Ethna_Plugin_Handle_PearLocal extends Ethna_Plugin_Handle
 {
-    // {{{ _parseArgList() 
+    // {{{ _parseArgList()
     /**
      * @access private
      */

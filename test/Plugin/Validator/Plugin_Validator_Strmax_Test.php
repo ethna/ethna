@@ -23,7 +23,7 @@ class Ethna_Plugin_Validator_Strmax_Test extends Ethna_UnitTestBase
         $this->ctl = $ctl;
     }
 
-    // {{{ test max str 
+    // {{{ test max str
     function test_max_str()
     {
         $form_str = array(
@@ -42,7 +42,7 @@ class Ethna_Plugin_Validator_Strmax_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_MAX_STRING,$pear_error->getCode());
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 
 }

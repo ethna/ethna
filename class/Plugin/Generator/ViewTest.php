@@ -57,7 +57,7 @@ class Ethna_Plugin_Generator_ViewTest extends Ethna_Plugin_Generator
             printf("[!!!!warning!!!!] original view script was not found.\n");
             printf("[!!!!warning!!!!] You must generate it by the following command :\n");
             printf("[!!!!warning!!!!] ethna add-view %s\n\n", $forward_name);
-        } 
+        }
 
         // user macro
         $user_macro = $this->_getUserMacro();

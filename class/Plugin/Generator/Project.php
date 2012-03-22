@@ -27,10 +27,10 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
      *  @param  string  $basedir    プロジェクトベースディレクトリ
      *  @param  string  $skeldir    スケルトンディレクトリ。これが指定されると、そこにある
      *                              ファイルが優先される。また、ETHNA_HOME/skel にないもの
-     *                              も追加してコピーする 
+     *                              も追加してコピーする
      *  @param  string  $locale     ロケール名
      *                              (ロケール名は、ll_cc の形式。ll = 言語コード cc = 国コード)
-     *  @param  string  $encoding   プロジェクトで使用するエンコーディング 
+     *  @param  string  $encoding   プロジェクトで使用するエンコーディング
      *  @return bool    true:成功   Ethna_Error:失敗
      */
     function generate($id, $basedir, $skeldir, $locale, $encoding)
@@ -205,15 +205,15 @@ class Ethna_Plugin_Generator_Project extends Ethna_Plugin_Generator
     /**
      *  実際のプロジェクトスケルトンを生成処理を行う
      *
-     *  @access private 
-     *  @param  string  $maps       スケルトン名と生成されるファイルの配列 
-     *  @param  string  $macro      適用マクロ 
+     *  @access private
+     *  @param  string  $maps       スケルトン名と生成されるファイルの配列
+     *  @param  string  $macro      適用マクロ
      *  @param  string  $skeldir    スケルトンディレクトリ。これが指定されると、そこにある
      *                              ファイルが優先される。また、ETHNA_HOME/skel にないもの
-     *                              も追加してコピーする 
+     *                              も追加してコピーする
      *  @return bool     true:成功  Ethna_Error:失敗
      */
- 
+
     function _generate($maps, $macro, $skeldir)
     {
         foreach ($maps as $skel => $realfile) {

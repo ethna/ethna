@@ -22,7 +22,7 @@ class Ethna_InfoManager extends Ethna_AppManager
     /**#@+
      *  @access private
      */
-    
+
     /** @var    object  Ethna_Controller    コントローラオブジェクト */
     var $ctl;
 
@@ -44,7 +44,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 
     /** @var    array   [属性]フォーム型一覧 */
     var $form_type_list;
- 
+
     /** @var    array   [属性]変数型一覧 */
     var $var_type_list;
 
@@ -192,7 +192,7 @@ class Ethna_InfoManager extends Ethna_AppManager
             }
 
             $key = substr($file, $prefix_len);
-            
+
             // キャッシュチェック
             include_once $file;
             if ($this->cache_class_list[$key]['.mtime'] >= filemtime($file)) {
@@ -436,7 +436,7 @@ class Ethna_InfoManager extends Ethna_AppManager
 
         return $implicit_action_list;
     }
-    
+
     /**
      *  アクション定義一覧を補完する
      *

@@ -45,7 +45,7 @@ class Ethna_View_Info extends Ethna_ViewClass
         // actions
         $this->af->setApp('action_list', $em->getActionList());
 
-        // views 
+        // views
         $this->af->setApp('forward_list', $em->getForwardList());
 
         // configuration

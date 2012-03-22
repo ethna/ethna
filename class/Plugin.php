@@ -13,7 +13,7 @@
 // {{{ Ethna_Plugin
 /**
  *  プラグインクラス
- *  
+ *
  *  @author     ICHII Takashi <ichii386@schweetheart.jp>
  *  @author     Kazuhiro Hosoi <hosoi@gree.co.jp>
  *  @access     public

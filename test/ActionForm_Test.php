@@ -9,7 +9,7 @@
 
 // {{{    Ethna_Test_ActionForm
 /**
- *  Test ActionForm 
+ *  Test ActionForm
  *
  *  @access public
  */
@@ -52,7 +52,7 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
         //   REQUEST_METHOD を設定しないと
         //   フォームテンプレートが初期化されない
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->local_af = new Ethna_Test_ActionForm($this->ctl); 
+        $this->local_af = new Ethna_Test_ActionForm($this->ctl);
         $this->local_af->clearFormVars();
         $this->ae->clear();
     }
@@ -95,7 +95,7 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
     {
         $this->assertNull($this->local_af->getName('hoge'));
         $this->assertEqual('test', $this->local_af->getName('test'));
-        
+
         //   もしフォームのname属性がないと、keyそのものが返ってくる
         $this->assertEqual('no_name', $this->local_af->getName('no_name'));
     }
@@ -114,7 +114,7 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ set 
+    // {{{ set
     function test_set()
     {
         $this->local_af->set('test', 'test');
@@ -122,7 +122,7 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ getHiddenVars 
+    // {{{ getHiddenVars
     function test_getHiddenVars()
     {
         //    フォーム定義が配列で、submit された値が非配列の場合
@@ -167,7 +167,7 @@ class Ethna_ActionForm_Test extends Ethna_UnitTestBase
         $hidden = $this->local_af->getHiddenVars($include_list);
         $expected = "<input type=\"hidden\" name=\"test\" value=\"1\" />\n";
         $this->assertEqual($hidden, $expected);
-       
+
         //    exclude_list テスト
         $exclude_list = array('test_array', 'no_name');
         $hidden = $this->local_af->getHiddenVars(NULL, $exclude_list);

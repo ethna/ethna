@@ -11,11 +11,11 @@ require_once ETHNA_BASE . '/test/MockProject.php';
 
 //{{{  Ethna_Plugin_Handle_I18n_Test
 /**
- *  Test Case For Ethna_Plugin_Handle_I18n_Test 
+ *  Test Case For Ethna_Plugin_Handle_I18n_Test
  *
  *  @access public
  */
-class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase 
+class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
 {
     var $proj;
     var $mock_ctl;
@@ -27,7 +27,7 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         $this->proj = new Ethna_MockProject();
         $r = $this->proj->create();
         if (Ethna::isError($r)) {
-            $this->fail($r->getMessage());    
+            $this->fail($r->getMessage());
         }
         $this->mock_ctl = $this->proj->getController();
         $locale_dir = $this->mock_ctl->getDirectory('locale');
@@ -46,12 +46,12 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
 
     function test_Action()
     {
-        $skel = ETHNA_TEST_SKELDIR . 'skel.action.i18ntest.php';   
+        $skel = ETHNA_TEST_SKELDIR . 'skel.action.i18ntest.php';
         $r = $this->proj->runCmd('add-action',
                           array(
                               '-s', $skel,
-                              'i18n', 
-                          ) 
+                              'i18n',
+                          )
              );
         if (Ethna::isError($r)) {
             $this->fail($r->getMessage());
@@ -72,24 +72,24 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         $this->assertTrue(isset($catalog['min_error_i18n_all']));
         $this->assertTrue(isset($catalog['max_error_i18n_all']));
         $this->assertTrue(isset($catalog['regexp_error_i18n_all']));
-        
+
         $this->assertTrue(isset($catalog['actionform filter']));
 
         //  assert Action
         $this->assertTrue(isset($catalog['action prepare']));
         $this->assertTrue(isset($catalog["action\nprepare\n multiple\n  line"]));
-        
+
         $this->assertTrue(isset($catalog['action perform']));
-    } 
+    }
 
     function test_View()
     {
-        $skel = ETHNA_TEST_SKELDIR . 'skel.view.i18ntest.php';   
+        $skel = ETHNA_TEST_SKELDIR . 'skel.view.i18ntest.php';
         $r = $this->proj->runCmd('add-view',
                           array(
                               '-s', $skel,
-                              'i18n', 
-                          ) 
+                              'i18n',
+                          )
              );
         if (Ethna::isError($r)) {
             $this->fail($r->getMessage());
@@ -97,20 +97,20 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         $this->run_i18n_cmd();
         $catalog = $this->i18n->parseEthnaMsgCatalog($this->msg_file);
 
-        //  assert view 
+        //  assert view
         $this->assertTrue(isset($catalog['view global']));
         $this->assertTrue(isset($catalog['view prepare']));
         $this->assertTrue(isset($catalog["view\n\n   prepare\n multiple\n  line"]));
-    } 
+    }
 
     function test_Template()
     {
-        $skel = ETHNA_TEST_SKELTPLDIR . 'skel.template.i18ntest.tpl';   
+        $skel = ETHNA_TEST_SKELTPLDIR . 'skel.template.i18ntest.tpl';
         $r = $this->proj->runCmd('add-template',
                           array(
                               '-s', $skel,
-                              'i18n', 
-                          ) 
+                              'i18n',
+                          )
              );
         if (Ethna::isError($r)) {
             $this->fail($r->getMessage());
@@ -118,11 +118,11 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         $this->run_i18n_cmd();
         $catalog = $this->i18n->parseEthnaMsgCatalog($this->msg_file);
 
-        //  assert template 
+        //  assert template
         $this->assertTrue(isset($catalog['template i18n']));
         $this->assertTrue(isset($catalog['template i18n modifier']));
         $this->assertTrue(isset($catalog['template i18n multiple modifier']));
-    } 
+    }
 
     function test_cmd_option()
     {
@@ -138,7 +138,7 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
 
         $r = $this->proj->runCmd('i18n', array('-l', 'ko_KR'));
         $this->assertFalse(Ethna::isError($r));
-        
+
         $r = $this->proj->runCmd('i18n', array('--locale'));
         $this->assertTrue(Ethna::isError($r));
         $this->assertEqual('option --locale requires an argument', $r->getMessage());
@@ -150,7 +150,7 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         $r = $this->proj->runCmd('i18n', array('--gettext'));
         $this->assertFalse(Ethna::isError($r));
 
-        //    --gettext not allowed an argument 
+        //    --gettext not allowed an argument
         $r = $this->proj->runCmd('i18n', array('--gettext=foo'));
         $this->assertTrue(Ethna::isError($r));
         $this->assertEqual("option --gettext doesn't allow an argument", $r->getMessage());
@@ -162,7 +162,7 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
         $r = $this->proj->runCmd('i18n', array('--gettext', '--locale=ko_KR'));
         $this->assertFalse(Ethna::isError($r));
     }
-   
+
     function run_i18n_cmd()
     {
         $r = $this->proj->runCmd('i18n');
@@ -170,7 +170,7 @@ class Ethna_Plugin_Handle_I18n_Test extends Ethna_UnitTestBase
             $this->fail($r->getMessage());
             return;
         }
-    } 
+    }
 
 
 }

@@ -134,7 +134,7 @@ class Ethna_MailSender
         // 添付ファイル (multipart)
         if ($attach !== null) {
             $attach = isset($attach[0]) ? $attach : array($attach);
-            $boundary = Ethna_Util::getRandom(); 
+            $boundary = Ethna_Util::getRandom();
             $body = "This is a multi-part message in MIME format.\n\n" .
                 "--$boundary\n" .
                 "Content-Type: text/plain; charset=iso-2022-jp\n" .
@@ -167,7 +167,7 @@ class Ethna_MailSender
                     "--$boundary\n" .
                     "Content-Type: " . $part['content-type'] . ";\n" .
                         "\tname=\"" . $part['name'] . "\"\n" .
-                    "Content-Transfer-Encoding: base64\n" . 
+                    "Content-Transfer-Encoding: base64\n" .
                     "Content-Disposition: attachment;\n" .
                         "\tfilename=\"" . $part['filename'] . "\"\n\n";
                 $body .= chunk_split(base64_encode($part['content']));

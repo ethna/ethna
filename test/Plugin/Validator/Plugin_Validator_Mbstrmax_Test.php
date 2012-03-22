@@ -23,7 +23,7 @@ class Ethna_Plugin_Validator_Mbstrmax_Test extends Ethna_UnitTestBase
         $this->ctl = $ctl;
     }
 
-    // {{{ test max mbstr 
+    // {{{ test max mbstr
     function test_max_mbstr()
     {
         $form_mbstr = array(
@@ -42,7 +42,7 @@ class Ethna_Plugin_Validator_Mbstrmax_Test extends Ethna_UnitTestBase
         $this->assertEqual(E_FORM_MAX_STRING,$pear_error->getCode());
 
         //  TODO: Error Message Test.
-    } 
+    }
     // }}}
 
 }

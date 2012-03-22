@@ -11,7 +11,7 @@ require_once ETHNA_BASE . '/test/MocktestManager.php';
 
 //{{{    Ethna_ClassFactory_Test
 /**
- *  Test Case For Ethna_ClassFactory_Test 
+ *  Test Case For Ethna_ClassFactory_Test
  *
  *  @access public
  */
@@ -41,8 +41,8 @@ class Ethna_ClassFactory_Test extends Ethna_UnitTestBase
             $manager = $this->cf->getManager('mocktest');
             $manager_alt = $this->cf->getManager('Mocktest');
             $this->assertTrue($manager === $manager_alt);
-    
-            //    weakパラメータが指定された場合は 
+
+            //    weakパラメータが指定された場合は
             //    強制的に違うオブジェクトを返さなければならない
             $manager = $this->cf->getManager('mocktest');
             $manager_alt = $this->cf->getManager('Mocktest', true);

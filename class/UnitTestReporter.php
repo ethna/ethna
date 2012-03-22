@@ -18,7 +18,7 @@ require_once 'simpletest/scorer.php';
  *  @package    Ethna
  */
 class Ethna_UnitTestReporter extends SimpleReporter {
-    
+
     var $_character_set;
 
     var $report;
@@ -65,7 +65,7 @@ class Ethna_UnitTestReporter extends SimpleReporter {
     function paintPass($message)
     {
         parent::paintPass($message);
-            
+
         $test_list = $this->getTestList();
         $this->report[] = array(
             'type' => 'Pass',

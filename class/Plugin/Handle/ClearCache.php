@@ -31,7 +31,7 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
      */
     function perform()
     {
-        $r = $this->_getopt(array('basedir=', 
+        $r = $this->_getopt(array('basedir=',
                                    'any-tmp-files', 'smarty', 'pear', 'cachemanager'));
         if (Ethna::isError($r)) {
             return $r;

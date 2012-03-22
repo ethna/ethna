@@ -17,7 +17,7 @@
  *  <code>
  *  1,2,3
  *  </code>
- *  
+ *
  *  @param  array   $array  filter対象となる配列
  *  @param  string  $key    抜き出して配列を構成する連想配列のキー
  *  @return array   再構成された配列

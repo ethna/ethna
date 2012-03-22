@@ -13,8 +13,8 @@ define('ETHNA_TEST_SKELDIR', ETHNA_TEST_DIR . '/skel/');
 define('ETHNA_TEST_SKELTPLDIR', ETHNA_TEST_SKELDIR . '/template/');
 
 /**
- *  ethna command, and project Emulator Class. 
- *  
+ *  ethna command, and project Emulator Class.
+ *
  *  @access public
  */
 class Ethna_MockProject
@@ -27,8 +27,8 @@ class Ethna_MockProject
 
     /*
      *  コンストラクタ
-     * 
-     *  @param $basedir プロジェクトベースディレクトリ  
+     *
+     *  @param $basedir プロジェクトベースディレクトリ
      *  @param $project_name プロジェクト名
      *  @param $skel_dir スケルトンディレクトリ
      *  @access public
@@ -47,9 +47,9 @@ class Ethna_MockProject
     /*
      *  プロジェクトを作成します。
      *  ethna add-project コマンドをエミュレートします。
-     * 
+     *
      *  @access public
-     *  @return 成功したらtrue, 失敗したらEthna_Error 
+     *  @return 成功したらtrue, 失敗したらEthna_Error
      */
     function create()
     {
@@ -68,28 +68,28 @@ class Ethna_MockProject
                        '-b',
                        $this->basedir . '/' . $this->project_name,
                        '-s',
-                       $this->skel_dir, 
+                       $this->skel_dir,
                        $this->project_name,
                    );
-        $r = $this->runCmd($id, $options); 
+        $r = $this->runCmd($id, $options);
         if (Ethna::isError($r)) {
             return $r;
         }
 
         return true;
-    } 
+    }
 
     /*
      *  作成したプロジェクトに対してコマンドを
      *  実行することで、ethna コマンドをエミュレートします。
      *  (プロジェクトがない場合は作成されます)
-     * 
+     *
      *  @access public
      *  @param string $id  コマンドID (e.x add-action)
      *  @param array  $options コマンドラインオプション
      *                e.x ethna add-action -b /tmp test の場合
      *                    array('-b', '/tmp', 'test') を指定
-     *  @return 成功したらtrue, 失敗したらEthna_Error 
+     *  @return 成功したらtrue, 失敗したらEthna_Error
      */
     function runCmd($id, $options = array())
     {
@@ -104,7 +104,7 @@ class Ethna_MockProject
                 $in_basedir_opt = true;
             }
         }
-        if (!$in_basedir_opt) { 
+        if (!$in_basedir_opt) {
             $base_opt = array('-b', $this->proj_basedir);
             $options = array_merge($base_opt, $options);
         }
@@ -138,7 +138,7 @@ class Ethna_MockProject
      *
      *  @access public
      *  @param  mixed   $action_name    指定のアクション名(省略可)
-     *  @param  array   $submit_value   ブラウザからSubmitする値 
+     *  @param  array   $submit_value   ブラウザからSubmitする値
      *  @return string  ブラウザへの出力
      */
     function runMain($action_name = 'index', $submit_value = array())
@@ -165,10 +165,10 @@ class Ethna_MockProject
      *  作成したプロジェクトのコントローラクラス
      *  のインスタンスを取得します。
      *  (プロジェクトがない場合は作成されます)
-     * 
+     *
      *  @access public
      *  @return Ethna_Controller コントローラクラスのインスタンス
-     *          失敗したらEthna_Error 
+     *          失敗したらEthna_Error
      */
     public function getController()
     {
@@ -185,7 +185,7 @@ class Ethna_MockProject
     /*
      *  作成したプロジェクトのベースディレクトリを取得します。
      *
-     *  @access public 
+     *  @access public
      *  @return string  プロジェクトのベースディレクトリ
      */
     function getBaseDir()
@@ -196,7 +196,7 @@ class Ethna_MockProject
     /*
      *  プロジェクトを削除します。
      *
-     *  @access public 
+     *  @access public
      */
     function delete()
     {
@@ -209,7 +209,7 @@ class Ethna_MockProject
      *
      *  @access private
      *  @return boolean  既に作成している場合はtrue.
-     *                   プロジェクトの作成に失敗したらEthna_Error 
+     *                   プロジェクトの作成に失敗したらEthna_Error
      */
     function create_ifnot_exists()
     {

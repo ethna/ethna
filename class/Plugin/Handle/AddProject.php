@@ -71,7 +71,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
                 return Ethna::raiseError("You specified locale, but invalid : $locale", 'usage');
             }
         } else {
-            $locale = 'ja_JP';  //  default locale. 
+            $locale = 'ja_JP';  //  default locale.
         }
 
         // encoding
@@ -84,7 +84,7 @@ class Ethna_Plugin_Handle_AddProject extends Ethna_Plugin_Handle
                 }
             }
         } else {
-            $encoding = 'UTF-8';  //  default encoding. 
+            $encoding = 'UTF-8';  //  default encoding.
         }
 
         $r = Ethna_Generator::generate('Project', null, $app_id, $basedir, $skeldir, $locale, $encoding);

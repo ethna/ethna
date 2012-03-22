@@ -9,7 +9,7 @@
 
 //{{{    Ethna_Controller_Test
 /**
- *  Test Case For Ethna_Controller_Test 
+ *  Test Case For Ethna_Controller_Test
  *
  *  @access public
  */
@@ -85,7 +85,7 @@ class Ethna_Controller_Test extends Ethna_UnitTestBase
     {
         $this->assertEqual('UTF-8', $this->test_ctl->getClientEncoding());
     }
-    // }}} 
+    // }}}
 
     // {{{ test_setClientEncoding
     function test_setClientEncoding()

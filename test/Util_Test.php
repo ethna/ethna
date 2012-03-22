@@ -59,7 +59,7 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
         foreach ($absolute_paths as $path) {
             $this->assertTrue(Ethna_Util::isAbsolute($path));
         }
-        
+
         foreach ($invalid_params as $path) {
             $this->assertFalse(Ethna_Util::isAbsolute($path));
         }
@@ -102,7 +102,7 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
     {
         unset($GLOBALS['_Ethna_controller']);
         $tmp_ctl = new Ethna_Controller();
-        
+
         //  昭和63年
         $last_showa_t = mktime(0,0,0,12,31,1988);
         $r = Ethna_Util::getEra($last_showa_t);

@@ -23,7 +23,7 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
         $this->ae->clear();
     }
 
-    // {{{ Validator Min Integer. 
+    // {{{ Validator Min Integer.
     function test_Validate_Min_Integer()
     {
         $form_def = array(
@@ -31,26 +31,26 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
                         'form_type' => FORM_TYPE_TEXT,
                         'required' => true,
                         'min' => 5,
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         $this->af->set('input', 5);
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();
 
-        $this->af->set('input', 4); 
+        $this->af->set('input', 4);
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear();
- 
+
         $this->af->set('input', 6);
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
     }
     // }}}
 
-    // {{{ Validator Min Float. 
+    // {{{ Validator Min Float.
     function test_Validate_Min_Float()
     {
         $form_def = array(
@@ -58,10 +58,10 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
                         'form_type' => FORM_TYPE_TEXT,
                         'required' => true,
                         'min' => 5,
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
-        $this->af->set('input', 4.999999); 
+
+        $this->af->set('input', 4.999999);
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear();
@@ -82,7 +82,7 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ Validator Min Datetime. 
+    // {{{ Validator Min Datetime.
     function test_Validate_Min_DateTime()
     {
         $form_def = array(
@@ -90,10 +90,10 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
                         'form_type' => FORM_TYPE_TEXT,
                         'required' => true,
                         'min' => '2000-01-01',
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
-        $this->af->set('input', '1999-12-31'); 
+
+        $this->af->set('input', '1999-12-31');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear();
@@ -110,7 +110,7 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
     }
     // }}}
 
-    // {{{ Validator Min String. 
+    // {{{ Validator Min String.
     // {{{ Validator Min String(UTF-8)
     function test_Validate_Min_String_UTF8()
     {
@@ -119,11 +119,11 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
                         'form_type' => FORM_TYPE_TEXT,
                         'required' => true,
                         'min' => 5,
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         //   in ascii.
-        $this->af->set('input', 'abcd'); 
+        $this->af->set('input', 'abcd');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear();
@@ -149,17 +149,17 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
     function test_Validate_Min_String_EUCJP()
     {
         $this->ctl->setClientEncoding('EUC-JP');
- 
+
         $form_def = array(
                         'type' => VAR_TYPE_STRING,
                         'form_type' => FORM_TYPE_TEXT,
                         'required' => true,
                         'min' => 4,  //  全角2文字、半角4文字
-                    );        
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         //   in ascii.
-        $this->af->set('input', 'abcd'); 
+        $this->af->set('input', 'abcd');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();
@@ -198,17 +198,17 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
     function test_Validate_Min_String_ASCII()
     {
         $this->ctl->setClientEncoding('ASCII');
- 
+
         $form_def = array(
                         'type' => VAR_TYPE_STRING,
                         'form_type' => FORM_TYPE_TEXT,
                         'required' => true,
-                        'min' => 4,  //  ascii 4文字 
-                    );        
+                        'min' => 4,  //  ascii 4文字
+                    );
         $this->af->setDef('input', $form_def);
-        
+
         //   in ascii.
-        $this->af->set('input', 'abcd'); 
+        $this->af->set('input', 'abcd');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear();
@@ -229,10 +229,10 @@ class Ethna_ActionForm_Validator_Min_Test extends Ethna_UnitTestBase
     // }}}
     // }}}
 
-    // {{{ Validator Min File. 
+    // {{{ Validator Min File.
     function test_Validate_Min_File()
     {
-        //  skipped because we can't bypass 
+        //  skipped because we can't bypass
         //  is_uploaded_file function.
     }
     // }}}

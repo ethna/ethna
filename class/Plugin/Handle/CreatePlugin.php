@@ -34,7 +34,7 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
                 'type=',
                 'plugin-package',
             )
-        ); 
+        );
         if (Ethna::isError($r)) {
             return $r;
         }
@@ -51,7 +51,7 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
         $types = explode(',', $type);
         if (empty($type)) {
             $types = array('v', 'f', 'sm'); // Validator, Filter, Smarty modifier.
-        } 
+        }
 
         //  basedir
         if (isset($opt_list['basedir'])) {
@@ -61,7 +61,7 @@ class Ethna_Plugin_Handle_CreatePlugin extends Ethna_Plugin_Handle
         }
 
         //  no-ini file flag.
-        $forpackage = (isset($opt_list['plugin-package'])) ? true : false; 
+        $forpackage = (isset($opt_list['plugin-package'])) ? true : false;
 
         $r = Ethna_Generator::generate('CreatePlugin', NULL, $basedir, $types, $forpackage, $plugin_name);
         if (Ethna::isError($r)) {

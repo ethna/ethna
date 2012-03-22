@@ -14,7 +14,7 @@ require_once ETHNA_BASE . '/class/Getopt.php';
 // {{{ Ethna_Plugin_Handle
 /**
  *  コマンドラインハンドラプラグインの基底クラス
- *  
+ *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
  *  @package    Ethna

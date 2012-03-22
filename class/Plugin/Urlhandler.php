@@ -72,7 +72,7 @@ class Ethna_Plugin_Urlhandler extends Ethna_Plugin_Abstract
      *  パラメータをURLに変換する
      *
      *  @access public
-     *  @param array $query query list 
+     *  @param array $query query list
      *  @return string query string
      */
     function buildQueryParameter($query)

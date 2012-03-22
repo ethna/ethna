@@ -61,14 +61,14 @@ class Ethna_Plugin_Handle_AddView extends Ethna_Plugin_Handle_AddAction
 
         // add view(invoke parent class method)
         $ret = $this->_perform('View', $view_name, $opt_list);
-        if (Ethna::isError($ret) || $ret === false) { 
+        if (Ethna::isError($ret) || $ret === false) {
             return $ret;
         }
 
         // add template
         if (isset($opt_list['template'])) {
             $ret = $this->_performTemplate($view_name, $opt_list);
-            if (Ethna::isError($ret) || $ret === false) { 
+            if (Ethna::isError($ret) || $ret === false) {
                 return $ret;
             }
         }
