@@ -182,10 +182,10 @@ class {$project_id}_Controller extends Ethna_Controller
     }
 
     /**
-     *  テンプレートエンジンのデフォルト状態を設定する
+     *  set Default Template Engine
      *
      *  @access protected
-     *  @param  object  Ethna_Renderer  レンダラオブジェクト
+     *  @param  object  Ethna_Renderer
      *  @obsolete
      */
     protected function _setDefaultTemplateEngine($renderer)
