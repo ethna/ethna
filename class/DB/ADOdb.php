@@ -298,6 +298,16 @@ class Ethna_DB_ADOdb extends Ethna_DB
     //}}}
 
     //{{{ autoExecute
+    /**
+     *
+     *  @param  string $table
+     *  @param  array  $fields
+     *  @param  string $mode  like 'UPDATE' , 'INSERT'
+     *  @param  string $where
+     *  @param  bool   $forceUpdate
+     *  @param  bool   $magicq
+     *  @return bool true:成功, false:エラー
+     */
     public function autoExecute($table, $fields, $mode, $where = false, $forceUpdate = true, $magicq = false)
     {
         return $this->db->AutoExecute($table, $fields, $mode, $where, $forceUpdate, $magicq);
