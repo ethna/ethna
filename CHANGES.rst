@@ -156,4 +156,4 @@ beta3 .. beta4
 
   * thx. ryuzo98 #38, DQNEO #48
 
-* その他テストの追加、アクセし修飾子の修正など (thx. okonomi)
+* その他テストの追加、アクセス修飾子の修正など (thx. okonomi)
