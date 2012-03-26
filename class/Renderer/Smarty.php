@@ -227,5 +227,30 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         parent::setPlugin($name, $type, $plugin);
         $this->engine->$register_method($name, $plugin);
     }
+
+    /**
+     * compiled template used by i18n command
+     *
+     * @return string or Ethna_Error
+     */
+    public function getCompiledContent($file)
+    {
+        $engine = $this->getEngine();
+        //  use smarty internal function :)
+        $compile_path = $engine->_get_compile_path($file);
+        $compile_result = NULL;
+        if ($engine->_is_compiled($file, $compile_path)
+         || $engine->_compile_resource($file, $compile_path)) {
+            $compile_result = file_get_contents($compile_path);
+        }
+
+        if (empty($compile_result)) {
+            return Ethna::raiseError(
+                "Could not compile template file : $file"
+            );
+        }
+
+        return $compile_result;
+    }
 }
 // }}}

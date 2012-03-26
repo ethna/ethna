@@ -366,31 +366,23 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
     {
         //  デフォルトはSmartyのテンプレートと看做す
         $renderer = $this->ctl->getRenderer();
-        $engine = $renderer->getEngine();
-        $engine_name = get_class($engine);
-        if (strncasecmp('Smarty', $engine_name, 6) !== 0) {
-            return Ethna::raiseError(
-                       "You seems to use template engine other than Smarty ... : $engine_name"
-                   );
+
+        $compile_result = $renderer->getCompiledContent($file);
+        if (Ethna::isError($compile_result)) {
+            return $compile_result;
         }
 
         printf("Analyzing Template file ... %s\n", $file);
 
-        //  use smarty internal function :)
-        $compile_path = $engine->_get_compile_path($file);
-        $compile_result = NULL;
-        if ($engine->_is_compiled($file, $compile_path)
-         || $engine->_compile_resource($file, $compile_path)) {
-            $compile_result = file_get_contents($compile_path);
-        }
 
-        if (empty($compile_result)) {
-            return Ethna::raiseError(
-                       "could not compile template file : $file"
-                   );
-        }
-
-        //  コンパイル済みのテンプレートを解析する
+        /**
+         * FIXME
+         * コンパイル済みのテンプレートを解析する
+         * 本来Rendererごとに対応しなければいけないが、Smarty2のみに対応した
+         * 初期実装から変更されていない。Smarty3用の対応コードが入っている。
+         * そもそも、コンパイル済みPHPファイルの spec が決まっているわけでは
+         * ないので極めて危険な実装である（結果が正しく得られる保証がないため）
+         */
         $tokens = token_get_all($compile_result);
 
         for ($i = 0; $i < count($tokens); $i++) {
@@ -400,8 +392,23 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                 $token_str = array_shift($token);
 
                 if ($token_name == T_STRING
-                 && strcmp($token_str, 'smarty_modifier_i18n') === 0) {
-                    $i18n_str = $this->_find_template_i18n($tokens, $i);
+                    && strcmp($token_str, 'smarty_modifier_i18n') === 0
+                ) {
+                    $i18n_str = null;
+
+                    $tmp_token = $tokens[$i + 2]; // 直接関数に渡されている場合 (Smarty3)
+                    if (is_array($tmp_token)) {
+                        list($tmp_token_name, $tmp_token_str) = $tmp_token;
+                        if ($tmp_token_name == T_CONSTANT_ENCAPSED_STRING
+                            && !preg_match('#^["\']i18n["\']$#', $tmp_token_str)
+                        ) {
+                            $i18n_str = $tmp_token_str;
+                        }
+                    }
+                    if (null === $i18n_str) {
+                        // Smarty2 の場合はこちらにくる
+                        $i18n_str = $this->_find_template_i18n($tokens, $i);
+                    }
                     if (!empty($i18n_str)) {
                         $i18n_str = substr($i18n_str, 1);     // 最初のクォートを除く
                         $i18n_str = substr($i18n_str, 0, -1); // 最後のクォートを除く
@@ -433,7 +440,8 @@ class Ethna_Plugin_Generator_I18n extends Ethna_Plugin_Generator
                 $tmp_token_name = array_shift($tmp_token);
                 $tmp_token_str = array_shift($tmp_token);
                 if ($tmp_token_name == T_CONSTANT_ENCAPSED_STRING
-                 && !preg_match('#^["\']i18n["\']$#', $tmp_token_str)) {
+                    && !preg_match('#^["\']i18n["\']$#', $tmp_token_str)
+                ) {
                     $prev_token = $tokens[$j - 1];
                     if (!is_array($prev_token) && $prev_token == '=') {
                         return $tmp_token_str;
