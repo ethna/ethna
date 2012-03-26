@@ -329,22 +329,22 @@ class Ethna_UnitTestManager extends Ethna_AppManager
         $action_class_list = $this->_getTestAction();
         $view_class_list = $this->_getTestView();
 
-        $test = new GroupTest("Ethna UnitTest");
+        $test = new TestSuite("Ethna UnitTest");
 
         // アクション
         foreach ($action_class_list as $action_name) {
             $action_class = $this->ctl->getDefaultActionClass($action_name, false).'_TestCase';
             $action_form = $this->ctl->getDefaultFormClass($action_name, false).'_TestCase';
 
-            $test->addTestCase(new $action_class($this->ctl));
-            $test->addTestCase(new $action_form($this->ctl));
+            $test->add(new $action_class($this->ctl));
+            $test->add(new $action_form($this->ctl));
         }
 
         // ビュー
         foreach ($view_class_list as $view_name) {
             $view_class = $this->ctl->getDefaultViewClass($view_name, false).'_TestCase';
 
-            $test->addTestCase(new $view_class($this->ctl));
+            $test->add(new $view_class($this->ctl));
         }
 
         // 一般
@@ -352,7 +352,7 @@ class Ethna_UnitTestManager extends Ethna_AppManager
             $dir = $this->ctl->getBasedir().'/';
             include_once $dir . $file_name;
             $testcase_name = $class_name.'_TestCase';
-            $test->addTestCase(new $testcase_name($this->ctl));
+            $test->add(new $testcase_name($this->ctl));
         }
 
         // ActionFormのバックアップ
