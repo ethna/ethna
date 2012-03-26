@@ -156,4 +156,6 @@ beta3 .. beta4
 
   * thx. ryuzo98 #38, DQNEO #48
 
+* UnitTestCase が動作しなかったバグを修正
+* Debugtoolbar を debug が on の時のみ動作するように修正
 * その他テストの追加、アクセス修飾子の修正など (thx. okonomi)
