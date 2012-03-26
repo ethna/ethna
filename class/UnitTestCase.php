@@ -87,16 +87,16 @@ class Ethna_UnitTestCase extends UnitTestCase
 
         // controler&backendにafを関連付け
         $this->ctl->action_name = $this->action_name;
-        $this->ctl->action_form = $this->af;
-        $this->backend->action_form = $this->af;
-        $this->backend->af = $this->af;
+        $this->ctl->setActionForm($this->af);
+        $this->backend->setActionForm($this->af);
 
         // action_error, validator の初期化
         // これにより、直前のテスト結果をひきずらない
         // ようにする
         $ae = $this->ctl->getActionError();
         $ae->clear();
-        unset($ae->action_form);
+        $ae->clearActionForm();
+        // FIXME: This is a protected property
         unset($this->ctl->class_factory->object['plugin']->obj_registry["Validator"]);
     }
 
@@ -157,8 +157,7 @@ class Ethna_UnitTestCase extends UnitTestCase
         $this->ac = $this->action_class;
 
         // backendにacを関連付け
-        $this->backend->action_class = $this->ac;
-        $this->backend->ac = $this->ac;
+        $this->backend->setActionClass($this->ac);
     }
 
     /**

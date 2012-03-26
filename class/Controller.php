@@ -107,8 +107,9 @@ class Ethna_Controller
     /**                     ブラウザからのエンコーディングを指す  */
     protected $client_encoding;
 
+    /** FIXME: UnitTestCase から動的に変更されるため、public */
     /** @protected    string  現在実行中のアクション名 */
-    protected $action_name;
+    public $action_name;
 
     /** @protected    string  現在実行中のXMLRPCメソッド名 */
     protected $xmlrpc_method_name;
@@ -144,7 +145,7 @@ class Ethna_Controller
     protected $filter_chain = array();
 
     /** @protected    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
-    protected $class_factory = null;
+    public $class_factory = null;
 
     /** @protected    object  Ethna_ActionForm    フォームオブジェクト */
     protected $action_form = null;
