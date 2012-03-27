@@ -238,7 +238,7 @@ class Ethna_Util
      */
     public static function checkMailAddress($mailaddress)
     {
-        if (preg_match('#^([a-z0-9_]|\-|\.|\+|\/)+@(([a-z0-9_]|\-)+\.)+[a-z]{2,6}$#i',
+        if (preg_match('#^([a-z0-9_]|\-|\.|\+|\/|\?)+@(([a-z0-9_]|\-)+\.)+[a-z]{2,6}$#i',
                        $mailaddress)) {
             return true;
         }

@@ -32,6 +32,8 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
             '.hoge@fuga.net',
             '+hoge@fuga.net',
             '/hoge@fuga.net',
+            '?hoge@fuga.net',
+            'hoge?@fuga.net',
         );
 
 
