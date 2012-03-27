@@ -26,9 +26,6 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
             $this->assertFalse(Ethna_Util::checkMailAddress($word));
         }
 
-        $result = Ethna_Util::checkMailAddress('hogefuga.net');
-        $this->assertFalse($result);
-
         $result = Ethna_Util::checkMailAddress('hoge@fuga.net');
         $this->assertTrue($result);
     }
