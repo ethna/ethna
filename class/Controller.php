@@ -1019,6 +1019,10 @@ class Ethna_Controller
 
         // バックエンド処理実行
         $forward_name = $backend->perform($action_name);
+        if ($forward_name === false) {
+            //falseなら処理終了
+            return Ethna::raiseError("action [$action_name] returned false.");
+        }
 
         // アクション実行後フィルタ
         for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
@@ -1420,6 +1424,8 @@ class Ethna_Controller
     /**
      *  アクション名とアクションクラスからの戻り値に基づいて遷移先を決定する
      *
+     *  必要に応じてオーバーライドしてください。
+     *
      *  @access protected
      *  @param  string  $action_name    アクション名
      *  @param  string  $retval         アクションクラスからの戻り値
@@ -1427,7 +1433,12 @@ class Ethna_Controller
      */
     protected function _sortForward($action_name, $retval)
     {
-        return $retval;
+        // nullの場合は、アクションと同名のビューに遷移する。
+        if ($retval === null) {
+            return $action_name;
+        } else {
+            return $retval;
+        }
     }
 
     /**
