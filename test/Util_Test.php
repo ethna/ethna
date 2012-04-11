@@ -20,17 +20,30 @@ class Ethna_Util_Test extends Ethna_UnitTestBase
             'example@example',
             'example@.com',
             'example@example@example.com',
+            '@hogefuga.et',
+            'hogefuga.net@',
+            'hoge@fuga.net.',
+            '%hoge@fuga.net',
         );
+
+        $correct_words = array(
+            'hoge@fuga.net',
+            '-hoge@fuga.net',
+            '.hoge@fuga.net',
+            '+hoge@fuga.net',
+            '/hoge@fuga.net',
+            '?hoge@fuga.net',
+            'hoge?@fuga.net',
+        );
+
 
         foreach ($fail_words as $word) {
             $this->assertFalse(Ethna_Util::checkMailAddress($word));
         }
 
-        $result = Ethna_Util::checkMailAddress('hogefuga.net');
-        $this->assertFalse($result);
-
-        $result = Ethna_Util::checkMailAddress('hoge@fuga.net');
-        $this->assertTrue($result);
+        foreach ($correct_words as $word) {
+            $this->assertTrue(Ethna_Util::checkMailAddress($word));
+        }
     }
     // }}}
 

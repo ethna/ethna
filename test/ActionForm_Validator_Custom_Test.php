@@ -37,54 +37,21 @@ class Ethna_ActionForm_Validator_Custom_Test extends Ethna_UnitTestBase
                        );
         $this->af->setDef('input', $form_string);
 
-        $this->af->set('input', 'hoge@fuga.net');
+        //ここでは正誤１ケースずつのみテストする。
+        //網羅的なテストはEthna_Util_Testにて行う。
+
+        //正
+        $this->af->set('input', 'hoge@example.com');
         $this->af->validate();
         $this->assertFalse($this->ae->isError('input'));
         $this->ae->clear(); 
 
-        $this->af->set('input', '-hoge@fuga.net');
-        $this->af->validate();
-        $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
-
-        $this->af->set('input', '.hoge@fuga.net');
-        $this->af->validate();
-        $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
-
-        $this->af->set('input', '+hoge@fuga.net');
-        $this->af->validate();
-        $this->assertFalse($this->ae->isError('input'));
-        $this->ae->clear(); 
-
-        // @がない
-        $this->af->set('input', 'hogefuga.et');
+        //誤
+        $this->af->set('input', 'hogefuga');
         $this->af->validate();
         $this->assertTrue($this->ae->isError('input'));
         $this->ae->clear(); 
 
-        // @の前に文字がない
-        $this->af->set('input', '@hogefuga.et');
-        $this->af->validate();
-        $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
-
-        // @の後に文字がない
-        $this->af->set('input', 'hogefuga.net@');
-        $this->af->validate();
-        $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
-
-        // 先頭文字が許されていない
-        $this->af->set('input', '%hoge@fuga.net');
-        $this->af->validate();
-        $this->assertTrue($this->ae->isError('input'));
-        $this->ae->clear(); 
-
-        // 末尾文字が許されていない
-        $this->af->set('input', 'hoge@fuga.net.');
-        $this->af->validate();
-        $this->assertTrue($this->ae->isError('input'));
     }
     // }}}
 
