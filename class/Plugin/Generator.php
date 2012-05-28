@@ -120,13 +120,14 @@ class Ethna_Plugin_Generator extends Ethna_Plugin_Abstract
      */
     function _getUserMacro()
     {
-        if (isset($_SERVER['USERPROFILE']) && is_dir($_SERVER['USERPROFILE'])) {
-            $home = $_SERVER['USERPROFILE'];
-        } else {
-            $home = $_SERVER['HOME'];
+        foreach (array('USERPROFILE', 'HOME') as $env) {
+            if (isset($_SERVER[$env]) && is_dir($_SERVER[$env]) && is_file("{$_SERVER[$env]}/.ethna")) {
+                $home = $_SERVER[$env];
+                break;
+            }
         }
 
-        if (is_file("$home/.ethna") == false) {
+        if (empty($home)) {
             return array();
         }
 
