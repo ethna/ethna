@@ -57,6 +57,11 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 
     function testCachemanagerLocalfileConfig()
     {
+        // FIXME: mark as skip (if the tester support)
+        if (version_compare(PHP_VERSION, '5.3.2', '<')) {
+            return ;
+        }
+
         $ref = new ReflectionMethod($this->cm, '_getCacheDir');
         $ref->setAccessible(true);
 
@@ -101,6 +106,11 @@ class Ethna_Plugin_Cachemanager_Localfile_Test extends Ethna_UnitTestBase
 
     function testCachemanagerLocalfileObject()
     {
+        // FIXME: mark as skip (if the tester support)
+        if (version_compare(PHP_VERSION, '5.3.2', '<')) {
+            return ;
+        }
+
         $string_key = 'string_key';
         $string_value = "cache\ncontent";
 
