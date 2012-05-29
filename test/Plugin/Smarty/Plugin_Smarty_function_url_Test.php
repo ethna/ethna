@@ -41,6 +41,13 @@ class Ethna_Plugin_Smarty_function_url_Test extends Ethna_UnitTestBase
                 'path_ext'      => false,
             ),
         ),
+        'emptypath' => array(
+            'test_empty_path' => array(
+                'path'          => '',
+                'path_regexp'   => false,
+                'path_ext'      => false,
+            ),
+        ),
     );
     // }}}
 
@@ -122,6 +129,23 @@ class Ethna_Plugin_Smarty_function_url_Test extends Ethna_UnitTestBase
         $this->assertEqual($expected, $actual);
     }
     // }}}
+
+    // {{{ test_smarty_function_url_emptypath
+    function test_smarty_function_url_emptypath()
+    {
+        $params = array('action' => 'test_empty_path',
+                        'anchor' => '',
+                        'scheme' => '',
+                        'param1' => 'hoge',
+                        'param2' => 'huga',
+                  );
+        $dummy_smarty = null;
+        $expected = "?param1=hoge&param2=huga";
+
+        $actual = smarty_function_url($params, $dummy_smarty);
+        $this->assertEqual($expected, $actual);
+    }
+    // }}}
 }
 // }}}
 
@@ -154,6 +178,11 @@ class Ethna_Plugin_Smarty_function_url_Test_UrlHandler
     function _getPath_Entrypoint($action, $params)
     {
         return array('/entrypoint', array());
+    }
+
+    function _getPath_Emptypath($action, $params)
+    {
+        return array('', array());
     }
 
     public function setActionMap($am)
