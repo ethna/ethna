@@ -14,29 +14,30 @@
 #   - $Id$
 
 _ethna() {
-    local curcontext="$curcontext" state line expl ret=1
+    local curcontext="$curcontext" state line expl usage ret=1
 
     _arguments -C \
         '(-v --version)'{-v,--version}'[show version]' \
         '1:ethna command:->ethna-cmd' \
-        '*:ethna command args:->ethna-cmd-arg' \
+        '*:ethna command args:->ethna-cmd-args' \
         && ret=0
 
     if [[ -n "$state" ]]; then
+	[[ "$words[2]" = 'help' ]] && state=ethna-cmd
         case $state in
             ethna-cmd)
-                handles=( $($service | grep '^ \+.* -> .*:$' | awk '{print $1}') )
-                _wanted ethna-cmd expl 'ethna cmd' compadd -a handles && ret=0
+                handles=( $($service | awk '$0~"^ +[^ -]"{print $1}') )
+                _wanted ethna-cmd expl 'ethna command' compadd -a handles && ret=0
             ;;
-            ethna-cmd-arg)
-                usage=$($service | grep -A 1 "^ \+$words[2] ->")
-                if [[ -n "$usage" ]]; then
-                    _wanted ethna-cmd-arg expl 'ethna cmd arg' compadd -x "$usage" && ret=0
+            ethna-cmd-args)
+                usage=$($service help "$words[2]")
+                if echo "$usage" | grep -q 'command not found.'; then
+                    _wanted ethna-cmd-arg expl 'ethna command args' compadd -x "unknown command" && ret=0
                 else
-                    _wanted ethna-cmd-arg expl 'ethna cmd arg' compadd -x "unknown command" && ret=0
+                    _wanted ethna-cmd-arg expl 'ethna command args' compadd -x "$usage" && ret=0
                 fi
             ;;
-        esac    
+        esac
     fi
 
     return ret
