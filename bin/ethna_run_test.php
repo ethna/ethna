@@ -106,12 +106,13 @@ foreach ($file_list as $file) {
 
 if ($coverage) {
     // カバレッジ計測開始
-    require_once 'PHP/CodeCoverage.php';
+    require 'PHP/CodeCoverage/Autoload.php';
+
+    $code_coverage = new PHP_CodeCoverage();
+    $filter = $code_coverage->filter();
 
     $base = dirname(dirname(__FILE__));
-
-    $filter = PHP_CodeCoverage_Filter::getInstance();
-    $filter->addDirectoryToBlacklist($base.'/test');
+    $filter->addDirectoryToBlacklist($base . '/test');
     $filter->addDirectoryToBlacklist($base . '/src');
     $filter->addDirectoryToBlacklist($base . '/bin');
     $filter->addFileToBlacklist(__FILE__);
@@ -121,7 +122,6 @@ if ($coverage) {
     $pear_dir = $pear_config->get('php_dir');
     $filter->addDirectoryToBlacklist($pear_dir);
 
-    $code_coverage = new PHP_CodeCoverage();
     $code_coverage->start('ethna');
 }
 
@@ -142,7 +142,7 @@ if ($coverage) {
 
     require 'PHP/CodeCoverage/Report/HTML.php';
     $writer = new PHP_CodeCoverage_Report_HTML();
-    $writer->process($code_coverage, getcwd().'/coverage');
+    $writer->process($code_coverage, getcwd().'/data/coverage');
 }
 
 
