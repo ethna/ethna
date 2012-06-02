@@ -48,10 +48,9 @@ class Ethna_View_Redirect extends Ethna_ViewClass
                     $base = $this->config->get('url') . '/';
                 }
 
-                if (substr($url, 0) === '/') {
+                if (strpos($url, '/') === 0) {
                     $suff = substr($url, 1);
-                }
-                else {
+                } else {
                     $suff = $url;
                 }
 
