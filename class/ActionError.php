@@ -34,6 +34,9 @@ class Ethna_ActionError
     protected $logger = null;
     /**#@-*/
 
+    /** @protected    integer ログレベル  変更する場合はオーバーライドしてください。*/
+    protected $logLevel = LOG_NOTICE;
+
     /**
      *  Ethna_ActionErrorクラスのコンストラクタ
      *
@@ -81,7 +84,7 @@ class Ethna_ActionError
         // ログ出力(補足)
         $af = $this->_getActionForm();
         $logger = $this->_getLogger();
-        $logger->log(LOG_NOTICE, '{form} -> [%s]', $this->action_form->getName($name));
+        $logger->log($this->logLevel, '{form} -> [%s]', $this->action_form->getName($name));
     }
 
     /**
