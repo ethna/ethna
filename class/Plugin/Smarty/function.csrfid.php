@@ -16,7 +16,7 @@
 function smarty_function_csrfid($params, &$smarty)
 {
     $c = Ethna_Controller::getInstance();
-    $name = $c->config->get('csrf');
+    $name = $c->getConfig()->get('csrf');
     if (is_null($name)) {
         $name = 'Session';
     }
