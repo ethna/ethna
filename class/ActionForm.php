@@ -1333,7 +1333,7 @@ class Ethna_ActionForm
 
         foreach ($this->form as $key => $value) {
             if (array_key_exists($key, $this->form_template)
-                && is_array($this->form_template)) {
+                && is_array($this->form_template[$key])) {
                 foreach ($this->form_template[$key] as $def_key => $def_value) {
                     if (array_key_exists($def_key, $value) == false) {
                         $this->form[$key][$def_key] = $def_value;
