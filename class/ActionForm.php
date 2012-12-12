@@ -579,6 +579,8 @@ class Ethna_ActionForm
             if (is_array($vars[$name])) {
                 $retval[$name] = array();
                 $this->_getArray($vars[$name], $retval[$name], $escape);
+            } else if (is_null($vars[$name])) {
+                $retval[$name] = null;
             } else {
                 $retval[$name] = $escape
                     ? htmlspecialchars($vars[$name], ENT_QUOTES) : $vars[$name];
