@@ -15,11 +15,16 @@ define('ADODB_OUTP', 'ethna_adodb_logger'); //disable output error
 
 require_once 'adodb/adodb.inc.php';
 
+/**
+ *  callback for logging
+ *
+ *  @param string $msg
+ *  @param bool   $newline
+ */
 function ethna_adodb_logger ($msg, $newline) {
     $c = Ethna_Controller::getInstance();
-    $logger = $c->getLogger();
-
-    $logger->log(LOG_DEBUG, strip_tags(str_replace("\n", "", $msg)));
+    $db = $c->getBackend()->getDB();
+    $db->outp($msg, $newline);
 }
 
 /**
@@ -319,5 +324,17 @@ class Ethna_DB_ADOdb extends Ethna_DB
     }
     //}}}
 
+    /**
+     *  ADODBのログを出力する
+     *
+     *  ログレベルを変更したい場合はオーバーライドしてください。
+     *
+     *  @param string $msg
+     *  @param bool   $newline
+     */
+    public function outp($msg, $newline)
+    {
+        $this->logger->log(LOG_DEBUG, strip_tags(str_replace("\n", "", $msg)));
+    }
 }
 
