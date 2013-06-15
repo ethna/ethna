@@ -46,9 +46,6 @@ abstract class Ethna_Plugin_Abstract
     /** @protected    object  Ethna_Config */
     protected $config;
 
-    /** @protected    array  plugin options */
-    protected $opt;
-
     /** @protected    array   plugin configure for default */
     protected $config_default = array();
 
@@ -86,9 +83,6 @@ abstract class Ethna_Plugin_Abstract
             $this->name = $this->_detectName($name);
         }
 
-        // load config
-        $this->_loadConfig();
-
         // load plugin hook
         $this->_load();
     }
@@ -114,49 +108,12 @@ abstract class Ethna_Plugin_Abstract
     }
 
     /**
-     *  getConfig
-     *
-     *  @return array   $config
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
      *  _load
      *
      *  @access protected
      */
     protected function _load()
     {
-    }
-
-    /**
-     *  _loadConfig
-     *
-     *  @access protected
-     */
-    protected function _loadConfig()
-    {
-        $config = $this->ctl->getConfig();
-        $plugin_config = $config->get('plugin');
-
-        if ($plugin_config === null || !isset($plugin_config[$this->type])
-            || ($this->name !== null && !isset($plugin_config[$this->type][$this->name]))) {
-            $this->opt = $this->config_default;
-        }
-        else {
-            if ($this->name === null) {
-                $this->opt = array_merge($this->config_default, $plugin_config[$this->type]);
-            }
-            else {
-
-                $this->opt = array_merge($this->config_default, $plugin_config[$this->type][$this->name]);
-            }
-        }
-
-        return true;
     }
 
     /**

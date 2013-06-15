@@ -23,6 +23,10 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
     /** @var    string  現在のネームスペース */
     protected $namespace = '';
 
+
+    /** @protected    array  plugin options */
+    protected $opt;
+
     /**#@-*/
 
     /**
@@ -32,9 +36,39 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      */
     protected function _load()
     {
-        if (isset($this->config['namespace'])) {
-            $this->namespace = $this->config['namespace'];
+        // load config
+        $this->_loadConfig();
+
+        if (isset($this->opt['namespace'])) {
+            $this->namespace = $this->opt['namespace'];
         }
+    }
+
+    /**
+     *  _loadConfig
+     *
+     *  @access protected
+     */
+    protected function _loadConfig()
+    {
+        $config = $this->config;
+        $plugin_config = $config->get('plugin');
+
+        if ($plugin_config === null || !isset($plugin_config[$this->type])
+            || ($this->name !== null && !isset($plugin_config[$this->type][$this->name]))) {
+            $this->opt = $this->config_default;
+        }
+        else {
+            if ($this->name === null) {
+                $this->opt = array_merge($this->config_default, $plugin_config[$this->type]);
+            }
+            else {
+
+                $this->opt = array_merge($this->config_default, $plugin_config[$this->type][$this->name]);
+            }
+        }
+
+        return true;
     }
 
     /**
