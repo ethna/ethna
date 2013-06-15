@@ -43,8 +43,11 @@ abstract class Ethna_Plugin_Abstract
     /** @protected    object  Ethna_Session       Session Object */
     protected $session;
 
-    /** @protected    array   plugin configure */
+    /** @protected    object  Ethna_Config */
     protected $config;
+
+    /** @protected    array  plugin options */
+    protected $opt;
 
     /** @protected    array   plugin configure for default */
     protected $config_default = array();
@@ -71,6 +74,8 @@ abstract class Ethna_Plugin_Abstract
         $this->af = $this->action_form;
 
         $this->session = $controller->getSession();
+
+	$this->config = $controller->getConfig();
 
         // if constractor called without parameter $type or $name, auto detect type and name of self.
         if ($this->type === null) {
@@ -139,15 +144,15 @@ abstract class Ethna_Plugin_Abstract
 
         if ($plugin_config === null || !isset($plugin_config[$this->type])
             || ($this->name !== null && !isset($plugin_config[$this->type][$this->name]))) {
-            $this->config = $this->config_default;
+            $this->opt = $this->config_default;
         }
         else {
             if ($this->name === null) {
-                $this->config = array_merge($this->config_default, $plugin_config[$this->type]);
+                $this->opt = array_merge($this->config_default, $plugin_config[$this->type]);
             }
             else {
 
-                $this->config = array_merge($this->config_default, $plugin_config[$this->type][$this->name]);
+                $this->opt = array_merge($this->config_default, $plugin_config[$this->type][$this->name]);
             }
         }
 

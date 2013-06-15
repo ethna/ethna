@@ -43,22 +43,22 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
     {
         parent::_load();
 
-        if ($this->config['use_pconnect']) {
+        if ($this->opt['use_pconnect']) {
             $this->m = new Memcached($this->ctl->getAppId());
         }
         else {
             $this->m = new Memcached();
         }
 
-        if (isset($this->config['servers']) && is_array($this->config['servers'])) {
-            $this->m->addServers($this->config['servers']);
+        if (isset($this->opt['servers']) && is_array($this->opt['servers'])) {
+            $this->m->addServers($this->opt['servers']);
         }
         else {
-            $this->m->addServer($this->config['host'], $this->config['port']);
+            $this->m->addServer($this->opt['host'], $this->opt['port']);
         }
 
-        $this->m->setOption(Memcached::OPT_CONNECT_TIMEOUT, $this->config['timeout'] * 1000);
-        //$this->m->setOption(Memcached::OPT_CONNECT_TIMEOUT, $this->config['retry']);
+        $this->m->setOption(Memcached::OPT_CONNECT_TIMEOUT, $this->opt['timeout'] * 1000);
+        //$this->m->setOption(Memcached::OPT_CONNECT_TIMEOUT, $this->opt['retry']);
     }
 
     /**
