@@ -43,7 +43,7 @@ abstract class Ethna_Plugin_Abstract
     /** @protected    object  Ethna_Session       Session Object */
     protected $session;
 
-    /** @protected    array   plugin configure */
+    /** @protected    object  Ethna_Config */
     protected $config;
 
     /** @protected    array   plugin configure for default */
@@ -72,6 +72,8 @@ abstract class Ethna_Plugin_Abstract
 
         $this->session = $controller->getSession();
 
+	$this->config = $controller->getConfig();
+
         // if constractor called without parameter $type or $name, auto detect type and name of self.
         if ($this->type === null) {
             $this->type = $this->_detectType($type);
@@ -80,9 +82,6 @@ abstract class Ethna_Plugin_Abstract
         if ($this->name === null) {
             $this->name = $this->_detectName($name);
         }
-
-        // load config
-        $this->_loadConfig();
 
         // load plugin hook
         $this->_load();
@@ -109,49 +108,12 @@ abstract class Ethna_Plugin_Abstract
     }
 
     /**
-     *  getConfig
-     *
-     *  @return array   $config
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
      *  _load
      *
      *  @access protected
      */
     protected function _load()
     {
-    }
-
-    /**
-     *  _loadConfig
-     *
-     *  @access protected
-     */
-    protected function _loadConfig()
-    {
-        $config = $this->ctl->getConfig();
-        $plugin_config = $config->get('plugin');
-
-        if ($plugin_config === null || !isset($plugin_config[$this->type])
-            || ($this->name !== null && !isset($plugin_config[$this->type][$this->name]))) {
-            $this->config = $this->config_default;
-        }
-        else {
-            if ($this->name === null) {
-                $this->config = array_merge($this->config_default, $plugin_config[$this->type]);
-            }
-            else {
-
-                $this->config = array_merge($this->config_default, $plugin_config[$this->type][$this->name]);
-            }
-        }
-
-        return true;
     }
 
     /**

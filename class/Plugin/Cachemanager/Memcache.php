@@ -58,8 +58,8 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      */
     protected function _getMemcache($cache_key, $namespace = null)
     {
-        $retry = $this->config['retry'];
-        $timeout = $this->config['timeout'];
+        $retry = $this->opt['retry'];
+        $timeout = $this->opt['timeout'];
 
         $r = false;
 
@@ -72,7 +72,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         $this->memcache_pool["$host:$port"] = new MemCache();
 
         while ($retry > 0) {
-            if ($this->config['use_pconnect']) {
+            if ($this->opt['use_pconnect']) {
                 $r = $this->memcache_pool["$host:$port"]->pconnect($host, $port, $timeout);
             } else {
                 $r = $this->memcache_pool["$host:$port"]->connect($host, $port, $timeout);
@@ -103,9 +103,9 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
     {
         $namespace = $this->getNamespace($namespace);
 
-        $memcache_info = $this->config['info'];
-        $default_memcache_host = $this->config['host'];
-        $default_memcache_port = $this->config['port'];
+        $memcache_info = $this->opt['info'];
+        $default_memcache_host = $this->opt['host'];
+        $default_memcache_port = $this->opt['port'];
 
         if ($memcache_info == null || isset($memcache_info[$namespace]) == false) {
             return array($default_memcache_host, $default_memcache_port);
@@ -120,10 +120,10 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         return array(
             isset($memcache_info[$namespace][$index]['host']) ?
                 $memcache_info[$namespace][$index]['host'] :
-                $this->config['host'],
+                $this->opt['host'],
             isset($memcache_info[$namespace][$index]['port']) ?
                 $memcache_info[$namespace][$index]['port'] :
-                $this->config['port'],
+                $this->opt['port'],
         );
 
         // for safe
