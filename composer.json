@@ -1,0 +1,15 @@
+{
+    "name": "ethna/ethna",
+    "bin": [
+        "composer/bin/ethna"
+    ],
+    "target-dir": "Ethna",
+    "autoload": {
+        "classmap": [
+            "class/"
+        ],
+        "files": [
+            "Ethna/Ethna.php"
+        ]
+    }
+}
