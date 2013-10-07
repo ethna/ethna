@@ -4,10 +4,14 @@
  * run ethna command in composer environment.
  */
 
+// base directories
+$ethna_base = dirname(dirname(dirname(__FILE__)));
+$app_base = dirname(dirname(dirname(dirname($ethna_base))));
+
 // load composer autoload settings
 $files = array(
-  __DIR__ . '/../../vendor/autoload.php',
-  __DIR__ . '/../../../../../autoload.php'
+  $ethna_base . '/vendor/autoload.php',
+  $app_base . '/vendor/autoload.php'
 );
 
 foreach ($files as $file) {
@@ -29,9 +33,9 @@ if (!defined('ETHNA_COMPOSER_INSTALL')) {
 }
 
 // set DOT_ETHNA path
-$dot_ethna = __DIR__ . '/../../../../../../.ethna';
+$dot_ethna = $app_base . '/.ethna';
 if (is_file($dot_ethna)) {
     putenv("DOT_ETHNA=$dot_ethna");
 }
 
-require(__DIR__ . '/../../bin/ethna_handle.php');
+require($ethna_base . '/bin/ethna_handle.php');
