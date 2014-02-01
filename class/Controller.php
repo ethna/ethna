@@ -1926,7 +1926,7 @@ class Ethna_Controller
     {
         //   アプリケーションIDと、渡された名前のはじめを大文字にして、
         //   組み合わせたものが返される
-        $manager_id = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($name));
+        $manager_id = preg_replace_callback('/_(.)/', function(array $matches){return strtoupper($matches[1]);}, ucfirst($name));
         return sprintf('%s_%sManager', $this->getAppId(), ucfirst($manager_id));
     }
 
