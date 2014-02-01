@@ -1501,7 +1501,7 @@ class Ethna_Controller
     {
         $gateway_prefix = $this->_getGatewayPrefix($gateway);
 
-        $postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
+        $postfix = preg_replace_callback('/_(.)/', function(array $matches){return strtoupper($matches[1]);}, ucfirst($action_name));
         $r = sprintf("%s_%sForm_%s", $this->getAppId(), $gateway_prefix ? $gateway_prefix . "_" : "", $postfix);
         $this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
 
@@ -1578,7 +1578,7 @@ class Ethna_Controller
     {
         $gateway_prefix = $this->_getGatewayPrefix($gateway);
 
-        $postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name));
+        $postfix = preg_replace_callback('/_(.)/', function(array $matches){return strtoupper($matches[1]);}, ucfirst($action_name));
         $r = sprintf("%s_%sAction_%s", $this->getAppId(), $gateway_prefix ? $gateway_prefix . "_" : "", $postfix);
         $this->logger->log(LOG_DEBUG, "default action class [%s]", $r);
 
@@ -1620,7 +1620,7 @@ class Ethna_Controller
      */
     public function getDefaultActionPath($action_name)
     {
-        $r = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($action_name)) . '.' . $this->getExt('php');
+        $r = preg_replace_callback('/_(.)/', function(array $matches){return '/' . strtoupper($matches[1]);}, ucfirst($action_name)) . '.' . $this->getExt('php');
         $this->logger->log(LOG_DEBUG, "default action path [%s]", $r);
 
         return $r;
@@ -1686,7 +1686,7 @@ class Ethna_Controller
     {
         $gateway_prefix = $this->_getGatewayPrefix($gateway);
 
-        $postfix = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($forward_name));
+        $postfix = preg_replace_callback('/_(.)/', function(array $matches){return strtoupper($matches[1]);}, ucfirst($forward_name));
         $r = sprintf("%s_%sView_%s", $this->getAppId(), $gateway_prefix ? $gateway_prefix . "_" : "", $postfix);
         $this->logger->log(LOG_DEBUG, "default view class [%s]", $r);
 
@@ -1704,7 +1704,7 @@ class Ethna_Controller
      */
     public function getDefaultViewPath($forward_name)
     {
-        $r = preg_replace('/_(.)/e', "'/' . strtoupper('\$1')", ucfirst($forward_name)) . '.' . $this->getExt('php');
+        $r = preg_replace_callback('/_(.)/', function(array $matches){return '/' . strtoupper($matches[1]); }, ucfirst($forward_name)) . '.' . $this->getExt('php');
         $this->logger->log(LOG_DEBUG, "default view path [%s]", $r);
 
         return $r;
