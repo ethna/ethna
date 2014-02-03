@@ -48,7 +48,7 @@ class Ethna_UrlHandler_Simple
             $paths = $this->sortPaths($def['path'], SORT_DESC);
 
             foreach ($paths as $path) {
-                if (strpos($path, '{') && preg_match_all('/\{(.*?)\}/', $path, $matches)) {
+                if (strpos($path, '{') !== false && preg_match_all('/\{(.*?)\}/', $path, $matches)) {
                     $keys = array_unique($matches[1]);
                     $replaces = array();
 
@@ -257,7 +257,7 @@ class Ethna_UrlHandler_Simple
      *
      *  @access protected
      */
-    protected function buildActionParameter($http_vars, $action)
+    public function buildActionParameter($http_vars, $action)
     {
         if ($action == "") {
             return $http_vars;
@@ -268,5 +268,33 @@ class Ethna_UrlHandler_Simple
 
         return $http_vars;
     }
+
+    /**
+     *  パラメータをURLに変換する
+     *
+     *  @access public
+     */
+    public function buildQueryParameter($query)
+    {
+        $param = '';
+
+        foreach ($query as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $k => $v) {
+                    if (is_numeric($k)) {
+                        $k = '';
+                    }
+                    $param .= sprintf('%s=%s&',
+                                      urlencode(sprintf('%s[%s]', $key, $k)),
+                                      urlencode($v));
+                }
+            } else if (is_null($value) == false) {
+                $param .= sprintf('%s=%s&', urlencode($key), urlencode($value));
+            }
+        }
+
+        return substr($param, 0, -1);
+    }
+
 }
 

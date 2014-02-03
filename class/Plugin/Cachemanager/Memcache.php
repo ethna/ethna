@@ -114,7 +114,9 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
         // namespace/cache_keyで接続先を決定
         $n = count($memcache_info[$namespace]);
 
-        $index = $cache_key % $n;
+        $crc32_key = crc32($cache_key);
+        $index = abs($crc32_key) % $n;
+
         return array(
             isset($memcache_info[$namespace][$index]['host']) ?
                 $memcache_info[$namespace][$index]['host'] :
@@ -263,7 +265,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
             return Ethna::raiseError('invalid cache key (too long?)', E_CACHE_NO_VALUE);
         }
 
-        $this->memcache->delete($cache_key, -1);
+        $this->memcache->delete($cache_key);
     }
 
     /**

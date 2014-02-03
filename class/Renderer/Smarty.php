@@ -25,6 +25,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     /** @protected  engine path (library) */
     protected $engine_path = 'Smarty/Smarty.class.php';
 
+    protected $config_default = array(
+        'left_delimiter' => '{',
+        'right_delimiter' => '}',
+    );
+
     /**
      *  Ethna_Renderer_Smartyクラスのコンストラクタ
      *
@@ -35,9 +40,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         parent::__construct($controller);
 
         // get renderer config
-        $smarty_config = isset($this->config['smarty'])
-            ? $this->config['smarty']
-            : array();
+        $smarty_config = $this->config;
 
         // load template engine
         $this->loadEngine($smarty_config);
@@ -45,7 +48,6 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->engine = new Smarty;
 
         // ディレクトリ関連は Controllerによって実行時に設定
-        // TODO: iniファイルによって上書き可にするかは要検討
         $template_dir = $controller->getTemplatedir();
         $compile_dir = $controller->getDirectory('template_c');
 
@@ -56,12 +58,8 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         $this->engine->compile_id = md5($this->template_dir);
 
         // delimiter setting
-        if (array_key_exists('left_delimiter', $smarty_config)) {
-            $this->engine->left_delimiter = $smarty_config['left_delimiter'];
-        }
-        if (array_key_exists('right_delimiter', $smarty_config)) {
-            $this->engine->right_delimiter = $smarty_config['right_delimiter'];
-        }
+        $this->engine->left_delimiter = $smarty_config['left_delimiter'];
+        $this->engine->right_delimiter = $smarty_config['right_delimiter'];
 
         // コンパイルディレクトリは必須なので一応がんばってみる
         if (is_dir($this->engine->compile_dir) === false) {
@@ -74,6 +72,11 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         );
     }
 
+    public function getName()
+    {
+        return 'smarty';
+    }
+
     /**
      *  ビューを出力する
      *
@@ -82,7 +85,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function perform($template = null, $capture = false)
+    public function perform($template = null, $capture = false)
     {
         if ($template === null && $this->template === null) {
             return Ethna::raiseWarning('template is not defined');
@@ -114,7 +117,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function getProp($name = null)
+    public function getProp($name = null)
     {
         $property = $this->engine->get_template_vars($name);
 
@@ -131,7 +134,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function removeProp($name)
+    public function removeProp($name)
     {
         $this->engine->clear_assign($name);
     }
@@ -143,7 +146,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPropArray($array)
+    public function setPropArray($array)
     {
         $this->engine->assign($array);
     }
@@ -155,7 +158,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPropArrayByRef(&$array)
+    public function setPropArrayByRef(&$array)
     {
         $this->engine->assign_by_ref($array);
     }
@@ -168,7 +171,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setProp($name, $value)
+    public function setProp($name, $value)
     {
         $this->engine->assign($name, $value);
     }
@@ -181,7 +184,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPropByRef($name, &$value)
+    public function setPropByRef($name, &$value)
     {
         $this->engine->assign_by_ref($name, $value);
     }
@@ -195,7 +198,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
      *
      *  @access public
      */
-    function setPlugin($name, $type, $plugin)
+    public function setPlugin($name, $type, $plugin)
     {
         //プラグイン関数の有無をチェック
         if (is_callable($plugin) === false) {
@@ -223,6 +226,31 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
         // プラグインを登録する
         parent::setPlugin($name, $type, $plugin);
         $this->engine->$register_method($name, $plugin);
+    }
+
+    /**
+     * compiled template used by i18n command
+     *
+     * @return string or Ethna_Error
+     */
+    public function getCompiledContent($file)
+    {
+        $engine = $this->getEngine();
+        //  use smarty internal function :)
+        $compile_path = $engine->_get_compile_path($file);
+        $compile_result = NULL;
+        if ($engine->_is_compiled($file, $compile_path)
+         || $engine->_compile_resource($file, $compile_path)) {
+            $compile_result = file_get_contents($compile_path);
+        }
+
+        if (empty($compile_result)) {
+            return Ethna::raiseError(
+                "Could not compile template file : $file"
+            );
+        }
+
+        return $compile_result;
     }
 }
 // }}}

@@ -55,7 +55,7 @@ class Ethna_DB
      *  DBに接続する
      *
      *  @access public
-     *  @return mixed   0:正常終了 Ethna_Error:エラー
+     *  @return mixed   0:成功 Ethna_Error:エラー
      */
     public function connect()
     {

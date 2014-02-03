@@ -69,7 +69,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
      *  DBに接続する
      *
      *  @access public
-     *  @return bool   true:成功 false:失敗
+     *  @return mixed   0:成功 Ethna_Error:エラー
      */
     public function connect()
     {
@@ -85,9 +85,13 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
         if ( $this->db ) {
             $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
-            return true;
+            return 0;
         } else {
-            return false;
+            $error = Ethna::raiseError('DB Connection Error: %s',
+                E_DB_CONNECT,
+                $this->dsn);
+            $this->db = null;
+            return $error;
         }
     }
     //}}}
@@ -192,7 +196,7 @@ class Ethna_DB_ADOdb extends Ethna_DB
 
         if ($r === false) {
 
-            $error = Ethna::raiseError('エラー SQL[%s] CODE[%d] MESSAGE[%s]',
+            $error = Ethna::raiseError('Error SQL[%s] CODE[%d] MESSAGE[%s]',
                 E_DB_QUERY,
                 $query,
                 $this->db->ErrorNo(),
@@ -294,6 +298,16 @@ class Ethna_DB_ADOdb extends Ethna_DB
     //}}}
 
     //{{{ autoExecute
+    /**
+     *
+     *  @param  string $table
+     *  @param  array  $fields
+     *  @param  string $mode  like 'UPDATE' , 'INSERT'
+     *  @param  string $where
+     *  @param  bool   $forceUpdate
+     *  @param  bool   $magicq
+     *  @return bool true:成功, false:エラー
+     */
     public function autoExecute($table, $fields, $mode, $where = false, $forceUpdate = true, $magicq = false)
     {
         return $this->db->AutoExecute($table, $fields, $mode, $where, $forceUpdate, $magicq);

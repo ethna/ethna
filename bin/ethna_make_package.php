@@ -8,10 +8,10 @@
  *  @package    Ethna
  *  @version    $Id$
  */
-require_once 'PEAR.php';
-require_once 'Console/Getopt.php';
-require_once 'PEAR/PackageFileManager2.php';
-require_once 'PEAR/PackageFileManager/File.php';   // avoid bugs
+@require_once 'PEAR.php';
+@require_once 'Console/Getopt.php';
+@require_once 'PEAR/PackageFileManager2.php';
+@require_once 'PEAR/PackageFileManager/File.php';   // avoid bugs
 
 // args
 $arg_list = Console_Getopt::readPHPArgv();
@@ -116,7 +116,7 @@ $packagexml->generateContents();
 
 if ($is_old_package) {
     if (method_exists($packagexml, 'exportCompatiblePackageFile1')) {
-        $pkg =& $packagexml->exportCompatiblePackageFile1();
+        $pkg = $packagexml->exportCompatiblePackageFile1();
         $pkg->writePackageFile();
     } else {
         //  PEAR package version 1 is not supported over PEAR 1.8.0.

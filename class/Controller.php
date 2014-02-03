@@ -107,8 +107,9 @@ class Ethna_Controller
     /**                     ブラウザからのエンコーディングを指す  */
     protected $client_encoding;
 
+    /** FIXME: UnitTestCase から動的に変更されるため、public */
     /** @protected    string  現在実行中のアクション名 */
-    protected $action_name;
+    public $action_name;
 
     /** @protected    string  現在実行中のXMLRPCメソッド名 */
     protected $xmlrpc_method_name;
@@ -144,7 +145,7 @@ class Ethna_Controller
     protected $filter_chain = array();
 
     /** @protected    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
-    protected $class_factory = null;
+    public $class_factory = null;
 
     /** @protected    object  Ethna_ActionForm    フォームオブジェクト */
     protected $action_form = null;
@@ -1215,11 +1216,11 @@ class Ethna_Controller
     /**
      *  実行するアクション名を返す
      *
-     *  @access private
+     *  @access protected
      *  @param  mixed   $default_action_name    指定のアクション名
      *  @return string  実行するアクション名
      */
-    private function _getActionName($default_action_name, $fallback_action_name)
+    protected function _getActionName($default_action_name, $fallback_action_name)
     {
         // フォームから要求されたアクション名を取得する
         $form_action_name = $this->_getActionName_Form();

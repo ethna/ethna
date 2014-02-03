@@ -16,9 +16,6 @@
  */
 class {$view_class} extends {$project_id}_ViewClass
 {
-    /** @var boolean  layout template use flag   */
-    public $use_layout = true;
-
     /**
      *  preprocess before forwarding.
      *

@@ -85,7 +85,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  DBに接続する
      *
      *  @access public
-     *  @return mixed   0:正常終了 Ethna_Error:エラー
+     *  @return mixed   0:成功 Ethna_Error:エラー
      */
     public function connect()
     {
@@ -220,7 +220,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      */
     public function getMetaData($table)
     {
-        $def = $this->db->tableInfo($table);
+        $def = $this->db->tableInfo($this->db->quoteIdentifier($table));
         if (is_array($def) === false) {
             return $def;
         }
@@ -514,7 +514,7 @@ class Ethna_DB_PEAR extends Ethna_DB
      *  @param  string  $query  SQL文
      *  @return mixed   DB_Result:結果オブジェクト Ethna_Error:エラー
      */
-    protected _query($query)
+    protected function _query($query)
     {
         $this->logger->log(LOG_DEBUG, "$query");
         $r = $this->db->query($query);

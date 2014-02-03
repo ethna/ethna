@@ -84,7 +84,7 @@ cd $basedir
 find $targetdir -name "CVS" -o -name ".git*" | xargs rm -fr
 
 # create package for php 5
-php $basedir/bin/ethna_make_package.php $beta
+php -d"error_reporting=E_ALL&~E_DEPRECATED" $basedir/bin/ethna_make_package.php $beta
 cp -f $basedir/package.xml $tmpdir/
 cd $tmpdir
 tar zcvf Ethna-$version.tgz package.xml Ethna-$version

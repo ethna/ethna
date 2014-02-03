@@ -59,6 +59,9 @@ class Ethna_Plugin_Filter_Debugtoolbar extends Ethna_Plugin_Filter
      */
     function postFilter()
     {
+        if (!$this->ctl->getConfig()->get('debug')) {
+            return null;
+        }
         if (!is_null($view = $this->ctl->getView()) && !$view->has_default_header) {
             return null;
         }

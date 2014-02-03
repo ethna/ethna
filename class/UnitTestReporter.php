@@ -32,7 +32,7 @@ class Ethna_UnitTestReporter extends SimpleReporter {
      */
     public function __construct($character_set = 'UTF-8')
     {
-        $this->SimpleReporter();
+        parent::__construct();
         $this->_character_set = $character_set;
         $this->report= array();
         $this->result= array();

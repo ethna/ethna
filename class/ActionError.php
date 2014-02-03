@@ -192,6 +192,16 @@ class Ethna_ActionError
     }
 
     /**
+     * UnitTestCase から ActionForm を削除させるための一時的なメソッド
+     *
+     * @access public
+     */
+    public function clearActionForm()
+    {
+        unset($this->action_form);
+    }
+
+    /**
      *  Ethna_ActionFormオブジェクトを取得する
      *
      *  @access private

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor>
+  <title>Ethna</title>
+  <parser>
+      <default-package-name>Ethna</default-package-name>
+      <target>data/phpdoc</target>
+  </parser>
+  <transformer>
+    <target>data/phpdoc</target>
+  </transformer>
+  <files>
+    <file>Ethna.php</file>
+    <directory>class</directory>
+    <ignore>test/*</ignore>
+    <ignore>skel/*</ignore>
+  </files>
+</phpdocumentor>

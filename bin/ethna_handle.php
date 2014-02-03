@@ -19,6 +19,9 @@ ini_set('include_path', $base.PATH_SEPARATOR.ini_get('include_path'));
 require_once 'Ethna/Ethna.php';
 require_once ETHNA_BASE . '/class/Getopt.php';
 
+// PEAR_Config violates the rule of E_STRICT
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+
 // fetch arguments
 $opt = new Ethna_Getopt();
 $arg_list = $opt->readPHPArgv();
@@ -56,16 +59,16 @@ if (count($arg_list) == 0) {
     $id = array_shift($arg_list);
 }
 
-$handler =& $eh->getHandler($id);
-$handler->eh =& $eh;
+$handler = $eh->getHandler($id);
+$handler->eh = $eh;
 if (Ethna::isError($handler)) {
     printf("no such command: %s\n\n", $id);
     $id = 'help';
-    $handler =& $eh->getHandler($id);
-    $handler->eh =& $eh;
+    $handler = $eh->getHandler($id);
+    $handler->eh = $eh;
     if (Ethna::isError($handler)) {
        exit(1);  //  should not happen.
-    } 
+    }
 }
 
 // don't know what will happen:)
@@ -88,7 +91,7 @@ function _Ethna_HandleGateway_SeparateArgList($arg_list)
 
     //  はじめの引数に - が含まれていたら、
     //  それを $my_arg_list に入れる
-    //  これは --version 判定のため 
+    //  これは --version 判定のため
     for ($i = 0; $i < count($arg_list); $i++) {
         if ($arg_list[$i]{0} == '-') {
             // assume this should be an option for myself
