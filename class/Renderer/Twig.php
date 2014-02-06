@@ -1,0 +1,125 @@
+<?php
+/*
+ * Copyright (C) the Ethna contributors. All rights reserved.
+ *
+ * This file is part of the Ethna package, distributed under new BSD.
+ * For full terms see the included LICENSE file.
+ */
+
+class Ethna_Renderer_Twig extends Ethna_Renderer
+{
+    /** @var  Twig_Environment $engine */
+    protected $engine;
+
+    /** @var  Twig_Loader_FileSystem $loader */
+    protected $loader;
+
+    /** @var array $config */
+    protected $config = array();
+
+    /**
+     * @param Ethna_Controller $controller
+     */
+    public function __construct($controller)
+    {
+        parent::__construct($controller);
+
+        $this->loadEngine($this->config);
+
+        $template_dir = $controller->getTemplatedir();
+        $compile_dir = $controller->getDirectory('template_c');
+
+        $this->setTemplateDir($template_dir);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'twig';
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * render template
+     *
+     * @param null $template
+     * @param bool $capture
+     * @return bool|Ethna_Error|string
+     */
+    public function perform($template = null, $capture = false)
+    {
+        $content = $this->getEngine()->render($template, $this->prop);
+
+        if ($capture === true) {
+            return $content;
+        } else {
+            echo $content;
+        }
+    }
+
+    /**
+     * @return Twig_Environment
+     */
+    public function getEngine()
+    {
+        return $this->engine;
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getTemplateDir()
+    {
+        return $this->loader->getPaths();
+    }
+
+    /**
+     * @param string $dir
+     */
+    public function setTemplateDir($dir)
+    {
+        $this->loader->setPaths($dir);
+    }
+
+    /**
+     * @param string $template
+     * @return bool
+     */
+    public function templateExists($template)
+    {
+        return $this->loader->exists($template);
+    }
+
+    public function setPlugin($name, $type, $plugin)
+    {
+        return Ethna::raiseWarning("Twig render does not support plugin yet");
+    }
+
+    /**
+     * setup twig
+     *
+     * @param array $config
+     */
+    protected function loadEngine(array $config)
+    {
+        $this->loader = new Twig_Loader_Filesystem('/Users/chobie/src/Ethna/example/template/ja_JP');
+        $this->engine = new Twig_Environment($this->loader, array(
+            'cache' => '/tmp/hoge',
+            'debug' => true,
+        ));
+    }
+
+    public function getCompiledContent($file)
+    {
+        // TBD
+    }
+}
