@@ -8,7 +8,7 @@
 
 class Ethna_UrlHandlerTest extends PHPUnit_Framework_TestCase
 {
-    var $url_handler;
+    public $url_handler;
 
     function setUp()
     {

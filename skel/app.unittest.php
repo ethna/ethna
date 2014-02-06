@@ -19,7 +19,7 @@ class {$project_id}_UnitTestManager extends Ethna_UnitTestManager
     /**
      *  @var    array   General test case definition.
      */
-    var $testcase = array(
+    public $testcase = array(
         /*
          *  TODO: Write general test case definition here.
          *

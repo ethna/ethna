@@ -19,10 +19,10 @@ require_once 'simpletest/scorer.php';
  */
 class Ethna_UnitTestReporter extends SimpleReporter {
     
-    var $_character_set;
+    public $_character_set;
 
-    var $report;
-    var $result;
+    public $report;
+    public $result;
 
     /**
      *  Ethna_UnitTestReporterのコンストラクタ

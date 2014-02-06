@@ -28,23 +28,23 @@ class Ethna_MailSender
      */
 
     /** @var    array   メールテンプレート定義 */
-    var $def = array(
+    public $def = array(
     );
 
     /** @var    string  メールテンプレートディレクトリ */
-    var $mail_dir = 'mail';
+    public $mail_dir = 'mail';
 
     /** @var    int     送信メールタイプ */
-    var $type;
+    public $type;
 
     /** @var    string  送信オプション */
-    var $option = '';
+    public $option = '';
 
     /** @var    object  Ethna_Backend   backendオブジェクト */
-    var $backend;
+    public $backend;
 
     /** @var    object  Ethna_Config    設定オブジェクト */
-    var $config;
+    public $config;
 
     /**#@-*/
 

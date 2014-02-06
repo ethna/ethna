@@ -20,7 +20,7 @@ class {$action_form}_TestCase extends Ethna_UnitTestCase
      *  @access private
      *  @var    string  Action name.
      */
-    var $action_name = '{$action_name}';
+    public $action_name = '{$action_name}';
 
     /**
      *  initialize test.
@@ -78,7 +78,7 @@ class {$action_class}_TestCase extends Ethna_UnitTestCase
      *  @access private
      *  @var    string  Action name.
      */
-    var $action_name = '{$action_name}';
+    public $action_name = '{$action_name}';
 
     /**
      * initialize test.

@@ -8,7 +8,7 @@
 
 class Ethna_Plugin_Logwriter_Debugtoolbar extends Ethna_Plugin_Logwriter
 {
-    var $log_array = array();
+    public $log_array = array();
 
     /**
      *  ログを出力する

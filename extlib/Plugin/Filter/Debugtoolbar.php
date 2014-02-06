@@ -17,7 +17,7 @@
  */
 class Ethna_Plugin_Filter_Debugtoolbar extends Ethna_Plugin_Filter
 {
-    var $version = '1.0.0 - $Id$';
+    public $version = '1.0.0 - $Id$';
 
     private $_type_mapping = array(
         VAR_TYPE_INT      => 'VAR_TYPE_INT',
