@@ -9,6 +9,10 @@
  *  @version    $Id$
  */
 
+if (defined("ETHNA_VERSION")) { //check already loaded
+    return;
+}
+
 //
 //  PEAR OS_WINDOWS constant replacement.
 //

@@ -1,0 +1,30 @@
+{
+    "name": "ethna/ethna",
+    "version": "2.6.0-dev",
+    "description": "web application framework.",
+    "type": "library",
+    "keywords": [ "framework", "ethna" ],
+    "license": "BSD-License",
+    "homepage": "https://github.com/ethna/ethna",
+    "authors": [
+        { "name": "Masaki Fujimoto", "email": "fujimoto@php.net", "role" : "Administrator"},
+        { "name": "chobie", "email": "chobieeee@php.net", "role" : "Developer"},
+        { "name": "withgod", "email": "noname@withgod.jp", "role" : "Developer"},
+        { "name": "sotarok", "homepage": "https://github.com/sotarok", "role" : "Developer"},
+        { "name": "ethna contributors", "homepage": "https://github.com/ethna/ethna/blob/master/AUTHORS" }
+    ],
+    "support" : {
+        "irc": "irc://irc.freenode.org/Ethna",
+        "issues": "https://github.com/ethna/ethna/issues",
+        "source": "git@github.com:ethna/ethna.git"
+    },
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "files": [ "Ethna.php" ]
+    }
+}
