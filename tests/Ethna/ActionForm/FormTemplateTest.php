@@ -8,7 +8,7 @@
 
 class Ethna_FormTemplate_ActionForm extends Ethna_ActionForm
 {
-    public $form_template = array(
+    protected $form_template = array(
         'normal' => array(
             'name'      => '通常のフォームテンプレート用定義',
             'required'  => false,
@@ -26,7 +26,7 @@ class Ethna_FormTemplate_ActionForm extends Ethna_ActionForm
 
 class Ethna_FormTemplateTest_ActionForm extends Ethna_FormTemplate_ActionForm
 {
-    public $form = array(
+    protected $form = array(
         'normal' => array(),
         'syntax_sugar',  //  シンタックスシュガー
     );

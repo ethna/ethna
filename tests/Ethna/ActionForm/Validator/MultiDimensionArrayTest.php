@@ -8,7 +8,7 @@
 
 class Ethna_MultiArrayTest_ActionForm extends Ethna_ActionForm
 {
-    public $form = array(
+    protected $form = array(
         //  多次元配列(値はスカラー)
         'User[name]' => array(
             'name'          => '名前',

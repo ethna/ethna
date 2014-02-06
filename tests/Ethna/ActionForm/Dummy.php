@@ -8,7 +8,7 @@
 
 class Ethna_ActionForm_Dummy extends Ethna_ActionForm
 {
-    public $form = array(
+    protected $form = array(
         'test' => array(
             'type' => VAR_TYPE_STRING,
             'form_type' => FORM_TYPE_TEXT,
