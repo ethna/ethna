@@ -336,7 +336,7 @@ class Ethna_Backend
      *
      *  @access public
      *  @param  string  $action_name    実行するアクションの名称
-     *  @return mixed   (string):Forward名(nullならforwardしない) Ethna_Error:エラー
+     *  @return string  遷移名(nullならアクションと同名のビューに遷移, falseなら処理終了)
      */
     public function perform($action_name)
     {
@@ -349,14 +349,14 @@ class Ethna_Backend
         // アクションの実行
         $forward_name = $this->ac->authenticate();
         if ($forward_name === false) {
-            return null;
+            return false;
         } else if ($forward_name !== null) {
             return $forward_name;
         }
 
         $forward_name = $this->ac->prepare();
         if ($forward_name === false) {
-            return null;
+            return false;
         } else if ($forward_name !== null) {
             return $forward_name;
         }

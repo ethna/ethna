@@ -110,7 +110,7 @@ class Ethna_ActionClass
      *  アクション実行
      *
      *  @access public
-     *  @return string  遷移名(nullなら遷移は行わない)
+     *  @return string  遷移名(nullなら同名のビューに遷移, falseなら処理終了)
      */
     public function perform()
     {
