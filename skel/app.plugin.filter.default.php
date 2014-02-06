@@ -23,7 +23,7 @@ class Ethna_Plugin_Filter_ExecutionTime extends Ethna_Plugin_Filter
     /**
      *  @var    int     Start time.
      */
-    var $stime;
+    public $stime;
 
     /**#@-*/
 

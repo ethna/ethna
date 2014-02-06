@@ -20,7 +20,7 @@ class {$action_form} extends {$project_id}_ActionForm
      *  @access private
      *  @var    array   form definition.
      */
-    var $form = array(
+    public $form = array(
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html

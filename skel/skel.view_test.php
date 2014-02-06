@@ -20,7 +20,7 @@ class {$view_class}_TestCase extends Ethna_UnitTestCase
      *  @access private
      *  @var    string  view name.
      */
-    var $forward_name = '{$forward_name}';
+    public $forward_name = '{$forward_name}';
 
     /**
      * initialize test.

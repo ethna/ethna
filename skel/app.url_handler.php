@@ -17,7 +17,7 @@
 class {$project_id}_UrlHandler extends Ethna_UrlHandler
 {
     /** @var    array   Action Mapping */
-    var $action_map = array(
+    public $action_map = array(
         /**
          * @see http://ethna.jp/ethna-document-dev_guide-urlhandler.html
          */
