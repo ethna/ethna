@@ -26,6 +26,13 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
                 'path_ext'      => false,
             ),
         ),
+        'emptypath' => array(
+            'test_empty_path' => array(
+                'path'          => '',
+                'path_regexp'   => false,
+                'path_ext'      => false,
+            ),
+        ),
     );
     // }}}
 
@@ -309,6 +316,26 @@ class Ethna_UrlHandler_Test extends Ethna_UnitTestBase
         $this->assertEqual($path_key, array('param1', 'param2'));
     }
     // }}}
+
+    // {{{ test_actionToRequest_emptypath
+    function test_actionToRequest_emptypath()
+    {
+        $action = 'test_empty_path';
+        $param = array(
+            'hoge' => 'fuga',
+        );
+
+        $this->url_handler->setActionMap($this->_simple_map);
+        $ret = $this->url_handler->actionToRequest($action, $param);
+        $this->assertFalse(is_null($ret));
+        list($path, $path_key) = $ret;
+
+        // action "test_empty_path" に対応するのは "emptypath" の ""
+        $this->assertEqual($path, '');
+        $this->assertTrue($path_key == array());
+    }
+    // }}}
+
 }
 
 class Ethna_UrlHandler_TestClass extends Ethna_UrlHandler
@@ -316,6 +343,11 @@ class Ethna_UrlHandler_TestClass extends Ethna_UrlHandler
     function _getPath_Entrypoint($action, $params)
     {
         return array('/entrypoint', array());
+    }
+
+    function _getPath_Emptypath($action, $params)
+    {
+        return array('', array());
     }
 
     function _normalizerequest_Test($http_vars)

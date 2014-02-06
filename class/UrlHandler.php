@@ -96,7 +96,7 @@ class Ethna_UrlHandler
             return null;
         }
         list($path, $path_key) = $this->$method($action, $param);
-        if ($path == "") {
+        if (is_null($path)) {
             return null;
         }
 
