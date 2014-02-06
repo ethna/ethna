@@ -155,7 +155,7 @@ class Ethna_ActionFormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($def, $this->af->getDef('hoge'));
 
         $this->af->setDef(null, $orig);
-        $this->assertEquals($this->af->form['test'], $this->af->getDef('test'));
+        $this->assertEquals($this->af->getFormValue('test'), $this->af->getDef('test'));
         $this->assertEquals($orig['test'], $this->af->getDef('test'));
         $this->assertEquals($orig, $this->af->getDef());
     }

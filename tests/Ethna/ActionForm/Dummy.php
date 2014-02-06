@@ -27,4 +27,14 @@ class Ethna_ActionForm_Dummy extends Ethna_ActionForm
         ),
 
     );
+
+
+    public function getFormValue($name)
+    {
+        if (isset($this->form[$name])) {
+            return $this->form[$name];
+        }
+
+        return false;
+    }
 }
