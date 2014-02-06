@@ -17,6 +17,8 @@ class Ethna_Renderer_Twig extends Ethna_Renderer
     /** @var array $config */
     protected $config = array();
 
+    protected $compile_dir;
+
     /**
      * @param Ethna_Controller $controller
      */
@@ -24,12 +26,20 @@ class Ethna_Renderer_Twig extends Ethna_Renderer
     {
         parent::__construct($controller);
 
+        $this->setTemplateDir($controller->getTemplatedir());
+        $this->setCompileDir($controller->getDirectory('template_c'));
+
         $this->loadEngine($this->config);
+    }
 
-        $template_dir = $controller->getTemplatedir();
-        $compile_dir = $controller->getDirectory('template_c');
+    protected function setCompileDir($dir)
+    {
+        $this->compile_dir = $dir;
+    }
 
-        $this->setTemplateDir($template_dir);
+    protected function getCompileDir()
+    {
+        return $this->compile_dir;
     }
 
     /**
@@ -75,22 +85,6 @@ class Ethna_Renderer_Twig extends Ethna_Renderer
     }
 
     /**
-     * @return array|string
-     */
-    public function getTemplateDir()
-    {
-        return $this->loader->getPaths();
-    }
-
-    /**
-     * @param string $dir
-     */
-    public function setTemplateDir($dir)
-    {
-        $this->loader->setPaths($dir);
-    }
-
-    /**
      * @param string $template
      * @return bool
      */
@@ -111,9 +105,9 @@ class Ethna_Renderer_Twig extends Ethna_Renderer
      */
     protected function loadEngine(array $config)
     {
-        $this->loader = new Twig_Loader_Filesystem('/Users/chobie/src/Ethna/example/template/ja_JP');
+        $this->loader = new Twig_Loader_Filesystem($this->getTemplateDir());
         $this->engine = new Twig_Environment($this->loader, array(
-            'cache' => '/tmp/hoge',
+            'cache' => $this->getCompileDir(),
             'debug' => true,
         ));
     }
