@@ -175,39 +175,6 @@ class Ethna_ActionForm_Validator_MultiDimensionArrayTest extends PHPUnit_Framewo
         $this->assertEquals($allartist['name'][2], '北海道の若頭');
     }
 
-    public function test_get_duplicate()
-    {
-        //  PHP 5.2.6, 4.4.9 では 「宮崎あおい」が優先された
-        //  つまり、$_POST の中身は array('duplicate' => '宮崎あおい')
-        $_POST['duplicate'] = '宮崎あおい';
-        $_POST['duplicate']['abc'] = 'PHPの貴公子';
-        $this->af->setFormVars();
-
-        //
-        //  setFormVars が実行された結果、[duplicate][abc] のフォーム定義が
-        //  後で解釈され、$POST array('dupliate'=>array('abc' => NULL));
-        //  として上書きされる。よって、どちらも値が取得できない
-        //
-        $this->assertNotEquals('宮崎あおい', $this->af->get('duplicate'));
-        $this->assertNULL($this->af->get('duplicate[xxx]'));
-    }
-
-    public function test_get_too_deep()
-    {
-        //   10階層目, 11階層目に値を設定する
-        $_POST['a']['b']['c']['d']['e']['f']['g']['h']['i']['j'] = '10階層';
-        $_POST['a']['b']['c']['d']['e']['f']['g']['h']['i']['j']['k'] = '11階層';
-        $this->af->setFormVars();
-
-        //   深過ぎる階層の配列は、
-        //   たとえ定義されていても、取得しようとしてもNULLになる
-        $depth_10_val = $this->af->get('a[b][c][d][e][f][g][h][i][j]');
-        $depth_11_val = $this->af->get('a[b][c][d][e][f][g][h][i][j][k]');
-
-        $this->assertEquals($depth_10_val, '10階層');
-        $this->assertNULL($depth_11_val);
-    }
-
     public function test_set()
     {
         // 1. 最下層のキーまで指定して値をセットする
