@@ -23,7 +23,7 @@ class Ethna_Form_Info extends Ethna_ActionForm
      *  @access private
      *  @var    array   フォーム値定義
      */
-    var $form = array(
+    public $form = array(
     );
 }
 // }}}

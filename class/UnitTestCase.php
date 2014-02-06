@@ -18,40 +18,40 @@
 class Ethna_UnitTestCase extends UnitTestCase
 {
     /** @var    object  Ethna_Backend       backendオブジェクト */
-    var $backend;
+    public $backend;
 
     /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    public $controller;
 
     /** @var    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    var $ctl;
+    public $ctl;
 
     /** @var    object  Ethna_Session       セッションオブジェクト */
-    var $session;
+    public $session;
 
     /** @var    string                      アクション名 */
-    var $action_name;
+    public $action_name;
 
     /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    var $action_form;
+    public $action_form;
 
     /** @var    object  Ethna_ActionForm    アクションフォームオブジェクト($action_formの省略形) */
-    var $af;
+    public $af;
 
     /** @var    object  Ethna_ActionClass   アクションクラスオブジェクト */
-    var $action_class;
+    public $action_class;
 
     /** @var    object  Ethna_ActionClass   アクションクラスオブジェクト($action_classの省略形) */
-    var $ac;
+    public $ac;
 
     /** @var    string                      ビュー名 */
-    var $forward_name;
+    public $forward_name;
 
     /** @var    object  Ethna_ViewClass     viewクラスオブジェクト */
-    var $view_class;
+    public $view_class;
 
     /** @var    object  Ethna_ViewClass     viewクラスオブジェクト($view_classの省略形) */
-    var $vc;
+    public $vc;
 
     /**
      *  Ethna_UnitTestCaseのコンストラクタ

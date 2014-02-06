@@ -24,25 +24,25 @@ class Ethna_SOAP_GatewayGenerator
      */
 
     /** @var    object  Ethna_Controller    controllerオブジェクト */
-    var $controller;
+    public $controller;
 
     /** @var    object  Ethna_Config        設定オブジェクト */
-    var $config;
+    public $config;
 
     /** @var    object  Ethna_ActionError   アクションエラーオブジェクト */
-    var $action_error;
+    public $action_error;
 
     /** @var    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
-    var $ae;
+    public $ae;
 
     /** @var    string      ゲートウェイクラスコード */
-    var $gateway;
+    public $gateway;
 
     /** @var    string      ゲートウェイクラス識別名 */
-    var $name;
+    public $name;
 
     /** @var    string      ゲートウェイクラスネームスペース */
-    var $namespace;
+    public $namespace;
 
     /**#@-*/
 

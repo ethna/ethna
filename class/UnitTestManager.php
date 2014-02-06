@@ -22,10 +22,10 @@ require_once 'UnitTestReporter.php';
 class Ethna_UnitTestManager extends Ethna_AppManager
 {
     /** @var    object  Ethna_Controller    コントローラオブジェクト */
-    var $ctl;
+    public $ctl;
 
     /** @var    array                       一般テストケース定義 */
-    var $testcase = array();
+    public $testcase = array();
 
     /**
      *  Ethna_UnitTestManagerのコンストラクタ

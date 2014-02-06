@@ -24,29 +24,29 @@ class Ethna_InfoManager extends Ethna_AppManager
      */
     
     /** @var    object  Ethna_Controller    コントローラオブジェクト */
-    var $ctl;
+    public $ctl;
 
     /** @var    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
-    var $class_factory;
+    public $class_factory;
 
     /** @var    array   アクションスクリプト解析結果キャッシュファイル */
-    var $cache_class_list_file;
+    public $cache_class_list_file;
 
     /** @var    array   アクションスクリプト解析結果キャッシュ */
-    var $cache_class_list;
+    public $cache_class_list;
 
     /** @var    array   [属性]DBタイプ一覧 */
-    var $db_type_list = array(
+    public $db_type_list = array(
         DB_TYPE_RW      => array('name' => 'DB_TYPE_RW'),
         DB_TYPE_RO      => array('name' => 'DB_TYPE_RO'),
         DB_TYPE_MISC    => array('name' => 'DB_TYPE_MISC'),
     );
 
     /** @var    array   [属性]フォーム型一覧 */
-    var $form_type_list;
+    public $form_type_list;
  
     /** @var    array   [属性]変数型一覧 */
-    var $var_type_list;
+    public $var_type_list;
 
     /**#@-*/
 
