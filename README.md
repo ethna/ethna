@@ -1,6 +1,6 @@
 # Ethna
 
-![travis](https://travis-ci.org/ethna/ethna.png)
+[![Build Status](https://travis-ci.org/ethna/ethna.png?branch=master)](https://travis-ci.org/ethna/ethna)
 
 Ethna(えすな)は、PHPを利用したウェブアプリケーションフレームワークで、似たようなコードを書かなくてよいことを目標としています。
 
