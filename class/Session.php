@@ -48,16 +48,24 @@ class Ethna_Session
         'suffix'            => 'SESSID',
     );
 
+    /**
+     *  @protected    string  prefix of session name
+     *  ここで指定した文字列がセッション名の一部になる。
+     *  デフォルトではappidが使われる。
+     * */
+    protected $prefix;
+
+
+
     /**#@-*/
 
     /**
      *  Ethna_Sessionクラスのコンストラクタ
      *
      *  @access public
-     *  @param  string  $appid      アプリケーションID(セッション名として使用)
-     *  @param  string  $save_dir   セッションデータを保存するディレクトリ
+     *  @param  object  $ctl        コントローラ
      */
-    public function __construct($ctl, $appid)
+    public function __construct($ctl)
     {
         $this->ctl = $ctl;
         $this->logger = $this->ctl->getLogger();
@@ -71,7 +79,9 @@ class Ethna_Session
         if (($dir = $this->ctl->getDirectory($this->config['path'])) !== null) {
             $this->session_save_dir = $dir;
         }
-        $this->session_name = $appid . $this->config['suffix'];
+
+        $prefix = isset($this->prefix) ? $this->prefix : $this->ctl->getAppId();
+        $this->session_name = $prefix . $this->config['suffix'];
 
         // set session handler
         ini_set('session.save_handler', $this->config['handler']);
