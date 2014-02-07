@@ -100,14 +100,6 @@ require_once ETHNA_BASE . '/class/Plugin.php';
 require_once ETHNA_BASE . '/class/Renderer.php';
 require_once ETHNA_BASE . '/class/CLI/ActionClass.php';
 
-if (extension_loaded('soap')) {
-    require_once ETHNA_BASE . '/class/SOAP/ActionForm.php';
-    require_once ETHNA_BASE . '/class/SOAP/Gateway.php';
-    require_once ETHNA_BASE . '/class/SOAP/GatewayGenerator.php';
-    require_once ETHNA_BASE . '/class/SOAP/Util.php';
-    require_once ETHNA_BASE . '/class/SOAP/WsdlGenerator.php';
-}
-
 /** ゲートウェイ: WWW */
 define('GATEWAY_WWW', 1);
 
