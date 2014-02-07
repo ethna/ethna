@@ -1,4 +1,0 @@
-[project]
-ethna_version = "{$ethna_version}"
-controller_file = "app/{$project_id}_Controller.php"
-controller_class = "{$project_id}_Controller"
