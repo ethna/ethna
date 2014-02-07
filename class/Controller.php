@@ -234,7 +234,7 @@ class Ethna_Controller
         //
         // @see Ethna_Controller#_getDefaultLanguage
         list($this->locale, $this->system_encoding, $this->client_encoding) = $this->_getDefaultLanguage();
-        if (mb_enabled()) {
+        if (extension_loaded('mbstring')) {
             mb_internal_encoding($this->client_encoding);
             mb_regex_encoding($this->client_encoding);
         }
@@ -251,11 +251,6 @@ class Ethna_Controller
 
         // include Ethna_Plugin_Abstract for all plugins
         $this->plugin->includePlugin('Abstract');
-
-        //// assert (experimental)
-        //if ($this->config->get('debug') === false) {
-        //    ini_set('assert.active', 0);
-        //}
 
         // ログ出力開始
         $this->logger = $this->getLogger();
