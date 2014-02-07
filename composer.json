@@ -20,7 +20,7 @@
     "bin": [ "bin/ethna.sh"],
     "require": {
         "php": ">=5.3.0",
-        "ethna/ethna-sop": "dev-master"
+        "ethna/ethna-soap": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
