@@ -15,7 +15,6 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, arra
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("Ethna", "MocktestManager.php"));
 
 
-require_once __ETHNA_BASE . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("class", "Getopt.php"));
 require_once __ETHNA_BASE . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("class", "UrlHandler", "Simple.php"));
 
 // smarty plugins

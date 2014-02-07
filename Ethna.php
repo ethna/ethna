@@ -81,7 +81,6 @@ require_once ETHNA_BASE . '/class/ClassFactory.php';
 require_once ETHNA_BASE . '/class/DB.php';
 require_once ETHNA_BASE . '/class/Error.php';
 require_once ETHNA_BASE . '/class/Filter.php';
-require_once ETHNA_BASE . '/class/Handle.php';
 require_once ETHNA_BASE . '/class/I18N.php';
 require_once ETHNA_BASE . '/class/Logger.php';
 require_once ETHNA_BASE . '/class/MailSender.php';
