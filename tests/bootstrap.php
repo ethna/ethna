@@ -4,8 +4,10 @@ define("__ETHNA_BASE", dirname(dirname(__FILE__)));
 define("__ETHNA_PLUGIN_DIR", __ETHNA_BASE . DIRECTORY_SEPARATOR . "class" . DIRECTORY_SEPARATOR . "Plugin");
 
 ini_set("include_path", __ETHNA_BASE . DIRECTORY_SEPARATOR . ":". ini_get("include_path"));
+require dirname(__DIR__) . DIRECTORY_SEPARATOR . "vendor/autoload.php";
 
-require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . "Ethna.php";
+//require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . "Ethna.php";
+
 
 // TODO(chobie): あとでどうにかしよう
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("Ethna", "Action", "Dummy.php"));
