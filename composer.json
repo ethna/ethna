@@ -17,7 +17,6 @@
         "irc": "irc://irc.freenode.org/Ethna",
         "issues": "https://github.com/ethna/ethna/issues"
     },
-    "bin": [ "bin/ethna.sh"],
     "require": {
         "php": ">=5.3.0",
         "ethna/ethna-soap": "dev-master",
