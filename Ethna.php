@@ -75,7 +75,6 @@ require_once ETHNA_BASE . '/class/CacheManager.php';
 require_once ETHNA_BASE . '/class/Config.php';
 require_once ETHNA_BASE . '/class/Controller.php';
 require_once ETHNA_BASE . '/class/ClassFactory.php';
-require_once ETHNA_BASE . '/class/DB.php';
 require_once ETHNA_BASE . '/class/Error.php';
 require_once ETHNA_BASE . '/class/Filter.php';
 require_once ETHNA_BASE . '/class/Logger.php';
