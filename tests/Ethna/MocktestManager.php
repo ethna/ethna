@@ -7,16 +7,16 @@
  */
 
 
-class Ethna_MocktestManager extends Ethna_AppManager
+class Ethna_MocktestManager
 {
     //  何も定義しない
 }
 
-class Ethna_Mocktest extends Ethna_AppObject
+class Ethna_Mocktest
 {
     public function getName($key)
     {
-        return $this->get($key);
+        return "mock";
     }
 }
 
