@@ -16,9 +16,6 @@ require dirname(__FILE__) . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, arra
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("Ethna", "Renderer", "DummyRenderer.php"));
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("Ethna", "MocktestManager.php"));
 
-
-require_once __ETHNA_BASE . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("class", "UrlHandler", "Simple.php"));
-
 // smarty plugins
 require_once __ETHNA_BASE . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("class", "Plugin", "Smarty", "function.select.php"));
 require_once __ETHNA_BASE . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("class", "Plugin", "Smarty", "modifier.checkbox.php"));

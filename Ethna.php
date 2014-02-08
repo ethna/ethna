@@ -79,7 +79,6 @@ require_once ETHNA_BASE . '/class/Error.php';
 require_once ETHNA_BASE . '/class/Filter.php';
 require_once ETHNA_BASE . '/class/Logger.php';
 require_once ETHNA_BASE . '/class/Session.php';
-require_once ETHNA_BASE . '/class/UrlHandler.php';
 require_once ETHNA_BASE . '/class/Util.php';
 require_once ETHNA_BASE . '/class/ViewClass.php';
 require_once ETHNA_BASE . '/class/View/Json.php';

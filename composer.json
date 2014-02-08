@@ -22,6 +22,7 @@
         "ethna/ethna-soap": "dev-master",
         "ethna/ethna-generator": "dev-master",
         "ethna/ethna-db": "dev-master",
+        "ethna/ethna-urlhandler": "dev-master",
         "ethna/ethna-i18n": "dev-master"
     },
     "require-dev": {
