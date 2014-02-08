@@ -26,6 +26,7 @@
         "ethna/ethna-i18n": "dev-master"
     },
     "require-dev": {
+        "phpspec/prophecy-phpunit": "~1.0",
         "phpunit/phpunit": "3.7.*"
     },
     "target-dir": "Ethna",
