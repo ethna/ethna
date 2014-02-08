@@ -310,6 +310,27 @@ $GLOBALS['_Ethna_error_callback_list'] = array();
 $GLOBALS['_Ethna_error_message_list'] = array();
 
 
+function mb_enabled()
+{
+    return (extension_loaded('mbstring')) ? true : false;
+}
+
+/**
+ *  メッセージカタログからロケールに適合するメッセージを取得します。
+ *  Ethna_I18N#get のショートカットです。
+ *
+ *  @access public
+ *  @param  string  $message    メッセージ
+ *  @return string  ロケールに適合するメッセージ
+ *  @see    Ethna_I18N#get
+ */
+function _et($message)
+{
+    $ctl = Ethna_Controller::getInstance();
+    $i18n = $ctl->getI18N();
+    return $i18n->get($message);
+}
+
 // {{{ Ethna
 /**
  *  Ethnaフレームワーククラス
