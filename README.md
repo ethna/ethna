@@ -10,6 +10,16 @@ Ethna(えすな)は、PHPを利用したウェブアプリケーションフレ�
 * Issues: [Github Issues](https://github.com/ethna/ethna/issues)
 * IRC: #Ethna on irc.freenode.net.
 
+Getting Started
+---------------
+
+````
+composer create-project ethna/ethna-project -s dev {ProjectName}
+````
+
+まだ作りこんでいないのでsmarty, twigとかの依存は手動でやってください。
+
+
 Requirements
 --------------
 
