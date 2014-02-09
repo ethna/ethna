@@ -24,9 +24,7 @@ class Ethna_I18N_Test extends PHPUnit_Framework_TestCase
     public function test_get_ja_JP()
     {
         //  デフォルトは日本語のメッセージが返ってくる
-        $this->assertEquals($this->i18n->get('Backend'), 'バックエンド');
         $this->assertEquals($this->i18n->get('Could not write uploaded file to disk.'), 'ディスクへの書き込みに失敗しました。');
-        $this->assertEquals($this->i18n->get('Filter(%d)'), 'フィルタ(%d)');
         $this->assertEquals($this->i18n->get('Heisei'), '平成');
         $this->assertEquals($this->i18n->get('%Y/%m/%d %H:%M:%S'), '%Y年%m月%d日 %H時%M分%S秒');
 
