@@ -182,19 +182,24 @@ class Ethna_Plugin
      */
     private function _loadPlugin($type, $name)
     {
-        // プラグインのファイル名を取得
-        $plugin_src_registry = $this->_getPluginSrc($type, $name);
-        if (is_null($plugin_src_registry)) {
-            $this->obj_registry[$type][$name] = null;
-            return;
-        }
-        list($plugin_class, $plugin_dir, $plugin_file) = $plugin_src_registry;
+        // NOTE(chobie): workaroundとしてautoloadも考慮する
+        list($plugin_class)= $this->getPluginNaming($type, $name);
 
-        // プラグインのファイルを読み込み
-        $r = $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
-        if (Ethna::isError($r)) {
-            $this->obj_registry[$type][$name] = null;
-            return;
+        if (!class_exists($plugin_class)) {
+            // プラグインのファイル名を取得
+            $plugin_src_registry = $this->_getPluginSrc($type, $name);
+            if (is_null($plugin_src_registry)) {
+                $this->obj_registry[$type][$name] = null;
+                return;
+            }
+            list($plugin_class, $plugin_dir, $plugin_file) = $plugin_src_registry;
+
+            // プラグインのファイルを読み込み (2.5系の読み込みのふるまい)
+            $r = $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
+            if (Ethna::isError($r)) {
+                $this->obj_registry[$type][$name] = null;
+                return;
+            }
         }
 
         // プラグイン作成
