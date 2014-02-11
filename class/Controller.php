@@ -13,8 +13,6 @@
 /**
  *  コントローラクラス
  *
- *  @todo       gatewayでswitchしてるところがダサダサ
- *
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @access     public
  *  @package    Ethna
@@ -93,6 +91,14 @@ class Ethna_Controller
         'url_handler'   => 'Ethna_UrlHandler',
     );
 
+    /** @var array subscribers */
+    protected $subscribers = array(
+        //"Ethna_Subscriber_I18nSubscriber",
+        "Ethna_Subscriber_ForwardSubscriber",
+        "Ethna_Subscriber_ResolveActionNameSubscriber",
+        "Ethna_Subscriber_TriggerSubscriber",
+    );
+
     /** @protected    array       フィルタ設定 */
     protected $filter = array(
     );
@@ -165,6 +171,9 @@ class Ethna_Controller
     /** @protected    string  リクエストのゲートウェイ(www/cli/rest/xmlrpc/soap...) */
     protected $gateway = GATEWAY_WWW;
 
+    /** @var  Ethna_EventDispatcher $event_dispatcher */
+    protected $event_dispatcher;
+
     /**#@-*/
 
 
@@ -175,6 +184,9 @@ class Ethna_Controller
      */
     public function __construct($gateway = GATEWAY_WWW)
     {
+        $this->setupEventDispatcher();
+        $this->registerSubscriber();
+
         $GLOBALS['_Ethna_controller'] = $this;
         if ($this->base === "") {
             // EthnaコマンドなどでBASEが定義されていない場合がある
@@ -238,6 +250,7 @@ class Ethna_Controller
             mb_internal_encoding($this->client_encoding);
             mb_regex_encoding($this->client_encoding);
         }
+
         $this->config = $this->getConfig();
         $this->dsn = $this->_prepareDSN();
         $this->url = $this->config->get('url');
@@ -256,9 +269,37 @@ class Ethna_Controller
         $this->logger = $this->getLogger();
         $this->plugin->setLogger($this->logger);
         $this->logger->begin();
+    }
 
-        // Ethnaマネージャ設定
-        $this->_activateEthnaManager();
+    /**
+     * 内部イベントのsubscriberを登録する
+     *
+     * @return void
+     */
+    protected function registerSubscriber()
+    {
+        foreach ($this->subscribers as $subscriber_class) {
+            $subscriber = new $subscriber_class();
+            $this->getEventDispatcher()->addSubscriber($subscriber);
+        }
+    }
+
+    /**
+     * returns event dispatcher
+     *
+     * @return \Symfony\Component\EventDispatcher\EventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->event_dispatcher;
+    }
+
+    /**
+     * setup Event Dispatcher
+     */
+    protected function setupEventDispatcher()
+    {
+        $this->event_dispatcher = new Ethna_EventDispatcher();
     }
 
     /**
@@ -472,17 +513,10 @@ class Ethna_Controller
     {
         $key = 'action';
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
-        switch ($gateway) {
-        case GATEWAY_WWW:
-            $key = 'action';
-            break;
-        case GATEWAY_CLI:
-            $key = 'action_cli';
-            break;
-        case GATEWAY_XMLRPC:
-            $key = 'action_xmlrpc';
-            break;
-        }
+
+        $result = $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_GATEWAY_ACTIONDIR,
+            new Ethna_Event_Gateway($gateway));
+        $key = $result->getActionDirKey();
 
         return (empty($this->directory[$key]) ? ($this->base . (empty($this->base) ? '' : '/')) : ($this->directory[$key] . "/"));
     }
@@ -583,6 +617,11 @@ class Ethna_Controller
     {
         // 明示的にクラスファクトリを利用していない
         return $this->action_form;
+    }
+
+    public function setActionName($action_name)
+    {
+        $this->actionm = $action_name;
     }
 
     /**
@@ -790,8 +829,13 @@ class Ethna_Controller
     public function setLocale($locale)
     {
         $this->locale = $locale;
-        $i18n = $this->getI18N();
-        $i18n->setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
+
+        $this->getEventDispatcher()->dispatch("ethna.core.language",
+            new Ethna_Event_SetLanguage($this,
+                $this->getLocale(),
+                $this->getSystemEncoding(),
+                $this->getClientEncoding()
+            ));
     }
 
     /**
@@ -814,8 +858,13 @@ class Ethna_Controller
     public function setClientEncoding($client_encoding)
     {
         $this->client_encoding = $client_encoding;
-        $i18n = $this->getI18N();
-        $i18n->setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
+
+        $this->getEventDispatcher()->dispatch("ethna.core.language",
+            new Ethna_Event_SetLanguage($this,
+                $this->getLocale(),
+                $this->getSystemEncoding(),
+                $this->getClientEncoding()
+            ));
     }
 
     /**
@@ -872,23 +921,6 @@ class Ethna_Controller
     }
 
     /**
-     *  XMLRPCアプリケーションのエントリポイント
-     *
-     *  @access public
-     *  @static
-     */
-    public static function main_XMLRPC($class_name)
-    {
-        if (extension_loaded('xmlrpc') == false) {
-            die("xmlrpc extension is required to enable this gateway");
-        }
-
-        $c = new $class_name(GATEWAY_XMLRPC);
-        $c->trigger("", "", false);
-        $c->end();
-    }
-
-    /**
      *  SOAPアプリケーションのエントリポイント
      *
      *  @access public
@@ -902,6 +934,29 @@ class Ethna_Controller
         $c = new $class_name(GATEWAY_SOAP);
         $c->trigger($action_name, $fallback_action_name);
         $c->end();
+    }
+
+
+    protected function executePreTriggerFilter()
+    {
+        // 実行前フィルタ
+        for ($i = 0; $i < count($this->filter_chain); $i++) {
+            $r = $this->filter_chain[$i]->preFilter();
+            if (Ethna::isError($r)) {
+                return $r;
+            }
+        }
+    }
+
+    protected function executePostTriggerFilter()
+    {
+        // 実行後フィルタ
+        for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
+            $r = $this->filter_chain[$i]->postFilter();
+            if (Ethna::isError($r)) {
+                return $r;
+            }
+        }
     }
 
     /**
@@ -920,74 +975,27 @@ class Ethna_Controller
             $this->_createFilterChain();
         }
 
-        // 実行前フィルタ
-        for ($i = 0; $i < count($this->filter_chain); $i++) {
-            $r = $this->filter_chain[$i]->preFilter();
-            if (Ethna::isError($r)) {
-                return $r;
-            }
+        if (Ethna::isError($error = $this->executePreTriggerFilter())) {
+            // TODO(chobie): これ普通に考えてErrorで落としたらサダメだよね
+            return $error;
         }
 
         // trigger
-        switch ($this->getGateway()) {
-        case GATEWAY_WWW:
-            $this->_trigger_WWW($default_action_name, $fallback_action_name);
-            break;
-        case GATEWAY_CLI:
-            $this->_trigger_CLI($default_action_name);
-            break;
-        case GATEWAY_XMLRPC:
-            $this->_trigger_XMLRPC();
-            break;
-        case GATEWAY_SOAP:
-            $this->_trigger_SOAP();
-            break;
-        }
+        $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_TRIGGER,
+            new Ethna_Event_Trigger($this, $default_action_name, $fallback_action_name, $this->getGateway()));
 
-        // 実行後フィルタ
-        for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
-            $r = $this->filter_chain[$i]->postFilter();
-            if (Ethna::isError($r)) {
-                return $r;
-            }
-        }
+
+        $this->executePostTriggerFilter();
     }
 
     /**
-     *  フレームワークの処理を実行する(WWW)
+     * pre action filterを実行する
      *
-     *  引数$default_action_nameに配列が指定された場合、その配列で指定された
-     *  アクション以外は受け付けない(指定されていないアクションが指定された
-     *  場合、配列の先頭で指定されたアクションが実行される)
-     *
-     *  @access private
-     *  @param  mixed   $default_action_name    指定のアクション名
-     *  @param  mixed   $fallback_action_name   アクション名が決定できなかった場合に実行されるアクション名
-     *  @return mixed   0:正常終了 Ethna_Error:エラー
+     * @param $action_name
+     * @return mixed
      */
-    private function _trigger_WWW($default_action_name = "", $fallback_action_name = "")
+    public function executePreActionFilter(&$action_name)
     {
-        // アクション名の取得
-        $action_name = $this->_getActionName($default_action_name, $fallback_action_name);
-
-        // マネージャ実行チェック
-        $this->_ethnaManagerEnabledCheck($action_name);
-
-        // アクション定義の取得
-        $action_obj = $this->_getAction($action_name);
-        if (is_null($action_obj)) {
-            if ($fallback_action_name != "") {
-                $this->logger->log(LOG_DEBUG, 'undefined action [%s] -> try fallback action [%s]', $action_name, $fallback_action_name);
-                $action_obj = $this->_getAction($fallback_action_name);
-            }
-            if (is_null($action_obj)) {
-                return Ethna::raiseError("undefined action [%s]", E_APP_UNDEFINED_ACTION, $action_name);
-            } else {
-                $action_name = $fallback_action_name;
-            }
-        }
-
-        // アクション実行前フィルタ
         for ($i = 0; $i < count($this->filter_chain); $i++) {
             $r = $this->filter_chain[$i]->preActionFilter($action_name);
             if ($r != null) {
@@ -995,27 +1003,18 @@ class Ethna_Controller
                 $action_name = $r;
             }
         }
-        $this->action_name = $action_name;
 
-        // オブジェクト生成
-        $backend = $this->getBackend();
-        $session = $this->getSession();
-        $session->restore();
+        return $action_name;
+    }
 
-        // 言語切り替えフックを呼ぶ
-        $this->_setLanguage($this->locale, $this->system_encoding, $this->client_encoding);
-
-        // アクションフォーム初期化
-        // フォーム定義、フォーム値設定
-        $form_name = $this->getActionFormName($action_name);
-        $this->action_form = new $form_name($this);
-        $backend->setActionForm($this->action_form);
-        $this->action_form->setFormDef_PreHelper();
-        $this->action_form->setFormVars();
-
-        // バックエンド処理実行
-        $forward_name = $backend->perform($action_name);
-
+    /**
+     * post action filterを実行する
+     *
+     * @param $forward_name
+     * @param $action_name
+     */
+    public function executePostActionFilter(&$forward_name, $action_name)
+    {
         // アクション実行後フィルタ
         for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
             $r = $this->filter_chain[$i]->postActionFilter($action_name, $forward_name);
@@ -1025,150 +1024,38 @@ class Ethna_Controller
             }
         }
 
-        // コントローラで遷移先を決定する(オプション)
-        $forward_name_params = $this->_sortForward($action_name, $forward_name);
-
-        // Viewへの引数があれば取り出す
-        $preforward_params = array();
-        if (is_array($forward_name_params)) {
-            $forward_name = array_shift($forward_name_params);
-            $preforward_params = $forward_name_params;
-        }
-        else {
-            $forward_name = $forward_name_params;
-        }
-
-        if ($forward_name != null) {
-            $view_class_name = $this->getViewClassName($forward_name);
-            $this->view = new $view_class_name($backend, $forward_name, $this->_getForwardPath($forward_name));
-            call_user_func_array(array($this->view, 'preforward'), $preforward_params);
-            $this->view->forward();
-        }
-
-        return 0;
     }
 
-    /**
-     *  フレームワークの処理を実行する(CLI)
-     *
-     *  @access private
-     *  @param  mixed   $default_action_name    指定のアクション名
-     *  @return mixed   0:正常終了 Ethna_Error:エラー
-     */
-    private function _trigger_CLI($default_action_name = "")
+    public function verifyActionObject(&$action_obj, &$action_name, $fallback_action_name)
     {
-        return $this->_trigger_WWW($default_action_name);
-    }
-
-    /**
-     *  フレームワークの処理を実行する(XMLRPC)
-     *
-     *  @access private
-     *  @param  mixed   $action_name    指定のアクション名
-     *  @return mixed   0:正常終了 Ethna_Error:エラー
-     */
-    private function _trigger_XMLRPC($action_name = "")
-    {
-        // prepare xmlrpc server
-        $xmlrpc_gateway_method_name = "_Ethna_XmlrpcGateway";
-        $xmlrpc_server = xmlrpc_server_create();
-
-        $method = null;
-        $param = xmlrpc_decode_request(file_get_contents('php://input'), $method);
-        $this->xmlrpc_method_name = $method;
-
-        $request = xmlrpc_encode_request(
-            $xmlrpc_gateway_method_name,
-            $param,
-            array(
-                'output_type'   => 'xml',
-                'verbosity'     => 'pretty',
-                'escaping'      => array('markup'),
-                'version'       => 'xmlrpc',
-                'encoding'      => 'utf-8'
-            )
-        );
-
-        xmlrpc_server_register_method(
-            $xmlrpc_server,
-            $xmlrpc_gateway_method_name,
-            $xmlrpc_gateway_method_name
-        );
-
-        // send request
-        $r = xmlrpc_server_call_method(
-            $xmlrpc_server,
-            $request,
-            null,
-            array(
-                'output_type'   => 'xml',
-                'verbosity'     => 'pretty',
-                'escaping'      => array('markup'),
-                'version'       => 'xmlrpc',
-                'encoding'      => 'utf-8'
-            )
-        );
-
-        header('Content-Length: ' . strlen($r));
-        header('Content-Type: text/xml; charset=UTF-8');
-        print $r;
-    }
-
-    /**
-     *  _trigger_XMLRPCのコールバックメソッド
-     *
-     *  @access public
-     */
-    private function trigger_XMLRPC($method, $param)
-    {
-        // アクション定義の取得
-        $action_obj = $this->_getAction($method);
         if (is_null($action_obj)) {
-            return Ethna::raiseError("undefined xmlrpc method [%s]", E_APP_UNDEFINED_ACTION, $method);
-        }
-
-        // オブジェクト生成
-        $backend = $this->getBackend();
-
-        $form_name = $this->getActionFormName($method);
-        $this->action_form = new $form_name($this);
-        $def = $this->action_form->getDef();
-        $n = 0;
-        foreach ($def as $key => $value) {
-            if (isset($param[$n]) == false) {
-                $this->action_form->set($key, null);
-            } else {
-                $this->action_form->set($key, $param[$n]);
+            if ($fallback_action_name != "") {
+                $this->logger->log(LOG_DEBUG, 'undefined action [%s] -> try fallback action [%s]', $action_name, $fallback_action_name);
+                $action_obj = $this->_getAction($fallback_action_name);
             }
-            $n++;
+
+            if (is_null($action_obj)) {
+                return Ethna::raiseError("undefined action [%s]", E_APP_UNDEFINED_ACTION, $action_name);
+            } else {
+                $action_name = $fallback_action_name;
+            }
         }
 
-        // バックエンド処理実行
-        $backend->setActionForm($this->action_form);
-
-        $session = $this->getSession();
-        $session->restore();
-        $r = $backend->perform($method);
-
-        return $r;
+        return;
     }
 
     /**
-     *  SOAPフレームワークの処理を実行する
+     * action formを設定する
      *
-     *  @access private
+     * @param $action_name
      */
-    private function _trigger_SOAP()
+    public function setupActionForm($action_name)
     {
-        // SOAPエントリクラス
-        $gg = new Ethna_SOAP_GatewayGenerator();
-        $script = $gg->generate();
-        eval($script);
-
-        // SOAPリクエスト処理
-        $server = new SoapServer(null, array('uri' => $this->config->get('url')));
-        $server->setClass($gg->getClassName());
-        $server->handle();
+        $form_name = $this->getActionFormName($action_name);
+        $this->action_form = new $form_name($this);
+        $this->getBackend()->setActionForm($this->action_form);
+        $this->action_form->setFormDef_PreHelper();
+        $this->action_form->setFormVars();
     }
 
     /**
@@ -1215,116 +1102,14 @@ class Ethna_Controller
      *  @param  mixed   $default_action_name    指定のアクション名
      *  @return string  実行するアクション名
      */
-    protected function _getActionName($default_action_name, $fallback_action_name)
+    public function _getActionName($default_action_name, $fallback_action_name)
     {
         // フォームから要求されたアクション名を取得する
-        $form_action_name = $this->_getActionName_Form();
-        $form_action_name = preg_replace('/[^a-z0-9\-_]+/i', '', $form_action_name);
-        $this->logger->log(LOG_DEBUG, 'form_action_name[%s]', $form_action_name);
+        $event = $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_RESOLVE_ACTION,
+            new Ethna_Event_ResolveActionName($this, $default_action_name, $fallback_action_name));
 
-        // Ethnaマネージャへのフォームからのリクエストは拒否
-        if ($form_action_name == "__ethna_info__" ||
-            $form_action_name == "__ethna_unittest__") {
-            $form_action_name = "";
-        }
-
-        // フォームからの指定が無い場合はエントリポイントに指定されたデフォルト値を利用する
-        if ($form_action_name == "" && count($default_action_name) > 0) {
-            $tmp = is_array($default_action_name) ? $default_action_name[0] : $default_action_name;
-            if ($tmp{strlen($tmp)-1} == '*') {
-                $tmp = substr($tmp, 0, -1);
-            }
-            $this->logger->log(LOG_DEBUG, '-> default_action_name[%s]', $tmp);
-            $action_name = $tmp;
-        } else {
-            $action_name = $form_action_name;
-        }
-
-        // エントリポイントに配列が指定されている場合は指定以外のアクション名は拒否する
-        if (is_array($default_action_name)) {
-            if ($this->_isAcceptableActionName($action_name, $default_action_name) == false) {
-                // 指定以外のアクション名で合った場合は$fallback_action_name(or デフォルト)
-                $tmp = $fallback_action_name != "" ? $fallback_action_name : $default_action_name[0];
-                if ($tmp{strlen($tmp)-1} == '*') {
-                    $tmp = substr($tmp, 0, -1);
-                }
-                $this->logger->log(LOG_DEBUG, '-> fallback_action_name[%s]', $tmp);
-                $action_name = $tmp;
-            }
-        }
-
+        $action_name = $event->getActionName();
         $this->logger->log(LOG_DEBUG, '<<< action_name[%s] >>>', $action_name);
-
-        return $action_name;
-    }
-
-    /**
-     *  フォームにより要求されたアクション名を返す
-     *
-     *  アプリケーションの性質に応じてこのメソッドをオーバーライドして下さい。
-     *  デフォルトでは"action_"で始まるフォーム値の"action_"の部分を除いたもの
-     *  ("action_sample"なら"sample")がアクション名として扱われます
-     *
-     *  @access protected
-     *  @return string  フォームにより要求されたアクション名
-     */
-    protected function _getActionName_Form()
-    {
-        if (isset($_SERVER['REQUEST_METHOD']) == false) {
-            return null;
-        }
-
-        $url_handler = $this->getUrlHandler();
-        if ($_SERVER['REQUEST_METHOD'] == "GET") {
-            $tmp_vars = $_GET;
-        } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $tmp_vars = $_POST;
-        }
-
-        if (empty($_SERVER['URL_HANDLER']) == false) {
-            $tmp_vars['__url_handler__'] = $_SERVER['URL_HANDLER'];
-            $tmp_vars['__url_info__'] = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : null;
-            $tmp_vars = $url_handler->requestToAction($tmp_vars);
-
-            if ($_SERVER['REQUEST_METHOD'] == "GET") {
-                $_GET = array_merge($_GET, $tmp_vars);
-            } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                $_POST = array_merge($_POST, $tmp_vars);
-            }
-            $_REQUEST = array_merge($_REQUEST, $tmp_vars);
-        }
-
-        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-            $http_vars = $_POST;
-        } else {
-            $http_vars = $_GET;
-        }
-
-        // フォーム値からリクエストされたアクション名を取得する
-        $action_name = $sub_action_name = null;
-        foreach ($http_vars as $name => $value) {
-            if ($value == "" || strncmp($name, 'action_', 7) != 0) {
-                continue;
-            }
-
-            $tmp = substr($name, 7);
-
-            // type="image"対応
-            if (preg_match('/_x$/', $name) || preg_match('/_y$/', $name)) {
-                $tmp = substr($tmp, 0, strlen($tmp)-2);
-            }
-
-            // value="dummy"となっているものは優先度を下げる
-            if ($value == "dummy") {
-                $sub_action_name = $tmp;
-            } else {
-                $action_name = $tmp;
-            }
-        }
-        if ($action_name == null) {
-            $action_name = $sub_action_name;
-        }
-
         return $action_name;
     }
 
@@ -1358,17 +1143,10 @@ class Ethna_Controller
     {
         $action = array();
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
-        switch ($gateway) {
-        case GATEWAY_WWW:
-            $action = $this->action;
-            break;
-        case GATEWAY_CLI:
-            $action = $this->action_cli;
-            break;
-        case GATEWAY_XMLRPC:
-            $action = $this->action_xmlrpc;
-            break;
-        }
+        $result = $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_GATEWAY_ACTIONDIR,
+            new Ethna_Event_Gateway($gateway));
+        $target = $result->getActionDirKey();
+        $action = $this->$target;
 
         $action_obj = array();
         if (isset($action[$action_name])) {
@@ -1421,7 +1199,7 @@ class Ethna_Controller
      *  @param  string  $retval         アクションクラスからの戻り値
      *  @return string  遷移先
      */
-    protected function _sortForward($action_name, $retval)
+    public function _sortForward($action_name, $retval)
     {
         return $retval;
     }
@@ -1774,40 +1552,9 @@ class Ethna_Controller
             return $this->renderer;
         }
 
-        // if action is __ethna_info__ or __ethna_unittest__, the renderer must be Smarty2
-        if ($this->action_name == '__ethna_info__'
-            || $this->action_name == '__ethna_unittest__') {
-            require_once ETHNA_BASE . '/class/Renderer/Smarty.php';
-            // force update delimiter setting
-            $renderer_setting = $this->getConfig()->get('renderer');
-            $smarty_setting = (isset($renreder_setting['smarty']) ? $renderer_setting['smarty'] : array());
-            $this->getConfig()->set('renderer', array_merge(
-                $smarty_setting,
-                array('smarty' => array(
-                    'left_delimiter' => '{',
-                    'right_delimiter' => '}',
-                )
-            )));
-            $this->renderer = new Ethna_Renderer_Smarty($this);
-        } else {
-            $this->renderer = $this->class_factory->getObject('renderer');
-        }
+        $this->renderer = $this->class_factory->getObject('renderer');
         $this->_setDefaultTemplateEngine($this->renderer);
         return $this->renderer;
-    }
-
-    /**
-     *  テンプレートエンジン取得する (DEPRECATED)
-     *  getRenderer() を使ってください
-     *
-     *  @access public
-     *  @return object  Ethna_Renderer  レンダラオブジェクト
-     *  @obsolete
-     */
-    public function getTemplateEngine()
-    {
-        trigger_error('Method ' . __METHOD__ . ' is depreacted. Use getRenderer() instead.', E_USER_DEPRECATED);
-        return $this->getRenderer();
     }
 
     /**
@@ -1822,29 +1569,30 @@ class Ethna_Controller
     }
 
     /**
-     *  使用言語、ロケールを設定する
-     *  条件によって使用言語、ロケールを切り替えたい場合は、
-     *  このメソッドをオーバーライドする。
+     * システムエンコーディングを取得する
      *
-     *  @access protected
-     *  @param  string  $locale             ロケール名(ja_JP, en_US等)
-     *                                      (ll_cc の形式。ll = 言語コード cc = 国コード)
-     *  @param  string  $system_encoding    システムエンコーディング名
-     *  @param  string  $client_encoding    クライアントエンコーディング(テンプレートのエンコーディングと考えれば良い)
-     *  @see    http://www.gnu.org/software/gettext/manual/html_node/Locale-Names.html
-     *  @see    Ethna_Controller#_getDefaultLanguage
+     * @return mixed
      */
-    protected function _setLanguage($locale, $system_encoding = null, $client_encoding = null)
+    public function getSystemEncoding()
     {
-        $this->locale = $locale;
-        $this->system_encoding = $system_encoding;
-        $this->client_encoding = $client_encoding;
+        return $this->system_encoding;
+    }
 
-        //   $this->locale, $this->client_encoding を書き換えた場合は
-        //   必ず Ethna_I18N クラスの setLanguageメソッドも呼ぶこと!
-        //   さもないとカタログその他が再ロードされない！
-        $i18n = $this->getI18N();
-        $i18n->setLanguage($locale, $system_encoding, $client_encoding);
+    /**
+     * システムエンコーディングを設定する
+     *
+     * @param $encode
+     */
+    public function setSystemEncoding($encode)
+    {
+        $this->system_encoding = $encode;
+
+        $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_I18N,
+            new Ethna_Event_SetLanguage($this,
+                $this->getLocale(),
+                $this->getSystemEncoding(),
+                $this->getClientEncoding()
+            ));
     }
 
     /**
@@ -1869,20 +1617,6 @@ class Ethna_Controller
     }
 
     /**
-     *  デフォルト状態でのゲートウェイを取得する
-     *
-     *  @access protected
-     *  @return int     ゲートウェイ定義(GATEWAY_WWW, GATEWAY_CLI...)
-     */
-    protected function _getDefaultGateway($gateway)
-    {
-        if (is_null($GLOBALS['_Ethna_gateway']) == false) {
-            return $GLOBALS['_Ethna_gateway'];
-        }
-        return GATEWAY_WWW;
-    }
-
-    /**
      *  ゲートウェイに対応したクラス名のプレフィクスを取得する
      *
      *  @access public
@@ -1892,22 +1626,10 @@ class Ethna_Controller
     protected function _getGatewayPrefix($gateway = null)
     {
         $gateway = is_null($gateway) ? $this->getGateway() : $gateway;
-        switch ($gateway) {
-        case GATEWAY_WWW:
-            $prefix = '';
-            break;
-        case GATEWAY_CLI:
-            $prefix = 'Cli';
-            break;
-        case GATEWAY_XMLRPC:
-            $prefix = 'Xmlrpc';
-            break;
-        default:
-            $prefix = '';
-            break;
-        }
+        $result = $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_GATEWAY_PREFIX,
+            new Ethna_Event_Gateway($gateway));
 
-        return $prefix;
+        return $result->getPrefix();
     }
 
     /**
@@ -1936,7 +1658,7 @@ class Ethna_Controller
     {
         //  引数のはじめの一文字目と、アンダーバー直後の
         //  1文字を必ず大文字にする。アンダーバーは削除される。
-        $name = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($name));
+        $name = preg_replace_callback('/_(.)/', function(array $matches){return strtoupper($matches[1]);}, ucfirst($name));
 
         //  $name に foo_bar を渡し、AppID が Hogeの場合
         //  [Appid]_FooBar が返される
@@ -2137,136 +1859,5 @@ class Ethna_Controller
 
         return $dsn_list[$n];
     }
-
-    /**
-     *  Ethnaマネージャを設定する
-     *
-     *  不要な場合は空のメソッドとしてオーバーライドしてもよい
-     *
-     *  @access protected
-     */
-    protected function _activateEthnaManager()
-    {
-        if ($this->config->get('debug') == false) {
-            return;
-        }
-
-        require_once ETHNA_BASE . '/class/InfoManager.php';
-
-        // action設定
-        $this->action['__ethna_info__'] = array(
-            'form_name' =>  'Ethna_Form_Info',
-            'form_path' =>  sprintf('%s/class/Action/Info.php', ETHNA_BASE),
-            'class_name' => 'Ethna_Action_Info',
-            'class_path' => sprintf('%s/class/Action/Info.php', ETHNA_BASE),
-        );
-
-        // forward設定
-        $this->forward['__ethna_info__'] = array(
-            'forward_path'  => sprintf('%s/tpl/info.tpl', ETHNA_BASE),
-            'view_name'     => 'Ethna_View_Info',
-            'view_path'     => sprintf('%s/class/View/Info.php', ETHNA_BASE),
-        );
-
-        // see if we have simpletest
-        if (file_exists_ex('simpletest/unit_tester.php', true)) {
-        }
-        require_once ETHNA_BASE . '/class/UnitTestManager.php';
-        // action設定
-        $this->action['__ethna_unittest__'] = array(
-            'form_name' =>  'Ethna_Form_UnitTest',
-            'form_path' =>  sprintf('%s/class/Action/UnitTest.php', ETHNA_BASE),
-            'class_name' => 'Ethna_Action_UnitTest',
-            'class_path' => sprintf('%s/class/Action/UnitTest.php', ETHNA_BASE),
-        );
-
-        // forward設定
-        $this->forward['__ethna_unittest__'] = array(
-            'forward_path'  => sprintf('%s/tpl/unittest.tpl', ETHNA_BASE),
-            'view_name'     => 'Ethna_View_UnitTest',
-            'view_path'     => sprintf('%s/class/View/UnitTest.php', ETHNA_BASE),
-        );
-    }
-
-    /**
-     *  Ethnaマネージャが実行可能かをチェックする
-     *
-     *  Ethnaマネージャを実行するよう指示されているにも関わらず、
-     *  debug が trueでない場合は実行を停止する。
-     *
-     *  @access private
-     */
-    protected function _ethnaManagerEnabledCheck($action_name)
-    {
-        if ($this->config->get('debug') == false
-            && ($action_name == '__ethna_info__' || $action_name == '__ethna_unittest__'))
-        {
-            $this->ethnaManagerCheckErrorMsg($action_name);
-            exit(0);
-        }
-    }
-
-    /**
-     *  Ethnaマネージャが実行不能な場合のエラーメッセージを
-     *  表示する。運用上の都合でこのメッセージを出力したくない
-     *  場合は、このメソッドをオーバーライドせよ
-     *
-     *  @access protected
-     */
-     protected function ethnaManagerCheckErrorMsg($action_name)
-     {
-         $appid = strtolower($this->getAppId());
-         $run_action = ($action_name == '__ethna_info__')
-                     ? ' show Application Info List '
-                     : ' run Unit Test ';
-         echo "Ethna cannot {$run_action} under your application setting.<br>";
-         echo "HINT: You must set {$appid}/etc/{$appid}-ini.php debug setting 'true'.<br>";
-         echo "<br>";
-         echo "In {$appid}-ini.php, please set as follows :<br><br>";
-         echo "\$config = array ( 'debug' => true, );";
-     }
-
-    /**
-     *  CLI実行中フラグを取得する
-     *
-     *  @access public
-     *  @return bool    CLI実行中フラグ
-     *  @obsolete
-     */
-    public function getCLI()
-    {
-        return $this->gateway == GATEWAY_CLI ? true : false;
-    }
-
-    /**
-     *  CLI実行中フラグを設定する
-     *
-     *  @access public
-     *  @param  bool    CLI実行中フラグ
-     *  @obsolete
-     */
-    public function setCLI($cli)
-    {
-        $this->gateway = $cli ? GATEWAY_CLI : $this->_getDefaultGateway();
-    }
 }
 // }}}
-
-/**
- *  XMLRPCゲートウェイのスタブクラス
- *
- *  @access     public
- */
-function _Ethna_XmlrpcGateway($method_stub, $param)
-{
-    $ctl = Ethna_Controller::getInstance();
-    $method = $ctl->getXmlrpcMethodName();
-    $r = $ctl->trigger_XMLRPC($method, $param);
-    if (Ethna::isError($r)) {
-        return array(
-            'faultCode' => $r->getCode(),
-            'faultString' => $r->getMessage(),
-        );
-    }
-    return $r;
-}
