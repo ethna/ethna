@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ethna/ethna.png?branch=master)](https://travis-ci.org/ethna/ethna)
 
-Ethna(えすな)は、PHPを利用したウェブアプリケーションフレームワークで、似たようなコードを書かなくてよいことを目標としています。
+Ethna(えすな)は、PHPを利用したウェブアプリケーションフレームワークで、絶妙に妥協をモットーとしています。
 
 * Web: http://ethna.jp/
 * Documentation:  http://ethna.jp/ethna-document.html
