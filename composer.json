@@ -23,7 +23,9 @@
         "ethna/ethna-generator": "dev-master",
         "ethna/ethna-db": "dev-master",
         "ethna/ethna-urlhandler": "dev-master",
-        "ethna/ethna-i18n": "dev-master"
+        "ethna/ethna-i18n": "dev-master",
+        "ethna/ethna-events": "dev-master",
+        "symfony/event-dispatcher": "2.4.1"
     },
     "require-dev": {
         "phpspec/prophecy-phpunit": "~1.0",
