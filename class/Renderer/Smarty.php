@@ -22,9 +22,6 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     /** @private    string compile directory  */
     private $compile_dir;
 
-    /** @protected  engine path (library) */
-    protected $engine_path = 'Smarty.class.php';
-
     protected $config_default = array(
         'left_delimiter' => '{',
         'right_delimiter' => '}',

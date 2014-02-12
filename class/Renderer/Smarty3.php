@@ -21,9 +21,6 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
     /** @private    string compile directory  */
     private $compile_dir;
 
-    /** @protected  string path of smarty3 */
-    protected $engine_path = 'Smarty.class.php';
-
     /**
      *  Constructor for Ethna_Renderer_Smarty3
      *
