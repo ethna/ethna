@@ -681,24 +681,22 @@ class Ethna_ActionForm
 
                 // プラグイン取得
                 unset($v);
-                $v = $this->plugin->getPlugin('Validator',
-                                               ucfirst(strtolower($name)));
-                if (Ethna::isError($v)) {
+                try {
+                    $v = $this->plugin->getPlugin('Validator',
+                        ucfirst(strtolower($name)));
+                } catch (Ethna_Exception $e) {
                     continue;
                 }
 
                 // バリデーション実行
                 unset($r);
-                $r = $v->validate($form_name, $form_vars, $plugin[$name]);
-
-                // エラー処理
-                if ($r !== true) {
-                    if (Ethna::isError($r)) {
-                        $this->ae->addObject($form_name, $r);
-                    }
-                    if ($break) {
-                        break;
-                    }
+                try {
+                    $r = $v->validate($form_name, $form_vars, $plugin[$name]);
+                } catch (Ethna_Exception $e) {
+                    $this->ae->addObject($form_name, $e);
+                }
+                if ($break) {
+                    break;
                 }
             }
             return;
@@ -716,8 +714,9 @@ class Ethna_ActionForm
 
             // プラグイン取得
             unset($v);
-            $v = $this->plugin->getPlugin('Validator', ucfirst(strtolower($name)));
-            if (Ethna::isError($v)) {
+            try {
+                $v = $this->plugin->getPlugin('Validator', ucfirst(strtolower($name)));
+            } catch (Ethna_Exception $e) {
                 continue;
             }
 
@@ -725,14 +724,13 @@ class Ethna_ActionForm
             if (isset($v->accept_array) && $v->accept_array == true) {
                 // バリデーション実行
                 unset($r);
-                $r = $v->validate($form_name, $form_vars, $plugin[$name]);
-
-                // エラー処理
-                if (Ethna::isError($r)) {
-                    $this->ae->addObject($form_name, $r);
-                    if ($break) {
-                        break;
-                    }
+                try {
+                    $r = $v->validate($form_name, $form_vars, $plugin[$name]);
+                } catch (Ethna_Exception $e) {
+                    $this->ae->addObject($form_name, $e);
+                }
+                if ($break) {
+                    break;
                 }
                 continue;
             }
@@ -741,14 +739,14 @@ class Ethna_ActionForm
             foreach ($valid_keys as $key) {
                 // バリデーション実行
                 unset($r);
-                $r = $v->validate($form_name, $form_vars[$key], $plugin[$name]);
 
-                // エラー処理
-                if (Ethna::isError($r)) {
-                    $this->ae->addObject($form_name, $r);
-                    if ($break) {
-                        unset($valid_keys[$key]);
-                    }
+                try {
+                    $r = $v->validate($form_name, $form_vars, $plugin[$name]);
+                } catch (Ethna_Exception $e) {
+                    $this->ae->addObject($form_name, $e);
+                }
+                if ($break) {
+                    break;
                 }
             }
         }

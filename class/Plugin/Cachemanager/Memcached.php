@@ -79,7 +79,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
     {
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
-            return Ethna::raiseError('invalid cache key (too long?)', E_CACHE_NO_VALUE);
+            throw new Ethna_Exception('invalid cache key (too long?)', E_CACHE_NO_VALUE);
         }
 
         if (isset($this->_get_data_cache[$cache_key])) {
@@ -88,7 +88,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
 
         $value = $this->m->get($cache_key);
         if (!$value) {
-            return Ethna::raiseWarning(
+            throw new Ethna_Exception(
                 sprintf('no such cache, key="%s", message="%s"', $key, $this->m->getResultMessage()),
                 E_CACHE_NO_VALUE
             );
@@ -100,7 +100,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
         // ライフタイムチェック
         if ($lifetime !== null) {
             if (($time + $lifetime) < time()) {
-                return Ethna::raiseWarning('lifetime expired', E_CACHE_EXPIRED);
+                throw new Ethna_Exception('lifetime expired', E_CACHE_EXPIRED);
             }
         }
 
@@ -122,14 +122,10 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
     {
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key == null) {
-            return Ethna::raiseError('invalid cache key (too long?)', E_CACHE_NO_VALUE);
+            throw new Ethna_Exception('invalid cache key (too long?)', E_CACHE_NO_VALUE);
         }
 
         $value = $this->get($cache_key);
-        if (Ethna::isError($value)) {
-            return $value;
-        }
-
         return $value['time'];
     }
 
@@ -143,9 +139,12 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      */
     public function isCached($key, $lifetime = null, $namespace = null)
     {
-        $r = $this->get($key, $lifetime, $namespace);
-
-        return !Ethna::isError($r);
+        try {
+            $r = $this->get($key, $lifetime, $namespace);
+            return true;
+        } catch (Ethna_Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -162,13 +161,13 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
     {
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key === null) {
-            return Ethna::raiseError('invalid cache key (too long?)', E_CACHE_NO_VALUE);
+            throw new Ethna_Exception('invalid cache key (too long?)', E_CACHE_NO_VALUE);
         }
 
         $time = $timestamp ? $timestamp : time();
         $expiration = $expiration ? $expiration : 0;
         if (!$this->m->set($cache_key, array('time' => $time, 'data' => $value), $expiration)) {
-            return Ethna::raiseError(
+            throw new Ethna_Exception(
                 sprintf('failed to set cache, key="%s", message="%s"', $key, $this->m->getResultMessage()),
                 E_CACHE_GENERAL
             );
@@ -188,11 +187,11 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
     {
         $cache_key = $this->_getCacheKey($namespace, $key);
         if ($cache_key === null) {
-            return Ethna::raiseError('invalid cache key (too long?)', E_CACHE_NO_VALUE);
+            throw new Ethna_Exception('invalid cache key (too long?)', E_CACHE_NO_VALUE);
         }
 
         if (!$this->m->delete($cache_key)) {
-            return Ethna::raiseError(
+            throw new Ethna_Exception(
                 sprintf('failed to clear cache, key="%s", message="%s"', $key, $this->m->getResultMessage()),
                 E_CACHE_NO_VALUE
             );

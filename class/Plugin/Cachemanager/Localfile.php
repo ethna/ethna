@@ -45,17 +45,17 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
-            return Ethna::raiseError("No such cache (key=%s, file=%s)", E_CACHE_NO_VALUE, $key, $cache_file);
+            throw new Ethna_Exception(sprintf("No such cache (key=%s, file=%s)", $key, $cache_file), E_CACHE_NO_VALUE);
         }
         if (is_null($lifetime) == false) {
             if (($st[9]+$lifetime) < time()) {
-                return Ethna::raiseError("Cache expired (key=%s, file=%s)", E_CACHE_EXPIRED, $key, $cache_file);
+                throw new Ethna_Exception(sprintf("Cache expired (key=%s, file=%s)", $key, $cache_file), E_CACHE_EXPIRED);
             }
         }
 
         $fp = fopen($cache_file, "r");
         if ($fp == false) {
-            return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
+            throw new Ethna_Exception('fopen failed', E_CACHE_NO_VALUE);
         }
         // ロック
         $timeout = 3;
@@ -69,7 +69,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         }
         if ($timeout <= 0) {
             fclose($fp);
-            return Ethna::raiseError('fopen failed', E_CACHE_GENERAL);
+            throw new Ethna_Exception('fopen failed', E_CACHE_GENERAL);
         }
 
         $n = 0;
@@ -85,7 +85,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
 
         if ($st == false || $n > 5) {
             fclose($fp);
-            return Ethna::raiseError('stat failed', E_CACHE_NO_VALUE);
+            throw new Ethna_Exception('stat failed', E_CACHE_NO_VALUE);
         }
         $value = fread($fp, $st[7]);
         fclose($fp);
@@ -109,7 +109,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         clearstatcache();
         if (is_readable($cache_file) === false
             || ($st = stat($cache_file)) === false) {
-            return Ethna::raiseError('fopen failed', E_CACHE_NO_VALUE);
+            throw new Ethna_Exception('fopen failed', E_CACHE_NO_VALUE);
         }
         return $st[9];
     }
@@ -159,13 +159,13 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         // キャッシュディレクトリチェック
         $r = Ethna_Util::mkdir($dir, 0777);
         if ($r == false && is_dir($dir) == false) {
-            return Ethna::raiseError('mkdir(%s) failed', E_USER_WARNING, $dir);
+            throw new Ethna_Exception('mkdir(%s) failed', E_USER_WARNING, $dir);
         }
 
         $cache_file = $this->_getCacheFile($namespace, $key);
         $fp = fopen($cache_file, "a+");
         if ($fp == false) {
-            return Ethna::raiseError('fopen failed', E_CACHE_GENERAL);
+            throw new Ethna_Exception('fopen failed', E_CACHE_GENERAL);
         }
 
         // ロック
@@ -180,7 +180,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
         }
         if ($timeout <= 0) {
             fclose($fp);
-            return Ethna::raiseError('fopen failed', E_CACHE_GENERAL);
+            throw new Ethna_Exception('fopen failed', E_CACHE_GENERAL);
         }
         rewind($fp);
         ftruncate($fp, 0);

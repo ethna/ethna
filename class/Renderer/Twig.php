@@ -95,7 +95,7 @@ class Ethna_Renderer_Twig extends Ethna_Renderer
 
     public function setPlugin($name, $type, $plugin)
     {
-        return Ethna::raiseWarning("Twig render does not support plugin yet");
+        throw new Ethna_Exception("Twig render does not support plugin yet");
     }
 
     /**

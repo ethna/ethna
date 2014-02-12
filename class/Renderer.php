@@ -118,7 +118,7 @@ class Ethna_Renderer
     public function perform($template = null, $capture = false)
     {
         if ($template == null && $this->template == null) {
-            return Ethna::raiseWarning('template is not defined');
+            throw new Ethna_Exception('template is not defined');
         }
 
         if ($template != null) {
@@ -127,7 +127,7 @@ class Ethna_Renderer
 
         // テンプレートの有無のチェック
         if (is_readable($this->template_dir . $this->template) === false) {
-            return Ethna::raiseWarning("template is not found: " . $this->template);
+            throw new Ethna_Exception("template is not found: " . $this->template);
         }
 
         extract($this->prop);

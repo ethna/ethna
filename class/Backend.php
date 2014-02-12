@@ -379,10 +379,6 @@ class Ethna_Backend
         $null = null;
         $db_varname = $this->_getDBVarname($db_key);
 
-        if (Ethna::isError($db_varname)) {
-            return $db_varname;
-        }
-
         if (isset($this->db_list[$db_varname]) && $this->db_list[$db_varname] != null) {
             return $this->db_list[$db_varname];
         }
@@ -408,10 +404,11 @@ class Ethna_Backend
         }
 
         $this->db_list[$db_varname] = new $db_class_name($this->controller, $dsn, $dsn_persistent);
-        $r = $this->db_list[$db_varname]->connect();
-        if (Ethna::isError($r)) {
+        try {
+            $r = $this->db_list[$db_varname]->connect();
+        } catch (Ethna_Exception $e) {
             $this->db_list[$db_varname] = null;
-            return $r;
+            throw $e;
         }
 
         register_shutdown_function(array($this, 'shutdownDB'));
@@ -431,9 +428,6 @@ class Ethna_Backend
         $db_define_list = $this->controller->getDBType();
         foreach ($db_define_list as $db_key => $db_type) {
             $db = $this->getDB($db_key);
-            if (Ethna::isError($db)) {
-                return $r;
-            }
             $elt = array();
             $elt['db'] = $db;
             $elt['key'] = $db_key;
@@ -477,7 +471,7 @@ class Ethna_Backend
     {
         $r = $this->controller->getDBType($db_key);
         if (is_null($r)) {
-            return Ethna::raiseError("Undefined DB Type [%s]", E_DB_INVALIDTYPE, $db_key);
+            throw new Ethna_Exception(sprintf("Undefined DB Type [%s]", $db_key), E_DB_INVALIDTYPE);
         }
 
         if ($db_key == "") {

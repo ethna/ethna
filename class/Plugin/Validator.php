@@ -127,12 +127,12 @@ class Ethna_Plugin_Validator extends Ethna_Plugin_Abstract
     {
         if ($info != null) {
             if (is_array($info)) {
-                return Ethna::raiseNotice($msg, $code, $info);
+                throw new Ethna_Exception($msg, $code, $info);
             } else {
-                return Ethna::raiseNotice($msg, $code, array($info));
+                throw new Ethna_Exception($msg, $code, array($info));
             }
         } else {
-            return Ethna::raiseNotice($msg, $code);
+            throw new Ethna_Exception($msg, $code);
         }
     }
 }

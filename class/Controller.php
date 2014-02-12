@@ -354,7 +354,7 @@ class Ethna_Controller
         $true = true;
         if (strcasecmp($id, 'ethna') === 0
             || strcasecmp($id, 'app') === 0) {
-            return Ethna::raiseError("Application Id [$id] is reserved\n");
+            throw new Ethna_Exception("Application Id [$id] is reserved\n");
         }
 
         //    アプリケーションIDはクラス名のprefixともなるため、
@@ -364,7 +364,7 @@ class Ethna_Controller
             $msg = (preg_match('/^[0-9]$/', $id[0]))
                  ? "Application ID must NOT start with Number.\n"
                  : "Only Numeric(0-9) and Alphabetical(A-Z) is allowed for Application Id\n";
-            return Ethna::raiseError($msg);
+            throw new Ethna_Exception($msg);
         }
         return $true;
     }
@@ -382,7 +382,7 @@ class Ethna_Controller
         $true = true;
         if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',
                        $action_name) === 0) {
-            return Ethna::raiseError("invalid action name [$action_name]");
+            throw new Ethna_Exception("invalid action name [$action_name]");
         }
         return $true;
     }
@@ -400,7 +400,7 @@ class Ethna_Controller
         $true = true;
         if (preg_match('/^[a-zA-Z\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',
                        $view_name) === 0) {
-            return Ethna::raiseError("invalid view name [$view_name]");
+            throw new Ethna_Exception("invalid view name [$view_name]");
         }
         return $true;
     }
@@ -942,9 +942,6 @@ class Ethna_Controller
         // 実行前フィルタ
         for ($i = 0; $i < count($this->filter_chain); $i++) {
             $r = $this->filter_chain[$i]->preFilter();
-            if (Ethna::isError($r)) {
-                return $r;
-            }
         }
     }
 
@@ -953,9 +950,6 @@ class Ethna_Controller
         // 実行後フィルタ
         for ($i = count($this->filter_chain) - 1; $i >= 0; $i--) {
             $r = $this->filter_chain[$i]->postFilter();
-            if (Ethna::isError($r)) {
-                return $r;
-            }
         }
     }
 
@@ -975,17 +969,17 @@ class Ethna_Controller
             $this->_createFilterChain();
         }
 
-        if (Ethna::isError($error = $this->executePreTriggerFilter())) {
-            // TODO(chobie): これ普通に考えてErrorで落としたらサダメだよね
-            return $error;
+        try {
+            $this->executePreTriggerFilter();
+
+            // trigger
+            $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_TRIGGER,
+                new Ethna_Event_Trigger($this, $default_action_name, $fallback_action_name, $this->getGateway()));
+
+            $this->executePostTriggerFilter();
+        } catch (Ethna_Exception $e) {
+            // さー、どうしようかな
         }
-
-        // trigger
-        $this->getEventDispatcher()->dispatch(Ethna_Events::CONTROLLER_TRIGGER,
-            new Ethna_Event_Trigger($this, $default_action_name, $fallback_action_name, $this->getGateway()));
-
-
-        $this->executePostTriggerFilter();
     }
 
     /**
@@ -1035,7 +1029,7 @@ class Ethna_Controller
             }
 
             if (is_null($action_obj)) {
-                return Ethna::raiseError("undefined action [%s]", E_APP_UNDEFINED_ACTION, $action_name);
+                throw new Ethna_Exception(sprintf("undefined action [%s]", $action_name), E_APP_UNDEFINED_ACTION);
             } else {
                 $action_name = $fallback_action_name;
             }
@@ -1213,8 +1207,9 @@ class Ethna_Controller
     {
         $this->filter_chain = array();
         foreach ($this->filter as $filter) {
-            $filter_plugin = $this->plugin->getPlugin('Filter', $filter);
-            if (Ethna::isError($filter_plugin)) {
+            try {
+                $filter_plugin = $this->plugin->getPlugin('Filter', $filter);
+            } catch (Ethna_Exception $e) {
                 continue;
             }
 

@@ -135,9 +135,11 @@ class Ethna_Plugin
 
             // プラグインの親クラスを(存在すれば)読み込み
             list($class, $file) = $this->getPluginNaming($type, null);
-            $dir = $this->_searchPluginSrcDir($type, null);
-            if (!Ethna::isError($dir)) {
+            try {
+                $dir = $this->_searchPluginSrcDir($type, null);
                 $this->_includePluginSrc($class, $dir, $file, true);
+            } catch (Ethna_Exception $e) {
+                // ここはスルーでOK
             }
         }
 
@@ -148,8 +150,7 @@ class Ethna_Plugin
 
         // null のときはロードに失敗している
         if (is_null($this->obj_registry[$type][$name])) {
-            return Ethna::raiseWarning('plugin [type=%s, name=%s] is not found',
-                E_PLUGIN_NOTFOUND, $type, $name);
+            throw new Ethna_Exception(sprintf('plugin [type=%s, name=%s] is not found', $type, $name), E_PLUGIN_NOTFOUND);
         }
 
         // プラグインのインスタンスを返す
@@ -166,7 +167,7 @@ class Ethna_Plugin
     public function setPlugin($plugin_alias_name, $plugin)
     {
         if (isset($this->{$plugin_alias_name})) {
-            return Ethna::raiseWarning('preload plugin alias name is conflicted [alias=%s], It doesn\'t loaded.',
+            throw new Ethna_Exception('preload plugin alias name is conflicted [alias=%s], It doesn\'t loaded.',
                 E_PLUGIN_GENERAL, $plugin_alias_name);
         }
 
@@ -195,8 +196,9 @@ class Ethna_Plugin
             list($plugin_class, $plugin_dir, $plugin_file) = $plugin_src_registry;
 
             // プラグインのファイルを読み込み (2.5系の読み込みのふるまい)
-            $r = $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
-            if (Ethna::isError($r)) {
+            try {
+                $r = $this->_includePluginSrc($plugin_class, $plugin_dir, $plugin_file);
+            } catch (Ethna_Exception $e) {
                 $this->obj_registry[$type][$name] = null;
                 return;
             }
@@ -336,8 +338,7 @@ class Ethna_Plugin
         $file = $dir . '/' . $file;
         if (file_exists_ex($file) === false) {
             if ($parent === false) {
-                return Ethna::raiseWarning('plugin file is not found: [%s]',
-                                           E_PLUGIN_NOTFOUND, $file);
+                throw new Ethna_Exception(sprintf('plugin file is not found: [%s]', $file), E_PLUGIN_NOTFOUND);
             } else {
                 return $true;
             }
@@ -347,8 +348,7 @@ class Ethna_Plugin
 
         if (class_exists($class) === false) {
             if ($parent === false) {
-                return Ethna::raiseWarning('plugin class [%s] is not defined',
-                    E_PLUGIN_NOTFOUND, $class);
+                throw new Ethna_Exception(sprintf('plugin class [%s] is not defined', $class), E_PLUGIN_NOTFOUND);
             } else {
                 return $true;
             }
@@ -387,7 +387,7 @@ class Ethna_Plugin
             }
         }
 
-        return Ethna::raiseWarning('plugin file is not found in search directories: [%s]',
+        throw new Ethna_Exception('plugin file is not found in search directories: [%s]',
                                    E_PLUGIN_NOTFOUND, $file);
     }
 
@@ -415,9 +415,9 @@ class Ethna_Plugin
             }
         }
 
-        $dir = $this->_searchPluginSrcDir($type, $name);
-
-        if (Ethna::isError($dir)) {
+        try {
+            $dir = $this->_searchPluginSrcDir($type, $name);
+        } catch (Ethna_Exception $e) {
             $this->src_registry[$type][$name] = null;
             return ;
         }
