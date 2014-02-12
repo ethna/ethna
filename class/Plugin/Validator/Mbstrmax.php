@@ -51,7 +51,7 @@ class Ethna_Plugin_Validator_Mbstrmax extends Ethna_Plugin_Validator
                 } else {
                     $msg = _et('Please input less than %d characters to {form}.');
                 }
-                return Ethna::raiseNotice($msg, E_FORM_MAX_STRING,
+                throw new Ethna_Exception($msg, E_FORM_MAX_STRING,
                         array($max_param));
             }
         }

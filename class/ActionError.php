@@ -56,9 +56,9 @@ class Ethna_ActionError
     {
         if (func_num_args() > 3) {
             $userinfo = array_slice(func_get_args(), 3);
-            $error = Ethna::raiseNotice($message, $code, $userinfo);
+            throw new Ethna_Exception($message, $code, $userinfo);
         } else {
-            $error = Ethna::raiseNotice($message, $code);
+            throw new Ethna_Exception($message, $code);
         }
         $this->addObject($name, $error);
         return $error;

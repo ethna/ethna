@@ -249,11 +249,12 @@ class Ethna_Logger extends Ethna_AppManager
     {
         // LogWriterクラスの生成
         foreach ($this->facility as $f) {
-            $this->writer[$f] = $this->_getLogWriter($this->option[$f], $f);
-            if (Ethna::isError($this->writer[$f])) {
+            try {
+                $this->writer[$f] = $this->_getLogWriter($this->option[$f], $f);
+            } catch (Ethna_Exception $e) {
                 // use default
                 $this->writer[$f] = $this->_getLogWriter($this->option[$f],
-                                                          "default");
+                    "default");
             }
         }
 
@@ -381,10 +382,6 @@ class Ethna_Logger extends Ethna_AppManager
         $plugin_manager = $this->controller->getPlugin();
         $plugin_object = $plugin_manager->getPlugin('Logwriter',
                                                     ucfirst(strtolower($plugin)));
-        if (Ethna::isError($plugin_object)) {
-            return $plugin_object;
-        }
-
         if (isset($option['ident']) == false) {
             $option['ident'] = $this->controller->getAppId();
         }

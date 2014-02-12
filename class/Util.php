@@ -85,7 +85,7 @@ class Ethna_Util
                             $uniqid);
         if (file_exists($filename)) {
             if (unlink($filename) == false) {
-                return Ethna::raiseWarning("File Write Error [%s]", E_APP_WRITE, $filename);
+                throw new Ethna_Exception("File Write Error [%s]", E_APP_WRITE, $filename);
             }
         }
 
@@ -226,7 +226,7 @@ class Ethna_Util
                             $field .= $line_end;
 
                             // request one more line
-                            return Ethna::raiseNotice('CSV Split Error (line continue)', E_UTIL_CSV_CONTINUE);
+                            throw new Ethna_Exception('CSV Split Error (line continue)', E_UTIL_CSV_CONTINUE);
                         }
                     }
                 }
@@ -742,7 +742,7 @@ class Ethna_Util
         }
         $lh = fopen($file, $mode);
         if ($lh == null) {
-            return Ethna::raiseError("File Read Error [%s]", E_APP_READ, $file);
+            throw new Ethna_Exception("File Read Error [%s]", E_APP_READ, $file);
         }
 
         $lock_mode = $mode == 'r' ? LOCK_SH : LOCK_EX;
@@ -756,7 +756,7 @@ class Ethna_Util
         }
         if ($timeout > 0 && $i == $timeout) {
             // timed out
-            return Ethna::raiseError("File lock get error [%s]", E_APP_LOCK, $file);
+            throw new Ethna_Exception("File lock get error [%s]", E_APP_LOCK, $file);
         }
 
         return $lh;

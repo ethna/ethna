@@ -46,7 +46,7 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
                     } else {
                         $msg = _et('Please input less than %d(int) to {form}.');
                     }
-                    return Ethna::raiseNotice($msg, E_FORM_MAX_INT, array($params['max']));
+                    throw new Ethna_Exception($msg, E_FORM_MAX_INT, array($params['max']));
                 }
                 break;
 
@@ -57,7 +57,7 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
                     } else {
                         $msg = _et('Please input less than %f(float) to {form}.');
                     }
-                    return Ethna::raiseNotice($msg, E_FORM_MAX_FLOAT, array($params['max']));
+                    throw new Ethna_Exception($msg, E_FORM_MAX_FLOAT, array($params['max']));
                 }
                 break;
 
@@ -70,7 +70,7 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
                     } else {
                         $msg = _et('Please input datetime value before %s to {form}.');
                     }
-                    return Ethna::raiseNotice($msg, E_FORM_MAX_DATETIME, array($params['max']));
+                    throw new Ethna_Exception($msg, E_FORM_MAX_DATETIME, array($params['max']));
                 }
                 break;
 
@@ -82,7 +82,7 @@ class Ethna_Plugin_Validator_Max extends Ethna_Plugin_Validator
                     } else {
                         $msg = _et('Please specify file whose size is less than %d KB to {form}.');
                     }
-                    return Ethna::raiseNotice($msg, E_FORM_MAX_FILE, array($params['max']));
+                    throw new Ethna_Exception($msg, E_FORM_MAX_FILE, array($params['max']));
                 }
                 break;
 

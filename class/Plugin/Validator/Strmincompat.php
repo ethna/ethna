@@ -61,7 +61,7 @@ class Ethna_Plugin_Validator_Strmincompat extends Ethna_Plugin_Validator
                 } else {
                     $msg = _et('Please input more than %d full-size (%d half-size) characters to {form}.');
                 }
-                return Ethna::raiseNotice($msg, E_FORM_MIN_STRING,
+                throw new Ethna_Exception($msg, E_FORM_MIN_STRING,
                             array(intval($min_param/2), $min_param));
             }
         }

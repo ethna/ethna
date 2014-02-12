@@ -47,7 +47,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         } else {
                             $msg = _et('Please input integer value to {form}.');
                         }
-                        return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_INT);
+                        throw new Ethna_Exception($msg, E_FORM_WRONGTYPE_INT);
                     }
                     break;
 
@@ -58,7 +58,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         } else {
                             $msg = _et('Please input float value to {form}.');
                         }
-                        return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_FLOAT);
+                        throw new Ethna_Exception($msg, E_FORM_WRONGTYPE_FLOAT);
                     }
                     break;
 
@@ -69,7 +69,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         } else {
                             $msg = _et('You can input 0 or 1 to {form}.');
                         }
-                        return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_BOOLEAN);
+                        throw new Ethna_Exception($msg, E_FORM_WRONGTYPE_BOOLEAN);
                     }
                     break;
 
@@ -81,7 +81,7 @@ class Ethna_Plugin_Validator_Type extends Ethna_Plugin_Validator
                         } else {
                             $msg = _et('Please input valid datetime to {form}.');
                         }
-                        return Ethna::raiseNotice($msg, E_FORM_WRONGTYPE_DATETIME);
+                        throw new Ethna_Exception($msg, E_FORM_WRONGTYPE_DATETIME);
                     }
                     break;
             }

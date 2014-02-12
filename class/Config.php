@@ -43,11 +43,12 @@ class Ethna_Config
         $this->controller = $controller;
 
         // 設定ファイルの読み込み
-        $r = $this->_getConfig();
-        if (Ethna::isError($r)) {
+        try {
+            $r = $this->_getConfig();
+        } catch (Ethna_Exception $e) {
             // この時点ではlogging等は出来ない(Loggerオブジェクトが生成されていない)
             $fp = fopen("php://stderr", "r");
-            fputs($fp, sprintf("error occured while reading config file(s) [%s]\n"), $r->getInfo(0));
+            fputs($fp, sprintf("error occured while reading config file(s) [%s]\n"), $e->getMessage());
             fclose($fp);
             $this->controller->fatal();
         }
@@ -106,9 +107,6 @@ class Ethna_Config
         $file = $this->_getConfigFile();
         if (file_exists($file)) {
             $lh = Ethna_Util::lockFile($file, 'r');
-            if (Ethna::isError($lh)) {
-                return $lh;
-            }
 
             include($file);
 
@@ -148,9 +146,6 @@ class Ethna_Config
         $file = $this->_getConfigFile();
 
         $lh = Ethna_Util::lockFile($file, 'w');
-        if (Ethna::isError($lh)) {
-            return $lh;
-        }
 
         fwrite($lh, "<?php\n");
         fwrite($lh, sprintf("/*\n * %s\n *\n * update: %s\n */\n", basename($file), strftime('%Y/%m/%d %H:%M:%S')));

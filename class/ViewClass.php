@@ -171,44 +171,37 @@ class Ethna_ViewClass
             $this->header($this->default_header);
         }
 
-        // using layout.tpl flag
-        if ($this->use_layout) {
 
-            // check : layout file existance
-            $layout = $this->getLayout();
-            if ($this->templateExists($layout)) {
-                $content = $renderer->perform($this->forward_path, true);
+        try {
+            // using layout.tpl flag
+            if ($this->use_layout) {
+                // check : layout file existance
+                $layout = $this->getLayout();
+                if ($this->templateExists($layout)) {
+                    $content = $renderer->perform($this->forward_path, true);
 
-                if (Ethna::isError($content)) {
-                    if ($content->getCode() == E_GENERAL) {
-                        $error = 404;
+                    $renderer->setProp('content', $content);
+                    if (isset($_SERVER['REQUEST_URI'])) {
+                        $uri_hash = md5($_SERVER['REQUEST_URI']);
+                        $e = $renderer->perform($layout, $uri_hash);
                     }
                     else {
-                        $error = 500;
+                        $e = $renderer->perform($layout);
                     }
-
-                    $this->error($error);
-                    $content = $renderer->perform($this->forward_path, true);
-                }
-
-                $renderer->setProp('content', $content);
-                if (isset($_SERVER['REQUEST_URI'])) {
-                    $uri_hash = md5($_SERVER['REQUEST_URI']);
-                    $e = $renderer->perform($layout, $uri_hash);
-                }
-                else {
-                    $e = $renderer->perform($layout);
+                } else {
+                    throw new Ethna_Exception('file "'.$layout.'" not found');
                 }
             } else {
-                return Ethna::raiseWarning('file "'.$layout.'" not found');
+                $e = $renderer->perform($this->forward_path);
             }
-        } else {
-            $e = $renderer->perform($this->forward_path);
-        }
-
-        if (Ethna::isError($e)) {
-            echo '<h1>Rendering error:</h1>';
-            echo '<h2>Message: ' . $e->getMessage() . '</h2>';
+        } catch (Ethna_Exception $e) {
+            if ($e->getCode() == E_GENERAL) {
+                $error = 404;
+            } else {
+                $error = 404;
+            }
+            $this->error($error);
+            $content = $renderer->perform($this->forward_path, true);
         }
     }
     // }}}
@@ -319,7 +312,7 @@ class Ethna_ViewClass
             $this->_layout_file = $filename;
             return true;
         } else {
-            return Ethna::raiseWarning('file "'. $filename . '.' . $this->ctl->getExt('tpl') . '" not found');
+            throw new Ethna_Exception('file "'. $filename . '.' . $this->ctl->getExt('tpl') . '" not found');
         }
     }
     // }}}

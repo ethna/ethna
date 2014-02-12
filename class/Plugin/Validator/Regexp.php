@@ -45,7 +45,7 @@ class Ethna_Plugin_Validator_Regexp extends Ethna_Plugin_Validator
             } else {
                 $msg = _et('Please input {form} properly.');
             }
-            return Ethna::raiseNotice($msg, E_FORM_REGEXP);
+            throw new Ethna_Exception($msg, E_FORM_REGEXP);
         }
 
         return $true;

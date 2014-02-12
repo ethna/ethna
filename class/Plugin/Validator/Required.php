@@ -63,7 +63,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 } else {
                     $msg = _et('no input to {form}.');
                 }
-                return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
+                throw new Ethna_Exception($msg, E_FORM_REQUIRED);
             } else {
                 return $true;
             }
@@ -91,7 +91,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 } else {
                     $msg = _et('Required item of {form} was not submitted.');
                 }
-                return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
+                throw new Ethna_Exception($msg, E_FORM_REQUIRED);
             }
         }
 
@@ -106,7 +106,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 } else {
                     $msg = _et('Required numbers of {form} was not submitted.');
                 }
-                return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
+                throw new Ethna_Exception($msg, E_FORM_REQUIRED);
             }
         }
 
@@ -121,7 +121,7 @@ class Ethna_Plugin_Validator_Required extends Ethna_Plugin_Validator
                 } else {
                     $msg = _et('Please input {form}.');
                 }
-                return Ethna::raiseNotice($msg, E_FORM_REQUIRED);
+                throw new Ethna_Exception($msg, E_FORM_REQUIRED);
             }
         }
 

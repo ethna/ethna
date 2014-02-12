@@ -81,7 +81,7 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
     public function perform($template = null, $capture = false)
     {
         if ($template === null && $this->template === null) {
-            return Ethna::raiseWarning('template is not defined');
+            throw new Ethna_Exception('template is not defined');
         }
 
         if ($template !== null) {
@@ -98,10 +98,10 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
                         $this->engine->display($this->template);
                     }
             } else {
-                return Ethna::raiseWarning('template not found ' . $this->template);
+                throw new Ethna_Exception('template not found ' . $this->template);
             }
         } catch (SmartyCompilerException $e) {
-            return Ethna::raiseWarning("smarty compile error: msg='{$e->getMessage()}'", 500);
+            throw new Ethna_Exception("smarty compile error: msg='{$e->getMessage()}'", 500);
         }
     }
 
@@ -196,13 +196,13 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
     {
         //プラグイン関数の有無をチェック
         if (is_callable($plugin) === false) {
-            return Ethna::raiseWarning('Does not exists.');
+            throw new Ethna_Exception('Does not exists.');
         }
 
         //プラグインの種類をチェック
         $register_method = 'register_' . $type;
         if (method_exists($this->engine, $register_method) === false) {
-            return Ethna::raiseWarning('This plugin type does not exist');
+            throw new Ethna_Exception('This plugin type does not exist');
         }
 
         // フィルタは名前なしで登録
@@ -214,7 +214,7 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
 
         // プラグインの名前をチェック
         if ($name === '') {
-            return Ethna::raiseWarning('Please set plugin name');
+            throw new Ethna_Exception('Please set plugin name');
         }
 
         // プラグインを登録する
@@ -239,7 +239,7 @@ class Ethna_Renderer_Smarty3 extends Ethna_Renderer
 
         $compile_result = file_get_contents($compiled->filepath);
         if (empty($compile_result)) {
-            return Ethna::raiseError(
+            throw new Ethna_Exception(
                 "Could not compile template file : $file"
             );
         }

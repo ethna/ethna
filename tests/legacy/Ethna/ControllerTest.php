@@ -27,10 +27,10 @@ class Ethna_ControllerTest extends PHPUnit_Framework_TestCase
      */
     public function checkAppId($expected, $appid, $message)
     {
-        $this->assertEquals($expected,
-            Ethna::isError($this->controller->checkAppId($appid)),
-            $message
-        );
+        if ($expected) {
+            $this->setExpectedException('Ethna_Exception');
+        }
+        $this->assertEquals($expected, (bool)$this->controller->checkAppId($appid), $message);
     }
 
     /**
