@@ -42,12 +42,15 @@ class Ethna_ActionFormTest2 extends ProphecyTestCase
         parent::setup();
 
         $this->controller = $this->prophesize("Ethna_Controller");
+        $this->event_dispatcher = $this->prophesize('\Symfony\Component\EventDispatcher\EventDispatcher');
         $this->backend = $this->prophesize("Ethna_Backend");
         $this->i18n = $this->prophesize("Ethna_I18N");
         $this->action_error = $this->prophesize("Ethna_ActionError");
         $this->plugin = $this->prophesize("Ethna_Plugin");
         $this->logger = $this->prophesize("Ethna_Logger");
 
+        $this->controller->getEventDispatcher()->willReturn($this->event_dispatcher);
+        $this->backend->getController()->willReturn($this->controller);
         $this->controller->getBackend()->willReturn($this->backend);
         $this->controller->getActionError()->willReturn($this->action_error);
         $this->controller->getI18N()->willReturn($this->i18n);
