@@ -100,10 +100,6 @@ class Ethna_ActionForm
         $this->logger = $controller->getLogger();
         $this->plugin = $controller->getPlugin();
 
-        if (isset($_SERVER['REQUEST_METHOD']) == false) {
-            return;
-        }
-
         // フォーム値テンプレートの更新
         $this->form_template = $this->_setFormTemplate($this->form_template);
 
@@ -303,124 +299,8 @@ class Ethna_ActionForm
      */
     public function setFormVars()
     {
-        if (isset($_SERVER['REQUEST_METHOD']) == false) {
-            return;
-        } else if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0) {
-            $http_vars = $_POST;
-        } else {
-            $http_vars = $_GET;
-        }
-
-        //
-        //  ethna_fid というフォーム値は、フォーム定義に関わらず受け入れる
-        //  これは、submitされたフォームを識別するために使われる
-        //  null の場合は、以下の場合である
-        //
-        //  1. フォームヘルパが使われていない
-        //  2. 画面の初期表示などで、submitされなかった
-        //  3. {form name=...} が未設定である
-        //
-        $this->form_vars['ethna_fid'] = (isset($http_vars['ethna_fid']) == false
-                                      || is_null($http_vars['ethna_fid']))
-                                      ? null
-                                      : $http_vars['ethna_fid'];
-
-        foreach ($this->form as $name => $def) {
-            $type = is_array($def['type']) ? $def['type'][0] : $def['type'];
-            if ($type == VAR_TYPE_FILE) {
-                // ファイルの場合
-
-                // 値の有無の検査
-                if (is_null($this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name'))) {
-                    $this->set($name, null);
-                    continue;
-                }
-
-                // 配列構造の検査
-                if (is_array($def['type'])) {
-                    if (is_array($this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name')) == false) {
-                        $this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
-                        $this->set($name, null);
-                        continue;
-                    }
-                } else {
-                    if (is_array($this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name'))) {
-                        $this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
-                        $this->set($name, null);
-                        continue;
-                    }
-                }
-
-                $files = null;
-                if (is_array($def['type'])) {
-                    $files = array();
-                    // ファイルデータを再構成
-                    foreach (array_keys($this->_getFilesInfoByFormName($_FILES, $name, 'name')) as $key) {
-                        $files[$key] = array();
-                        $files[$key]['name'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'name');
-                        $files[$key]['type'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'type');
-                        $files[$key]['size'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'size');
-                        $files[$key]['tmp_name'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'tmp_name');
-                        if ($this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'error') == null) {
-                            // PHP 4.2.0 以前
-                            $files[$key]['error'] = 0;
-                        } else {
-                            $files[$key]['error'] = $this->_getFilesInfoByFormName($_FILES, $name."[".$key."]", 'error');
-                        }
-                    }
-                } else {
-                    $files['name'] = $this->_getFilesInfoByFormName($_FILES, $name, 'name');
-                    $files['type'] = $this->_getFilesInfoByFormName($_FILES, $name, 'type');
-                    $files['size'] = $this->_getFilesInfoByFormName($_FILES, $name, 'size');
-                    $files['tmp_name'] = $this->_getFilesInfoByFormName($_FILES, $name, 'tmp_name');
-                    if ($this->_getFilesInfoByFormName($_FILES, $name, 'error') == null) {
-                        // PHP 4.2.0 以前
-                        $files['error'] = 0;
-                    } else {
-                        $files['error'] = $this->_getFilesInfoByFormName($_FILES, $name, 'error');
-                    }
-                }
-
-                // 値のインポート
-                $this->set($name, $files);
-
-            } else {
-                // ファイル以外の場合
-
-                $target_var = $this->_getVarsByFormName($http_vars, $name);
-
-                // 値の有無の検査
-                if (isset($target_var) == false
-                    || is_null($target_var)) {
-                    $this->set($name, null);
-                    if (isset($http_vars["{$name}_x"])
-                     && isset($http_vars["{$name}_y"])) {
-                        // 以前の仕様に合わせる
-                        $this->set($name, $http_vars["{$name}_x"]);
-                    }
-                    continue;
-                }
-
-                // 配列構造の検査
-                if (is_array($def['type'])) {
-                    if (is_array($target_var) == false) {
-                        // 厳密には、この配列の各要素はスカラーであるべき
-                        $this->handleError($name, E_FORM_WRONGTYPE_ARRAY);
-                        $this->set($name, null);
-                        continue;
-                    }
-                } else {
-                    if (is_array($target_var)) {
-                        $this->handleError($name, E_FORM_WRONGTYPE_SCALAR);
-                        $this->set($name, null);
-                        continue;
-                    }
-                }
-
-                // 値のインポート
-                $this->set($name, $target_var);
-            }
-        }
+        $this->backend->getController()->getEventDispatcher()->dispatch(Ethna_Events::ACTIONFORM_SETVARS,
+            new Ethna_Event_ActionForm($this));
     }
 
     /**
@@ -1415,6 +1295,20 @@ class Ethna_ActionForm
     {
         $app_object = $this->backend->getObject($key);
         return $app_object;
+    }
+
+    public function getBackend(){
+        return $this->backend;
+    }
+
+    public function getFilesInfoByFormName(&$target, $name, $key)
+    {
+        return $this->_getFilesInfoByFormName($target, $name, $key);
+    }
+
+    public function getVarsByFormName(&$target, $name)
+    {
+        return $this->_getVarsByFormName($target, $name);
     }
 }
 // }}}
