@@ -621,7 +621,7 @@ class Ethna_Controller
 
     public function setActionName($action_name)
     {
-        $this->actionm = $action_name;
+        $this->action_name = $action_name;
     }
 
     /**
@@ -1858,6 +1858,11 @@ class Ethna_Controller
         $n = mt_rand(0, count($dsn_list)-1);
 
         return $dsn_list[$n];
+    }
+
+    public function setActionCli($value)
+    {
+        $this->action_cli[$value] = array();
     }
 }
 // }}}
