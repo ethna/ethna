@@ -7,6 +7,7 @@
  */
 
 use Prophecy\PhpUnit\ProphecyTestCase;
+use Prophecy\Argument;
 
 /**
  * このテストケースはEthna_Actionを最低限つくるにはどうすればできるか、
@@ -50,6 +51,20 @@ class Ethna_ActionFormTest2 extends ProphecyTestCase
         $this->logger = $this->prophesize("Ethna_Logger");
 
         $this->controller->getEventDispatcher()->willReturn($this->event_dispatcher);
+        $this->event_dispatcher->dispatch(Argument::type('string'), Argument::any())->will(function($args, $event) {
+            $action_form = $args[1]->getActionForm();
+
+            $target = null;
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $target = &$_GET;
+            } else {
+                $target = $_POST;
+            }
+            foreach ($target as $key => $value) {
+                $action_form->set($key, $value);
+            }
+
+        });
         $this->backend->getController()->willReturn($this->controller);
         $this->controller->getBackend()->willReturn($this->backend);
         $this->controller->getActionError()->willReturn($this->action_error);
@@ -65,9 +80,8 @@ class Ethna_ActionFormTest2 extends ProphecyTestCase
     {
         $controller = $this->controller->reveal();
 
-        $action_form = new Ethna_Mock_ActionForm($controller);
-
         $_SERVER["REQUEST_METHOD"] = $method;
+        $action_form = new Ethna_Mock_ActionForm($controller);
         if ($method == "GET") {
             $_GET = $requests;
         } else if ($method == "POST") {

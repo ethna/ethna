@@ -100,6 +100,10 @@ class Ethna_ActionForm
         $this->logger = $controller->getLogger();
         $this->plugin = $controller->getPlugin();
 
+        if (isset($_SERVER['REQUEST_METHOD']) == false) {
+            return;
+        }
+
         // フォーム値テンプレートの更新
         $this->form_template = $this->_setFormTemplate($this->form_template);
 
