@@ -23,38 +23,38 @@ class Ethna_ActionClass
      *  @access private
      */
 
-    /** @protected    object  Ethna_Backend       backendオブジェクト */
-    protected $backend;
+    /** @var Ethna_Backend $backend       backendオブジェクト */
+    public $backend;
 
-    /** @protected    object  Ethna_Config        設定オブジェクト    */
-    protected $config;
+    /** @var Ethna_Config $config        設定オブジェクト    */
+    public $config;
 
-    /** @protected    object  Ethna_I18N          i18nオブジェクト */
-    protected $i18n;
+    /** @var Ethna_I18N $i18n          i18nオブジェクト */
+    public $i18n;
 
-    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト */
-    protected $action_error;
+    /** @var Ethna_ActionError $action_error   アクションエラーオブジェクト */
+    public $action_error;
 
-    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
-    protected $ae;
+    /** @var Ethna_ActionError $ae   アクションエラーオブジェクト(省略形) */
+    public $ae;
 
-    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    protected $action_form;
+    /** @var Ethna_ActionForm $action_form    アクションフォームオブジェクト */
+    public $action_form;
 
-    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
-    protected $af;
+    /** @var Ethna_ActionForm $af   アクションフォームオブジェクト(省略形) */
+    public $af;
 
-    /** @protected    object  Ethna_Session       セッションオブジェクト */
-    protected $session;
+    /** @var Ethna_Session $session       セッションオブジェクト */
+    public $session;
 
     /** @public    object  Ethna_Plugin        プラグインオブジェクト */
     public $plugin;
 
-    /** @protected    object  Ethna_Logger    ログオブジェクト */
-    protected $logger;
+    /** @var Ethna_Logger $logger    ログオブジェクト */
+    public $logger;
 
-    /** @protected    array   Preload plugins definition  */
-    protected $plugins = array();
+    /** @var    array   Preload plugins definition  */
+    public $plugins = array();
 
     /**#@-*/
 
@@ -119,10 +119,8 @@ class Ethna_ActionClass
 
     /**
      *  get plugin object
-     *
-     *  @access protected
      */
-    protected function preloadPlugin()
+    public function preloadPlugin()
     {
         foreach ($this->plugins as $alias => $plugin) {
             $plugin_alias = $alias;

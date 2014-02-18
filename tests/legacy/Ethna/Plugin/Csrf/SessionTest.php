@@ -193,7 +193,7 @@ class CsrfTest_Ethna_Controller
         'session'       => 'Ethna_Session_Dummy',
     );
 
-    protected $directory = array(
+    public $directory = array(
         // Memo(chobie): 設計上先に設定ないと死ぬ
         "plugin" => __ETHNA_PLUGIN_DIR,
     );

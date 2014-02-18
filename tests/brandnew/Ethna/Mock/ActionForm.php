@@ -8,7 +8,7 @@
 
 class Ethna_Mock_ActionForm extends Ethna_ActionForm
 {
-    protected $form = array(
+    public $form = array(
         "name" => array(
             'type' => VAR_TYPE_STRING,
             'name' => 'User Name',

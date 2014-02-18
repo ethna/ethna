@@ -23,53 +23,57 @@ class Ethna_ViewClass
      *  @access private
      */
 
-    /** @protected    object  Ethna_Controller    Controllerオブジェクト */
-    protected $ctl;
+    /** @var Ethna_Controller $ctl    Controllerオブジェクト */
+    public $ctl;
 
-    /** @protected    object  Ethna_Backend       backendオブジェクト */
-    protected $backend;
+    /** @var Ethna_Backend $backend       backendオブジェクト */
+    public $backend;
 
-    /** @protected    object  Ethna_Config        設定オブジェクト    */
-    protected $config;
+    /** @var Ethna_Config $config        設定オブジェクト    */
+    public $config;
 
-    /** @protected    object  Ethna_I18N          i18nオブジェクト */
-    protected $i18n;
+    /** @var Ethna_I18N $i18n          i18nオブジェクト */
+    public $i18n;
 
-    /** @protected    object  Ethna_Logger    ログオブジェクト */
-    protected $logger;
+    /** @var Ethna_Logger $logger    ログオブジェクト */
+    public $logger;
 
-    /** @protected    object  Ethna_Plugin    プラグインオブジェクト */
+    /** @var Ethna_Plugin $plugin   プラグインオブジェクト */
     public $plugin;
 
-    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト */
-    protected $action_error;
+    /** @var Ethna_ActionError $action_error   アクションエラーオブジェクト */
+    public $action_error;
 
-    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト(省略形) */
-    protected $ae;
+    /** @var Ethna_ActionError $ae   アクションエラーオブジェクト(省略形) */
+    public $ae;
 
-    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    protected $action_form;
+    /** @var Ethna_ActionForm $action_form    アクションフォームオブジェクト */
+    public $action_form;
 
-    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト(省略形) */
-    protected $af;
+    /** @var Ethna_ActionForm $af    アクションフォームオブジェクト(省略形) */
+    public $af;
 
-    /** @protected    array   アクションフォームオブジェクト(helper) */
-    protected $helper_action_form = array();
+    /** @var array   アクションフォームオブジェクト(helper) */
+    public $helper_action_form = array();
 
-    /** @protected    array   helperでhtmlのattributeにはしないパラメータの一覧 */
-    protected $helper_parameter_keys = array('default', 'option', 'separator');
+    /** @var  array   helperでhtmlのattributeにはしないパラメータの一覧 */
+    public $helper_parameter_keys = array(
+        'default',
+        'option',
+        'separator'
+    );
 
-    /** @protected    object  Ethna_Session       セッションオブジェクト */
-    protected $session;
+    /** @var Ethna_Session $session       セッションオブジェクト */
+    public $session;
 
-    /** @protected    string  遷移名 */
+    /** @var string  遷移名 */
     public $forward_name;
 
-    /** @protected    string  遷移先テンプレートファイル名 */
-    protected $forward_path;
+    /** @var string  遷移先テンプレートファイル名 */
+    public $forward_path;
 
-    /** @protected    boolean  配列フォームを呼んだカウンタをリセットするか否か */
-    protected $reset_counter = false;
+    /** @var  boolean  配列フォームを呼んだカウンタをリセットするか否か */
+    public $reset_counter = false;
 
     /**#@-*/
 
@@ -78,7 +82,7 @@ class Ethna_ViewClass
      */
 
     /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定(拡張子は除く)   */
-    protected $_layout_file = 'layout';
+    public $_layout_file = 'layout';
 
     /**#@-*/
 
@@ -452,7 +456,7 @@ class Ethna_ViewClass
      *  @param  string  name    定義されていることを期待するフォーム名
      *  @return object  Ethna_ActionFormまたは継承オブジェクト
      */
-    protected function _getHelperActionForm($action = null, $name = null)
+    public function _getHelperActionForm($action = null, $name = null)
     {
         // $action が指定されている場合
         if ($action !== null) {
@@ -655,7 +659,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    protected function _getSelectorOptions($af, $def, $params)
+    public function _getSelectorOptions($af, $def, $params)
     {
         // $params, $def の順で調べる
         $source = null;
@@ -711,7 +715,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    protected function _getFormInput_Button($name, $def, $params)
+    public function _getFormInput_Button($name, $def, $params)
     {
         $params['type'] = 'button';
         
@@ -739,7 +743,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    protected function _getFormInput_Checkbox($name, $def, $params)
+    public function _getFormInput_Checkbox($name, $def, $params)
     {
         $params['type'] = 'checkbox';
         if (isset($def['type'])) {
@@ -803,7 +807,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_File($name, $def, $params)
+    public function _getFormInput_File($name, $def, $params)
     {
         $params['type'] = 'file';
         if (isset($def['type'])) {
@@ -823,7 +827,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Hidden($name, $def, $params)
+    public function _getFormInput_Hidden($name, $def, $params)
     {
         $params['type'] = 'hidden';
         if (isset($def['type'])) {
@@ -861,7 +865,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Password($name, $def, $params)
+    public function _getFormInput_Password($name, $def, $params)
     {
         $params['type'] = 'password';
         if (isset($def['type'])) {
@@ -902,7 +906,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Radio($name, $def, $params)
+    public function _getFormInput_Radio($name, $def, $params)
     {
         $params['type'] = 'radio';
         if (isset($def['type'])) {
@@ -965,7 +969,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Select($name, $def, $params)
+    public function _getFormInput_Select($name, $def, $params)
     {
         if (isset($def['type'])) {
             $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
@@ -1037,7 +1041,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Submit($name, $def, $params)
+    public function _getFormInput_Submit($name, $def, $params)
     {
         $params['type'] = 'submit';
         if (isset($def['type'])) {
@@ -1064,7 +1068,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Textarea($name, $def, $params)
+    public function _getFormInput_Textarea($name, $def, $params)
     {
         if (isset($def['type'])) {
             $params['name'] = is_array($def['type']) ? $name . '[]' : $name;
@@ -1099,7 +1103,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Text($name, $def, $params)
+    public function _getFormInput_Text($name, $def, $params)
     {
         // type
         $params['type'] = 'text';
@@ -1143,7 +1147,7 @@ class Ethna_ViewClass
      *
      *  @access protected
      */
-    function _getFormInput_Html($tag, $attr, $element = null, $escape_element = true)
+    public function _getFormInput_Html($tag, $attr, $element = null, $escape_element = true)
     {
         // 不要なパラメータは消す
         foreach ($this->helper_parameter_keys as $key) {
@@ -1179,7 +1183,7 @@ class Ethna_ViewClass
      *  @access protected
      *  @return object  Ethna_Renderer  レンダラオブジェクト
      */
-    function _getRenderer()
+    public function _getRenderer()
     {
         $c = $this->backend->getController();
         $renderer = $c->getRenderer();
@@ -1215,7 +1219,7 @@ class Ethna_ViewClass
      *  @access protected
      *  @param  object  Ethna_Renderer  レンダラオブジェクト
      */
-    protected function _setDefault($renderer)
+    public function _setDefault($renderer)
     {
     }
     // }}}

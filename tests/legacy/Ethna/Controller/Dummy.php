@@ -8,7 +8,7 @@
 
 class Ethna_Controller_Dummy extends Ethna_Controller
 {
-    protected $directory= array(
+    public $directory= array(
         // Memo(chobie): 設計上先に設定ないと死ぬ
         "plugin" => __ETHNA_PLUGIN_DIR,
     );
