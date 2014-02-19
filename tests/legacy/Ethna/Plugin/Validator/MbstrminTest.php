@@ -17,7 +17,6 @@ class Ethna_Plugin_Validator_Mbstrmin_Test extends PHPUnit_Framework_Testcase
         $this->form = new Ethna_ActionForm_Dummy($this->controller);
         $this->controller->setActionForm($this->form);
         $this->ae = new Ethna_ActionError();
-        $this->url_handler = new Ethna_UrlHandler_Simple_TestClass($this);
         $plugin = $this->controller->getPlugin();
         $this->vld = $plugin->getPlugin('Validator', 'Mbstrmin');
     }

@@ -17,7 +17,6 @@ class Ethna_Plugin_Logwriter_EchoTest extends PHPUnit_Framework_TestCase
         $this->form = new Ethna_ActionForm_Dummy($this->controller);
         $this->controller->setActionForm($this->form);
         $this->ae = new Ethna_ActionError();
-        $this->url_handler = new Ethna_UrlHandler_Simple_TestClass($this);
 
         $this->plugin = $this->controller->getPlugin();
         $this->log_writer = $this->plugin->getPlugin('Logwriter', 'Echo');
