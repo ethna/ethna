@@ -24,14 +24,14 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
 {
     /**#@+  @access private */
 
-    /** @var    object  Memcache    Memcacheオブジェクト */
-    private $memcache = null;
+    /** @var Memcache    Memcacheオブジェクト */
+    public $memcache = null;
 
     /** @var bool 圧縮フラグ */
-    protected $compress = true;
+    public $compress = true;
 
-    /** @var    array   plugin configure */
-    protected $config_default = array(
+    /** @var array   plugin configure */
+    public $config_default = array(
         'host' => 'localhost',
         'port' => '11211',
         'retry' => 3,
@@ -45,7 +45,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *
      *  @access protected
      */
-    protected function _load()
+    public function _load()
     {
         parent::_load();
         $this->memcache_pool = array();
@@ -56,7 +56,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *
      *  @access protected
      */
-    protected function _getMemcache($cache_key, $namespace = null)
+    public function _getMemcache($cache_key, $namespace = null)
     {
         $retry = $this->config['retry'];
         $timeout = $this->config['timeout'];
@@ -99,7 +99,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *  @return array   array(host, port)
      *  @todo   $cache_keyから$indexを決める方法を変更できるようにする
      */
-    protected function _getMemcacheInfo($cache_key, $namespace)
+    public function _getMemcacheInfo($cache_key, $namespace)
     {
         $namespace = $this->getNamespace($namespace);
 
@@ -331,7 +331,7 @@ class Ethna_Plugin_Cachemanager_Memcache extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    private function _getCacheKey($namespace, $key)
+    public function _getCacheKey($namespace, $key)
     {
         // 少し乱暴だけど...
         $key = str_replace(":", "_", $key);

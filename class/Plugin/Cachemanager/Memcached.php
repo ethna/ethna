@@ -19,7 +19,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
     /**#@+  @access private */
 
     /** @var    object  Memcached    Memcached オブジェクト */
-    private $m = null;
+    public $m = null;
 
     /** @var    array   plugin configure */
     public $config_default = array(
@@ -30,7 +30,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
         'timeout' => 3,
     );
 
-    protected $_get_data_cache = array();
+    public $_get_data_cache = array();
 
     /**#@-*/
 
@@ -39,7 +39,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *
      *  @access protected
      */
-    protected function _load()
+    public function _load()
     {
         parent::_load();
 
@@ -262,7 +262,7 @@ class Ethna_Plugin_Cachemanager_Memcached extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    private function _getCacheKey($namespace, $key)
+    public function _getCacheKey($namespace, $key)
     {
         $namespace = $this->getNamespace($namespace);
 

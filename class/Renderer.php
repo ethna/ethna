@@ -23,38 +23,38 @@ class Ethna_Renderer
      *  @access private
      */
 
-    /** @protected    object  Ethna_Controller    controllerオブジェクト */
-    protected $controller;
+    /** @var Ethna_Controller $controller    controllerオブジェクト */
+    public $controller;
 
-    /** @protected    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    protected $ctl;
+    /** @var Ethna_Controller $ctl   controllerオブジェクト($controllerの省略形) */
+    public $ctl;
 
-    /** @protected    array   [appid]-ini.phpのレンダラ設定 */
-    protected $config;
+    /** @var array   [appid]-ini.phpのレンダラ設定 */
+    public $config;
 
-    /** @protected    array   default configuration for the renderer */
-    protected $config_default = array();
+    /** @var array   default configuration for the renderer */
+    public $config_default = array();
 
-    /** @protected    string  template directory  */
-    protected $template_dir;
+    /** @var  string  template directory  */
+    public $template_dir;
 
-    /** @protected    string  template engine */
-    protected $engine;
+    /** @var    string  template engine */
+    public $engine;
 
-    /** @protected    string  path of template engine */
-    protected $engine_path = false;
+    /** @var    string  path of template engine */
+    public $engine_path = false;
 
-    /** @protected    string  template file */
-    protected $template;
+    /** @var    string  template file */
+    public $template;
 
-    /** @protected    string  テンプレート変数 */
-    protected $prop;
+    /** @var    string  テンプレート変数 */
+    public $prop;
 
-    /** @protected    string  レンダラプラグイン(Ethna_Pluginとは関係なし) */
-    protected $plugin_registry;
+    /** @var    string  レンダラプラグイン(Ethna_Pluginとは関係なし) */
+    public $plugin_registry;
 
-    /** @protected    object  Ethna_Logger    ログオブジェクト */
-    protected $logger;
+    /** @var    object  Ethna_Logger    ログオブジェクト */
+    public $logger;
 
 
     /**

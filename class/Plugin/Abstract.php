@@ -23,34 +23,34 @@ abstract class Ethna_Plugin_Abstract
      *  @access private
      */
 
-    /** @protected    string  plugin type */
-    protected $type = null;
+    /** @var    string  plugin type */
+    public $type = null;
 
-    /** @protected    string  plugin name */
-    protected $name = null;
+    /** @var    string  plugin name */
+    public $name = null;
 
-    /** @protected    object  Ethna_Controller    Controller Object */
-    protected $controller;
-    protected $ctl; /* Alias */
+    /** @var Ethna_Controller $controller   Controller Object */
+    public $controller;
+    public $ctl; /* Alias */
 
-    /** @protected    object  Ethna_Backend       Backend Object */
-    protected $backend;
+    /** @var Ethna_Backend $backend       Backend Object */
+    public $backend;
 
-    /** @protected    object  Ethna_ActionForm    ActionForm Object */
-    protected $action_form;
-    protected $af; /* Alias */
+    /** @var Ethna_ActionForm $action_form    ActionForm Object */
+    public $action_form;
+    public $af; /* Alias */
 
-    /** @protected    object  Ethna_Session       Session Object */
-    protected $session;
+    /** @var  Ethna_Session $session       Session Object */
+    public $session;
 
-    /** @protected    array   plugin configure */
-    protected $config;
+    /** @var    array   plugin configure */
+    public $config;
 
-    /** @protected    array   plugin configure for default */
-    protected $config_default = array();
+    /** @var array   plugin configure for default */
+    public $config_default = array();
 
-    /** @protected    object  Ethna_Logger        Logger Object */
-    protected $logger;
+    /** @var Ethna_Logger $logger        Logger Object */
+    public $logger;
 
     /**
      *  Constructor
@@ -123,7 +123,7 @@ abstract class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    protected function _load()
+    public function _load()
     {
     }
 
@@ -132,7 +132,7 @@ abstract class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    protected function _loadConfig()
+    public function _loadConfig()
     {
         $config = $this->ctl->getConfig();
         $plugin_config = $config->get('plugin');
@@ -159,7 +159,7 @@ abstract class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    protected function _detectType($type = null)
+    public function _detectType($type = null)
     {
         if ($type !== null) {
             return strtolower($type);
@@ -179,7 +179,7 @@ abstract class Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    protected function _detectName($name = null)
+    public function _detectName($name = null)
     {
         if ($name !== null) {
             return strtolower($name);

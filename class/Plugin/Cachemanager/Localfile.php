@@ -220,7 +220,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    private function _getCacheDir($namespace, $key)
+    public function _getCacheDir($namespace, $key)
     {
         $safe_mode = ini_get('safe_mode');
         if ($safe_mode) {
@@ -260,7 +260,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    private function _getCacheFile($namespace, $key)
+    public function _getCacheFile($namespace, $key)
     {
         $safe_mode = ini_get('safe_mode');
         if ($safe_mode) {
@@ -275,7 +275,7 @@ class Ethna_Plugin_Cachemanager_Localfile extends Ethna_Plugin_Cachemanager
      *
      *  @access private
      */
-    private function _escape($string)
+    public function _escape($string)
     {
         return preg_replace('/([^0-9A-Za-z_])/e', "sprintf('%%%02X', ord('\$1'))", $string);
     }

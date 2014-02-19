@@ -23,20 +23,20 @@ class Ethna_Plugin_Logwriter extends Ethna_Plugin_Abstract
      *  @access private
      */
 
-    /** @protected    string  ログアイデンティティ文字列 */
-    protected $ident;
+    /** @var string  ログアイデンティティ文字列 */
+    public $ident;
 
-    /** @protected    int     ログファシリティ */
-    protected $facility;
+    /** @var    int     ログファシリティ */
+    public $facility;
 
-    /** @protected    int     ログオプション */
-    protected $option;
+    /** @var    int     ログオプション */
+    public $option;
 
-    /** @protected    bool    バックトレースが取得可能かどうか */
-    protected $have_backtrace;
+    /** @var    bool    バックトレースが取得可能かどうか */
+    public $have_backtrace;
 
-    /** @protected    array   ログレベル名テーブル */
-    protected $level_name_table = array(
+    /** @var    array   ログレベル名テーブル */
+    public $level_name_table = array(
         LOG_EMERG   => 'EMERG',
         LOG_ALERT   => 'ALERT',
         LOG_CRIT    => 'CRIT',

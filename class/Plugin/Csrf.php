@@ -26,7 +26,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      */
 
     /** @var    string  共有トークン名 */
-    protected $token_name = 'ethna_csrf';
+    public $token_name = 'ethna_csrf';
 
     /**#@-*/
 
@@ -110,7 +110,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return string  keyname
      */
-    protected function _generateKey()
+    public function _generateKey()
     {
         return Ethna_Util::getRandom(32);
     }
@@ -121,7 +121,7 @@ class Ethna_Plugin_Csrf extends Ethna_Plugin_Abstract
      *  @access public
      *  @return mixed  正常の場合はトークン名, 不正の場合はfalse
      */
-    protected function _get_token()
+    public function _get_token()
     {
         $token_name = $this->getTokenName();
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {

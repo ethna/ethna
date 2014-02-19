@@ -116,26 +116,26 @@ class Ethna_Error
      *  @access private
      */
 
-    /** @protected    object  Ethna_I18N  i18nオブジェクト */
-    protected $i18n;
+    /** @var Ethna_I18N $i18n i18nオブジェクト */
+    public $i18n;
 
-    /** @protected    object  Ethna_Logger    loggerオブジェクト */
-    protected $logger;
+    /** @var Ethna_Logger $logger   loggerオブジェクト */
+    public $logger;
 
-    /** @protected    string  エラーメッセージ */
-    protected $message;
+    /** @var string  エラーメッセージ */
+    public $message;
 
-    /** @protected    integer エラーコード */
-    protected $code;
+    /** @var integer エラーコード */
+    public $code;
 
-    /** @protected    integer エラーモード */
-    protected $mode;
+    /** @var integer エラーモード */
+    public $mode;
 
-    /** @protected    array   エラーモード依存のオプション */
-    protected $options;
+    /** @var array   エラーモード依存のオプション */
+    public $options;
 
-    /** @protected    string  ユーザー定義もしくはデバッグ関連の追加情報を記した文字列。 */
-    protected $userinfo;
+    /** @var string  ユーザー定義もしくはデバッグ関連の追加情報を記した文字列。 */
+    public $userinfo;
 
     /**#@-*/
 

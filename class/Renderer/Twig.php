@@ -9,15 +9,15 @@
 class Ethna_Renderer_Twig extends Ethna_Renderer
 {
     /** @var  Twig_Environment $engine */
-    protected $engine;
+    public $engine;
 
     /** @var  Twig_Loader_FileSystem $loader */
-    protected $loader;
+    public $loader;
 
     /** @var array $config */
-    protected $config = array();
+    public $config = array();
 
-    protected $compile_dir;
+    public $compile_dir;
 
     /**
      * @param Ethna_Controller $controller

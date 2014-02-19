@@ -23,50 +23,50 @@ class Ethna_Backend
      *  @access     private
      */
 
-    /** @protected    object  Ethna_Controller    controllerオブジェクト */
-    protected $controller;
+    /** @var Ethna_Controller $controller    controllerオブジェクト */
+    public $controller;
 
-    /** @protected    object  Ethna_Controller    controllerオブジェクト($controllerの省略形) */
-    protected $ctl;
+    /** @var Ethna_Controller $controller    controllerオブジェクト($controllerの省略形) */
+    public $ctl;
 
-    /** @protected    object  Ethna_ClassFactory  クラスファクトリオブジェクト */
-    protected $class_factory;
+    /** @var Ethna_ClassFactory $class_factory クラスファクトリオブジェクト */
+    public $class_factory;
 
-    /** @protected    object  Ethna_Config        設定オブジェクト */
-    protected $config;
+    /** @var Ethna_Config $config       設定オブジェクト */
+    public $config;
 
-    /** @protected    object  Ethna_I18N          i18nオブジェクト */
-    protected $i18n;
+    /** @var Ethna_I18N $i18n         i18nオブジェクト */
+    public $i18n;
 
-    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト */
-    protected $action_error;
+    /** @var Ethna_ActionError $action_error   アクションエラーオブジェクト */
+    public $action_error;
 
-    /** @protected    object  Ethna_ActionError   アクションエラーオブジェクト($action_errorの省略形) */
-    protected $ae;
+    /** @var Ethna_ActionError $ae   アクションエラーオブジェクト($action_errorの省略形) */
+    public $ae;
 
-    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    protected $action_form;
+    /** @var Ethna_ActionForm $action_form    アクションフォームオブジェクト */
+    public $action_form;
 
-    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト($action_formの省略形) */
-    protected $af;
+    /** @var Ethna_ActionForm $af   アクションフォームオブジェクト($action_formの省略形) */
+    public $af;
 
-    /** @protected    object  Ethna_ActionClass   アクションクラスオブジェクト */
-    protected $action_class;
+    /** @var Ethna_ActionClass $action_class   アクションクラスオブジェクト */
+    public $action_class;
 
-    /** @protected    object  Ethna_ActionClass   アクションクラスオブジェクト($action_classの省略形) */
-    protected $ac;
+    /** @var Ethna_ActionClass $ac  アクションクラスオブジェクト($action_classの省略形) */
+    public $ac;
 
-    /** @protected    object  Ethna_Session       セッションオブジェクト */
-    protected $session;
+    /** @var Ethna_Session $session      セッションオブジェクト */
+    public $session;
 
-    /** @protected    object  Ethna_Plugin        プラグインオブジェクト */
-    protected $plugin;
+    /** @var Ethna_Plugin $plugin        プラグインオブジェクト */
+    public $plugin;
 
-    /** @protected    array   Ethna_DBオブジェクトを格納した配列 */
-    protected $db_list;
+    /** @var array $db_list オブジェクトを格納した配列 */
+    public $db_list;
 
-    /** @protected    object  Ethna_Logger        ログオブジェクト */
-    protected $logger;
+    /** @var Ethna_Logger $logger        ログオブジェクト */
+    public $logger;
 
     /**#@-*/
 
@@ -473,7 +473,7 @@ class Ethna_Backend
      *  @param  string  $db_key DBキー
      *  @return mixed   string:メンバ変数名 Ethna_Error:不正なDB種別
      */
-    protected function _getDBVarname($db_key = "")
+    public function _getDBVarname($db_key = "")
     {
         $r = $this->controller->getDBType($db_key);
         if (is_null($r)) {

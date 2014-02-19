@@ -23,23 +23,26 @@ class Ethna_Session
      *  @access private
      */
 
-    /** @protected    object  Ethna_Logger    loggerオブジェクト */
-    protected $logger;
+    /** @var  Ethna_Controller $ctl */
+    public $ctl;
 
-    /** @protected    string  セッション名 */
-    protected $session_name;
+    /** @var Ethna_Logger $logger    loggerオブジェクト */
+    public $logger;
 
-    /** @protected    string  セッションデータ保存ディレクトリ */
-    protected $session_save_dir;
+    /** @var string  セッション名 */
+    public $session_name;
 
-    /** @protected    bool    セッション開始フラグ */
-    protected $session_start = false;
+    /** @var string  セッションデータ保存ディレクトリ */
+    public $session_save_dir;
 
-    /** @protected    bool    匿名セッションフラグ */
-    protected $anonymous = false;
+    /** @var bool    セッション開始フラグ */
+    public $session_start = false;
 
-    /** @protected    array   Configuration for session */
-    protected $config = array(
+    /** @var    bool    匿名セッションフラグ */
+    public $anonymous = false;
+
+    /** @var    array   Configuration for session */
+    public $config = array(
         'handler'           => 'files',
         'path'              => 'tmp',
         'check_remote_addr' => true,
@@ -344,7 +347,7 @@ class Ethna_Session
      *  @param  string  $dst_ip     現在のアクセス元IPアドレス
      *  @return bool    true:正常終了 false:不正なIPアドレス
      */
-    private function _validateRemoteAddr($src_ip, $dst_ip)
+    public function _validateRemoteAddr($src_ip, $dst_ip)
     {
         $src = ip2long($src_ip);
         $dst = ip2long($dst_ip);

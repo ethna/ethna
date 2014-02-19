@@ -21,7 +21,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
     /**#@+  @access private */
 
     /** @var    string  現在のネームスペース */
-    protected $namespace = '';
+    public $namespace = '';
 
     /**#@-*/
 
@@ -30,7 +30,7 @@ class Ethna_Plugin_Cachemanager extends Ethna_Plugin_Abstract
      *
      *  @access protected
      */
-    protected function _load()
+    public function _load()
     {
         if (isset($this->config['namespace'])) {
             $this->namespace = $this->config['namespace'];

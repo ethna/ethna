@@ -25,23 +25,23 @@ class Ethna_Plugin
      *  @access private
      */
 
-    /** @protected    object  Ethna_Controller    コントローラオブジェクト */
-    protected $controller;
+    /** @var Ethna_Controller $controller   コントローラオブジェクト */
+    public $controller;
 
-    /** @protected    object  Ethna_Controller    コントローラオブジェクト($controllerの省略形) */
-    protected $ctl;
+    /** @var Ethna_Controller $ctl   コントローラオブジェクト($controllerの省略形) */
+    public $ctl;
 
-    /** @protected    object  Ethna_Logger        ログオブジェクト */
-    protected $logger;
+    /** @var  Ethna_Logger $logger       ログオブジェクト */
+    public $logger;
 
-    /** @public    array   プラグインのオブジェクト(インスタンス)を保存する配列 */
+    /** @var    array   プラグインのオブジェクト(インスタンス)を保存する配列 */
     public $obj_registry = array();
 
-    /** @protected    array   プラグインのクラス名、ソースファイル名を保存する配列 */
-    protected $src_registry = array();
+    /** @var  array   プラグインのクラス名、ソースファイル名を保存する配列 */
+    public $src_registry = array();
 
-    /** @protected    array   検索対象ディレクトリを，プラグインの優先順に保存する配列 */
-    protected $_dirlist = array();
+    /** @var    array   検索対象ディレクトリを，プラグインの優先順に保存する配列 */
+    public $_dirlist = array();
 
     /**#@-*/
 
@@ -128,7 +128,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前
      *  @return object  プラグインのインスタンス
      */
-    private function _getPlugin($type, $name)
+    public function _getPlugin($type, $name)
     {
         if (isset($this->obj_registry[$type]) == false) {
             $this->obj_registry[$type] = array();
@@ -180,7 +180,7 @@ class Ethna_Plugin
      *  @param  string  $type   プラグインの種類
      *  @param  string  $name   プラグインの名前
      */
-    private function _loadPlugin($type, $name)
+    public function _loadPlugin($type, $name)
     {
         // NOTE(chobie): workaroundとしてautoloadも考慮する
         list($plugin_class)= $this->getPluginNaming($type, $name);
@@ -237,7 +237,7 @@ class Ethna_Plugin
      *  @param  string  $type   プラグインの種類
      *  @param  string  $name   プラグインの名前
      */
-    private function _loadPluginDirList()
+    public function _loadPluginDirList()
     {
         $this->_dirlist[] = $this->controller->getDirectory('plugin');
 
@@ -267,7 +267,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前
      *  @return array   ソースファイル名とクラス名からなる配列
      */
-    private function _getPluginSrc($type, $name)
+    public function _getPluginSrc($type, $name)
     {
         if (isset($this->src_registry[$type]) == false) {
             $this->src_registry[$type] = array();
@@ -326,7 +326,7 @@ class Ethna_Plugin
      *  @param  bool    $parent 親クラスかどうかのフラグ
      *  @return true|Ethna_Error
      */
-    private function _includePluginSrc($class, $dir, $file, $parent = false)
+    public function _includePluginSrc($class, $dir, $file, $parent = false)
     {
         $true = true;
         if (class_exists($class)) {
@@ -399,7 +399,7 @@ class Ethna_Plugin
      *  @param  string  $name   プラグインの名前
      *  @return array   class, dir, file
      */
-    private function _searchPluginSrc($type, $name)
+    public function _searchPluginSrc($type, $name)
     {
         list($class, $file) = $this->getPluginNaming($type, $name);
 

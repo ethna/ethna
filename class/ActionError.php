@@ -24,14 +24,14 @@ class Ethna_ActionError
      *  @access private
      */
 
-    /** @protected    array   エラーオブジェクトの一覧 */
-    protected $error_list = array();
+    /** @var array $error_list  エラーオブジェクトの一覧 */
+    public $error_list = array();
 
-    /** @protected    object  Ethna_ActionForm    アクションフォームオブジェクト */
-    protected $action_form = null;
+    /** @var Ethna_ActionForm $action_form    アクションフォームオブジェクト */
+    public $action_form = null;
 
-    /** @protected    object  Ethna_Logger        ログオブジェクト */
-    protected $logger = null;
+    /** @var Ethna_Logger $logger        ログオブジェクト */
+    public $logger = null;
     /**#@-*/
 
     /**
@@ -207,7 +207,7 @@ class Ethna_ActionError
      *  @access private
      *  @return object  Ethna_ActionForm
      */
-    private function _getActionForm()
+    public function _getActionForm()
     {
         if (isset($this->action_form) == false) {
             $controller = Ethna_Controller::getInstance();
@@ -222,7 +222,7 @@ class Ethna_ActionError
      *  @access private
      *  @return object  Ethna_Logger
      */
-    private function _getLogger()
+    public function _getLogger()
     {
         if (is_null($this->logger)) {
             $controller = Ethna_Controller::getInstance();
