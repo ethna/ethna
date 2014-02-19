@@ -1,6 +1,6 @@
 {
     "name": "ethna/ethna",
-    "version": "2.6.0-dev",
+    "version": "2.7.0-dev",
     "description": "web application framework.",
     "type": "library",
     "keywords": [ "framework", "ethna" ],
@@ -34,5 +34,10 @@
     "target-dir": "Ethna",
     "autoload": {
         "files": [ "Ethna/Ethna.php" ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.7.x-dev"
+        }
     }
 }
