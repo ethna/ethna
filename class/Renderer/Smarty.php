@@ -22,7 +22,7 @@ class Ethna_Renderer_Smarty extends Ethna_Renderer
     /** @private    string compile directory  */
     private $compile_dir;
 
-    protected $config_default = array(
+    public $config_default = array(
         'left_delimiter' => '{',
         'right_delimiter' => '}',
     );
