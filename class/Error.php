@@ -93,6 +93,12 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
             && $errno !== E_DEPRECATED) {
             return false;
         }
+        if ($c->getCLI()) {
+          $format = "%s: %s in %s on line %d\n";
+        } else {
+           $format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
+        }
+        printf($format, $php_errno, $errstr, $errfile, $errline);
     }
 }
 set_error_handler('ethna_error_handler');

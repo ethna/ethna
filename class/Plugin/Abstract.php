@@ -165,7 +165,8 @@ abstract class Ethna_Plugin_Abstract
             return strtolower($type);
         }
 
-        $type = array_shift(explode("_", str_replace("Ethna_Plugin_", "",  get_class($this))));
+        $r = explode("_", str_replace("Ethna_Plugin_", "",  get_class($this)));
+        $type = array_shift($r);
         if ($type !== "") {
             return strtolower($type);
         }
