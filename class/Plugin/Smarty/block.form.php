@@ -71,7 +71,7 @@ function smarty_block_form($params, $content, &$smarty, &$repeat)
         $name = $params['name'];
         if ($name != 'default') {
             $name_hidden = sprintf('<input type="hidden" name="ethna_fid" value="%s" />',
-                                   htmlspecialchars($name, ENT_QUOTES)
+                                   htmlspecialchars($name, ENT_QUOTES, $c->getClientEncoding())
                            );
             $content = $name_hidden . $content;
         }

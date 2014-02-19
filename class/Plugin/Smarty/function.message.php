@@ -30,6 +30,6 @@ function smarty_function_message($params, &$smarty)
         : str_replace("_", "-", "ethna-error-" . $params['name']);
     $class = isset($params['class']) ? $params['class'] : "ethna-error";
     return sprintf('<span class="%s" id="%s">%s</span>',
-        $class, $id, htmlspecialchars($message));
+        $class, $id, htmlspecialchars($message, null, $c->getClientEncoding()));
 }
 

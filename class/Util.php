@@ -281,12 +281,13 @@ class Ethna_Util
      *
      *  @access public
      *  @param  array   $target     HTMLエスケープ対象となる配列
+     *  @param string   $encoding
      *  @return array   エスケープされた配列
      */
-    public static function escapeHtml($target)
+    public static function escapeHtml($target, $encoding = "UTF-8")
     {
         $r = array();
-        Ethna_Util::_escapeHtml($target, $r);
+        Ethna_Util::_escapeHtml($target, $r, $encoding);
         return $r;
     }
 
@@ -297,14 +298,14 @@ class Ethna_Util
      *  @param  mixed   $vars   HTMLエスケープ対象となる配列
      *  @param  mixed   $retval HTMLエスケープ対象となる子要素
      */
-    private static function _escapeHtml(&$vars, &$retval)
+    private static function _escapeHtml(&$vars, &$retval, $encoding)
     {
         foreach (array_keys($vars) as $name) {
             if (is_array($vars[$name])) {
                 $retval[$name] = array();
-                Ethna_Util::_escapeHtml($vars[$name], $retval[$name]);
+                Ethna_Util::_escapeHtml($vars[$name], $retval[$name], $encoding);
             } else if (!is_object($vars[$name])) {
-                $retval[$name] = htmlspecialchars($vars[$name], ENT_QUOTES);
+                $retval[$name] = htmlspecialchars($vars[$name], ENT_QUOTES, $encoding);
             }
         }
     }
