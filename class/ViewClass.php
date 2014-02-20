@@ -78,20 +78,8 @@ class Ethna_ViewClass
     /**#@-*/
 
     /**#@+
-     *  @access protected
-     */
-
-    /** @var  string レイアウト(HTMLの外枠を記述するファイル)のテンプレートファイルを指定(拡張子は除く)   */
-    public $_layout_file = 'layout';
-
-    /**#@-*/
-
-    /**#@+
      *  @access public
      */
-
-    /** @var boolean  レイアウトテンプレートの使用フラグ       */
-    public $use_layout = true;
 
     /** @var  boolean  デフォルトのヘッダ出力を使用するか否か  */
     /**                ヘッダ出力を改造する場合はfalseにする   */
@@ -175,40 +163,7 @@ class Ethna_ViewClass
             $this->header($this->default_header);
         }
 
-        // using layout.tpl flag
-        if ($this->use_layout) {
-
-            // check : layout file existance
-            $layout = $this->getLayout();
-            if ($this->templateExists($layout)) {
-                $content = $renderer->perform($this->forward_path, true);
-
-                if (Ethna::isError($content)) {
-                    if ($content->getCode() == E_GENERAL) {
-                        $error = 404;
-                    }
-                    else {
-                        $error = 500;
-                    }
-
-                    $this->error($error);
-                    $content = $renderer->perform($this->forward_path, true);
-                }
-
-                $renderer->setProp('content', $content);
-                if (isset($_SERVER['REQUEST_URI'])) {
-                    $uri_hash = md5($_SERVER['REQUEST_URI']);
-                    $e = $renderer->perform($layout, $uri_hash);
-                }
-                else {
-                    $e = $renderer->perform($layout);
-                }
-            } else {
-                return Ethna::raiseWarning('file "'.$layout.'" not found');
-            }
-        } else {
-            $e = $renderer->perform($this->forward_path);
-        }
+        $e = $renderer->perform($this->forward_path);
 
         if (Ethna::isError($e)) {
             echo '<h1>Rendering error:</h1>';
@@ -305,39 +260,6 @@ class Ethna_ViewClass
 
         $this->header($staus_code);
         $this->header(array('Location' => $url));
-    }
-    // }}}
-
-    // {{{ setLayout
-    /**
-     *  レイアウトテンプレートのファイル名を設定します。
-     *  レイアウトテンプレートは、HTML の外枠を設定するのに使用します。
-     *  
-     *  @param string $filename  レイアウトファイル名
-     *  @access public
-     */
-    public function setLayout($filename)
-    {
-        // check layout file existance
-        if ($this->templateExists($filename . '.' . $this->ctl->getExt('tpl'))) {
-            $this->_layout_file = $filename;
-            return true;
-        } else {
-            return Ethna::raiseWarning('file "'. $filename . '.' . $this->ctl->getExt('tpl') . '" not found');
-        }
-    }
-    // }}}
-
-    // {{{ getLayout
-    /**
-     *  レイアウトテンプレートファイル名を取得します。
-     *  
-     *  @return string  レイアウトテンプレートのファイル名
-     *  @access public
-     */
-    public function getLayout()
-    {
-        return $this->_layout_file . '.' . $this->ctl->getExt('tpl');
     }
     // }}}
 
