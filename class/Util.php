@@ -103,7 +103,7 @@ class Ethna_Util
     public static function isCsrfSafe()
     {
         $c = Ethna_Controller::getInstance();
-        $name = $c->config->get('csrf');
+        $name = $c->getConfig()->get('csrf');
 
         if (is_null($name)) {
             $name = 'Session';
@@ -125,7 +125,7 @@ class Ethna_Util
     public static function setCsrfID()
     {
         $c = Ethna_Controller::getInstance();
-        $name = $c->config->get('csrf');
+        $name = $c->getConfig()->get('csrf');
         
         if (is_null($name)) {
             $name = 'Session';
