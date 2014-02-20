@@ -21,7 +21,7 @@ function smarty_function_url($params, &$smarty)
     $url_handler = $c->getUrlHandler();
     list($path, $path_key) = $url_handler->actionToRequest($action, $query);
 
-    if ($path != "") {
+    if (!is_null($path)) {
         if (is_array($path_key)) {
             foreach ($path_key as $key) {
                 unset($query[$key]);
