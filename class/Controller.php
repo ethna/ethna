@@ -496,9 +496,9 @@ class Ethna_Controller
         // 言語別ディレクトリ
         // _getDerfaultLanguageメソッドでロケールが指定されていた場合は、
         // テンプレートディレクトリにも自動的にそれを付加する。
-        if (!empty($this->locale)) {
-            $template .= '/' . $this->locale;
-        }
+        //if (!empty($this->locale)) {
+        //    $template .= '/' . $this->locale;
+        //}
 
         return $template;
     }
