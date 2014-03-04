@@ -184,6 +184,10 @@ class Ethna_ViewClass
      */
     public function header($status)
     {
+        if (headers_sent()) {
+            return false;
+        }
+
         if (is_array($status)) {
             foreach ($status as $key => $status) {
                 header ($key . ": " . $status);
