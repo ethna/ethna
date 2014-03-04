@@ -6,8 +6,6 @@ define("__ETHNA_PLUGIN_DIR", __ETHNA_BASE . DIRECTORY_SEPARATOR . "class" . DIRE
 ini_set("include_path", __ETHNA_BASE . DIRECTORY_SEPARATOR . ":". ini_get("include_path"));
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . "vendor/autoload.php";
 
-new Prophecy\PhpUnit\ProphecyTestCase();
-
 
 // smarty plugins
 require_once __ETHNA_BASE . DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, array("class", "Plugin", "Smarty", "function.select.php"));
