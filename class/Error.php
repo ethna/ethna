@@ -93,7 +93,7 @@ function ethna_error_handler($errno, $errstr, $errfile, $errline)
             && $errno !== E_DEPRECATED) {
             return false;
         }
-        if ($c->getCLI()) {
+        if (method_exists($c, "getCLI") && $c->getCLI()) {
           $format = "%s: %s in %s on line %d\n";
         } else {
            $format = "<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br />\n";
