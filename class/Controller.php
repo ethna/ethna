@@ -215,6 +215,9 @@ class Ethna_Controller
         $class_factory = $this->class['class'];
         $this->class_factory = new $class_factory($this, $this->class);
 
+        // ログ管理オブジェクトの用意
+        $this->logger = $this->getLogger();
+
         // エラーハンドラの設定
         Ethna::setErrorCallback(array($this, 'handleError'));
 
@@ -261,13 +264,12 @@ class Ethna_Controller
 
         // プラグインオブジェクトの用意
         $this->plugin = $this->getPlugin();
+        $this->plugin->setLogger($this->logger);
 
         // include Ethna_Plugin_Abstract for all plugins
         $this->plugin->includePlugin('Abstract');
 
         // ログ出力開始
-        $this->logger = $this->getLogger();
-        $this->plugin->setLogger($this->logger);
         $this->logger->begin();
     }
 
