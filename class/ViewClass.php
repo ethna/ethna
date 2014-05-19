@@ -236,7 +236,7 @@ class Ethna_ViewClass
             );
 
             if (array_key_exists($status, $codes)) {
-                header("HTTP/1.1: {$status} {$codes[$status]}");
+                header("HTTP/1.1 {$status} {$codes[$status]}");
             }
         } else {
             // check valid header
