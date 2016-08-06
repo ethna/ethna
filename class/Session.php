@@ -48,6 +48,9 @@ class Ethna_Session
         'suffix'            => 'SESSID',
     );
 
+    /** @protected    bool  IPアドレスの範囲チェックをするかどうか */
+    protected $validateRemoteAddr = false;
+
     /**#@-*/
 
     /**
@@ -150,6 +153,11 @@ class Ethna_Session
                 setcookie($this->session_name, "", 0, "/");
             }
             return false;
+        }
+
+        //do IP check or not
+        if (!$this->validateRemoteAddr) {
+            return true;
         }
 
         // check remote address
