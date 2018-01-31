@@ -1,10 +1,9 @@
 {
     "name": "ethna/ethna",
-    "version": "2.7.0-dev",
     "description": "web application framework.",
     "type": "library",
     "keywords": [ "framework", "ethna" ],
-    "license": "BSD-License",
+    "license": "BSD-3-Clause",
     "homepage": "https://github.com/ethna/ethna",
     "authors": [
         { "name": "Masaki Fujimoto", "email": "fujimoto@php.net", "role" : "Administrator"},
@@ -14,18 +13,17 @@
         { "name": "ethna contributors", "homepage": "https://github.com/ethna/ethna/blob/master/AUTHORS" }
     ],
     "support" : {
-        "irc": "irc://irc.freenode.org/Ethna",
         "issues": "https://github.com/ethna/ethna/issues"
     },
     "require": {
         "php": ">=5.3.0",
-        "ethna/ethna-soap": "dev-master",
-        "ethna/ethna-generator": "dev-master",
-        "ethna/ethna-db": "dev-master",
-        "ethna/ethna-urlhandler": "dev-master",
-        "ethna/ethna-i18n": "dev-master",
-        "ethna/ethna-events": "dev-master",
-        "symfony/event-dispatcher": "2.4.1"
+        "ethna/ethna-soap": "2.7.*@dev",
+        "ethna/ethna-generator": "2.7.*@dev",
+        "ethna/ethna-db": "2.7.*@dev",
+        "ethna/ethna-urlhandler": "2.7.*@dev",
+        "ethna/ethna-i18n": "2.7.*@dev",
+        "ethna/ethna-events": "2.7.*@dev",
+        "symfony/event-dispatcher": "2.4.*"
     },
     "require-dev": {
         "phpspec/prophecy-phpunit": "~1.0",
@@ -39,5 +37,6 @@
         "branch-alias": {
             "dev-master": "2.7.x-dev"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
