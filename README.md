@@ -5,7 +5,7 @@
 Ethna(えすな)は、PHPを利用したウェブアプリケーションフレームワークで、絶妙に妥協をモットーとしています。
 
 * Web: http://ethna.jp/
-* Issues: [Github Issues](https://github.com/ethna/ethna/issues)
+* Issues: [GitHub Issues](https://github.com/ethna/ethna/issues)
 * IRC: #Ethna on irc.freenode.net.
 
 Current Status
